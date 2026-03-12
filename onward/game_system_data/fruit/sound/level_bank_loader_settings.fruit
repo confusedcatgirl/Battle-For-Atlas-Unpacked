@@ -1,0 +1,27 @@
+include "modules/core/audio/audio.fruit"
+
+class Bank < uid=auto >
+{
+	AudioBank myBank
+}
+
+list Banks
+{
+	Bank
+}
+
+class LevelBanks < uid=auto >
+{
+	uid myLevel < bhv=asset assettype=level >
+	Banks myBanks
+}
+
+list LevelBanksList
+{
+	LevelBanks
+}
+
+class LevelBankLoaderSettings
+{
+	LevelBanksList myLevelBanksList
+}

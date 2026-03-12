@@ -1,0 +1,37 @@
+include "onward/game system data/fruit/sim/simunit.fruit"
+
+SimUnit harvester_cyclops_generic_reinforcement < uid=93869D5358D1734500000051D8332634 >
+{
+	myUIName "contextComment = \"The UI Name for the Cyclops\", description = \"uiname-harvester-cyclops-base\", enabled = true, guid = #93869D5358D967330000020AB11037E7, lineVersion = 0, maxLength = 11, text = \"Cyclops\""
+	myBehavior onward/simworld/behavior/generic_reinforcement.msimunitbtgraph
+	myFaction Harvester
+	myCategory NPC
+	mySubCategory LegionReinforcement
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo cyclops_generic < uid=93869D5359C26E73001D71A245426B75 >
+		{
+			myCountMin 1
+			myCountMax 1
+			myElementSpawnInfo
+			{
+				SimUnitElementSpawnInfo cyclops_generic
+				{
+					myEntityFile "onward/game system data/juice/ai/npc/harvester_cyclops_generic.mnpc"
+				}
+			}
+		}
+	}
+	mySaveable FALSE
+	myPreserveSpawnInfo TRUE
+	myIsValidPickupTarget FALSE
+	mySelfDestructAfterUnrealized TRUE
+	mySkillLevelCoefficients
+	{
+		myPlanetActMultiplier 0
+		myParentLevelMultiplier 0
+		myParentSkillLevelMultiplier 1
+		myUnitLevelMultiplier 0
+	}
+}
+

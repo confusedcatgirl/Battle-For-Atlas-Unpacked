@@ -1,0 +1,184 @@
+include ./harvester_cyclops_base.mnpc
+include onward/skillscripts/npc_ability_outlaw_battlemech_missile_barrage.mskillscriptjuice
+include onward/skillscripts/npc_ability_outlaw_battlemech_corrosive_cannon.mskillscriptjuice
+include onward/skillscripts/npc_controller_context_harvester_cyclops_world_entry.mskillscriptjuice
+include onward/skillscripts/npc_affinity_harvester_cyclops_cold_running.mskillscriptjuice
+include "onward/game system data/juice/mods/harvester_cyclops_cold_affinity_resistances.mnpcmod"
+include onward/skillscripts/npc_affinity_harvester_cyclops_cold_enter.mskillscriptjuice
+include onward/skillscripts/npc_affinity_harvester_cyclops_cold_exit.mskillscriptjuice
+include onward/skillscripts/npc_ability_outlaw_battlemech_fist_grab.mskillscriptjuice
+include onward/skillscripts/harvester_cyclops_cold_monitor_shield.mskillscriptjuice
+include onward/skillscripts/harvester_cyclops_cold_aura.mskillscriptjuice
+include onward/skillscripts/npc_controller_context_harvester_cyclops_cold_world_entry.mskillscriptjuice
+include onward/skillscripts/npc_controller_context_harvester_cyclops_cold_dead.mskillscriptjuice
+include onward/skillscripts/npc_ability_outlaw_battlemech_flak.mskillscriptjuice
+include onward/skillscripts/npc_controller_context_dormant.mskillscriptjuice
+include onward/skillscripts/outlaw_battlemech_bodypart_listener.mskillscriptjuice
+include onward/skillscripts/outlaw_hover_tank_controller_context_dead.mskillscriptjuice
+include onward/skillscripts/npc_controller_context_outlaw_battlemech_dead.mskillscriptjuice
+include onward/skillscripts/outlaw_battlemech_bark_listener.mskillscriptjuice
+include onward/skillscripts/npc_controller_context_battlemech_world_entry.mskillscriptjuice
+include onward/skillscripts/outlaw_battlemech_sfx_listener.mskillscriptjuice
+include onward/skillscripts/outlaw_battlemech_staggered.mskillscriptjuice
+
+NPC outlaw_battlemech < uid=33EAD34B5BD8ACFD000047BDB337A6D5 > : harvester_cyclops_base
+{
+	myUIName "contextComment = \"Name of the Outlaw Mech\", description = \"uiname-outlaw-battlemech\", enabled = true, guid = #33EAD34B5BD8ACFD000047BCAF079B15, lineVersion = 0, maxLength = 14, text = \"Outlaw Mech\""
+	myUIName_NonLocalized "Outlaw Mech"
+	myGraphObjectFile "onward/graph objects/character/outlaw_battlemech.mgraphobject"
+	myBehavior "onward/game system data/juice/ai/behavior/outlaw_battlemech.mbehavior"
+	myGibSettings
+	{
+		myLifetime 60.0
+		myInitialSpeed 30.0
+		myGibTemplates
+		{
+			file Forearm "onward/entity templates/harvester_cyclops_forearm_GIBS.mentitytemplate"
+			file Hand "onward/entity templates/harvester_cyclops_hand_GIBS.mentitytemplate"
+			file Head "onward/entity templates/harvester_cyclops_head_GIBS.mentitytemplate"
+			file "Left Leg" "onward/entity templates/harvester_cyclops_leftleg_GIBS.mentitytemplate"
+			file "Right Shin" "onward/entity templates/harvester_cyclops_shin_right_GIBS.mentitytemplate"
+			file "Right Thigh" "onward/entity templates/harvester_cyclops_thigh_right_GIBS.mentitytemplate"
+			file Torso "onward/entity templates/harvester_cyclops_torso_GIBS.mentitytemplate"
+			file Shoulder "onward/entity templates/harvester_05_shoulder_gibs.mentitytemplate"
+			file GIB1 "onward/entity templates/harvester_05_shoulderflap_gibs.mentitytemplate"
+			file GIB2 "onward/entity templates/harvester_05_headplate_gibs.mentitytemplate"
+		}
+	}
+	myHealthConfig < uid=33EAD34B5BD8ACFD000047BEB82CC00D > = outlaw_battlemech_Health
+	myDeathSettings
+	{
+		myDeathCullTime 3.0
+		myEventDeathCullTime 3.0
+		myWaitForEvent TRUE
+	}
+	mySunderReaction < uid=33EAD34B5BD8ACFD000047BFA4AB5E97 > = Base_Sunder
+	myFireReaction < uid=33EAD34B5BD8ACFD000047C037E7A624 > = Base_Fire
+	myChillReaction < uid=33EAD34B5BD8ACFD000047C139E8AF03 > = Battlemech_Chill
+	myFreezeReaction < uid=33EAD34B5BD8ACFD000047C2E71A2C9B > = Base_Freeze
+	myStasisReaction < uid=33EAD34B5BD8ACFD000047C319BB8909 > = Base_Stasis
+	myStasisOverloadReaction < uid=33EAD34B5BD8ACFD000047C41367DA9C > = Base_StasisOverload
+	myAbilityDefinitions
+	{
+		NPCAbilityDefinition "Missile Barrage"
+		{
+			myGameAction NPC_Ability1
+			mySkillScript < uid=33EAD34B5BD9E64D0004C1DB55B7C019 > = npc_ability_outlaw_battlemech_missile_barrage
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_outlaw_battlemech_missile_barrage.juice"
+		}
+		NPCAbilityDefinition "Fist Grab"
+		{
+			myGameAction NPC_Ability2
+			mySkillScript < uid=DDDD6F5D5BDB658E000000A8AA634EA7 > = npc_ability_outlaw_battlemech_fist_grab
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_outlaw_battlemech_grappling_hand.juice"
+		}
+		NPCAbilityDefinition "Corrosive Cannon"
+		{
+			myGameAction NPC_Ability3
+			mySkillScript < uid=33EAD34B5BD8ACFD000047C79CF5412A > = npc_ability_outlaw_battlemech_corrosive_cannon
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_outlaw_battlemech_corrosive_cannon.juice"
+		}
+		NPCAbilityDefinition "Flak Cannon"
+		{
+			myGameAction NPC_Ability4
+			mySkillScript < uid=33EAD34B5BD8ACFD000047C8B16BDB12 > = npc_ability_outlaw_battlemech_flak
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_outlaw_battlemech_flak.juice"
+		}
+	}
+	myControllerContextDefinitions
+	{
+		ControllerContextDefinition "World Entry"
+		{
+			myContextType WorldEntry
+			mySkillScript < uid=33EAD34B5BD8ACFD000047C9812A63A4 > = npc_controller_context_battlemech_world_entry
+		}
+		ControllerContextDefinition Dead
+		{
+			myContextType Dead
+			mySkillScript < uid=33EAD34B5BD8ACFD000047CAC36DDEF3 > = npc_controller_context_outlaw_battlemech_dead
+		}
+		ControllerContextDefinition Dormant
+		{
+			myContextType Dormant
+			mySkillScript < uid=33EAD34B5BD8ACFD000047CBF5A72BA5 > = npc_controller_context_dormant
+		}
+		ControllerContextDefinition Staggered
+		{
+			myContextType Staggered
+			mySkillScript < uid=33EAD34B5C50769B00000355B987A9AC > = outlaw_battlemech_staggered
+			myCancelScriptOnContextEnd FALSE
+		}
+	}
+	myAffinityDefinition
+	{
+		myAffinityType None
+		myDuration 24.0
+		myEnterSkillScript < uid=33EAD34B5BD8ACFD000047CC1AFBCD48 > = NULLREFERENCE
+		myRunningSkillScript < uid=33EAD34B5BD8ACFD000047CDC81EBAF0 > = NULLREFERENCE
+		myExitSkillScript < uid=33EAD34B5BD8ACFD000047CE65297F46 > = NULLREFERENCE
+		myMods
+		{
+		}
+	}
+	myPersistentScripts
+	{
+		SkillScript "VFX Listener" < uid=33EAD34B5BD8ACFD000047D27E43EBDE > = harvester_cyclops_vfx_listener
+		SkillScript "Body Part Listener" < uid=DDDD6F5D5BFDCC9A0000343F09010C18 > = outlaw_battlemech_bodypart_listener
+		SkillScript "Bark Listener" < uid=DDDD6F5D5C38FED9000003ACB4381A53 > = outlaw_battlemech_bark_listener
+		SkillScript "SFX Listener" < uid=DFF203395C4F714100000085C7482ADD > = outlaw_battlemech_sfx_listener
+	}
+	myResistanceSettings "onward/game system data/juice/ai/resistance/outlaw_battlemech_resistance.juice"
+	myAttributeSettings "onward/game system data/juice/ai/attributes/outlaw_battlemech.juice"
+	myCrowdControlAttributeSettings "onward/game system data/juice/ai/attributes/crowd control tiers/npc_cc_tier6.juice"
+	myDropTableOnDeath Kill_Outlaw_Mech
+	myDropTableOnAffinityWeaknessDeathId AffinityKill_Giant_Cold
+	myDropTableOnDamage Cyclops_Affinity_Weakness
+	myDamageDropInterval 0.3
+	myDamageDropOnWeakness TRUE
+	myIncludeDamageDropZero TRUE
+	myBreakElectrumOnWeakness TRUE
+	myPhysicsCapsuleHeight 20.0
+	myPhysicsSupportHeight -18.0
+	myPhysicsCapsuleRadius 8.0
+	myHasSkinnedCollision TRUE
+	myPatternProfile < uid=33EAD34B5BD8ACFD000047D32B5B0BF1 > = "Outlaw Battlemech"
+	myDefaultMotionPattern < uid=33EAD34B5BD8ACFD000047D41235C2A2 > = "Outlaw Battlemech Default"
+	myAvoidanceRadius 10.0
+	myNPCFaction Outlaw
+	myNPCType Outlaw_Battlemech
+	myAnimSystemType Outlaw_Battlemech
+	myThreatLevel 14.0
+	myBaseThreatProfile
+	{
+		myPlayerBaseThreat 500.0
+		myPlayerEnemyBaseThreat 500.0
+		myCloseRange 30.0
+		myMediumRange 60.0
+		myLongRange 99.900002
+		myExtremeRange 150.0
+	}
+	myWeapon
+	{
+		myWeaponType Bazooka
+		myDamageType Cold
+	}
+	mySquadSettings "onward/game system data/juice/ai/squad/cyclops_squad_with_imps.juice"
+	myAIVisionConeTypeName CyclopsVisionCone
+	myIsTargetable TRUE
+	myIsShieldRamTarget FALSE
+	myLeftFootstepEffectFile "onward/graph objects/effect/effect_npc_prime_foot_step_impact.mgraphobject"
+	myRightFootstepEffectFile "onward/graph objects/effect/effect_npc_prime_foot_step_impact.mgraphobject"
+	myFrontLeftFootstepEffectFile ""
+	myFrontRightFootstepEffectFile ""
+	myDefaultFootstepEvent 4F5A5C9CE0FF3FBBCADA60E303366590
+	myFootstepRealizationEventType FootstepLarge
+	myDamageReactionSettings "onward/game system data/juice/ai/reactions/damage_reactions_harvester_cyclops_cold.juice"
+	myHitReactionRules "onward/game system data/juice/ai/reactions/reaction_rules_npc_immobile.juice"
+	myOnDeathChallenge Death_OutlawMech
+	myOnDiscoveredChallenge Discover_OutlawMech
+}
+

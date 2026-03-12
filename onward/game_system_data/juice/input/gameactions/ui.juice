@@ -1,0 +1,4101 @@
+include "onward/game system data/juice/input/inputactions.juice"
+include "onward/game system data/juice/input/inputactionsui.juice"
+include "onward/game system data/juice/input/keyboardactionsui.juice"
+include "onward/game system data/fruit/input/gameinput.fruit"
+
+TriggerGameAction "[UI] Database Shortcut"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "INPUT DATABASE SHORTCUT"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Button Pressed"
+				{
+					myInputActionType HoldDownAfterTime
+					myTimer 1000
+					myInputAction = START
+				}
+				ConditionalInputAction "Keyboard DB Shortcut ALT"
+				{
+					myInputActionType HoldDownAfterTime
+					myTimer 1000
+					myInputAction = KB_LOADOUTALT
+				}
+			}
+		}
+		ConditionalGameActionState "Not in Photomode"
+		{
+			myNegate TRUE
+			myGameActionState IsInPhotoMode
+		}
+	}
+	myGameAction UIDatabaseShortcut
+}
+
+TriggerGameAction "[Interact] Can Accept OnIt"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameActionState IsDead
+		{
+			myNegate TRUE
+			myGameActionState IsDead
+		}
+		ConditionalGameActionState IsPilotTrialEventActive
+		{
+			myNegate TRUE
+			myGameActionState IsPilotTrialEventActive
+		}
+		ConditionalGameActionState "Not In Camera Sequence"
+		{
+			myNegate TRUE
+			myGameActionState InDialogue
+		}
+	}
+	myGameAction PlayerQuery_CanAcceptMission
+}
+
+TriggerGameAction "[Interact] Can Cancel OnIt"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameActionState CanCancelSelectedOpportunity
+		{
+			myGameActionState CanCancelSelectedOpportunity
+		}
+		ConditionalGameActionState IsPilotTrialEventActive
+		{
+			myNegate TRUE
+			myGameActionState IsPilotTrialEventActive
+		}
+		ConditionalGameActionState "Not In Camera Sequence"
+		{
+			myNegate TRUE
+			myGameActionState InDialogue
+		}
+	}
+	myGameAction PlayerQuery_CanCancelMission
+}
+
+TriggerGameAction "[UI] Move Left (Temp)"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Input Actions"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Left Stick Left Pressed"
+				{
+					myInputActionType Pressed
+					myInputAction = LEFT_STICK_LEFT
+				}
+				ConditionalInputAction "DPad Left Pressed"
+				{
+					myInputAction = D_PAD_LEFT
+				}
+			}
+		}
+	}
+	myGameAction UIMoveLeft
+	myIsUIAction FALSE
+}
+
+TriggerGameAction "[UI] Move Right (Temp)"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Input Actions"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Left Stick Right Pressed"
+				{
+					myInputActionType Pressed
+					myInputAction = LEFT_STICK_RIGHT
+				}
+				ConditionalInputAction "DPad Right Pressed"
+				{
+					myInputAction = D_PAD_RIGHT
+				}
+			}
+		}
+	}
+	myGameAction UIMoveRight
+	myIsUIAction FALSE
+}
+
+TriggerGameAction "[UI] Move Up (Temp)"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Input Actions"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Left Stick Up Pressed"
+				{
+					myInputActionType Pressed
+					myInputAction = LEFT_STICK_UP
+				}
+				ConditionalInputAction "DPad Up Pressed"
+				{
+					myInputAction = D_PAD_UP
+				}
+			}
+		}
+	}
+	myGameAction UIMoveUp
+	myIsUIAction FALSE
+}
+
+TriggerGameAction "[UI] Move Down (Temp)"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Input Actions"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Left Stick Down Pressed"
+				{
+					myInputActionType Pressed
+					myInputAction = LEFT_STICK_DOWN
+				}
+				ConditionalInputAction "DPad Down Pressed"
+				{
+					myInputAction = D_PAD_DOWN
+				}
+			}
+		}
+	}
+	myGameAction UIMoveDown
+	myIsUIAction FALSE
+}
+
+TriggerGameAction "[UI] Move Left"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Input Actions"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Left Stick Left Pressed"
+				{
+					myInputAction = LEFT_STICK_LEFT
+				}
+				ConditionalInputAction "DPad Left Pressed"
+				{
+					myInputAction = D_PAD_LEFT
+				}
+				ConditionalInputAction "Keyboard Left"
+				{
+					myInputAction = KB_UI_MOVE_LEFT
+				}
+			}
+		}
+	}
+	myGameAction UIMoveLeft
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI] Move Right"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Input Actions"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Left Stick Right Pressed"
+				{
+					myInputAction = LEFT_STICK_RIGHT
+				}
+				ConditionalInputAction "DPad Right Pressed"
+				{
+					myInputAction = D_PAD_RIGHT
+				}
+				ConditionalInputAction "Keyboard Right"
+				{
+					myInputAction = KB_UI_MOVE_RIGHT
+				}
+			}
+		}
+	}
+	myGameAction UIMoveRight
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI] Accept"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Input Actions"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "A Pressed"
+				{
+					myInputActionType Pressed
+					myInputAction = A_CROSS
+					myInputActionAlt = UI_B_CIRCLE
+				}
+				ConditionalInputAction "Keyboard UI Accept"
+				{
+					myInputActionType Pressed
+					myInputAction = KB_UI_INTERACT
+					myInputActionAlt = KB_UI_INTERACT
+				}
+			}
+		}
+	}
+	myGameAction UIAccept
+	myIsUIAction TRUE
+	myUseAltWhenConfirmSwapped TRUE
+}
+
+TriggerGameAction "[UI] Apply"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Input Actions"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "A Pressed"
+				{
+					myInputActionType Released
+					myInputAction = Y_TRIANGLE
+					myInputActionAlt = Y_TRIANGLE
+				}
+				ConditionalInputAction "Keyboard UI Apply"
+				{
+					myInputActionType Released
+					myInputAction = KB_UI_PILOTABILITY
+					myInputActionAlt = KB_UI_PILOTABILITY
+				}
+			}
+		}
+	}
+	myGameAction UIApply
+	myIsUIAction TRUE
+	myUseAltWhenConfirmSwapped TRUE
+}
+
+TriggerGameAction "[UI] Cancel"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Input Actions"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "B Pressed"
+				{
+					myInputActionType PressAndRelease
+					myInputAction = UI_B_CIRCLE
+					myInputActionAlt = A_CROSS
+				}
+				ConditionalInputAction "Cancel Pressed"
+				{
+					myInputActionType PressAndRelease
+					myInputAction = ESCAPE
+					myInputActionAlt = ESCAPE
+				}
+				ConditionalInputAction "Keyboard Back Pressed"
+				{
+					myInputActionType PressAndRelease
+					myInputAction = KB_UI_BACK
+					myInputActionAlt = KB_UI_BACK
+				}
+			}
+		}
+	}
+	myGameAction UICancel
+	myIsUIAction TRUE
+	myUseAltWhenConfirmSwapped TRUE
+}
+
+TriggerGameAction "[UI] Button X"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Input Actions"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "X Pressed"
+				{
+					myInputActionType Pressed
+					myInputAction = X_SQUARE
+				}
+				ConditionalInputAction "KB R Pressed"
+				{
+					myInputActionType Pressed
+					myInputAction = KB_UI_RELOAD
+				}
+			}
+		}
+	}
+	myGameAction UIButtonX
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI] Open Leaderboards"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Input Actions"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "X Pressed"
+				{
+					myInputActionType Pressed
+					myInputAction = X_SQUARE
+				}
+				ConditionalInputAction "KB Q Pressed"
+				{
+					myInputActionType Pressed
+					myInputAction = KB_UI_PILOTABILITY
+				}
+			}
+		}
+	}
+	myGameAction UIOpenLeaderboards
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI] Open Challenges"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Input Actions"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Y Pressed"
+				{
+					myInputActionType Pressed
+					myInputAction = Y_TRIANGLE
+				}
+				ConditionalInputAction "KB R Pressed"
+				{
+					myInputActionType Pressed
+					myInputAction = KB_UI_RELOAD
+				}
+			}
+		}
+	}
+	myGameAction UIOpenChallenges
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI] Claim Rewards"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Input Actions"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "X Pressed"
+				{
+					myInputActionType Pressed
+					myInputAction = X_SQUARE
+				}
+				ConditionalInputAction "KB Interact Pressed"
+				{
+					myInputActionType Pressed
+					myInputAction = KB_UI_INTERACT
+				}
+			}
+		}
+	}
+	myGameAction UIClaimRewards
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI] Toy Tutorial Watch Previous"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Input Actions"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "X Pressed"
+				{
+					myInputActionType Pressed
+					myInputAction = X_SQUARE
+				}
+				ConditionalInputAction "KB Q Pressed"
+				{
+					myInputActionType Pressed
+					myInputAction = KB_UI_PILOTABILITY
+				}
+			}
+		}
+	}
+	myGameAction UIToyTutorialWatchPrevious
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI] Button Single Press X"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Input Actions"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "X Pressed"
+				{
+					myInputActionType PressAndRelease
+					myInputAction = X_SQUARE
+				}
+			}
+		}
+	}
+	myGameAction UIButtonPressAndReleaseX
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI] Button Y"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Input Actions"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Y Pressed"
+				{
+					myInputActionType Pressed
+					myInputAction = Y_TRIANGLE
+				}
+				ConditionalInputAction "Keyboard UI Q"
+				{
+					myInputActionType Released
+					myInputAction = KB_UI_PILOTABILITY
+				}
+			}
+		}
+	}
+	myGameAction UIButtonY
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI] Toy Tutorial Watch Again"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Input Actions"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Y Pressed"
+				{
+					myInputActionType Pressed
+					myInputAction = Y_TRIANGLE
+				}
+				ConditionalInputAction "KB R Pressed"
+				{
+					myInputActionType Pressed
+					myInputAction = KB_UI_RELOAD
+				}
+			}
+		}
+	}
+	myGameAction UIToyTutorialWatchAgain
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI Legacy] Open"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "INPUT UILEGACY OPEN"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Start Pressed"
+				{
+					myInputActionType ReleaseBeforeTime
+					myTimer 300
+					myInputAction = START
+				}
+				ConditionalInputAction "Keyboard UI Leg Open"
+				{
+					myInputActionType ReleaseBeforeTime
+					myTimer 300
+					myInputAction = ESCAPE
+				}
+				ConditionalInputAction "Keyboard UI Leg Open ALT"
+				{
+					myInputActionType ReleaseBeforeTime
+					myTimer 300
+					myInputAction = KB_LOADOUTALT
+				}
+			}
+		}
+	}
+	myGameAction UIOpen
+	myIsUIAction FALSE
+}
+
+TriggerGameAction "[UI Legacy] Close"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "INPUT UI LEG CLOSE"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Start Pressed"
+				{
+					myInputActionType SinglePress
+					myInputAction = START
+				}
+				ConditionalInputAction "Keyboard UILegacy Close ALT"
+				{
+					myInputActionType SinglePress
+					myInputAction = KB_LOADOUTALT
+				}
+			}
+		}
+	}
+	myGameAction UIClose
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI] Start"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "INPUT START"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Start Pressed"
+				{
+					myInputActionType Pressed
+					myInputAction = START
+				}
+				ConditionalInputAction "Keyboard Start Alt"
+				{
+					myInputActionType Pressed
+					myInputAction = KB_UI_LOADOUTALT
+				}
+			}
+		}
+	}
+	myGameAction UIStart
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI] Back"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Input Actions"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Back Pressed"
+				{
+					myInputActionType Pressed
+					myInputAction = BACK_SELECT
+				}
+				ConditionalInputAction KeyboardUIBack
+				{
+					myInputAction = KB_UI_STARMAP
+				}
+			}
+		}
+	}
+	myGameAction UIBack
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI] Back Ingame"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Input Actions"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Back Pressed"
+				{
+					myInputActionType Pressed
+					myInputAction = BACK_SELECT
+				}
+				ConditionalInputAction KeyboardBackInGame
+				{
+					myInputAction = KB_STARMAP
+				}
+			}
+		}
+	}
+	myGameAction UIBack
+}
+
+TriggerGameAction "[UI] Change Tab Left"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Input Actions"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Left Trigger Pressed"
+				{
+					myInputActionType ReleaseBeforeTime
+					myTimer 300
+					myInputAction = LEFT_BUMPER_L1
+				}
+				ConditionalInputAction "Keyboard Tab Left Pressed"
+				{
+					myInputActionType ReleaseBeforeTime
+					myTimer 300
+					myInputAction = KB_UI_TAB_LEFT
+				}
+			}
+		}
+	}
+	myGameAction UIChangeTabLeft
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI] Change Tab Right"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Input Actions"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Right Trigger Pressed"
+				{
+					myInputActionType ReleaseBeforeTime
+					myTimer 300
+					myInputAction = UI_RIGHT_BUMPER_R1
+				}
+				ConditionalInputAction "Keyboard Tab Right Pressed"
+				{
+					myInputActionType ReleaseBeforeTime
+					myTimer 300
+					myInputAction = KB_UI_TAB_RIGHT
+				}
+				ConditionalInputAction "Keyboard Tab Right Pressed"
+				{
+					myInputActionType ReleaseBeforeTime
+					myTimer 300
+					myInputAction = KB_UI_DROP
+				}
+			}
+		}
+	}
+	myGameAction UIChangeTabRight
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI] Assign To A [HACKED Left]"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Input Actions"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "A Pressed After 250ms"
+				{
+					myInputActionType HoldDown
+					myTimer 0
+					myInputAction = LEFT_STICK_LEFT
+				}
+			}
+		}
+	}
+	myGameAction UIAssignToA
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI] Assign To X [HACKED Right]"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Input Actions"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "X Pressed After 250ms"
+				{
+					myInputActionType HoldDown
+					myTimer 0
+					myInputAction = LEFT_STICK_RIGHT
+				}
+			}
+		}
+	}
+	myGameAction UIAssignToX
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI] Assign To Y [HACKED Up]"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Input Actions"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Y Pressed After 250ms"
+				{
+					myInputActionType HoldDown
+					myTimer 0
+					myInputAction = LEFT_STICK_UP
+				}
+			}
+		}
+	}
+	myGameAction UIAssignToY
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI] Assign To B [HACKED Down]"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Input Actions"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "B Pressed After 250ms"
+				{
+					myInputActionType HoldDown
+					myTimer 0
+					myInputAction = LEFT_STICK_DOWN
+				}
+			}
+		}
+	}
+	myGameAction UIAssignToB
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI] Assign To LB [HACKED Zoom In]"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Input Actions"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "New ConditionalInputAction (1)"
+				{
+					myInputActionType Analog
+					myInputAction = RIGHT_TRIGGER_R2
+				}
+				ConditionalInputAction "Mouse Wheel Up"
+				{
+					myInputAction = MouseWheelUp
+				}
+				ConditionalInputAction "Keyboard Page Down"
+				{
+					myInputActionType Pressed
+					myInputAction = KB_UI_PAGE_DOWN
+				}
+			}
+		}
+	}
+	myGameAction UIAssignToLB
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI] Assign To RB [HACKED Zoom Out]"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Input Actions"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Button Pressed"
+				{
+					myInputActionType Analog
+					myInputAction = LEFT_TRIGGER_L2
+				}
+				ConditionalInputAction "Mouse Wheel Down"
+				{
+					myInputAction = MouseWheelDown
+				}
+				ConditionalInputAction "Keyboard Page Up"
+				{
+					myInputAction = KB_UI_PAGE_UP
+				}
+			}
+		}
+	}
+	myGameAction UIAssignToRB
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI] D-Pad Up"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction "D-Pad Up Pressed"
+		{
+			myInputActionType Pressed
+			myInputAction = D_PAD_UP
+		}
+	}
+	myGameAction UIDPadUp
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI] D-Pad Down"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction "D-Pad Down Pressed"
+		{
+			myInputAction = D_PAD_DOWN
+		}
+	}
+	myGameAction UIDPadDown
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI] D-Pad Left"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction "D-Pad Left Pressed"
+		{
+			myInputAction = D_PAD_LEFT
+		}
+	}
+	myGameAction UIDPadLeft
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI] D-Pad Right"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Input Actions"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "D-Pad Right Pressed"
+				{
+					myInputActionType Pressed
+					myInputAction = D_PAD_RIGHT
+				}
+			}
+		}
+	}
+	myGameAction UIDPadRight
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI] On Release A"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Input Actions"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "A Released"
+				{
+					myInputActionType ReleaseBeforeTime
+					myTimer 300
+					myInputAction = A_CROSS
+					myInputActionAlt = UI_B_CIRCLE
+				}
+				ConditionalInputAction "Keyboard Accept Released"
+				{
+					myInputActionType ReleaseBeforeTime
+					myTimer 300
+					myInputAction = KB_UI_INTERACT
+					myInputActionAlt = KB_UI_INTERACT
+				}
+				ConditionalInputAction "Keyboard Accept Alt Released"
+				{
+					myInputActionType ReleaseBeforeTime
+					myTimer 300
+					myInputAction = KB_UI_JUMP
+					myInputActionAlt = KB_UI_JUMP
+				}
+			}
+		}
+	}
+	myGameAction UIOnReleaseA
+	myIsUIAction TRUE
+	myUseAltWhenConfirmSwapped TRUE
+}
+
+TriggerGameAction "[UI] On Release X"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Input Actions"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "X Released"
+				{
+					myInputActionType ReleaseBeforeTime
+					myTimer 300
+					myInputAction = X_SQUARE
+				}
+			}
+		}
+	}
+	myGameAction UIOnReleaseX
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI] On Release Y"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Input Actions"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Y Released"
+				{
+					myInputActionType ReleaseBeforeTime
+					myTimer 300
+					myInputAction = Y_TRIANGLE
+				}
+			}
+		}
+	}
+	myGameAction UIOnReleaseY
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI] On Release B"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Input Actions"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "B Released"
+				{
+					myInputActionType ReleaseBeforeTime
+					myTimer 300
+					myInputAction = UI_B_CIRCLE
+					myInputActionAlt = A_CROSS
+				}
+			}
+		}
+	}
+	myGameAction UIOnReleaseB
+	myIsUIAction TRUE
+	myUseAltWhenConfirmSwapped TRUE
+}
+
+TriggerGameAction "[UI] Move Up"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Input Actions"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Left Stick Up Pressed"
+				{
+					myInputAction = LEFT_STICK_UP
+				}
+				ConditionalInputAction "DPad Up Pressed"
+				{
+					myInputAction = D_PAD_UP
+				}
+			}
+		}
+	}
+	myGameAction UIMoveUp
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI] Move Down"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Input Actions"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Left Stick Down Pressed"
+				{
+					myInputAction = LEFT_STICK_DOWN
+				}
+				ConditionalInputAction "DPad Down Pressed"
+				{
+					myInputAction = D_PAD_DOWN
+				}
+			}
+		}
+	}
+	myGameAction UIMoveDown
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI] Hold Button X"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Input Actions"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Hold X"
+				{
+					myInputActionType HoldDownAfterTime
+					myTimer 300
+					myInputAction = X_SQUARE
+				}
+				ConditionalInputAction "KB R Hold"
+				{
+					myInputActionType HoldDownAfterTime
+					myTimer 300
+					myInputAction = KB_UI_RELOAD
+				}
+			}
+		}
+	}
+	myGameAction UIHoldButtonX
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI] Hold D-Pad Up"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction "Hold D-PadUp"
+		{
+			myInputActionType HoldDownAfterTime
+			myTimer 300
+			myInputAction = D_PAD_UP
+		}
+	}
+	myGameAction UIHoldDPadUp
+	myIsUIAction FALSE
+}
+
+TriggerGameAction "[UI] Hold Button Y"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Input Actions"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Hold Y"
+				{
+					myInputActionType HoldDownAfterTime
+					myTimer 300
+					myInputAction = Y_TRIANGLE
+				}
+				ConditionalInputAction "Hold Q"
+				{
+					myInputActionType HoldDownAfterTime
+					myTimer 300
+					myInputAction = KB_UI_PILOTABILITY
+				}
+			}
+		}
+	}
+	myGameAction UIHoldButtonY
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI] Hold Assign To LB"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Input Actions"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Hold LB"
+				{
+					myInputActionType HoldDownAfterTime
+					myTimer 300
+					myInputAction = LEFT_BUMPER_L1
+				}
+			}
+		}
+	}
+	myGameAction UIHoldAssignToLB
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI] Hold Assign To RB"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Input Actions"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Hold RB"
+				{
+					myInputActionType HoldDownAfterTime
+					myTimer 300
+					myInputAction = UI_RIGHT_BUMPER_R1
+				}
+			}
+		}
+	}
+	myGameAction UIHoldAssignToRB
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI] RS Move Up"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction "Richt Stick Up Pressed"
+		{
+			myInputActionType Pressed
+			myInputAction = RIGHT_STICK_UP
+		}
+	}
+	myGameAction UIRightStickUp
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI] RS Move Down"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction "Right Stick Down Pressed"
+		{
+			myInputActionType Pressed
+			myInputAction = RIGHT_STICK_DOWN
+		}
+	}
+	myGameAction UIRightStickDown
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI] RS Move Left"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction "Richt Stick Left Pressed"
+		{
+			myInputActionType Pressed
+			myInputAction = RIGHT_STICK_LEFT
+		}
+	}
+	myGameAction UIRightStickLeft
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI] RS Move Right"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction "Right Stick Right Pressed"
+		{
+			myInputActionType Pressed
+			myInputAction = RIGHT_STICK_RIGHT
+		}
+	}
+	myGameAction UIRightStickRight
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI] RS Click"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction RIGHT_STICK_BUTTON
+		{
+			myInputAction = RIGHT_STICK_BUTTON
+		}
+		ConditionalInputAction KB_UI_ZOOM
+		{
+			myInputAction = KB_UI_ZOOM
+		}
+	}
+	myGameAction UIRightStickClick
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI] LS Click"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction LEFT_STICK_BUTTON
+		{
+			myInputAction = LEFT_STICK_BUTTON
+		}
+	}
+	myGameAction UILeftStickClick
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI] Harpoon Move Reticule"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction RIGHT_STICK_BUTTON
+		{
+			myInputAction = RIGHT_STICK_BUTTON
+		}
+		ConditionalInputAction MOUSE_LOOK
+		{
+			myInputAction = MouseLook
+		}
+	}
+	myGameAction UIHarpoonMoveReticule
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI] Photo Mode Zoom In"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Input Actions"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction LEFT_TRIGGER_L2
+				{
+					myInputAction = LEFT_TRIGGER_L2
+				}
+				ConditionalInputAction "Keyboard Page Up"
+				{
+					myInputAction = KB_UI_PAGE_UP
+				}
+			}
+		}
+	}
+	myGameAction UIPhotoModeZoomIn
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI] Photo Mode Zoom Out"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Input Actions"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction RIGHT_TRIGGER_R2
+				{
+					myInputAction = RIGHT_TRIGGER_R2
+				}
+				ConditionalInputAction "Keyboard Page Down"
+				{
+					myInputAction = KB_UI_PAGE_DOWN
+				}
+			}
+		}
+	}
+	myGameAction UIPhotoModeZoomOut
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI] Scroll Left"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Input Actions"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "New ConditionalInputAction (0)"
+				{
+					myInputActionType Analog
+					myInputAction = LEFT_STICK_LEFT
+				}
+				ConditionalInputAction "Keyboard Left"
+				{
+					myInputActionType Analog
+					myInputAction = KB_UI_MOVE_LEFT
+				}
+			}
+		}
+	}
+	myGameAction UIScrollLeft
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI] Scroll Right"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Input Actions"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "New ConditionalInputAction (0)"
+				{
+					myInputActionType Analog
+					myInputAction = LEFT_STICK_RIGHT
+				}
+				ConditionalInputAction "Keyboard Right"
+				{
+					myInputActionType Analog
+					myInputAction = KB_UI_MOVE_RIGHT
+				}
+			}
+		}
+	}
+	myGameAction UIScrollRight
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI] Scroll Up"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Input Actions"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "New ConditionalInputAction (0)"
+				{
+					myInputActionType Analog
+					myInputAction = LEFT_STICK_UP
+				}
+				ConditionalInputAction "Keyboard Up"
+				{
+					myInputActionType Analog
+					myInputAction = KB_UI_MOVE_UP
+				}
+			}
+		}
+	}
+	myGameAction UIScrollUp
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI] Scroll Down"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Keyboard Down"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "New ConditionalInputAction (0)"
+				{
+					myInputActionType Analog
+					myInputAction = LEFT_STICK_DOWN
+				}
+				ConditionalInputAction "Keyboard Down"
+				{
+					myInputActionType Analog
+					myInputAction = KB_UI_MOVE_DOWN
+				}
+			}
+		}
+	}
+	myGameAction UIScrollDown
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI] Reset Controller Orientation"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction "Left Stick Clicked"
+		{
+			myInputActionType Pressed
+			myInputAction = LEFT_STICK_BUTTON
+		}
+	}
+	myGameAction ResetOrientation
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI Legacy] Build Screen Open"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction "Touchpad Pressed"
+		{
+			myInputActionType SinglePress
+			myInputAction = BACK_SELECT
+		}
+	}
+	myGameAction UIBuildScreenOpen
+	myIsUIAction FALSE
+}
+
+TriggerGameAction "[UI Legacy] Build Screen Close"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction "Touchpad Pressed"
+		{
+			myInputActionType SinglePress
+			myInputAction = BACK_SELECT
+		}
+	}
+	myGameAction UIBuildScreenClose
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI] On It! In Game"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "INPUT ONIT"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Button Pressed"
+				{
+					myInputAction = D_PAD_UP
+				}
+				ConditionalInputAction "Keyboard OnIt"
+				{
+					myInputAction = KB_ACCEPT_REQUEST_MISSION
+				}
+			}
+		}
+		ConditionalGameAction PlayerQuery_CanAcceptMission
+		{
+			myRequireNewInput TRUE
+			myGameAction PlayerQuery_CanAcceptMission
+		}
+	}
+	myGameAction OnIt
+}
+
+TriggerGameAction "[UI] On It! Cancel In Game"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup Conditions
+		{
+			myOperator And
+			myConditionalInputActions
+			{
+				ConditionalGameAction PlayerQuery_CanCancelMission
+				{
+					myRequireNewInput TRUE
+					myGameAction PlayerQuery_CanCancelMission
+				}
+			}
+		}
+		ConditionalActionGroup "INPUT CANCEL ONIT"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Button Pressed"
+				{
+					myInputActionType HoldDownAfterTime
+					myTimer 500
+					myInputAction = D_PAD_UP
+				}
+				ConditionalInputAction "Keyboard Cancel Onit"
+				{
+					myInputActionType HoldDownAfterTime
+					myTimer 500
+					myInputAction = KB_ACCEPT_REQUEST_MISSION
+				}
+			}
+		}
+	}
+	myGameAction OnItCancel
+}
+
+TriggerGameAction "[UI] On It! In Menus"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "INPUT ONIT MENU"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Button Pressed"
+				{
+					myInputAction = D_PAD_UP
+				}
+				ConditionalInputAction "Keyboard OnIt InMenu"
+				{
+					myInputAction = KB_ACCEPT_REQUEST_MISSION
+				}
+			}
+		}
+	}
+	myGameAction OnIt
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI] On it! Remove"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction OnItRemove
+		{
+			myInputAction = X_SQUARE
+		}
+	}
+	myGameAction UIOnItRemove
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI] On It! Center Map"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction "New ConditionalInputAction (0)"
+		{
+			myInputAction = X_SQUARE
+		}
+	}
+	myGameAction UIOnItCenterMap
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI] StarMap - Open"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameActionState IsAlive
+		{
+			myNegate TRUE
+			myGameActionState IsDead
+		}
+		ConditionalGameActionState "Not in PhotoMode"
+		{
+			myNegate TRUE
+			myGameActionState IsInPhotoMode
+		}
+		ConditionalActionGroup "INPUT STARMAP OPEN"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Touchpad Pressed"
+				{
+					myInputActionType Released
+					myInputAction = BACK_SELECT
+				}
+				ConditionalInputAction KeyboardStarMapOpen
+				{
+					myInputActionType Released
+					myInputAction = KB_STARMAP
+				}
+			}
+		}
+	}
+	myGameAction UIStarMapOpen
+}
+
+TriggerGameAction "[UI] StarMap - Open UI"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameActionState IsAlive
+		{
+			myNegate TRUE
+			myGameActionState IsDead
+		}
+		ConditionalGameActionState "Not in PhotoMode"
+		{
+			myNegate TRUE
+			myGameActionState IsInPhotoMode
+		}
+		ConditionalActionGroup "INPUT OPEN UI"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Touchpad Pressed"
+				{
+					myInputActionType Released
+					myInputAction = BACK_SELECT
+				}
+				ConditionalInputAction "Keyboard Open UI"
+				{
+					myInputActionType Released
+					myInputAction = KB_STARMAP
+				}
+			}
+		}
+	}
+	myGameAction UIStarMapOpen
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI] StarMap - Close"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "INPUT STARMAP CLOSE"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Touchpad Pressed"
+				{
+					myInputAction = BACK_SELECT
+				}
+				ConditionalInputAction "Keyboard StarMap Close"
+				{
+					myInputAction = KB_STARMAP
+				}
+			}
+		}
+	}
+	myGameAction UIStarMapClose
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI] StarMap - Set Marker"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Input Actions"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "New ConditionalInputAction (0)"
+				{
+					myInputAction = X_SQUARE
+				}
+				ConditionalInputAction "KB R Pressed"
+				{
+					myInputAction = KB_UI_RELOAD
+				}
+			}
+		}
+	}
+	myGameAction UIStarMapSetMarker
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI] StarMap - Open Log"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction "New ConditionalInputAction (0)"
+		{
+			myInputAction = LEFT_STICK_BUTTON
+		}
+	}
+	myGameAction UIStarMapOpenLog
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI] StarMap - Center On Player"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Input Actions"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Y Released"
+				{
+					myInputActionType Pressed
+					myTimer 300
+					myInputAction = Y_TRIANGLE
+				}
+				ConditionalInputAction "Keyboard Q Released"
+				{
+					myInputActionType Pressed
+					myTimer 300
+					myInputAction = KB_UI_PILOTABILITY
+				}
+			}
+		}
+	}
+	myGameAction UIStarMap_CenterOnPlayer
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI] StarMap - Open Equinox Screen"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction "New ConditionalInputAction (0)"
+		{
+			myInputAction = A_CROSS
+			myInputActionAlt = UI_B_CIRCLE
+		}
+	}
+	myGameAction UIStarMapOpenEquinoxScreen
+	myIsUIAction TRUE
+	myUseAltWhenConfirmSwapped TRUE
+}
+
+TriggerGameAction "[UI] RS Scroll Left"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction "New ConditionalInputAction (0)"
+		{
+			myInputActionType Analog
+			myInputAction = RIGHT_STICK_LEFT
+		}
+	}
+	myGameAction UIRSScrollLeft
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI] RS Scroll Right"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction "New ConditionalInputAction (0)"
+		{
+			myInputActionType Analog
+			myInputAction = RIGHT_STICK_RIGHT
+		}
+	}
+	myGameAction UIRSScrollRight
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI] RS Scroll Up"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction "New ConditionalInputAction (0)"
+		{
+			myInputActionType Analog
+			myInputAction = RIGHT_STICK_UP
+		}
+	}
+	myGameAction UIRSScrollUp
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI] RSScroll Down"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction "New ConditionalInputAction (0)"
+		{
+			myInputActionType Analog
+			myInputAction = RIGHT_STICK_DOWN
+		}
+	}
+	myGameAction UIRSScrollDown
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI] Hub Trigger"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "INPUT HUB TRIGGER"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Button Pressed"
+				{
+					myInputActionType PressAndReleaseBeforeTime
+					myTimer 300
+					myInputAction = START
+				}
+				ConditionalInputAction "Keyboard Hub Trigger Alt"
+				{
+					myInputActionType PressAndReleaseBeforeTime
+					myTimer 300
+					myInputAction = KB_LOADOUTALT
+				}
+			}
+		}
+		ConditionalGameActionState "Not in PhotoMode"
+		{
+			myNegate TRUE
+			myGameActionState IsInPhotoMode
+		}
+	}
+	myGameAction UIHub
+}
+
+TriggerGameAction "[UI] Hub Trigger UI"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "INPUT HUB TRIGGER UI"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Button Pressed"
+				{
+					myInputActionType PressAndRelease
+					myInputAction = START
+				}
+				ConditionalInputAction "Keyboard HubTrigger UI Alt"
+				{
+					myInputActionType PressAndRelease
+					myInputAction = KB_LOADOUTALT
+				}
+			}
+		}
+		ConditionalGameActionState "Not in PhotoMode"
+		{
+			myNegate TRUE
+			myGameActionState IsInPhotoMode
+		}
+	}
+	myGameAction UIHub
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI Legacy] Build Trigger"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction "Button Pressed"
+		{
+			myInputAction = BACK_SELECT
+		}
+	}
+	myGameAction UIBuild
+}
+
+TriggerGameAction "[UI Legacy] Build Trigger UI"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction "Button Pressed"
+		{
+			myInputAction = BACK_SELECT
+		}
+	}
+	myGameAction UIBuild
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI Debug] Toggle Starmap Display"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction "New ConditionalInputAction (0)"
+		{
+			myInputAction = D_PAD_RIGHT
+		}
+	}
+	myGameAction UI_Debug_ChangeStarMapState
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI Debug] Starmap Show Help"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction "New ConditionalInputAction (0)"
+		{
+			myInputActionType PressAndHold
+			myInputAction = RIGHT_STICK_BUTTON
+		}
+		ConditionalInputAction "New ConditionalInputAction (1)"
+		{
+			myInputActionType PressAndHold
+			myInputAction = KB_UI_ZOOM
+		}
+	}
+	myGameAction UI_Debug_StarMapHelp
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI Debug] Disable Fog of War"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction "New ConditionalInputAction (0)"
+		{
+			myInputAction = D_PAD_UP
+		}
+	}
+	myGameAction UI_Debug_StarMapDisableVision
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI Debug] Use Tilted View"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction "New ConditionalInputAction (0)"
+		{
+			myInputAction = D_PAD_LEFT
+		}
+	}
+	myGameAction UI_Debug_StarMapUseTiltedView
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI Debug] Starmap Equinox Screen"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction "New ConditionalInputAction (0)"
+		{
+			myInputAction = UI_RIGHT_BUMPER_R1
+		}
+	}
+	myGameAction UI_Debug_StarMapEquinoxScreen
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI Debug] Starmap Selection Debug"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction "New ConditionalInputAction (0)"
+		{
+			myInputAction = D_PAD_DOWN
+		}
+	}
+	myGameAction UI_Debug_StarMapSelectionDebug
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI] PodOne"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup Input
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Press Left Trigger"
+				{
+					myInputAction = LEFT_TRIGGER_L2
+				}
+				ConditionalInputAction "Press Page Up"
+				{
+					myInputAction = KB_UI_PAGE_UP
+				}
+			}
+		}
+	}
+	myGameAction UIPodOne
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI] PodThree"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup Input
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Press Right Trigger"
+				{
+					myInputAction = RIGHT_TRIGGER_R2
+				}
+				ConditionalInputAction "Press Page Down"
+				{
+					myInputAction = KB_UI_PAGE_DOWN
+				}
+			}
+		}
+	}
+	myGameAction UIPodThree
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI] Pause Cinematic"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "INPUT PAUSE CINEMATIC"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Start Pressed"
+				{
+					myInputActionType Pressed
+					myInputAction = START
+				}
+				ConditionalInputAction Keyboard_Space_Button
+				{
+					myInputActionType Pressed
+					myInputAction = KB_UI_JUMP
+				}
+				ConditionalInputAction Keyboard_Backspace
+				{
+					myInputActionType Pressed
+					myInputAction = KB_UI_BACK
+				}
+				ConditionalInputAction "Keyboard_Esc Button"
+				{
+					myInputActionType Pressed
+					myInputAction = ESCAPE
+				}
+			}
+		}
+	}
+	myGameAction PauseCinematic
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI] Other Cinematic"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Any non-Start  Button"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction A/Cross
+				{
+					myInputAction = A_CROSS
+				}
+				ConditionalInputAction B/Circle
+				{
+					myInputAction = UI_B_CIRCLE
+				}
+				ConditionalInputAction Y/Triangle
+				{
+					myInputAction = Y_TRIANGLE
+				}
+				ConditionalInputAction X/Square
+				{
+					myInputAction = X_SQUARE
+				}
+				ConditionalInputAction "D-Pad Up"
+				{
+					myInputAction = D_PAD_UP
+				}
+				ConditionalInputAction "D-Pad Down"
+				{
+					myInputAction = D_PAD_DOWN
+				}
+				ConditionalInputAction "D-Pad Left"
+				{
+					myInputAction = D_PAD_LEFT
+				}
+				ConditionalInputAction "D-Pad Right"
+				{
+					myInputAction = D_PAD_RIGHT
+				}
+				ConditionalInputAction "Left Trigger"
+				{
+					myInputAction = LEFT_TRIGGER_L2
+				}
+				ConditionalInputAction "Right Trigger"
+				{
+					myInputAction = RIGHT_TRIGGER_R2
+				}
+				ConditionalInputAction "Left Bumper"
+				{
+					myInputAction = LEFT_BUMPER_L1
+				}
+				ConditionalInputAction "Right Bumper"
+				{
+					myInputAction = UI_RIGHT_BUMPER_R1
+				}
+				ConditionalInputAction "Left Stick"
+				{
+					myInputAction = LEFT_STICK_BUTTON
+				}
+				ConditionalInputAction "Right Stick"
+				{
+					myInputAction = RIGHT_STICK_BUTTON
+				}
+				ConditionalInputAction Select
+				{
+					myInputAction = BACK_SELECT
+				}
+			}
+		}
+	}
+	myGameAction OtherCinematic
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI] Skip Cinematic"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "INPUT SKIP CINEMATIC"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Hold X"
+				{
+					myInputActionType PressedAfterTime
+					myTimer 500
+					myInputAction = X_SQUARE
+				}
+				ConditionalInputAction Keyboard_E_Enter
+				{
+					myInputActionType PressedAfterTime
+					myTimer 500
+					myInputAction = KB_UI_INTERACT
+				}
+			}
+		}
+	}
+	myGameAction SkipCinematic
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI] Tutorial Accept"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Input Actions"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "A Pressed"
+				{
+					myInputActionType Analog
+					myInputAction = A_CROSS
+					myInputActionAlt = UI_B_CIRCLE
+				}
+			}
+		}
+	}
+	myGameAction TutorialAccept
+	myIsUIAction FALSE
+	myUseAltWhenConfirmSwapped TRUE
+}
+
+TriggerGameAction "[UI] DEBUG - UIFeatureList"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction "Press Left Trigger"
+		{
+			myInputActionType HoldDown
+			myTimer 1000
+			myInputAction = LEFT_TRIGGER_L2
+		}
+		ConditionalInputAction "Press Right Trigger"
+		{
+			myInputActionType HoldDown
+			myTimer 1000
+			myInputAction = RIGHT_TRIGGER_R2
+		}
+		ConditionalInputAction "Press Right Bumper"
+		{
+			myInputActionType HoldDown
+			myTimer 500
+			myInputAction = UI_RIGHT_BUMPER_R1
+		}
+		ConditionalInputAction "Press Left Bumper"
+		{
+			myInputActionType HoldDown
+			myTimer 1000
+			myInputAction = LEFT_BUMPER_L1
+		}
+	}
+	myGameAction UI_Debug_UIFeatureList
+}
+
+TriggerGameAction "[UI] Start Game"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Input Actions"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "A Pressed"
+				{
+					myInputActionType Pressed
+					myInputAction = A_CROSS
+					myInputActionAlt = UI_B_CIRCLE
+				}
+				ConditionalInputAction "Keyboard Accept Pressed"
+				{
+					myInputActionType Pressed
+					myInputAction = KB_UI_INTERACT
+					myInputActionAlt = KB_UI_INTERACT
+				}
+				ConditionalInputAction "Keyboard Accept Alt Pressed"
+				{
+					myInputActionType Pressed
+					myInputAction = KB_UI_JUMP
+					myInputActionAlt = KB_UI_JUMP
+				}
+			}
+		}
+	}
+	myGameAction UIStartGame
+	myIsUIAction TRUE
+	myUseAltWhenConfirmSwapped TRUE
+}
+
+TriggerGameAction "[UI] Fuse Mods"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Input Actions"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Y Released"
+				{
+					myInputActionType ReleaseBeforeTime
+					myTimer 300
+					myInputAction = Y_TRIANGLE
+				}
+				ConditionalInputAction "R pressed "
+				{
+					myInputActionType ReleaseBeforeTime
+					myTimer 300
+					myInputAction = KB_UI_RELOAD
+				}
+			}
+		}
+	}
+	myGameAction UI_Mods_Fuse
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI] Clone Mods"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Input Actions"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "X Released"
+				{
+					myInputActionType ReleaseBeforeTime
+					myTimer 300
+					myInputAction = X_SQUARE
+				}
+				ConditionalInputAction "Q pressed "
+				{
+					myInputActionType ReleaseBeforeTime
+					myTimer 300
+					myInputAction = KB_UI_PILOTABILITY
+				}
+			}
+		}
+	}
+	myGameAction UI_Mods_Clone
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI] Dismantle Mods"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Input Actions"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Q pressed "
+				{
+					myInputActionType Pressed
+					myInputAction = KB_UI_ACCEPT_REQUEST_MISSION
+				}
+				ConditionalInputAction "LS Clicked"
+				{
+					myInputActionType Pressed
+					myInputAction = LEFT_STICK_BUTTON
+				}
+			}
+		}
+	}
+	myGameAction UI_Mods_Dismantle
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI Legacy] Build Screen - Open Pilot Skills"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Input Actions"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Press A"
+				{
+					myInputAction = A_CROSS
+					myInputActionAlt = UI_B_CIRCLE
+				}
+				ConditionalInputAction "Keyboard R"
+				{
+					myInputAction = KB_UI_PILOTABILITY
+					myInputActionAlt = KB_UI_PILOTABILITY
+				}
+			}
+		}
+	}
+	myGameAction UI_Build_Open_Pilot_Skill_Screen
+	myIsUIAction TRUE
+	myUseAltWhenConfirmSwapped TRUE
+}
+
+TriggerGameAction "[UI Legacy] Build Screen - Open Mod Screen"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Input Actions"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Press X"
+				{
+					myInputAction = X_SQUARE
+				}
+				ConditionalInputAction "Keyboard Q"
+				{
+					myInputAction = KB_PILOTABILITY
+				}
+			}
+		}
+	}
+	myGameAction UI_Build_Open_Mod_Screen
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI] Build Screen - Open Ship Attach"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Input Actions"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Press A"
+				{
+					myInputAction = A_CROSS
+					myInputActionAlt = UI_B_CIRCLE
+				}
+				ConditionalInputAction "Keyboard W"
+				{
+					myInputAction = KB_UI_MOVE_UP
+					myInputActionAlt = KB_UI_MOVE_UP
+				}
+				ConditionalInputAction "Keyboard Accept"
+				{
+					myInputAction = KB_UI_INTERACT
+					myInputActionAlt = KB_UI_INTERACT
+				}
+				ConditionalInputAction "Keyboard Space"
+				{
+					myInputAction = KB_UI_JUMP
+					myInputActionAlt = KB_UI_JUMP
+				}
+			}
+		}
+	}
+	myGameAction UI_Build_Open_Ship_Attach
+	myIsUIAction TRUE
+	myUseAltWhenConfirmSwapped TRUE
+}
+
+TriggerGameAction "[UI] Build Screen - Open Pilot Attach"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction "Press A"
+		{
+			myInputAction = A_CROSS
+			myInputActionAlt = UI_B_CIRCLE
+		}
+	}
+	myGameAction UI_Build_Open_Pilot_Attach
+	myIsUIAction TRUE
+	myUseAltWhenConfirmSwapped TRUE
+}
+
+TriggerGameAction "[UI] Build Screen - Edit Part"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Input Action"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Press X"
+				{
+					myInputAction = X_SQUARE
+				}
+				ConditionalInputAction "Press R"
+				{
+					myInputAction = KB_UI_PILOTABILITY
+				}
+			}
+		}
+	}
+	myGameAction UI_Build_Edit_Part
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI] Build Screen - Equip Part"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Input Action"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Press A"
+				{
+					myInputAction = A_CROSS
+					myInputActionAlt = UI_B_CIRCLE
+				}
+				ConditionalInputAction "Press E"
+				{
+					myInputAction = KB_UI_INTERACT
+					myInputActionAlt = KB_UI_INTERACT
+				}
+				ConditionalInputAction "Press Space"
+				{
+					myInputAction = KB_UI_JUMP
+					myInputActionAlt = KB_UI_JUMP
+				}
+			}
+		}
+	}
+	myGameAction UI_Build_Equip_Part
+	myIsUIAction TRUE
+	myUseAltWhenConfirmSwapped TRUE
+}
+
+TriggerGameAction "[UI] Build Screen - Flip Part"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Input Action"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Press Y"
+				{
+					myInputAction = Y_TRIANGLE
+				}
+				ConditionalInputAction "Press Q"
+				{
+					myInputAction = KB_UI_RELOAD
+				}
+			}
+		}
+	}
+	myGameAction UI_Build_Flip_Part
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI] Build Screen - Remove Part"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction "Press A"
+		{
+			myInputAction = A_CROSS
+			myInputActionAlt = UI_B_CIRCLE
+		}
+	}
+	myGameAction UI_Build_Remove_Part
+	myIsUIAction TRUE
+	myUseAltWhenConfirmSwapped TRUE
+}
+
+TriggerGameAction "[UI] Build Screen - Remove Last Part"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction "Press X"
+		{
+			myInputAction = X_SQUARE
+		}
+	}
+	myGameAction UI_Build_Remove_Last_Part
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI] Build Screen - Switch Left Side"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Input Actions"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Press L2"
+				{
+					myInputAction = LEFT_TRIGGER_L2
+				}
+				ConditionalInputAction "Keyboard Weapon Left"
+				{
+					myInputAction = KB_UI_MOVE_LEFT
+				}
+			}
+		}
+	}
+	myGameAction UI_Build_Switch_Left_Side
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI] Build Screen - Switch Right Side"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Input Actions"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Press R2"
+				{
+					myInputAction = RIGHT_TRIGGER_R2
+				}
+				ConditionalInputAction "Keyboard Weapon Right"
+				{
+					myInputAction = KB_UI_MOVE_RIGHT
+				}
+			}
+		}
+	}
+	myGameAction UI_Build_Switch_Right_Side
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI] Build Screen - Swap Part Side"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Input Action"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Press A"
+				{
+					myInputAction = A_CROSS
+					myInputActionAlt = UI_B_CIRCLE
+				}
+				ConditionalInputAction "Press E"
+				{
+					myInputAction = KB_UI_INTERACT
+					myInputActionAlt = KB_UI_INTERACT
+				}
+				ConditionalInputAction "Press Space"
+				{
+					myInputAction = KB_UI_JUMP
+					myInputActionAlt = KB_UI_JUMP
+				}
+			}
+		}
+	}
+	myGameAction UI_Build_Swap_Part_From_Opposing_Side
+	myIsUIAction TRUE
+	myUseAltWhenConfirmSwapped TRUE
+}
+
+TriggerGameAction "[UI] Build Screen - Remove Outermost Part"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction "Press X"
+		{
+			myInputAction = X_SQUARE
+		}
+	}
+	myGameAction UI_Build_Remove_Outermost_Wing
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI] Build Screen - Tab Left"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction "Tab Left"
+		{
+			myInputAction = RIGHT_STICK_LEFT
+		}
+	}
+	myGameAction UI_Digital_Tab_Left
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI] Build Screen - Tab Right"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction "Tab Right"
+		{
+			myInputAction = RIGHT_STICK_RIGHT
+		}
+	}
+	myGameAction UI_Digital_Tab_Right
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI] Build Screen - Open Pilot Skills"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Input Actions"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Press Y"
+				{
+					myInputAction = Y_TRIANGLE
+				}
+				ConditionalInputAction "Keyboard R"
+				{
+					myInputAction = KB_UI_PILOTABILITY
+				}
+			}
+		}
+	}
+	myGameAction UI_Build_Open_Pilot_Skills
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI] Build Screen - Toggle Locked Part Display"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Input Action"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Press Alt"
+				{
+					myInputAction = KB_UI_SHIELD
+				}
+				ConditionalInputAction "Press Right Thumbstick Button"
+				{
+					myInputAction = RIGHT_STICK_BUTTON
+				}
+				ConditionalInputAction "Middle Mouse Button"
+				{
+					myInputAction = KB_UI_ZOOM
+				}
+			}
+		}
+	}
+	myGameAction UI_Build_Toggle_Locked_Part_Display
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[Interact] Can Fast Travel"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameActionState IsFastTravelEnabled
+		{
+			myGameActionState IsFastTravelEnabled
+		}
+		ConditionalGameActionState IsFastTravelling
+		{
+			myNegate TRUE
+			myGameActionState IsFastTravelling
+		}
+		ConditionalGameActionState "Not IsTutorialActive"
+		{
+			myNegate TRUE
+			myGameActionState IsTutorialActive
+		}
+		ConditionalGameActionState IsCoopEnterHandshake
+		{
+			myNegate TRUE
+			myGameActionState IsCoopEnterHandshake
+		}
+		ConditionalGameActionState IsPilotTrialEventActive
+		{
+			myNegate TRUE
+			myGameActionState IsPilotTrialEventActive
+		}
+		ConditionalGameActionState IsArenaEventActive
+		{
+			myNegate TRUE
+			myGameActionState IsArenaEventActive
+		}
+		ConditionalGameActionState IsInFadeRequest
+		{
+			myNegate TRUE
+			myGameActionState IsInFadeRequest
+		}
+		ConditionalGameActionState IsBeingTowed
+		{
+			myNegate TRUE
+			myGameActionState IsBeingTowed
+		}
+	}
+	myGameAction PlayerQuery_CanStarmapFastTravel
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI] Starmap - Fast Travel"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Input Actions"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "A Pressed"
+				{
+					myInputActionType Pressed
+					myInputAction = A_CROSS
+					myInputActionAlt = UI_B_CIRCLE
+				}
+				ConditionalInputAction "Accept Pressed"
+				{
+					myInputAction = KB_UI_JUMP
+					myInputActionAlt = KB_UI_JUMP
+				}
+				ConditionalInputAction "Keyboard Accept Pressed"
+				{
+					myInputAction = KB_UI_INTERACT
+					myInputActionAlt = KB_UI_INTERACT
+				}
+			}
+		}
+		ConditionalGameAction PlayerQuery_CanStarmapFastTravel
+		{
+			myGameAction PlayerQuery_CanStarmapFastTravel
+		}
+	}
+	myGameAction UIStarmap_FastTravel
+	myIsUIAction TRUE
+	myIsExclusiveToggle TRUE
+	myUseAltWhenConfirmSwapped TRUE
+}
+
+TriggerGameAction "[UI] Build - Reset Ship Orientation"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction "Press R3"
+		{
+			myInputAction = RIGHT_STICK_BUTTON
+		}
+		ConditionalInputAction "Press Middle Mouse"
+		{
+			myInputAction = KB_UI_ZOOM
+		}
+	}
+	myGameAction UI_Build_ResetShipOrientation
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI] Splash - Skip Splash Page"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Face Buttons"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "X/Square Pressed"
+				{
+					myInputActionType Pressed
+					myTimer 0
+					myInputAction = X_SQUARE
+				}
+				ConditionalInputAction "Y/Triangle Pressed"
+				{
+					myInputActionType Pressed
+					myTimer 0
+					myInputAction = Y_TRIANGLE
+				}
+				ConditionalInputAction "B/Circle Pressed"
+				{
+					myInputAction = UI_B_CIRCLE
+				}
+				ConditionalInputAction "A/Cross Pressed"
+				{
+					myInputAction = A_CROSS
+				}
+			}
+		}
+	}
+	myGameAction UI_Splash_SkipSplashPage
+	myIsUIAction TRUE
+	myIsCinematicAction FALSE
+	myIsExclusiveToggle FALSE
+}
+
+TriggerGameAction "[UI] Navigate Up"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Input Actions"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Left Stick Up Press And Repeat"
+				{
+					myInputActionType PressAndRepeat
+					myTimer 250
+					myInputAction = LEFT_STICK_UP
+				}
+				ConditionalInputAction "DPad Up Press And Repeat"
+				{
+					myInputActionType PressAndRepeat
+					myTimer 250
+					myInputAction = D_PAD_UP
+				}
+				ConditionalInputAction "Keyboard Up Press And Repeat"
+				{
+					myInputActionType PressAndRepeat
+					myTimer 250
+					myInputAction = KB_UI_MOVE_UP
+				}
+			}
+		}
+	}
+	myGameAction UINavigateUp
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI] Navigate Down"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Input Actions"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Left Stick Down Press And Repeat"
+				{
+					myInputActionType PressAndRepeat
+					myTimer 250
+					myInputAction = LEFT_STICK_DOWN
+				}
+				ConditionalInputAction "DPad Down Press And Repeat"
+				{
+					myInputActionType PressAndRepeat
+					myTimer 250
+					myInputAction = D_PAD_DOWN
+				}
+				ConditionalInputAction "Keyboard Down Press And Repeat"
+				{
+					myInputActionType PressAndRepeat
+					myTimer 250
+					myInputAction = KB_UI_MOVE_DOWN
+				}
+			}
+		}
+	}
+	myGameAction UINavigateDown
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI] Navigate Left"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Input Actions"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Left Stick Left Press And Repeat"
+				{
+					myInputActionType PressAndRepeat
+					myTimer 250
+					myInputAction = LEFT_STICK_LEFT
+				}
+				ConditionalInputAction "DPad Left Press And Repeat"
+				{
+					myInputActionType PressAndRepeat
+					myTimer 250
+					myInputAction = D_PAD_LEFT
+				}
+				ConditionalInputAction "Keyboard Left Press And Repeat"
+				{
+					myInputActionType PressAndRepeat
+					myTimer 250
+					myInputAction = KB_UI_MOVE_LEFT
+				}
+			}
+		}
+	}
+	myGameAction UINavigateLeft
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI] Navigate Right"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Input Actions"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Left Stick Right Press And Repeat"
+				{
+					myInputActionType PressAndRepeat
+					myTimer 250
+					myInputAction = LEFT_STICK_RIGHT
+				}
+				ConditionalInputAction "DPad Right Press And Repeat"
+				{
+					myInputActionType PressAndRepeat
+					myTimer 250
+					myInputAction = D_PAD_RIGHT
+				}
+				ConditionalInputAction "Keyboard Right Press And Repeat"
+				{
+					myInputActionType PressAndRepeat
+					myTimer 250
+					myInputAction = KB_UI_MOVE_RIGHT
+				}
+			}
+		}
+	}
+	myGameAction UINavigateRight
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI] Slider Left"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Input Actions"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Left Stick Left Press And Repeat"
+				{
+					myInputActionType PressAndRepeat
+					myTimer 125
+					myInputAction = LEFT_STICK_LEFT
+				}
+				ConditionalInputAction "DPad Left Press And Repeat"
+				{
+					myInputActionType PressAndRepeat
+					myTimer 125
+					myInputAction = D_PAD_LEFT
+				}
+				ConditionalInputAction "Keyboard Left Press And Repeat"
+				{
+					myInputActionType PressAndRepeat
+					myTimer 125
+					myInputAction = KB_UI_MOVE_LEFT
+				}
+			}
+		}
+	}
+	myGameAction UISliderLeft
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI] Slider Right"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Input Actions"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Left Stick Right Press And Repeat"
+				{
+					myInputActionType PressAndRepeat
+					myTimer 125
+					myInputAction = LEFT_STICK_RIGHT
+				}
+				ConditionalInputAction "DPad Right Press And Repeat"
+				{
+					myInputActionType PressAndRepeat
+					myTimer 125
+					myInputAction = D_PAD_RIGHT
+				}
+				ConditionalInputAction "Keyboard Right Press And Repeat"
+				{
+					myInputActionType PressAndRepeat
+					myTimer 125
+					myInputAction = KB_UI_MOVE_RIGHT
+				}
+			}
+		}
+	}
+	myGameAction UISliderRight
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI] Swap Co-Op Player"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Input Actions"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Keyboard Switch Coop"
+				{
+					myInputActionType Pressed
+					myInputAction = KB_UI_LOADOUTALT
+				}
+				ConditionalInputAction "Press Left Stick Button"
+				{
+					myInputActionType Pressed
+					myInputAction = LEFT_STICK_BUTTON
+				}
+			}
+		}
+	}
+	myGameAction UISwapCoopPlayer
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI] Toggle Objective Selection"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "INPUT TOGGLE SELECTION"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "New ConditionalInputAction (0)"
+				{
+					myInputActionType Released
+					myInputAction = D_PAD_LEFT
+				}
+				ConditionalInputAction "Keyboard Next Mission"
+				{
+					myInputActionType Released
+					myInputAction = KB_SWITCH_LEFT
+				}
+			}
+		}
+		ConditionalGameActionState IsPilotTrialEventActive
+		{
+			myNegate TRUE
+			myGameActionState IsPilotTrialEventActive
+		}
+		ConditionalGameActionState "Not In Camera Sequence"
+		{
+			myNegate TRUE
+			myGameActionState InDialogue
+		}
+	}
+	myGameAction UI_Toggle_ObjectiveSelection
+}
+
+TriggerGameAction "[UI] Toggle Objective Selection Back"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "INPUT TOGGLE SELECTION"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "New ConditionalInputAction (0)"
+				{
+					myInputActionType Released
+					myInputAction = D_PAD_RIGHT
+				}
+				ConditionalInputAction "Keyboard Next Mission"
+				{
+					myInputActionType Released
+					myInputAction = KB_SWITCH_RIGHT
+				}
+			}
+		}
+		ConditionalGameActionState IsPilotTrialEventActive
+		{
+			myNegate TRUE
+			myGameActionState IsPilotTrialEventActive
+		}
+		ConditionalGameActionState "Not In Camera Sequence"
+		{
+			myNegate TRUE
+			myGameActionState InDialogue
+		}
+	}
+	myGameAction UI_Toggle_ObjectiveSelectionBack
+}
+
+TriggerGameAction "[UI] DEBUG - Layering - Swap MinMax"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Input Actions"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "X Pressed"
+				{
+					myInputActionType ReleaseBeforeTime
+					myTimer 300
+					myInputAction = X_SQUARE
+				}
+			}
+		}
+	}
+	myGameAction UI_Debug_LayerTest_SwapMinMax
+	myIsUIAndGameAction TRUE
+}
+
+TriggerGameAction "[UI] DEBUG - Layering - Increase Layer"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Input Actions"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction DOWN
+				{
+					myInputActionType PressAndRepeat
+					myTimer 250
+					myInputAction = LEFT_STICK_DOWN
+				}
+				ConditionalInputAction RIGHT
+				{
+					myInputActionType PressAndRepeat
+					myTimer 250
+					myInputAction = LEFT_STICK_RIGHT
+				}
+			}
+		}
+	}
+	myGameAction UI_Debug_LayerTest_IncreaseLayer
+	myIsUIAndGameAction TRUE
+}
+
+TriggerGameAction "[UI] DEBUG - Layering - Decrease Layer"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "New ConditionalActionGroup (1)"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction DOWN
+				{
+					myInputActionType PressAndRepeat
+					myTimer 250
+					myInputAction = LEFT_STICK_LEFT
+				}
+				ConditionalInputAction RIGHT
+				{
+					myInputActionType PressAndRepeat
+					myTimer 250
+					myInputAction = LEFT_STICK_UP
+				}
+			}
+		}
+	}
+	myGameAction UI_Debug_LayerTest_DecreaseLayer
+	myIsUIAndGameAction TRUE
+}
+
+TriggerGameAction "[UI] Ship Downed - Exit COOP"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "X Pressed"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "X Pressed"
+				{
+					myInputActionType PressedAfterTime
+					myTimer 500
+					myInputAction = X_SQUARE
+				}
+			}
+		}
+	}
+	myGameAction UI_ShipDowned_ExitCoop
+	myIsUIAndGameAction TRUE
+}
+
+TriggerGameAction "[UI] Ship Downed - Accept"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "New ConditionalActionGroup (0)"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "New ConditionalInputAction (0)"
+				{
+					myInputAction = A_CROSS
+					myInputActionAlt = UI_B_CIRCLE
+				}
+			}
+		}
+	}
+	myGameAction UI_ShipDowned_Accept
+	myIsUIAndGameAction TRUE
+	myIsTRCAction FALSE
+	myUseAltWhenConfirmSwapped TRUE
+}
+
+TriggerGameAction "[UI] Ship Downed - Cancel"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "New ConditionalActionGroup (0)"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "New ConditionalInputAction (0)"
+				{
+					myInputAction = UI_B_CIRCLE
+					myInputActionAlt = A_CROSS
+				}
+			}
+		}
+	}
+	myGameAction UI_ShipDowned_Cancel
+	myIsUIAndGameAction TRUE
+	myUseAltWhenConfirmSwapped TRUE
+}
+
+TriggerGameAction "[UI] Inworld Dialog - Accept"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "New ConditionalActionGroup (0)"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "New ConditionalInputAction (0)"
+				{
+					myInputAction = A_CROSS
+					myInputActionAlt = UI_B_CIRCLE
+				}
+				ConditionalInputAction "Keyboard Interact"
+				{
+					myInputAction = KB_UI_INTERACT
+					myInputActionAlt = KB_UI_INTERACT
+				}
+			}
+		}
+	}
+	myGameAction UI_InworldDialog_Accept
+	myIsUIAndGameAction TRUE
+	myIsTRCAction FALSE
+	myUseAltWhenConfirmSwapped TRUE
+}
+
+TriggerGameAction "[UI] Inworld Dialog - Cancel"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "New ConditionalActionGroup (0)"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "New ConditionalInputAction (0)"
+				{
+					myInputAction = UI_B_CIRCLE
+					myInputActionAlt = A_CROSS
+				}
+				ConditionalInputAction "Cancel Pressed"
+				{
+					myInputActionType PressAndRelease
+					myInputAction = ESCAPE
+					myInputActionAlt = ESCAPE
+				}
+				ConditionalInputAction "Keyboard Back Pressed"
+				{
+					myInputActionType PressAndRelease
+					myInputAction = KB_UI_BACK
+					myInputActionAlt = KB_UI_BACK
+				}
+			}
+		}
+	}
+	myGameAction UI_InworldDialog_Cancel
+	myIsUIAndGameAction TRUE
+	myUseAltWhenConfirmSwapped TRUE
+}
+
+TriggerGameAction "[UI] Starmap - More Info (Open Database)"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction "DPad Up"
+		{
+			myInputActionType Released
+			myInputAction = D_PAD_UP
+		}
+	}
+	myGameAction UIStarmap_OpenCollections
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI] Collections - Open Upsell"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Input Actions"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction Input
+				{
+					myInputAction = X_SQUARE
+				}
+				ConditionalInputAction "Keyboard R"
+				{
+					myInputAction = KB_UI_PILOTABILITY
+				}
+			}
+		}
+	}
+	myGameAction UI_Collections_OpenUpsell
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI] Confirm Destructive Action"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Input Actions"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Hold A"
+				{
+					myInputActionType HoldDownAfterTime
+					myTimer 2000
+					myInputAction = A_CROSS
+					myInputActionAlt = UI_B_CIRCLE
+				}
+				ConditionalInputAction "KB Enter Hold"
+				{
+					myInputActionType HoldDownAfterTime
+					myTimer 2000
+					myInputAction = KB_UI_INTERACT
+					myInputActionAlt = KB_UI_INTERACT
+				}
+			}
+		}
+	}
+	myGameAction UIConfirmDestructiveAction
+	myIsUIAction TRUE
+	myUseAltWhenConfirmSwapped TRUE
+}
+
+TriggerGameAction "[UI] Mod Screen - Toggle Mod Comparison"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup INPUT
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction KB
+				{
+					myInputAction = KB_UI_SHIELD
+				}
+				ConditionalInputAction RS
+				{
+					myInputAction = RIGHT_STICK_BUTTON
+				}
+				ConditionalInputAction MB
+				{
+					myInputAction = KB_UI_ZOOM
+				}
+			}
+		}
+	}
+	myGameAction UI_Mods_Toggle_Mod_Comparison
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI] Races Menu - Start Race"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "New ConditionalActionGroup (0)"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction A_Cross
+				{
+					myInputActionType Pressed
+					myInputAction = A_CROSS
+					myInputActionAlt = B_CRICLE
+				}
+				ConditionalInputAction KB_UI_INTERACT
+				{
+					myInputActionType Pressed
+					myInputAction = KB_UI_INTERACT
+					myInputActionAlt = KB_UI_INTERACT
+				}
+			}
+		}
+	}
+	myGameAction UI_StartRace
+	myIsUIAction TRUE
+	myUseAltWhenConfirmSwapped TRUE
+}
+
+TriggerGameAction "[UI] Races Menu - View Leaderboards"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "New ConditionalActionGroup (0)"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction Y_Triangle
+				{
+					myInputActionType Pressed
+					myInputAction = Y_TRIANGLE
+				}
+				ConditionalInputAction Keyboard_Q
+				{
+					myInputActionType Pressed
+					myInputAction = KB_UI_PILOTABILITY
+				}
+			}
+		}
+	}
+	myGameAction UI_ViewLeaderboards
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI] Mod Screen - Toggle Paintjob Preview"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "X Pressed"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "X Pressed"
+				{
+					myInputActionType Pressed
+					myInputAction = X_SQUARE
+				}
+			}
+		}
+	}
+	myGameAction UI_Mods_Toggle_PaintJob_Preview
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI] Build Screen - Mods Screen Shortcut"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameAction PlayerQuery_IsInitiatingPhotoMode
+		{
+			myNegate TRUE
+			myGameAction PlayerQuery_IsInitiatingPhotoMode
+		}
+		ConditionalActionGroup "Input Actions"
+		{
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Keyboard Shipmods Shortcut Pressed"
+				{
+					myInputActionType PressAndReleaseBeforeTime
+					myTimer 300
+					myInputAction = KB_SHIPMODS
+				}
+			}
+		}
+		ConditionalGameActionState "Not in PhotoMode"
+		{
+			myNegate TRUE
+			myGameActionState IsInPhotoMode
+		}
+	}
+	myGameAction UI_Build_Edit_Part_Shortcut
+	myIsUIAndGameAction TRUE
+}
+
+TriggerGameAction "[UI] News Accept"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Input Actions"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Press Y"
+				{
+					myInputAction = Y_TRIANGLE
+				}
+				ConditionalInputAction "Keyboard ALT"
+				{
+					myInputActionType PressAndRelease
+					myInputAction = KB_UI_SHIELD
+				}
+			}
+		}
+	}
+	myGameAction UINewsAccept
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI] Remove Loadout Part"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Input Actions"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Press Y"
+				{
+					myInputAction = Y_TRIANGLE
+				}
+				ConditionalInputAction "Keyboard R"
+				{
+					myInputAction = KB_UI_RELOAD
+				}
+			}
+		}
+	}
+	myGameAction UI_Build_Remove_Loadout_Part
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI] Build Screen - Edit Part Alt"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Input Actions"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Press X"
+				{
+					myInputAction = X_SQUARE
+				}
+				ConditionalInputAction "Keyboard Q"
+				{
+					myInputAction = KB_UI_PILOTABILITY
+				}
+			}
+		}
+	}
+	myGameAction UI_Build_Mods_Alt
+	myIsUIAction TRUE
+	myIsCinematicAction FALSE
+}
+
+TriggerGameAction "[UI] Leaderboards - Toggle Leaderboard Type"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Input Actions"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Press Y"
+				{
+					myInputAction = Y_TRIANGLE
+				}
+				ConditionalInputAction "Keyboard R"
+				{
+					myInputAction = KB_UI_PILOTABILITY
+				}
+			}
+		}
+	}
+	myGameAction UI_Leaderboards_Toggle_LeaderboardType
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI] Toggle Photo Edit/Composition Mode"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Input Actions"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Gamepad X Pressed"
+				{
+					myInputAction = X_SQUARE
+				}
+				ConditionalInputAction "Keyboard Q Pressed"
+				{
+					myInputAction = KB_UI_PILOTABILITY
+				}
+			}
+		}
+	}
+	myGameAction UIPhotoModeToggleInternalModes
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI] Toggle Hide/Show Photo Mode UI"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Input Actions"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Keyboard LALT Pressed"
+				{
+					myInputAction = KB_UI_SHIELD
+					myInputActionAlt = KB_UI_SHIELD
+				}
+				ConditionalInputAction "Gamepad A Pressed"
+				{
+					myInputAction = A_CROSS
+					myInputActionAlt = UI_B_CIRCLE
+				}
+			}
+		}
+	}
+	myGameAction UIPhotoModeToggleHideUI
+	myIsUIAction TRUE
+	myUseAltWhenConfirmSwapped TRUE
+}
+
+TriggerGameAction "[UI] Arena - Quit Event"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Input Actions"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "B Pressed"
+				{
+					myInputActionType Pressed
+					myInputAction = UI_B_CIRCLE
+				}
+				ConditionalInputAction "KB R Pressed"
+				{
+					myInputActionType Pressed
+					myInputAction = KB_UI_RELOAD
+				}
+			}
+		}
+	}
+	myGameAction UI_Arena_QuitArenaEvent
+	myIsUIAction TRUE
+	myIsUIAndGameAction TRUE
+}
+
+TriggerGameAction "[UI] Arena - Retry Event"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Input Actions"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "X Pressed"
+				{
+					myInputActionType Pressed
+					myInputAction = X_SQUARE
+				}
+				ConditionalInputAction "KB Q Pressed"
+				{
+					myInputActionType Pressed
+					myInputAction = KB_UI_PILOTABILITY
+				}
+			}
+		}
+	}
+	myGameAction UI_Arena_RetryArenaEvent
+	myIsUIAction TRUE
+	myIsUIAndGameAction TRUE
+}
+
+TriggerGameAction "[UI] Arena - View Leaderboards"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Input Actions"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "X Pressed"
+				{
+					myInputActionType Pressed
+					myInputAction = Y_TRIANGLE
+				}
+				ConditionalInputAction "KB E Pressed"
+				{
+					myInputActionType Pressed
+					myInputAction = KB_UI_INTERACT
+				}
+				ConditionalInputAction "Press Space"
+				{
+					myInputActionType Pressed
+					myInputAction = KB_UI_JUMP
+				}
+			}
+		}
+	}
+	myGameAction UI_Arena_ViewLeaderboards
+	myIsUIAction TRUE
+	myIsUIAndGameAction TRUE
+}
+
+TriggerGameAction "[UI] Build Screen - Edit Part (PC)"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Input Actions"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Press X"
+				{
+					myInputAction = X_SQUARE
+				}
+				ConditionalInputAction "Keyboard R"
+				{
+					myInputAction = KB_UI_RELOAD
+				}
+			}
+		}
+	}
+	myGameAction UI_Build_Edit_Part_PC
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI] SPECIAL - Face - A/Cross"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Input Actions"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "A Pressed"
+				{
+					myInputActionType Pressed
+					myInputAction = A_CROSS
+					myInputActionAlt = UI_B_CIRCLE
+				}
+				ConditionalInputAction "Keyboard UI Accept"
+				{
+					myInputActionType Pressed
+					myInputAction = KB_UI_INTERACT
+					myInputActionAlt = KB_UI_INTERACT
+				}
+			}
+		}
+	}
+	myGameAction Special_Face_A_Cross
+	myIsUIAction FALSE
+	myIsUIAndGameAction TRUE
+	myUseAltWhenConfirmSwapped FALSE
+}
+
+TriggerGameAction "[UI] SPECIAL - Face - B/Circle"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Input Actions"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "B Pressed"
+				{
+					myInputActionType Pressed
+					myInputAction = UI_B_CIRCLE
+				}
+			}
+		}
+	}
+	myGameAction Special_Face_B_Circle
+	myIsUIAction FALSE
+	myIsUIAndGameAction TRUE
+	myUseAltWhenConfirmSwapped FALSE
+}
+
+TriggerGameAction "[UI] SPECIAL - Face - Y/Triangle"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Input Actions"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "A Pressed"
+				{
+					myInputActionType Pressed
+					myInputAction = Y_TRIANGLE
+				}
+			}
+		}
+	}
+	myGameAction Special_Face_Y_Triangle
+	myIsUIAction FALSE
+	myIsUIAndGameAction TRUE
+	myUseAltWhenConfirmSwapped FALSE
+}
+
+TriggerGameAction "[UI] SPECIAL - FACE - X/Square"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Input Actions"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "X Pressed"
+				{
+					myInputActionType Pressed
+					myInputAction = X_SQUARE
+				}
+			}
+		}
+	}
+	myGameAction Special_Face_X_Square
+	myIsUIAction FALSE
+	myIsUIAndGameAction TRUE
+	myUseAltWhenConfirmSwapped FALSE
+}
+
+TriggerGameAction "[UI] Mods - Fuse Max"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup INPUT
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Y Pressed"
+				{
+					myInputActionType Pressed
+					myInputAction = Y_TRIANGLE
+				}
+				ConditionalInputAction Keyboard_Q
+				{
+					myInputAction = KB_UI_PILOTABILITY
+				}
+			}
+		}
+	}
+	myGameAction UI_Mods_Fuse_Max
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI] Mods - Dismantle Max"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup INPUT
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Y Pressed"
+				{
+					myInputActionType Pressed
+					myInputAction = Y_TRIANGLE
+				}
+				ConditionalInputAction Keyboard_R
+				{
+					myInputAction = KB_UI_RELOAD
+				}
+			}
+		}
+	}
+	myGameAction UI_Mods_Dismantle_Max
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI] SPECIAL - Boost Default"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Boost Default"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "New ConditionalInputAction (0)"
+				{
+					myInputAction = UI_B_CIRCLE
+				}
+				ConditionalInputAction Keyboard_BOOST
+				{
+					myInputAction = KB_BOOST
+				}
+			}
+		}
+	}
+	myGameAction Special_Boost_Default
+}
+
+TriggerGameAction "[UI] SPECIAL - Boost Alternative"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Boost Alternate"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction Boost_R1
+				{
+					myInputAction = UI_RIGHT_BUMPER_R1
+				}
+				ConditionalInputAction Keyboard_V
+				{
+					myInputAction = KB_FLIGHTMODE
+				}
+			}
+		}
+	}
+	myGameAction Special_Boost_Alternate
+}
+
+TriggerGameAction "[UI] Build Screen - Ship Rotate Left"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction "Gamepad LS Left"
+		{
+			myInputActionType Analog
+			myInputAction = LEFT_STICK_LEFT
+		}
+	}
+	myGameAction UI_Build_Ship_Rotate_Left
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[UI] Build Screen - Ship Rotate Right"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction "Gamepad LS Right"
+		{
+			myInputActionType Analog
+			myInputAction = LEFT_STICK_RIGHT
+		}
+	}
+	myGameAction UI_Build_Ship_Rotate_Right
+	myIsUIAction TRUE
+}
+

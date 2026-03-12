@@ -1,0 +1,42 @@
+include "onward/game system data/fruit/sim/simunit.fruit"
+
+SimUnit outlaw_outpost_reinforcement_phase2 < uid=C92F4D3F5914CB1E0064A5E2C8E790C5 >
+{
+	myBehavior onward/simworld/behavior/outlaw_outpost_reinforcement.msimunitbtgraph
+	myFaction Outlaw
+	myCategory NPC
+	mySubCategory SpaceReinforcement
+	mySubCategoryVariant 2
+	mySpeed 100.0
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo Leader < uid=6D25F4C65A57F8C208233A4D9D07516C >
+		{
+			myCountMin 1
+			myCountMax 1
+			myElementSpawnInfo
+			{
+				SimUnitElementSpawnInfo Leader
+				{
+					myEntityFile "onward/game system data/juice/ai/npc/outlaw_defender_leader.mnpc"
+				}
+			}
+			mySpaceSettings
+			{
+				mySpawnFormation FlyingV
+				myFormationFlightDist 550.0
+			}
+			myEnsurePhysicsClearance FALSE
+		}
+	}
+	mySaveable FALSE
+	myNapTime 1.0
+	mySkillLevelCoefficients
+	{
+		myPlanetActMultiplier 0
+		myParentLevelMultiplier 0
+		myParentSkillLevelMultiplier 1
+		myUnitLevelMultiplier 0
+	}
+}
+

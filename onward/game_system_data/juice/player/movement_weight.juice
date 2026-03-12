@@ -1,0 +1,667 @@
+include ./../../fruit/player/player.fruit
+
+MovementConfigCategory VeryLight
+{
+	value 2000.0
+	config
+	{
+		BoostSettings GroundBoost
+		{
+			myForwardSettings
+			{
+				accelerationCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { 0 0, -0.792372 -0.0154941, }, outTangents = { 0 1.08494, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+			}
+			myLateralSettings
+			{
+				accelerationCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { 0 0, -0.785888 -0.232599, }, outTangents = { 0 1.08494, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+			}
+		}
+		LateralDashSettings Hop
+		{
+			isImpulseOnStartOnly TRUE
+			dashVelocityImpulse 60.0
+			dashCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { 0 0, -0.0333333 -0, -0.268363 0.552084, }, outTangents = { 0 0.872513, 0.3 0, 0 -0, }, properties = { 275, 3075, 1299, }, values = { 0 0, 0.1 1, 1 0, }, }, numKeys = 3, }"
+			cameraModifier Hop
+			playerShake PlayerShake_Jump
+			myDisableJetEngine FALSE
+			myDirectionalDetachImpulseMagnitude 0.0
+			myUpwardsDetachImpulseMagnitude 0.0
+			myUseCurrentVelocityOnDetach FALSE
+			myCancelOppositeVelocity TRUE
+			myApplyJumpModifiers TRUE
+		}
+		JetEngineSettings GroundJet
+		{
+			myVelocity 20.0
+		}
+		GroundSettings Ground
+		{
+			myReverseBrakeTime 0.0
+			myEngineBrakeTime 0.0
+		}
+		CameraPivotSettings GroundPivotIdle
+		{
+			myOffsetXDistanceWithoutInput 2.0
+			myOffsetXDistanceWithInput 2.0
+			myOffsetXMaxSpeed -12.0
+		}
+		StrafeSettings GroundStrafeIdle
+		{
+			accelerationCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { 0 0, -0.785888 -0.232599, }, outTangents = { 0 1.08494, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+			lateralOnly FALSE
+			visualRoll 0.0
+		}
+		VisualRotationSettings VisualRotation
+		{
+			rotationDamping 2.0
+		}
+		StrafeSettings GroundStrafeThrustLateral
+		{
+			lateralOnly FALSE
+			visualYaw 10.0
+			visualRoll 10.0
+		}
+		CameraPivotSettings GroundPivotThrust
+		{
+			myOffsetXMaxSpeed -10.0
+			myStrafeOffset 5.0;0.0;0.0
+			myLookLeftRightOffsetDamping 5.0
+		}
+		ForwardThrustSettings GroundForwardThrustFast
+		{
+			accelerationCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { 0 0, -0.062646 -0.0522238, -0.329836 -0.0701789, }, outTangents = { 0.00216138 0.228252, 0.25951 0.216336, 0 0, }, properties = { 275, 2323, 1299, }, values = { 0 0, 0.126448 0.50804, 1 1, }, }, numKeys = 3, }"
+			isReverse FALSE
+		}
+		CameraInputSettings GroundCameraInputThrust
+		{
+			myMaxPitch 0.0
+			myMaxYaw 0.0
+		}
+		CameraInputSettings FlightCameraInputStrafeForward
+		{
+			myMaxPitch 0.0
+			myMaxYaw 0.0
+		}
+		AlignToCameraSettings GroundAlignToCameraThrust
+		{
+			myAlignPitch FALSE
+			myUseCarrot TRUE
+			myCarrotXDistance 5.0
+		}
+		ForwardThrustSettings GroundForwardThrust
+		{
+			secondsToTopSpeed -0.5
+			isReverse FALSE
+		}
+		ForwardThrustSettings FlightForwardThrustMax
+		{
+			secondsToTopSpeed -0.5
+			isReverse FALSE
+		}
+		LateralDashSettings DashRight
+		{
+			isImpulseOnStartOnly FALSE
+			myUseInitialSpeed FALSE
+			dashCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.309824 0.00604007, }, outTangents = { 0.60339 0.0115238, 0 0, }, properties = { 275, 1299, }, values = { 0 0.978454, 1 0, }, }, numKeys = 2, }"
+			cameraModifier DashRight
+			playerShake PlayerShake_GroundDodge_R
+			anticipationPlayerShake PlayerShake_GroundDodge_Anticipate_R
+			myDisableJetEngine FALSE
+			myApplyDashModifiers TRUE
+		}
+		LateralDashSettings DashLeft
+		{
+			isImpulseOnStartOnly FALSE
+			myUseInitialSpeed FALSE
+			dashCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.309824 0.00604007, }, outTangents = { 0.60339 0.0115238, 0 0, }, properties = { 275, 1299, }, values = { 0 0.978454, 1 0, }, }, numKeys = 2, }"
+			cameraModifier DashLeft
+			playerShake PlayerShake_GroundDodge_L
+			anticipationPlayerShake PlayerShake_GroundDodge_Anticipate_L
+			myDisableJetEngine FALSE
+			myApplyDashModifiers TRUE
+		}
+		LateralDashSettings DashBackward
+		{
+			isImpulseOnStartOnly FALSE
+			myUseInitialSpeed FALSE
+			dashCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { 0 0, -0.309824 0.00604007, }, outTangents = { 0 0, 0 -0, }, properties = { 275, 1299, }, values = { 0 0.978454, 1 0, }, }, numKeys = 2, }"
+			cameraModifier DashBackward
+			playerShake PlayerShake_GroundDodge_B
+			myDisableJetEngine FALSE
+			myApplyDashModifiers TRUE
+		}
+	}
+}
+
+MovementConfigCategory Light
+{
+	value 3000.0
+	config
+	{
+		BoostSettings GroundBoost
+		{
+			myForwardSettings
+			{
+				accelerationCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { 0 0, -0.792372 -0.0154941, }, outTangents = { 0 1.08494, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+			}
+			myLateralSettings
+			{
+				accelerationCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { 0 0, -0.785888 -0.232599, }, outTangents = { 0 1.08494, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+			}
+		}
+		LateralDashSettings Hop
+		{
+			isImpulseOnStartOnly TRUE
+			dashVelocityImpulse 55.0
+			dashCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { 0 0, -0.0333333 -0, -0.268363 0.552084, }, outTangents = { 0 0.872513, 0.3 0, 0 -0, }, properties = { 275, 3075, 1299, }, values = { 0 0, 0.1 1, 1 0, }, }, numKeys = 3, }"
+			cameraModifier Hop
+			playerShake PlayerShake_Jump
+			myDisableJetEngine FALSE
+			myDirectionalDetachImpulseMagnitude 0.0
+			myUpwardsDetachImpulseMagnitude 0.0
+			myUseCurrentVelocityOnDetach FALSE
+			myCancelOppositeVelocity TRUE
+			myApplyJumpModifiers TRUE
+		}
+		JetEngineSettings GroundJet
+		{
+			myVelocity 15.0
+		}
+		GroundSettings Ground
+		{
+			myReverseBrakeTime 0.0
+			myEngineBrakeTime 0.0
+		}
+		CameraPivotSettings GroundPivotIdle
+		{
+			myOffsetXDistanceWithoutInput 1.0
+			myOffsetXDistanceWithInput 1.0
+			myOffsetXMaxSpeed -5.0
+		}
+		StrafeSettings GroundStrafeIdle
+		{
+			accelerationCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { 0 0, -0.785888 -0.232599, }, outTangents = { 0 1.08494, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+			lateralOnly FALSE
+			visualRoll -10.0
+		}
+		VisualRotationSettings VisualRotation
+		{
+			rotationDamping 0.0
+		}
+		StrafeSettings GroundStrafeThrustLateral
+		{
+			lateralOnly FALSE
+			visualYaw 10.0
+			visualRoll 0.0
+		}
+		CameraPivotSettings GroundPivotThrust
+		{
+			myOffsetXMaxSpeed -10.0
+			myStrafeOffset 5.0;0.0;0.0
+			myLookLeftRightOffsetDamping 5.0
+		}
+		ForwardThrustSettings GroundForwardThrustFast
+		{
+			accelerationCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { 0 0, -0.062646 -0.0522238, -0.329836 -0.0701789, }, outTangents = { 0.00216138 0.228252, 0.25951 0.216336, 0 0, }, properties = { 275, 2323, 1299, }, values = { 0 0, 0.126448 0.50804, 1 1, }, }, numKeys = 3, }"
+			isReverse FALSE
+		}
+		CameraInputSettings GroundCameraInputThrust
+		{
+			myMaxPitch 0.0
+			myMaxYaw 0.0
+		}
+		CameraInputSettings FlightCameraInputStrafeForward
+		{
+			myMaxPitch 0.0
+			myMaxYaw 0.0
+		}
+		AlignToCameraSettings GroundAlignToCameraThrust
+		{
+			myAlignPitch FALSE
+			myUseCarrot TRUE
+			myCarrotXDistance 2.5
+		}
+		ForwardThrustSettings GroundForwardThrust
+		{
+			secondsToTopSpeed -0.5
+			isReverse FALSE
+		}
+		ForwardThrustSettings FlightForwardThrustMax
+		{
+			secondsToTopSpeed -0.5
+			isReverse FALSE
+		}
+		LateralDashSettings DashRight
+		{
+			isImpulseOnStartOnly FALSE
+			myUseInitialSpeed FALSE
+			dashCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.309824 0.00604007, }, outTangents = { 0.60339 0.0115238, 0 0, }, properties = { 275, 1299, }, values = { 0 0.978454, 1 0, }, }, numKeys = 2, }"
+			cameraModifier DashRight
+			playerShake PlayerShake_GroundDodge_R
+			anticipationPlayerShake PlayerShake_GroundDodge_Anticipate_R
+			myDisableJetEngine FALSE
+			myApplyDashModifiers TRUE
+		}
+		LateralDashSettings DashLeft
+		{
+			isImpulseOnStartOnly FALSE
+			myUseInitialSpeed FALSE
+			dashCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.309824 0.00604007, }, outTangents = { 0.60339 0.0115238, 0 0, }, properties = { 275, 1299, }, values = { 0 0.978454, 1 0, }, }, numKeys = 2, }"
+			cameraModifier DashLeft
+			playerShake PlayerShake_GroundDodge_L
+			anticipationPlayerShake PlayerShake_GroundDodge_Anticipate_L
+			myDisableJetEngine FALSE
+			myApplyDashModifiers TRUE
+		}
+		LateralDashSettings DashBackward
+		{
+			isImpulseOnStartOnly FALSE
+			myUseInitialSpeed FALSE
+			dashCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.309824 0.00604007, }, outTangents = { 0.60339 0.0115238, 0 0, }, properties = { 275, 1299, }, values = { 0 0.978454, 1 0, }, }, numKeys = 2, }"
+			cameraModifier DashBackward
+			playerShake PlayerShake_GroundDodge_B
+			myDisableJetEngine FALSE
+			myApplyDashModifiers TRUE
+		}
+	}
+}
+
+MovementConfigCategory Normal
+{
+	value 4000.0
+	config
+	{
+		BoostSettings GroundBoost
+		{
+			myForwardSettings
+			{
+				accelerationCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { 0 0, -0.785888 -0.232599, }, outTangents = { 0 1.08494, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+			}
+			myLateralSettings
+			{
+				accelerationCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { 0 0, -0.785888 -0.232599, }, outTangents = { 0 1.08494, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+			}
+		}
+		LateralDashSettings Hop
+		{
+			isImpulseOnStartOnly TRUE
+			dashVelocityImpulse 50.0
+			dashCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.0666667 -0, -0.268363 0.552084, }, outTangents = { 0.103746 0.856066, 0.266667 0, 0 0, }, properties = { 275, 3075, 1299, }, values = { 0 0, 0.2 1, 1 0, }, }, numKeys = 3, }"
+			cameraModifier Hop
+			playerShake PlayerShake_Jump
+			myDisableJetEngine FALSE
+			myDirectionalDetachImpulseMagnitude 0.0
+			myUpwardsDetachImpulseMagnitude 0.0
+			myUseCurrentVelocityOnDetach FALSE
+			myCancelOppositeVelocity TRUE
+			myApplyJumpModifiers TRUE
+		}
+		JetEngineSettings GroundJet
+		{
+			myVelocity 5.0
+		}
+		GroundSettings Ground
+		{
+			myReverseBrakeTime 0.5
+			myEngineBrakeTime 1.0
+		}
+		CameraPivotSettings GroundPivotIdle
+		{
+			myOffsetXDistanceWithoutInput 0.0
+			myOffsetXDistanceWithInput 0.0
+			myOffsetXMaxSpeed 0.0
+		}
+		StrafeSettings GroundStrafeIdle
+		{
+			accelerationCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.565426 -0.0319414, }, outTangents = { 0.103746 0.749414, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+			lateralOnly FALSE
+			visualRoll -10.0
+		}
+		VisualRotationSettings VisualRotation
+		{
+			rotationDamping -0.5
+		}
+		StrafeSettings GroundStrafeThrustLateral
+		{
+			lateralOnly FALSE
+			visualYaw 0.0
+			visualRoll -10.0
+		}
+		CameraPivotSettings GroundPivotThrust
+		{
+			myStrafeOffset 0.0;0.0;0.0
+			myLookLeftRightOffsetDamping 0.0
+		}
+		ForwardThrustSettings GroundForwardThrustFast
+		{
+			accelerationCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { 0 0, -0.0538849 -0.0511559, -0.329836 -0.0701789, }, outTangents = { 0.00216138 0.228252, 0.172608 0.163867, 0 0, }, properties = { 275, 2323, 1299, }, values = { 0 0, 0.237909 0.504955, 1 1, }, }, numKeys = 3, }"
+			isReverse FALSE
+		}
+		CameraInputSettings GroundCameraInputThrust
+		{
+			myMaxPitch -0.05
+			myMaxYaw -0.05
+		}
+		CameraInputSettings FlightCameraInputStrafeForward
+		{
+			myMaxPitch -0.1
+			myMaxYaw -0.1
+		}
+		AlignToCameraSettings GroundAlignToCameraThrust
+		{
+			myAlignPitch FALSE
+			myUseCarrot TRUE
+			myCarrotXDistance 0.0
+		}
+		ForwardThrustSettings GroundForwardThrust
+		{
+			secondsToTopSpeed 0.0
+			isReverse FALSE
+		}
+		ForwardThrustSettings FlightForwardThrustMax
+		{
+			secondsToTopSpeed 0.0
+			isReverse FALSE
+		}
+		LateralDashSettings DashRight
+		{
+			isImpulseOnStartOnly FALSE
+			myUseInitialSpeed FALSE
+			dashCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.0821306 -0.00130127, -0.576197 -0.00604108, }, outTangents = { 0.0661209 0.0120795, 0.363001 0.00575134, 0 0, }, properties = { 275, 2323, 1299, }, values = { 0 0.5, 0.184509 1, 1 0, }, }, numKeys = 3, }"
+			cameraModifier DashRight
+			playerShake PlayerShake_GroundDodge_R
+			anticipationPlayerShake PlayerShake_GroundDodge_Anticipate_R
+			myDisableJetEngine FALSE
+			myApplyDashModifiers TRUE
+		}
+		LateralDashSettings DashLeft
+		{
+			isImpulseOnStartOnly FALSE
+			myUseInitialSpeed FALSE
+			dashCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.0821306 -0.00130127, -0.576197 -0.00604108, }, outTangents = { 0.0661209 0.0120795, 0.363001 0.00575134, 0 0, }, properties = { 275, 2323, 1299, }, values = { 0 0.5, 0.184509 1, 1 0, }, }, numKeys = 3, }"
+			cameraModifier DashLeft
+			playerShake PlayerShake_GroundDodge_L
+			anticipationPlayerShake PlayerShake_GroundDodge_Anticipate_L
+			myDisableJetEngine FALSE
+			myApplyDashModifiers TRUE
+		}
+		LateralDashSettings DashBackward
+		{
+			isImpulseOnStartOnly FALSE
+			myUseInitialSpeed FALSE
+			dashCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.0821306 -0.00130127, -0.576197 -0.00604108, }, outTangents = { 0.0661209 0.0120795, 0.363001 0.00575134, 0 0, }, properties = { 275, 2323, 1299, }, values = { 0 0.5, 0.184509 1, 1 0, }, }, numKeys = 3, }"
+			cameraModifier DashBackward
+			playerShake PlayerShake_GroundDodge_B
+			myDisableJetEngine FALSE
+			myApplyDashModifiers TRUE
+		}
+	}
+}
+
+MovementConfigCategory Heavy
+{
+	value 5000.0
+	config
+	{
+		BoostSettings GroundBoost
+		{
+			myForwardSettings
+			{
+				accelerationCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.676513 -0.168454, }, outTangents = { 0.425793 0.0816514, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+			}
+			myLateralSettings
+			{
+				accelerationCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { 0 0, -0.785888 -0.232599, }, outTangents = { 0 1.08494, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+			}
+		}
+		LateralDashSettings Hop
+		{
+			dashDuration 0.0
+			isImpulseOnStartOnly TRUE
+			dashVelocityImpulse 40.0
+			dashCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.133333 -0, -0.268363 0.552084, }, outTangents = { 0.207493 0.000802457, 0.2 0, 0 0, }, properties = { 275, 3075, 1299, }, values = { 0 0, 0.4 1, 1 0, }, }, numKeys = 3, }"
+			myUseCameraModifier TRUE
+			cameraModifier HopHeavy
+			playerShake PlayerShake_Jump
+			removeShakeOnStop FALSE
+			myDisableJetEngine FALSE
+			myDirectionalDetachImpulseMagnitude 0.0
+			myUpwardsDetachImpulseMagnitude 0.0
+			myUseCurrentVelocityOnDetach FALSE
+			myCancelOppositeVelocity TRUE
+			myApplyJumpModifiers TRUE
+		}
+		JetEngineSettings GroundJet
+		{
+			myVelocity -5.0
+		}
+		GroundSettings Ground
+		{
+			myReverseBrakeTime 0.75
+			myEngineBrakeTime 1.5
+		}
+		CameraPivotSettings GroundPivotIdle
+		{
+			myOffsetXDistanceWithoutInput -4.0
+			myOffsetXDistanceWithInput -4.0
+			myOffsetXMaxSpeed -10.0
+		}
+		StrafeSettings GroundStrafeIdle
+		{
+			accelerationCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.565426 -0.0319414, }, outTangents = { 0.103746 0.749414, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+			lateralOnly FALSE
+			visualRoll -17.0
+		}
+		VisualRotationSettings VisualRotation
+		{
+			rotationDamping -3.0
+		}
+		StrafeSettings GroundStrafeThrustLateral
+		{
+			lateralOnly FALSE
+			visualYaw 2.5
+			visualRoll -17.0
+		}
+		CameraPivotSettings GroundPivotThrust
+		{
+			myStrafeOffset -1.0;0.0;0.0
+			myLookLeftRightOffsetDamping -0.25
+		}
+		ForwardThrustSettings GroundForwardThrustFast
+		{
+			accelerationCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 0, -0.139939 -0.197063, -0.20704 -0.00227781, }, outTangents = { 0.126574 -0.000143517, 0.250064 0.352141, 0 0, }, properties = { 275, 2323, 1299, }, values = { 0 0, 0.321032 0.52656, 1 1, }, }, numKeys = 3, }"
+			isReverse FALSE
+		}
+		CameraInputSettings GroundCameraInputThrust
+		{
+			myMaxPitch -0.05
+			myMaxYaw -0.07
+		}
+		CameraInputSettings FlightCameraInputStrafeForward
+		{
+			myMaxPitch -0.2
+			myMaxYaw -0.2
+		}
+		AlignToCameraSettings GroundAlignToCameraThrust
+		{
+			myAlignPitch FALSE
+			myUseCarrot TRUE
+			myCarrotXDistance 0.0
+		}
+		ForwardThrustSettings GroundForwardThrust
+		{
+			secondsToTopSpeed 1.0
+			isReverse FALSE
+		}
+		ForwardThrustSettings FlightForwardThrustMax
+		{
+			secondsToTopSpeed 1.0
+			isReverse FALSE
+		}
+		LateralDashSettings DashRight
+		{
+			isImpulseOnStartOnly FALSE
+			myUseInitialSpeed FALSE
+			dashCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 0, -0.166667 0.00201292, -0.353275 0.00600109, }, outTangents = { 0.347608 -0.00305033, 0.166667 -0.00201292, 0 0, }, properties = { 275, 2051, 1299, }, values = { 0 0.0120775, 0.5 1, 1 0, }, }, numKeys = 3, }"
+			cameraModifier DashRight
+			playerShake PlayerShake_GroundDodge_R
+			anticipationPlayerShake PlayerShake_GroundDodge_Anticipate_R
+			myDisableJetEngine FALSE
+			myApplyDashModifiers TRUE
+		}
+		LateralDashSettings DashLeft
+		{
+			isImpulseOnStartOnly FALSE
+			myUseInitialSpeed FALSE
+			dashCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 0, -0.166667 0.00201292, -0.353275 0.00600109, }, outTangents = { 0.347608 -0.00305033, 0.166667 -0.00201292, 0 0, }, properties = { 275, 2051, 1299, }, values = { 0 0.0120775, 0.5 1, 1 0, }, }, numKeys = 3, }"
+			cameraModifier DashLeft
+			playerShake PlayerShake_GroundDodge_L
+			anticipationPlayerShake PlayerShake_GroundDodge_Anticipate_L
+			myDisableJetEngine FALSE
+			myApplyDashModifiers TRUE
+		}
+		LateralDashSettings DashBackward
+		{
+			isImpulseOnStartOnly FALSE
+			myUseInitialSpeed FALSE
+			dashCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 0, -0.166667 0.00201292, -0.353275 0.00600109, }, outTangents = { 0.347608 -0.00305033, 0.166667 -0.00201292, 0 0, }, properties = { 275, 2051, 1299, }, values = { 0 0.0120775, 0.5 1, 1 0, }, }, numKeys = 3, }"
+			cameraModifier DashBackward
+			playerShake PlayerShake_GroundDodge_B
+			myDisableJetEngine FALSE
+			myApplyDashModifiers TRUE
+		}
+	}
+}
+
+MovementConfigCategory VeryHeavy
+{
+	value 6000.0
+	config
+	{
+		BoostSettings GroundBoost
+		{
+			myForwardSettings
+			{
+				accelerationCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.315562 -0.00398095, }, outTangents = { 0.486312 0.259283, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+			}
+			myLateralSettings
+			{
+				accelerationCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { 0 0, -0.785888 -0.232599, }, outTangents = { 0 1.08494, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+			}
+		}
+		LateralDashSettings Hop
+		{
+			isImpulseOnStartOnly TRUE
+			dashVelocityImpulse 40.0
+			dashCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.233333 -0, -0.268363 0.552084, }, outTangents = { 0.503603 0.00409192, 0.1 0, 0 0, }, properties = { 275, 3075, 1299, }, values = { 0 0, 0.7 1, 1 0, }, }, numKeys = 3, }"
+			cameraModifier HopHeavy
+			playerShake PlayerShake_Jump
+			myDisableJetEngine FALSE
+			myDirectionalDetachImpulseMagnitude 0.0
+			myUpwardsDetachImpulseMagnitude 0.0
+			myUseCurrentVelocityOnDetach FALSE
+			myCancelOppositeVelocity TRUE
+			myApplyJumpModifiers TRUE
+		}
+		JetEngineSettings GroundJet
+		{
+			myVelocity -10.0
+		}
+		GroundSettings Ground
+		{
+			myReverseBrakeTime 1.5
+			myEngineBrakeTime 2.5
+		}
+		CameraPivotSettings GroundPivotIdle
+		{
+			myOffsetXDistanceWithoutInput -3.0
+			myOffsetXDistanceWithInput -3.0
+			myOffsetXMaxSpeed -10.0
+		}
+		StrafeSettings GroundStrafeIdle
+		{
+			accelerationCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { 0 0, -0.424936 -0.0122048, }, outTangents = { 0.112392 0.591519, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+			lateralOnly FALSE
+			visualRoll -10.0
+		}
+		VisualRotationSettings VisualRotation
+		{
+			rotationDamping -4.0
+		}
+		StrafeSettings GroundStrafeThrustLateral
+		{
+			lateralOnly FALSE
+			visualYaw 5.0
+			visualRoll -20.0
+		}
+		CameraPivotSettings GroundPivotThrust
+		{
+			myStrafeOffset -1.5;0.0;0.0
+			myLookLeftRightOffsetDamping -0.5
+		}
+		ForwardThrustSettings GroundForwardThrustFast
+		{
+			accelerationCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.0892532 -0.194828, -0.20704 -0.00227781, }, outTangents = { 0.156801 0.00911547, 0.183943 0.401524, 0 0, }, properties = { 275, 2323, 1299, }, values = { 0 0, 0.385264 0.600634, 1 1, }, }, numKeys = 3, }"
+			isReverse FALSE
+		}
+		CameraInputSettings GroundCameraInputThrust
+		{
+			myMaxPitch -0.1
+			myMaxYaw -0.15
+		}
+		CameraInputSettings FlightCameraInputStrafeForward
+		{
+			myMaxPitch -0.35
+			myMaxYaw -0.35
+		}
+		AlignToCameraSettings GroundAlignToCameraThrust
+		{
+			myAlignPitch FALSE
+			myUseCarrot TRUE
+			myCarrotXDistance 0.0
+		}
+		ForwardThrustSettings GroundForwardThrust
+		{
+			secondsToTopSpeed 2.0
+			isReverse FALSE
+		}
+		ForwardThrustSettings FlightForwardThrustMax
+		{
+			secondsToTopSpeed 2.0
+			isReverse FALSE
+		}
+		LateralDashSettings DashRight
+		{
+			isImpulseOnStartOnly FALSE
+			myUseInitialSpeed FALSE
+			dashCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 0, -0.166667 0.00201292, -0.353275 0.00600109, }, outTangents = { 0.347608 -0.00305033, 0.166667 -0.00201292, 0 0, }, properties = { 275, 2051, 1299, }, values = { 0 0.0120775, 0.5 1, 1 0, }, }, numKeys = 3, }"
+			cameraModifier DashRight
+			playerShake PlayerShake_GroundDodge_R
+			anticipationPlayerShake PlayerShake_GroundDodge_Anticipate_R
+			myDisableJetEngine FALSE
+			myApplyDashModifiers TRUE
+		}
+		LateralDashSettings DashLeft
+		{
+			isImpulseOnStartOnly FALSE
+			myUseInitialSpeed FALSE
+			dashCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 0, -0.166667 0.00201292, -0.353275 0.00600109, }, outTangents = { 0.347608 -0.00305033, 0.166667 -0.00201292, 0 0, }, properties = { 275, 2051, 1299, }, values = { 0 0.0120775, 0.5 1, 1 0, }, }, numKeys = 3, }"
+			cameraModifier DashLeft
+			playerShake PlayerShake_GroundDodge_L
+			anticipationPlayerShake PlayerShake_GroundDodge_Anticipate_L
+			myDisableJetEngine FALSE
+			myApplyDashModifiers TRUE
+		}
+		LateralDashSettings DashBackward
+		{
+			isImpulseOnStartOnly FALSE
+			myUseInitialSpeed FALSE
+			dashCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 0, -0.166667 0.00201292, -0.353275 0.00600109, }, outTangents = { 0.347608 -0.00305033, 0.166667 -0.00201292, 0 0, }, properties = { 275, 2051, 1299, }, values = { 0 0.0120775, 0.5 1, 1 0, }, }, numKeys = 3, }"
+			cameraModifier DashBackward
+			playerShake PlayerShake_GroundDodge_B
+			myDisableJetEngine FALSE
+			myApplyDashModifiers TRUE
+		}
+	}
+}
+

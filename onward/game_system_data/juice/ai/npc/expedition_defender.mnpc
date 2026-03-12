@@ -1,0 +1,53 @@
+include ./base_faction_unit.mnpc
+include onward/skillscripts/npc_ability_expedition_missile_volley.mskillscriptjuice
+include onward/skillscripts/npc_ability_gatling.mskillscriptjuice
+include onward/skillscripts/harvester_probe_maintain_shield.mskillscriptjuice
+include onward/skillscripts/npc_ability_expedition_defender_gatling.mskillscriptjuice
+
+NPC expedition_defender < uid=4A8282B956DDFEF3000000B5129362E0 > : base_faction_unit
+{
+	myUIName_NonLocalized "Expedition Defender"
+	myGraphObjectFile "onward/graph objects/character/expedition_defender.mgraphobject"
+	myBehavior "onward/game system data/juice/ai/behavior/expedition_defender.mbehavior"
+	myHealthConfig < uid=4A8282B959F8988100001DDC5D6C26D6 > = "expedition_defender Health"
+	myAbilityDefinitions
+	{
+		NPCAbilityDefinition "Primary Attack - Gatling"
+		{
+			myGameAction NPC_Ability1
+			mySkillScript < uid=93869D5357BEF4F2000000397C3DB690 > = npc_ability_expedition_defender_gatling
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_expedition_defender_gatling.juice"
+		}
+		NPCAbilityDefinition "Secondary Attack - Missile Volley"
+		{
+			myGameAction NPC_Ability2
+			mySkillScript < uid=C92F4D3F58D2D17201BEAD646239C2A1 > = npc_ability_expedition_missile_volley
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_expedition_defender_missile_volley.juice"
+		}
+	}
+	myPersistentScripts
+	{
+		SkillScript "Nav Wash" < uid=C92F4D3F58D3F2E7000CA570377AF188 > = npc_generic_nav_wash
+		SkillScript "Shield Effects" < uid=C92F4D3F58D3F2E9000CA571F821F04F > = harvester_probe_maintain_shield
+		SkillScript "Child Repair Listener" < uid=C92F4D3F59B8320300139FCA273179DD > = npc_child_repair_listener
+		SkillScript "VFX Listener" < uid=C92F4D3F5AF5DBAB00882276381709AB > = npc_base_faction_unit_vfx_listener
+		SkillScript "Pip Listener" < uid=C92F4D3F5BE20A6900155560BB8330DE > = npc_faction_unit_talk_listener
+	}
+	myDropTableOnDeath Defender_Drop_Table
+	myPhysicsCapsuleRadius 1.5
+	myPhysicsCapsuleStart 0.0;0.5;-1.0
+	myPhysicsCapsuleEnd 0.0;0.5;0.5
+	myImpactCategorySettings "onward/game system data/juice/combat/impactcategorysettings_skimmer.juice"
+	myPatternProfile < uid=C92F4D3F5970D14E00D4B468E3AEA4DB > = "Expedition Defender"
+	myDefaultMotionPattern < uid=C92F4D3F5970D14E00D4B469E33BB2CE > = "Expedition Defender Default"
+	myAvoidanceRadius 5.0
+	myNPCFaction Expedition
+	myNPCType Expedition_Defender
+	myAnimSystemType Expedition_Defender
+	myThreatLevel 2.0
+	myOnDeathChallenge Death_ExpeditionDefender
+	myOnDiscoveredChallenge Discover_ExpeditionDefender
+}
+

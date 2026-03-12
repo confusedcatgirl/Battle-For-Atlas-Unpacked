@@ -1,0 +1,38 @@
+include "onward/game system data/fruit/sim/simunit.fruit"
+
+SimUnit harvester_cyclops_crush_reinforcement < uid=93869D5358D173200000004EE53C7F3D >
+{
+	myUIName "contextComment = \"The UI Name for the Crush Cyclops\", description = \"uiname-harvester-cyclops-crush\", enabled = true, guid = #93869D5358D966C4000001F61473DA3D, lineVersion = 0, maxLength = 17, text = \"Crush Cyclops\""
+	myBehavior onward/simworld/behavior/generic_reinforcement.msimunitbtgraph
+	myFaction Harvester
+	myCategory NPC
+	mySubCategory LegionReinforcement
+	myAffinityType Crush
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo cyclops_crush < uid=8A9CA286598B7F4A00000035637EF18E >
+		{
+			myCountMin 1
+			myCountMax 1
+			myElementSpawnInfo
+			{
+				SimUnitElementSpawnInfo cyclops_crush
+				{
+					myEntityFile "onward/game system data/juice/ai/npc/harvester_cyclops_crush.mnpc"
+				}
+			}
+		}
+	}
+	mySaveable FALSE
+	myPreserveSpawnInfo TRUE
+	myIsValidPickupTarget FALSE
+	mySelfDestructAfterUnrealized TRUE
+	mySkillLevelCoefficients
+	{
+		myPlanetActMultiplier 0
+		myParentLevelMultiplier 0
+		myParentSkillLevelMultiplier 1
+		myUnitLevelMultiplier 0
+	}
+}
+

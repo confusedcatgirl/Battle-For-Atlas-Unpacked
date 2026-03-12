@@ -1,0 +1,3156 @@
+include ./../../fruit/camera/camera.fruit
+
+CameraPreset Default
+{
+	myType Free
+}
+
+CameraPreset Free
+{
+	myType Free
+	myDefaultTransition
+	{
+		myDuration 0.0
+	}
+	myUseOutTransition TRUE
+	myDefaultOutTransition
+	{
+		myDuration 0.0
+		myResetAngles TRUE
+	}
+}
+
+MixerCameraPreset Ground
+{
+	myType Mixer
+	mySpecialTransitions
+	{
+		CameraTransition ToFree
+		{
+			myTo Free
+			myDuration 3.0
+		}
+		CameraTransition FromFree
+		{
+			myFrom Free
+			myDuration 0.0
+		}
+		CameraTransition ToFlight
+		{
+			myTo Flight
+			myDuration 1.0
+			myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.387274 -0.00365192, }, outTangents = { 0.406846 0.00364929, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+			myResetAltitude -5.0
+		}
+		CameraTransition ToFall
+		{
+			myTo Fall
+			myDuration 2.0
+			myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.53274 -0.201104, }, outTangents = { 0.490577 0.0756065, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		}
+		CameraTransition FromGroundHop
+		{
+			myFrom Ground_Hop
+			myDuration 1.5
+			myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.602639 -0.038683, }, outTangents = { 0.386673 0.658409, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+			myResetAngles FALSE
+			myResetAltitude -5.0
+		}
+		CameraTransition FromGroundHopHeavy
+		{
+			myFrom Ground_HopHeavy
+			myDuration 1.7
+			myResetAngles FALSE
+			myResetAltitude -3.0
+		}
+		CameraTransition FromGround
+		{
+			myFrom Ground
+			myResetAngles FALSE
+		}
+	}
+	myPresetA GroundNormal
+	myPresetB GroundHighSpeed
+	myParameter HighSpeedFactor
+}
+
+GameCameraPreset GroundNormal
+{
+	myType Game
+	myFoV 60.0
+	myFoVOptionModifier 0.34906
+	myOffset 0.0;3.0;-12.0
+	myOffsetUp 0.0;2.85;-12.0
+	myOffsetDown 0.0;2.85;-12.0
+	myLookAtOffset 0.0;2.5;0.0
+	myLookAtOffsetUp 0.0;2.7;0.0
+	myLookAtOffsetDown 0.0;3.0;1.0
+	myUsePlanetUpAsBase TRUE
+	myLockAltitudeToTarget TRUE
+	myAltitudeMin -0.5
+	myAltitudeMax 0.5
+	myYawSpeed 180.0
+	myPitchSpeed 120.0
+	myYawSpeedDampingUpMoving 15.0
+	myYawSpeedDampingUpStatic 5.0
+	myYawSpeedDampingDownMoving 20.0
+	myYawSpeedDampingDownStatic 25.0
+	myPitchSpeedDampingUpMoving 20.0
+	myPitchSpeedDampingUpStatic 5.0
+	myPitchSpeedDampingDownMoving 10.0
+	myPitchSpeedDampingDownStatic 25.0
+	myAimAssistMaxViewFriction 0.4
+	myAimAssistMaxTargetLock 0.99
+	myAlignOnStrafeDelay 2.0
+}
+
+GameCameraPreset GroundHighSpeed : GroundNormal
+{
+	myType Game
+	myFoV 95.0
+	myFoVOptionModifier 0.2618
+	myOffset 0.0;3.150001;-8.0
+	myLookAtOffset 0.0;2.35;0.0
+}
+
+MixerCameraPreset GroundTrial : Ground
+{
+	myPresetA GroundNormalTrial
+	myPresetB GroundHighSpeedTrial
+}
+
+GameCameraPreset GroundNormalTrial : GroundNormal
+{
+	myFoV 80.0
+	myOffset 0.0;2.0;-8.0
+	myOffsetUp 0.0;2.0;-8.0
+	myOffsetDown 0.0;2.0;-8.0
+	myLookAtOffset 0.0;2.0;0.0
+	myLookAtOffsetUp 0.0;2.0;0.0
+	myLookAtOffsetDown 0.0;2.0;1.0
+	myPitchSpeed 120.0
+	myAlignOnStrafeDelay 2.0
+}
+
+GameCameraPreset GroundHighSpeedTrial : GroundNormalTrial
+{
+	myFoV 100.0
+	myFoVOptionModifier 0.17453
+	myOffset 0.0;2.3;-4.0
+	myOffsetUp 0.0;2.3;-4.0
+	myOffsetDown 0.0;2.3;-4.0
+	myLookAtOffset 0.0;2.0;0.0
+	myLookAtOffsetUp 0.0;2.0;0.0
+	myLookAtOffsetDown 0.0;2.0;1.0
+	myAllowRollFromGroundNormal TRUE
+	myPitchSpeed 90.0
+	myAlignOnStrafeDelay 1.0
+	myAlignOnStrafeAngleThreshold 0.05
+}
+
+GameCameraPreset GroundIdle : GroundNormal
+{
+	mySpecialTransitions
+	{
+		CameraTransition FromGround
+		{
+			myFrom Ground
+			myDuration 2.0
+			myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.602639 -0.038683, }, outTangents = { 0.386673 0.658409, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+			myResetAngles FALSE
+		}
+		CameraTransition ToGround
+		{
+			myTo Ground
+			myDuration 2.0
+			myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.602639 -0.038683, }, outTangents = { 0.386673 0.658409, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+			myResetAngles TRUE
+			myResetAltitude -5.0
+		}
+		CameraTransition FromGroundHop
+		{
+			myFrom Ground_Hop
+			myDuration 2.0
+			myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.602639 -0.038683, }, outTangents = { 0.386673 0.658409, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+			myResetAngles TRUE
+			myResetAltitude -5.0
+		}
+		CameraTransition ToFlight
+		{
+			myTo Flight
+			myDuration 1.0
+			myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.387274 -0.00365192, }, outTangents = { 0.406846 0.00364929, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+			myResetAltitude -5.0
+		}
+	}
+	myYawSpeed 180.0
+	myPitchSpeed 120.0
+	myAimAssistMaxViewFriction 0.5
+	myAimAssistMaxTargetLock 0.99
+	myAlignOnStrafeDelay 2.0
+}
+
+GameCameraPreset JetEngine : GroundNormal
+{
+	myFoV 70.0
+	myDefaultTransition
+	{
+		myDuration 2.0
+		myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.602639 -0.038683, }, outTangents = { 0.1203 0.298535, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		myResetAngles FALSE
+	}
+	mySpecialTransitions
+	{
+		CameraTransition ToGround
+		{
+			myTo Ground
+			myDuration 2.0
+			myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.602639 -0.038683, }, outTangents = { 0.386673 0.658409, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		}
+		CameraTransition ToGroundTrial
+		{
+			myTo Ground
+			myDuration 2.0
+			myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.602639 -0.038683, }, outTangents = { 0.386673 0.658409, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		}
+	}
+	myOffset 0.0;3.0;-13.0
+	myOffsetUp 0.0;2.85;-13.0
+	myOffsetDown 0.0;2.85;-13.0
+	myLookAtOffset 0.0;2.5;0.0
+	myLookAtOffsetUp 0.0;2.7;0.0
+	myLookAtOffsetDown 0.0;3.0;1.0
+}
+
+GameCameraPreset Flight
+{
+	myType Game
+	myFoV 80.0
+	myFoVOptionModifier 0.34906
+	myDefaultTransition
+	{
+		myResetAngles FALSE
+	}
+	mySpecialTransitions
+	{
+		CameraTransition ToGround
+		{
+			myTo Ground
+			myDuration 2.0
+			myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.602639 -0.038683, }, outTangents = { 0.386673 0.658409, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		}
+		CameraTransition ToFall
+		{
+			myTo Fall
+			myDuration 2.0
+			myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.602639 -0.038683, }, outTangents = { 0.386673 0.658409, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		}
+	}
+	myOffset 0.0;2.0;-11.0
+	myOffsetUp 0.0;2.0;-11.0
+	myOffsetDown 0.0;2.0;-11.0
+	myLookAtOffset 0.0;5.0;11.0
+	myLookAtOffsetUp 0.0;5.0;11.0
+	myLookAtOffsetDown 0.0;5.0;11.0
+	myUsePlanetUpAsBase FALSE
+	myLockAltitudeToTarget FALSE
+	myAltitudeMin -0.7
+	myAltitudeMax 1.0
+	myYawSpeed 120.0
+	myPitchSpeed 120.0
+	myYawSpeedDampingUpMoving 3.0
+	myYawSpeedDampingUpStatic 3.0
+	myYawSpeedDampingDownMoving 5.0
+	myYawSpeedDampingDownStatic 5.0
+	myPitchSpeedDampingUpMoving 3.0
+	myPitchSpeedDampingUpStatic 3.0
+	myPitchSpeedDampingDownMoving 5.0
+	myPitchSpeedDampingDownStatic 5.0
+	myAimAssistMaxViewFriction 0.5
+	myAimAssistMaxTargetLock 0.0
+}
+
+GameCameraPreset FlightTurbo : Flight
+{
+	myFoV 90.0
+	myDefaultTransition
+	{
+		myDuration 3.0
+		myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.387274 -0.00365192, }, outTangents = { 0.406846 0.00364929, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		myResetAngles FALSE
+	}
+	myUseOutTransition TRUE
+	myDefaultOutTransition
+	{
+		myDuration 2.0
+		myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { 0 0, -0.596928 -0.00365217, }, outTangents = { 0.0567016 0.592821, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		myResetAngles FALSE
+	}
+	myOffset 0.0;2.0;-13.0
+	myOffsetUp 0.0;2.0;-11.0
+	myOffsetDown 0.0;2.0;-11.0
+	myLookAtOffset 0.0;5.0;11.0
+	myLookAtOffsetUp 0.0;1.9;11.0
+	myLookAtOffsetDown 0.0;1.9;11.0
+}
+
+GameCameraPreset Launch : Flight
+{
+	myFoV 65.0
+	myDefaultTransition
+	{
+		myDuration 3.0
+		myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.122148 -0.000413449, -0.39592 -0.0132063, }, outTangents = { 0.208003 0.00413161, 0.435555 0.00147427, 0 0, }, properties = { 275, 2323, 1299, }, values = { 0 0, 0.21902 0.105263, 1 1, }, }, numKeys = 3, }"
+		myResetAngles TRUE
+		myResetAltitude 0.0
+	}
+	myUseOutTransition TRUE
+	myDefaultOutTransition
+	{
+		myDuration 4.0
+		myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.387274 -0.00365192, }, outTangents = { 0.499786 0.0025803, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		myResetAngles FALSE
+	}
+	mySpecialTransitions
+	{
+		CameraTransition FromRagdoll
+		{
+			myFrom Ragdoll
+			myDuration 1.0
+			myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.387274 -0.00365192, }, outTangents = { 0.406846 0.00364929, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+			myResetAltitude -5.0
+		}
+		CameraTransition FromRagdollFlight
+		{
+			myFrom RagdollFlight
+			myDuration 1.0
+			myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.387274 -0.00365192, }, outTangents = { 0.406846 0.00364929, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+			myResetAltitude -5.0
+		}
+		CameraTransition FromNoseDive
+		{
+			myFrom NoseDive
+			myDuration 4.0
+			myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.387274 -0.00365192, }, outTangents = { 0.406846 0.00364929, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+			myResetAngles TRUE
+			myResetAltitude 0.0
+		}
+		CameraTransition ToGround
+		{
+			myTo Ground
+			myDuration 1.0
+			myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.387274 -0.00365192, }, outTangents = { 0.169094 0.236133, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+			myResetAngles FALSE
+		}
+	}
+	myOffset 0.0;2.0;-23.0
+	myOffsetUp 0.0;2.0;-23.0
+	myOffsetDown 0.0;2.0;-23.0
+	myLookAtOffset 0.0;-2.0;0.0
+	myLookAtOffsetUp 0.0;-2.0;0.0
+	myLookAtOffsetDown 0.0;-2.0;0.0
+	myUsePlanetUpAsBase TRUE
+	myLockAltitudeToTarget TRUE
+	myAltitudeMin -1.2
+	myAltitudeMax 1.2
+}
+
+GameCameraPreset LaunchStart : Launch
+{
+	myFoV 90.0
+	myDefaultTransition
+	{
+		myDuration 2.0
+		myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.39592 -0.0132063, }, outTangents = { 0.415491 0.000842154, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		myResetAngles TRUE
+		myResetAltitude 0.0
+	}
+	myUseOutTransition FALSE
+	myOffset 0.0;2.0;-20.0
+	myOffsetUp 0.0;2.0;-20.0
+	myOffsetDown 0.0;2.0;-20.0
+	myLookAtOffset 0.0;1.0;0.0
+	myLookAtOffsetUp 0.0;1.0;0.0
+	myLookAtOffsetDown 0.0;1.0;0.0
+	myYawSpeed 0.0
+	myPitchSpeed 0.0
+}
+
+GameCameraPreset Fall : Flight
+{
+	myFoV 90.0
+	mySpecialTransitions
+	{
+		CameraTransition ToGround
+		{
+			myTo Ground
+			myDuration 2.0
+			myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.602639 -0.038683, }, outTangents = { 0.386673 0.658409, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		}
+		CameraTransition ToGroundTrial
+		{
+			myTo Ground
+			myDuration 2.0
+			myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.602639 -0.038683, }, outTangents = { 0.386673 0.658409, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		}
+		CameraTransition ToGroundIdle
+		{
+			myTo GroundIdle
+			myDuration 2.0
+			myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.602639 -0.038683, }, outTangents = { 0.386673 0.658409, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		}
+		CameraTransition FromFlight
+		{
+			myFrom Flight
+			myDuration 3.0
+			myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.602639 -0.038683, }, outTangents = { 0.386673 0.658409, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+			myResetAltitude 0.0
+			myResetAzimuth 0.0
+		}
+		CameraTransition FromGound
+		{
+			myFrom Ground
+			myDuration 2.0
+			myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 0, -0.384339 -0.108747, }, outTangents = { 0.415404 -0.000320673, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		}
+		CameraTransition FromJetEngine
+		{
+			myFrom JetEngine
+			myDuration 2.0
+			myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 0, -0.384339 -0.108747, }, outTangents = { 0.415404 -0.000320673, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		}
+		CameraTransition FromGoundIdle
+		{
+			myFrom GroundIdle
+			myDuration 4.0
+			myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.41676 -0.369893, }, outTangents = { 0.53428 0.592036, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		}
+		CameraTransition ToFallHop
+		{
+			myTo Fall_Hop
+			myDuration 2.0
+			myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.602639 -0.038683, }, outTangents = { 0.386673 0.658409, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		}
+		CameraTransition FromGroundHop
+		{
+			myFrom Ground_Hop
+			myDuration 0.5
+		}
+	}
+	myOffset 0.0;9.0;-13.0
+	myOffsetUp 0.0;9.0;-13.0
+	myOffsetDown 0.0;9.0;-13.0
+	myLookAtOffset 0.0;-0.0;20.0
+	myLookAtOffsetUp 0.0;-0.0;20.0
+	myLookAtOffsetDown 0.0;-0.0;20.0
+	myLockAltitudeToTarget TRUE
+	myRemoveRollRelativeToPlanetPercent 0.66
+	myYawSpeed 60.0
+}
+
+GameCameraPreset Space : Flight
+{
+	myFoV 70.0
+	myOffset 0.0;4.0;-14.0
+	myOffsetUp 0.0;4.0;-14.0
+	myOffsetDown 0.0;4.0;-14.0
+	myLookAtOffset 0.0;3.0;7.0
+	myLookAtOffsetUp 0.0;3.0;7.0
+	myLookAtOffsetDown 0.0;3.0;7.0
+	myYawSpeed 120.0
+	myPitchSpeed 120.0
+	myAimAssistMaxViewFriction 0.65
+	myAimAssistMaxTargetLock 0.6
+}
+
+GameCameraPreset NoseDive : Fall
+{
+	myFoV 90.0
+	myDefaultTransition
+	{
+		myDuration 2.0
+		myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.601251 -0.0163907, }, outTangents = { 0.411169 0.414477, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		myResetAltitude -15.0
+	}
+	myUseOutTransition TRUE
+	myDefaultOutTransition
+	{
+		myDuration 1.5
+		myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.387274 -0.00365192, }, outTangents = { 0.445751 0.0132027, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		myResetAngles FALSE
+	}
+	mySpecialTransitions
+	{
+		CameraTransition ToJetEngine
+		{
+			myTo JetEngine
+			myDuration 3.0
+			myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.602639 -0.038683, }, outTangents = { 0.386673 0.658409, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+			myResetAngles TRUE
+			myResetAltitude 0.0
+		}
+	}
+	myOffset 0.0;5.0;-8.0
+	myOffsetUp 0.0;5.0;-8.0
+	myOffsetDown 0.0;5.0;-8.0
+	myLookAtOffset 0.0;-0.0;20.0
+	myLookAtOffsetUp 0.0;-0.0;20.0
+	myLookAtOffsetDown 0.0;-0.0;20.0
+	myPitchSpeed 0.0
+}
+
+GameCameraPreset SpaceInterior : Space
+{
+	myFoV 70.0
+	myOffset 0.0;4.0;-14.0
+	myOffsetUp 0.0;4.0;-14.0
+	myOffsetDown 0.0;4.0;-14.0
+	myLookAtOffset 0.0;3.0;7.0
+	myLookAtOffsetUp 0.0;3.0;7.0
+	myLookAtOffsetDown 0.0;3.0;7.0
+	myYawSpeed 100.0
+	myPitchSpeed 100.0
+	myAimAssistMaxViewFriction 0.7
+	myAimAssistMaxTargetLock 0.98
+}
+
+GameCameraPreset SpaceTurbo : Space
+{
+	myFoV 75.0
+}
+
+GameCameraPreset SpaceBrake : Space
+{
+	myFoV 65.0
+}
+
+GameCameraPreset HyperSpace : Space
+{
+	myFoV 110.0
+	myFoVCoopModifier 0.75
+	myFoVOptionModifier 0.0
+	myDefaultTransition
+	{
+		myDuration 2.5
+		myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.787326 -0.0125492, }, outTangents = { 0.743516 0.228996, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		myResetAngles FALSE
+	}
+	myUseOutTransition TRUE
+	myDefaultOutTransition
+	{
+		myDuration 3.0
+		myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -1.48958 0.00292675, }, outTangents = { 0 0.411984, 0 -0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		myResetAngles FALSE
+	}
+	mySpecialTransitions
+	{
+		CameraTransition ToGround
+		{
+			myTo Ground
+			myDuration 2.0
+			myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.602639 -0.038683, }, outTangents = { 0.386673 0.658409, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		}
+		CameraTransition ToFall
+		{
+			myTo Fall
+			myDuration 2.0
+			myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.602639 -0.038683, }, outTangents = { 0.386673 0.658409, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		}
+		CameraTransition ToRagdoll
+		{
+			myTo RagdollSpace
+			myDuration 0.5
+			myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.602639 -0.038683, }, outTangents = { 0 0.991696, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+			myResetAngles FALSE
+		}
+	}
+	myOffset 0.0;2.0;-5.0
+	myOffsetUp 0.0;2.0;-11.0
+	myOffsetDown 0.0;2.0;-11.0
+	myLookAtOffset 0.0;5.0;11.0
+	myLookAtOffsetUp 0.0;1.9;11.0
+	myLookAtOffsetDown 0.0;1.9;11.0
+	myYawSpeed 18.0
+	myPitchSpeed 20.0
+    myClampInputTo1 TRUE
+}
+
+CameraPreset Locked
+{
+	myType Locked
+	myFoVOptionModifier 0.0
+	myDefaultTransition
+	{
+		myDuration 0.0
+	}
+	myUseOutTransition TRUE
+	myDefaultOutTransition
+	{
+		myDuration 0.0
+		myResetAngles TRUE
+	}
+}
+
+GameCameraPreset Tunnel : Space
+{
+	myDefaultTransition
+	{
+		myDuration 2.0
+		myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.387274 -0.00365192, }, outTangents = { 0.406846 0.00364929, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		myResetAngles FALSE
+	}
+	myUseOutTransition TRUE
+	myDefaultOutTransition
+	{
+		myDuration 2.0
+		myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.50058 -0.000467375, }, outTangents = { 0.525216 0.287089, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		myResetAngles FALSE
+	}
+	myOffset 0.0;1.6;-6.0
+	myLookAtOffset 0.0;3.0;11.0
+}
+
+GameCameraPreset HyperSpaceTunnel : Space
+{
+	myFoV 80.0
+	myDefaultTransition
+	{
+		myDuration 2.0
+		myResetAngles TRUE
+		myResetAltitude 0.0
+	}
+	mySpecialTransitions
+	{
+		CameraTransition ToSpace
+		{
+			myTo Space
+			myDuration 3.0
+			myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.518345 -0.0132054, }, outTangents = { 0.470967 0.0342052, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		}
+		CameraTransition ToFlight
+		{
+			myTo Flight
+			myDuration 3.0
+			myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.518345 -0.0132054, }, outTangents = { 0.470967 0.0342052, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		}
+	}
+	myOffset 0.0;0.0;-12.0
+	myOffsetUp 0.0;0.0;-12.0
+	myOffsetDown 0.0;0.0;-12.0
+	myLookAtOffset 0.0;0.0;0.0
+	myLookAtOffsetUp 0.0;0.0;0.0
+	myLookAtOffsetDown 0.0;0.0;0.0
+	myAlignToPlanet FALSE
+	myYawSpeed 25.0
+	myPitchSpeed 25.0
+	myPivotLocalOffsetParamName PivotLocalOffsetTunnel
+	myPivotLocalRotationParamName PivotLocalRotationTunnel
+}
+
+GameCameraPreset HyperSpaceExit : HyperSpace
+{
+	myFoV 80.0
+	myDefaultTransition
+	{
+		myDuration 0.5
+		myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.387274 -0.00365192, }, outTangents = { 0.406846 0.00364929, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+	}
+	myUseOutTransition TRUE
+	myDefaultOutTransition
+	{
+		myDuration 1.5
+		myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.676126 -0.0132053, }, outTangents = { 0.461681 0.124669, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+	}
+}
+
+ImmelmannCameraPreset Immelmann
+{
+	myType Immelmann
+	myFoV 80.0
+	myFoVOptionModifier 0.0
+	myDefaultTransition
+	{
+		myDuration 0.5
+		myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.300372 0.00908678, }, outTangents = { 0.359617 0.54505, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		myFreezeSourceOrientation FALSE
+	}
+	myUseOutTransition TRUE
+	myDefaultOutTransition
+	{
+		myDuration 0.7
+		myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.436202 -0.00683595, }, outTangents = { 0.257651 0.0259421, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		myResetAngles FALSE
+	}
+	myOffsetMin 0.0;5.0;-10.0
+	myOffsetMax 0.0;5.0;-25.0
+	myLookAtOffsetMin 0.0;1.5;10.0
+	myLookAtOffsetMax 0.0;-1.0;10.0
+	myOffsetCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 0, -0.504211 0.0027182, }, outTangents = { 0.495687 -0.134565, 0 -0, }, properties = { 275, 1299, }, values = { 0 1, 1 0, }, }, numKeys = 2, }"
+	myDuration 2.0
+}
+
+GameCameraPreset Death : GroundIdle
+{
+	myDefaultTransition
+	{
+		myDuration 5.0
+	}
+	myOffset 2.0;5.0;-20.0
+	myOffsetUp 0.0;10.0;-10.0
+	myOffsetDown 0.0;10.0;-10.0
+	myAlignOnStrafeDelay 0.0
+}
+
+GameCameraPreset DeathSpace : Death
+{
+	myUsePlanetUpAsBase FALSE
+}
+
+GameCameraPreset Ragdoll : GroundIdle
+{
+	myCollisionSphereRadius 0.3
+	myDefaultTransition
+	{
+		myDuration 5.0
+	}
+	myUseOutTransition TRUE
+	myDefaultOutTransition
+	{
+		myDuration 3.0
+		myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.387274 -0.00365192, }, outTangents = { 0.406846 0.00364929, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		myResetAngles FALSE
+	}
+	mySpecialTransitions
+	{
+		CameraTransition ToGround
+		{
+			myTo Ground
+			myDuration 1.0
+			myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.602639 -0.038683, }, outTangents = { 0.386673 0.658409, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+			myResetAngles FALSE
+		}
+		CameraTransition ToGroundTrial
+		{
+			myTo Ground
+			myDuration 1.0
+			myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.602639 -0.038683, }, outTangents = { 0.386673 0.658409, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+			myResetAngles FALSE
+		}
+		CameraTransition ToGroundIdle
+		{
+			myTo GroundIdle
+			myDuration 1.0
+			myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.602639 -0.038683, }, outTangents = { 0.386673 0.658409, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+			myResetAngles FALSE
+		}
+	}
+	myShouldApplyReverseLookAt FALSE
+	myOffset 2.0;5.0;-20.0
+	myOffsetUp 0.0;10.0;-10.0
+	myOffsetDown 0.0;10.0;-10.0
+	myAlignOnStrafeDelay 0.0
+	myPivotLagXZ 0.0
+	myPivotLagY 0.0
+}
+
+GameCameraPreset RagdollFlight : Ragdoll
+{
+	myUsePlanetUpAsBase FALSE
+}
+
+GameCameraPreset RagdollSpace : Space
+{
+	myDefaultTransition
+	{
+		myDuration 5.0
+	}
+	myUseOutTransition TRUE
+	myDefaultOutTransition
+	{
+		myDuration 3.0
+		myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.387274 -0.00365192, }, outTangents = { 0.406846 0.00364929, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		myResetAngles FALSE
+	}
+	myKeepTargetRotationLocked TRUE
+}
+
+GameCameraPreset FlippedOver : GroundIdle
+{
+	myCollisionSphereRadius 0.3
+	myDefaultTransition
+	{
+		myDuration 3.0
+		myResetAngles FALSE
+	}
+	myUseOutTransition TRUE
+	myDefaultOutTransition
+	{
+		myDuration 3.0
+		myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.387274 -0.00365192, }, outTangents = { 0.406846 0.00364929, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+	}
+	mySpecialTransitions
+	{
+		CameraTransition FromRagdoll
+		{
+			myFrom Ragdoll
+			myDuration 5.0
+			myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.602639 -0.038683, }, outTangents = { 0.386673 0.658409, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+			myResetAngles FALSE
+		}
+		CameraTransition FromRagdollFlight
+		{
+			myFrom Ragdoll
+			myDuration 5.0
+			myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.602639 -0.038683, }, outTangents = { 0.386673 0.658409, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+			myResetAngles FALSE
+		}
+		CameraTransition ToGroundIdle
+		{
+			myTo GroundIdle
+			myDuration 0.5
+			myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.602639 -0.038683, }, outTangents = { 0.386673 0.658409, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+			myResetAngles FALSE
+		}
+		CameraTransition ToFlipperOverZoom
+		{
+			myTo FlippedOver_Zoom
+			myDuration 0.5
+		}
+	}
+	myShouldApplyReverseLookAt FALSE
+	myOffset 0.0;3.0;-12.0
+	myOffsetUp 0.0;3.0;-12.0
+	myOffsetDown 0.0;3.0;-12.0
+	myLookAtOffset 0.0;2.5;0.0
+	myLookAtOffsetUp 0.0;2.5;0.0
+	myLookAtOffsetDown 0.0;2.5;0.0
+	myAltitudeMin -0.001
+	myAltitudeMax 0.5
+	myAlignOnStrafeDelay 0.0
+}
+
+GameCameraPreset RollingBall : GroundIdle
+{
+	myCollisionSphereRadius 0.5
+	myDefaultTransition
+	{
+		myDuration 3.0
+		myResetAngles FALSE
+	}
+	myUseOutTransition TRUE
+	myDefaultOutTransition
+	{
+		myDuration 3.0
+		myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.387274 -0.00365192, }, outTangents = { 0.406846 0.00364929, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+	}
+	mySpecialTransitions
+	{
+		CameraTransition FromRollingBallZoom
+		{
+			myFrom RollingBall_Zoom
+			myDuration 0.5
+		}
+		CameraTransition ToRollingBallZoom
+		{
+			myTo RollingBall_Zoom
+			myDuration 0.5
+		}
+	}
+	myOffset 0.0;0.0;-25.0
+	myOffsetUp 0.0;0.0;-25.0
+	myOffsetDown 0.0;0.0;-25.0
+	myLookAtOffset 0.0;3.0;0.0
+	myLookAtOffsetUp 0.0;3.0;0.0
+	myLookAtOffsetDown 0.0;3.0;0.0
+	myYawSpeed 200.0
+	myPitchSpeed 120.0
+	myAimAssistMaxViewFriction 1.0
+	myAimAssistMaxTargetLock 0.0
+	myAlignOnStrafeDelay 0.0
+	myPivotLagXZ 0.1
+	myPivotLagY 0.05
+}
+
+GameCameraPreset RollingBallDash : RollingBall
+{
+	myDefaultTransition
+	{
+		myDuration 1.0
+		myResetAngles FALSE
+	}
+	myUseOutTransition TRUE
+	myDefaultOutTransition
+	{
+		myDuration 1.0
+		myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.387274 -0.00365192, }, outTangents = { 0.406846 0.00364929, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+	}
+	mySpecialTransitions
+	{
+		CameraTransition FromRollingBallZoom
+		{
+			myFrom RollingBall_Zoom
+			myDuration 0.5
+			myResetAltitude 15.0
+		}
+		CameraTransition ToRollingBallZoom
+		{
+			myTo RollingBall_Zoom
+			myDuration 0.5
+			myResetAngles FALSE
+		}
+		CameraTransition FromRollingBall
+		{
+			myFrom RollingBall
+			myDuration 1.5
+			myResetAltitude 15.0
+		}
+		CameraTransition ToRollingBall
+		{
+			myTo RollingBall
+			myDuration 2.0
+			myResetAngles FALSE
+		}
+	}
+	myOffset 0.0;0.0;-40.0
+	myOffsetUp 0.0;0.0;-40.0
+	myOffsetDown 0.0;0.0;-40.0
+}
+
+GameCameraPreset RollingBallSpace : RollingBall
+{
+	mySpecialTransitions
+	{
+		CameraTransition FromRollingBallSpaceZoom
+		{
+			myFrom RollingBallSpace_Zoom
+			myDuration 0.5
+		}
+		CameraTransition ToRollingBallSpaceZoom
+		{
+			myTo RollingBallSpace_Zoom
+			myDuration 0.5
+		}
+	}
+	myLookAtOffset 0.0;5.0;0.0
+	myLookAtOffsetUp 0.0;5.0;0.0
+	myLookAtOffsetDown 0.0;5.0;0.0
+	myUseCameraAsRefOrientation TRUE
+	myUsePlanetUpAsBase FALSE
+	myLockAltitudeToTarget FALSE
+	myAlignOnStrafeDelay 0.0
+	myPivotLagXZ 0.01
+	myPivotLagY 0.01
+}
+
+GameCameraPreset RollingBallSpaceDash : RollingBallSpace
+{
+	myFoV 85.0
+	myUseOutTransition TRUE
+	mySpecialTransitions
+	{
+		CameraTransition FromRollingBallSpaceZoom
+		{
+			myFrom RollingBallSpace_Zoom
+			myDuration 0.5
+		}
+		CameraTransition ToRollingBallSpaceZoom
+		{
+			myTo RollingBallSpace_Zoom
+			myDuration 0.5
+		}
+		CameraTransition FromRollingBallSpace
+		{
+			myFrom RollingBallSpace
+			myDuration 1.0
+		}
+		CameraTransition ToRollingBallSpace
+		{
+			myTo RollingBallSpace
+			myDuration 1.0
+		}
+	}
+}
+
+GameCameraPreset Stasis : GroundIdle
+{
+	myFoV 80.0
+	myDefaultTransition
+	{
+		myDuration 2.0
+		myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { 0 0, -0.98362 -0.00734252, }, outTangents = { 0 0.641169, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		myResetAngles FALSE
+	}
+	myUseOutTransition TRUE
+	myDefaultOutTransition
+	{
+		myDuration 1.0
+		myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.387274 -0.00365192, }, outTangents = { 0.406846 0.00364929, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+	}
+	mySpecialTransitions
+	{
+		CameraTransition FromGround
+		{
+			myFrom Ground
+			myDuration 2.0
+			myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.199323 -0.00687343, }, outTangents = { 0.846032 0.00600886, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+			myResetAngles FALSE
+		}
+		CameraTransition ToGround
+		{
+			myTo Ground
+			myDuration 1.5
+			myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.602639 -0.038683, }, outTangents = { 0 0.701172, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+			myResetAngles TRUE
+			myResetAltitude -5.0
+		}
+		CameraTransition FromGroundHop
+		{
+			myFrom Ground_Hop
+			myDuration 2.0
+			myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.602639 -0.038683, }, outTangents = { 0.373705 0.000514388, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+			myResetAngles TRUE
+			myResetAltitude -5.0
+		}
+		CameraTransition ToFlight
+		{
+			myTo Flight
+			myDuration 1.0
+			myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.387274 -0.00365192, }, outTangents = { 0.406846 0.00364929, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+			myResetAltitude -5.0
+		}
+	}
+	myOffset 0.0;-1.0;-15.0
+	myOffsetUp 0.0;-1.0;-15.0
+	myOffsetDown 0.0;-1.0;-15.0
+	myLookAtOffset 0.0;-4.0;2.0
+	myLookAtOffsetUp 0.0;-4.0;2.0
+	myLookAtOffsetDown 0.0;-4.0;2.0
+	myAlignOnStrafeDelay 0.0
+}
+
+GameCameraPreset StasisSpace : Space
+{
+	myDefaultTransition
+	{
+		myDuration 5.0
+	}
+	myUseOutTransition TRUE
+	myDefaultOutTransition
+	{
+		myDuration 3.0
+		myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.387274 -0.00365192, }, outTangents = { 0.406846 0.00364929, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		myResetAngles FALSE
+	}
+	myKeepTargetRotationLocked TRUE
+}
+
+CameraPreset Spline
+{
+	myType Code
+	myFoVOptionModifier 0.0
+	myDefaultTransition
+	{
+		myDuration 3.0
+		myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { 0 0, -0.395146 -0.00683588, }, outTangents = { 0.400274 -0.003506, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		myResetAngles FALSE
+	}
+	myUseOutTransition TRUE
+	myDefaultOutTransition
+	{
+		myDuration 1.25
+		myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { 0 0, -0.395146 -0.00683588, }, outTangents = { 0.400274 -0.003506, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		myResetAngles FALSE
+	}
+}
+
+FollowCameraPreset Ghost
+{
+	myType Follow
+	myFoV 60.0
+	myFoVOptionModifier 0.0
+	myDefaultTransition
+	{
+		myDuration 1.0
+	}
+	myOffset 0.0;5.0;-30.0
+	myOffsetUp 0.0;3.0;-30.0
+	myOffsetDown 0.0;3.0;-30.0
+	myLookAtOffset 0.0;5.0;30.0
+	myLookAtOffsetUp 0.0;5.0;30.0
+	myLookAtOffsetDown 0.0;5.0;30.0
+}
+
+FollowCameraPreset VictoryLap
+{
+	myType Follow
+	myFoV 100.0
+	myFoVOptionModifier 0.0
+	myOffset 0.0;2.0;-8.0
+	myOffsetUp 0.0;2.0;-8.0
+	myOffsetDown 0.0;2.0;-8.0
+	myLookAtOffset 0.0;2.0;0.0
+	myLookAtOffsetUp 2.0;0.0;0.0
+	myLookAtOffsetDown 0.0;2.0;1.0
+	myUseGlobalUp FALSE
+	myUseSlopeStabilization TRUE
+	myUseSlopeStabilizationRoll TRUE
+}
+
+CameraPreset Dialogue
+{
+	myType Dialogue
+	myFoV 40.0
+	myFoVOptionModifier 0.0
+	myDefaultOutTransition
+	{
+		myDuration 1.0
+		myResetAngles TRUE
+	}
+	mySpecialTransitions
+	{
+		CameraTransition FromFree
+		{
+			myFrom Free
+			myDuration 0.0
+		}
+	}
+}
+
+DialogueCameraPreset DialogueBase
+{
+	myType Dialogue
+	myFoV 40.0
+	myFoVOptionModifier 0.0
+	myDefaultOutTransition
+	{
+		myDuration 1.0
+		myResetAngles TRUE
+	}
+	mySpecialTransitions
+	{
+		CameraTransition FromFree
+		{
+			myFrom Free
+			myDuration 0.0
+		}
+	}
+}
+
+DialogueCameraPreset NPCIntro : DialogueBase
+{
+	myFoV 30.0
+	myDefaultTransition
+	{
+		myDuration 2.0
+	}
+	myDefaultOutTransition
+	{
+		myDuration 2.0
+		myResetAngles TRUE
+	}
+	myTargetOffset 3.0;4.0;0.0
+	myCameraOffset 0.0;5.0;60.0
+	myCollisionSafeOffset 0.0;12.0;0.0
+	myZoomInOnSpeaker TRUE
+	myAllowTransformUpdates FALSE
+	myAllowTargetTransformUpdates FALSE
+	myAllowSubjectTransformUpdates FALSE
+}
+
+DialogueCameraPreset GiantIntro : NPCIntro
+{
+	myFoV 40.0
+	myTargetOffset 1.0;10.0;0.0
+	mySubjectOffset 0.0;0.0;0.0
+	myCameraOffset 0.0;10.0;60.0
+	myCollisionSafeOffset 0.0;12.0;0.0
+}
+
+DialogueCameraPreset GiantIntroNoZoom : GiantIntro
+{
+	myDefaultTransition
+	{
+		myDuration 0.0
+	}
+	myDefaultOutTransition
+	{
+		myResetAngles FALSE
+	}
+	myAllowTransformUpdates TRUE
+	myAllowTargetTransformUpdates TRUE
+}
+
+DialogueCameraPreset OutpostDialoguePlayer : DialogueBase
+{
+	myDefaultTransition
+	{
+		myDuration 0.0
+	}
+	myTargetOffset 0.0;0.0;0.0
+	mySubjectOffset 0.0;15.0;0.0
+	myCameraOffset 4.0;10.0;40.0
+	myCollisionSafeOffset 0.0;80.0;0.0
+	myPanSpeed 0.1
+	myPanMax 2.0
+	mySafeDistance 18.0
+	myBlendOutLookingTarget FALSE
+}
+
+DialogueCameraPreset OutpostDialogueOutpost : DialogueBase
+{
+	myFoV 50.0
+	myDefaultTransition
+	{
+		myDuration 0.0
+	}
+	myTargetOffset 8.0;17.0;0.0
+	mySubjectOffset 0.0;0.0;0.0
+	myCameraOffset 10.0;5.0;30.0
+	myCollisionSafeOffset 0.0;1.5;0.0
+	myPanSpeed 0.1
+	myPanMax 2.0
+	mySafeDistance 25.0
+}
+
+DialogueCameraPreset OutpostMenu : DialogueBase
+{
+	myDefaultTransition
+	{
+		myDuration 2.5
+		myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.602639 -0.038683, }, outTangents = { 0.239325 0.458278, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		myFreezeSourceOrientation TRUE
+	}
+	myUseOutTransition TRUE
+	myDefaultOutTransition
+	{
+		myDuration 1.5
+		myResetAngles TRUE
+	}
+	myTargetOffset 0.0;0.0;0.0
+	mySubjectOffset 0.0;15.0;0.0
+	myCameraOffset 4.0;10.0;40.0
+	myCollisionSafeOffset 0.0;80.0;0.0
+	myPanSpeed 0.1
+	myPanMax 2.0
+	mySafeDistance 18.0
+	myAllowTargetTransformUpdates FALSE
+	myAllowSubjectTransformUpdates FALSE
+}
+
+DialogueCameraPreset FortuneRestMenu : DialogueBase
+{
+	myDefaultTransition
+	{
+		myDuration 2.5
+		myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.602639 -0.038683, }, outTangents = { 0.239325 0.458278, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		myFreezeSourceOrientation TRUE
+	}
+	myUseOutTransition TRUE
+	myDefaultOutTransition
+	{
+		myDuration 1.5
+		myResetAngles TRUE
+	}
+	myTargetOffset 0.0;0.0;0.0
+	mySubjectOffset 0.0;0.0;0.0
+	myCameraOffset 4.0;10.0;40.0
+	myCollisionSafeOffset 0.0;20.0;0.0
+	myPanSpeed 0.1
+	myPanMax 2.0
+	mySafeDistance 18.0
+	myAllowTargetTransformUpdates FALSE
+	myAllowSubjectTransformUpdates FALSE
+}
+
+DialogueCameraPreset ClubhouseMenu : DialogueBase
+{
+	myDefaultTransition
+	{
+		myDuration 0.0
+		myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.602639 -0.038683, }, outTangents = { 0.239325 0.458278, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		myFreezeSourceOrientation TRUE
+	}
+	myUseOutTransition TRUE
+	myDefaultOutTransition
+	{
+		myDuration 0.0
+		myResetAngles TRUE
+	}
+	myShouldCheckCollision FALSE
+	myUseCollisionFilter TRUE
+	myTargetOffset 0.0;20.0;100.0
+	mySubjectOffset 0.0;10.0;0.0
+	myCameraOffset 0.0;5.0;215.0
+	myCollisionSafeOffset 0.0;40.0;100.0
+	myPanSpeed 0.1
+	myPanMax 2.0
+	mySafeDistance 18.0
+	myZoomInOnSpeaker TRUE
+	myAllowTargetTransformUpdates FALSE
+	myAllowSubjectTransformUpdates FALSE
+	myAllowTargetRotationUpdates FALSE
+	myZoomInCamOrientationRelativeToTarget TRUE
+	myZoomInCamPosRelativeToSubject FALSE
+}
+
+DialogueCameraPreset ClubhouseOriginalMenu : ClubhouseMenu
+{
+	myTargetOffset 0.0;-10.0;0.0
+	myCameraOffset 0.0;10.0;315.0
+}
+
+DialogueCameraPreset ClubhouseOverlordsMenu : ClubhouseMenu
+{
+	myTargetOffset 0.0;5.0;0.0
+}
+
+DialogueCameraPreset ClubhousePhantomsMenu : ClubhouseMenu
+{
+	myTargetOffset 0.0;0.0;0.0
+	myCameraOffset -20.0;30.0;255.0
+}
+
+DialogueCameraPreset ClubhouseBloodedKingsMenu : ClubhouseMenu
+{
+}
+
+DialogueCameraPreset ArenaMenu : DialogueBase
+{
+	myDefaultTransition
+	{
+		myDuration 2.5
+		myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.602639 -0.038683, }, outTangents = { 0.239325 0.458278, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		myFreezeSourceOrientation TRUE
+	}
+	myUseOutTransition TRUE
+	myDefaultOutTransition
+	{
+		myDuration 1.5
+		myResetAngles TRUE
+	}
+	myTargetOffset 0.0;0.0;0.0
+	mySubjectOffset 0.0;0.0;0.0
+	myCameraOffset 4.0;8.0;40.0
+	myCollisionSafeOffset 0.0;20.0;0.0
+	myPanSpeed 0.1
+	myPanMax 2.0
+	mySafeDistance 18.0
+	myAllowTargetTransformUpdates FALSE
+	myAllowSubjectTransformUpdates FALSE
+}
+
+GameCameraPreset ProspectorJailMenu : Space
+{
+}
+
+DialogueCameraPreset PortalExit : DialogueBase
+{
+	myType Dialogue
+	myFoV 60.0
+	myDefaultOutTransition
+	{
+		myDuration 3.0
+		myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.392941 -0.0013954, }, outTangents = { 0 0.678497, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		myResetAngles TRUE
+		myFreezeSourceOrientation FALSE
+	}
+	myTargetOffset 0.0;-5.0;-10.0
+	mySubjectOffset 0.0;5.0;-20.0
+	myCameraOffset 0.0;-5.0;-75.0
+	myPanSpeed 0.25
+	myPanMax 2.5
+}
+
+DialogueCameraPreset LandmarkLarge : DialogueBase
+{
+	myDefaultOutTransition
+	{
+		myDuration 0.0
+		myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.602639 -0.038683, }, outTangents = { 0 0.856313, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 0.0001 1, }, }, numKeys = 2, }"
+	}
+	myTargetOffset -75.0;200.0;-75.0
+	mySubjectOffset 0.0;0.0;0.0
+	myCameraOffset 175.0;10.0;-750.0
+	myPanSpeed 500.0
+	myPanMax 500.0
+	myZoomInOnSpeaker TRUE
+}
+
+DialogueCameraPreset LandmarkSmall : DialogueBase
+{
+	myTargetOffset 10.0;20.0;0.0
+	myCameraOffset -40.0;10.0;140.0
+	myZoomInOnSpeaker TRUE
+}
+
+DialogueCameraPreset CinematicBase : DialogueBase
+{
+	myDefaultTransition
+	{
+		myDuration 0.0
+	}
+	myUseOutTransition TRUE
+	myTransitionPriority 10
+	myDefaultOutTransition
+	{
+		myDuration 1.5
+		myResetAngles TRUE
+	}
+	myPanSpeed 0.1
+	myPanMax 2.0
+	myZoomInOnSpeaker TRUE
+	myBlendOutLookingTarget TRUE
+}
+
+DialogueCameraPreset ExtractorDestruction : CinematicBase
+{
+	myFoV 60.0
+	myCollisionSphereRadius 1.0
+	myDefaultOutTransition
+	{
+		myDuration 4.0
+		myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.527638 -0.00371674, }, outTangents = { 0.389599 0.0376818, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		myResetAngles TRUE
+		myResetAltitude -5.0
+	}
+	myUseCollisionFilter TRUE
+	myFoVEnd 65.0
+	myTargetOffset 10.0;60.0;0.0
+	myTargetOffsetEnd 0.0;10.0;0.0
+	mySubjectOffset 0.0;0.0;0.0
+	myCameraOffset 50.0;30.0;85.0
+	myCameraOffsetEnd 0.0;1.0;65.0
+	myCollisionSafeOffset 0.0;20.0;0.0
+	myOffsetDuration 13.0
+	myOffsetCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.415611 -0.0100203, }, outTangents = { 0.594489 0.00286346, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+	mySafeDistance 18.0
+	myShouldApplyShakes TRUE
+}
+
+DialogueCameraPreset PrimeDestruction : CinematicBase
+{
+	myUseCollisionFilter TRUE
+	myTargetOffset 0.0;30.0;0.0
+	myTargetOffsetEnd 10.0;18.0;0.0
+	mySubjectOffset 0.0;0.0;0.0
+	myCameraOffset 130.0;30.0;10.0
+	myCameraOffsetEnd -6.0;1.5;130.0
+	myCollisionSafeOffset 0.0;100.0;0.0
+	myOffsetDuration 10.0
+	myOffsetCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 0, -0.404303 -0.000466414, }, outTangents = { 0.423794 -0.000321455, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+	mySafeDistance 18.0
+	myAllowTransformUpdates FALSE
+	myAllowTargetTransformUpdates FALSE
+	myAllowSubjectTransformUpdates TRUE
+	myShouldApplyShakes TRUE
+}
+
+DialogueCameraPreset OutpostUpgrade : CinematicBase
+{
+	myUseCollisionFilter TRUE
+	myTargetOffset 0.0;15.0;0.0
+	myTargetOffsetEnd 0.0;8.0;0.0
+	mySubjectOffset 0.0;0.0;0.0
+	myCameraOffset 100.0;30.0;10.0
+	myCameraOffsetEnd -6.0;3.0;80.0
+	myCollisionSafeOffset 0.0;15.0;0.0
+	myOffsetDuration 10.0
+	myOffsetCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.629087 -0.00365109, }, outTangents = { 0.294111 0.00286346, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+	mySafeDistance 18.0
+}
+
+DialogueCameraPreset StarlinkTower : CinematicBase
+{
+	myFoV 60.0
+	myUseCollisionFilter TRUE
+	myFoVEnd 60.0
+	myTargetOffset 0.0;120.0;30.0
+	myTargetOffsetEnd 0.0;8.0;0.0
+	mySubjectOffset 0.0;0.0;0.0
+	myCameraOffset 100.0;90.0;100.0
+	myCameraOffsetEnd -6.0;3.0;80.0
+	myCollisionSafeOffset 0.0;15.0;0.0
+	myOffsetDuration 10.0
+	myOffsetCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.464822 -0.0100206, }, outTangents = { 0.672353 0.00286346, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+	mySafeDistance 18.0
+	myAllowTargetTransformUpdates FALSE
+	myAllowSubjectTransformUpdates FALSE
+}
+
+DialogueCameraPreset WardenPuzzle : CinematicBase
+{
+	myFoV 50.0
+	myFoVEnd 60.0
+	myTargetOffset 0.0;15.0;0.0
+	myTargetOffsetEnd 0.0;5.0;0.0
+	mySubjectOffset 0.0;0.0;0.0
+	myCameraOffset 60.0;30.0;10.0
+	myCameraOffsetEnd 0.0;5.0;65.0
+	myCollisionSafeOffset 0.0;30.0;15.0
+	myOffsetDuration 5.0
+	myOffsetCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.629087 -0.00365109, }, outTangents = { 0.294111 0.00286346, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+	mySafeDistance 18.0
+}
+
+DialogueCameraPreset SpaceNPCFocus
+{
+	myFoV 90.0
+	myFoVOptionModifier 0.0
+	myDefaultTransition
+	{
+		myDuration 2.0
+		myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.286849 -0.306126, }, outTangents = { 0.692963 0.694844, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+	}
+	myDefaultOutTransition
+	{
+		myDuration 4.0
+		myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.289886 -0.309449, }, outTangents = { 0.720291 0.706472, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+	}
+	myFoVEnd 69.0
+	myTargetOffset 0.0;0.0;0.0
+	myCameraOffset 0.0;0.0;500.0
+	myCollisionSafeOffset 0.0;0.0;0.0
+	myZoomInOnSpeaker TRUE
+	myAllowTransformUpdates TRUE
+	myAllowTargetTransformUpdates TRUE
+	myAllowSubjectTransformUpdates FALSE
+	myZoomInCamOrientationRelativeToTarget TRUE
+}
+
+DialogueCameraPreset SpaceNPCFocusZoom
+{
+	myFoV 40.0
+	myFoVOptionModifier 0.0
+	myDefaultTransition
+	{
+		myDuration 0.0
+	}
+	myTargetOffset 0.0;-1.5;0.0
+	myCameraOffset -10.0;-1.0;30.0
+	myAllowTransformUpdates TRUE
+	myAllowTargetTransformUpdates TRUE
+	myAllowSubjectTransformUpdates FALSE
+	myAllowTargetRotationUpdates FALSE
+	myZoomInCamOrientationRelativeToTarget TRUE
+}
+
+DialogueCameraPreset StructureApproach
+{
+	myType Dialogue
+	myFoV 50.0
+	myFoVOptionModifier 0.0
+	myDefaultOutTransition
+	{
+		myDuration 2.0
+	}
+	mySpecialTransitions
+	{
+		CameraTransition FromFree
+		{
+			myFrom Free
+			myDuration 0.0
+		}
+	}
+	myCameraOffset 0.0;0.0;400.0
+	myCollisionSafeOffset 50.0;50.0;50.0
+	myZoomInOnSpeaker TRUE
+	myAllowTransformUpdates TRUE
+	myAllowTargetTransformUpdates TRUE
+	myAllowSubjectTransformUpdates FALSE
+	myZoomInCamOrientationRelativeToTarget TRUE
+}
+
+DialogueCameraPreset SpaceFrameCam : CinematicBase
+{
+	myFoV 80.0
+	myShouldCheckCollision FALSE
+	myFoVEnd 80.0
+	myTargetOffset 0.0;0.0;0.0
+	mySubjectOffset 0.0;0.0;0.0
+	myCameraOffset 350.0;450.0;1750.0
+	myCameraOffsetEnd 500.0;450.0;1750.0
+	myOffsetDuration 40.0
+	myPanSpeed 0.5
+	myPanMax 2.0
+	myZoomInCamOrientationRelativeToTarget TRUE
+}
+
+DialogueCameraPreset FinalBattleIntro : NPCIntro
+{
+	myFoV 40.0
+	myDefaultTransition
+	{
+		myDuration 0.0
+	}
+	myUseOutTransition TRUE
+	myTransitionPriority 10
+	myDefaultOutTransition
+	{
+		myDuration 4.0
+		myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.721657 -0.0482372, }, outTangents = { 0.534035 0.00604814, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		myResetAngles TRUE
+	}
+	myShouldCheckCollision FALSE
+	myFoVEnd 60.0
+	myTargetOffset 0.0;24.0;0.0
+	myTargetOffsetEnd 0.0;20.0;0.0
+	mySubjectOffset 0.0;0.0;0.0
+	myCameraOffset 0.0;8.0;85.0
+	myCameraOffsetEnd 0.0;8.0;110.0
+	myCollisionSafeOffset 0.0;12.0;0.0
+	myOffsetDuration 7.0
+	myOffsetCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.507538 -0.00683612, }, outTangents = { 0.248978 0.0984052, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+	myCameraRoll 0.0
+	myCameraRollEnd 0.0
+	myAllowTargetTransformUpdates TRUE
+	myAllowSubjectTransformUpdates FALSE
+	myZoomInCamOrientationRelativeToTarget TRUE
+}
+
+DialogueCameraPreset FinalBattleIntroEnterArenaVersion : NPCIntro
+{
+	myFoV 40.0
+	myDefaultTransition
+	{
+		myDuration 0.0
+	}
+	myUseOutTransition TRUE
+	myTransitionPriority 10
+	myDefaultOutTransition
+	{
+		myDuration 4.0
+		myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.721657 -0.0482372, }, outTangents = { 0.534035 0.00604814, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		myResetAngles TRUE
+	}
+	myShouldCheckCollision FALSE
+	myFoVEnd 60.0
+	myTargetOffset 0.0;5.0;0.0
+	myTargetOffsetEnd 0.0;15.0;0.0
+	mySubjectOffset 0.0;0.0;0.0
+	myCameraOffset 6.0;22.0;60.0
+	myCameraOffsetEnd 0.0;2.0;85.0
+	myCollisionSafeOffset 0.0;12.0;0.0
+	myOffsetDuration 7.0
+	myOffsetCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.507538 -0.00683612, }, outTangents = { 0.248978 0.0984052, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+	myCameraRoll -10.0
+	myCameraRollEnd 0.0
+	myAllowTargetTransformUpdates TRUE
+	myAllowSubjectTransformUpdates FALSE
+	myZoomInCamOrientationRelativeToTarget TRUE
+}
+
+DialogueCameraPreset FinalBattlePhase2 : NPCIntro
+{
+	myFoV 40.0
+	myDefaultTransition
+	{
+		myDuration 0.0
+	}
+	myUseOutTransition TRUE
+	myTransitionPriority 10
+	myDefaultOutTransition
+	{
+		myDuration 2.0
+		myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.721657 -0.0482372, }, outTangents = { 0.534035 0.00604814, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		myResetAngles TRUE
+	}
+	myShouldCheckCollision FALSE
+	myFoVEnd 60.0
+	myTargetOffset 0.0;40.0;0.0
+	myTargetOffsetEnd 0.0;35.0;0.0
+	mySubjectOffset 0.0;0.0;0.0
+	myCameraOffset 12.0;20.0;120.0
+	myCameraOffsetEnd 0.0;20.0;175.0
+	myCollisionSafeOffset 0.0;12.0;0.0
+	myOffsetDuration 10.0
+	myOffsetCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.507538 -0.00683612, }, outTangents = { 0.495375 0.0347111, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+	myCameraRoll 5.0
+	myCameraRollEnd 0.0
+	myAllowTargetTransformUpdates FALSE
+	myAllowSubjectTransformUpdates FALSE
+	myZoomInCamOrientationRelativeToTarget TRUE
+}
+
+DialogueCameraPreset FinalBattleDeath : NPCIntro
+{
+	myFoV 40.0
+	myDefaultTransition
+	{
+		myDuration 0.0
+	}
+	myUseOutTransition TRUE
+	myTransitionPriority 10
+	myDefaultOutTransition
+	{
+		myDuration 4.0
+		myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.721657 -0.0482372, }, outTangents = { 0.534035 0.00604814, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		myResetAngles TRUE
+	}
+	myShouldCheckCollision FALSE
+	myFoVEnd 60.0
+	myTargetOffset 0.0;45.0;0.0
+	myTargetOffsetEnd 0.0;40.0;0.0
+	mySubjectOffset 0.0;0.0;0.0
+	myCameraOffset 30.0;20.0;100.0
+	myCameraOffsetEnd 0.0;20.0;160.0
+	myCollisionSafeOffset 0.0;12.0;0.0
+	myOffsetDuration 10.0
+	myOffsetCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.507538 -0.00683612, }, outTangents = { 0.248978 0.0984052, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+	myCameraRoll 0.0
+	myCameraRollEnd 0.0
+	myZoomInCamOrientationRelativeToTarget TRUE
+}
+
+DialogueCameraPreset DreadnoughtFrontDoor : CinematicBase
+{
+	myFoV 60.0
+	myDefaultTransition
+	{
+		myDuration 0.0
+	}
+	myTransitionPriority 10
+	myDefaultOutTransition
+	{
+		myDuration 0.0
+	}
+	myShouldCheckCollision FALSE
+	myFoVEnd 60.0
+	myTargetOffset 0.0;0.0;0.0
+	myTargetOffsetEnd -20.0;0.0;0.0
+	mySubjectOffset 0.0;0.0;0.0
+	myCameraOffset 200.0;-50.0;350.0
+	myCameraOffsetEnd 180.0;-50.0;350.0
+	myOffsetDuration 40.0
+	myZoomInCamOrientationRelativeToTarget TRUE
+	myBlendOutLookingTarget FALSE
+}
+
+DialogueCameraPreset DreadnoughtFrontDoorOpened : CinematicBase
+{
+	myFoV 80.0
+	myDefaultTransition
+	{
+		myDuration 2.0
+		myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.721657 -0.0482372, }, outTangents = { 0.534035 0.00604814, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+	}
+	myTransitionPriority 10
+	myDefaultOutTransition
+	{
+		myDuration 2.0
+		myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.721657 -0.0482372, }, outTangents = { 0.534035 0.00604814, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		myResetAngles FALSE
+	}
+	myShouldCheckCollision FALSE
+	myFoVEnd 80.0
+	myTargetOffset 0.0;0.0;0.0
+	myTargetOffsetEnd 0.0;0.0;0.0
+	mySubjectOffset 0.0;0.0;0.0
+	myCameraOffset -0.0;-0.0;50.0
+	myCameraOffsetEnd -0.0;-0.0;50.0
+	myOffsetDuration 40.0
+	myZoomInCamOrientationRelativeToTarget TRUE
+	myBlendOutLookingTarget FALSE
+}
+
+DialogueCameraPreset XFactorChest : CinematicBase
+{
+	myFoV 70.0
+	myDefaultTransition
+	{
+		myDuration 0.0
+	}
+	myTransitionPriority 10
+	myDefaultOutTransition
+	{
+		myDuration 0.0
+	}
+	myShouldCheckCollision FALSE
+	myFoVEnd 80.0
+	myTargetOffset 0.0;2.0;0.0
+	myTargetOffsetEnd 0.0;2.0;0.0
+	mySubjectOffset 0.0;0.0;0.0
+	myCameraOffset 8.0;8.0;4.0
+	myCameraOffsetEnd 4.0;8.0;8.0
+	myOffsetDuration 30.0
+	myZoomInCamOrientationRelativeToTarget TRUE
+	myBlendOutLookingTarget FALSE
+}
+
+DialogueCameraPreset XFactorChestPlanet01 : CinematicBase
+{
+	myFoV 70.0
+	myDefaultTransition
+	{
+		myDuration 0.0
+	}
+	myTransitionPriority 10
+	myDefaultOutTransition
+	{
+		myDuration 0.0
+	}
+	myShouldCheckCollision FALSE
+	myFoVEnd 80.0
+	myTargetOffset 0.0;75.0;0.0
+	myTargetOffsetEnd 0.0;75.0;0.0
+	mySubjectOffset 0.0;0.0;0.0
+	myCameraOffset -250.0;50.0;50.0
+	myCameraOffsetEnd -250.0;50.0;-50.0
+	myOffsetDuration 30.0
+	myPanSpeed 0.05
+	myZoomInCamOrientationRelativeToTarget TRUE
+	myBlendOutLookingTarget FALSE
+}
+
+DialogueCameraPreset XFactorChestPlanet03 : CinematicBase
+{
+	myFoV 70.0
+	myDefaultTransition
+	{
+		myDuration 0.0
+	}
+	myTransitionPriority 10
+	myDefaultOutTransition
+	{
+		myDuration 0.0
+	}
+	myShouldCheckCollision FALSE
+	myFoVEnd 80.0
+	myTargetOffset -30.0;10.0;-10.0
+	myTargetOffsetEnd -30.0;10.0;10.0
+	mySubjectOffset 0.0;0.0;0.0
+	myCameraOffset 60.0;30.0;-20.0
+	myCameraOffsetEnd 60.0;30.0;20.0
+	myOffsetDuration 30.0
+	myPanSpeed 0.05
+	myZoomInCamOrientationRelativeToTarget TRUE
+	myBlendOutLookingTarget FALSE
+}
+
+DialogueCameraPreset XFactorChestPlanet04 : CinematicBase
+{
+	myFoV 70.0
+	myDefaultTransition
+	{
+		myDuration 0.0
+	}
+	myTransitionPriority 10
+	myDefaultOutTransition
+	{
+		myDuration 0.0
+	}
+	myShouldCheckCollision FALSE
+	myFoVEnd 80.0
+	myTargetOffset 0.0;50.0;0.0
+	myTargetOffsetEnd 0.0;50.0;0.0
+	mySubjectOffset 0.0;0.0;0.0
+	myCameraOffset -200.0;200.0;50.0
+	myCameraOffsetEnd -200.0;200.0;-50.0
+	myOffsetDuration 30.0
+	myPanSpeed 0.05
+	myZoomInCamOrientationRelativeToTarget TRUE
+	myBlendOutLookingTarget FALSE
+}
+
+DialogueCameraPreset XFactorChestPlanet05 : CinematicBase
+{
+	myFoV 70.0
+	myDefaultTransition
+	{
+		myDuration 0.0
+	}
+	myTransitionPriority 10
+	myDefaultOutTransition
+	{
+		myDuration 0.0
+	}
+	myShouldCheckCollision FALSE
+	myFoVEnd 80.0
+	myTargetOffset -50.0;0.0;40.0
+	myTargetOffsetEnd -50.0;-20.0;-40.0
+	mySubjectOffset 0.0;0.0;0.0
+	myCameraOffset -200.0;-10.0;50.0
+	myCameraOffsetEnd -200.0;-10.0;-50.0
+	myOffsetDuration 30.0
+	myPanSpeed 0.05
+	myZoomInCamOrientationRelativeToTarget TRUE
+	myBlendOutLookingTarget FALSE
+}
+
+DialogueCameraPreset XFactorChestPlanet07 : CinematicBase
+{
+	myFoV 70.0
+	myDefaultTransition
+	{
+		myDuration 0.0
+	}
+	myTransitionPriority 10
+	myDefaultOutTransition
+	{
+		myDuration 0.0
+	}
+	myShouldCheckCollision FALSE
+	myFoVEnd 80.0
+	myTargetOffset 0.0;100.0;0.0
+	myTargetOffsetEnd 0.0;100.0;0.0
+	mySubjectOffset 0.0;0.0;0.0
+	myCameraOffset -300.0;50.0;50.0
+	myCameraOffsetEnd -300.0;50.0;-50.0
+	myOffsetDuration 30.0
+	myPanSpeed 0.05
+	myZoomInCamOrientationRelativeToTarget TRUE
+	myBlendOutLookingTarget FALSE
+}
+
+DialogueCameraPreset XFactorChestPlanet08 : CinematicBase
+{
+	myFoV 70.0
+	myDefaultTransition
+	{
+		myDuration 0.0
+	}
+	myTransitionPriority 10
+	myDefaultOutTransition
+	{
+		myDuration 0.0
+	}
+	myShouldCheckCollision FALSE
+	myFoVEnd 80.0
+	myTargetOffset -50.0;75.0;50.0
+	myTargetOffsetEnd -50.0;175.0;50.0
+	mySubjectOffset 0.0;0.0;0.0
+	myCameraOffset 250.0;50.0;-50.0
+	myCameraOffsetEnd 250.0;25.0;50.0
+	myOffsetDuration 30.0
+	myPanSpeed 0.05
+	myZoomInCamOrientationRelativeToTarget TRUE
+	myBlendOutLookingTarget FALSE
+}
+
+DialogueCameraPreset XFactorChestPlanet15 : CinematicBase
+{
+	myFoV 70.0
+	myDefaultTransition
+	{
+		myDuration 0.0
+	}
+	myTransitionPriority 10
+	myDefaultOutTransition
+	{
+		myDuration 0.0
+	}
+	myShouldCheckCollision FALSE
+	myFoVEnd 80.0
+	myTargetOffset 0.0;2.0;0.0
+	myTargetOffsetEnd 0.0;2.0;0.0
+	mySubjectOffset 0.0;0.0;0.0
+	myCameraOffset -150.0;45.0;125.0
+	myCameraOffsetEnd -125.0;45.0;75.0
+	myOffsetDuration 30.0
+	myPanSpeed 0.05
+	myZoomInCamOrientationRelativeToTarget TRUE
+	myBlendOutLookingTarget FALSE
+}
+
+DialogueCameraPreset OutlawOutpost : CinematicBase
+{
+	myFoV 70.0
+	myDefaultTransition
+	{
+		myDuration 0.0
+	}
+	myTransitionPriority 10
+	myDefaultOutTransition
+	{
+		myDuration 0.0
+	}
+	myShouldCheckCollision FALSE
+	myFoVEnd 70.0
+	myTargetOffset -50.0;100.0;-500.0
+	myTargetOffsetEnd 0.0;0.0;-500.0
+	mySubjectOffset 0.0;0.0;0.0
+	myCameraOffset -180.0;200.0;-800.0
+	myCameraOffsetEnd 0.0;100.0;-800.0
+	myOffsetDuration 30.0
+	myPanSpeed 0.05
+	myZoomInCamOrientationRelativeToTarget TRUE
+	myBlendOutLookingTarget FALSE
+}
+
+DialogueCameraPreset ImpIntro : NPCIntro
+{
+	myTransitionPriority 10
+	myDefaultOutTransition
+	{
+		myDuration 0.0
+	}
+	mySpecialTransitions
+	{
+		CameraTransition FromFree
+		{
+			myFrom Free
+			myDuration 0.0
+		}
+	}
+	myTargetOffset 0.4;1.0;0.0
+	myCameraOffset -5.0;5.0;15.0
+	myCollisionSafeOffset 0.0;5.0;0.0
+	myPanSpeed 0.0
+	myAllowTransformUpdates TRUE
+	myAllowTargetTransformUpdates TRUE
+	myZoomInCamOrientationRelativeToTarget TRUE
+}
+
+DialogueCameraPreset CyclopsIntro : NPCIntro
+{
+	myTransitionPriority 10
+	myTargetOffset 0.0;5.0;0.0
+	myCameraOffset -20.0;5.0;45.0
+	myCollisionSafeOffset 0.0;10.0;10.0
+	myAllowTransformUpdates TRUE
+	myAllowTargetTransformUpdates TRUE
+	myZoomInCamOrientationRelativeToTarget TRUE
+}
+
+DialogueCameraPreset ImpShedIntro : NPCIntro
+{
+	myType Dialogue
+	myFoV 30.0
+	myDefaultTransition
+	{
+		myDuration 2.0
+	}
+	myTransitionPriority 10
+	myDefaultOutTransition
+	{
+		myDuration 2.0
+		myResetAngles TRUE
+	}
+	mySpecialTransitions
+	{
+		CameraTransition FromFree
+		{
+			myFrom Free
+			myDuration 2.0
+		}
+		CameraTransition Boost
+		{
+			myFrom Ground_BoostBonus
+			myDuration 4.0
+		}
+	}
+	myShouldCheckCollision FALSE
+	myUseCollisionFilter FALSE
+	myFoVEnd 60.0
+	myTargetOffset 0.0;25.0;0.0
+	myTargetOffsetEnd 0.0;25.0;0.0
+	mySubjectOffset 0.0;0.0;0.0
+	myCameraOffset 0.0;150.0;-250.0
+	myCameraOffsetEnd 0.0;300.0;-250.0
+	myCollisionSafeOffset 0.0;150.0;0.0
+	mySafeDistance 10.0
+	myZoomInOnSpeaker TRUE
+	myAllowTransformUpdates TRUE
+	myAllowTargetTransformUpdates TRUE
+	myAllowSubjectTransformUpdates FALSE
+	myAllowTargetRotationUpdates TRUE
+	myZoomInCamOrientationRelativeToTarget TRUE
+	myZoomInCamPosRelativeToSubject FALSE
+	myBlendOutLookingTarget FALSE
+}
+
+DialogueCameraPreset ExtractorIntro : ExtractorDestruction
+{
+	myUseOutTransition FALSE
+	myTransitionPriority 10
+	myDefaultOutTransition
+	{
+		myDuration 0.0
+	}
+	myTargetOffset 0.0;90.0;0.0
+	myTargetOffsetEnd 0.0;30.0;0.0
+	myCameraOffset 250.0;50.0;50.0
+	myCameraOffsetEnd 50.0;30.0;150.0
+	myZoomInOnSpeaker TRUE
+	myAllowTransformUpdates FALSE
+	myAllowTargetTransformUpdates FALSE
+	myAllowSubjectTransformUpdates FALSE
+	myAllowTargetRotationUpdates FALSE
+	myZoomInCamOrientationRelativeToTarget TRUE
+	myZoomInCamPosRelativeToSubject FALSE
+	myBlendOutLookingTarget FALSE
+}
+
+DialogueCameraPreset DrakeIntro : NPCIntro
+{
+	myDefaultTransition
+	{
+		myDuration 0.0
+	}
+	myTransitionPriority 10
+	myDefaultOutTransition
+	{
+		myDuration 0.0
+	}
+	myUseCollisionFilter TRUE
+	myFoVEnd 60.0
+	myTargetOffset 0.0;-1.5;0.0
+	myCameraOffset -20.0;0.0;25.0
+	myCameraOffsetEnd 0.0;0.0;0.0
+	myCollisionSafeOffset 0.0;12.0;0.0
+	myZoomInOnSpeaker TRUE
+	myAllowTransformUpdates TRUE
+	myAllowTargetTransformUpdates TRUE
+	myAllowTargetRotationUpdates FALSE
+	myZoomInCamOrientationRelativeToTarget TRUE
+}
+
+DialogueCameraPreset FireGiantIntro : NPCIntro
+{
+	myFoV 30.0
+	myDefaultTransition
+	{
+		myDuration 0.0
+	}
+	myTransitionPriority 10
+	myDefaultOutTransition
+	{
+		myDuration 0.0
+	}
+	myShouldCheckCollision FALSE
+	myTargetOffset 0.0;12.0;0.0
+	mySubjectOffset 0.0;0.0;0.0
+	myCameraOffset -50.0;15.0;70.0
+	myCameraRoll 0.0
+	myPanMax 0.0
+	myAllowTransformUpdates TRUE
+	myAllowTargetTransformUpdates TRUE
+	myAllowSubjectTransformUpdates TRUE
+	myZoomInCamOrientationRelativeToTarget TRUE
+	myUseTargetablePosition FALSE
+}
+
+DialogueCameraPreset CrushGiantIntro : GiantIntro
+{
+	myDefaultTransition
+	{
+		myDuration 0.0
+	}
+	myTransitionPriority 10
+	myDefaultOutTransition
+	{
+		myDuration 0.0
+	}
+	myUseCollisionFilter TRUE
+	myTargetOffset 1.0;15.0;0.0
+	myCameraOffset -30.0;5.0;60.0
+	myZoomInOnSpeaker TRUE
+	myAllowTransformUpdates FALSE
+	myAllowTargetTransformUpdates TRUE
+	myZoomInCamOrientationRelativeToTarget TRUE
+}
+
+DialogueCameraPreset DreadnoughtIntro : SpaceFrameCam
+{
+	myType Dialogue
+	myFoV 60.0
+	myDefaultTransition
+	{
+		myDuration 0.0
+	}
+	myTransitionPriority 10
+	myDefaultOutTransition
+	{
+		myDuration 0.0
+	}
+	myFoVEnd 60.0
+	myTargetOffset 200.0;-300.0;0.0
+	myCameraOffset -1200.0;2.0;1500.0
+	myCameraOffsetEnd 2.0;2.0;15.0
+	myOffsetDuration 0.0
+	myZoomInOnSpeaker TRUE
+	myAllowTransformUpdates FALSE
+	myAllowTargetTransformUpdates FALSE
+	myAllowSubjectTransformUpdates FALSE
+	myAllowTargetRotationUpdates FALSE
+	myZoomInCamOrientationRelativeToTarget TRUE
+}
+
+DialogueCameraPreset GallasDownedShip : NPCIntro
+{
+	myDefaultTransition
+	{
+		myDuration 0.0
+	}
+	myTransitionPriority 10
+	myTargetOffset 0.0;0.0;0.0
+	myCameraOffset -30.0;0.0;20.0
+	myCameraRoll 40.0
+	myZoomInCamOrientationRelativeToTarget TRUE
+}
+
+DialogueCameraPreset PrimeIntro : NPCIntro
+{
+	myDefaultTransition
+	{
+		myDuration 0.0
+	}
+	myTransitionPriority 10
+	myUseCollisionFilter TRUE
+	myTargetOffset 3.0;30.0;0.0
+	myCameraOffset -100.0;30.0;300.0
+	myCollisionSafeOffset -100.0;30.0;300.0
+	myAllowTransformUpdates TRUE
+	myAllowTargetTransformUpdates TRUE
+	myZoomInCamOrientationRelativeToTarget TRUE
+}
+
+DialogueCameraPreset FrostGiantIntro : FireGiantIntro
+{
+	myCameraOffset 50.0;10.0;50.0
+}
+
+DialogueCameraPreset GraxShipIntro
+{
+	myType Dialogue
+	myFoV 60.0
+	myFoVOptionModifier 0.0
+	myDefaultTransition
+	{
+		myDuration 0.0
+	}
+	myUseOutTransition FALSE
+	myTransitionPriority 10
+	myDefaultOutTransition
+	{
+		myDuration 0.0
+	}
+	mySpecialTransitions
+	{
+		CameraTransition FromFree
+		{
+			myFrom Free
+			myDuration 0.0
+		}
+		CameraTransition SpaceBoost
+		{
+			myFrom Space_Boost
+			myDuration 0.0
+		}
+	}
+	myShouldCheckCollision FALSE
+	myFoVEnd 60.0
+	myTargetOffset 0.0;0.0;0.0
+	myTargetOffsetEnd 0.0;0.0;0.0
+	mySubjectOffset 0.0;0.0;0.0
+	myCameraOffset 30.0;10.0;500.0
+	myCameraOffsetEnd 30.0;10.0;100.0
+	myCollisionSafeOffset 30.0;10.0;100.0
+	myOffsetDuration 5.0
+	mySafeDistance 0.0
+	myZoomInOnSpeaker TRUE
+	myAllowSubjectTransformUpdates FALSE
+	myAllowTargetRotationUpdates FALSE
+	myZoomInCamOrientationRelativeToTarget TRUE
+	myZoomInCamPosRelativeToSubject FALSE
+}
+
+DialogueCameraPreset ComsArrayChest : XFactorChest
+{
+	myTargetOffset 0.0;2.0;0.0
+	myTargetOffsetEnd 0.0;20.0;0.0
+	myCameraOffset 24.0;16.0;8.0
+	myCameraOffsetEnd 16.0;16.0;16.0
+}
+
+DialogueCameraPreset SorrenCamera : GraxShipIntro
+{
+	myFoV 70.0
+	myFoVEnd 70.0
+	myCameraOffset 0.0;5.0;25.0
+	myCameraOffsetEnd 0.0;5.0;25.0
+	myOffsetDuration 0.5
+	myZoomInOnSpeaker TRUE
+	myAllowTargetTransformUpdates FALSE
+	myAllowSubjectTransformUpdates TRUE
+	myZoomInCamOrientationRelativeToTarget FALSE
+	myZoomInCamPosRelativeToSubject TRUE
+}
+
+DialogueCameraPreset sidestory001sequence01WindMill : CinematicBase
+{
+	myFoV 70.0
+	myDefaultTransition
+	{
+		myDuration 0.0
+	}
+	myDefaultOutTransition
+	{
+		myDuration 0.0
+	}
+	myShouldCheckCollision FALSE
+	myFoVEnd 80.0
+	myTargetOffset -50.0;0.0;100.0
+	myTargetOffsetEnd -50.0;25.0;150.0
+	mySubjectOffset 0.0;0.0;0.0
+	myCameraOffset 0.0;40.0;-150.0
+	myCameraOffsetEnd -50.0;30.0;-75.0
+	myOffsetDuration 30.0
+	myCameraRoll 0.0
+	myCameraRollEnd 0.0
+	myPanSpeed 0.05
+	myAllowTransformUpdates FALSE
+	myAllowTargetTransformUpdates FALSE
+	myAllowSubjectTransformUpdates FALSE
+	myAllowTargetRotationUpdates FALSE
+	myZoomInCamOrientationRelativeToTarget TRUE
+	myBlendOutLookingTarget FALSE
+}
+
+DialogueCameraPreset sidestory001sequence01NavOverview : CinematicBase
+{
+	myFoV 80.0
+	myDefaultTransition
+	{
+		myDuration 0.0
+	}
+	myDefaultOutTransition
+	{
+		myDuration 0.0
+	}
+	myShouldApplyReverseLookAt TRUE
+	myShouldCheckCollision FALSE
+	myFoVEnd 50.0
+	myTargetOffset 300.0;-50.0;-10.0
+	myTargetOffsetEnd 300.0;-30.0;-10.0
+	mySubjectOffset 0.0;0.0;0.0
+	myCameraOffset 100.0;-25.0;-250.0
+	myCameraOffsetEnd 200.0;10.0;-150.0
+	myOffsetDuration 20.0
+	myCameraRoll 0.0
+	myCameraRollEnd 0.0
+	myPanSpeed 0.05
+	myZoomInCamOrientationRelativeToTarget TRUE
+	myBlendOutLookingTarget FALSE
+}
+
+DialogueCameraPreset sidestory001sequence02keydropped : CinematicBase
+{
+	myFoV 70.0
+	myDefaultTransition
+	{
+		myDuration 0.0
+	}
+	myDefaultOutTransition
+	{
+		myDuration 0.0
+	}
+	myShouldCheckCollision FALSE
+	myFoVEnd 30.0
+	myTargetOffset 0.0;2.0;0.0
+	myTargetOffsetEnd 0.0;2.0;0.0
+	mySubjectOffset 0.0;0.0;0.0
+	myCameraOffset -150.0;100.0;125.0
+	myCameraOffsetEnd -125.0;100.0;75.0
+	myOffsetDuration 30.0
+	myPanSpeed 0.05
+	myAllowTransformUpdates FALSE
+	myAllowTargetTransformUpdates FALSE
+	myAllowSubjectTransformUpdates FALSE
+	myAllowTargetRotationUpdates FALSE
+	myZoomInCamOrientationRelativeToTarget TRUE
+	myBlendOutLookingTarget FALSE
+}
+
+DialogueCameraPreset sidestory001sequence02hulldooropen : CinematicBase
+{
+	myFoV 70.0
+	myDefaultTransition
+	{
+		myDuration 0.0
+	}
+	myDefaultOutTransition
+	{
+		myDuration 0.0
+	}
+	myShouldCheckCollision FALSE
+	myFoVEnd 80.0
+	myTargetOffset -50.0;-50.0;-50.0
+	myTargetOffsetEnd 100.0;50.0;0.0
+	mySubjectOffset 0.0;0.0;0.0
+	myCameraOffset -150.0;-50.0;20.0
+	myCameraOffsetEnd -125.0;45.0;75.0
+	myOffsetDuration 30.0
+	myCameraRoll -20.0
+	myCameraRollEnd -20.0
+	myPanSpeed 0.05
+	myZoomInCamOrientationRelativeToTarget TRUE
+	myBlendOutLookingTarget FALSE
+}
+
+DialogueCameraPreset sidestory001sequence02vaultopen : CinematicBase
+{
+	myFoV 70.0
+	myDefaultTransition
+	{
+		myDuration 0.0
+	}
+	myDefaultOutTransition
+	{
+		myDuration 0.0
+	}
+	myShouldCheckCollision FALSE
+	myFoVEnd 80.0
+	myTargetOffset -30.0;10.0;-10.0
+	myTargetOffsetEnd -30.0;150.0;10.0
+	mySubjectOffset 0.0;0.0;0.0
+	myCameraOffset 60.0;150.0;-20.0
+	myCameraOffsetEnd 60.0;150.0;20.0
+	myOffsetDuration 30.0
+	myPanSpeed 0.05
+	myZoomInCamOrientationRelativeToTarget TRUE
+	myBlendOutLookingTarget FALSE
+}
+
+DialogueCameraPreset sidestory001sequence02cargodooropen : CinematicBase
+{
+	myFoV 70.0
+	myDefaultTransition
+	{
+		myDuration 0.0
+	}
+	myDefaultOutTransition
+	{
+		myDuration 0.0
+	}
+	myShouldCheckCollision FALSE
+	myFoVEnd 80.0
+	myTargetOffset 0.0;-100.0;-150.0
+	myTargetOffsetEnd 0.0;75.0;50.0
+	mySubjectOffset 0.0;0.0;0.0
+	myCameraOffset -300.0;30.0;-100.0
+	myCameraOffsetEnd -200.0;10.0;0.0
+	myOffsetDuration 30.0
+	myPanSpeed 0.05
+	myZoomInCamOrientationRelativeToTarget TRUE
+	myBlendOutLookingTarget FALSE
+}
+
+DialogueCameraPreset sidestory001sequence04vinelockoverview : CinematicBase
+{
+	myFoV 70.0
+	myDefaultTransition
+	{
+		myDuration 0.0
+	}
+	myDefaultOutTransition
+	{
+		myDuration 0.0
+	}
+	myShouldCheckCollision FALSE
+	myFoVEnd 50.0
+	myTargetOffset -30.0;10.0;-10.0
+	myTargetOffsetEnd -30.0;25.0;10.0
+	mySubjectOffset 0.0;0.0;0.0
+	myCameraOffset 0.0;100.0;-500.0
+	myCameraOffsetEnd 45.0;162.0;-200.0
+	myOffsetDuration 10.0
+	myPanSpeed 0.05
+	myZoomInCamOrientationRelativeToTarget TRUE
+	myBlendOutLookingTarget FALSE
+}
+
+DialogueCameraPreset sidestory001sequence04vinefree : CinematicBase
+{
+	myFoV 45.0
+	myDefaultTransition
+	{
+		myDuration 0.0
+	}
+	myDefaultOutTransition
+	{
+		myDuration 0.0
+	}
+	myShouldCheckCollision FALSE
+	myFoVEnd 80.0
+	myTargetOffset 0.0;20.0;0.0
+	myTargetOffsetEnd 0.0;20.0;0.0
+	mySubjectOffset 0.0;0.0;0.0
+	myCameraOffset -60.0;120.0;20.0
+	myCameraOffsetEnd -60.0;120.0;-20.0
+	myOffsetDuration 30.0
+	myPanSpeed 0.05
+	myZoomInCamOrientationRelativeToTarget TRUE
+	myBlendOutLookingTarget FALSE
+}
+
+DialogueCameraPreset sidestory001sequence04pillarreleased : CinematicBase
+{
+	myFoV 70.0
+	myDefaultTransition
+	{
+		myDuration 0.0
+	}
+	myDefaultOutTransition
+	{
+		myDuration 0.0
+	}
+	myShouldCheckCollision FALSE
+	myFoVEnd 80.0
+	myTargetOffset -30.0;10.0;-10.0
+	myTargetOffsetEnd -30.0;150.0;10.0
+	mySubjectOffset 0.0;0.0;0.0
+	myCameraOffset 60.0;150.0;-20.0
+	myCameraOffsetEnd 60.0;150.0;20.0
+	myOffsetDuration 30.0
+	myPanSpeed 0.05
+	myZoomInCamOrientationRelativeToTarget TRUE
+	myBlendOutLookingTarget FALSE
+}
+
+DialogueCameraPreset sidestory001sequence04KeyReachable : CinematicBase
+{
+	myFoV 70.0
+	myDefaultTransition
+	{
+		myDuration 0.0
+	}
+	myDefaultOutTransition
+	{
+		myDuration 0.0
+	}
+	myShouldCheckCollision FALSE
+	myFoVEnd 40.0
+	myTargetOffset -5.0;2.0;0.0
+	myTargetOffsetEnd -5.0;2.0;0.0
+	mySubjectOffset 0.0;0.0;0.0
+	myCameraOffset 20.0;7.0;5.0
+	myCameraOffsetEnd 40.0;15.0;-5.0
+	myOffsetDuration 30.0
+	myPanSpeed 0.05
+	myZoomInCamOrientationRelativeToTarget TRUE
+	myBlendOutLookingTarget FALSE
+}
+
+DialogueCameraPreset sidestory001sequence05showreachobjective : CinematicBase
+{
+	myFoV 70.0
+	myDefaultTransition
+	{
+		myDuration 0.0
+	}
+	myDefaultOutTransition
+	{
+		myDuration 0.0
+	}
+	myShouldCheckCollision FALSE
+	myFoVEnd 80.0
+	myTargetOffset 0.0;0.0;0.0
+	myTargetOffsetEnd 50.0;50.0;0.0
+	mySubjectOffset 0.0;0.0;0.0
+	myCameraOffset -200.0;-50.0;-300.0
+	myCameraOffsetEnd 300.0;200.0;-200.0
+	myOffsetDuration 30.0
+	myPanSpeed 0.05
+	myZoomInCamOrientationRelativeToTarget TRUE
+	myBlendOutLookingTarget FALSE
+}
+
+DialogueCameraPreset sidestory001sequence05pillarrising : CinematicBase
+{
+	myFoV 70.0
+	myDefaultTransition
+	{
+		myDuration 0.0
+	}
+	myDefaultOutTransition
+	{
+		myDuration 0.0
+	}
+	myShouldCheckCollision FALSE
+	myFoVEnd 80.0
+	myTargetOffset 0.0;-25.0;0.0
+	myTargetOffsetEnd 0.0;150.0;0.0
+	mySubjectOffset 0.0;0.0;0.0
+	myCameraOffset 150.0;0.0;-300.0
+	myCameraOffsetEnd 150.0;0.0;-300.0
+	myOffsetDuration 30.0
+	myPanSpeed 0.05
+	myZoomInCamOrientationRelativeToTarget TRUE
+	myBlendOutLookingTarget FALSE
+}
+
+DialogueCameraPreset sidestory001sequence05transmission : CinematicBase
+{
+	myFoV 70.0
+	myDefaultTransition
+	{
+		myDuration 0.0
+	}
+	myDefaultOutTransition
+	{
+		myDuration 0.0
+	}
+	myShouldCheckCollision FALSE
+	myFoVEnd 70.0
+	myTargetOffset 0.0;100.0;0.0
+	myTargetOffsetEnd 0.0;500.0;0.0
+	mySubjectOffset 0.0;0.0;0.0
+	myCameraOffset -25.0;110.0;-180.0
+	myCameraOffsetEnd 25.0;135.0;-180.0
+	myOffsetDuration 40.0
+	myPanSpeed 0.05
+	myZoomInCamOrientationRelativeToTarget TRUE
+	myBlendOutLookingTarget FALSE
+}
+
+DialogueCameraPreset sidestory001sequence06ShowLaser : CinematicBase
+{
+	myFoV 40.0
+	myDefaultTransition
+	{
+		myDuration 0.0
+	}
+	myDefaultOutTransition
+	{
+		myDuration 0.0
+	}
+	myShouldCheckCollision FALSE
+	myFoVEnd 70.0
+	myTargetOffset 20.0;10.0;0.0
+	myTargetOffsetEnd -180.0;20.0;0.0
+	mySubjectOffset 0.0;0.0;0.0
+	myCameraOffset 0.0;75.0;150.0
+	myCameraOffsetEnd -75.0;155.0;200.0
+	myOffsetDuration 10.0
+	myPanSpeed 0.05
+	myZoomInCamOrientationRelativeToTarget TRUE
+	myBlendOutLookingTarget FALSE
+}
+
+DialogueCameraPreset sidestory001sequence06FocusingCrystal : CinematicBase
+{
+	myFoV 70.0
+	myDefaultTransition
+	{
+		myDuration 0.0
+	}
+	myDefaultOutTransition
+	{
+		myDuration 0.0
+	}
+	myShouldCheckCollision FALSE
+	myFoVEnd 40.0
+	myTargetOffset -5.0;2.0;0.0
+	myTargetOffsetEnd -5.0;2.0;0.0
+	mySubjectOffset 0.0;0.0;0.0
+	myCameraOffset 20.0;7.0;5.0
+	myCameraOffsetEnd 40.0;15.0;-5.0
+	myOffsetDuration 30.0
+	myPanSpeed 0.05
+	myZoomInCamOrientationRelativeToTarget FALSE
+	myBlendOutLookingTarget FALSE
+}
+
+DialogueCameraPreset sidestory001sequence06LaserActivated : CinematicBase
+{
+	myFoV 70.0
+	myDefaultTransition
+	{
+		myDuration 0.0
+	}
+	myDefaultOutTransition
+	{
+		myDuration 0.0
+	}
+	myShouldCheckCollision FALSE
+	myFoVEnd 60.0
+	myTargetOffset -75.0;50.0;0.0
+	myTargetOffsetEnd 0.0;50.0;0.0
+	mySubjectOffset 0.0;0.0;0.0
+	myCameraOffset -75.0;140.0;200.0
+	myCameraOffsetEnd -75.0;140.0;200.0
+	myOffsetDuration 30.0
+	myPanSpeed 0.05
+	myZoomInCamOrientationRelativeToTarget TRUE
+	myBlendOutLookingTarget FALSE
+}
+
+DialogueCameraPreset sidestory001sequence06GoldenCyclops : CinematicBase
+{
+	myFoV 70.0
+	myDefaultTransition
+	{
+		myDuration 0.0
+	}
+	myDefaultOutTransition
+	{
+		myDuration 0.0
+	}
+	myShouldCheckCollision FALSE
+	myFoVEnd 40.0
+	myTargetOffset 0.0;10.0;0.0
+	myTargetOffsetEnd 0.0;-10.0;25.0
+	mySubjectOffset 0.0;0.0;0.0
+	myCameraOffset 150.0;0.0;-115.0
+	myCameraOffsetEnd 130.0;25.0;-105.0
+	myOffsetDuration 30.0
+	myPanSpeed 0.05
+	myZoomInCamOrientationRelativeToTarget TRUE
+	myBlendOutLookingTarget FALSE
+}
+
+DialogueCameraPreset AlliedGoldrush : OutlawOutpost
+{
+	myFoVEnd 80.0
+	myTargetOffset 0.0;20.0;100.0
+	myTargetOffsetEnd 0.0;50.0;-50.0
+	myCameraOffset 90.0;30.0;250.0
+	myCameraOffsetEnd 90.0;80.0;150.0
+}
+
+DialogueCameraPreset AlliedGoldrushSmlVault : AlliedGoldrush
+{
+	myTargetOffset 0.0;20.0;20.0
+	myTargetOffsetEnd 0.0;50.0;-20.0
+	myCameraOffset 30.0;30.0;100.0
+	myCameraOffsetEnd -30.0;40.0;70.0
+}
+
+DialogueCameraPreset AlliedGoldrushLrgVault : AlliedGoldrush
+{
+	myTargetOffset 0.0;20.0;200.0
+	myTargetOffsetEnd 0.0;20.0;-50.0
+	myCameraOffset 90.0;60.0;375.0
+	myCameraOffsetEnd 90.0;40.0;175.0
+}
+
+DialogueCameraPreset AlliedGoldrushRefinery : AlliedGoldrush
+{
+	myTargetOffset 50.0;40.0;0.0
+	myTargetOffsetEnd 50.0;40.0;0.0
+	myCameraOffset 125.0;60.0;-50.0
+	myCameraOffsetEnd 75.0;50.0;50.0
+}
+
+DialogueCameraPreset AlliedGoldrushRefuelingStation : AlliedGoldrush
+{
+	myTargetOffset 0.0;50.0;-150.0
+	myTargetOffsetEnd -25.0;80.0;-150.0
+	myCameraOffset 300.0;125.0;-50.0
+	myCameraOffsetEnd 275.0;150.0;50.0
+}
+
+DialogueCameraPreset AlliedGoldrushPrison : AlliedGoldrush
+{
+	myTargetOffset 0.0;40.0;0.0
+	myTargetOffsetEnd 0.0;40.0;0.0
+	myCameraOffset 100.0;50.0;100.0
+	myCameraOffsetEnd 0.0;80.0;150.0
+}
+
+DialogueCameraPreset AlliedGoldrushComsArray : AlliedGoldrush
+{
+	myShouldApplyReverseLookAt TRUE
+	myTargetOffset 20.0;70.0;140.0
+	myTargetOffsetEnd 20.0;-25.0;140.0
+	myCameraOffset -25.0;70.0;80.0
+	myCameraOffsetEnd 25.0;10.0;80.0
+	myOffsetCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { 0 0, -0.982362 -0.0201643, }, outTangents = { 0.307335 0.942354, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+}
+
+DialogueCameraPreset LiberateShipwreck1 : XFactorChestPlanet01
+{
+	myType Dialogue
+	myDefaultTransition
+	{
+		myDuration 0.0
+	}
+	myTransitionPriority 10
+	myDefaultOutTransition
+	{
+		myDuration 0.0
+	}
+	myShouldCheckCollision FALSE
+	myTargetOffset -100.0;10.0;0.0
+	myTargetOffsetEnd 20.0;15.0;-10.0
+	myCameraOffset 150.0;50.0;-200.0
+	myCameraOffsetEnd 30.0;20.0;60.0
+	myOffsetDuration 20.0
+}
+
+DialogueCameraPreset LiberateShipwreck2 : LiberateShipwreck1
+{
+	myTargetOffset -75.0;20.0;50.0
+	myTargetOffsetEnd 0.0;15.0;-15.0
+	myCameraOffset -20.0;60.0;-400.0
+	myCameraOffsetEnd 15.0;20.0;40.0
+}
+
+DialogueCameraPreset ExpeditionSpark1 : OutpostUpgrade
+{
+	myFoV 90.0
+	myDefaultOutTransition
+	{
+		myDuration 1.5
+		myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.602639 -0.038683, }, outTangents = { 0.717119 0.00702554, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		myResetAngles TRUE
+	}
+	myShouldCheckCollision FALSE
+	myUseCollisionFilter FALSE
+	myFoVEnd 90.0
+	myTargetOffset 0.0;15.0;-10.0
+	myTargetOffsetEnd 0.0;30.0;0.0
+	myCameraOffset 150.0;150.0;80.0
+	myCameraOffsetEnd -100.0;150.0;300.0
+	myOffsetDuration 19.0
+	myOffsetCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.629087 -0.00365109, }, outTangents = { 0.163758 0.00856691, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+}
+
+DialogueCameraPreset ExpeditionSpark2 : OutpostUpgrade
+{
+	myFoV 40.0
+	myShouldCheckCollision FALSE
+	myUseCollisionFilter FALSE
+	myTargetOffset 0.0;15.0;-10.0
+	myTargetOffsetEnd 0.0;30.0;0.0
+	myCameraOffset 100.0;150.0;80.0
+	myCameraOffsetEnd -100.0;150.0;80.0
+	myOffsetDuration 19.0
+	myOffsetCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.629087 -0.00365109, }, outTangents = { 0.163758 0.00856691, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+}
+
+DialogueCameraPreset ExpeditionSpark3 : OutpostUpgrade
+{
+	myFoV 50.0
+	myShouldCheckCollision FALSE
+	myUseCollisionFilter FALSE
+	myFoVEnd 120.0
+	myTargetOffset 0.0;0.0;0.0
+	myTargetOffsetEnd 0.0;0.0;0.0
+	myCameraOffset -60.0;350.0;150.0
+	myCameraOffsetEnd 0.0;100.0;100.0
+	myOffsetDuration 19.0
+	myOffsetCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.629087 -0.00365109, }, outTangents = { 0.163758 0.00856691, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+}
+
+DialogueCameraPreset ArenaOutro : CinematicBase
+{
+	myFoV 90.0
+	myCollisionSphereRadius 1.0
+	myDefaultTransition
+	{
+		myDuration 0.0
+	}
+	myUseOutTransition FALSE
+	myTransitionPriority 10
+	myDefaultOutTransition
+	{
+		myDuration 0.0
+		myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.527638 -0.00371674, }, outTangents = { 0.389599 0.0376818, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		myResetAngles TRUE
+		myResetAltitude -5.0
+	}
+	myShouldApplyReverseLookAt TRUE
+	myShouldCheckCollision FALSE
+	myUseCollisionFilter FALSE
+	myFoVEnd 100.0
+	myTargetOffset 0.0;100.0;0.0
+	myTargetOffsetEnd 0.0;100.0;0.0
+	mySubjectOffset 0.0;0.0;0.0
+	myCameraOffset 250.0;80.0;100.0
+	myCameraOffsetEnd 200.0;80.0;100.0
+	myCollisionSafeOffset 0.0;20.0;0.0
+	myOffsetDuration 5.0
+	myOffsetCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.284215 0.0194384, }, outTangents = { 0.312552 0.0981515, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+	myPanSpeed 0.1
+	myPanMax 2.0
+	mySafeDistance 18.0
+	myZoomInOnSpeaker TRUE
+	myAllowTransformUpdates FALSE
+	myAllowTargetTransformUpdates FALSE
+	myAllowSubjectTransformUpdates FALSE
+	myAllowTargetRotationUpdates FALSE
+	myZoomInCamOrientationRelativeToTarget TRUE
+	myZoomInCamPosRelativeToSubject FALSE
+	myBlendOutLookingTarget FALSE
+	myShouldApplyShakes TRUE
+}
+
+DialogueCameraPreset ArenaMechEnter : GiantIntro
+{
+	myFoV 40.0
+	myDefaultTransition
+	{
+		myDuration 2.0
+	}
+	myDefaultOutTransition
+	{
+		myDuration 2.0
+	}
+	myShouldCheckCollision FALSE
+	myFoVEnd 80.0
+	myTargetOffset 0.0;15.0;0.0
+	myTargetOffsetEnd 0.0;18.0;0.0
+	mySubjectOffset 0.0;0.0;0.0
+	myCameraOffset 0.0;5.0;80.0
+	myCameraOffsetEnd 0.0;5.0;40.0
+	myOffsetDuration 4.0
+	myOffsetCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -1.61931 -0.0076848, }, outTangents = { 1.91095 0.0044654, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+	myZoomInCamOrientationRelativeToTarget FALSE
+	myUseTargetablePosition FALSE
+}
+
+DialogueCameraPreset ArenaMechDestroy : GiantIntro
+{
+	myFoV 80.0
+	myShouldCheckCollision FALSE
+	myFoVEnd 50.0
+	myTargetOffset 0.0;20.0;0.0
+	myTargetOffsetEnd 0.0;15.0;0.0
+	myCameraOffset 0.0;10.0;30.0
+	myCameraOffsetEnd 0.0;10.0;80.0
+	myOffsetDuration 9.0
+	myAllowTargetTransformUpdates FALSE
+	myAllowTargetRotationUpdates FALSE
+	myZoomInCamOrientationRelativeToTarget TRUE
+}
+
+DialogueCameraPreset ProspectorStoryBountyCamera : LiberateShipwreck1
+{
+	myType Dialogue
+	myDefaultTransition
+	{
+		myDuration 0.0
+		myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.604801 0.0150975, }, outTangents = { 0 1.00488, 0 -0, }, properties = { 275, 1299, }, values = { 0 0, 1 0.990405, }, }, numKeys = 2, }"
+	}
+	myTargetOffset 0.0;2.0;-5.0
+	myTargetOffsetEnd 0.0;0.0;5.0
+	myCameraOffset 1.0;2.0;-50.0
+	myCameraOffsetEnd 5.0;1.0;15.0
+	myOffsetDuration 6.0
+	myZoomInOnSpeaker TRUE
+	myAllowTargetRotationUpdates FALSE
+	myZoomInCamOrientationRelativeToTarget TRUE
+}
+
+DialogueCameraPreset ProspectorStoryGrapplerCamera : LiberateShipwreck1
+{
+	myTargetOffset 0.0;0.0;0.0
+	myTargetOffsetEnd 0.0;0.0;0.0
+	myCameraOffset -20.0;0.0;-70.0
+	myCameraOffsetEnd -20.0;0.0;50.0
+	myOffsetDuration 30.0
+	myAllowTargetRotationUpdates FALSE
+}
+
+DialogueCameraPreset ExpeditionAnvil1 : LiberateShipwreck1
+{
+	myTargetOffset 0.0;0.0;0.0
+	myTargetOffsetEnd 0.0;0.0;0.0
+	mySubjectOffset 0.0;0.0;0.0
+	myCameraOffset 500.0;100.0;700.0
+	myCameraOffsetEnd 500.0;100.0;700.0
+	myCameraRoll 10.0
+	myCameraRollEnd 10.0
+}
+
+DialogueCameraPreset ExpeditionAnvil2 : LiberateShipwreck1
+{
+	myFoVEnd 70.0
+	myTargetOffset -3000.0;50.0;0.0
+	myTargetOffsetEnd -350.0;20.0;0.0
+	mySubjectOffset 0.0;0.0;0.0
+	myCameraOffset -1000.0;100.0;1000.0
+	myCameraOffsetEnd 500.0;100.0;1200.0
+	myOffsetDuration 6.9
+	myOffsetCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 0, -0.333333 0, }, outTangents = { 0.796974 -0.00997579, 0 0, }, properties = { 275, 1095, }, values = { 0 0.0094048, 1 1, }, }, numKeys = 2, }"
+	myCameraRoll 10.0
+	myCameraRollEnd 7.0
+	myShouldApplyShakes TRUE
+}
+
+DialogueCameraPreset ExpeditionAnvil3 : LiberateShipwreck1
+{
+	myTargetOffset 0.0;0.0;0.0
+	myTargetOffsetEnd 0.0;0.0;0.0
+	myCameraOffset 150.0;100.0;-200.0
+	myCameraOffsetEnd 30.0;100.0;60.0
+}
+
+DialogueCameraPreset ExpeditionAnvil4 : LiberateShipwreck1
+{
+}
+
+DialogueCameraPreset ProspectorStoryBounty01Cam01 : LiberateShipwreck1
+{
+	myTargetOffset 0.0;0.0;0.0
+	myTargetOffsetEnd 0.0;0.0;0.0
+	myCameraOffset 2500.0;0.0;2500.0
+	myCameraOffsetEnd 2000.0;0.0;2000.0
+	myOffsetDuration 20.0
+}
+
+DialogueCameraPreset ProspectorStoryBounty01Cam02 : LiberateShipwreck1
+{
+	myTargetOffset -2000.0;200.0;600.0
+	myTargetOffsetEnd -1000.0;200.0;1000.0
+	myCameraOffset -1500.0;150.0;0.0
+	myCameraOffsetEnd -500.0;150.0;1000.0
+	myOffsetDuration 40.0
+	myOffsetCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.410276 -0.388043, }, outTangents = { 0.458632 0.503251, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+}
+
+DialogueCameraPreset ProspectorStoryBounty01Cam03 : LiberateShipwreck1
+{
+	myTargetOffset 0.0;0.0;0.0
+	myTargetOffsetEnd 0.0;350.0;0.0
+	myCameraOffset -150.0;0.0;-150.0
+	myCameraOffsetEnd -100.0;300.0;-100.0
+	myOffsetDuration 10.0
+	myOffsetCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.404179 -0.26625, }, outTangents = { 0.960079 0.0192765, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+}
+
+DialogueCameraPreset ProspectorStoryBounty02Cam01 : ProspectorStoryBounty01Cam01
+{
+	myTargetOffset 0.0;750.0;0.0
+	myTargetOffsetEnd 0.0;500.0;0.0
+	myCameraOffset 1750.0;400.0;1750.0
+	myCameraOffsetEnd 500.0;500.0;500.0
+	myOffsetDuration 40.0
+}
+
+DialogueCameraPreset ProspectorStoryBounty02Cam02 : ProspectorStoryBounty01Cam02
+{
+	myTargetOffset 200.0;400.0;200.0
+	myTargetOffsetEnd 0.0;200.0;-200.0
+	myCameraOffset -400.0;450.0;200.0
+	myCameraOffsetEnd -400.0;450.0;-400.0
+	myOffsetDuration 40.0
+}
+
+DialogueCameraPreset ProspectorStoryBounty02Cam03 : ProspectorStoryBounty01Cam03
+{
+	myTargetOffset 0.0;850.0;0.0
+	myTargetOffsetEnd 0.0;2750.0;0.0
+	myCameraOffset -150.0;900.0;-200.0
+	myCameraOffsetEnd -200.0;2000.0;-200.0
+	myOffsetDuration 20.0
+	myOffsetCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { 0 0, -0.498892 -0.192529, }, outTangents = { 0.70503 0.189149, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+}
+
+DialogueCameraPreset ProspectorStoryBounty03Cam01 : ProspectorStoryBounty01Cam01
+{
+	myTargetOffset 0.0;250.0;0.0
+	myTargetOffsetEnd 0.0;300.0;0.0
+	myCameraOffset -2000.0;100.0;500.0
+	myCameraOffsetEnd -1000.0;100.0;100.0
+	myOffsetDuration 20.0
+}
+
+DialogueCameraPreset ProspectorStoryBounty03Cam02 : ProspectorStoryBounty01Cam02
+{
+	myTargetOffset 500.0;200.0;0.0
+	myTargetOffsetEnd -1000.0;200.0;0.0
+	myCameraOffset 200.0;300.0;1000.0
+	myCameraOffsetEnd -1000.0;300.0;750.0
+	myOffsetDuration 40.0
+}
+
+DialogueCameraPreset ProspectorStoryBounty03Cam03 : ProspectorStoryBounty01Cam03
+{
+	myTargetOffset -200.0;500.0;200.0
+	myTargetOffsetEnd -3000.0;3000.0;200.0
+	myCameraOffset -700.0;700.0;0.0
+	myCameraOffsetEnd -500.0;700.0;0.0
+	myOffsetDuration 20.0
+}
+
+DialogueCameraPreset ProspectorStoryBounty04Cam01 : ProspectorStoryBounty01Cam01
+{
+	myTargetOffset 0.0;0.0;0.0
+	myTargetOffsetEnd 0.0;0.0;0.0
+	myCameraOffset 2500.0;0.0;2500.0
+	myCameraOffsetEnd 2000.0;0.0;2000.0
+	myOffsetDuration 20.0
+}
+
+DialogueCameraPreset ProspectorStoryBounty04Cam02 : ProspectorStoryBounty01Cam02
+{
+	myTargetOffset 1000.0;0.0;1000.0
+	myTargetOffsetEnd 1000.0;200.0;1000.0
+	myCameraOffset -4500.0;-100.0;500.0
+	myCameraOffsetEnd 1000.0;-100.0;-1000.0
+	myOffsetDuration 70.0
+}
+
+DialogueCameraPreset ProspectorStoryBounty04Cam03 : ProspectorStoryBounty01Cam03
+{
+	myTargetOffset 1000.0;250.0;-500.0
+	myTargetOffsetEnd 1000.0;250.0;0.0
+	myCameraOffset 1100.0;500.0;-1000.0
+	myCameraOffsetEnd 1100.0;1000.0;1000.0
+	myOffsetDuration 20.0
+	myOffsetCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.395146 -0.378427, }, outTangents = { 0.395952 0.394276, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+}
+
+DialogueCameraPreset ExpeditionSparkDouble : ExpeditionSpark1
+{
+	myDefaultTransition
+	{
+		myDuration 3.0
+		myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.455879 -0.00103861, }, outTangents = { 0.586828 0.00579095, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		myResetAngles FALSE
+	}
+	myDefaultOutTransition
+	{
+		myDuration 1.5
+		myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.49781 -0.00393445, }, outTangents = { 0.597043 0.00123411, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		myResetAngles TRUE
+	}
+	myFoVEnd 50.0
+	myTargetOffset 0.0;0.0;0.0
+	myTargetOffsetEnd 0.0;0.0;0.0
+	myCameraOffset -50.0;100.0;200.0
+	myCameraOffsetEnd 50.0;50.0;150.0
+	myOffsetDuration 11.0
+	myOffsetCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 0, -0.501387 -0.00365097, }, outTangents = { 0.596357 -0.00289571, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+}
+
+DialogueCameraPreset ExpeditionSparkSpace : ExpeditionSpark1
+{
+	myFoV 100.0
+	myDefaultOutTransition
+	{
+		myDuration 3.0
+		myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 0, -0.333333 0, }, outTangents = { 0.333333 0, 0 0, }, properties = { 71, 1095, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		myResetAngles TRUE
+	}
+	myFoVEnd 100.0
+	myTargetOffset 0.0;0.0;0.0
+	myTargetOffsetEnd 0.0;0.0;0.0
+	myCameraOffset -100.0;-150.0;500.0
+	myCameraOffsetEnd 100.0;150.0;500.0
+	myCameraRoll 0.0
+	myCameraRollEnd 0.0
+	myAllowTransformUpdates TRUE
+	myAllowTargetTransformUpdates TRUE
+	myAllowSubjectTransformUpdates TRUE
+	myAllowTargetRotationUpdates TRUE
+	myZoomInCamOrientationRelativeToTarget TRUE
+	myZoomInCamPosRelativeToSubject FALSE
+}
+
+DialogueCameraPreset ExpeditionSparkCradle : ExpeditionSpark1
+{
+}
+
+DialogueCameraPreset ExpeditionSparkNecrom : ExpeditionSpark2
+{
+	myFoV 60.0
+	myFoVEnd 60.0
+	myTargetOffset 0.0;0.0;0.0
+	myTargetOffsetEnd 0.0;0.0;0.0
+	myCameraOffset 80.0;150.0;80.0
+	myCameraOffsetEnd -80.0;150.0;80.0
+}
+

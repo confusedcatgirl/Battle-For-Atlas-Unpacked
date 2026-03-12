@@ -1,0 +1,46 @@
+include "onward/game system data/fruit/sim/simunit.fruit"
+
+SimUnit outlaw_leader < uid=6D25F4C65BE5D4D80002B8AF68D0CB5C >
+{
+	myUIName "contextComment = \"[Placeholder - do not translate] HUD name that shows when targeting an outlaw spaceship.\", description = \"ui-target-outlaw-leader\", enabled = true, guid = #6D25F4C65BE5D4D80002B8AE6A0CF843, lineVersion = 0, maxLength = 17, text = \"Outlaw Leader\""
+	myBehavior ""
+	myFaction Outlaw
+	myCategory NPC
+	mySubCategory None
+	mySubCategoryVariant 1
+	myRadius 6.0
+	mySpeed 80.0
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo Leader < uid=6D25F4C65BE5D4D80002B8B0BC8B6976 >
+		{
+			myCountMin 1
+			myCountMax 1
+			myEntitySize 30.0
+			myEntityFile ""
+			myElementSpawnInfo
+			{
+				SimUnitElementSpawnInfo Leader
+				{
+					myEntityFile "onward/game system data/juice/ai/npc/outlaw_defender_leader.mnpc"
+				}
+			}
+			mySpaceSettings
+			{
+				mySpawnFormation None
+				myFormationFlightDist 0.0
+			}
+			myEnsurePhysicsClearance TRUE
+		}
+	}
+	mySaveable FALSE
+	myNapTime 1.0
+	myPreserveSpawnInfo FALSE
+	myIsValidPickupTarget FALSE
+	mySelfDestructAfterUnrealized FALSE
+	mySkillLevelCoefficients
+	{
+		myPlanetActMultiplier 1
+	}
+}
+

@@ -1,0 +1,73 @@
+include ./invisible_npc_base.mnpc
+include onward/skillscripts/npc_ability_harvester_extractor_nova_beam.mskillscriptjuice
+include onward/skillscripts/npc_ability_harvester_extractor_crush_mortar.mskillscriptjuice
+include onward/skillscripts/npc_ability_harvester_extractor_jump_rope.mskillscriptjuice
+include onward/skillscripts/harvester_extractor_encounter_parent_damage_listener.mskillscriptjuice
+include onward/skillscripts/harvester_extractor_encounter_variant_mod_management.mskillscriptjuice
+include onward/skillscripts/npc_ability_harvester_extractor_shockwave.mskillscriptjuice
+
+NPC harvester_extractor_encounter < uid=C92F4D3F5984BD8900757FBDC1D05FAD > : invisible_npc_base
+{
+	myUIName_NonLocalized ExtractorEncounter
+	myGraphObjectFile "onward/graph objects/character/harvester_extractor_encounter.mgraphobject"
+	myBehavior "onward/game system data/juice/ai/behavior/harvester_extractor_encounter.mbehavior"
+	myIsInitiallyAggressive FALSE
+	myHealthConfig < uid=C92F4D3F5A8359D802F8EBC564EC5F40 > = "harvester_extractor_encounter Health"
+	myAbilityDefinitions
+	{
+		NPCAbilityDefinition "Jump Rope"
+		{
+			myGameAction NPC_Ability1
+			mySkillScript < uid=C92F4D3F5989C78A0000018069ABFF7C > = npc_ability_harvester_extractor_jump_rope
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_harvester_extractor_jump_rope.juice"
+		}
+		NPCAbilityDefinition "Nova Beam"
+		{
+			myGameAction NPC_Ability2
+			mySkillScript < uid=C92F4D3F598A180401712C7D18FC69F1 > = npc_ability_harvester_extractor_nova_beam
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_harvester_extractor_nova_beam.juice"
+		}
+		NPCAbilityDefinition "Crush Mortar"
+		{
+			myGameAction NPC_Ability3
+			mySkillScript < uid=C92F4D3F598CCC1B00FBDA3973714DA5 > = npc_ability_harvester_extractor_crush_mortar
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_harvester_extractor_crush_mortar.juice"
+		}
+		NPCAbilityDefinition "Crush Mortar (Pressure Plate)"
+		{
+			myGameAction NPC_Ability5
+			mySkillScript < uid=C92F4D3F5A5CD4F10070F872FB068325 > = npc_ability_harvester_extractor_crush_mortar
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_harvester_extractor_variant_pressureplate_crush_mortar.juice"
+		}
+		NPCAbilityDefinition Shockwave
+		{
+			myGameAction NPC_Ability4
+			mySkillScript < uid=C92F4D3F5A565CD300851F22E3548A1C > = npc_ability_harvester_extractor_shockwave
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_harvester_extractor_shockwave.juice"
+		}
+	}
+	myPersistentScripts
+	{
+		SkillScript "Parent Damage Listener" < uid=C92F4D3F5989EDCB00731EEE0F4CFE34 > = harvester_extractor_encounter_parent_damage_listener
+		SkillScript "Variant Mod Manager" < uid=C92F4D3F5A56415F000583E8F84D6C23 > = harvester_extractor_encounter_variant_mod_management
+	}
+	myAttributeSettings "onward/game system data/juice/ai/attributes/harvester_extractor_encounter.juice"
+	myAwarenessDistance 600.0
+	myNPCFaction Harvester
+	myNPCType Encounter
+	myActionThreatProfile
+	{
+		myMinActionThreatFromDecay 1.0
+	}
+	myVisibleToAwareness TRUE
+	myAIVisionConeTypeName ExtractorVisionCone
+	myOnDiscoveredChallenge Discover_Extractor
+	myAllowDormancy FALSE
+	myAllowCombatWhileDormant TRUE
+}
+

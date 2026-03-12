@@ -1,0 +1,28 @@
+include ./expedition_worker.msimunit
+include ./expedition_defender.msimunit
+
+SimUnit expedition_defender_elite < uid=93869D535AB50E1200001CEFC6613891 > : "Expedition Defender"
+{
+	myUIName "contextComment = \"The UI name for the Expedition Defender which constructs new bases\", description = \"uiname-expedition-defender-elite\", enabled = true, guid = #93869D535AB50EA600001CFEBBCFE3D8, lineVersion = 0, maxLength = 32, text = \"Expedition Defender Elite\""
+	myBehavior onward/simworld/behavior/expedition_worker_elite.msimunitbtgraph
+	mySubCategory Defender
+	mySubCategoryVariant 1
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo Defender < uid=93869D535AB50FF500001D3928BA75BD >
+		{
+			myCountMin 1
+			myCountMax 1
+			myEntitySize 5.0
+			myEntityFile "onward/game system data/juice/ai/npc/expedition_defender_elite.mnpc"
+		}
+	}
+	mySkillLevelCoefficients
+	{
+		myPlanetActMultiplier 1
+		myParentLevelMultiplier 0
+		myParentSkillLevelMultiplier 0
+		myBaseLevel 10
+	}
+}
+

@@ -1,0 +1,18 @@
+include ./template_pilot.mplayermod
+include "onward/game system data/juice/progression/pilot_tuning_master.juice"
+
+PlayerMod mod_perk_combo_master_l1 < uid=C91BB55159DD070B0060F928069E4A3F > : template_pilot
+{
+	myAttributeMods
+	{
+		AttributeMod "Energy on Combo"
+		{
+			myType Player_EnergyOnStatusEffectBlast
+			myMultValue 1.0
+			myAddValue = Combo_Master_l1_AbilityCharge
+			myPercentageValue 0.0
+		}
+	}
+	myIsSelfMod TRUE
+}
+

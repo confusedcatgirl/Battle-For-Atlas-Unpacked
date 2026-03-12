@@ -1,0 +1,305 @@
+include "onward/game system data/fruit/animation/animsys.fruit"
+
+SpecializationList mySpecializations
+{
+}
+
+FileList mySubsystems
+{
+}
+
+MotionPose "Ready (Skimmer)"
+{
+	myStateName Ready
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;Gravity_Low;Gravity_Normal;Gravity_High;WyvernState_Skimmer;AlertLevel_Idle;AlertLevel_Investigating;
+	myAnimsOut "StartDash;Normal Skimmer to Flight;Normal Skimmer to Barrage;"
+}
+
+MotionPose "Ready (Barrage)"
+{
+	myStateName Ready
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;Gravity_Low;Gravity_Normal;Gravity_High;WyvernState_Barrage;AlertLevel_Idle;AlertLevel_Investigating;AlertLevel_Combat;
+	myAnimsOut "Barrage to Combat Skimmer;Barrage to Normal Skimmer;Barrage to Flight;StartDash;"
+}
+
+MotionPose "Ready (Flight)"
+{
+	myStateName Ready
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;Gravity_Low;Gravity_Normal;Gravity_High;WyvernState_Flight;AlertLevel_Idle;AlertLevel_Investigating;AlertLevel_Combat;
+	myAnimsOut "Flight to Combat Skimmer;Flight to Normal Skimmer;StartDash;"
+}
+
+TransitionMotionState "Combat Skimmer to Barrage" < uid=4A8282B956A9220100000085F6611E53 >
+{
+	myEnabled TRUE
+	myTotalDuration 0.346667
+	myDistance 0.0
+	myAnimationDuration 0.666667
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.0
+	myAnimsOut "Ready (Barrage);"
+	myDisplacementAngle 0.0
+	myRotationAngle 0.0
+	myIsGlobalTransition FALSE
+	myGlobalTransitionPriority 0
+}
+
+TransitionMotionState "Barrage to Combat Skimmer" < uid=4A8282B956A92201000000863B04931E >
+{
+	myEnabled TRUE
+	myTotalDuration 0.346667
+	myDistance 0.0
+	myAnimationDuration 0.666667
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.0
+	myAnimsOut "Ready (Skimmer (Alert));"
+	myDisplacementAngle 0.0
+	myRotationAngle 0.0
+	myIsGlobalTransition FALSE
+	myGlobalTransitionPriority 0
+}
+
+TransitionMotionState "Combat Skimmer to Flight" < uid=4A8282B956A9220100000087CBA1A538 >
+{
+	myEnabled TRUE
+	myTotalDuration 0.346667
+	myDistance 1.538608
+	myAnimationDuration 0.666667
+	myAnimationDistance 1.538608
+	myHorizontalDistance 1.538568
+	myVerticalDisplacement -0.011044
+	myAnimsOut "Ready (Flight);"
+	myDisplacementAngle 180.0
+	myRotationAngle 0.0
+	myIsGlobalTransition FALSE
+	myGlobalTransitionPriority 0
+}
+
+TransitionMotionState "Flight to Combat Skimmer" < uid=4A8282B956A92201000000880DA86254 >
+{
+	myEnabled TRUE
+	myTotalDuration 0.38
+	myDistance 0.702488
+	myAnimationDuration 0.7
+	myAnimationDistance 0.702488
+	myHorizontalDistance 0.702488
+	myVerticalDisplacement 0.0
+	myAnimsOut "Ready (Skimmer (Alert));"
+	myDisplacementAngle 0.0
+	myRotationAngle 0.0
+	myIsGlobalTransition FALSE
+	myGlobalTransitionPriority 0
+}
+
+MotionPose "Ready (Skimmer (Alert))"
+{
+	myStateName Ready
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;Gravity_Low;Gravity_Normal;Gravity_High;WyvernState_Skimmer;AlertLevel_Combat;
+	myAnimsOut "Combat Skimmer to Barrage;Combat Skimmer to Flight;StartDash;"
+}
+
+OneshotMotionStateWithModes "Die (Skimmer)" < uid=4A8282B956A9220100000089F3C57634 >
+{
+	myEnabled TRUE
+	myStateName Die
+	myTotalDuration 2.046667
+	myDistance 8.363424
+	myAnimationDuration 2.366667
+	myAnimationDistance 8.363424
+	myHorizontalDistance 8.363424
+	myVerticalDisplacement 0.0
+	myAnimCommand Die
+	myDisplacementAngle 167.52507
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;Gravity_Low;Gravity_Normal;Gravity_High;WyvernState_Skimmer;WyvernState_Barrage;AlertLevel_Idle;AlertLevel_Investigating;AlertLevel_Combat;
+}
+
+LayerMotionState "Gatling (Machine Gun)"
+{
+	myLayerName Gatling
+	myTotalDuration 0.0
+	myIsLoop TRUE
+	mySupportedStatesAndPoses "Ready (Flight);"
+}
+
+LayerMotionState "Gatling (Skimmer)"
+{
+	myLayerName Gatling
+	myTotalDuration 0.0
+	myIsLoop TRUE
+	mySupportedStatesAndPoses "Ready (Skimmer (Alert));"
+}
+
+OneshotMotionStateWithModes "Die (Flight)" < uid=4A8282B956A922010000008AEC469731 >
+{
+	myEnabled TRUE
+	myStateName Die
+	myTotalDuration 2.046667
+	myDistance 3.055377
+	myAnimationDuration 2.366667
+	myAnimationDistance 3.055377
+	myHorizontalDistance 3.055377
+	myVerticalDisplacement 0.0
+	myAnimCommand Die
+	myDisplacementAngle 67.012085
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;Gravity_Low;Gravity_Normal;Gravity_High;WyvernState_Flight;AlertLevel_Idle;AlertLevel_Investigating;AlertLevel_Combat;
+}
+
+LayerMotionState "Bazooka (Homing Rocket)"
+{
+	myLayerName Bazooka
+	myTotalDuration 0.0
+	myIsLoop TRUE
+	mySupportedStatesAndPoses "Ready (Flight);"
+}
+
+MotionPose Dash
+{
+	myStateName Dash
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;Gravity_Low;Gravity_Normal;Gravity_High;WyvernState_Skimmer;WyvernState_Barrage;WyvernState_Flight;AlertLevel_Idle;AlertLevel_Investigating;AlertLevel_Combat;
+	myAnimsOut EndDash;
+}
+
+TransitionMotionState StartDash < uid=4A8282B956A922010000008B2A0867E4 >
+{
+	myEnabled TRUE
+	myTotalDuration 0.18
+	myDistance 0.0
+	myAnimationDuration 0.5
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.0
+	myAnimsOut Dash;
+	myDisplacementAngle 0.0
+	myRotationAngle 0.0
+	myIsGlobalTransition FALSE
+	myGlobalTransitionPriority 0
+}
+
+TransitionMotionState EndDash < uid=4A8282B956A922010000008C64FC1A33 >
+{
+	myEnabled TRUE
+	myTotalDuration 0.946667
+	myDistance 0.0
+	myAnimationDuration 1.266667
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.0
+	myAnimsOut "Ready (Skimmer (Alert));"
+	myDisplacementAngle 0.0
+	myRotationAngle 0.0
+	myIsGlobalTransition FALSE
+	myGlobalTransitionPriority 0
+}
+
+TransitionMotionState "Normal Skimmer to Flight" < uid=4A8282B956A922010000008DBC50B44E >
+{
+	myEnabled TRUE
+	myTotalDuration 0.346667
+	myDistance 1.538608
+	myAnimationDuration 0.666667
+	myAnimationDistance 1.538608
+	myHorizontalDistance 1.538568
+	myVerticalDisplacement -0.011044
+	myAnimsOut "Ready (Flight);"
+	myDisplacementAngle 180.0
+	myRotationAngle 0.0
+	myIsGlobalTransition FALSE
+	myGlobalTransitionPriority 0
+}
+
+TransitionMotionState "Normal Skimmer to Barrage" < uid=4A8282B956A922010000008E647743EA >
+{
+	myEnabled FALSE
+	myTotalDuration 0.0
+	myDistance 0.0
+	myAnimationDuration 0.0
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.0
+	myAnimsOut "Ready (Barrage);"
+	myDisplacementAngle 0.0
+	myRotationAngle 0.0
+	myIsGlobalTransition FALSE
+	myGlobalTransitionPriority 0
+}
+
+TransitionMotionState "Barrage to Normal Skimmer" < uid=4A8282B956A922010000008F0D293FC7 >
+{
+	myEnabled FALSE
+	myTotalDuration 0.0
+	myDistance 0.0
+	myAnimationDuration 0.0
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.0
+	myAnimsOut "Ready (Skimmer);"
+	myDisplacementAngle 0.0
+	myRotationAngle 0.0
+	myIsGlobalTransition FALSE
+	myGlobalTransitionPriority 0
+}
+
+MotionPose "TestFlight (Flight)"
+{
+	myStateName TestFlight
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;Gravity_Low;Gravity_Normal;Gravity_High;WyvernState_Flight;AlertLevel_Idle;AlertLevel_Investigating;AlertLevel_Combat;
+}
+
+TransitionMotionState "Flight to Normal Skimmer" < uid=4A8282B956A9220100000090898091D3 >
+{
+	myEnabled FALSE
+	myTotalDuration 0.0
+	myDistance 0.0
+	myAnimationDuration 0.0
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.0
+	myAnimsOut "Ready (Skimmer);"
+	myDisplacementAngle 0.0
+	myRotationAngle 0.0
+	myIsGlobalTransition FALSE
+	myGlobalTransitionPriority 0
+}
+
+TransitionMotionState "Barrage to Flight" < uid=4A8282B956A9220100000091B04BB669 >
+{
+	myEnabled TRUE
+	myTotalDuration 0.346667
+	myDistance 0.937952
+	myAnimationDuration 0.666667
+	myAnimationDistance 0.937952
+	myHorizontalDistance 0.937952
+	myVerticalDisplacement 0.0
+	myAnimsOut "Ready (Flight);"
+	myDisplacementAngle 180.0
+	myRotationAngle 0.0
+	myIsGlobalTransition FALSE
+	myGlobalTransitionPriority 0
+}
+
+LayerMotionState "MediumDamageReaction (Barrage)"
+{
+	myLayerName MediumDamageReaction
+	myTotalDuration 1.346667
+	myIsLoop FALSE
+	mySupportedStatesAndPoses "Ready (Barrage);"
+}
+
+LayerMotionState "MediumDamageReaction (Skimmer (Alert))"
+{
+	myLayerName MediumDamageReaction
+	myTotalDuration 0.813333
+	myIsLoop FALSE
+	mySupportedStatesAndPoses "Ready (Skimmer);Ready (Skimmer (Alert));"
+}
+
+LayerMotionState "MediumDamageReaction (Flight)"
+{
+	myLayerName MediumDamageReaction
+	myTotalDuration 1.48
+	myIsLoop FALSE
+	mySupportedStatesAndPoses "Ready (Flight);"
+}
+

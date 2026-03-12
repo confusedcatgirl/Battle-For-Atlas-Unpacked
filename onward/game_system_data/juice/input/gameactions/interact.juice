@@ -1,0 +1,2838 @@
+include "onward/game system data/juice/input/inputactions.juice"
+include "onward/game system data/fruit/input/gameinput.fruit"
+
+TriggerGameAction "[Interact] Can Interact"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameActionState IsFlippedOver
+		{
+			myNegate TRUE
+			myGameActionState IsFlippedOver
+		}
+		ConditionalGameActionState IsStalled
+		{
+			myNegate TRUE
+			myGameActionState IsStalled
+		}
+		ConditionalGameActionState IsRagdoll
+		{
+			myNegate TRUE
+			myGameActionState IsRagdoll
+		}
+		ConditionalGameActionState IsDead
+		{
+			myNegate TRUE
+			myGameActionState IsDead
+		}
+		ConditionalGameActionState ShouldBeDowned
+		{
+			myNegate TRUE
+			myGameActionState ShouldBeDowned
+		}
+		ConditionalGameActionState InHyperspace
+		{
+			myNegate TRUE
+			myGameActionState InHyperspace
+		}
+		ConditionalGameActionState HasNPCAttached
+		{
+			myNegate TRUE
+			myGameActionState HasNPCAttached
+		}
+		ConditionalGameActionState InStasis
+		{
+			myNegate TRUE
+			myGameActionState InStasis
+		}
+		ConditionalGameActionState InDialogue
+		{
+			myNegate TRUE
+			myGameActionState InDialogue
+		}
+		ConditionalGameActionState IsFrozen
+		{
+			myNegate TRUE
+			myGameActionState IsFrozen
+		}
+		ConditionalGameActionState IsInFollowMode
+		{
+			myNegate TRUE
+			myGameActionState IsInFollowMode
+		}
+		ConditionalGameActionState IsCoopEnterHandshake
+		{
+			myNegate TRUE
+			myGameActionState IsCoopEnterHandshake
+		}
+		ConditionalGameActionState IsInFadeRequest
+		{
+			myNegate TRUE
+			myGameActionState IsInFadeRequest
+		}
+	}
+	myGameAction PlayerQuery_CanInteract
+}
+
+TriggerGameAction "[Interact] Is Pickup Animating"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameActionState IsPickupAnimating
+		{
+			myGameActionState IsPickupAnimating
+		}
+	}
+	myGameAction PlayerQuery_IsPickupAnimating
+}
+
+TriggerGameAction "[Interact] Can Start Scan"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameAction PlayerQuery_CanInteract
+		{
+			myGameAction PlayerQuery_CanInteract
+		}
+		ConditionalGameActionState IsFlying
+		{
+			myNegate TRUE
+			myGameActionState IsFlying
+		}
+		ConditionalGameActionState IsPlucking
+		{
+			myNegate TRUE
+			myGameActionState IsPlucking
+		}
+		ConditionalGameActionState IsReticleOverScannable
+		{
+			myGameActionState IsReticleOverScannable
+		}
+		ConditionalGameActionState IsScanEnabled
+		{
+			myGameActionState IsScanEnabled
+		}
+	}
+	myGameAction PlayerQuery_CanStartScan
+}
+
+TriggerGameAction "[Interact] Can Start Hack"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameAction PlayerQuery_CanInteract
+		{
+			myGameAction PlayerQuery_CanInteract
+		}
+		ConditionalGameActionState IsHacking
+		{
+			myNegate TRUE
+			myGameActionState IsHacking
+		}
+		ConditionalGameActionState IsReticleOverHackable
+		{
+			myGameActionState IsReticleOverHackable
+		}
+		ConditionalActionGroup "Not Flying Or In Space"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalGameActionState "Not Flying"
+				{
+					myNegate TRUE
+					myGameActionState IsFlying
+				}
+				ConditionalGameActionState InSpace
+				{
+					myGameActionState InSpace
+				}
+			}
+		}
+		ConditionalGameActionState IsHackEnabled
+		{
+			myGameActionState IsHackEnabled
+		}
+	}
+	myGameAction PlayerQuery_CanStartHack
+}
+
+TriggerGameAction "[Interact] Can Hail"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameActionState IsReticleOverHailable
+		{
+			myGameActionState IsReticleOverHailable
+		}
+		ConditionalGameAction PlayerQuery_CanInteract
+		{
+			myGameAction PlayerQuery_CanInteract
+		}
+		ConditionalGameActionState IsOnFire
+		{
+			myNegate TRUE
+			myGameActionState IsOnFire
+		}
+		ConditionalGameActionState IsInBlackHole
+		{
+			myNegate TRUE
+			myGameActionState IsInBlackHole
+		}
+		ConditionalGameActionState InGravity
+		{
+			myNegate TRUE
+			myGameActionState InGravity
+		}
+		ConditionalGameActionState IsInCombat
+		{
+			myNegate TRUE
+			myGameActionState IsInCombat
+		}
+		ConditionalGameActionState IsHailableInCombat
+		{
+			myNegate TRUE
+			myGameActionState IsHailableInCombat
+		}
+		ConditionalGameActionState InDialogue
+		{
+			myNegate TRUE
+			myGameActionState InDialogue
+		}
+		ConditionalGameAction PlayerQuery_IsInitiatingPhotoMode
+		{
+			myNegate TRUE
+			myGameAction PlayerQuery_IsInitiatingPhotoMode
+		}
+		ConditionalActionGroup "Not Flying Or In Space"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalGameActionState "Not Flying"
+				{
+					myNegate TRUE
+					myGameActionState IsFlying
+				}
+				ConditionalGameActionState InSpace
+				{
+					myGameActionState InSpace
+				}
+			}
+		}
+		ConditionalGameActionState IsHailEnabled
+		{
+			myGameActionState IsHailEnabled
+		}
+		ConditionalActionGroup "Player 1 or No join forces in progress"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalGameActionState IsPrimaryPlayer
+				{
+					myGameActionState IsPrimaryPlayer
+				}
+				ConditionalGameActionState NotIsCoopJoinForcesInProgress
+				{
+					myNegate TRUE
+					myGameActionState IsCoopJoinForcesInProgress
+				}
+			}
+		}
+	}
+	myGameAction PlayerQuery_CanHail
+}
+
+TriggerGameAction "[Interact] Can Pilot Trial Interact"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameActionState IsReticleOverPilotTrialInteractable
+		{
+			myGameActionState IsReticleOverPilotTrialInteractable
+		}
+		ConditionalGameAction PlayerQuery_CanInteract
+		{
+			myGameAction PlayerQuery_CanInteract
+		}
+		ConditionalGameActionState IsOnFire
+		{
+			myNegate TRUE
+			myGameActionState IsOnFire
+		}
+		ConditionalGameActionState IsInBlackHole
+		{
+			myNegate TRUE
+			myGameActionState IsInBlackHole
+		}
+		ConditionalGameActionState InGravity
+		{
+			myNegate TRUE
+			myGameActionState InGravity
+		}
+		ConditionalGameActionState IsInCombat
+		{
+			myNegate TRUE
+			myGameActionState IsInCombat
+		}
+		ConditionalGameActionState InDialogue
+		{
+			myNegate TRUE
+			myGameActionState InDialogue
+		}
+		ConditionalActionGroup "Not Flying Or In Space"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalGameActionState "Not Flying"
+				{
+					myNegate TRUE
+					myGameActionState IsFlying
+				}
+				ConditionalGameActionState InSpace
+				{
+					myGameActionState InSpace
+				}
+			}
+		}
+		ConditionalGameActionState IsHailEnabled
+		{
+			myGameActionState IsHailEnabled
+		}
+		ConditionalActionGroup "Player 1 or No join forces in progress"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalGameActionState IsPrimaryPlayer
+				{
+					myGameActionState IsPrimaryPlayer
+				}
+				ConditionalGameActionState NotIsCoopJoinForcesInProgress
+				{
+					myNegate TRUE
+					myGameActionState IsCoopJoinForcesInProgress
+				}
+			}
+		}
+		ConditionalGameActionState IsPilotTrialEventActive
+		{
+			myNegate TRUE
+			myGameActionState IsPilotTrialEventActive
+		}
+	}
+	myGameAction PlayerQuery_CanPilotTrialInteract
+}
+
+TriggerGameAction "[Interact] Interact Fail since Combat"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameActionState IsReticleOverHailable
+		{
+			myGameActionState IsReticleOverHailable
+		}
+		ConditionalGameAction PlayerQuery_CanInteract
+		{
+			myGameAction PlayerQuery_CanInteract
+		}
+		ConditionalGameActionState IsOnFire
+		{
+			myNegate TRUE
+			myGameActionState IsOnFire
+		}
+		ConditionalGameActionState IsInBlackHole
+		{
+			myNegate TRUE
+			myGameActionState IsInBlackHole
+		}
+		ConditionalGameActionState InGravity
+		{
+			myNegate TRUE
+			myGameActionState InGravity
+		}
+		ConditionalGameActionState InDialogue
+		{
+			myNegate TRUE
+			myGameActionState InDialogue
+		}
+		ConditionalActionGroup "Not Flying Or In Space"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalGameActionState "Not Flying"
+				{
+					myNegate TRUE
+					myGameActionState IsFlying
+				}
+				ConditionalGameActionState InSpace
+				{
+					myGameActionState InSpace
+				}
+			}
+		}
+		ConditionalActionGroup "In Combat"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalGameActionState IsInCombat
+				{
+					myNegate TRUE
+					myGameActionState IsInCombat
+				}
+				ConditionalGameActionState IsHailableInCombat
+				{
+					myNegate TRUE
+					myGameActionState IsHailableInCombat
+				}
+			}
+		}
+		ConditionalGameActionState IsHailEnabled
+		{
+			myGameActionState IsHailEnabled
+		}
+	}
+	myGameAction PlayerQuery_InteractFailInCombat
+}
+
+TriggerGameAction "[Interact] Is Hail Enabled"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameActionState IsHailEnabled
+		{
+			myGameActionState IsHailEnabled
+		}
+	}
+	myGameAction PlayerQuery_IsHailEnabled
+}
+
+TriggerGameAction "[Interact] Fail Hail"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "INPUT FAIL HAIL"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Tap X (Square)"
+				{
+					myInputActionType Pressed
+					myTimer 0
+					myInputAction = X_SQUARE
+				}
+				ConditionalInputAction "Keyboard Fail Hail"
+				{
+					myInputActionType Pressed
+					myInputAction = KB_INTERACT
+				}
+			}
+		}
+		ConditionalGameActionState IsReticleOverHailable
+		{
+			myGameActionState IsReticleOverHailable
+		}
+		ConditionalGameAction PlayerQuery_CanInteract
+		{
+			myGameAction PlayerQuery_CanInteract
+		}
+		ConditionalGameActionState IsOnFire
+		{
+			myNegate TRUE
+			myGameActionState IsOnFire
+		}
+		ConditionalGameActionState InGravity
+		{
+			myNegate TRUE
+			myGameActionState InGravity
+		}
+		ConditionalGameActionState IsHailEnabled
+		{
+			myGameActionState IsHailEnabled
+		}
+		ConditionalActionGroup "Not Flying Or In Space"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalGameActionState "Not Flying"
+				{
+					myNegate TRUE
+					myGameActionState IsFlying
+				}
+				ConditionalGameActionState InSpace
+				{
+					myGameActionState InSpace
+				}
+			}
+		}
+		ConditionalActionGroup "Player or Hailable in Combat"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalGameActionState IsHailableInCombat
+				{
+					myGameActionState IsHailableInCombat
+				}
+				ConditionalGameActionState IsInCombat
+				{
+					myGameActionState IsInCombat
+				}
+			}
+		}
+	}
+	myGameAction Interact_FailHail_InCombat
+}
+
+TriggerGameAction "[Interact] Can Fast Travel"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameActionState IsPrimaryPlayer
+		{
+			myGameActionState IsPrimaryPlayer
+		}
+		ConditionalGameActionState IsFlippedOver
+		{
+			myNegate TRUE
+			myGameActionState IsFlippedOver
+		}
+		ConditionalGameActionState InSpace
+		{
+			myGameActionState InSpace
+		}
+		ConditionalGameActionState IsStalled
+		{
+			myNegate TRUE
+			myGameActionState IsStalled
+		}
+		ConditionalGameActionState IsRagdoll
+		{
+			myNegate TRUE
+			myGameActionState IsRagdoll
+		}
+		ConditionalGameActionState IsDead
+		{
+			myNegate TRUE
+			myGameActionState IsDead
+		}
+		ConditionalGameActionState InStasis
+		{
+			myNegate TRUE
+			myGameActionState InStasis
+		}
+		ConditionalGameActionState InGravity
+		{
+			myNegate TRUE
+			myGameActionState InGravity
+		}
+		ConditionalGameActionState IsOnFire
+		{
+			myNegate TRUE
+			myGameActionState IsOnFire
+		}
+		ConditionalGameActionState IsDeactivated
+		{
+			myNegate TRUE
+			myGameActionState IsDeactivated
+		}
+		ConditionalGameActionState ShouldBeDowned
+		{
+			myNegate TRUE
+			myGameActionState ShouldBeDowned
+		}
+		ConditionalGameActionState HasInteractionWithinRange
+		{
+			myNegate TRUE
+			myGameActionState HasInteractionWithinRange
+		}
+		ConditionalGameActionState IsManeuvering
+		{
+			myNegate TRUE
+			myGameActionState IsManeuvering
+		}
+		ConditionalGameActionState InHyperspace
+		{
+			myNegate TRUE
+			myGameActionState InHyperspace
+		}
+		ConditionalGameActionState TargetedItemIsNotTowable
+		{
+			myNegate TRUE
+			myGameActionState IsReticleOverTowable
+		}
+		ConditionalGameActionState IsPickingUp
+		{
+			myNegate TRUE
+			myGameActionState IsPickingUp
+		}
+		ConditionalGameActionState IsInReverseCamera
+		{
+			myNegate TRUE
+			myGameActionState IsInReverseCamera
+		}
+		ConditionalGameActionState IsFastTravelEnabled
+		{
+			myGameActionState IsFastTravelEnabled
+		}
+		ConditionalGameActionState IsFastTravelling
+		{
+			myNegate TRUE
+			myGameActionState IsFastTravelling
+		}
+		ConditionalGameActionState IsTutorialActive
+		{
+			myNegate TRUE
+			myGameActionState IsTutorialActive
+		}
+		ConditionalGameActionState IsTowablePreventingFastTravel
+		{
+			myNegate TRUE
+			myGameActionState IsTowablePreventingFastTravel
+		}
+		ConditionalGameActionState IsBeingTowed
+		{
+			myNegate TRUE
+			myGameActionState IsBeingTowed
+		}
+		ConditionalGameActionState IsPilotTrialEventActive
+		{
+			myNegate TRUE
+			myGameActionState IsPilotTrialEventActive
+		}
+		ConditionalGameActionState IsArenaEventActive
+		{
+			myNegate TRUE
+			myGameActionState IsArenaEventActive
+		}
+		ConditionalGameActionState InDialogue
+		{
+			myNegate TRUE
+			myGameActionState InDialogue
+		}
+	}
+	myGameAction PlayerQuery_CanFastTravel
+}
+
+TriggerGameAction "[Interact] Can Use Towable"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameActionState IsFlippedOver
+		{
+			myNegate TRUE
+			myGameActionState IsFlippedOver
+		}
+		ConditionalGameActionState IsHoldingObject
+		{
+			myGameActionState IsHoldingObject
+		}
+		ConditionalGameActionState CanUseTowable
+		{
+			myGameActionState CanUseTowable
+		}
+		ConditionalActionGroup "No Valid Fast Travel Target or can't fast travel"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalGameActionState HasValidFastTravelTarget
+				{
+					myNegate TRUE
+					myGameActionState HasValidFastTravelTarget
+				}
+				ConditionalGameAction PlayerQuery_CanFastTravel
+				{
+					myNegate TRUE
+					myGameAction PlayerQuery_CanFastTravel
+				}
+			}
+		}
+		ConditionalGameActionState InHyperspace
+		{
+			myNegate TRUE
+			myGameActionState InHyperspace
+		}
+		ConditionalGameActionState IsInPlanetaryTransition
+		{
+			myNegate TRUE
+			myGameActionState IsInPlanetaryTransition
+		}
+		ConditionalGameActionState ShouldBeDowned
+		{
+			myNegate TRUE
+			myGameActionState ShouldBeDowned
+		}
+		ConditionalGameActionState IsReticleOverScannable
+		{
+			myNegate TRUE
+			myGameActionState IsReticleOverScannable
+		}
+		ConditionalGameActionState IsReticleOverHailable
+		{
+			myNegate TRUE
+			myGameActionState IsReticleOverHailable
+		}
+		ConditionalGameActionState IsReticleOverRepairable
+		{
+			myNegate TRUE
+			myGameActionState IsReticleOverRepairable
+		}
+		ConditionalGameActionState IsReticleOverOpenable
+		{
+			myNegate TRUE
+			myGameActionState IsReticleOverOpenable
+		}
+		ConditionalActionGroup "Not Frozen or Has Freeze Mobility"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalGameActionState IsFrozen
+				{
+					myNegate TRUE
+					myGameActionState IsFrozen
+				}
+				ConditionalGameActionState HasFreezeMobility
+				{
+					myGameActionState HasFreezeMobility
+				}
+			}
+		}
+		ConditionalGameActionState InStasis
+		{
+			myNegate TRUE
+			myGameActionState InStasis
+		}
+		ConditionalGameActionState IsRagdoll
+		{
+			myNegate TRUE
+			myGameActionState IsRagdoll
+		}
+		ConditionalGameActionState IsDead
+		{
+			myNegate TRUE
+			myGameActionState IsDead
+		}
+		ConditionalGameActionState IsUseItemEnabled
+		{
+			myGameActionState IsUseItemEnabled
+		}
+		ConditionalGameActionState InDialogue
+		{
+			myNegate TRUE
+			myGameActionState InDialogue
+		}
+	}
+	myGameAction PlayerQuery_CanUseTowable
+}
+
+TriggerGameAction "[Interact] Can Start Pluck"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameActionState "Not Plucking"
+		{
+			myNegate TRUE
+			myGameActionState IsPlucking
+		}
+		ConditionalGameActionState IsReticleOverPluckable
+		{
+			myGameActionState IsReticleOverPluckable
+		}
+		ConditionalGameActionState IsRagdoll
+		{
+			myNegate TRUE
+			myGameActionState IsRagdoll
+		}
+		ConditionalGameActionState IsFlippedOver
+		{
+			myNegate TRUE
+			myGameActionState IsFlippedOver
+		}
+		ConditionalGameActionState IsPluckEnabled
+		{
+			myGameActionState IsPluckEnabled
+		}
+		ConditionalGameActionState IsPickupAnimating
+		{
+			myNegate TRUE
+			myGameActionState IsPickupAnimating
+		}
+		ConditionalGameActionState InDialogue
+		{
+			myNegate TRUE
+			myGameActionState InDialogue
+		}
+		ConditionalGameActionState IsInFollowMode
+		{
+			myNegate TRUE
+			myGameActionState IsInFollowMode
+		}
+		ConditionalGameActionState InStasis
+		{
+			myNegate TRUE
+			myGameActionState InStasis
+		}
+		ConditionalGameActionState IsFrozen
+		{
+			myNegate TRUE
+			myGameActionState IsFrozen
+		}
+		ConditionalGameActionState ShouldBeDowned
+		{
+			myNegate TRUE
+			myGameActionState ShouldBeDowned
+		}
+		ConditionalActionGroup "!CanStore || (CanStore && HasSpace)"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalActionGroup "CanStore && HasSpace"
+				{
+					myConditionalInputActions
+					{
+						ConditionalGameActionState CanStore
+						{
+							myGameActionState CanStoreReticleItem
+						}
+						ConditionalGameActionState HasSpace
+						{
+							myGameActionState InventoryHasSpaceForReticleItem
+						}
+					}
+				}
+				ConditionalGameActionState !CanStore
+				{
+					myNegate TRUE
+					myGameActionState CanStoreReticleItem
+				}
+			}
+		}
+		ConditionalActionGroup "Is not flying / is in space"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalGameActionState NotFlying
+				{
+					myNegate TRUE
+				}
+				ConditionalGameActionState InSpace
+				{
+					myGameActionState InSpace
+				}
+			}
+		}
+		ConditionalGameActionState IsPickupAnimating
+		{
+			myNegate TRUE
+			myGameActionState IsPickupAnimating
+		}
+	}
+	myGameAction PlayerQuery_CanStartPluck
+}
+
+TriggerGameAction "[Interact] Pluck Fail Inventory"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameActionState "Not Plucking"
+		{
+			myNegate TRUE
+			myGameActionState IsPlucking
+		}
+		ConditionalGameActionState IsReticleOverPluckable
+		{
+			myGameActionState IsReticleOverPluckable
+		}
+		ConditionalGameActionState IsRagdoll
+		{
+			myNegate TRUE
+			myGameActionState IsRagdoll
+		}
+		ConditionalGameActionState IsFlippedOver
+		{
+			myNegate TRUE
+			myGameActionState IsFlippedOver
+		}
+		ConditionalGameActionState IsPluckEnabled
+		{
+			myGameActionState IsPluckEnabled
+		}
+		ConditionalGameActionState IsPickupAnimating
+		{
+			myNegate TRUE
+			myGameActionState IsPickupAnimating
+		}
+		ConditionalGameActionState InDialogue
+		{
+			myNegate TRUE
+			myGameActionState InDialogue
+		}
+		ConditionalGameActionState IsInFollowMode
+		{
+			myNegate TRUE
+			myGameActionState IsInFollowMode
+		}
+		ConditionalGameActionState InStasis
+		{
+			myNegate TRUE
+			myGameActionState InStasis
+		}
+		ConditionalGameActionState IsFrozen
+		{
+			myNegate TRUE
+			myGameActionState IsFrozen
+		}
+		ConditionalGameActionState ShouldBeDowned
+		{
+			myNegate TRUE
+			myGameActionState ShouldBeDowned
+		}
+		ConditionalGameActionState CanStore
+		{
+			myGameActionState CanStoreReticleItem
+		}
+		ConditionalGameActionState NotHasSpace
+		{
+			myNegate TRUE
+			myGameActionState InventoryHasSpaceForReticleItem
+		}
+		ConditionalActionGroup "Is not flying / is in space"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalGameActionState NotFlying
+				{
+					myNegate TRUE
+				}
+				ConditionalGameActionState InSpace
+				{
+					myGameActionState InSpace
+				}
+			}
+		}
+	}
+	myGameAction PlayerQuery_InteractFailFullInventory
+}
+
+TriggerGameAction "[Interact] Can Start Open"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameActionState IsReticleOverOpenable
+		{
+			myGameActionState IsReticleOverOpenable
+		}
+		ConditionalGameActionState IsOpenEnabled
+		{
+			myGameActionState IsOpenEnabled
+		}
+		ConditionalGameActionState IsPickupAnimating
+		{
+			myNegate TRUE
+			myGameActionState IsPickupAnimating
+		}
+	}
+	myGameAction PlayerQuery_CanStartOpening
+}
+
+TriggerGameAction "[Interact] Can Start Stow"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameActionState IsReticleOverStowable
+		{
+			myGameActionState IsReticleOverStowable
+		}
+		ConditionalGameActionState IsFlying
+		{
+			myNegate TRUE
+			myGameActionState IsFlying
+		}
+		ConditionalGameActionState IsPickupEnabled
+		{
+			myGameActionState IsPickupEnabled
+		}
+	}
+	myGameAction PlayerQuery_CanStartStow
+}
+
+TriggerGameAction "[Interact] Can Start Towing"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameActionState IsFlippedOver
+		{
+			myNegate TRUE
+			myGameActionState IsFlippedOver
+		}
+		ConditionalGameActionState IsStalled
+		{
+			myNegate TRUE
+			myGameActionState IsStalled
+		}
+		ConditionalGameActionState IsRagdoll
+		{
+			myNegate TRUE
+			myGameActionState IsRagdoll
+		}
+		ConditionalGameActionState IsDead
+		{
+			myNegate TRUE
+			myGameActionState IsDead
+		}
+		ConditionalGameActionState ShouldBeDowned
+		{
+			myNegate TRUE
+			myGameActionState ShouldBeDowned
+		}
+		ConditionalGameActionState InHyperspace
+		{
+			myNegate TRUE
+			myGameActionState InHyperspace
+		}
+		ConditionalGameActionState InStasis
+		{
+			myNegate TRUE
+			myGameActionState InStasis
+		}
+		ConditionalGameActionState "Not Picking Up"
+		{
+			myNegate TRUE
+			myGameActionState IsPickingUp
+		}
+		ConditionalGameActionState "Not Picking Animating"
+		{
+			myNegate TRUE
+			myGameActionState IsPickupAnimating
+		}
+		ConditionalGameActionState "Not Plucking"
+		{
+			myNegate TRUE
+			myGameActionState IsPlucking
+		}
+		ConditionalGameActionState IsReticleOverTowable
+		{
+			myGameActionState IsReticleOverTowable
+		}
+		ConditionalActionGroup "Not Flying Or In Space"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalGameActionState "Not Flying"
+				{
+					myNegate TRUE
+					myGameActionState IsFlying
+				}
+				ConditionalGameActionState InSpace
+				{
+					myGameActionState InSpace
+				}
+			}
+		}
+		ConditionalGameActionState IsPickupEnabled
+		{
+			myGameActionState IsPickupEnabled
+		}
+		ConditionalActionGroup "!CanStore || (CanStore && HasSpace)"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalActionGroup "CanStore && HasSpace"
+				{
+					myConditionalInputActions
+					{
+						ConditionalGameActionState CanStore
+						{
+							myGameActionState CanStoreReticleItem
+						}
+						ConditionalGameActionState HasSpace
+						{
+							myGameActionState InventoryHasSpaceForReticleItem
+						}
+					}
+				}
+				ConditionalGameActionState !CanStore
+				{
+					myNegate TRUE
+					myGameActionState CanStoreReticleItem
+				}
+			}
+		}
+		ConditionalGameActionState !IsPendingInventoryItem
+		{
+			myNegate TRUE
+			myGameActionState IsPendingInventoryItem
+		}
+		ConditionalGameActionState IsPilotTrialEventActive
+		{
+			myNegate TRUE
+			myGameActionState IsPilotTrialEventActive
+		}
+	}
+	myGameAction PlayerQuery_CanStartTowing
+}
+
+TriggerGameAction "[Interact] Start Towing Fail"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameActionState IsFlippedOver
+		{
+			myNegate TRUE
+			myGameActionState IsFlippedOver
+		}
+		ConditionalGameActionState IsStalled
+		{
+			myNegate TRUE
+			myGameActionState IsStalled
+		}
+		ConditionalGameActionState IsRagdoll
+		{
+			myNegate TRUE
+			myGameActionState IsRagdoll
+		}
+		ConditionalGameActionState IsDead
+		{
+			myNegate TRUE
+			myGameActionState IsDead
+		}
+		ConditionalGameActionState ShouldBeDowned
+		{
+			myNegate TRUE
+			myGameActionState ShouldBeDowned
+		}
+		ConditionalGameActionState InHyperspace
+		{
+			myNegate TRUE
+			myGameActionState InHyperspace
+		}
+		ConditionalGameActionState InStasis
+		{
+			myNegate TRUE
+			myGameActionState InStasis
+		}
+		ConditionalGameActionState "Not Picking Up"
+		{
+			myNegate TRUE
+			myGameActionState IsPickingUp
+		}
+		ConditionalGameActionState "Not Plucking"
+		{
+			myNegate TRUE
+			myGameActionState IsPlucking
+		}
+		ConditionalGameActionState IsReticleOverTowable
+		{
+			myGameActionState IsReticleOverTowable
+		}
+		ConditionalActionGroup "Not Flying Or In Space"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalGameActionState "Not Flying"
+				{
+					myNegate TRUE
+					myGameActionState IsFlying
+				}
+				ConditionalGameActionState InSpace
+				{
+					myGameActionState InSpace
+				}
+			}
+		}
+		ConditionalGameActionState IsPickupEnabled
+		{
+			myGameActionState IsPickupEnabled
+		}
+		ConditionalGameActionState CanStore
+		{
+			myGameActionState CanStoreReticleItem
+		}
+		ConditionalGameActionState HasSpace
+		{
+			myNegate TRUE
+			myGameActionState InventoryHasSpaceForReticleItem
+		}
+	}
+	myGameAction PlayerQuery_InteractFailFullInventory
+}
+
+TriggerGameAction "[Interact] Can Start Repair"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameActionState IsReticleOverRepairable
+		{
+			myGameActionState IsReticleOverRepairable
+		}
+		ConditionalGameActionState HasNPCAttached
+		{
+			myNegate TRUE
+			myGameActionState HasNPCAttached
+		}
+		ConditionalGameActionState IsFrozen
+		{
+			myNegate TRUE
+			myGameActionState IsFrozen
+		}
+		ConditionalGameActionState ShouldBeDowned
+		{
+			myNegate TRUE
+			myGameActionState ShouldBeDowned
+		}
+		ConditionalGameActionState InHyperspace
+		{
+			myNegate TRUE
+			myGameActionState InHyperspace
+		}
+		ConditionalGameActionState IsFlippedOver
+		{
+			myNegate TRUE
+			myGameActionState IsFlippedOver
+		}
+		ConditionalGameActionState IsRagdoll
+		{
+			myNegate TRUE
+			myGameActionState IsRagdoll
+		}
+		ConditionalGameActionState IsDead
+		{
+			myNegate TRUE
+			myGameActionState IsDead
+		}
+		ConditionalGameActionState InStasis
+		{
+			myNegate TRUE
+			myGameActionState InStasis
+		}
+		ConditionalGameActionState InDialogue
+		{
+			myNegate TRUE
+			myGameActionState InDialogue
+		}
+		ConditionalGameActionState IsRepairEnabled
+		{
+			myGameActionState IsRepairEnabled
+		}
+		ConditionalGameActionState IsPickupAnimating
+		{
+			myNegate TRUE
+			myGameActionState IsPickupAnimating
+		}
+	}
+	myGameAction PlayerQuery_CanStartRepair
+}
+
+TriggerGameAction "[Interact] Can Start Charging"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameActionState "Can Start Charging"
+		{
+			myGameActionState CanStartCharging
+		}
+		ConditionalGameActionState IsFlippedOver
+		{
+			myNegate TRUE
+			myGameActionState IsFlippedOver
+		}
+		ConditionalGameActionState IsHoldingObject
+		{
+			myGameActionState IsHoldingObject
+		}
+		ConditionalActionGroup "No Valid Fast Travel Target or can't fast travel"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalGameActionState HasValidFastTravelTarget
+				{
+					myNegate TRUE
+					myGameActionState HasValidFastTravelTarget
+				}
+				ConditionalGameAction PlayerQuery_CanFastTravel
+				{
+					myNegate TRUE
+					myGameAction PlayerQuery_CanFastTravel
+				}
+			}
+		}
+		ConditionalGameActionState InHyperspace
+		{
+			myNegate TRUE
+			myGameActionState InHyperspace
+		}
+		ConditionalGameActionState IsInPlanetaryTransition
+		{
+			myNegate TRUE
+			myGameActionState IsInPlanetaryTransition
+		}
+		ConditionalGameActionState ShouldBeDowned
+		{
+			myNegate TRUE
+			myGameActionState ShouldBeDowned
+		}
+		ConditionalGameActionState IsReticleOverScannable
+		{
+			myNegate TRUE
+			myGameActionState IsReticleOverScannable
+		}
+		ConditionalGameActionState IsReticleOverHailable
+		{
+			myNegate TRUE
+			myGameActionState IsReticleOverHailable
+		}
+		ConditionalGameActionState IsReticleOverRepairable
+		{
+			myNegate TRUE
+			myGameActionState IsReticleOverRepairable
+		}
+		ConditionalGameActionState IsReticleOverOpenable
+		{
+			myNegate TRUE
+			myGameActionState IsReticleOverOpenable
+		}
+		ConditionalGameActionState IsReticleOverPluckable
+		{
+			myNegate TRUE
+			myGameActionState IsReticleOverPluckable
+		}
+		ConditionalGameActionState IsReticleOverHackable
+		{
+			myNegate TRUE
+			myGameActionState IsReticleOverHackable
+		}
+		ConditionalGameActionState IsReticleOverStowable
+		{
+			myNegate TRUE
+			myGameActionState IsReticleOverStowable
+		}
+		ConditionalActionGroup "Not Frozen or Has Freeze Mobility"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalGameActionState IsFrozen
+				{
+					myNegate TRUE
+					myGameActionState IsFrozen
+				}
+				ConditionalGameActionState HasFreezeMobility
+				{
+					myGameActionState HasFreezeMobility
+				}
+			}
+		}
+		ConditionalGameActionState InStasis
+		{
+			myNegate TRUE
+			myGameActionState InStasis
+		}
+		ConditionalGameActionState IsRagdoll
+		{
+			myNegate TRUE
+			myGameActionState IsRagdoll
+		}
+		ConditionalGameActionState IsDead
+		{
+			myNegate TRUE
+			myGameActionState IsDead
+		}
+		ConditionalGameActionState InDialogue
+		{
+			myNegate TRUE
+			myGameActionState InDialogue
+		}
+		ConditionalGameActionState IsReticleOverTowable
+		{
+			myNegate TRUE
+			myGameActionState IsReticleOverTowable
+		}
+	}
+	myGameAction PlayerQuery_CanStartCharging
+}
+
+TriggerGameAction "[Interact] Can Unlock Keyhole"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameActionState "Can Unlock Keyhole"
+		{
+			myGameActionState CanUnlockKeyhole
+		}
+	}
+	myGameAction PlayerQuery_CanUnlockKeyhole
+}
+
+TriggerGameAction "[Interact] Player Query Can Cancel Interaction"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameActionState CanCancelInteraction
+		{
+			myGameActionState CanCancelInteraction
+		}
+	}
+	myGameAction PlayerQuery_CanCancelInteraction
+}
+
+TriggerGameAction "[Interact] Can Start Interact"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Can Start any Interaction"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalGameAction PlayerQuery_CanStartHack
+				{
+					myGameAction PlayerQuery_CanStartHack
+				}
+				ConditionalGameAction PlayerQuery_CanStartTowing
+				{
+					myGameAction PlayerQuery_CanStartTowing
+				}
+				ConditionalGameAction PlayerQuery_CanStartRepair
+				{
+					myGameAction PlayerQuery_CanStartRepair
+				}
+				ConditionalGameAction PlayerQuery_CanStartOpening
+				{
+					myGameAction PlayerQuery_CanStartOpening
+				}
+				ConditionalGameAction PlayerQuery_CanStartPluck
+				{
+					myGameAction PlayerQuery_CanStartPluck
+				}
+				ConditionalGameAction PlayerQuery_CanStartScan
+				{
+					myGameAction PlayerQuery_CanStartScan
+				}
+				ConditionalGameAction PlayerQuery_CanHail
+				{
+					myGameAction PlayerQuery_CanHail
+				}
+				ConditionalGameAction PlayerQuery_CanStartStow
+				{
+					myGameAction PlayerQuery_CanStartStow
+				}
+				ConditionalGameAction PlayerQuery_CanUnlockKeyhole
+				{
+					myGameAction PlayerQuery_CanUnlockKeyhole
+				}
+				ConditionalGameAction PlayerQuery_CanPilotTrialInteract
+				{
+					myGameAction PlayerQuery_CanPilotTrialInteract
+				}
+			}
+		}
+	}
+	myGameAction PlayerQuery_CanStartInteract
+}
+
+TriggerGameAction "[Interact] Can Drop Towable"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameActionState CanDropTowable
+		{
+			myGameActionState CanDropTowable
+		}
+		ConditionalGameActionState InHyperspace
+		{
+			myNegate TRUE
+			myGameActionState InHyperspace
+		}
+		ConditionalGameActionState ShouldBeDowned
+		{
+			myNegate TRUE
+			myGameActionState ShouldBeDowned
+		}
+		ConditionalGameActionState IsInPlanetaryTransition
+		{
+			myNegate TRUE
+			myGameActionState IsInPlanetaryTransition
+		}
+	}
+	myGameAction PlayerQuery_CanDropTowable
+}
+
+TriggerGameAction "[Interact] UseTow"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "INPUT USE TOW"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Tap X(Square)"
+				{
+					myInputActionType PressAndReleaseBeforeTime
+					myTimer 399
+					myInputAction = X_SQUARE
+				}
+				ConditionalInputAction "Keyboard Use Tow"
+				{
+					myInputActionType PressAndReleaseBeforeTime
+					myTimer 399
+					myInputAction = KB_INTERACT
+				}
+			}
+		}
+		ConditionalGameAction PlayerQuery_CanUseTowable
+		{
+			myGameAction PlayerQuery_CanUseTowable
+		}
+	}
+	myGameAction Interact_UseTow
+}
+
+TriggerGameAction "[Interact] StartCharging"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "INPUT STARTCHARGING"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Press X (Square)"
+				{
+					myInputActionType Pressed
+					myInputAction = X_SQUARE
+				}
+				ConditionalInputAction "Keyboard Start Charging"
+				{
+					myInputActionType Pressed
+					myInputAction = KB_INTERACT
+				}
+			}
+		}
+		ConditionalGameAction PlayerQuery_CanStartCharging
+		{
+			myGameAction PlayerQuery_CanStartCharging
+		}
+	}
+	myGameAction Interact_StartCharge
+}
+
+TriggerGameAction "[Interact] DropTow"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "INPUT DROPTOW"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Hold D_PAD_DOWN for time"
+				{
+					myInputActionType Pressed
+					myInputAction = D_PAD_DOWN
+				}
+				ConditionalInputAction Keyboard_C
+				{
+					myInputActionType Pressed
+					myInputAction = KB_DROP
+				}
+			}
+		}
+		ConditionalGameAction PlayerQuery_CanDropTowable
+		{
+			myRequireNewInput TRUE
+			myGameAction PlayerQuery_CanDropTowable
+		}
+	}
+	myGameAction Interact_DropTow
+}
+
+TriggerGameAction "[Interact] Interact_FailTow_InventoryFull"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "INPUT FAILTOW"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Tap X (Square)"
+				{
+					myInputActionType Pressed
+					myTimer 0
+					myInputAction = X_SQUARE
+				}
+				ConditionalInputAction "Keyboard FailTow"
+				{
+					myInputActionType Pressed
+					myInputAction = KB_INTERACT
+				}
+			}
+		}
+		ConditionalGameActionState IsFlippedOver
+		{
+			myNegate TRUE
+			myGameActionState IsFlippedOver
+		}
+		ConditionalGameActionState IsStalled
+		{
+			myNegate TRUE
+			myGameActionState IsStalled
+		}
+		ConditionalGameActionState IsRagdoll
+		{
+			myNegate TRUE
+			myGameActionState IsRagdoll
+		}
+		ConditionalGameActionState IsDead
+		{
+			myNegate TRUE
+			myGameActionState IsDead
+		}
+		ConditionalGameActionState ShouldBeDowned
+		{
+			myNegate TRUE
+			myGameActionState ShouldBeDowned
+		}
+		ConditionalGameActionState InHyperspace
+		{
+			myNegate TRUE
+			myGameActionState InHyperspace
+		}
+		ConditionalGameActionState InStasis
+		{
+			myNegate TRUE
+			myGameActionState InStasis
+		}
+		ConditionalGameActionState "Not Picking Up"
+		{
+			myNegate TRUE
+			myGameActionState IsPickingUp
+		}
+		ConditionalActionGroup "Can Do Things"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalGameActionState IsReticleOverTowable
+				{
+					myGameActionState IsReticleOverTowable
+				}
+				ConditionalGameActionState IsReticleOverPluckable
+				{
+					myGameActionState IsReticleOverPluckable
+				}
+			}
+		}
+		ConditionalGameActionState CanStore
+		{
+			myGameActionState CanStoreReticleItem
+		}
+		ConditionalGameActionState HasSpace
+		{
+			myNegate TRUE
+			myGameActionState InventoryHasSpaceForReticleItem
+		}
+	}
+	myGameAction Interact_FailTow_InventoryFull
+}
+
+TriggerGameAction "[Interact] FailUseTow"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "INPUT FAIL USETOW"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Tap X (Square)"
+				{
+					myInputActionType Pressed
+					myTimer 0
+					myInputAction = X_SQUARE
+				}
+				ConditionalInputAction KeyboardInteract
+				{
+					myInputActionType Pressed
+					myTimer 0
+					myInputAction = KB_INTERACT
+				}
+			}
+		}
+		ConditionalGameAction PlayerQuery_CanUseTowable
+		{
+			myNegate TRUE
+			myGameAction PlayerQuery_CanUseTowable
+		}
+	}
+	myGameAction Interact_FailUseTow
+}
+
+TriggerGameAction "[Interact] FailDropTow"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "INPUT FAILDROP TOW"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Hold X (Square) for time"
+				{
+					myInputActionType HoldDown
+					myTimer 0
+					myInputAction = D_PAD_DOWN
+				}
+				ConditionalInputAction KeyboardDrop
+				{
+					myInputActionType HoldDown
+					myInputAction = KB_DROP
+				}
+			}
+		}
+		ConditionalGameAction PlayerQuery_CanDropTowable
+		{
+			myNegate TRUE
+			myGameAction PlayerQuery_CanDropTowable
+		}
+	}
+	myGameAction Interact_FailDropTow
+}
+
+TriggerGameAction "[Interact] Hail"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup Conditions
+		{
+			myOperator And
+			myConditionalInputActions
+			{
+				ConditionalGameAction PlayerQuery_CanHail
+				{
+					myGameAction PlayerQuery_CanHail
+				}
+			}
+		}
+		ConditionalActionGroup "INPUT HAIL"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Hold X (Square) for time"
+				{
+					myInputActionType HoldDownAfterTime
+					myTimer 500
+					myInputAction = X_SQUARE
+				}
+				ConditionalInputAction KeyboardInteractHail
+				{
+					myInputActionType HoldDownAfterTime
+					myTimer 500
+					myInputAction = KB_INTERACT
+				}
+			}
+		}
+	}
+	myGameAction Interact_Hail
+}
+
+TriggerGameAction "[Interact] Hack"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup Conditions
+		{
+			myOperator And
+			myConditionalInputActions
+			{
+				ConditionalGameAction PlayerQuery_CanStartHack
+				{
+					myRequireNewInput TRUE
+					myGameAction PlayerQuery_CanStartHack
+				}
+			}
+		}
+		ConditionalActionGroup "INPUT HACK"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Hold X (Square) for time"
+				{
+					myInputActionType HoldDownAfterTime
+					myTimer 500
+					myInputAction = X_SQUARE
+				}
+				ConditionalInputAction KeyboardInteractHack
+				{
+					myInputActionType HoldDownAfterTime
+					myTimer 500
+					myInputAction = KB_INTERACT
+				}
+			}
+		}
+	}
+	myGameAction Interact_Hack
+}
+
+TriggerGameAction "[Interact] Scan"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup Conditions
+		{
+			myOperator And
+			myConditionalInputActions
+			{
+				ConditionalGameAction PlayerQuery_CanStartScan
+				{
+					myRequireNewInput TRUE
+					myGameAction PlayerQuery_CanStartScan
+				}
+			}
+		}
+		ConditionalGameActionState IsReticleOverScannedEntity
+		{
+			myNegate TRUE
+			myGameActionState IsReticleOverScannedEntity
+		}
+		ConditionalActionGroup "INPUT SCAN"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Hold X (Square) for time"
+				{
+					myInputActionType HoldDownAfterTime
+					myTimer 500
+					myInputAction = X_SQUARE
+				}
+				ConditionalInputAction KeyboardScan
+				{
+					myInputActionType HoldDownAfterTime
+					myTimer 500
+					myInputAction = KB_INTERACT
+				}
+			}
+		}
+	}
+	myGameAction Interact_Scan
+}
+
+TriggerGameAction "[Interact] Has Reticle Over Fully Scanned Entity"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameAction PlayerQuery_CanStartScan
+		{
+			myGameAction PlayerQuery_CanStartScan
+		}
+		ConditionalGameActionState IsReticleOverScannedEntity
+		{
+			myGameActionState IsReticleOverScannedEntity
+		}
+	}
+	myGameAction PlayerQuery_HasReticleOverFullyScannedEntity
+}
+
+TriggerGameAction "[Interact] Pluck"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameAction PlayerQuery_CanStartPluck
+		{
+			myGameAction PlayerQuery_CanStartPluck
+		}
+		ConditionalActionGroup "INPUT PLUCK"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Hold X (Square) for time"
+				{
+					myInputActionType HoldDownAfterTime
+					myTimer 500
+					myInputAction = X_SQUARE
+				}
+				ConditionalInputAction "Hold KB_INTERACT"
+				{
+					myInputActionType HoldDownAfterTime
+					myTimer 500
+					myInputAction = KB_INTERACT
+				}
+			}
+		}
+	}
+	myGameAction Interact_Pluck
+}
+
+TriggerGameAction "[Interact] Cancel Pluck"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameActionState IsPlucking
+		{
+			myGameActionState IsPlucking
+		}
+		ConditionalGameAction PlayerQuery_CanCancelInteraction
+		{
+			myRequireNewInput TRUE
+			myGameAction PlayerQuery_CanCancelInteraction
+		}
+		ConditionalActionGroup "INPUT CANCEL PLUCK"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Hold X (Square) for time"
+				{
+					myInputActionType HoldDownAfterTime
+					myTimer 500
+					myInputAction = X_SQUARE
+				}
+				ConditionalInputAction "Hold KB_INTERACT"
+				{
+					myInputActionType HoldDownAfterTime
+					myTimer 500
+					myInputAction = KB_INTERACT
+				}
+			}
+		}
+	}
+	myGameAction Interact_Pluck
+}
+
+TriggerGameAction "[Interact] Repair"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup Conditions
+		{
+			myOperator And
+			myConditionalInputActions
+			{
+				ConditionalGameAction PlayerQuery_CanStartRepair
+				{
+					myRequireNewInput TRUE
+					myGameAction PlayerQuery_CanStartRepair
+				}
+			}
+		}
+		ConditionalActionGroup "INPUT REPAIR"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Hold X (Square) for time"
+				{
+					myInputActionType HoldDownAfterTime
+					myTimer 3000
+					myInputAction = X_SQUARE
+				}
+				ConditionalInputAction KeyboardRepair
+				{
+					myInputActionType HoldDownAfterTime
+					myTimer 3000
+					myInputAction = KB_INTERACT
+				}
+			}
+		}
+	}
+	myGameAction Interact_Repair
+}
+
+TriggerGameAction "[Interact] Open"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup Conditions
+		{
+			myOperator And
+			myConditionalInputActions
+			{
+				ConditionalGameAction PlayerQuery_CanStartOpening
+				{
+					myRequireNewInput TRUE
+					myGameAction PlayerQuery_CanStartOpening
+				}
+			}
+		}
+		ConditionalActionGroup "INPUT OPEN"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Hold X (Square) for time"
+				{
+					myInputActionType HoldDownAfterTime
+					myTimer 500
+					myInputAction = X_SQUARE
+				}
+				ConditionalInputAction KBEnter_OPEN
+				{
+					myInputActionType HoldDownAfterTime
+					myTimer 500
+					myInputAction = KB_INTERACT
+				}
+			}
+		}
+	}
+	myGameAction Interact_Open
+}
+
+TriggerGameAction "[Interact] Stow"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup Conditions
+		{
+			myOperator And
+			myConditionalInputActions
+			{
+				ConditionalGameAction PlayerQuery_CanStartStow
+				{
+					myRequireNewInput TRUE
+					myGameAction PlayerQuery_CanStartStow
+				}
+			}
+		}
+		ConditionalActionGroup "INPUT STOW"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Hold X (Square) for time"
+				{
+					myInputActionType HoldDownAfterTime
+					myTimer 500
+					myInputAction = X_SQUARE
+				}
+				ConditionalInputAction KBEnter_Stow
+				{
+					myInputActionType HoldDownAfterTime
+					myTimer 500
+					myInputAction = KB_INTERACT
+				}
+			}
+		}
+	}
+	myGameAction Interact_Stow
+}
+
+TriggerGameAction "[Interact] Store"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "INPUT STORE"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Tap Dpad Down"
+				{
+					myInputActionType PressAndReleaseBeforeTime
+					myTimer 399
+					myInputAction = D_PAD_DOWN
+				}
+				ConditionalInputAction KeyboardStore
+				{
+					myInputActionType PressAndReleaseBeforeTime
+					myTimer 399
+					myInputAction = KB_DROP
+				}
+			}
+		}
+	}
+	myGameAction Interact_Store
+}
+
+TriggerGameAction "[Interact] Start"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "INPUT START"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Press X (Square)"
+				{
+					myInputActionType Pressed
+					myInputAction = X_SQUARE
+				}
+				ConditionalInputAction KBEnter_Start
+				{
+					myInputActionType Pressed
+					myInputAction = KB_INTERACT
+				}
+			}
+		}
+		ConditionalActionGroup "Can Do Things"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalGameAction PlayerQuery_CanStartInteract
+				{
+					myGameAction PlayerQuery_CanStartInteract
+				}
+			}
+		}
+	}
+	myGameAction Interact_Start
+}
+
+TriggerGameAction "[Interact] Pickup"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameActionState IsPickingUp
+		{
+			myGameActionState IsPickingUp
+		}
+		ConditionalActionGroup "INPUT PICKUP"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Press X (Square)"
+				{
+					myInputActionType HoldDownAfterTime
+					myTimer 500
+					myInputAction = X_SQUARE
+				}
+				ConditionalInputAction KBEnter_Pickup
+				{
+					myInputActionType HoldDownAfterTime
+					myTimer 500
+					myInputAction = KB_INTERACT
+				}
+			}
+		}
+	}
+	myGameAction Interact_Pickup
+}
+
+TriggerGameAction "[Interact] End"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "INPUT END"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Release X (Square)"
+				{
+					myInputActionType Released
+					myInputAction = X_SQUARE
+				}
+				ConditionalInputAction KBEnter_END
+				{
+					myInputActionType Released
+					myInputAction = KB_INTERACT
+				}
+			}
+		}
+	}
+	myGameAction Interact_End
+}
+
+TriggerGameAction "[Interact] Charge Battery"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "INPUT CHARGE BATTERY"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Hold X (Square)"
+				{
+					myInputActionType HoldDownAfterTime
+					myTimer 10
+					myInputAction = X_SQUARE
+				}
+				ConditionalInputAction KBEnter_ChargeBatery
+				{
+					myInputActionType HoldDownAfterTime
+					myTimer 10
+					myInputAction = KB_INTERACT
+				}
+			}
+		}
+		ConditionalGameAction CanStartCharging
+		{
+			myGameAction PlayerQuery_CanStartCharging
+		}
+	}
+	myGameAction Interact_Charge
+}
+
+TriggerGameAction "[Interact] Unlock Keyhole"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "INPUT UNLOCK KEYHOLE"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Press X (Square)"
+				{
+					myInputActionType HoldDownAfterTime
+					myTimer 500
+					myInputAction = X_SQUARE
+				}
+				ConditionalInputAction "KBEnter_Unlock Keyhole"
+				{
+					myInputActionType HoldDownAfterTime
+					myTimer 500
+					myInputAction = KB_INTERACT
+				}
+			}
+		}
+	}
+	myGameAction Interact_UnlockKeyhole
+}
+
+TriggerGameAction "[Interact] Cancel Long Interaction"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Any Break-Out Action"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalGameActionState IsFrozen
+				{
+					myGameActionState IsFrozen
+				}
+				ConditionalGameActionState ShouldBeDowned
+				{
+					myGameActionState ShouldBeDowned
+				}
+				ConditionalGameActionState InHyperspace
+				{
+					myGameActionState InHyperspace
+				}
+				ConditionalActionGroup "Flying And Not In Space"
+				{
+					myOperator And
+					myConditionalInputActions
+					{
+						ConditionalGameActionState Flying
+						{
+							myGameActionState IsFlying
+						}
+						ConditionalGameActionState NotInSpace
+						{
+							myNegate TRUE
+							myGameActionState InSpace
+						}
+					}
+				}
+				ConditionalGameActionState IsFlippedOver
+				{
+					myGameActionState IsFlippedOver
+				}
+				ConditionalGameActionState IsRagdoll
+				{
+					myGameActionState IsRagdoll
+				}
+				ConditionalGameActionState IsDead
+				{
+					myGameActionState IsDead
+				}
+				ConditionalGameActionState InStasis
+				{
+					myGameActionState InStasis
+				}
+				ConditionalGameActionState InDialogue
+				{
+					myGameActionState InDialogue
+				}
+				ConditionalGameActionState IsInFollowMode
+				{
+					myGameActionState IsInFollowMode
+				}
+			}
+		}
+		ConditionalActionGroup State
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalGameActionState Plucking
+				{
+					myGameActionState IsPlucking
+				}
+				ConditionalGameActionState IsScanning
+				{
+					myGameActionState IsScanning
+				}
+			}
+		}
+	}
+	myGameAction Interact_Fail
+}
+
+TriggerGameAction "[Interact] Cancel Long Interaction Repair"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Any Break-Out Action"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalGameActionState IsFrozen
+				{
+					myGameActionState IsFrozen
+				}
+				ConditionalGameActionState ShouldBeDowned
+				{
+					myGameActionState ShouldBeDowned
+				}
+				ConditionalGameActionState InHyperspace
+				{
+					myGameActionState InHyperspace
+				}
+				ConditionalGameActionState IsFlippedOver
+				{
+					myGameActionState IsFlippedOver
+				}
+				ConditionalGameActionState IsRagdoll
+				{
+					myGameActionState IsRagdoll
+				}
+				ConditionalGameActionState IsDead
+				{
+					myGameActionState IsDead
+				}
+				ConditionalGameActionState InStasis
+				{
+					myGameActionState InStasis
+				}
+				ConditionalGameActionState InDialogue
+				{
+					myGameActionState InDialogue
+				}
+				ConditionalGameActionState IsInFollowMode
+				{
+					myGameActionState IsInFollowMode
+				}
+			}
+		}
+		ConditionalActionGroup State
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalGameActionState IsRepairing
+				{
+					myGameActionState IsRepairing
+				}
+			}
+		}
+	}
+	myGameAction Interact_Fail
+}
+
+TriggerGameAction "[Interact] Fail Repair"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameActionState IsRepairing
+		{
+			myGameActionState IsRepairing
+		}
+		ConditionalGameActionState IsRepairEnabled
+		{
+			myNegate TRUE
+			myGameActionState IsRepairEnabled
+		}
+	}
+	myGameAction Interact_Fail
+}
+
+TriggerGameAction "[Interact] Fail Scan"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameActionState IsScanning
+		{
+			myGameActionState IsScanning
+		}
+		ConditionalGameActionState IsScanEnabled
+		{
+			myNegate TRUE
+			myGameActionState IsScanEnabled
+		}
+	}
+	myGameAction Interact_Fail
+}
+
+TriggerGameAction "[Interact] Fail Pluck"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup AnyFailure
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalGameActionState IsPluckEnabled
+				{
+					myNegate TRUE
+					myGameActionState IsPluckEnabled
+				}
+				ConditionalActionGroup "CanStore && !HasSpace"
+				{
+					myConditionalInputActions
+					{
+						ConditionalGameActionState CanStore
+						{
+							myGameActionState CanStoreReticleItem
+						}
+						ConditionalGameActionState HasSpace
+						{
+							myNegate TRUE
+							myGameActionState InventoryHasSpaceForReticleItem
+						}
+					}
+				}
+			}
+		}
+		ConditionalGameActionState IsPlucking
+		{
+			myGameActionState IsPlucking
+		}
+	}
+	myGameAction Interact_Fail
+}
+
+TriggerGameAction "[Interact] Fail Hack"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameActionState IsHacking
+		{
+			myGameActionState IsHacking
+		}
+		ConditionalGameActionState IsHackEnabled
+		{
+			myNegate TRUE
+			myGameActionState IsHackEnabled
+		}
+	}
+	myGameAction Interact_Fail
+}
+
+TriggerGameAction "[Interact] Fast Travel"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup Conditions
+		{
+			myOperator And
+			myConditionalInputActions
+			{
+				ConditionalGameAction PlayerQuery_CanFastTravel
+				{
+					myRequireNewInput TRUE
+					myGameAction PlayerQuery_CanFastTravel
+				}
+				ConditionalGameActionState HasValidFastTravelTarget
+				{
+					myRequireNewInput TRUE
+					myGameActionState HasValidFastTravelTarget
+				}
+			}
+		}
+		ConditionalActionGroup "INPUT FAST TRAVEL"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Press X"
+				{
+					myInputActionType HoldDownAfterTime
+					myTimer 500
+					myInputAction = X_SQUARE
+				}
+				ConditionalInputAction KBEnetr_FastTravel
+				{
+					myInputActionType HoldDownAfterTime
+					myTimer 500
+					myInputAction = KB_INTERACT
+				}
+			}
+		}
+	}
+	myGameAction FastTravel
+}
+
+TriggerGameAction "[Interact] Deliver"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "INPUT DELIVER"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Hold X (Square) for time"
+				{
+					myInputActionType HoldDownAfterTime
+					myTimer 1000
+					myInputAction = X_SQUARE
+				}
+				ConditionalInputAction KBEnter_Deliver
+				{
+					myInputActionType HoldDownAfterTime
+					myTimer 1000
+					myInputAction = KB_INTERACT
+				}
+			}
+		}
+	}
+	myGameAction Interact_Deliver
+}
+
+TriggerGameAction "[Interact] Can Store Reticle Item"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameActionState "Can Store Reticle Item"
+		{
+			myGameActionState CanStoreReticleItem
+		}
+	}
+	myGameAction PlayerQuery_CanStoreReticleItem
+}
+
+TriggerGameAction "[Interact] Inventory Has Space for Reticle Item"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameActionState "Inventory Has Space"
+		{
+			myGameActionState InventoryHasSpaceForReticleItem
+		}
+	}
+	myGameAction PlayerQuery_InventoryHasSpaceForReticleItem
+}
+
+TriggerGameAction "[Interact] Pluck Button Mash Tap"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup Conditions
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+					ConditionalInputAction "Tap A"
+					{
+						myInputAction = A_CROSS
+					}
+
+					ConditionalInputAction "Tap Keyboard Jump"
+					{
+						myInputAction = KB_JUMP
+					}
+			}
+		}
+	}
+	myGameAction Interact_PluckButtonMashTap
+}
+
+TriggerGameAction "[Interact] Pluck Capture"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup Input
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Tap A"
+				{
+					myInputAction = A_CROSS
+				}
+
+				ConditionalInputAction "Tap Keyboard Interact"
+				{
+					myInputAction = KB_JUMP
+				}
+			}
+		}
+	}
+	myGameAction Interact_PluckCapture
+}
+
+TriggerGameAction "[Interact] PilotTrialInteract"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup Conditions
+		{
+			myOperator And
+			myConditionalInputActions
+			{
+				ConditionalGameAction PlayerQuery_CanPilotTrialInteract
+				{
+					myGameAction PlayerQuery_CanPilotTrialInteract
+				}
+			}
+		}
+		ConditionalActionGroup "INPUT TRIALFLAGINTERACT"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Hold X (Square) for time"
+				{
+					myInputActionType HoldDownAfterTime
+					myTimer 500
+					myInputAction = X_SQUARE
+				}
+				ConditionalInputAction KBEnter_Interact
+				{
+					myInputActionType HoldDownAfterTime
+					myTimer 500
+					myInputAction = KB_INTERACT
+				}
+			}
+		}
+	}
+	myGameAction Interact_PilotTrialInteract
+}
+
+TriggerGameAction "[Fast Travel] Player Query Fast Travel"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameActionState IsTowablePreventingFastTravel
+		{
+			myGameActionState IsTowablePreventingFastTravel
+		}
+	}
+	myGameAction PlayerQuery_IsTowablePreventingFastTravel
+	myIsUIAndGameAction TRUE
+}
+
+TriggerGameAction "[Fast Travel] Player Query Planet Entry"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameActionState IsTowablePreventingPlanetEntry
+		{
+			myGameActionState IsTowablePreventingPlanetEntry
+		}
+		ConditionalGameActionState IsAttemptingToExitPlanet
+		{
+			myGameActionState IsAttemptingToExitPlanet
+		}
+	}
+	myGameAction PlayerQuery_IsTowablePreventingPlanetEntry
+}
+
+TriggerGameAction "[Fast Travel] Player Query Planet Exit"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameActionState IsTowablePreventingPlanetExit
+		{
+			myGameActionState IsTowablePreventingPlanetExit
+		}
+		ConditionalGameActionState IsAttemptingToExitPlanet
+		{
+			myGameActionState IsAttemptingToExitPlanet
+		}
+	}
+	myGameAction PlayerQuery_IsTowablePreventingPlanetExit
+}
+
+TriggerGameAction "[Interact] Pluck Button Sequence Top"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction Top
+		{
+			myInputAction = Y_TRIANGLE
+		}
+	}
+	myGameAction Interact_PluckButtonSequenceTop
+}
+
+TriggerGameAction "[Interact] Pluck Button Sequence Left"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction Left
+		{
+			myInputAction = X_SQUARE
+		}
+	}
+	myGameAction Interact_PluckButtonSequenceLeft
+}
+
+TriggerGameAction "[Interact] Pluck Button Sequence Right"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction Right
+		{
+			myInputAction = B_CRICLE
+		}
+	}
+	myGameAction Interact_PluckButtonSequenceRight
+}
+
+TriggerGameAction "[Interact] Pluck Button Sequence Bottom"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction Bottom
+		{
+			myInputAction = A_CROSS
+		}
+	}
+	myGameAction Interact_PluckButtonSequenceBottom
+}
+
+TriggerGameAction "[Interact] Pluck Button Sequence Shift Left"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Input Action Group"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Press LB"
+				{
+					myInputActionType PressAndRelease
+					myInputAction = LEFT_TRIGGER_L2
+				}
+				ConditionalInputAction "Press Pilot Ability"
+				{
+					myInputActionType PressAndRelease
+					myInputAction = LEFT_CLICK
+				}
+			}
+		}
+	}
+	myGameAction Interact_PluckButtonSequenceRotateLeft
+}
+
+TriggerGameAction "[Interact] Pluck Button Sequence Shift Right"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Input Action Group"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Press RB"
+				{
+					myInputActionType PressAndRelease
+					myInputAction = RIGHT_TRIGGER_R2
+				}
+				ConditionalInputAction "Press Keyboard Fly/Hyperdrive"
+				{
+					myInputActionType PressAndRelease
+					myInputAction = RIGHT_CLICK
+				}
+			}
+		}
+	}
+	myGameAction Interact_PluckButtonSequenceRotateRight
+}
+
+TriggerGameAction "[Interact] Pluck Buton Sequence Shift Right"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup InputActions
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Rotated Right Stick Right Analog"
+				{
+					myInputActionType Pressed
+					myInputAction = RIGHT_STICK_RIGHT
+				}
+			}
+		}
+	}
+	myGameAction Interact_PluckButtonSequenceShiftRight
+}
+
+TriggerGameAction "[Interact] Pluck Buton Sequence Shift Left"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup InputActions
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Rotated Right Stick Left Analog"
+				{
+					myInputActionType Pressed
+					myInputAction = RIGHT_STICK_LEFT
+				}
+			}
+		}
+	}
+	myGameAction Interact_PluckButtonSequenceShiftLeft
+}
+
+TriggerGameAction "[Interact] Pluck Buton Sequence Cycle"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup InputActions
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Press A"
+				{
+					myInputActionType Pressed
+					myInputAction = A_CROSS
+				}
+				ConditionalInputAction "Press Keyboard Jump"
+				{
+					myInputActionType Pressed
+					myInputAction = KB_JUMP
+				}
+			}
+		}
+	}
+	myGameAction Interact_PluckButtonSequenceCycle
+}
+

@@ -1,0 +1,32 @@
+include "onward/game system data/fruit/sim/simunit.fruit"
+
+SimUnit warden_structure_cultivator < uid=CC9485AB594D5BA1000011CE3AD752CB >
+{
+	myUIName "contextComment = \"\", description = \"\", enabled = true, guid = #4A79E0E4596379B70000005253D146C5, lineVersion = 0, maxLength = 22, text = \"Warden Cultivator\""
+	myControlGraph onward/simworld/control/warden_structure.msimunitcontrolgraph
+	myFaction Unaligned
+	myCategory Landmark
+	mySubCategory WardenRuin
+	mySubCategoryVariant 3
+	myRadius 350.0
+	myFindSettingsCategory Enormous
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo WardenEntity < uid=CC9485AB599D8A0E000001E82C8B652D >
+		{
+			myCountMin 1
+			myCountMax 1
+			myIgnoreNavMesh TRUE
+			myIgnoreTerrain TRUE
+			myEntityFile "onward/entity templates/Warden_Puzzle_Respawn_Point.mentitytemplate"
+		}
+	}
+	myNapTime 10.0
+	mySkillLevelCoefficients
+	{
+		myPlanetActMultiplier 0
+		myBaseLevel 0
+	}
+	myMissionTargetTexture onward/baked/textures/UI/icons/outpost_targets/outpost_target_sim_unit/ui-icon-outpost-target-warden-structure-cultivator.dds
+}
+

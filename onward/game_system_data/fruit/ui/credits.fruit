@@ -1,0 +1,34 @@
+class Position
+{
+    string myName < tooltip="Name of the position to match with data and show to user." >
+    varmap myTitle < bhv="localization" tooltip="Name of the position to show to player." >
+    bool myIsHeader FALSE
+}
+
+list Positions
+{
+    Position    
+}
+
+class Company
+{
+    string myName < tooltip="Name of the company to match with data and show to user." >
+    file myLogo < bhv=asset assettype="Texture" >
+    Positions myPositions
+    bool myShowOnPC TRUE
+    bool myShowOnPlayStation TRUE
+    bool myShowOnXbox TRUE
+    bool myShowOnSwitch TRUE
+}
+
+list Companies
+{
+	Company
+}
+
+class Credits
+{	
+    file myXMLSource
+    file mySource
+    Companies myCompanies
+}

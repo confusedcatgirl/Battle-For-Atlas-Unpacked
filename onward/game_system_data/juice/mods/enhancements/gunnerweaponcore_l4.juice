@@ -1,0 +1,27 @@
+include ./templates/template_l4.juice
+include "onward/game system data/juice/mods/mod_gunner_weaponcore_l4.mplayermod"
+include ./damageaffectors/damage_affectors.juice
+
+Enhancement gunnerweaponcore_l4 < uid=C91BB5515980EC4E00000040BF718A9C > : "Level 4"
+{
+	myLocalizedName "contextComment = \"[Placeholder - do not translate]\nName for level 4 version of Gunner Weapon Core, which makes it easier to rain a sustained hail of projectiles.\", description = \"\", enabled = true, guid = #C91BB5515980EC4E0000003F29A0D280, lineVersion = 2, maxLength = 18, text = \"Tanker Ammo IV\""
+	myLocalizedDescription "contextComment = \"[Placeholder - do not translate]\nDescription for level 4 version of Gunner Weapon Core, which reduces cost to fire weapon and recharges weapon energy when damaging targets, and sometimes makes projectiles bounce to hit additional targets.\", description = \"enhancement-description-gunner-weapon-core-4\", enabled = true, guid = #9E6AFEDA59D2609600A8610CFDE8DB04, lineVersion = 2, maxLength = 126, text = \"+23% Damage\n+10% Damage to targets within 50m\n+50% Projectile Bounce\nHeals for 20% of damage done\""
+	myIconSprite "mySpriteId = -1798864911, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-mods-weapon-core.spritesheet\""
+	myMod < uid=C91BB5515980EC4E00000041455F57EC > = mod_gunner_weaponcore_l4
+	myBuff < uid=C91BB5515980EC4E000000422946EEE3 > = NULLREFERENCE
+	myEnhancementType WeaponCore
+	myEnhancementTrackType GunnerWeaponCore
+	myDamageAffectors
+	{
+		DamageAffector_DamageToHealth "Damage Heals"
+		{
+			myDamageToHealthRatio = Gunner_WeaponCore_l4_DamageHP
+		}
+		DamageAffector_CloseRange "Close Range Damage"
+		{
+			myDamageMultiplier = Gunner_WeaponCore_l4_CloseDmg
+			myWithinMeters 50.0
+		}
+	}
+}
+

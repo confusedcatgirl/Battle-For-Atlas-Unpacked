@@ -1,0 +1,27 @@
+include ./template_hull.mplayermod
+include ./tuning/mod_tuning_master.juice
+
+PlayerMod mod_gravity_armour_l3 < uid=C91BB551597F86ED0066E1FFC5C72197 > : template_hull
+{
+	myAttributeMods
+	{
+		AttributeMod "Gravity Damage Resist"
+		{
+			myType DMG_Resist_Crush
+			myAddValue 0.0
+			myMultValue = Gravity_Armor_l3_GravityResist
+		}
+		AttributeMod "Skimmer Impact Resistance"
+		{
+			myType Player_GroundCollisionProtection
+			myAddValue = Gravity_Armor_l3_ImpactProtect
+		}
+		AttributeMod Defense
+		{
+			myType PartStat_Defense
+			myAddValue = Gravity_Armor_l3_Defense
+		}
+	}
+	myIsAgentMod TRUE
+}
+

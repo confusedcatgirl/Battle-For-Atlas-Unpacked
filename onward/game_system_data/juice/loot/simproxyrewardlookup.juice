@@ -1,0 +1,513 @@
+include "onward/game system data/fruit/loot/simproxyrewardlookup.fruit"
+include "onward/game system data/juice/sim/chest_goldrush_cache.msimunit"
+include "onward/game system data/juice/sim/container_x_factor.msimunit"
+include "onward/game system data/juice/sim/chest_electrum.msimunit"
+include "onward/game system data/juice/sim/outlaw_chest.msimunit"
+include "onward/game system data/juice/sim/shipwreck_space_medium.msimunit"
+include "onward/game system data/juice/sim/chest_warden.msimunit"
+include "onward/game system data/juice/sim/warden_structure_cultivator.msimunit"
+include "onward/game system data/juice/sim/chest_puzzle.msimunit"
+include "onward/game system data/juice/sim/warden_structure_controltower.msimunit"
+include "onward/game system data/juice/sim/warden_structure_northanchor.msimunit"
+include "onward/game system data/juice/sim/warden_structure_teraform.msimunit"
+include "onward/game system data/juice/sim/warden_structure_southanchor.msimunit"
+include "onward/game system data/juice/sim/goldrush_hackable_chest.msimunit"
+include "onward/game system data/juice/sim/goldrush_vault.msimunit"
+include "onward/game system data/juice/sim/goldrush_sattelite.msimunit"
+include "onward/game system data/juice/sim/goldrush_refueling_station.msimunit"
+include "onward/game system data/juice/sim/goldrush_refinery.msimunit"
+include "onward/game system data/juice/sim/goldrush_prison.msimunit"
+include "onward/game system data/juice/sim/harvester_extractor_variant_armored.msimunit"
+include "onward/game system data/juice/sim/harvester_extractor_variant_testofstrength.msimunit"
+include "onward/game system data/juice/sim/harvester_extractor_variant_trap.msimunit"
+include "onward/game system data/juice/sim/harvester_extractor_variant_pluck.msimunit"
+include "onward/game system data/juice/sim/harvester_prime.msimunit"
+include "onward/game system data/juice/sim/shipwreck_space_large.msimunit"
+include "onward/game system data/juice/sim/outlaw_outpost.msimunit"
+include "onward/game system data/juice/sim/outlaw_outpost_wreck.msimunit"
+include "onward/game system data/juice/sim/outlaw_chest_planet.msimunit"
+include "onward/game system data/juice/sim/space_landmark_06.msimunit"
+include "onward/game system data/juice/sim/space_landmark_02.msimunit"
+include "onward/game system data/juice/sim/space_landmark_05.msimunit"
+include "onward/game system data/juice/sim/space_landmark_07.msimunit"
+include "onward/game system data/juice/sim/ld_electrum_vein.msimunit"
+include "onward/game system data/juice/sim/act1_imp_shed.msimunit"
+include "onward/game system data/juice/sim/act1_extractor.msimunit"
+include "onward/game system data/juice/sim/harvester_dreadnought.msimunit"
+include "onward/game system data/juice/sim/container_x_factor_base_planet_01.msimunit"
+include "onward/game system data/juice/sim/container_x_factor_base_planet_03.msimunit"
+include "onward/game system data/juice/sim/container_x_factor_base_planet_04.msimunit"
+include "onward/game system data/juice/sim/container_x_factor_base_planet_05.msimunit"
+include "onward/game system data/juice/sim/container_x_factor_base_planet_07.msimunit"
+include "onward/game system data/juice/sim/container_x_factor_base_planet_08.msimunit"
+include "onward/game system data/juice/sim/container_x_factor_base_planet_15.msimunit"
+include "onward/game system data/juice/sim/act2_extractor_a.msimunit"
+include "onward/game system data/juice/sim/act2_extractor_b.msimunit"
+include "onward/game system data/juice/sim/act2_extractor_c.msimunit"
+include "onward/game system data/juice/sim/act2_extractor_d.msimunit"
+include "onward/game system data/juice/sim/act2_extractor_e.msimunit"
+include "onward/game system data/juice/sim/act_2_encrypted_legion_data_core.msimunit"
+include "onward/game system data/juice/sim/shipwreck_landmark_small.msimunit"
+include "onward/game system data/juice/sim/puzzle_container_heat.msimunit"
+include "onward/game system data/juice/sim/puzzle_container_cold.msimunit"
+include "onward/game system data/juice/sim/puzzle_container_stasis.msimunit"
+include "onward/game system data/juice/sim/act2_wardenpuzzle.msimunit"
+include "onward/game system data/juice/sim/chest_space_cache.msimunit"
+include "onward/game system data/juice/sim/outlaw_dreadnought.msimunit"
+
+SimProxyRewardLogic_LootDropTableProxy "Chest Logic - Warden Puzzle Chest"
+{
+	mySimUnitAsset < uid=9E6AFEDA5AC3F92A00001C971F6C2148 > = chest_puzzle
+	myLootDropTableProxy wardenpuzzle_north
+}
+
+SimProxyRewardLogic_LootDropTableProxy "Chest Logic - Gold Rush / Vault"
+{
+	mySimUnitAsset < uid=9E6AFEDA5AC4058A002C4E4324EAB9A7 > = chest_goldrush_cache
+	myLootDropTableProxy chest_goldrush_vault
+}
+
+SimProxyRewardLogic_LootDropTableProxy "Chest Logic - Gold Rush / Prison - Arena"
+{
+	mySimUnitAsset < uid=9E6AFEDA5AC4058A002C4E447B560537 > = goldrush_hackable_chest
+	myLootDropTableProxy chest_goldrush_arena
+}
+
+SimProxyRewardLogic_LootDropTableProxy "Chest Logic - Gold Rush / Satellite Array"
+{
+	mySimUnitAsset < uid=9E6AFEDA5AC4058A002C4E45EABEA613 > = goldrush_hackable_chest
+	myLootDropTableProxy chest_goldrush_satarray
+}
+
+SimProxyRewardLogic_LootDropTableProxy "Chest Logic - Gold Rush / Refinery"
+{
+	mySimUnitAsset < uid=9E6AFEDA5AC4058A002C4E46AA55A9D0 > = chest_goldrush_cache
+	myLootDropTableProxy chest_goldrush_refine
+}
+
+SimProxyRewardLogic_LootDropTableProxy "Chest Logic - Gold Rush / Refuelling Station"
+{
+	mySimUnitAsset < uid=9E6AFEDA5AC4058A002C4E47DB031ABC > = chest_goldrush_cache
+	myLootDropTableProxy chest_goldrush_refuel
+}
+
+SimProxyRewardLogic_Association "Reward Logic - Warden Spires / Base Spire"
+{
+	myChildren
+	{
+		SimProxyRewardChildLookup Chest
+		{
+			myAssociatedLogic = "Chest Logic - Warden Puzzle Chest"
+		}
+	}
+}
+
+SimProxyRewardLogic_Association "Reward Logic - Warden Spires / Cultivator" : "Reward Logic - Warden Spires / Base Spire"
+{
+	mySimUnitAsset < uid=3BC8B70A5A948F8A00016A0CB616F103 > = warden_structure_cultivator
+}
+
+SimProxyRewardLogic_Association "Reward Logic - Warden Spires / Control Tower" : "Reward Logic - Warden Spires / Base Spire"
+{
+	mySimUnitAsset < uid=3BC8B70A5A9490880001A02F62710BA2 > = warden_structure_controltower
+}
+
+SimProxyRewardLogic_Association "Reward Logic - Warden Spires / North Anchor" : "Reward Logic - Warden Spires / Base Spire"
+{
+	mySimUnitAsset < uid=3BC8B70A5A9490E80001B15F3F6C9FFE > = warden_structure_northanchor
+}
+
+SimProxyRewardLogic_Association "Reward Logic - Warden Spires / Terraformer" : "Reward Logic - Warden Spires / Base Spire"
+{
+	mySimUnitAsset < uid=3BC8B70A5A94935E000147F084096E70 > = warden_structure_teraform
+}
+
+SimProxyRewardLogic_Association "Reward Logic - Warden Spires / South Anchor" : "Reward Logic - Warden Spires / Base Spire"
+{
+	mySimUnitAsset < uid=3BC8B70A5A94947300015ABA759D5AFF > = warden_structure_southanchor
+}
+
+SimProxyRewardLogic_Association "Reward Logic - Warden Spires / Act 2" : "Reward Logic - Warden Spires / Base Spire"
+{
+	mySimUnitAsset < uid=9E6AFEDA5AFDD6A500001E6B4E579D1F > = act2_WardenPuzzle
+}
+
+SimProxyRewardLogic_Association "Reward Logic - Gold Rush / Satellite Array"
+{
+	mySimUnitAsset < uid=9E6AFEDA5AC4058A002C4E4810B7C356 > = goldrush_sattelite
+	myChildren
+	{
+		SimProxyRewardChildLookup Chest
+		{
+			myAssociatedLogic = "Chest Logic - Gold Rush / Satellite Array"
+		}
+	}
+}
+
+SimProxyRewardLogic_Association "Reward Logic - Gold Rush / Vault"
+{
+	mySimUnitAsset < uid=9E6AFEDA5AC4058A002C4E490F26716D > = goldrush_vault
+	myChildren
+	{
+		SimProxyRewardChildLookup Chest
+		{
+			myAssociatedLogic = "Chest Logic - Gold Rush / Vault"
+		}
+	}
+}
+
+SimProxyRewardLogic_Association "Reward Logic - Gold Rush / Prison - Arena"
+{
+	mySimUnitAsset < uid=9E6AFEDA5AC4058A002C4E4A083A4270 > = goldrush_prison
+	myChildren
+	{
+		SimProxyRewardChildLookup Chest
+		{
+			myAssociatedLogic = "Chest Logic - Gold Rush / Prison - Arena"
+		}
+	}
+}
+
+SimProxyRewardLogic_Association "Reward Logic - Gold Rush / Refinery"
+{
+	mySimUnitAsset < uid=9E6AFEDA5AC4058A002C4E4BCB2F6F31 > = goldrush_refinery
+	myChildren
+	{
+		SimProxyRewardChildLookup Chest
+		{
+			myAssociatedLogic = "Chest Logic - Gold Rush / Refinery"
+		}
+	}
+}
+
+SimProxyRewardLogic_Association "Reward Logic - Gold Rush / Refuelling Station"
+{
+	mySimUnitAsset < uid=9E6AFEDA5AC40620002F91A6652CA871 > = goldrush_refueling_station
+	myChildren
+	{
+		SimProxyRewardChildLookup Chest
+		{
+			myAssociatedLogic = "Chest Logic - Gold Rush / Refuelling Station"
+		}
+	}
+}
+
+SimProxyRewardLogic_LootDropTableProxy "Reward Logic - Legion / Crashed Drake"
+{
+	mySimUnitAsset < uid=9E6AFEDA5AC4085400034BE2F6CD0CBA > = encrypted_legion_data_core
+	myLootDropTableProxy hack_crashed_drake
+}
+
+SimProxyRewardLogic_LootDropTableProxy "Reward Logic - Legion / Crashed Drake Act 2" : "Reward Logic - Legion / Crashed Drake"
+{
+	mySimUnitAsset < uid=9E6AFEDA5AFAE990000489C1C9D8DD5B > = act_2_encrypted_legion_data_core
+}
+
+SimProxyRewardLogic_LootDropTableProxy "Reward Logic - Legion / Base Extractor"
+{
+	mySimUnitAsset < uid=9E6AFEDA5AC40A970003FAC1E3B4F0BD > = harvester_extractor
+	myLootDropTableProxy kill_extractor_drop_table
+}
+
+SimProxyRewardLogic_LootDropTableProxy "Reward Logic - Legion / Extractor Test of Strength" : "Reward Logic - Legion / Base Extractor"
+{
+	mySimUnitAsset < uid=9E6AFEDA5AC40B220004211A27191063 > = harvester_extractor_variant_testofstrength
+}
+
+SimProxyRewardLogic_LootDropTableProxy "Reward Logic - Legion / Extractor Pluck" : "Reward Logic - Legion / Base Extractor"
+{
+	mySimUnitAsset < uid=9E6AFEDA5AC40C5500045FD5322F9659 > = harvester_extractor_variant_pluck
+}
+
+SimProxyRewardLogic_LootDropTableProxy "Reward Logic - Legion / Extractor Armored" : "Reward Logic - Legion / Base Extractor"
+{
+	mySimUnitAsset < uid=9E6AFEDA5AC40C5500045FD6AC19E47A > = harvester_extractor_variant_armored
+}
+
+SimProxyRewardLogic_LootDropTableProxy "Reward Logic - Legion / Extractor Trap" : "Reward Logic - Legion / Base Extractor"
+{
+	mySimUnitAsset < uid=9E6AFEDA5AC40C5500045FD7E86CD85C > = harvester_extractor_variant_trap
+}
+
+SimProxyRewardLogic_LootDropTableProxy "Reward Logic - Legion / Extractor Act 1" : "Reward Logic - Legion / Base Extractor"
+{
+	mySimUnitAsset < uid=9E6AFEDA5AC42F400002373FBAB86983 > = act1_extractor
+}
+
+SimProxyRewardLogic_LootDropTableProxy "Reward Logic - Legion / Extractor Act 2 A" : "Reward Logic - Legion / Base Extractor"
+{
+	mySimUnitAsset < uid=9E6AFEDA5AE7A57B00001D779BCB9DB8 > = act2_extractor_a
+}
+
+SimProxyRewardLogic_LootDropTableProxy "Reward Logic - Legion / Extractor Act 2 B" : "Reward Logic - Legion / Base Extractor"
+{
+	mySimUnitAsset < uid=9E6AFEDA5AE7A57B00001D789C74BEDD > = act2_extractor_b
+}
+
+SimProxyRewardLogic_LootDropTableProxy "Reward Logic - Legion / Extractor Act 2 C" : "Reward Logic - Legion / Base Extractor"
+{
+	mySimUnitAsset < uid=9E6AFEDA5AE7A57B00001D79FA7459A6 > = act2_extractor_c
+}
+
+SimProxyRewardLogic_LootDropTableProxy "Reward Logic - Legion / Extractor Act 2 D" : "Reward Logic - Legion / Base Extractor"
+{
+	mySimUnitAsset < uid=9E6AFEDA5AE7A57B00001D7A11F23195 > = act2_extractor_d
+}
+
+SimProxyRewardLogic_LootDropTableProxy "Reward Logic - Legion / Extractor Act 2 E" : "Reward Logic - Legion / Base Extractor"
+{
+	mySimUnitAsset < uid=9E6AFEDA5AE7A57B00001D7BD613484E > = act2_extractor_e
+}
+
+SimProxyRewardLogic_LootDropTableProxy "Reward Logic - Legion / Prime"
+{
+	mySimUnitAsset < uid=9E6AFEDA5AC40C5500045FD80719573A > = harvester_prime
+	myLootDropTableProxy kill_prime_drop_table
+}
+
+SimProxyRewardLogic_Default "Reward Logic - Legion / Dreadnought"
+{
+	mySimUnitAsset < uid=9E6AFEDA5AC7D53800001D5E02B515C1 > = Dreadnought
+	myLootDropTable kill_dreadnought_act6_drop_table
+}
+
+SimProxyRewardLogic_LootDropTableProxy "Reward Logic - Legion / Imp Hive"
+{
+	mySimUnitAsset < uid=9E6AFEDA5AC42A5900001C99A3F9A483 > = creep_shed
+	myLootDropTableProxy kill_imp_shed_drop_table
+}
+
+SimProxyRewardLogic_LootDropTableProxy "Reward Logic - Legion / Imp Hive Act 1" : "Reward Logic - Legion / Imp Hive"
+{
+	mySimUnitAsset < uid=9E6AFEDA5AC42E9B00020495F7293C9C > = act1_imp_shed
+}
+
+SimProxyRewardLogic_LootDropTableProxy "Chest Logic - Shipwreck / Planet - Large"
+{
+	mySimUnitAsset < uid=9E6AFEDA5AC40E3E0004B3AF49CA94DE > = outlaw_chest_planet
+	myLootDropTableProxy chest_planetwreck_large
+}
+
+SimProxyRewardLogic_LootDropTableProxy "Chest Logic - Space / Outlaw Base Chest"
+{
+	mySimUnitAsset < uid=9E6AFEDA5AC41105000524651FC1DF77 > = outlaw_chest
+	myLootDropTableProxy outlaw_outpost_chest
+}
+
+SimProxyRewardLogic_LootDropTableProxy "Chest Logic - Shipwreck / Space - Large"
+{
+	mySimUnitAsset < uid=9E6AFEDA5AC4110500052466A3962EC0 > = outlaw_chest
+	myLootDropTableProxy chest_spacewreck_large
+}
+
+SimProxyRewardLogic_Association "Reward Logic - Shipwreck / Planet - Large"
+{
+	mySimUnitAsset < uid=9E6AFEDA5AC411050005246730F5AE06 > = shipwreck_landmark
+	myChildren
+	{
+		SimProxyRewardChildLookup Chest
+		{
+			myAssociatedLogic = "Chest Logic - Shipwreck / Planet - Large"
+		}
+	}
+}
+
+SimProxyRewardLogic_LootDropTableProxy "Chest Logic - TAG / Planet - Requires Heat"
+{
+	mySimUnitAsset < uid=9E6AFEDA5AFB39BE00001D6FB5F2EE2A > = puzzle_container_heat
+	myLootDropTableProxy chest_tag_generic
+}
+
+SimProxyRewardLogic_LootDropTableProxy "Chest Logic - TAG / Planet - Requires Cold" : "Chest Logic - TAG / Planet - Requires Heat"
+{
+	mySimUnitAsset < uid=9E6AFEDA5AFB39BE00001D70C66D18AB > = puzzle_container_cold
+}
+
+SimProxyRewardLogic_LootDropTableProxy "Chest Logic - TAG / Planet - Requires Stasis" : "Chest Logic - TAG / Planet - Requires Heat"
+{
+	mySimUnitAsset < uid=9E6AFEDA5AFB39BE00001D710E8CB1E1 > = puzzle_container_stasis
+}
+
+SimProxyRewardLogic_Association "Reward Logic - Shipwreck / Planet - Medium"
+{
+	mySimUnitAsset < uid=9E6AFEDA5AFB281700001D6FAA67316D > = shipwreck_landmark_small
+	myChildren
+	{
+		SimProxyRewardChildLookup Heat
+		{
+			myAssociatedLogic = "Chest Logic - TAG / Planet - Requires Heat"
+		}
+		SimProxyRewardChildLookup Cold
+		{
+			myAssociatedLogic = "Chest Logic - TAG / Planet - Requires Cold"
+		}
+		SimProxyRewardChildLookup Gravity
+		{
+			myAssociatedLogic = "Chest Logic - TAG / Planet - Requires Stasis"
+		}
+	}
+}
+
+SimProxyRewardLogic_Association "Reward Logic - Shipwreck / Space - Large"
+{
+	mySimUnitAsset < uid=9E6AFEDA5AC4110500052468552AD055 > = shipwreck_space_large
+	myChildren
+	{
+		SimProxyRewardChildLookup Chest
+		{
+			myAssociatedLogic = "Chest Logic - Shipwreck / Space - Large"
+		}
+	}
+}
+
+SimProxyRewardLogic_Association "Reward Logic - Space / Outlaw Base"
+{
+	mySimUnitAsset < uid=9E6AFEDA5AC4110500052469440187E0 > = outlaw_outpost_wreck
+	myChildren
+	{
+		SimProxyRewardChildLookup Chest
+		{
+			myAssociatedLogic = "Chest Logic - Space / Outlaw Base Chest"
+		}
+	}
+}
+
+SimProxyRewardLogic_LootDropTableProxy "Chest Logic - Space / Unique POI Chest"
+{
+	mySimUnitAsset < uid=9E6AFEDA5AC41AB3001D3CFACBEB50C8 > = chest_space_cache
+	myLootDropTableProxy chest_space_uniquepoi
+}
+
+SimProxyRewardLogic_Association "Reward Logic - Space / Unique POI Base"
+{
+	myChildren
+	{
+		SimProxyRewardChildLookup Chest
+		{
+			myAssociatedLogic = "Chest Logic - Space / Unique POI Chest"
+		}
+	}
+}
+
+SimProxyRewardLogic_Association "Reward Logic - Space / Unique POI 2" : "Reward Logic - Space / Unique POI Base"
+{
+	mySimUnitAsset < uid=9E6AFEDA5AC428A300001C958B0C1BD3 > = space_landmark_02
+}
+
+SimProxyRewardLogic_Association "Reward Logic - Space / Unique POI 5" : "Reward Logic - Space / Unique POI Base"
+{
+	mySimUnitAsset < uid=9E6AFEDA5AC428A300001C9604D1FA8B > = space_landmark_05
+}
+
+SimProxyRewardLogic_Association "Reward Logic - Space / Unique POI 6" : "Reward Logic - Space / Unique POI Base"
+{
+	mySimUnitAsset < uid=9E6AFEDA5AC428A300001C9712EF5460 > = space_landmark_06
+}
+
+SimProxyRewardLogic_Association "Reward Logic - Space / Unique POI 7" : "Reward Logic - Space / Unique POI Base"
+{
+	mySimUnitAsset < uid=9E6AFEDA5AC428A300001C9848C0FCCB > = space_landmark_07
+}
+
+SimProxyRewardLogic_Default "Reward Logic - Electrum Vein"
+{
+	mySimUnitAsset < uid=9E6AFEDA5AC42A5900001C9A287717D5 > = ld_electrum_vein
+	myLootDropTable electrum_vein
+}
+
+SimProxyRewardLogic_Planet "Chest Logic - X Factor"
+{
+	mySimUnitAsset < uid=3BC8B70A5A94321E00001B489ED1CB85 > = container_x_factor
+	myPlanetToLootDropLookup
+	{
+		PlanetToLootDrop Planet_01
+		{
+			myPlanetUID 2B55C72B560154A200000053621E3961
+			myLootDropTable warden_chest_planet_01
+		}
+		PlanetToLootDrop Planet_03
+		{
+			myPlanetUID 2B55C72B560BF25A00000071749BE491
+			myLootDropTable warden_chest_planet_03
+		}
+		PlanetToLootDrop Planet_04
+		{
+			myPlanetUID CC9485AB560BFF1000000066C27E74E9
+			myLootDropTable warden_chest_planet_04
+		}
+		PlanetToLootDrop Planet_05
+		{
+			myPlanetUID CC9485AB560D322B0000007B1A4D3320
+			myLootDropTable warden_chest_planet_05
+		}
+		PlanetToLootDrop Planet_07
+		{
+			myPlanetUID CC9485AB560D7F0A00000059C377EB67
+			myLootDropTable warden_chest_planet_07
+		}
+		PlanetToLootDrop Planet_08
+		{
+			myPlanetUID CC9485AB560D8193000001B70208D164
+			myLootDropTable warden_chest_planet_08
+		}
+		PlanetToLootDrop Planet_15
+		{
+			myPlanetUID CC9485AB560DABE6000000B1513C7CDA
+			myLootDropTable warden_chest_planet_15
+		}
+	}
+}
+
+SimProxyRewardLogic_Association "Reward Logic - X Factor / Base"
+{
+	mySimUnitAsset < uid=9E6AFEDA5AD4FABB00026D8FA8CC036A > = container_x_factor_base
+	myChildren
+	{
+		SimProxyRewardChildLookup Chest
+		{
+			myAssociatedLogic = "Chest Logic - X Factor"
+		}
+	}
+}
+
+SimProxyRewardLogic_Association "Reward Logic - X Factor / Kirite" : "Reward Logic - X Factor / Base"
+{
+	mySimUnitAsset < uid=9E6AFEDA5AC7D8F4000A9DF34EA4E716 > = container_x_factor_base_planet_01
+}
+
+SimProxyRewardLogic_Association "Reward Logic - X Factor / Haven" : "Reward Logic - X Factor / Base"
+{
+	mySimUnitAsset < uid=9E6AFEDA5AC7D99A00001D5E8744B2F9 > = container_x_factor_base_planet_03
+}
+
+SimProxyRewardLogic_Association "Reward Logic - X Factor / Necrom" : "Reward Logic - X Factor / Base"
+{
+	mySimUnitAsset < uid=9E6AFEDA5AC7D99A00001D5FA322D0F8 > = container_x_factor_base_planet_04
+}
+
+SimProxyRewardLogic_Association "Reward Logic - X Factor / Tundria" : "Reward Logic - X Factor / Base"
+{
+	mySimUnitAsset < uid=9E6AFEDA5AC7D99A00001D605D72972D > = container_x_factor_base_planet_05
+}
+
+SimProxyRewardLogic_Association "Reward Logic - X Factor / Sonatus" : "Reward Logic - X Factor / Base"
+{
+	mySimUnitAsset < uid=9E6AFEDA5AC7D99A00001D61CC9B3EE3 > = container_x_factor_base_planet_07
+}
+
+SimProxyRewardLogic_Association "Reward Logic - X Factor / Vylus" : "Reward Logic - X Factor / Base"
+{
+	mySimUnitAsset < uid=9E6AFEDA5AC7D99A00001D626EEA8EF3 > = container_x_factor_base_planet_08
+}
+
+SimProxyRewardLogic_Association "Reward Logic - X Factor / Ashar" : "Reward Logic - X Factor / Base"
+{
+	mySimUnitAsset < uid=9E6AFEDA5AC7D99A00001D63DBFA36C6 > = container_x_factor_base_planet_15
+}
+
+SimProxyRewardLogic_Default "Reward Logic - Outlaw / Dreadnought"
+{
+	mySimUnitAsset < uid=A08A88CF5C6739C2000096BBC8ED5D8F > = outlaw_dreadnought
+	myLootDropTable Kill_Outlaw_Dreadnought
+}
+

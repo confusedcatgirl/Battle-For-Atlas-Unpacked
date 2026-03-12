@@ -1,0 +1,51 @@
+include ./harvester_dreadnought_turret_base.mnpc
+include onward/skillscripts/harvester_dreadnought_turret_02_solved_listener.mskillscriptjuice
+include onward/skillscripts/npc_ability_harvester_dreadnought_turret_pdc_gatling.mskillscriptjuice
+
+NPC harvester_dreadnought_turret_02 < uid=C92F4D3F5A5E5E8000B1158681FF7283 > : harvester_dreadnought_turret_base
+{
+	myGraphObjectFile "onward/graph objects/character/harvester_dreadnought_turret_02.mgraphobject"
+	myAbilityDefinitions
+	{
+		NPCAbilityDefinition Gatling
+		{
+			myGameAction NPC_Ability1
+			mySkillScript < uid=C92F4D3F5A984F6E023F4A9DD69D28DF > = npc_ability_harvester_dreadnought_turret_gatling
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_harvester_dreadnought_turret_gatling.juice"
+		}
+		NPCAbilityDefinition PDC
+		{
+			myGameAction NPC_Ability2
+			mySkillScript < uid=C92F4D3F5A984F6E023F4A9EB5692DE5 > = npc_ability_harvester_dreadnought_turret_pdc_gatling
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_harvester_dreadnought_turret_pdc_gatling.juice"
+		}
+	}
+	myPersistentScripts
+	{
+		SkillScript "Solved Listener" < uid=C92F4D3F5A5E5F2800C6B0ED7A8D0323 > = harvester_dreadnought_turret_02_solved_listener
+	}
+	myAwarenessDistance 2000.0
+	myNPCType Harvester_DreadnoughtPart
+	myBaseThreatProfile
+	{
+		myDeAggroRange 1200.0
+		myThreatPropagationRange 450.0
+		myPlayerBaseThreat 50.0
+		myHarvesterBaseThreat 0.0
+		myCloseRange 400.0
+		myMediumRange 800.0
+		myLongRange 1200.0
+		myExtremeRange 2000.0
+		myCloseRangeBaseThreat 200.0
+		myMediumRangeBaseThreat 150.0
+	}
+	myActionThreatProfile
+	{
+		myActionThreatDecayDelay 8.0
+		myHealthPerecentDamageActionThreat 40.0
+		myHealthAllyPerecentDamageActionThreat 20.0
+	}
+}
+

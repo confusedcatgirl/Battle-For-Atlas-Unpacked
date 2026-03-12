@@ -1,0 +1,59 @@
+include "onward/game system data/fruit/progression/exploration.fruit"
+
+ExplorationSimUnitCatgories PlanetExplorationCategories
+{
+	SimUnitCategory Landmark Landmark
+	SimUnitCategory ExtractorSlot ExtractorSlot
+	SimUnitCategory OutpostSlot OutpostSlot
+	SimUnitCategory Wreckage Wreckage
+}
+
+ExplorationPOICategories PlanetExplorationPOIs
+{
+	SimUnitCategory Landmark Landmark
+	SimUnitCategory Wreckage Wreckage
+}
+
+ExplorationSimUnitCatgories SpaceExplorationCategories
+{
+	SimUnitCategory Outpost Outpost
+	SimUnitCategory Wreckages SpaceDerelict
+	SimUnitCategory Landmarks SpaceLandmark
+}
+
+ExplorationPOICategories SpaceExplorationPOIs
+{
+	SimUnitCategory Outpost Outpost
+	SimUnitCategory Wreckages SpaceDerelict
+	SimUnitCategory Landmarks SpaceLandmark
+}
+
+ExplorationThresholds Thresholds
+{
+	ExplorationThreshold Threshold25
+	{
+		myPointAmount 0.25
+		myType None
+		myLocalizedDescription "contextComment = \"The Exploration benefit at 25%\", description = \"ui-exploration-threshold-25\", enabled = true, guid = #1ABBD50B58E5187F000093802ECEAD15, lineVersion = 0, maxLength = 34, text = \"Exploration Threshold: 25%\""
+	}
+	ExplorationThreshold Threshold50
+	{
+		myPointAmount 0.5
+		myType UnlockFastTravel
+		myLocalizedDescription "contextComment = \"The Exploration benefit at 50%\", description = \"ui-exploration-threshold-50\", enabled = true, guid = #1ABBD50B58E518A4000096E94F268FA1, lineVersion = 0, maxLength = 34, text = \"Exploration Threshold: 50%\""
+	}
+	ExplorationThreshold Threshold75
+	{
+		myPointAmount 0.75
+		myType None
+		myLocalizedDescription "contextComment = \"The Exploration benefit at 75%\", description = \"ui-exploration-threshold-75\", enabled = true, guid = #1ABBD50B58E518A3000096E114DB2E2A, lineVersion = 0, maxLength = 34, text = \"Exploration Threshold: 75%\""
+	}
+	ExplorationThreshold Threshold100
+	{
+		myPointAmount 1.0
+		myType UnlockPlanetMod
+		myThresholdReachedChallenge Progression_FullyExplorePlanet
+		myLocalizedDescription "contextComment = \"The Exploration benefit at 100%\", description = \"ui-exploration-threshold-100\", enabled = true, guid = #1ABBD50B58E518A40000978922D2166C, lineVersion = 0, maxLength = 35, text = \"Exploration Threshold: 100%\""
+	}
+}
+

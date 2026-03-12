@@ -1,0 +1,102 @@
+include ./ld_gym_cyclops_party_base.msimunit
+
+SimUnit ld_gym_cyclops_giant_crush_and_probe < uid=2B55C72B5A1EFE9B000021453AD4ED72 > : ld_gym_cyclops_party_base
+{
+	myUIName "contextComment = \"\", description = \"\", enabled = true, guid = #2B55C72B5A1EFE9B00002144BC33629F, lineVersion = 0, maxLength = 1, text = \"|empty|\""
+	myBehavior onward/simworld/behavior/harvester_extractor_defender_squad.msimunitbtgraph
+	myFaction Harvester
+	myCategory NPC
+	mySubCategory Raider
+	mySubCategoryVariant 1
+	myAffinityType None
+	myRadius 20.0
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo "Cold Giant" < uid=2B55C72B5A1EFE9B000021466809226E >
+		{
+			myCountMin 0
+			myCountMax 0
+			myEntitySize 4.0
+			myEntityFile "onward/game system data/juice/ai/npc/harvester_cyclops_cold.mnpc"
+		}
+		SimUnitEntitySpawnInfo "Crush Giant" < uid=2B55C72B5A1EFE9B000021470E0E35E0 >
+		{
+			myCountMin 1
+			myCountMax 1
+			myEntitySize 4.0
+			myEntityFile "onward/game system data/juice/ai/npc/harvester_cyclops_crush.mnpc"
+		}
+		SimUnitEntitySpawnInfo "Heat Giant" < uid=2B55C72B5A1EFE9B00002148290E8924 >
+		{
+			myCountMin 0
+			myCountMax 0
+			myEntitySize 4.0
+			myEntityFile "onward/game system data/juice/ai/npc/harvester_cyclops_heat.mnpc"
+		}
+		SimUnitEntitySpawnInfo Cyclops < uid=2B55C72B5A1EFE9B00002149B42C4E0A >
+		{
+			myCountMin 0
+			myCountMax 0
+			myEntitySize 4.0
+			myEntityFile "onward/game system data/juice/ai/npc/harvester_cyclops_generic.mnpc"
+		}
+		SimUnitEntitySpawnInfo "Cold Grenadier" < uid=2B55C72B5A1EFE9B0000214A951710B3 >
+		{
+			myCountMin 0
+			myCountMax 0
+			myEntityFile "onward/game system data/juice/ai/npc/harvester_cyclops_generic_cold.mnpc"
+		}
+		SimUnitEntitySpawnInfo "Crush Grenadier" < uid=2B55C72B5A1EFE9B0000214BEAC996C4 >
+		{
+			myCountMin 0
+			myCountMax 0
+			myEntityFile "onward/game system data/juice/ai/npc/harvester_cyclops_generic_crush.mnpc"
+		}
+		SimUnitEntitySpawnInfo "Heat Grenadier" < uid=2B55C72B5A1EFE9B0000214CB7D36510 >
+		{
+			myCountMin 0
+			myCountMax 0
+			myEntitySize 4.0
+			myEntityFile "onward/game system data/juice/ai/npc/harvester_cyclops_generic_heat.mnpc"
+		}
+		SimUnitEntitySpawnInfo "Shield Cyclops" < uid=2B55C72B5A1EFE9B0000214D615931FE >
+		{
+			myCountMin 0
+			myCountMax 0
+			myEntitySize 4.0
+			myEntityFile "onward/game system data/juice/ai/npc/harvester_cyclops_generic_shielded.mnpc"
+		}
+		SimUnitEntitySpawnInfo Probe < uid=2B55C72B5A1EFE9B0000214E4CE627EE >
+		{
+			myCountMin 1
+			myCountMax 1
+			myEntityFile "onward/game system data/juice/ai/npc/harvester_probe.mnpc"
+		}
+		SimUnitEntitySpawnInfo "Fire Imps" < uid=2B55C72B5A1EFE9B0000214FEA3FE700 >
+		{
+			myCountMin 0
+			myCountMax 0
+			myElementSpawnInfo
+			{
+				SimUnitElementSpawnInfo Imps
+				{
+					myEntityFile "onward/game system data/juice/ai/npc/harvester_imp_heat.mnpc"
+				}
+			}
+		}
+		SimUnitEntitySpawnInfo "Crush Imps" < uid=2B55C72B5A1EFEDF00002150C6E8E4B2 >
+		{
+			myCountMin 2
+			myCountMax 2
+			myElementSpawnInfo
+			{
+				SimUnitElementSpawnInfo Imps
+				{
+					myEntityFile "onward/game system data/juice/ai/npc/harvester_imp_crush.mnpc"
+				}
+			}
+		}
+	}
+	myDeathXPPayload UnitKilled_RaidingParty
+}
+

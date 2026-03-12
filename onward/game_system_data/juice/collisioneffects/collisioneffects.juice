@@ -1,0 +1,385 @@
+include "onward/game system data/juice/collisionmaterials/collisionmaterials.juice"
+include "onward/game system data/fruit/collisioneffects/collisioneffects.fruit"
+
+CollisionEffect BoneDust < uid=BD4A0DDE571F818F000002EEB979BBD8 >
+{
+	myMinTriggerVelocity 10.0
+	myMaxTriggerVelocity 2000.0
+	myParticleEffect ""
+	myContinuousEffect "onward/graph objects/effect/effect_col_bone.mgraphobject"
+	myGroup1
+	{
+		CollisionMaterial Bone < uid=BD4A0DDE571F818F000002EF6DE2AA0F > = Bone
+	}
+	myGroup2
+	{
+		CollisionMaterial Bone < uid=BD4A0DDE571F818F000002F0D366EE3D > = Bone
+		CollisionMaterial Crystal < uid=BD4A0DDE571F818F000002F2FD105430 > = Crystal
+		CollisionMaterial Default < uid=BD4A0DDE571F818F000002F385DA2B4F > = Default
+		CollisionMaterial Ice < uid=BD4A0DDE571F818F000002F461292ACF > = Ice
+		CollisionMaterial Metal < uid=BD4A0DDE571F8258000002F68B7C92F2 > = Metal
+		CollisionMaterial Player < uid=BD4A0DDE571F8258000002F7DFA85081 > = Player
+		CollisionMaterial Rock < uid=BD4A0DDE571F8258000002F8F7FF66E9 > = Rock
+		CollisionMaterial Player_Shield < uid=E22BA6D758F8F7240000C322A671AAC6 > = "Player Shield"
+		CollisionMaterial DeflectiveMetal < uid=C308E4DB5900A076000001E75CCF703D > = DeflectiveMetal
+	}
+}
+
+CollisionEffect ClothTear < uid=BD4A0DDE571F852D000002FE2284413F >
+{
+	myMinTriggerVelocity 10.0
+	myMaxTriggerVelocity 2000.0
+	myParticleEffect ""
+	myContinuousEffect "onward/graph objects/effect/effect_col_cloth.mgraphobject"
+	myGroup1
+	{
+		CollisionMaterial Cloth < uid=BD4A0DDE571F852D000002FFFBF72006 > = Cloth
+	}
+	myGroup2
+	{
+		CollisionMaterial Bone < uid=BD4A0DDE571F852D00000300093B4C9E > = Bone
+		CollisionMaterial Crystal < uid=BD4A0DDE571F852D00000302888ACB30 > = Crystal
+		CollisionMaterial Default < uid=BD4A0DDE571F852D00000303CA3F3D37 > = Default
+		CollisionMaterial Ice < uid=BD4A0DDE571F852D0000030419B3C752 > = Ice
+		CollisionMaterial Metal < uid=BD4A0DDE571F852D00000306707B6539 > = Metal
+		CollisionMaterial Player < uid=BD4A0DDE571F852D00000307439E3884 > = Player
+		CollisionMaterial Rock < uid=BD4A0DDE571F852D00000308C490EEF2 > = Rock
+		CollisionMaterial Wood < uid=BD4A0DDE571F852D0000030D80D1C1E3 > = Wood
+		CollisionMaterial Player_Shield < uid=E22BA6D758F8F7240000C323470E58F0 > = "Player Shield"
+		CollisionMaterial DeflectiveMetal < uid=C308E4DB5900A076000001E855995E0C > = DeflectiveMetal
+	}
+}
+
+CollisionEffect CrystalShard < uid=BD4A0DDE571F852D0000030EE3B2412E >
+{
+	myMinTriggerVelocity 10.0
+	myMaxTriggerVelocity 2000.0
+	myParticleEffect ""
+	myContinuousEffect "onward/graph objects/effect/effect_col_crystal.mgraphobject"
+	myGroup1
+	{
+		CollisionMaterial Crystal < uid=BD4A0DDE571F852D0000030F70ABAB37 > = Crystal
+	}
+	myGroup2
+	{
+		CollisionMaterial Crystal < uid=BD4A0DDE571F852D00000312FB633AE2 > = Crystal
+		CollisionMaterial Default < uid=BD4A0DDE571F852D00000313D6BCC4AA > = Default
+		CollisionMaterial Metal < uid=BD4A0DDE571F852D00000316BA098A53 > = Metal
+	}
+}
+
+CollisionEffect IceShard < uid=BD4A0DDE571F852D0000031F6674AE2C >
+{
+	myMinTriggerVelocity 10.0
+	myMaxTriggerVelocity 2000.0
+	myParticleEffect ""
+	myContinuousEffect "onward/graph objects/effect/effect_col_ice.mgraphobject"
+	myGroup1
+	{
+		CollisionMaterial Ice < uid=BD4A0DDE571F8CBB0000033612361ABB > = Ice
+	}
+	myGroup2
+	{
+		CollisionMaterial Crystal < uid=BD4A0DDE571F8CBB0000033980C0817F > = Crystal
+		CollisionMaterial Default < uid=BD4A0DDE571F8CBB0000033A2281B01E > = Default
+		CollisionMaterial Ice < uid=BD4A0DDE571F8CBB0000033B9F20BD8A > = Ice
+		CollisionMaterial Metal < uid=BD4A0DDE571F8CBB0000033DA6E27163 > = Metal
+		CollisionMaterial Player < uid=BD4A0DDE571F8CBB0000033E89CC24E1 > = Player
+		CollisionMaterial Rock < uid=BD4A0DDE571F8CBB0000033F139A14BF > = Rock
+		CollisionMaterial Player_Shield < uid=E22BA6D758F8F7240000C3245C2145D8 > = "Player Shield"
+	}
+}
+
+CollisionEffect LooseSurfaceScrape < uid=BD4A0DDE571F852D00000320201E801E >
+{
+	myMinTriggerVelocity 10.0
+	myMaxTriggerVelocity 2000.0
+	myParticleEffect ""
+	myContinuousEffect "onward/graph objects/effect/effect_col_loose_surface.mgraphobject"
+	myGroup1
+	{
+		CollisionMaterial LooseSurfaceCollision < uid=BD4A0DDE571F8CBB0000034594B7561A > = "Loose Surface"
+	}
+	myGroup2
+	{
+		CollisionMaterial Bone < uid=BD4A0DDE571F8CBB000003467E665367 > = Bone
+		CollisionMaterial Crystal < uid=BD4A0DDE571F8CBB00000348046E0225 > = Crystal
+		CollisionMaterial Default < uid=BD4A0DDE571F8CBB000003492A478334 > = Default
+		CollisionMaterial Ice < uid=BD4A0DDE571F8CBB0000034A66F61070 > = Ice
+		CollisionMaterial Metal < uid=BD4A0DDE571F8CBB0000034C14E9334A > = Metal
+		CollisionMaterial Player < uid=BD4A0DDE571F8CBB0000034D02A14CC0 > = Player
+		CollisionMaterial Rock < uid=BD4A0DDE571F8CBB0000034ED402A974 > = Rock
+		CollisionMaterial Wood < uid=BD4A0DDE571F8CBB0000035399CB7995 > = Wood
+		CollisionMaterial Player_Shield < uid=E22BA6D758F8F7240000C3258B58A568 > = "Player Shield"
+	}
+}
+
+CollisionEffect MetalSpark < uid=BD4A0DDE571F852D0000032196630EB7 >
+{
+	myMinTriggerVelocity 10.0
+	myMaxTriggerVelocity 2000.0
+	myParticleEffect ""
+	myContinuousEffect "onward/graph objects/effect/effect_col_metal.mgraphobject"
+	myGroup1
+	{
+		CollisionMaterial Metal < uid=BD4A0DDE571F8D7F000003541E8DFE27 > = Metal
+	}
+	myGroup2
+	{
+		CollisionMaterial Default < uid=BD4A0DDE571F8D7F000003582EBF7B1E > = Default
+		CollisionMaterial Metal < uid=BD4A0DDE571F8D7F0000035B9FD7AA3F > = Metal
+		CollisionMaterial Rock < uid=BD4A0DDE571F8D7F0000035DB7C6FB00 > = Rock
+		CollisionMaterial DeflectiveMetal < uid=C308E4DB5900A076000001E75CCF703D > = DeflectiveMetal
+	}
+}
+
+CollisionEffect PlayerSpark < uid=BD4A0DDE571F852D000003222E4DB679 >
+{
+	myMinTriggerVelocity 1.0
+	myMaxTriggerVelocity 2000.0
+	myParticleEffect ""
+	myContinuousEffect "onward/graph objects/effect/effect_col_metal.mgraphobject"
+	myGroup1
+	{
+		CollisionMaterial Player < uid=BD4A0DDE571F8E2E00000363C1189026 > = Player
+	}
+	myGroup2
+	{
+		CollisionMaterial Crystal < uid=BD4A0DDE571F8E2E000003664D1A39F9 > = Crystal
+		CollisionMaterial Default < uid=BD4A0DDE571F8E2E00000367488609DC > = Default
+		CollisionMaterial Metal < uid=BD4A0DDE571F8E2E0000036A6D4675C5 > = Metal
+		CollisionMaterial Player < uid=BD4A0DDE571F8E2E0000036B15F65958 > = Player
+		CollisionMaterial Rock < uid=BD4A0DDE571F8E2E0000036CA2CD0A1A > = Rock
+	}
+}
+
+CollisionEffect PlayerShieldSpark < uid=E22BA6D758F8F7240000C32C17D6B8E2 >
+{
+	myMinTriggerVelocity 1.0
+	myMaxTriggerVelocity 2000.0
+	myContinuousEffect "onward/graph objects/effect/fx_ship_shield_hit.mgraphobject"
+	myGroup1
+	{
+		CollisionMaterial "Player Shield" < uid=E22BA6D758F8F7240000C32DFA248F54 > = "Player Shield"
+	}
+	myGroup2
+	{
+		CollisionMaterial Crystal < uid=BD4A0DDE571F8E2E000003664D1A39F9 > = Crystal
+		CollisionMaterial Default < uid=BD4A0DDE571F8E2E00000367488609DC > = Default
+		CollisionMaterial Metal < uid=BD4A0DDE571F8E2E0000036A6D4675C5 > = Metal
+		CollisionMaterial Player < uid=BD4A0DDE571F8E2E0000036B15F65958 > = Player
+		CollisionMaterial Rock < uid=BD4A0DDE571F8E2E0000036CA2CD0A1A > = Rock
+		CollisionMaterial Player_Shield < uid=E22BA6D758F8F7240000C326A054095F > = "Player Shield"
+	}
+}
+
+CollisionEffect RockDust < uid=BD4A0DDE571F852D00000323ED8B7852 >
+{
+	myMinTriggerVelocity 10.0
+	myMaxTriggerVelocity 2000.0
+	myParticleEffect ""
+	myContinuousEffect "onward/graph objects/effect/effect_col_hard_surface.mgraphobject"
+	myGroup1
+	{
+		CollisionMaterial Rock < uid=BD4A0DDE571F8EF900000372F1946746 > = Rock
+	}
+	myGroup2
+	{
+		CollisionMaterial Crystal < uid=BD4A0DDE571F8EF9000003756BA0C2A8 > = Crystal
+		CollisionMaterial Default < uid=BD4A0DDE571F8EF900000376395C36CD > = Default
+		CollisionMaterial Rock < uid=BD4A0DDE571F8EF90000037B3D725547 > = Rock
+	}
+}
+
+CollisionEffect SkinTear < uid=BD4A0DDE571F852D0000032439410B8D >
+{
+	myMinTriggerVelocity 10.0
+	myMaxTriggerVelocity 2000.0
+	myParticleEffect ""
+	myContinuousEffect "onward/graph objects/effect/effect_col_loose_skin.mgraphobject"
+	myGroup1
+	{
+		CollisionMaterial Skin < uid=BD4A0DDE571F908A00000381FFF0C2D4 > = Skin
+	}
+	myGroup2
+	{
+		CollisionMaterial Bone < uid=BD4A0DDE571F908A0000038289F21814 > = Bone
+		CollisionMaterial Crystal < uid=BD4A0DDE571F908A00000384863325CF > = Crystal
+		CollisionMaterial Default < uid=BD4A0DDE571F908A00000385FFACB1BF > = Default
+		CollisionMaterial Ice < uid=BD4A0DDE571F908A00000386E68724E6 > = Ice
+		CollisionMaterial Metal < uid=BD4A0DDE571F908A0000038877C84FB6 > = Metal
+		CollisionMaterial Player < uid=BD4A0DDE571F908A00000389ED7329B9 > = Player
+		CollisionMaterial Rock < uid=BD4A0DDE571F908A0000038A320C80E5 > = Rock
+		CollisionMaterial Wood < uid=BD4A0DDE571F908A0000038F6A5BF608 > = Wood
+		CollisionMaterial Player_Shield < uid=E22BA6D758F8F7240000C32795A80C7D > = "Player Shield"
+	}
+}
+
+CollisionEffect VegetationRustle < uid=BD4A0DDE571F852D00000325B7D9ACA4 >
+{
+	myMinTriggerVelocity 0.0
+	myMaxTriggerVelocity 20000.0
+	myMinDeltaVelocity -1.0
+	myParticleEffect ""
+	myContinuousEffect "onward/graph objects/effect/effect_col_vegetation.mgraphobject"
+	myGroup1
+	{
+		CollisionMaterial Vegetation < uid=BD4A0DDE571F9B9B000003902A97B3E0 > = Vegetation
+	}
+	myGroup2
+	{
+		CollisionMaterial Bone < uid=BD4A0DDE571F9B9B0000039148F601D4 > = Bone
+		CollisionMaterial Crystal < uid=BD4A0DDE571F9B9B00000393247E1EFD > = Crystal
+		CollisionMaterial Default < uid=BD4A0DDE571F9B9B00000394B3E1A121 > = Default
+		CollisionMaterial Ice < uid=BD4A0DDE571F9B9B000003954BE1EE28 > = Ice
+		CollisionMaterial Metal < uid=BD4A0DDE571F9B9B000003970C84414A > = Metal
+		CollisionMaterial Player < uid=BD4A0DDE571F9B9B00000398B2D20152 > = Player
+		CollisionMaterial Rock < uid=BD4A0DDE571F9B9B00000399F606298E > = Rock
+		CollisionMaterial Skin < uid=BD4A0DDE571F9B9B0000039AE7E431E1 > = Skin
+		CollisionMaterial Wood < uid=BD4A0DDE571F9B9B0000039EEA9EBB53 > = Wood
+		CollisionMaterial "Player Shield" < uid=E22BA6D758F8F7240000C328C3F19495 > = "Player Shield"
+	}
+}
+
+CollisionEffect ViscousLiquidSplash < uid=BD4A0DDE571F852D00000326F4643A58 >
+{
+	myMinTriggerVelocity 10.0
+	myMaxTriggerVelocity 2000.0
+	myParticleEffect ""
+	myContinuousEffect "onward/graph objects/effect/effect_col_viscous_liquid.mgraphobject"
+	myGroup1
+	{
+		CollisionMaterial ViscousLiquid < uid=BD4A0DDE571F9B9B0000039F06A4F2C4 > = "Viscous Liquid"
+	}
+	myGroup2
+	{
+		CollisionMaterial Bone < uid=BD4A0DDE571F9B9B000003A01A13D337 > = Bone
+		CollisionMaterial Crystal < uid=BD4A0DDE571F9B9B000003A2B6A875B2 > = Crystal
+		CollisionMaterial Default < uid=BD4A0DDE571F9B9B000003A397BB8371 > = Default
+		CollisionMaterial Ice < uid=BD4A0DDE571F9B9B000003A413B570DA > = Ice
+		CollisionMaterial Metal < uid=BD4A0DDE571F9B9B000003A6D7B8BDA9 > = Metal
+		CollisionMaterial Player < uid=BD4A0DDE571F9B9B000003A79C530C24 > = Player
+		CollisionMaterial Rock < uid=BD4A0DDE571F9B9B000003A824D88CD4 > = Rock
+		CollisionMaterial Skin < uid=BD4A0DDE571F9B9B000003A9443DEC19 > = Skin
+		CollisionMaterial Wood < uid=BD4A0DDE571F9B9B000003AD19E4A7CB > = Wood
+		CollisionMaterial "Player Shield" < uid=E22BA6D758F8F7240000C3298DCC1A66 > = "Player Shield"
+	}
+}
+
+CollisionEffect WaterSplash < uid=BD4A0DDE571F852D00000327429B856E >
+{
+	myMinTriggerVelocity 100.0
+	myMaxTriggerVelocity 2000.0
+	myParticleEffect ""
+	myContinuousEffect "onward/graph objects/effect/effect_col_water.mgraphobject"
+	myGroup1
+	{
+		CollisionMaterial Water < uid=BD4A0DDE571FA07400000056C422D12C > = Water
+	}
+	myGroup2
+	{
+		CollisionMaterial Bone < uid=BD4A0DDE571FA074000000574FFD8203 > = Bone
+		CollisionMaterial Crystal < uid=BD4A0DDE571FA07400000059C1F8EDB0 > = Crystal
+		CollisionMaterial Default < uid=BD4A0DDE571FA0740000005A1381EF12 > = Default
+		CollisionMaterial Ice < uid=BD4A0DDE571FA0740000005BB0CF9AFB > = Ice
+		CollisionMaterial Metal < uid=BD4A0DDE571FA0740000005D321AC561 > = Metal
+		CollisionMaterial Player < uid=BD4A0DDE571FA0740000005E2EFF454F > = Player
+		CollisionMaterial Rock < uid=BD4A0DDE571FA0740000005FE22B1A29 > = Rock
+		CollisionMaterial Skin < uid=BD4A0DDE571FA074000000609F060512 > = Skin
+		CollisionMaterial Wood < uid=BD4A0DDE571FA07400000064BA1309E2 > = Wood
+		CollisionMaterial "Player Shield" < uid=E22BA6D758F8F7240000C32A8DD2E471 > = "Player Shield"
+	}
+}
+
+CollisionEffect WoodSplinter < uid=BD4A0DDE571FCC5F00000056DBDEC95A >
+{
+	myMinTriggerVelocity 10.0
+	myMaxTriggerVelocity 2000.0
+	myParticleEffect ""
+	myContinuousEffect "onward/graph objects/effect/effect_col_wood.mgraphobject"
+	myGroup1
+	{
+		CollisionMaterial Wood < uid=BD4A0DDE571FCC5F000000574230143D > = Wood
+	}
+	myGroup2
+	{
+		CollisionMaterial Bone < uid=BD4A0DDE571FCC5F0000005839A91ABF > = Bone
+		CollisionMaterial Crystal < uid=BD4A0DDE571FCC5F0000005AEB5F98E1 > = Crystal
+		CollisionMaterial Default < uid=BD4A0DDE571FCC5F0000005B290CE84B > = Default
+		CollisionMaterial Ice < uid=BD4A0DDE571FCC5F0000005C58017337 > = Ice
+		CollisionMaterial Metal < uid=BD4A0DDE571FCC5F0000005EB9F5150A > = Metal
+		CollisionMaterial Player < uid=BD4A0DDE571FCC5F0000005FF7F5FCCF > = Player
+		CollisionMaterial Rock < uid=BD4A0DDE571FCC5F00000060A43EB1CD > = Rock
+		CollisionMaterial Wood < uid=BD4A0DDE571FCC5F00000065E157B387 > = Wood
+		CollisionMaterial "Player Shield" < uid=E22BA6D758F8F7240000C32B58CCDA52 > = "Player Shield"
+	}
+}
+
+CollisionEffect DefaultGallaShield < uid=C91BB55158011133000002D85D7067E8 >
+{
+	myMaxTriggerVelocity 100000.0
+	myParticleEffect onward/particles/Pods/fx_pilot_defensiveshield_impact.mparticles
+	myContinuousEffect ""
+	myGroup1
+	{
+		CollisionMaterial Galla_Shield < uid=C91BB55158011133000002D92E7D54A1 > = Galla_Shield
+	}
+	myGroup2
+	{
+		CollisionMaterial Default < uid=C91BB55158011133000002DAF63E5C95 > = Default
+	}
+}
+
+CollisionEffect DefaultVortexShield < uid=C91BB551584ED6240070610CBD96B90D >
+{
+	myMaxTriggerVelocity 100000.0
+	myParticleEffect onward/particles/pods/fx_pilot_vortexshield_impact.mparticles
+	myGroup1
+	{
+		CollisionMaterial Vortex_Shield < uid=C91BB551584ED6240070610DC87EEAEF > = Vortex_Shield
+	}
+	myGroup2
+	{
+		CollisionMaterial Default < uid=C91BB551584ED6240070610E277A079A > = Default
+	}
+}
+
+CollisionEffect DeflectiveMetalSpark < uid=C308E4DB5900A0E3000001E9044CC7E3 >
+{
+	myMinTriggerVelocity 10.0
+	myMaxTriggerVelocity 2000.0
+	myParticleEffect ""
+	myContinuousEffect "onward/graph objects/effect/effect_col_metal.mgraphobject"
+	myGroup1
+	{
+		CollisionMaterial DeflectiveMetal < uid=C308E4DB5900A076000001E75CCF703D > = DeflectiveMetal
+	}
+	myGroup2
+	{
+		CollisionMaterial Default < uid=BD4A0DDE571F8D7F000003582EBF7B1E > = Default
+		CollisionMaterial Rock < uid=BD4A0DDE571F8D7F0000035DB7C6FB00 > = Rock
+	}
+}
+
+CollisionEffect ElectrumCrumble < uid=42BB0A2F5BC4AB3600000038A23B7D65 >
+{
+	myMinTriggerVelocity 10.0
+	myMaxTriggerVelocity 2000.0
+	myContinuousEffect "onward/graph objects/effect/effect_col_electrum.mgraphobject"
+	myGroup1
+	{
+		CollisionMaterial Electrum < uid=42BB0A2F5BC4AB3600000039735C7D22 > = Electrum
+	}
+	myGroup2
+	{
+		CollisionMaterial Crystal < uid=BD4A0DDE571F8CBB0000033980C0817F > = Crystal
+		CollisionMaterial Default < uid=BD4A0DDE571F8CBB0000033A2281B01E > = Default
+		CollisionMaterial Ice < uid=BD4A0DDE571F8CBB0000033B9F20BD8A > = Ice
+		CollisionMaterial Metal < uid=BD4A0DDE571F8CBB0000033DA6E27163 > = Metal
+		CollisionMaterial Player < uid=BD4A0DDE571F8CBB0000033E89CC24E1 > = Player
+		CollisionMaterial Rock < uid=BD4A0DDE571F8CBB0000033F139A14BF > = Rock
+		CollisionMaterial Player_Shield < uid=E22BA6D758F8F7240000C3245C2145D8 > = "Player Shield"
+		CollisionMaterial Electrum < uid=42BB0A2F5BC4AB3600000039735C7D22 > = Electrum
+	}
+}
+

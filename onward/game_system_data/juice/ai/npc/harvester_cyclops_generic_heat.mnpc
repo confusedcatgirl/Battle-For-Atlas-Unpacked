@@ -1,0 +1,58 @@
+include ./harvester_cyclops_generic.mnpc
+include onward/skillscripts/npc_ability_cyclops_generic_grenade.mskillscriptjuice
+include onward/skillscripts/npc_ability_cyclops_generic_heat_flameblast.mskillscriptjuice
+
+NPC harvester_cyclops_generic_heat < uid=4A8282B9587951F70017593B5E0A0749 > : harvester_cyclops_generic
+{
+	myUIName "contextComment = \"The UI Name for the Fire Cyclops\", description = \"uiname-harvester-cyclops-heat-generic\", enabled = true, guid = #93869D535AB1524600001D1F8E4A6A65, lineVersion = 0, maxLength = 16, text = \"Fire Cyclops\""
+	myUIName_NonLocalized "Heat Infused Cyclops"
+	myGraphObjectFile "onward/graph objects/character/harvester_11.mgraphobject"
+	myHealthConfig < uid=4A8282B959F8E77A00001DC540F3DE11 > = "harvester_cyclops_generic_heat Health"
+	mySunderReaction < uid=4A8282B958828FEB000011E7743F0711 > = Heat_Infused_Cyclops_Sunder
+	myFireReaction < uid=4A8282B958828FEB000011E80FA9B494 > = Heat_Infused_Cyclops_Fire
+	myChillReaction < uid=939A35415A834E4200078795D5899C1B > = Heat_Infused_Cyclops_Chill
+	myFreezeReaction < uid=939A35415A834E4200078796B44669CC > = Heat_Infused_Cyclops_Freeze
+	myAbilityDefinitions
+	{
+		NPCAbilityDefinition "Primary Attack - Gatling"
+		{
+			myGameAction NPC_Ability1
+			mySkillScript < uid=4A8282B95879529B0017594C8B00955E > = harvester_cyclops_generic_gatling
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_harvester_cyclops_generic_gatling_heat.juice"
+			myEnabled FALSE
+		}
+		NPCAbilityDefinition "Secondary Attack - Grenade"
+		{
+			myGameAction NPC_Ability2
+			mySkillScript < uid=4A8282B9587E66A9000002DD9A5D1F3B > = npc_ability_cyclops_generic_grenade
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_harvester_cyclops_generic_grenade_heat.juice"
+		}
+		NPCAbilityDefinition "Infused Special - Flame Blast"
+		{
+			myGameAction NPC_Ability3
+			mySkillScript < uid=4A8282B95AA9779C0510D27105521FBF > = npc_ability_cyclops_generic_heat_flameblast
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_harvester_cyclops_generic_heat_flameblast.juice"
+		}
+	}
+	myResistanceSettings "onward/game system data/juice/ai/resistance/heat_infused_resistance.juice"
+	myAttributeSettings "onward/game system data/juice/ai/attributes/harvester_cyclops_generic_heat.juice"
+	myCrowdControlAttributeSettings "onward/game system data/juice/ai/attributes/crowd control tiers/npc_cc_tier4.juice"
+	myDropTableOnDeath Kill_Cyclops_Heat_Drop_Table
+	myDropTableOnAffinityWeaknessDeathId AffinityKill_Cyclops_Heat
+	myDropTableOnDamage Cyclops_Affinity_Weakness
+	myDamageDropInterval 0.3
+	myIncludeDamageDropZero TRUE
+	myNPCType Harvester_Cyclops_Infused_Heat
+	myThreatLevel 7.0
+	myWeapon
+	{
+		myWeaponType Gatling
+		myDamageType Heat
+	}
+	myOnDeathChallenge Death_CyclopsGenericHeat
+	myOnDiscoveredChallenge Discover_CyclopsGenericHeat
+	myHackLevel 2
+	mySkillLevelOffset -1
+}
+

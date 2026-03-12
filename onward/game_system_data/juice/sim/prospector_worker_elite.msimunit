@@ -1,0 +1,27 @@
+include ./prospector_worker.msimunit
+
+SimUnit prospector_worker_elite < uid=4A8282B9573619430009DEF03389C7C6 > : prospector_worker
+{
+	myUIName "contextComment = \"The UI name for the Prospector Worker which constructs new bases\", description = \"uiname-prospector-worker-elite\", enabled = true, guid = #93869D535AB50ECF00001D04C6BCC0AA, lineVersion = 0, maxLength = 30, text = \"Prospector Worker Elite\""
+	myBehavior onward/simworld/behavior/prospector_worker_elite.msimunitbtgraph
+	mySubCategory Worker
+	mySubCategoryVariant 1
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo "Prospector Worker" < uid=93869D535ABA833D00001DCC8632BC73 >
+		{
+			myCountMin 1
+			myCountMax 1
+			myEntitySize 5.0
+			myEntityFile "onward/game system data/juice/ai/npc/prospector_worker_elite.mnpc"
+		}
+	}
+	mySkillLevelCoefficients
+	{
+		myPlanetActMultiplier 1
+		myParentLevelMultiplier 0
+		myParentSkillLevelMultiplier 0
+		myBaseLevel 10
+	}
+}
+

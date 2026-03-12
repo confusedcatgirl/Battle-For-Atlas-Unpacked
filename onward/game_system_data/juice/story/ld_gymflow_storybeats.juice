@@ -1,0 +1,153 @@
+include ./act01.juice
+include ./act04.juice
+include "onward/game system data/juice/sim/creep_imp_base.msimunit"
+include "onward/game system data/juice/ai/npc/harvester_imp_base.mnpc"
+include "onward/game system data/juice/sim/harvester_creep_shed_imp_squad.msimunit"
+include "onward/game system data/juice/sim/creep_shed.msimunit"
+include "onward/game system data/juice/sim/unaligned_outpost.msimunit"
+include "onward/game system data/juice/sim/outpost_slot_placed_expedition_observation_deck.msimunit"
+
+StoryBeatData Init < uid=1EE141815A8C9E6C00001B5D9D612CDB >
+{
+	myStoryDataActions
+	{
+		StoryDataAction_Wait "Wait 5"
+		{
+			mySecondsToWait 5.0
+		}
+	}
+	myStoryDataActionSets
+	{
+		StoryDataActionSet "Enable UI" : "Enable All Screen UI Set Act IV"
+		{
+		}
+	}
+}
+
+StoryBeatData "Goto Equinox" < uid=1EE141815A8C9F4A00001B5F040F800E >
+{
+	myStoryDataActions
+	{
+		StoryDataAction_SetTarget "Set Target Equinox"
+		{
+			mySimUnitAssetTarget "onward/game system data/juice/sim/onward_equinox_planet.msimunit"
+			myTargetPlanet 2B55C72B560154A200000053621E3961
+		}
+		StoryDataAction_WaitForArriveAtTarget "Wait for Arrival at Equinox"
+		{
+			myDistance 500.0
+			myRequireInFOV FALSE
+		}
+	}
+}
+
+StoryBeatData "Remove  Equinox Marker" < uid=1EE141815A8D8B9700001B5DE7C1231D >
+{
+	myStoryDataActions
+	{
+		StoryDataAction_SetTarget "Remove Equinox Marker"
+		{
+			myTargetPlanet 2B55C72B560154A200000053621E3961
+			myShowWaypoint FALSE
+		}
+	}
+}
+
+StoryBeatData "Goto Imp Swarm" < uid=1EE141815A8D8E8300001B60FC4D96E4 >
+{
+	myStoryDataActions
+	{
+		StoryDataAction_SpawnSimUnitNearPlayer "Spawn Imp Swarm"
+		{
+			mySimUnitAsset < uid=1EE141815A8D913F00001B62AA90E121 > = creep_imp_base
+			myDistance 1000.0
+		}
+		StoryDataAction_SetTarget "Set Target on Imp Swarm"
+		{
+			mySimUnitAssetTarget "onward/game system data/juice/sim/creep_imp_base.msimunit"
+			myTargetPlanet 2B55C72B560154A200000053621E3961
+		}
+		StoryDataAction_WaitForTargetDeath "Wait for Imp Swarm Destroy"
+		{
+		}
+	}
+}
+
+StoryBeatData "Remove Marker on Imp Swarm Destroyed" < uid=1EE141815A8D931A00001B641A9E3118 >
+{
+	myStoryDataActions
+	{
+		StoryDataAction_SetTarget "Remove Target"
+		{
+			myTargetPlanet 2B55C72B560154A200000053621E3961
+		}
+	}
+}
+
+StoryBeatData "Goto Imp Shed" < uid=1EE141815A8D951600001B66F14BBDE4 >
+{
+	myIsCheckpoint TRUE
+	myStoryDataActions
+	{
+		StoryDataAction_SpawnSimUnitNearPlayer "Spawn Imp Shed"
+		{
+			mySimUnitAsset < uid=1EE141815A8D965000001B67D8F6FB15 > = creep_shed
+			myDistance 2000.0
+		}
+		StoryDataAction_SetTarget "Set Target on Imp Shed"
+		{
+			mySimUnitAssetTarget "onward/game system data/juice/sim/creep_shed.msimunit"
+			myTargetPlanet 2B55C72B560154A200000053621E3961
+		}
+		StoryDataAction_WaitForTargetDeath "Wait for Imp Shed Destroyed"
+		{
+		}
+	}
+}
+
+StoryBeatData "Remove Imp Shed Marker" < uid=1EE141815A8D965000001B68330B07E2 >
+{
+	myIsCheckpoint TRUE
+	myStoryDataActions
+	{
+		StoryDataAction_SetTarget "Remove Imp Shed Marker"
+		{
+		}
+	}
+}
+
+StoryBeatData "Goto Outpost" < uid=1EE141815A8D965000001B691163057E >
+{
+	myIsCheckpoint TRUE
+	myStoryDataActions
+	{
+		StoryDataAction_SpawnSimUnitNearPlayer "Spawn Outpost"
+		{
+			mySimUnitAsset < uid=1EE141815A8D9B9500001B6FD446FF83 > = outpost_slot_placed_expedition_observation_deck
+			myDistance 2000.0
+		}
+		StoryDataAction_SetTarget "Set Target on Outpost"
+		{
+			mySimUnitAssetTarget "onward/game system data/juice/sim/outpost_slot_placed_expedition_observation_deck.msimunit"
+			myTargetPlanet 2B55C72B560154A200000053621E3961
+		}
+		StoryDataAction_WaitForTargetInteraction "Wait for Outpost Interaction"
+		{
+			myInteractionType InteractionUse
+		}
+	}
+}
+
+StoryBeatData "Remove Outpost Marker" < uid=1EE141815A8D9A4E00001B6DB034C7D5 >
+{
+	myIsCheckpoint TRUE
+	myStoryDataActions
+	{
+		StoryDataAction_SetTarget "Remove Outpost Marker"
+		{
+			mySimUnitAssetTarget "onward/game system data/juice/sim/act_1_observation_deck.msimunit"
+			myTargetPlanet 2B55C72B560154A200000053621E3961
+		}
+	}
+}
+

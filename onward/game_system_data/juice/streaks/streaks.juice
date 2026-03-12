@@ -1,0 +1,105 @@
+include "onward/game system data/fruit/streaks/streaks.fruit"
+include "onward/game system data/juice/mods/streak_l4.mplayermod"
+include "onward/game system data/juice/mods/streak_l3.mplayermod"
+include "onward/game system data/juice/mods/streak_l2.mplayermod"
+include "onward/game system data/juice/mods/streak_l5.mplayermod"
+include "onward/game system data/juice/mods/streak_l6.mplayermod"
+
+float myTimeDamageRatio 0.01
+int myParryProgression 1
+int myComboProgression 1
+int myKillProgression 1
+int myExplorationProgression 1
+int myRepairProgression 1
+
+ExperienceTypeList "Experience Types"
+{
+	ExperiencePointType Combat Combat
+	ExperiencePointType Navigation Navigation
+	ExperiencePointType Exploration Exploration
+	ExperiencePointType Repair Repair
+	ExperiencePointType CombatSpecial CombatSpecial
+}
+
+StreakData "Base: Streak 1"
+{
+	myMultiplier 1.0
+	myProgressToNextLevel 1
+	myTimeoutInMs 5000
+}
+
+StreakData "Streak 2"
+{
+	myMultiplier 1.1
+	myProgressToNextLevel 1
+	myTimeoutInMs 5000
+	myExperienceEarned 0
+	myMod < uid=C91BB5515873F6190000004CC48E6A89 > = streak_l2
+}
+
+StreakData "Streak 3"
+{
+	myMultiplier 1.2
+	myProgressToNextLevel 1
+	myTimeoutInMs 5000
+	myExperienceEarned 0
+	myMod < uid=C91BB5515873F6190000004D504EAE2C > = streak_l3
+}
+
+StreakData "Streak 4"
+{
+	myMultiplier 1.3
+	myProgressToNextLevel 1
+	myTimeoutInMs 5000
+	myExperienceEarned 0
+	myMod < uid=C91BB5515873F6190000004D504EAE2C > = streak_l4
+}
+
+StreakData "Streak 5"
+{
+	myMultiplier 1.4
+	myProgressToNextLevel 1
+	myTimeoutInMs 5000
+	myExperienceEarned 0
+	myMod < uid=9E6AFEDA58A22AEB00000352763A4260 > = streak_l5
+}
+
+StreakData "Max: Streak 5"
+{
+	myMultiplier 1.5
+	myProgressToNextLevel 1
+	myTimeoutInMs 5000
+	myExperienceEarned 0
+	myMod < uid=9E6AFEDA58A22AEB00000353EE62A62B > = streak_l6
+}
+
+StreakLocData Parry
+{
+	myStreakChangeType Parry
+	myLocalizedText "contextComment = \"This is the name for a UI element that indicates the successful reflection action a player has done to improve their streak progress.\", description = \"streaks-name-parry\", enabled = true, guid = #C91BB5515B3FAA220014FBBF1885CA3C, lineVersion = 0, maxLength = 14, text = \"[Reflect]\""
+}
+
+StreakLocData Combo
+{
+	myStreakChangeType Combo
+	myLocalizedText "contextComment = \"This is the name for a UI element that indicates the elemental combo action a player has done to improve their streak progress.\", description = \"streaks-name-combo\", enabled = true, guid = #C91BB5515B3FAA220014EC7FA03601B9, lineVersion = 0, maxLength = 22, text = \"[Elemental Combo]\""
+}
+
+StreakLocData StreakExpired
+{
+	myStreakChangeType StreakExpired
+	myLocalizedText "contextComment = \"This is the name for a UI element that indicates the player's active streak has expired.\", description = \"streaks-name-parry-expired\", enabled = true, guid = #C91BB5515B3FAA210014DC153D1ABE4B, lineVersion = 0, maxLength = 21, text = \"[Streak Expired]\"}"
+}
+
+StreakLocData StreakBroke
+{
+	myStreakChangeType StreakBroke
+	myLocalizedText "contextComment = \"This is the name for a UI element that indicates that a player's active streak was broken.\", description = \"streaks-name-break\", enabled = true, guid = #C91BB5515B3FAA210014CE038ED6FD73, lineVersion = 0, maxLength = 18, text = \"[Streak Break]\"}"
+}
+
+StreakLocData Trick
+{
+	myStreakChangeType Trick
+	myLocalizedText "contextComment = \"This is the name for a UI element that indicates the trick action a player has done to improve their streak progress.\", description = \"streaks-name-trick\", enabled = true, guid = #C91BB5515B3FBCED00067ABB064FE3D9, lineVersion = 0, maxLength = 11, text = \"[Trick]\""
+}
+

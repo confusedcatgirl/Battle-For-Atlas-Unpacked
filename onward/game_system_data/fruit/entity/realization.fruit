@@ -1,0 +1,50 @@
+include "onward/game system data/fruit/ai/npctype.fruit"
+
+enum RealizationEventType < useCategories=1 >
+{
+	None
+	FootstepSmall
+	FootstepMedium
+	FootstepLarge
+	ExplosionSmall
+	ExplosionLarge
+	Stomp
+	Landing
+	TelegraphSmallBegin
+	TelegraphSmallEnd
+	TelegraphLargeBegin
+	TelegraphLargeEnd
+	SpaceExplosionMedium
+	PrimeFootstep
+	PrimeDeath
+	PrimeStomp
+	PrimeSpout
+	StatusEffectCombo
+	LargeExplosion
+	ArenaExplosion
+	PickupMod
+	PickupElectrum
+	PickupHealth
+	PickupDimensionalRift
+	HyperSpaceFail
+	FTCSupplyRing
+	FTCSupplyRingFTC001
+	FTCSupplyRingFTC002
+	FTCSupplyRingFTC003
+	FTCSupplyRingFTC004
+	RaceStartCinematic
+	RaceStartCountdown
+	RaceStartRace
+	RaceImpact
+}
+
+class RealizationEventObserverConfig
+{
+	RealizationEventType	myEventType
+	float					myMaxDistance
+}
+
+list RealizationEventObserverConfigList
+{
+	RealizationEventObserverConfig
+}

@@ -1,0 +1,39 @@
+include ./extractor_2_defender_heat_01.msimunit
+
+SimUnit act_2_berserker < uid=2B55C72B58DD487D00000051CC4BDF10 > : extractor_2_defender_heat_01
+{
+	myBehavior onward/simworld/behavior/generic_simunit_idle.msimunitbtgraph
+	myControlGraph onward/simworld/control/act_2_berserker_encounter.msimunitcontrolgraph
+	mySubCategoryVariant 10
+	mySpeed 0.0
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo "Heat Cyclops" < uid=C92F4D3F596FB19E00300474BF6D49A8 >
+		{
+			myCountMin 1
+			myCountMax 1
+			myEntitySize 4.0
+			myEntityFile "onward/game system data/juice/ai/npc/harvester_cyclops_heat.mnpc"
+		}
+		SimUnitEntitySpawnInfo Cyclops < uid=C92F4D3F596FB19E00300475943D889A >
+		{
+			myCountMin 0
+			myCountMax 0
+			myEntitySize 4.0
+			myEntityFile "onward/game system data/juice/ai/npc/harvester_cyclops_generic.mnpc"
+		}
+		SimUnitEntitySpawnInfo Imps < uid=C92F4D3F596FB19E0030047683C9D423 >
+		{
+			myCountMin 5
+			myCountMax 5
+			myEntitySize 5.0
+			myEntityFile "onward/game system data/juice/ai/npc/harvester_imp_heat.mnpc"
+		}
+	}
+	myUnkillableType Invulnerable
+	myUnkillableUntilEvent GoldrushStarted
+	myUnRealizableUntilEvent GoldrushStarted
+	myBaseSkillLevel 7
+	myMissionTargetTexture onward/baked/textures/UI/icons/outpost_targets/outpost_target_sim_unit/ui-icon-outpost-target-heat-gaint.dds
+}
+

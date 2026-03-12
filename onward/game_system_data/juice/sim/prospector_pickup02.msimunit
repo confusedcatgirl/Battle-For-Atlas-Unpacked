@@ -1,0 +1,31 @@
+include ./pickup_base.msimunit
+
+SimUnit prospector_pickup02 < uid=D1E9B2CB5822408F000002AE3494B7A0 > : pickup_base
+{
+	myUIName "contextComment = \"[PLACEHOLDER] - Placeholder name for Uncommon Minerals\", description = \"uiname-pickup-mineral-uncommon\", enabled = true, guid = #2B55C72B599591B000000044D39248E1, lineVersion = 0, maxLength = 21, text = \"Mineral Allanite\""
+	mySubCategory MineralSampleRare
+	mySubCategoryVariant 1
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo InteractablePickup < uid=2B55C72B597F93B0000001651833EDA4 >
+		{
+			myCountMin 1
+			myCountMax 1
+			myIgnoreNavMesh TRUE
+			myIgnoreTerrain TRUE
+			myEntityFile "onward/entity templates/prospector_pickup02.mentitytemplate"
+			myRealizeOnDetach TRUE
+			myEnsurePhysicsClearance FALSE
+			myAttachOffset 0.0;4.0;0.0
+		}
+	}
+	mySaveable FALSE
+	myIsValidPickupTarget FALSE
+	myInterestSettings
+	{
+		myIsEnabled FALSE
+	}
+	myIconSprite "mySpriteId = 2041387844, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-inventory-metals-and-goldrush.spritesheet\""
+	myMissionTargetTexture onward/baked/textures/UI/icons/outpost_targets/outpost_target_sim_unit/ui-icon-outpost-target-mineral-allanite.dds
+}
+

@@ -1,0 +1,153 @@
+include ./base_npc.juice
+
+Attributes "Inherited Resistances" = "Base Resistances"
+
+Attributes "Inherited Shatter Values" = "Base Shatter Values"
+
+Attributes General
+{
+	Attribute "Air Target Height Threshold"
+	{
+		myType NPC_UserData1
+		myValue 10.0
+		myComment "Distance from ground at which a target is considered an \"air target\""
+	}
+}
+
+Attributes Dash
+{
+	Attribute Damage
+	{
+		myType NPC_Damage2
+		myValue 1000.0
+	}
+	Attribute Cooldown
+	{
+		myType NPC_Cooldown2
+		myValue 8.0
+	}
+	Attribute Speed
+	{
+		myType NPC_UserData2
+		myValue 60.0
+	}
+	Attribute Duration
+	{
+		myType NPC_UserData3
+		myValue 0.4
+	}
+	Attribute "Trigger Chance"
+	{
+		myType NPC_TriggerChance2
+		myValue 0.6
+	}
+	Attribute "Enter Combat Trigger Range"
+	{
+		myType NPC_MaxRange2
+		myValue 25.0
+		myComment "Range at which the Cyclops will dash away from other Harvesters upon entering combat."
+	}
+}
+
+Attributes Leap
+{
+	Attribute Cooldown
+	{
+		myType NPC_Cooldown3
+		myValue 10.0
+	}
+	Attribute Damage
+	{
+		myType NPC_Damage3
+		myValue 1000.0
+	}
+	Attribute "Stagger Time"
+	{
+		myType NPC_UserData4
+		myValue 3.0
+	}
+	Attribute "Stagger Event Emit Range"
+	{
+		myType NPC_MaxRange3
+		myValue 150.0
+	}
+}
+
+Attributes "Knock Back"
+{
+	Attribute Damage
+	{
+		myType NPC_Damage4
+		myValue 1000.0
+	}
+	Attribute Range
+	{
+		myType NPC_MaxRange4
+		myValue 15.0
+	}
+}
+
+Attributes Jetpack
+{
+	Attribute Cooldown
+	{
+		myType NPC_Cooldown1
+		myValue 8.0
+	}
+	Attribute Duration
+	{
+		myType NPC_Duration1
+		myValue 8.0
+	}
+	Attribute "Trigger Chance"
+	{
+		myType NPC_TriggerChance1
+		myValue 0.45
+	}
+}
+
+Attributes "Jetpack Divebomb (Dragon Charge)"
+{
+	Attribute "Cruising Altitude"
+	{
+		myType NPC_JetpackDivebomb_CruisingAltitude
+		myValue 12.0
+	}
+	Attribute "Trigger Enable Time"
+	{
+		myType NPC_JetpackDivebomb_TriggerEnableTime
+		myValue 0.3
+		myComment "Normalized Time Along Spline"
+	}
+	Attribute "Trigger Disable Time"
+	{
+		myType NPC_JetpackDivebomb_TriggerDisableTime
+		myValue 0.95
+		myComment "Normalized Time Along Spline"
+	}
+}
+
+Attributes "Affinity Related"
+{
+	Attribute "Aura Radius"
+	{
+		myType NPC_Affinity_AuraRadius
+		myValue 35.0
+	}
+	Attribute "Aura Status Effect Amount"
+	{
+		myType NPC_Affinity_AuraStatusEffectAmount
+		myValue 30.0
+	}
+	Attribute "Aura Pulse Frequency"
+	{
+		myType NPC_Affinity_AuraPulseRate
+		myValue 0.5
+	}
+	Attribute "Activation Damage"
+	{
+		myType NPC_Affinity_Damage1
+		myValue 1000.0
+	}
+}
+

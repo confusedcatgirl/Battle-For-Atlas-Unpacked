@@ -1,0 +1,48 @@
+include ./tower_base.msimunit
+
+SimUnit shipwreck_fusebox < uid=C04CFE845B28DAE000012B0D50229210 > : tower_base
+{
+	myUIName "contextComment = \"[Placeholder - do not translate] HUD name for the Outlaw fortification center piece.\", description = \"ui-target-outlaw-fortification-fusebox\", enabled = true, guid = #C04CFE845B28DAE000012B0CF2431D79, lineVersion = 0, maxLength = 14, text = \"[fusebox]\""
+	myBehavior ""
+	myControlGraph onward/simworld/control/shipwreck_fusebox.msimunitcontrolgraph
+	myFaction Outlaw
+	myCategory Shipwreck
+	mySubCategory GuardPoint
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo fusebox < uid=C04CFE845B28DAE000012B0E0EDCDBC7 >
+		{
+			myCountMin 1
+			myCountMax 1
+			myEntitySize 4.0
+			myIgnoreHealth FALSE
+			myIgnoreNavMesh TRUE
+			myIgnoreTerrain FALSE
+			myEntityFile "onward/entity templates/shipwreck_fusebox.mentitytemplate"
+			myElementSpawnInfo
+			{
+				SimUnitElementSpawnInfo fusebox
+				{
+					myEntityFile "onward/entity templates/shipwreck_fusebox.mentitytemplate"
+				}
+			}
+			myAttachOffset 0.0;0.0;0.0
+		}
+	}
+	myNapTime 0.5
+	myUnlockedChallengeType None
+	myPreserveSpawnInfo TRUE
+	myInterestSettings
+	{
+		myIsEnabled TRUE
+	}
+	mySkillLevelCoefficients
+	{
+		myPlanetActMultiplier 1
+		myParentSkillLevelMultiplier 0
+	}
+	myIconSprite ""
+	myMissionTargetTexture onward/baked/textures/UI/icons/outpost_targets/outpost_target_sim_unit/ui-icon-outpost-target-fusebox-mining-center.dds
+	myNeedsSaveOnSolve FALSE
+}
+

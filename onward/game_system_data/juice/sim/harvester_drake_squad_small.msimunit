@@ -1,0 +1,39 @@
+include "onward/game system data/fruit/sim/simunit.fruit"
+
+SimUnit harvester_drake_squad_small < uid=9FD9E81859C407A60000008379E46AF4 >
+{
+	myBehavior onward/simworld/behavior/space_npc_attack_player.msimunitbtgraph
+	myFaction Harvester
+	myCategory NPC
+	mySubCategory Drake
+	myRadius 200.0
+	mySpeed 80.0
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo Defenders < uid=9FD9E81859C407A60000008418AAD912 >
+		{
+			myCountMin 3
+			myCountMax 3
+			myEntitySize 100.0
+			myEntityFile ""
+			myElementSpawnInfo
+			{
+				SimUnitElementSpawnInfo Drakes
+				{
+					myEntityFile "onward/game system data/juice/ai/npc/harvester_drake_base.mnpc"
+				}
+			}
+			mySpaceSettings
+			{
+				mySpawnFormation AmbushPlayer
+				myFormationFlightDist 50.0
+			}
+			myEnsurePhysicsClearance TRUE
+		}
+	}
+	mySkillLevelCoefficients
+	{
+		myPlanetActMultiplier 1
+	}
+}
+

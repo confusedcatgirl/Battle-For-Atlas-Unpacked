@@ -1,0 +1,42 @@
+include ./base_turret.mnpc
+include onward/skillscripts/npc_ability_harvester_dreadnought_turret_gatling.mskillscriptjuice
+
+NPC harvester_dreadnought_turret_base < uid=C92F4D3F5A5E5E8C00B286B2F9CB0011 > : base_turret
+{
+	myUIName_NonLocalized "Dreadnought Turret"
+	myBehavior "onward/game system data/juice/ai/behavior/harvester_dreadnought_turret_01.mbehavior"
+	myExitWorldAffector "onward/entity templates/harvester_turret_death.mentitytemplate"
+	myHealthConfig < uid=C92F4D3F5A5E5E8C00B286B31D598BD1 > = "harvester_dreadnought_turret_01 Health"
+	mySunderReaction < uid=C92F4D3F5AC64641004C0A0673ED4905 > = NULLREFERENCE
+	myFireReaction < uid=C92F4D3F5AC64641004C0A076E9201CD > = NULLREFERENCE
+	myChillReaction < uid=C92F4D3F5AC64641004C0A0814704092 > = NULLREFERENCE
+	myFreezeReaction < uid=C92F4D3F5AC64641004C0A09F57594A6 > = NULLREFERENCE
+	myStasisReaction < uid=C92F4D3F5AC64641004C0A0AECC94E6C > = NULLREFERENCE
+	myStasisOverloadReaction < uid=C92F4D3F5AC64641004C0A0B12ABA651 > = NULLREFERENCE
+	myGravityReaction < uid=C92F4D3F5AC64641004C0A0C84490046 > = NULLREFERENCE
+	myEntangleReaction < uid=C92F4D3F5AC64641004C0A0DDDC064CD > = NULLREFERENCE
+	myAbilityDefinitions
+	{
+		NPCAbilityDefinition Gatling
+		{
+			myGameAction NPC_Ability1
+			mySkillScript < uid=C92F4D3F5A5E5E8C00B286B4B2EE4EAE > = npc_ability_harvester_dreadnought_turret_gatling
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_harvester_dreadnought_turret_gatling.juice"
+		}
+	}
+	myAwarenessDistance 500.0
+	myNPCFaction Harvester
+	myBaseThreatProfile
+	{
+		myDeAggroRange 1200.0
+		myThreatPropagationRange 450.0
+		myCloseRange 100.0
+		myMediumRange 200.0
+		myLongRange 400.0
+		myExtremeRange 600.0
+	}
+	myAIVisionConeTypeName SpaceUnitVisionCone
+	myDefaultNavigationType Invalid
+}
+

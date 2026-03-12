@@ -1,0 +1,42 @@
+include ./harvester_extractor_bronze_weakpoint.mnpc
+
+ProxyNPCHealthConfig ExtractorE3WeakpointHealthConfig
+{
+	myIsWeakToSeige TRUE
+	myMinHealth 1.0
+	myMaxHealth 45000.0
+	myProxyHealthPiercesResistance TRUE
+}
+
+NPC harvester_extractor_bronze_e3_weakpoint < uid=93869D53590242F2000002029AECB4E0 > : harvester_extractor_bronze_weakpoint
+{
+	myUIName_NonLocalized "Bronze Vent"
+	myGraphObjectFile "onward/graph objects/character/extractor_weakpoint_e3.mgraphobject"
+	myBehavior "onward/game system data/juice/ai/behavior/harvester_extractor_weakpoint.mbehavior"
+	myExitWorldAffector "onward/entity templates/harvester_turret_death.mentitytemplate"
+	myHealthConfig = ExtractorE3WeakpointHealthConfig
+	myDeathSettings
+	{
+		myDeathCullTime 0.0
+		myEventDeathCullTime 0.0
+	}
+	myAttributeSettings "onward/game system data/juice/ai/attributes/base_turret.juice"
+	myDropTableOnDeath Default_Drop_Table
+	myAvoidanceRadius 0.1
+	myNPCFaction Harvester
+	myNPCType Generic_Weakpoint
+	myAnimSystemType None
+	myThreatLevel 1.0
+	myBaseThreatProfile
+	{
+		myAddedBaseThreat 100.0
+		myExtremeRange 200.0
+	}
+	myIsInteractProxy TRUE
+	myIsTargetable TRUE
+	myLeftFootstepEffectFile ""
+	myRightFootstepEffectFile ""
+	myFrontLeftFootstepEffectFile ""
+	myFrontRightFootstepEffectFile ""
+}
+

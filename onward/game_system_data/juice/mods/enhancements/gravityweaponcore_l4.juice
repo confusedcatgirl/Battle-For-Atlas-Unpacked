@@ -1,0 +1,34 @@
+include ./templates/template_l4.juice
+include "onward/game system data/juice/mods/mod_gravity_weaponcore_l4.mplayermod"
+
+Enhancement gravityweaponcore_l4 < uid=C91BB551598228260008841F082B7B4B > : "Level 4"
+{
+	myLocalizedName "contextComment = \"[Placeholder - do not translate]\nName for level 4 version of Gravity Weapon Core mod, which boosts effectiveness of Gravity-type weapons\", description = \"\", enabled = true, guid = #C91BB551598228260008841EA922D69F, lineVersion = 2, maxLength = 21, text = \"Crushing Ammo IV\""
+	myLocalizedDescription "contextComment = \"Placeholder - do not translate]\nDescription for level 4 version of Gravity Weapon Core mod, which greatly boosts damage and range for gravity-type weapons. Targets inside a gravity effect (Gravity field or Black Hole) take even more damage\", description = \"enhancement-description-gravity-weapon-core-4\", enabled = true, guid = #9E6AFEDA59D25B8C00A860CA86597B9A, lineVersion = 3, maxLength = 173, text = \"+75% Damage | +10% Range\n+25% Damage to targets in Gravity Effects\nChance to spawn Black Hole on damage\nEquip on Gravity type Weapons\""
+	myIconSprite "mySpriteId = 1043611335, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-mods-weapon-core.spritesheet\""
+	myPartFlavor Crush
+	myMod < uid=C91BB55159822826000884209A726F2A > = mod_gravity_weaponcore_l4
+	myEnhancementType WeaponCore
+	myEnhancementTrackType GravityWeaponCore
+	myDamageAffectors
+	{
+		DamageAffector_SpawnProjectile "Chance of Black Hole"
+		{
+			myCooldown 10.0
+			myChance = Gravity_WeaponCore_l4_ChanceBH
+			myLifetime 4.0
+			myEntityTemplate "onward/entity templates/projectile_black_hole.mentitytemplate"
+			mySpawnAtTarget TRUE
+		}
+		DamageAffector_TargetInsideVolume "Extra Damage to Targets inside Gravity Volume"
+		{
+			myDamageMultiplier = Gravity_WeaponCore_l4_ExtraDamage
+			myCategories
+			{
+				VolumeMitigationCategory "Gravity Well" GravityWell
+				VolumeMitigationCategory "Black Hole" BlackHole
+			}
+		}
+	}
+}
+

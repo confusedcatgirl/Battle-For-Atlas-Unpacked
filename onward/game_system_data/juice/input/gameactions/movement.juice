@@ -1,0 +1,2971 @@
+include "onward/game system data/juice/input/inputactions.juice"
+include "onward/game system data/juice/input/inputactions_alt.juice"
+include "onward/game system data/fruit/input/gameinput.fruit"
+
+TriggerGameAction "[Movement] Can Maneuver"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameActionState AreManeuversEnabled
+		{
+			myGameActionState AreManeuversEnabled
+		}
+		ConditionalGameActionState IsFlippedOver
+		{
+			myNegate TRUE
+			myGameActionState IsFlippedOver
+		}
+		ConditionalGameActionState ShouldBeDowned
+		{
+			myNegate TRUE
+			myGameActionState ShouldBeDowned
+		}
+		ConditionalGameActionState IsRagdoll
+		{
+			myNegate TRUE
+			myGameActionState IsRagdoll
+		}
+		ConditionalGameActionState InStasis
+		{
+			myNegate TRUE
+			myGameActionState InStasis
+		}
+		ConditionalGameActionState IsInPlanetaryTransition
+		{
+			myNegate TRUE
+			myGameActionState IsInPlanetaryTransition
+		}
+		ConditionalGameActionState InDialogue
+		{
+			myNegate TRUE
+			myGameActionState InDialogue
+		}
+		ConditionalGameActionState NotEnteringSpline
+		{
+			myNegate TRUE
+			myGameActionState IsEnteringSpline
+		}
+		ConditionalGameActionState NotIsPluckingButtonSequence
+		{
+			myNegate TRUE
+			myGameActionState IsPluckingButtonSequence
+		}
+	}
+	myGameAction PlayerQuery_CanManeuver
+}
+
+TriggerGameAction "[Movement] Can Perform Trick"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameActionState AreAirTricksEnabled
+		{
+			myGameActionState AreAirTricksEnabled
+		}
+		ConditionalGameActionState IsFlippedOver
+		{
+			myNegate TRUE
+			myGameActionState IsFlippedOver
+		}
+		ConditionalGameActionState ShouldBeDowned
+		{
+			myNegate TRUE
+			myGameActionState ShouldBeDowned
+		}
+		ConditionalGameActionState IsRagdoll
+		{
+			myNegate TRUE
+			myGameActionState IsRagdoll
+		}
+		ConditionalGameActionState InAirTrickWindow
+		{
+			myGameActionState InAirTrickWindow
+		}
+		ConditionalGameActionState InStasis
+		{
+			myNegate TRUE
+			myGameActionState InStasis
+		}
+		ConditionalGameActionState InDialogue
+		{
+			myNegate TRUE
+			myGameActionState InDialogue
+		}
+		ConditionalGameActionState IsRollingBall
+		{
+			myNegate TRUE
+			myGameActionState IsRollingBall
+		}
+		ConditionalGameActionState IsShieldParryActive
+		{
+			myNegate TRUE
+			myGameActionState IsShieldParryActive
+		}
+		ConditionalGameActionState IsRamming
+		{
+			myNegate TRUE
+			myGameActionState IsRamming
+		}
+	}
+	myGameAction PlayerQuery_CanPerformTrick
+}
+
+TriggerGameAction "[Movement] Is Ragdoll Recoverable"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameActionState IsRagdollRecoverable
+		{
+			myGameActionState IsRagdollRecoverable
+		}
+	}
+	myGameAction PlayerQuery_IsRagdollRecoverable
+}
+
+TriggerGameAction "[Movement] Can Dash"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameActionState IsFlippedOver
+		{
+			myNegate TRUE
+			myGameActionState IsFlippedOver
+		}
+		ConditionalGameActionState IsFalling
+		{
+			myNegate TRUE
+			myGameActionState IsFalling
+		}
+		ConditionalGameActionState InHopWindow
+		{
+			myGameActionState InHopWindow
+		}
+		ConditionalGameActionState InStasis
+		{
+			myNegate TRUE
+			myGameActionState InStasis
+		}
+		ConditionalGameActionState HasNPCAttached
+		{
+			myNegate TRUE
+			myGameActionState HasNPCAttached
+		}
+		ConditionalGameActionState IsInHyperDrive
+		{
+			myNegate TRUE
+			myGameActionState InHyperspace
+		}
+		ConditionalGameActionState IsRagdoll
+		{
+			myNegate TRUE
+			myGameActionState IsRagdoll
+		}
+		ConditionalGameActionState InDialogue
+		{
+			myNegate TRUE
+			myGameActionState InDialogue
+		}
+		ConditionalGameActionState IsFrozen
+		{
+			myNegate TRUE
+			myGameActionState IsFrozen
+		}
+		ConditionalGameActionState ShouldBeDowned
+		{
+			myNegate TRUE
+			myGameActionState ShouldBeDowned
+		}
+	}
+	myGameAction PlayerQuery_CanDash
+}
+
+TriggerGameAction "[Movement] Can Shake Off"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameActionState IsFlippedOver
+		{
+			myNegate TRUE
+			myGameActionState IsFlippedOver
+		}
+		ConditionalGameActionState ShouldBeDowned
+		{
+			myNegate TRUE
+			myGameActionState ShouldBeDowned
+		}
+		ConditionalGameActionState IsFalling
+		{
+			myNegate TRUE
+			myGameActionState IsFalling
+		}
+		ConditionalGameActionState InStasis
+		{
+			myNegate TRUE
+			myGameActionState InStasis
+		}
+		ConditionalGameActionState HasNPCAttached
+		{
+			myGameActionState HasNPCAttached
+		}
+		ConditionalGameActionState InDialogue
+		{
+			myNegate TRUE
+			myGameActionState InDialogue
+		}
+	}
+	myGameAction PlayerQuery_CanShakeOff
+}
+
+TriggerGameAction "[Movement] Can Move"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameActionState InDialogue
+		{
+			myNegate TRUE
+			myGameActionState InDialogue
+		}
+	}
+	myGameAction PlayerQuery_CanMove
+}
+
+TriggerGameAction "[Movement] Is In Follow"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameActionState IsInFollowMode
+		{
+			myGameActionState IsInFollowMode
+		}
+	}
+	myGameAction PlayerQuery_IsInFollow
+}
+
+TriggerGameAction "[Movement] Move Left"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameAction PlayerQuery_CanMove
+		{
+			myGameAction PlayerQuery_CanMove
+		}
+		ConditionalActionGroup InputActions
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Keyboard Move Left"
+				{
+					myInputActionType Analog
+					myInputAction = KB_MOVE_LEFT
+				}
+				ConditionalInputAction "Rotated Left Stick Left Analog"
+				{
+					myInputActionType Analog
+					myInputAction = LEFT_STICK_LEFT
+				}
+			}
+		}
+	}
+	myGameAction MoveLeft
+}
+
+TriggerGameAction "[Movement] Move Right"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameAction PlayerQuery_CanMove
+		{
+			myGameAction PlayerQuery_CanMove
+		}
+		ConditionalActionGroup KB_MOVERIGHT
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Rotated Left Stick Right Analog"
+				{
+					myInputActionType Analog
+					myInputAction = LEFT_STICK_RIGHT
+				}
+				ConditionalInputAction "Keyboard Move Right"
+				{
+					myInputActionType Analog
+					myInputAction = KB_MOVE_RIGHT
+				}
+			}
+		}
+	}
+	myGameAction MoveRight
+}
+
+TriggerGameAction "[Movement] Move Forward"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameAction PlayerQuery_CanMove
+		{
+			myGameAction PlayerQuery_CanMove
+		}
+		ConditionalActionGroup KB_MOVEFORWARD
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Rotated Left Stick Up Analog"
+				{
+					myInputActionType Analog
+					myInputAction = LEFT_STICK_UP
+				}
+				ConditionalInputAction "Keyboard Move Forward"
+				{
+					myInputActionType Analog
+					myInputAction = KB_MOVE_FWD
+				}
+			}
+		}
+	}
+	myGameAction MoveForward
+}
+
+TriggerGameAction "[Movement] Move Backward"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameAction PlayerQuery_CanMove
+		{
+			myGameAction PlayerQuery_CanMove
+		}
+		ConditionalActionGroup INPUT_BACKWORD
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Rotated Left Stick Down Analog"
+				{
+					myInputActionType Analog
+					myInputAction = LEFT_STICK_DOWN
+				}
+				ConditionalInputAction "Keyboard Move Back"
+				{
+					myInputActionType Analog
+					myInputAction = KB_MOVE_BACK
+				}
+			}
+		}
+	}
+	myGameAction MoveBackward
+}
+
+TriggerGameAction "[Movement] Push Left"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup PUSHLEFT
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Rotated Left Stick Left Analog"
+				{
+					myInputActionType HoldDown
+					myInputAction = LEFT_STICK_LEFT
+				}
+				ConditionalInputAction "Keyboard Push Left"
+				{
+					myInputActionType HoldDown
+					myInputAction = KB_MOVE_LEFT
+				}
+			}
+		}
+	}
+	myGameAction PushLeft
+}
+
+TriggerGameAction "[Movement] Push Right"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup KB_PUSHRIGHT
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Rotated Left Stick Right Analog"
+				{
+					myInputActionType HoldDown
+					myInputAction = LEFT_STICK_RIGHT
+				}
+				ConditionalInputAction "Keyboard Push Right"
+				{
+					myInputActionType HoldDown
+					myInputAction = KB_MOVE_RIGHT
+				}
+			}
+		}
+	}
+	myGameAction PushRight
+}
+
+TriggerGameAction "[Movement] Push Forward"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup KB_PUSHFORWARD
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Rotated Left Stick Up Analog"
+				{
+					myInputActionType HoldDown
+					myInputAction = LEFT_STICK_UP
+				}
+				ConditionalInputAction "Keyboard Push Forward"
+				{
+					myInputActionType HoldDown
+					myInputAction = KB_MOVE_FWD
+				}
+			}
+		}
+	}
+	myGameAction PushForward
+}
+
+TriggerGameAction "[Movement] Push Backward"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "INPUT PUSH BACKWARD"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Rotated Left Stick Down Analog"
+				{
+					myInputActionType HoldDown
+					myInputAction = LEFT_STICK_DOWN
+				}
+				ConditionalInputAction "Keyboard Push Backward"
+				{
+					myInputActionType HoldDown
+					myInputAction = KB_MOVE_BACK
+				}
+			}
+		}
+	}
+	myGameAction PushBackward
+}
+
+TriggerGameAction "[Movement] Throttle"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameAction PlayerQuery_CanMove
+		{
+			myGameAction PlayerQuery_CanMove
+		}
+		ConditionalActionGroup INPUT_THROTTLE
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Left Trigger"
+				{
+					myInputActionType HoldDown
+					myInputAction = LEFT_STICK_UP
+				}
+				ConditionalInputAction KB_FORWARD
+				{
+					myInputActionType HoldDown
+					myInputAction = KB_MOVE_FWD
+				}
+			}
+		}
+	}
+	myGameAction Throttle
+}
+
+TriggerGameAction "[Movement] Can Start Flight Engines"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameActionState InSpace
+		{
+			myNegate TRUE
+			myGameActionState InSpace
+		}
+		ConditionalGameActionState IsFlippedOver
+		{
+			myNegate TRUE
+			myGameActionState IsFlippedOver
+		}
+		ConditionalGameActionState IsRagdoll
+		{
+			myNegate TRUE
+			myGameActionState IsRagdoll
+		}
+		ConditionalGameActionState IsHoldingHeavyObject
+		{
+			myNegate TRUE
+			myGameActionState IsHoldingHeavyObject
+		}
+		ConditionalGameActionState IsFrozen
+		{
+			myNegate TRUE
+			myGameActionState IsFrozen
+		}
+		ConditionalGameActionState InStasis
+		{
+			myNegate TRUE
+			myGameActionState InStasis
+		}
+		ConditionalGameActionState AreFlightEnginesEnabled
+		{
+			myGameActionState AreFlightEnginesEnabled
+		}
+		ConditionalGameActionState ShouldBeDowned
+		{
+			myNegate TRUE
+			myGameActionState ShouldBeDowned
+		}
+		ConditionalGameActionState InDialogue
+		{
+			myNegate TRUE
+			myGameActionState InDialogue
+		}
+		ConditionalActionGroup "Not Flying or Launching"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalGameActionState "Not Flying"
+				{
+					myNegate TRUE
+				}
+				ConditionalGameActionState Launching
+				{
+					myGameActionState IsLaunching
+				}
+			}
+		}
+		ConditionalGameActionState "Not In Follow"
+		{
+			myNegate TRUE
+			myGameActionState IsInFollowMode
+		}
+		ConditionalGameActionState IsPilotTrialEventActive
+		{
+			myNegate TRUE
+			myGameActionState IsPilotTrialEventActive
+		}
+		ConditionalGameActionState NotIsPluckingButtonSequence
+		{
+			myNegate TRUE
+			myGameActionState IsPluckingButtonSequence
+		}
+	}
+	myGameAction PlayerQuery_CanStartFlightEngines
+}
+
+TriggerGameAction "[Movement] Can Stop Flight Engines"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameActionState IsFlying
+		{
+			myGameActionState IsFlying
+		}
+		ConditionalGameActionState InSpace
+		{
+			myNegate TRUE
+			myGameActionState InSpace
+		}
+		ConditionalGameActionState IsLaunching
+		{
+			myNegate TRUE
+			myGameActionState IsLaunching
+		}
+		ConditionalGameActionState IsSkimmerEnabled
+		{
+			myGameActionState IsFeatureEnabled_Skimmer
+		}
+		ConditionalGameActionState IsInPlanetaryTransition
+		{
+			myNegate TRUE
+			myGameActionState IsInPlanetaryTransition
+		}
+	}
+	myGameAction PlayerQuery_CanStopFlightEngines
+}
+
+TriggerGameAction "[Movement] Can Start Hyper Drive"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameActionState IsRagdoll
+		{
+			myNegate TRUE
+			myGameActionState IsRagdoll
+		}
+		ConditionalGameActionState IsHyperDriveEnabled
+		{
+			myGameActionState IsHyperDriveEnabled
+		}
+		ConditionalGameActionState InSpace
+		{
+			myGameActionState InSpace
+		}
+		ConditionalGameActionState IsInPlanetaryTransition
+		{
+			myNegate TRUE
+			myGameActionState IsInPlanetaryTransition
+		}
+		ConditionalGameActionState InStasis
+		{
+			myNegate TRUE
+			myGameActionState InStasis
+		}
+		ConditionalGameActionState InGravity
+		{
+			myNegate TRUE
+			myGameActionState InGravity
+		}
+		ConditionalGameActionState IsFrozen
+		{
+			myNegate TRUE
+			myGameActionState IsFrozen
+		}
+		ConditionalGameActionState ShouldBeDowned
+		{
+			myNegate TRUE
+			myGameActionState ShouldBeDowned
+		}
+		ConditionalGameActionState InDialogue
+		{
+			myNegate TRUE
+			myGameActionState InDialogue
+		}
+		ConditionalGameActionState FastTravelInitiated
+		{
+			myNegate TRUE
+			myGameActionState FastTravelInitiated
+		}
+		ConditionalActionGroup "Not in hyper space or starting"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalGameActionState IsInHyperDrive
+				{
+					myNegate TRUE
+					myGameActionState InHyperspace
+				}
+				ConditionalGameActionState IsStartingHyperDrive
+				{
+					myGameActionState IsStartingHyperDrive
+				}
+			}
+		}
+		ConditionalGameActionState IsInReverseCamera
+		{
+			myNegate TRUE
+			myGameActionState IsInReverseCamera
+		}
+		ConditionalGameActionState NotIsPluckingButtonSequence
+		{
+			myNegate TRUE
+			myGameActionState IsPluckingButtonSequence
+		}
+		ConditionalGameActionState NotIsBeingTowed
+		{
+			myNegate TRUE
+			myGameActionState IsBeingTowed
+		}
+	}
+	myGameAction PlayerQuery_CanStartHyperDrive
+}
+
+TriggerGameAction "[Movement] Can Stop Hyper Drive"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameActionState IsInHyperDrive
+		{
+			myGameActionState InHyperspace
+		}
+		ConditionalGameActionState IsInFollowMode
+		{
+			myNegate TRUE
+			myGameActionState IsInFollowMode
+		}
+		ConditionalGameActionState IsStartingHyperDrive
+		{
+			myNegate TRUE
+			myGameActionState IsStartingHyperDrive
+		}
+	}
+	myGameAction PlayerQuery_CanStopHyperDrive
+}
+
+TriggerGameAction "[Movement] Flight Engine Start"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameAction PlayerQuery_CanStartFlightEngines
+		{
+			myRequireNewInput TRUE
+			myGameAction PlayerQuery_CanStartFlightEngines
+		}
+		ConditionalActionGroup "INPUT FLIGHT START"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction LB
+				{
+					myInputActionType HoldDownBeforeTime
+					myTimer 550
+					myInputAction = RIGHT_BUMPER_R1
+				}
+				ConditionalInputAction "Keyboard Fly Mode start"
+				{
+					myInputActionType HoldDownBeforeTime
+					myTimer 550
+					myInputAction = KB_FLIGHTMODE
+				}
+			}
+		}
+	}
+	myGameAction FlightEngineStart
+}
+
+TriggerGameAction "[Movement] Flight Engine Start (Tutorial Version)"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameAction PlayerQuery_CanStartFlightEngines
+		{
+			myRequireNewInput TRUE
+			myGameAction PlayerQuery_CanStartFlightEngines
+		}
+		ConditionalActionGroup "INPUT FLY MODE START TUTORIAL"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction LB
+				{
+					myInputActionType HoldDownAfterTime
+					myTimer 500
+					myInputAction = RIGHT_BUMPER_R1
+				}
+				ConditionalInputAction "Keyboard Fly Start Tutorial Version"
+				{
+					myInputActionType HoldDownAfterTime
+					myTimer 500
+					myInputAction = KB_FLIGHTMODE
+				}
+			}
+		}
+	}
+	myGameAction FlightEnginesStartTutorial
+}
+
+TriggerGameAction "[Movement] Flight Engine Start Fail"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameAction PlayerQuery_CanStartFlightEngines
+		{
+			myNegate TRUE
+			myRequireNewInput TRUE
+			myGameAction PlayerQuery_CanStartFlightEngines
+		}
+		ConditionalGameActionState IsFlying
+		{
+			myNegate TRUE
+			myGameActionState IsFlying
+		}
+		ConditionalGameActionState IsInFollowMode
+		{
+			myNegate TRUE
+			myGameActionState IsInFollowMode
+		}
+		ConditionalActionGroup "INPUT FLY MODE START FAIL"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction LB
+				{
+					myInputActionType Pressed
+					myInputAction = RIGHT_BUMPER_R1
+				}
+				ConditionalInputAction "Keyboard Fly Start Fail"
+				{
+					myInputAction = KB_FLIGHTMODE
+				}
+			}
+		}
+	}
+	myGameAction FlightEngineFailStart
+}
+
+TriggerGameAction "[Movement] Flight Engine Stop"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameAction PlayerQuery_CanStopFlightEngines
+		{
+			myRequireNewInput TRUE
+			myGameAction PlayerQuery_CanStopFlightEngines
+		}
+		ConditionalActionGroup "INPUT FLY MODE STOP"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction LB
+				{
+					myInputActionType PressedAfterTime
+					myTimer 500
+					myInputAction = RIGHT_BUMPER_R1
+				}
+				ConditionalInputAction "Keyboard FlyMode Stop"
+				{
+					myInputActionType PressedAfterTime
+					myTimer 500
+					myInputAction = KB_FLIGHTMODE
+				}
+			}
+		}
+	}
+	myGameAction FlightEngineStop
+}
+
+TriggerGameAction "[Movement] Hyper Drive Start"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameAction PlayerQuery_CanStartHyperDrive
+		{
+			myRequireNewInput TRUE
+			myGameAction PlayerQuery_CanStartHyperDrive
+		}
+		ConditionalActionGroup "INPUT HYPERDRIVE"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction LB
+				{
+					myInputActionType HoldDownBeforeTime
+					myTimer 550
+					myInputAction = RIGHT_BUMPER_R1
+				}
+				ConditionalInputAction "Keyboard HyperDrive Start"
+				{
+					myInputActionType HoldDownBeforeTime
+					myTimer 550
+					myInputAction = KB_FLIGHTMODE
+				}
+			}
+		}
+	}
+	myGameAction StartHyperDrive
+}
+
+TriggerGameAction "[Movement] Hyper Drive Start Fail"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameAction PlayerQuery_CanStartHyperDrive
+		{
+			myNegate TRUE
+			myRequireNewInput TRUE
+			myGameAction PlayerQuery_CanStartHyperDrive
+		}
+		ConditionalActionGroup "INPUT HYPERDRIVE FAIL"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction LB
+				{
+					myInputActionType HoldDownBeforeTime
+					myTimer 550
+					myInputAction = RIGHT_BUMPER_R1
+				}
+				ConditionalInputAction "New ConditionalInputAction (1)"
+				{
+					myInputActionType HoldDownBeforeTime
+					myTimer 550
+					myInputAction = KB_FLIGHTMODE
+				}
+			}
+		}
+	}
+	myGameAction StartHyperDriveFail
+}
+
+TriggerGameAction "[Movement] Hyper Drive Stop"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Not Flying or Launching"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalGameActionState IsFrozen
+				{
+					myGameActionState IsFrozen
+				}
+				ConditionalGameActionState InStasis
+				{
+					myGameActionState InStasis
+				}
+				ConditionalGameActionState InGravity
+				{
+					myGameActionState InGravity
+				}
+				ConditionalGameActionState InDialogue
+				{
+					myGameActionState InDialogue
+				}
+				ConditionalGameActionState IsFastTravelling
+				{
+					myGameActionState IsFastTravelling
+				}
+				ConditionalActionGroup "INPUT HYPER DRIVE STOP"
+				{
+					myOperator Or
+					myConditionalInputActions
+					{
+						ConditionalInputAction LB
+						{
+							myInputAction = RIGHT_BUMPER_R1
+						}
+						ConditionalInputAction "Keyboard HyperDrive Stop"
+						{
+							myInputAction = KB_FLIGHTMODE
+						}
+					}
+				}
+			}
+		}
+		ConditionalGameAction PlayerQuery_CanStopHyperDrive
+		{
+			myRequireNewInput TRUE
+			myGameAction PlayerQuery_CanStopHyperDrive
+		}
+	}
+	myGameAction StopHyperDrive
+}
+
+TriggerGameAction "[Movement] Reset Controller Orientation"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction "Left Stick Click"
+		{
+			myInputAction = LEFT_STICK_BUTTON
+		}
+	}
+	myGameAction ResetOrientation
+}
+
+TriggerGameAction "[Movement] Toggle Ghost"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "LS Click + RS Click"
+		{
+			myOperator And
+			myConditionalInputActions
+			{
+				ConditionalInputAction "LS Click"
+				{
+					myInputActionType Pressed
+					myInputAction = LEFT_STICK_BUTTON
+				}
+				ConditionalInputAction "RS Click"
+				{
+					myInputActionType HoldDown
+					myInputAction = RIGHT_STICK_BUTTON
+				}
+			}
+		}
+	}
+	myGameAction ToggleGhost
+}
+
+TriggerGameAction "[Movement] Toggle Ghost2"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "LS Click + RS Click"
+		{
+			myOperator And
+			myConditionalInputActions
+			{
+				ConditionalInputAction "LS Click"
+				{
+					myInputActionType HoldDown
+					myInputAction = LEFT_STICK_BUTTON
+				}
+				ConditionalInputAction "RS Click"
+				{
+					myInputActionType Pressed
+					myInputAction = RIGHT_STICK_BUTTON
+				}
+			}
+		}
+	}
+	myGameAction ToggleGhost
+}
+
+TriggerGameAction "[Movement] Switch Action Scheme"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "INPUT SWITCHACTIONSCHEME"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "DPad Up"
+				{
+					myInputAction = D_PAD_UP
+				}
+				ConditionalInputAction Keyboard_F
+				{
+					myInputAction = KB_ACCEPT_REQUEST_MISSION
+				}
+			}
+		}
+	}
+	myGameAction SwitchActionScheme
+}
+
+TriggerGameAction "[Movement] Can Boost"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameActionState IsFrozen
+		{
+			myNegate TRUE
+			myGameActionState IsFrozen
+		}
+		ConditionalGameActionState InStasis
+		{
+			myNegate TRUE
+			myGameActionState InStasis
+		}
+		ConditionalGameActionState ShouldBeDowned
+		{
+			myNegate TRUE
+			myGameActionState ShouldBeDowned
+		}
+		ConditionalGameActionState IsFlippedOver
+		{
+			myNegate TRUE
+			myGameActionState IsFlippedOver
+		}
+		ConditionalGameActionState IsStalled
+		{
+			myNegate TRUE
+			myGameActionState IsStalled
+		}
+		ConditionalGameActionState InDialogue
+		{
+			myNegate TRUE
+			myGameActionState InDialogue
+		}
+		ConditionalGameActionState HasNPCAttached
+		{
+			myNegate TRUE
+			myGameActionState HasNPCAttached
+		}
+		ConditionalGameActionState IsRagdoll
+		{
+			myNegate TRUE
+			myGameActionState IsRagdoll
+		}
+		ConditionalActionGroup "Not plucking or allowed to boost while plucking"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalGameActionState IsPlucking
+				{
+					myNegate TRUE
+					myGameActionState IsPlucking
+				}
+				ConditionalGameActionState CanBoostWhilePlucking
+				{
+					myGameActionState CanBoostWhilePlucking
+				}
+			}
+		}
+		ConditionalGameActionState IsRamming
+		{
+			myNegate TRUE
+			myGameActionState IsRamming
+		}
+		ConditionalGameActionState IsFeatureEnabled_Boost
+		{
+			myGameActionState IsFeatureEnabled_Boost
+		}
+		ConditionalGameActionState IsStaminaAvailable
+		{
+			myGameActionState IsStaminaAvailable
+		}
+	}
+	myGameAction PlayerQuery_CanBoost
+}
+
+TriggerGameAction "[Movement] Boost Trial Alt"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameAction PlayerQuery_CanBoost
+		{
+			myGameAction PlayerQuery_CanBoost
+		}
+		ConditionalGameActionState IsPilotTrialEventActive
+		{
+			myGameActionState IsPilotTrialEventActive
+		}
+		ConditionalInputAction "Hold R1"
+		{
+			myInputActionType HoldDown
+			myInputAction = RIGHT_BUMPER_R1
+		}
+	}
+	myGameAction BoostTrialAlt
+}
+
+TriggerGameAction "[Movement] Maneuver Start"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameAction PlayerQuery_CanManeuver
+		{
+			myGameAction PlayerQuery_CanManeuver
+		}
+		ConditionalActionGroup "INPUT MANEUVER START"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction A_Cross
+				{
+					myInputActionType Pressed
+					myTimer 0
+					myValidForTimer 250
+					myInputAction = B_CRICLE
+				}
+				ConditionalInputAction "Keyboard Maneuver Start"
+				{
+					myInputActionType Pressed
+					myTimer 0
+					myValidForTimer 250
+					myInputAction = KB_BOOST
+				}
+			}
+		}
+	}
+	myGameAction ManeuverStart
+}
+
+TriggerGameAction "[Movement] Trick Start"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameAction PlayerQuery_CanPerformTrick
+		{
+			myGameAction PlayerQuery_CanPerformTrick
+		}
+		ConditionalActionGroup "INPUT TRICK START"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction A_Cross
+				{
+					myInputActionType Pressed
+					myTimer 0
+					myValidForTimer 250
+					myInputAction = B_CRICLE
+				}
+				ConditionalInputAction "Keyboard Trick Start"
+				{
+					myInputActionType Pressed
+					myTimer 0
+					myValidForTimer 250
+					myInputAction = KB_BOOST
+				}
+			}
+		}
+	}
+	myGameAction TrickStart
+}
+
+TriggerGameAction "[Movement] Dash Start"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameAction PlayerQuery_CanDash
+		{
+			myGameAction PlayerQuery_CanDash
+		}
+		ConditionalActionGroup "INPUT DASHSTART"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction A_Cross
+				{
+					myInputActionType Pressed
+					myInputAction = B_CRICLE
+				}
+				ConditionalInputAction "Keyboard Dash Start"
+				{
+					myInputActionType Pressed
+					myInputAction = KB_BOOST
+				}
+			}
+		}
+	}
+	myGameAction DashStart
+}
+
+TriggerGameAction "[Movement] Dash Button"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "INPUT DASH BUTTON"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction NeededToDisplayButtonInTutorial
+				{
+					myInputActionType PressedAfterTime
+					myTimer 9999
+					myInputAction = B_CRICLE
+				}
+				ConditionalInputAction KB_NeededToDisplayButtonInTutorial
+				{
+					myInputActionType PressedAfterTime
+					myTimer 9999
+					myInputAction = KB_BOOST
+				}
+			}
+		}
+	}
+	myGameAction DashButton
+}
+
+TriggerGameAction "[Movement] Ball Jump"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "INPUT BALL JUMP"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction A_Cross
+				{
+					myInputActionType Pressed
+					myInputAction = A_CROSS
+				}
+				ConditionalInputAction "Keyboard Jump"
+				{
+					myInputActionType Pressed
+					myInputAction = KB_JUMP
+				}
+			}
+		}
+	}
+	myGameAction BallJump
+}
+
+TriggerGameAction "[Movement] Ball Dash"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "INPUT BALL DASH"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction B_CRICLE
+				{
+					myInputActionType Pressed
+					myInputAction = B_CRICLE
+				}
+				ConditionalInputAction "Keyboard Ball Dash"
+				{
+					myInputActionType Pressed
+					myInputAction = KB_BOOST
+				}
+			}
+		}
+	}
+	myGameAction BallDash
+}
+
+TriggerGameAction "[Movement] Shake Off Start"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameAction PlayerQuery_CanShakeOff
+		{
+			myGameAction PlayerQuery_CanShakeOff
+		}
+		ConditionalActionGroup "INPUT SHAKEOFF START"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction Input
+				{
+					myInputActionType Pressed
+					myInputAction = B_CRICLE
+				}
+				ConditionalInputAction "Keyboard ShakeOff Start"
+				{
+					myInputActionType Pressed
+					myInputAction = KB_BOOST
+				}
+			}
+		}
+	}
+	myGameAction ShakeOffStart
+}
+
+TriggerGameAction "[Movement] Extinguish"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameActionState IsInInterior
+		{
+			myGameActionState IsInInterior
+		}
+		ConditionalGameActionState IsOnFire
+		{
+			myGameActionState IsOnFire
+		}
+		ConditionalGameActionState InSpace
+		{
+			myNegate TRUE
+			myGameActionState InSpace
+		}
+		ConditionalActionGroup "INPUT EXTINGUISH"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction Input
+				{
+					myInputActionType Pressed
+					myInputAction = B_CRICLE
+				}
+				ConditionalInputAction "Keyboard Extinguish"
+				{
+					myInputActionType Pressed
+					myInputAction = KB_BOOST
+				}
+			}
+		}
+	}
+	myGameAction Extinguish
+}
+
+TriggerGameAction "[Movement] ManeuverBack"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "INPUT MANEUVERBACK"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "LS Down"
+				{
+					myInputActionType HoldDown
+					myValidForTimer 250
+					myNegate FALSE
+					myInputAction = LEFT_STICK_DOWN_45
+				}
+				ConditionalInputAction KB_DOWN
+				{
+					myInputActionType HoldDown
+					myTimer 250
+					myInputAction = KB_MOVE_BACK
+				}
+			}
+		}
+		ConditionalGameActionState IsWithinGameplayBounds
+		{
+			myGameActionState IsWithinGameplayBounds
+		}
+		ConditionalGameActionState IsInHyperDrive
+		{
+			myNegate TRUE
+			myGameActionState InHyperspace
+		}
+		ConditionalGameActionState InsideDreadnought
+		{
+			myNegate TRUE
+			myGameActionState InsideDreadnought
+		}
+		ConditionalGameAction "Maneuver Start"
+		{
+			myGameAction ManeuverStart
+		}
+		ConditionalGameActionState IsRollingBall
+		{
+			myNegate TRUE
+			myGameActionState IsRollingBall
+		}
+		ConditionalGameActionState IsPlucking
+		{
+			myNegate TRUE
+			myGameActionState IsPlucking
+		}
+	}
+	myGameAction ManeuverBack
+}
+
+TriggerGameAction "[Movement] Maneuver Left"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "INPUT MANEUVER LEFT"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "LS Down"
+				{
+					myInputActionType HoldDown
+					myInputAction = LEFT_STICK_LEFT
+				}
+				ConditionalInputAction "Keyboard Maneuver Left"
+				{
+					myInputActionType HoldDown
+					myInputAction = KB_MOVE_LEFT
+				}
+			}
+		}
+		ConditionalGameAction "Maneuver Start"
+		{
+			myGameAction ManeuverStart
+		}
+	}
+	myGameAction ManeuverLeft
+}
+
+TriggerGameAction "[Movement] Maneuver Right"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "INPUT MANEUVER RIGHT"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "LS Down"
+				{
+					myInputActionType HoldDown
+					myInputAction = LEFT_STICK_RIGHT
+				}
+				ConditionalInputAction "Keyboard Maneuver Right"
+				{
+					myInputActionType HoldDown
+					myInputAction = KB_MOVE_RIGHT
+				}
+			}
+		}
+		ConditionalGameAction "Maneuver Start"
+		{
+			myGameAction ManeuverStart
+		}
+	}
+	myGameAction ManeuverRight
+}
+
+TriggerGameAction "[Movement] Dash Back"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "INPUT DASH BACK"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "LS Down"
+				{
+					myInputActionType HoldDown
+					myInputAction = LEFT_STICK_DOWN
+				}
+				ConditionalInputAction "Keyboard Dash Back"
+				{
+					myInputActionType HoldDown
+					myInputAction = KB_MOVE_BACK
+				}
+			}
+		}
+		ConditionalGameAction "Dash Start"
+		{
+			myGameAction DashStart
+		}
+		ConditionalGameActionState IsFeatureEnabled_Dash
+		{
+			myGameActionState IsFeatureEnabled_Dash
+		}
+	}
+	myGameAction DashBack
+}
+
+TriggerGameAction "[Movement] Dash Left"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "INPUT DASH LEFT"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "LS Down"
+				{
+					myInputActionType HoldDown
+					myInputAction = LEFT_STICK_LEFT
+				}
+				ConditionalInputAction "Keyboard Dash Left"
+				{
+					myInputActionType HoldDown
+					myInputAction = KB_MOVE_LEFT
+				}
+			}
+		}
+		ConditionalGameAction "Dash Start"
+		{
+			myGameAction DashStart
+		}
+		ConditionalGameActionState IsFeatureEnabled_Dash
+		{
+			myGameActionState IsFeatureEnabled_Dash
+		}
+		ConditionalActionGroup "Not in pilot trial or not using thrust or using alt boost"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalGameActionState IsPilotTrialEventActive
+				{
+					myNegate TRUE
+					myGameActionState IsPilotTrialEventActive
+				}
+		        ConditionalGameAction "Boost Trial Alternative"
+		        {
+			        myGameAction BoostTrialAlt
+		        }
+				ConditionalGameActionState "Not InThrust"
+				{
+					myNegate TRUE
+					myGameActionState InThrust
+				}
+			}
+		}
+	}
+	myGameAction DashLeft
+}
+
+TriggerGameAction "[Movement] Dash Right"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "INPUT DASH RIGHT"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "LS Down"
+				{
+					myInputActionType HoldDown
+					myInputAction = LEFT_STICK_RIGHT
+				}
+				ConditionalInputAction "Keyboard Dash Right"
+				{
+					myInputActionType HoldDown
+					myInputAction = KB_MOVE_RIGHT
+				}
+			}
+		}
+		ConditionalGameAction "Dash Start"
+		{
+			myGameAction DashStart
+		}
+		ConditionalGameActionState IsFeatureEnabled_Dash
+		{
+			myGameActionState IsFeatureEnabled_Dash
+		}
+		ConditionalActionGroup "Not in pilot trial or not using thrust"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalGameActionState IsPilotTrialEventActive
+				{
+					myNegate TRUE
+					myGameActionState IsPilotTrialEventActive
+				}
+		        ConditionalGameAction "Boost Trial Alternative"
+		        {
+			        myGameAction BoostTrialAlt
+		        }
+				ConditionalGameActionState "Not InThrust"
+				{
+					myNegate TRUE
+					myGameActionState InThrust
+				}
+			}
+		}
+	}
+	myGameAction DashRight
+}
+
+TriggerGameAction "[Movement] Shake Off Back"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "INPUT SHAKEOFF BACK"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "LS Down"
+				{
+					myInputActionType HoldDown
+					myInputAction = LEFT_STICK_DOWN
+				}
+				ConditionalInputAction "Keyboard ShakeOff Back"
+				{
+					myInputActionType HoldDown
+					myInputAction = KB_MOVE_BACK
+				}
+			}
+		}
+		ConditionalGameAction "Shake Off Start"
+		{
+			myGameAction ShakeOffStart
+		}
+	}
+	myGameAction ShakeOffBack
+}
+
+TriggerGameAction "[Movement] Shake Off Front"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "NOT LS DOWN AND NOT KB_S"
+		{
+			myOperator And
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Not LS Down"
+				{
+					myInputActionType HoldDown
+					myNegate TRUE
+					myInputAction = LEFT_STICK_DOWN
+				}
+				ConditionalInputAction "Not KB_S"
+				{
+					myInputActionType HoldDown
+					myNegate TRUE
+					myInputAction = KB_MOVE_BACK
+				}
+			}
+		}
+		ConditionalActionGroup "NOT LS LEFT AND NOT KB_A"
+		{
+			myOperator And
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Not LS Left"
+				{
+					myInputActionType HoldDown
+					myNegate TRUE
+					myInputAction = LEFT_STICK_LEFT
+				}
+				ConditionalInputAction "Not KB_A"
+				{
+					myInputActionType HoldDown
+					myNegate TRUE
+					myInputAction = KB_MOVE_LEFT
+				}
+			}
+		}
+		ConditionalActionGroup "NOT LS RIGHT AND NOT KB_D"
+		{
+			myOperator And
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Not LS Right"
+				{
+					myInputActionType HoldDown
+					myNegate TRUE
+					myInputAction = LEFT_STICK_RIGHT
+				}
+				ConditionalInputAction "Not KB_D"
+				{
+					myInputActionType HoldDown
+					myNegate TRUE
+					myInputAction = KB_MOVE_RIGHT
+				}
+			}
+		}
+		ConditionalGameAction "Shake Off Start"
+		{
+			myGameAction ShakeOffStart
+		}
+	}
+	myGameAction ShakeOffFront
+}
+
+TriggerGameAction "[Movement] Shake Off Left"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "INPUT SHAKEOFF LEFT"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "LS Down"
+				{
+					myInputActionType HoldDown
+					myInputAction = LEFT_STICK_LEFT
+				}
+				ConditionalInputAction "Keyboard ShakeOff Left"
+				{
+					myInputActionType HoldDown
+					myInputAction = KB_MOVE_LEFT
+				}
+			}
+		}
+		ConditionalGameAction ShakeOffStart
+		{
+			myGameAction ShakeOffStart
+		}
+	}
+	myGameAction ShakeOffLeft
+}
+
+TriggerGameAction "[Movement] Shake Off Right"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "INPUT SHAKEOFF RIGHT"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "LS Down"
+				{
+					myInputActionType HoldDown
+					myInputAction = LEFT_STICK_RIGHT
+				}
+				ConditionalInputAction "Keyboard ShakeOff Right"
+				{
+					myInputActionType HoldDown
+					myInputAction = KB_MOVE_RIGHT
+				}
+			}
+		}
+		ConditionalGameAction ShakeOffStart
+		{
+			myGameAction ShakeOffStart
+		}
+	}
+	myGameAction ShakeOffRight
+}
+
+TriggerGameAction "[Movement] Trick Left"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "INPUT TRICK LEFT"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Rotated Left Stick Left Analog"
+				{
+					myInputActionType HoldDown
+					myValidForTimer 200
+					myInputAction = LEFT_STICK_LEFT
+				}
+				ConditionalInputAction "Keyboard Trick Left"
+				{
+					myInputActionType HoldDown
+					myValidForTimer 200
+					myInputAction = KB_MOVE_LEFT
+				}
+			}
+		}
+		ConditionalGameAction TrickStart
+		{
+			myGameAction TrickStart
+		}
+	}
+	myGameAction TrickLeft
+}
+
+TriggerGameAction "[Movement] Trick Right"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameActionState InAirTrickWindow
+		{
+			myGameActionState InAirTrickWindow
+		}
+		ConditionalActionGroup "INPUT TRICK RIGHT"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Rotated Left Stick Right Analog"
+				{
+					myInputActionType HoldDown
+					myValidForTimer 200
+					myInputAction = LEFT_STICK_RIGHT
+				}
+				ConditionalInputAction "Keyboard Trick Right"
+				{
+					myInputActionType HoldDown
+					myValidForTimer 200
+					myInputAction = KB_MOVE_RIGHT
+				}
+			}
+		}
+		ConditionalGameAction TrickStart
+		{
+			myGameAction TrickStart
+		}
+	}
+	myGameAction TrickRight
+}
+
+TriggerGameAction "[Movement] Trick Backward"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameActionState InAirTrickWindow
+		{
+			myGameActionState InAirTrickWindow
+		}
+		ConditionalActionGroup "INPUT TRICK BACKWARD"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Rotated Left Stick Down Analog"
+				{
+					myInputActionType HoldDown
+					myValidForTimer 200
+					myInputAction = LEFT_STICK_DOWN
+				}
+				ConditionalInputAction "Keyboard Trick Back"
+				{
+					myInputActionType HoldDown
+					myValidForTimer 200
+					myInputAction = KB_MOVE_BACK
+				}
+			}
+		}
+		ConditionalGameAction TrickStart
+		{
+			myGameAction TrickStart
+		}
+	}
+	myGameAction TrickBackward
+}
+
+TriggerGameAction "[Movement] Ground Slam"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameActionState InAirTrickWindow
+		{
+			myGameActionState InAirTrickWindow
+		}
+		ConditionalGameAction PlayerQuery_CanShieldParry
+		{
+			myGameAction PlayerQuery_CanShieldParry
+		}
+		ConditionalInputAction "Press Y/Triangle"
+		{
+			myInputActionType Pressed
+			myTimer 0
+			myValidForTimer 0
+			myInputAction = Y_TRIANGLE
+		}
+	}
+	myGameAction GroundSlam
+}
+
+TriggerGameAction "[Movement] Hop"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameActionState AreAirTricksEnabled
+		{
+			myGameActionState AreAirTricksEnabled
+		}
+		ConditionalGameActionState InHopWindow
+		{
+			myGameActionState InHopWindow
+		}
+		ConditionalGameActionState IsFlying
+		{
+			myNegate TRUE
+			myGameActionState IsFlying
+		}
+		ConditionalGameActionState InStasis
+		{
+			myNegate TRUE
+			myGameActionState InStasis
+		}
+		ConditionalGameActionState IsFrozen
+		{
+			myNegate TRUE
+			myGameActionState IsFrozen
+		}
+		ConditionalGameActionState ShouldBeDowned
+		{
+			myNegate TRUE
+			myGameActionState ShouldBeDowned
+		}
+		ConditionalGameActionState IsFlippedOver
+		{
+			myNegate TRUE
+			myGameActionState IsFlippedOver
+		}
+		ConditionalGameActionState IsInPlanetaryTransition
+		{
+			myNegate TRUE
+			myGameActionState IsInPlanetaryTransition
+		}
+		ConditionalGameActionState IsInHyperDrive
+		{
+			myNegate TRUE
+			myGameActionState InHyperspace
+		}
+		ConditionalGameActionState InsideDreadnought
+		{
+			myNegate TRUE
+			myGameActionState InsideDreadnought
+		}
+		ConditionalGameActionState InDialogue
+		{
+			myNegate TRUE
+			myGameActionState InDialogue
+		}
+		ConditionalGameActionState IsRagdoll
+		{
+			myNegate TRUE
+			myGameActionState IsRagdoll
+		}
+		ConditionalGameActionState NotIsPluckingButtonSequence
+		{
+			myNegate TRUE
+			myGameActionState IsPluckingButtonSequence
+		}
+		ConditionalActionGroup "INPUT HOP"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Press RB"
+				{
+					myInputActionType Pressed
+					myValidForTimer 200
+					myInputAction = A_CROSS
+				}
+				ConditionalInputAction "Keyboard Hop"
+				{
+					myInputActionType Pressed
+					myValidForTimer 200
+					myInputAction = KB_JUMP
+				}
+			}
+		}
+	}
+	myGameAction Hop
+}
+
+TriggerGameAction "[Movement] DoubleHop"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameActionState InDoubleHopWindow
+		{
+			myGameActionState InDoubleHopWindow
+		}
+		ConditionalGameActionState HasDoubleHop
+		{
+			myGameActionState HasDoubleHop
+		}
+		ConditionalGameActionState InStasis
+		{
+			myNegate TRUE
+			myGameActionState InStasis
+		}
+		ConditionalGameActionState IsFrozen
+		{
+			myNegate TRUE
+			myGameActionState IsFrozen
+		}
+		ConditionalGameAction PlayerQuery_CanManeuver
+		{
+			myGameAction PlayerQuery_CanManeuver
+		}
+		ConditionalGameActionState IsInHyperDrive
+		{
+			myNegate TRUE
+			myGameActionState InHyperspace
+		}
+		ConditionalActionGroup "INPUT DOUBLE HOP"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Press RB"
+				{
+					myInputActionType Pressed
+					myInputAction = A_CROSS
+				}
+				ConditionalInputAction "Keyboard Double Hop"
+				{
+					myInputActionType Pressed
+					myInputAction = KB_JUMP
+				}
+			}
+		}
+	}
+	myGameAction DoubleHop
+}
+
+TriggerGameAction "[Movement] Flipped Over Recover"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameActionState InStasis
+		{
+			myNegate TRUE
+			myGameActionState InStasis
+		}
+		ConditionalGameActionState IsDead
+		{
+			myNegate TRUE
+			myGameActionState IsDead
+		}
+		ConditionalGameActionState IsFrozen
+		{
+			myNegate TRUE
+			myGameActionState IsFrozen
+		}
+		ConditionalActionGroup "Ragdoll Flipped Over"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalGameActionState IsRagdoll
+				{
+					myGameActionState IsRagdoll
+				}
+				ConditionalGameActionState IsFlippedOver
+				{
+					myGameActionState IsFlippedOver
+				}
+			}
+		}
+		ConditionalActionGroup "INPUT FLIPPED OVER RECOVER"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction R1
+				{
+					myInputActionType Pressed
+					myInputAction = A_CROSS
+				}
+				ConditionalInputAction "Keyboard Flipped Over Recover"
+				{
+					myInputActionType Pressed
+					myInputAction = KB_JUMP
+				}
+			}
+		}
+	}
+	myGameAction FlippedOverRecover
+}
+
+TriggerGameAction "[Movement] Jet Engine"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameActionState IsJetEngineEnabled
+		{
+			myGameActionState IsJetEngineEnabled
+		}
+		ConditionalGameActionState AreAirTricksEnabled
+		{
+			myGameActionState AreAirTricksEnabled
+		}
+		ConditionalGameActionState IsFlippedOver
+		{
+			myNegate TRUE
+			myGameActionState IsFlippedOver
+		}
+		ConditionalGameActionState IsInHyperDrive
+		{
+			myNegate TRUE
+			myGameActionState InHyperspace
+		}
+		ConditionalGameActionState IsInPlanetaryTransition
+		{
+			myNegate TRUE
+			myGameActionState IsInPlanetaryTransition
+		}
+		ConditionalGameActionState IsFrozen
+		{
+			myNegate TRUE
+			myGameActionState IsFrozen
+		}
+		ConditionalGameActionState ShouldBeDowned
+		{
+			myNegate TRUE
+			myGameActionState ShouldBeDowned
+		}
+		ConditionalGameActionState InDialogue
+		{
+			myNegate TRUE
+			myGameActionState InDialogue
+		}
+		ConditionalGameActionState IsStaminaAvailable
+		{
+			myGameActionState IsStaminaAvailable
+		}
+		ConditionalActionGroup "INPUT JET ENGINE"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Hold R1"
+				{
+					myInputActionType HoldDownAfterTime
+					myTimer 150
+					myInputAction = A_CROSS
+				}
+				ConditionalInputAction "Keyboard Jet Engine"
+				{
+					myInputActionType HoldDownAfterTime
+					myTimer 150
+					myInputAction = KB_JUMP
+				}
+			}
+		}
+	}
+	myGameAction JetEngine
+}
+
+TriggerGameAction "[Movement] Boost Failure"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameActionState IsFrozen
+		{
+			myNegate TRUE
+			myGameActionState IsFrozen
+		}
+		ConditionalGameActionState InStasis
+		{
+			myNegate TRUE
+			myGameActionState InStasis
+		}
+		ConditionalGameActionState ShouldBeDowned
+		{
+			myNegate TRUE
+			myGameActionState ShouldBeDowned
+		}
+		ConditionalGameActionState IsFlippedOver
+		{
+			myNegate TRUE
+			myGameActionState IsFlippedOver
+		}
+		ConditionalGameActionState IsStalled
+		{
+			myNegate TRUE
+			myGameActionState IsStalled
+		}
+		ConditionalGameActionState IsInHyperDrive
+		{
+			myNegate TRUE
+			myGameActionState InHyperspace
+		}
+		ConditionalGameActionState InDialogue
+		{
+			myNegate TRUE
+			myGameActionState InDialogue
+		}
+		ConditionalGameActionState HasNPCAttached
+		{
+			myNegate TRUE
+			myGameActionState HasNPCAttached
+		}
+		ConditionalGameActionState IsRagdoll
+		{
+			myNegate TRUE
+			myGameActionState IsRagdoll
+		}
+		ConditionalGameActionState IsStaminaAvailable
+		{
+			myNegate TRUE
+			myGameActionState IsStaminaAvailable
+		}
+	}
+	myGameAction BoostFailLowStamina
+}
+
+TriggerGameAction "[Movement] Boost Fail Low Stamina Input"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameAction BoostFailLowStamina
+		{
+			myGameAction BoostFailLowStamina
+		}
+		ConditionalGameActionState IsManeuvering
+		{
+			myNegate TRUE
+			myGameActionState IsManeuvering
+		}
+		ConditionalInputAction "Not LS Down"
+		{
+			myInputActionType HoldDown
+			myNegate TRUE
+			myInputAction = LEFT_STICK_DOWN
+		}
+		ConditionalActionGroup "Not L/R or In Trial"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalActionGroup "Not L/R"
+				{
+					myConditionalInputActions
+					{
+						ConditionalInputAction "Not LS Left"
+						{
+							myInputActionType HoldDown
+							myNegate TRUE
+							myInputAction = LEFT_STICK_LEFT
+						}
+						ConditionalInputAction "Not LS Right"
+						{
+							myInputActionType HoldDown
+							myNegate TRUE
+							myInputAction = LEFT_STICK_RIGHT
+						}
+					}
+				}
+				ConditionalGameActionState IsPilotTrialEventActive
+				{
+					myGameActionState IsPilotTrialEventActive
+				}
+			}
+		}
+		ConditionalActionGroup "INPUT BOOST FAIL STAMINA"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Hold B"
+				{
+					myInputAction = B_CRICLE
+				}
+				ConditionalInputAction KB_Shift
+				{
+					myInputAction = KB_BOOST
+				}
+				ConditionalActionGroup "Hold R1 in Trial Mode"
+				{
+					myConditionalInputActions
+					{
+						ConditionalInputAction "Hold R1"
+						{
+							myInputActionType HoldDown
+							myInputAction = RIGHT_BUMPER_R1
+						}
+						ConditionalGameActionState "Trial Mode"
+						{
+							myGameActionState IsPilotTrialEventActive
+						}
+					}
+				}
+			}
+		}
+	}
+	myGameAction BoostFailLowStaminaInput
+}
+
+TriggerGameAction "[Movement] Boost"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameAction PlayerQuery_CanBoost
+		{
+			myRequireNewInput TRUE
+			myGameAction PlayerQuery_CanBoost
+		}
+		ConditionalGameActionState "Not Trial Mode"
+		{
+            myNegate TRUE
+			myGameActionState IsPilotTrialEventActive
+		}
+		ConditionalActionGroup "Flying or not in the air"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalGameActionState IsFlying
+				{
+					myGameActionState IsFlying
+				}
+				ConditionalGameActionState Boosting
+				{
+					myGameActionState IsBoosting
+				}
+				ConditionalActionGroup "Not In the Air"
+				{
+					myConditionalInputActions
+					{
+						ConditionalGameActionState IsFalling
+						{
+							myNegate TRUE
+							myGameActionState IsFalling
+						}
+						ConditionalGameActionState InAirTrickWindow
+						{
+							myNegate TRUE
+							myGameActionState InAirTrickWindow
+						}
+					}
+				}
+			}
+		}
+		ConditionalActionGroup "INPUT BOOST"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Hold B"
+				{
+					myInputActionType HoldDownAfterTime
+					myTimer 150
+					myInputAction = B_CRICLE
+				}
+				ConditionalInputAction "Keyboard boost"
+				{
+					myInputActionType HoldDownAfterTime
+					myTimer 150
+					myInputAction = KB_BOOST
+				}
+			}
+		}
+	}
+	myGameAction Boost
+}
+
+TriggerGameAction "[Movement] Boost In Race For UI Only"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "INPUT BOOST"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Keyboard boost"
+				{
+					myInputActionType HoldDownAfterTime
+					myTimer 150
+					myInputAction = KB_BOOST
+				}
+				ConditionalInputAction "Hold R1"
+				{
+					myInputActionType HoldDown
+					myInputAction = RIGHT_BUMPER_R1
+				}				
+			}
+		}
+	}
+	myGameAction BoostInRaceDummy
+}
+
+TriggerGameAction "[Movement] Boost Neutral"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameAction PlayerQuery_CanBoost
+		{
+			myRequireNewInput TRUE
+			myGameAction PlayerQuery_CanBoost
+		}
+		ConditionalGameActionState IsManeuvering
+		{
+			myNegate TRUE
+			myGameActionState IsManeuvering
+		}
+		ConditionalGameActionState "Not Trial Mode"
+		{
+            myNegate TRUE
+			myGameActionState IsPilotTrialEventActive
+		}
+		ConditionalInputAction "Not LS Down"
+		{
+			myInputActionType HoldDown
+			myNegate TRUE
+			myInputAction = LEFT_STICK_DOWN
+		}
+		ConditionalInputAction "Not KB_S"
+		{
+			myInputActionType HoldDown
+			myNegate TRUE
+			myInputAction = KB_MOVE_BACK
+		}
+		ConditionalInputAction "Not LS Left"
+		{
+			myInputActionType HoldDown
+			myNegate TRUE
+			myInputAction = LEFT_STICK_LEFT
+		}
+		ConditionalInputAction "Not LS Right"
+		{
+			myInputActionType HoldDown
+			myNegate TRUE
+			myInputAction = LEFT_STICK_RIGHT
+		}
+		ConditionalInputAction "Not KB_A"
+		{
+			myInputActionType HoldDown
+			myNegate TRUE
+			myInputAction = KB_MOVE_LEFT
+		}
+		ConditionalInputAction "Not KB_D"
+		{
+			myInputActionType HoldDown
+			myNegate TRUE
+			myInputAction = KB_MOVE_RIGHT
+		}
+		ConditionalActionGroup "INPUT BOOST NEUTRAL"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Hold B"
+				{
+					myInputActionType HoldDown
+					myInputAction = B_CRICLE
+				}
+				ConditionalInputAction KB_Shift
+				{
+					myInputActionType HoldDown
+					myInputAction = KB_BOOST
+				}
+			}
+		}
+	}
+	myGameAction Boost
+}
+
+TriggerGameAction "[Movement] Boost in Trial"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameAction PlayerQuery_CanBoost
+		{
+			myGameAction PlayerQuery_CanBoost
+		}
+		ConditionalGameActionState IsPilotTrialEventActive
+		{
+			myGameActionState IsPilotTrialEventActive
+		}
+		ConditionalActionGroup "Not In the Air or Not Boosting Backward"
+		{
+            myOperator Or
+			myConditionalInputActions
+			{
+		        ConditionalInputAction "Not LS Down"
+		        {
+			        myInputActionType HoldDown
+			        myNegate TRUE
+			        myInputAction = LEFT_STICK_DOWN
+		        }
+				ConditionalGameActionState InAirTrickWindow
+				{
+					myNegate TRUE
+					myGameActionState InAirTrickWindow
+				}
+			}
+		}
+		ConditionalActionGroup "INPUT BOOST NEUTRAL"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Hold B"
+				{
+					myInputActionType HoldDown
+					myInputAction = B_CRICLE
+				}
+				ConditionalInputAction KB_Shift
+				{
+					myInputActionType HoldDown
+					myInputAction = KB_BOOST
+				}
+			}
+		}
+	}
+	myGameAction Boost
+}
+
+TriggerGameAction "[Movement] Boost in Trial Alt"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameAction BoostTrialAlt
+		{
+			myGameAction BoostTrialAlt
+		}
+	}
+	myGameAction Boost
+}
+
+TriggerGameAction "[Movement] Race Boost Start"
+{
+	myConditionalInputActions
+	{
+	    ConditionalActionGroup "Forward or Boost"
+	    {
+		    myOperator Or
+		    myConditionalInputActions
+		    {
+			    ConditionalInputAction "Rotated Left Stick Up Analog"
+			    {
+				    myInputActionType Analog
+				    myInputAction = LEFT_STICK_UP
+			    }
+			    ConditionalInputAction "Keyboard Move Forward"
+			    {
+				    myInputActionType Analog
+				    myInputAction = KB_MOVE_FWD
+			    }
+			    ConditionalInputAction "Hold B"
+			    {
+				    myInputActionType HoldDown
+				    myInputAction = B_CRICLE
+			    }
+			    ConditionalInputAction "Keyboard boost"
+			    {
+				    myInputActionType HoldDown
+				    myInputAction = KB_BOOST
+			    }
+			    ConditionalActionGroup "Hold R1 in Trial Mode"
+			    {
+				    myConditionalInputActions
+				    { 
+					    ConditionalInputAction "Hold R1"
+					    {
+						    myInputActionType HoldDown
+						    myInputAction = RIGHT_BUMPER_R1
+					    }
+					    ConditionalGameActionState "Trial Mode"
+					    {
+						    myGameActionState IsPilotTrialEventActive
+					    }
+				    }
+			    }
+		    }
+	    }
+    }
+    myGameAction RaceBoostStart
+}
+
+TriggerGameAction "[Movement] Can Shield Parry"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameActionState "Can Activate Shield Parry"
+		{
+			myRequireNewInput TRUE
+			myGameActionState CanActivateShieldParry
+		}
+		ConditionalGameActionState "Not Frozen"
+		{
+			myNegate TRUE
+			myRequireNewInput TRUE
+			myGameActionState IsFrozen
+		}
+		ConditionalGameActionState "Not Lifted"
+		{
+			myNegate TRUE
+			myRequireNewInput TRUE
+			myGameActionState InStasis
+		}
+		ConditionalGameActionState "Not Flipped Over"
+		{
+			myNegate TRUE
+			myRequireNewInput TRUE
+			myGameActionState IsFlippedOver
+		}
+		ConditionalGameActionState "Not In Hyperspeed"
+		{
+			myNegate TRUE
+			myRequireNewInput TRUE
+			myGameActionState InHyperspace
+		}
+		ConditionalGameActionState "Not Fast Travelling"
+		{
+			myNegate TRUE
+			myRequireNewInput TRUE
+			myGameActionState FastTravelInitiated
+		}
+		ConditionalGameActionState "Not Dead"
+		{
+			myNegate TRUE
+			myRequireNewInput TRUE
+			myGameActionState IsDead
+		}
+		ConditionalGameActionState "Not In Camera Sequence"
+		{
+			myNegate TRUE
+			myRequireNewInput TRUE
+			myGameActionState InDialogue
+		}
+		ConditionalGameActionState "Not Overburdened"
+		{
+			myNegate TRUE
+			myRequireNewInput TRUE
+			myGameActionState ShouldBeDowned
+		}
+		ConditionalGameActionState "Not In Ragdoll"
+		{
+			myNegate TRUE
+			myRequireNewInput TRUE
+			myGameActionState IsRagdoll
+		}
+		ConditionalGameActionState IsStaminaAvailable
+		{
+			myRequireNewInput TRUE
+			myGameActionState IsStaminaAvailable
+		}
+		ConditionalGameActionState IsShieldParryEnabled
+		{
+			myRequireNewInput TRUE
+			myGameActionState IsShieldParryEnabled
+		}
+		ConditionalGameActionState IsInPlanetaryTransition
+		{
+			myNegate TRUE
+			myRequireNewInput TRUE
+			myGameActionState IsInPlanetaryTransition
+		}
+		ConditionalGameActionState NotIsPluckingButtonSequence
+		{
+			myNegate TRUE
+			myGameActionState IsPluckingButtonSequence
+		}
+		ConditionalGameActionState NotPilotTrial
+		{
+			myNegate TRUE
+			myGameActionState IsPilotTrialEventActive
+		}
+	}
+	myGameAction PlayerQuery_CanShieldParry
+}
+
+TriggerGameAction "[Action] Shield Parry "
+{
+	myConditionalInputActions
+	{
+		ConditionalGameAction PlayerQuery_CanShieldParry
+		{
+			myGameAction PlayerQuery_CanShieldParry
+		}
+		ConditionalActionGroup "INPUT SHIELD PARRY"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Press Y/Triangle"
+				{
+					myInputActionType Pressed
+					myTimer 0
+					myValidForTimer 0
+					myInputAction = Y_TRIANGLE
+				}
+				ConditionalInputAction "Keyboard Shield Parry"
+				{
+					myInputActionType Pressed
+					myInputAction = KB_SHIELD
+				}
+			}
+		}
+	}
+	myGameAction ShieldParry
+}
+
+TriggerGameAction "[Action] Sustained Shield Parry"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameActionState IsShieldParryActive
+		{
+			myGameActionState IsShieldParryActive
+		}
+		ConditionalGameActionState IsShieldParryEnabled
+		{
+			myGameActionState IsShieldParryEnabled
+		}
+		ConditionalGameActionState "Not In Hyperspeed"
+		{
+			myNegate TRUE
+			myRequireNewInput TRUE
+			myGameActionState InHyperspace
+		}
+		ConditionalActionGroup "INPUT SUSTAINED SHIELDPARRY"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Hold Y/Triangle"
+				{
+					myInputActionType HoldDown
+					myTimer 0
+					myValidForTimer 0
+					myInputAction = Y_TRIANGLE
+				}
+				ConditionalInputAction "Keyboard Shield Sustained"
+				{
+					myInputActionType HoldDown
+					myInputAction = KB_SHIELD
+				}
+			}
+		}
+	}
+	myGameAction ShieldParryHold
+}
+
+TriggerGameAction "[Action] Shield Parry Fail"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameActionState "Not Enough Boost"
+		{
+			myNegate TRUE
+			myGameActionState IsStaminaAvailable
+		}
+		ConditionalActionGroup "INPUT SHIELD FAIL"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Press Y/Triangle"
+				{
+					myInputAction = Y_TRIANGLE
+				}
+				ConditionalInputAction "Keyboard Shield Fail"
+				{
+					myInputAction = KB_SHIELD
+				}
+			}
+		}
+	}
+	myGameAction ShieldParryFail
+}
+
+TriggerGameAction "[Movement] Can Ram Using Shield Boost"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameActionState IsShieldParryActive
+		{
+			myGameActionState IsShieldParryActive
+		}
+		ConditionalGameAction PlayerQuery_CanBoost
+		{
+			myGameAction PlayerQuery_CanBoost
+		}
+	}
+	myGameAction PlayerQuery_CanRamUsingShieldBoost
+}
+
+TriggerGameAction "[Movement] Can Ram Using Boost Shield"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameActionState Boosting
+		{
+			myGameActionState IsBoosting
+		}
+		ConditionalGameAction PlayerQuery_CanShieldParry
+		{
+			myGameAction PlayerQuery_CanShieldParry
+		}
+	}
+	myGameAction PlayerQuery_CanRamUsingBoostShield
+}
+
+TriggerGameAction "[Movement] Inside Dreadnought"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameActionState InsideDreadnought
+		{
+			myGameActionState InsideDreadnought
+		}
+	}
+	myGameAction PlayerQuery_InsideDreadnought
+}
+
+TriggerGameAction "[Movement] Inside Interior"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameActionState IsInInterior
+		{
+			myGameActionState IsInInterior
+		}
+		ConditionalGameActionState InSpace
+		{
+			myGameActionState InSpace
+		}
+	}
+	myGameAction PlayerQuery_InSpaceInterior
+}
+
+TriggerGameAction "[Movement] Can Drift"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameActionState IsPilotTrialEventActive
+		{
+			myGameActionState IsPilotTrialEventActive
+		}
+		ConditionalGameActionState IsFrozen
+		{
+			myNegate TRUE
+			myGameActionState IsFrozen
+		}
+		ConditionalGameActionState InStasis
+		{
+			myNegate TRUE
+			myGameActionState InStasis
+		}
+		ConditionalGameActionState ShouldBeDowned
+		{
+			myNegate TRUE
+			myGameActionState ShouldBeDowned
+		}
+		ConditionalGameActionState IsFlippedOver
+		{
+			myNegate TRUE
+			myGameActionState IsFlippedOver
+		}
+		ConditionalGameActionState IsInHyperDrive
+		{
+			myNegate TRUE
+			myGameActionState InHyperspace
+		}
+		ConditionalGameActionState InDialogue
+		{
+			myNegate TRUE
+			myGameActionState InDialogue
+		}
+		ConditionalGameActionState HasNPCAttached
+		{
+			myNegate TRUE
+			myGameActionState HasNPCAttached
+		}
+		ConditionalGameActionState IsRagdoll
+		{
+			myNegate TRUE
+			myGameActionState IsRagdoll
+		}
+		ConditionalGameActionState IsStalled
+		{
+			myNegate TRUE
+			myGameActionState IsStalled
+		}
+		ConditionalGameActionState IsPlucking
+		{
+			myNegate TRUE
+			myGameActionState IsPlucking
+		}
+		ConditionalActionGroup "Fast enough to start or currently drifting"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalGameActionState IsFastEnoughToStartDrift
+				{
+					myGameActionState IsFastEnoughToStartDrift
+				}
+				ConditionalGameActionState IsDrifting
+				{
+					myGameActionState IsDrifting
+				}
+			}
+		}
+	}
+	myGameAction PlayerQuery_CanDrift
+}
+
+TriggerGameAction "[Movement] Drift"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameAction PlayerQuery_CanDrift
+		{
+			myGameAction PlayerQuery_CanDrift
+		}
+		ConditionalActionGroup "INPUT DRIFT"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Hold L1"
+				{
+					myInputActionType HoldDown
+					myInputAction = LEFT_BUMPER_L1
+				}
+				ConditionalInputAction "Hold Keyboard Pilot ability"
+				{
+					myInputActionType HoldDown
+					myInputAction = KB_PILOTABILITY
+				}
+			}
+		}
+	}
+	myGameAction Drift
+}
+

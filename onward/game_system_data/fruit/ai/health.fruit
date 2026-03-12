@@ -1,0 +1,86 @@
+include "onward/game system data/fruit/attributes/attributes.fruit"
+include "onward/game system data/fruit/bodypart.fruit"
+
+class BaseNPCHealthConfig < abstract=1, uid=auto > 
+{
+	bool myIsWeakToSeige false
+	bool myIsShielded false < tooltip="Does this NPC have a shield?  Is implicitly true if StartShield is greater than zero." >
+	float myStartShield 0.0 < tooltip="Starting shield value.  If greater than zero, IsShielded is implicitly true." >
+	float myMaxShield -1.0 < tooltip="Maximum shield value.  If less than zero StartShield value is used." >
+	bool myCanShieldRegenBeforeBreak false < tooltip="Can shield regen before breaking?" >
+	bool myCanShieldRegenAfterBreak false < tooltip="Can shield regen after it has broken?" >
+	bool myCanShieldRegenWhilePlucking false < tooltip="Can shield regen while being plucked?" >
+	float myShieldRegenDamageDelay 0.0 < tooltip="Time in seconds after taking damage until shield begins regenerating when not broken" >
+	float myShieldBrokenRegenDamageDelay 0.0 < tooltip="Time in seconds after taking damage until shield begins regenerating when broken" >
+	float myShieldBrokenRegenStartCooldown 0.0 < tooltip="Time in seconds after breaking until shield begins regenerating" >
+	float myShieldRegenRate 0.0 < tooltip="Amount of shield that regenerates per second" >
+	float myShieldBrokenRegenRate 0.0 < tooltip="Amount of shield that regenerates per second when recovering from break" >
+	float myShieldBrokenRegenAmount 0.0 < tooltip="Amount of shield that is instantly recovered once regenerating after break" >
+	float myShieldFromEquinoxUpgrade 1000.0 < tooltip="Shield added for allies with the Equinox shield upgrade" >
+	bool myShieldBlocksNormalDamage false < tooltip="Special flag for shipwreck turrets which have shields that need a reflected projectile" >
+	float myNumShieldBreaks 1.0 < tooltip="Special flag for shipwreck turrets number of reflections to break shield">
+}
+
+class BasicNPCHealthConfig : BaseNPCHealthConfig
+{
+	float myMaxHealth 100.0 < tooltip = "Full Health" >
+	float myInitialHealth -1.0 < tooltip = "Initial Health, if <0 Full Health is used" >
+	float myMinHealth 0.0 < tooltip = "Health cannot drop below this value." >
+}
+
+class DownableNPCHealthConfig : BasicNPCHealthConfig
+{
+	float myDownedHealthOverflow 1000.0 < tooltip = "How much fake health does this NPC have when downed." >
+	float myDownedTime 120.0 < tooltip = "How long does this unit stay downed (in seconds)." >
+	float myHealthRecoveryPercent 1.0 < tooltip = "What percent health does this unit recover when recovering from downed state." >
+	float myRepairLootDropCooldownSeconds 0.0 < tooltip = "Cooldown (in seconds) between Loot Drop awards for repairing this unit" >
+	float myRepairHealthPercentageThreshold 0.6 < tooltip = "Percentage health before repair becomes a valid interaction" >
+	string myRepairLootDropId < tooltip = "Loot Drop awarded to player upon repairing from downed" >
+}
+
+class ProxyNPCHealthConfig : BaseNPCHealthConfig
+{
+	float myMinHealth 0.0 < tooltip = "Health cannot drop below this value." >
+	float myMaxHealth 100.0 < tooltip = "Full Health" >
+	float myInitialHealth -1.0 < tooltip = "Initial Health, if <0 Full Health is used" >
+	bool myProxyHealthPiercesResistance false < tooltip = "damage pierces resistance of proxy entity" >
+	float myProxyHealthMultiplier 1.0 < tooltip = "multiplier for damage to proxy entity" >
+	float myProxyHealthAdder 0.0 < tooltip = "addition to damage to proxy entity" >
+}
+
+class PhaseHealthEntry
+{
+	float myMinHealth 0.0 < tooltip = "Under the hood this will have a floor of 0.1 if not the final phase" >
+	float myMaxHealth 100.0
+	float myInitialHealth -1.0 < tooltip = "Initial Health, if < 0 Max Health is used" >
+	bool myUseMaxHealthAttribute false < tooltip="Use selected attribute for max health.  Max health will be the same for all phases.  Overrides max health set in phase list." >
+	AttributeType myMaxHealthAttribute
+}
+
+list PhaseHealthEntryList
+{
+	PhaseHealthEntry
+}
+
+class BodyPartHealthEntry
+{
+	BodyPartType myBodyPartType < tooltip = "The body part type this health is valid for. Applies to damage taken to ALL body parts of this type!" >
+	float myMaxHealth 100.0
+	float myInitialHealth -1.0 < tooltip = "Initial Health, if < 0 Max Health is used" >
+	bool myIsCritical FALSE
+	bool myIgnoreResistances FALSE
+	bool myIsProxy FALSE < tooltip = "If set to true, this body part will ignore its own health value and instead pass post-modifier damage to its host, if active." >
+	float myDamageMultiplier 1.0
+}
+
+list BodyPartEntryList
+{
+	BodyPartHealthEntry
+}
+
+class PhasedNPCHealthConfig : BaseNPCHealthConfig
+{
+	float myNPCDamageBonusMultiplier 0.0 < tooltip="Bonus damage multiplier applied after shield and body part damage if the source is non-player." >
+	PhaseHealthEntryList myPhaseHealthEntries
+	BodyPartEntryList myBodyPartHealthEntries
+}

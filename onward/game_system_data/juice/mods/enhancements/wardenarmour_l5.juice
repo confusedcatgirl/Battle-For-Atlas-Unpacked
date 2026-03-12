@@ -1,0 +1,23 @@
+include ./templates/template_l5.juice
+include "onward/game system data/juice/mods/mod_warden_armour_l5.mplayermod"
+include "onward/game system data/juice/buffs/buff_warden_armour_l5.mbuff"
+
+Enhancement wardenarmour_l5 < uid=C91BB5515980C30E000000BBD10A64A8 > : "Level 5"
+{
+	myLocalizedName "contextComment = \"[Placeholder - do not translate]\nName for level 5 version of a Ship Armor made by the ancient Wardens that gives the Ship resistance to all elements (Cold, Heat, Gravity, Stasis/anti-grav) and bonuses when fighting near rich Electrum sources\", description = \"\", enabled = true, guid = #C91BB5515980C30E000000BAA96808A7, lineVersion = 1, maxLength = 30, text = \"Warden Armor V\""
+	myLocalizedDescription "contextComment = \"[Placeholder - do not translate]\nDescription for level 5 version of a Ship Armor made by the ancient Wardens that gives the Ship resistance to all elements (Cold, Heat, Gravity, Stasis/anti-grav) and bonuses when fighting near rich Electrum sources\", description = \"enhancement-description-warden-armour-5\", enabled = true, guid = #98398F92308C4D229DB88563E19F6BE8, lineVersion = 1, maxLength = 187, text = \"+30 Defense\n+50% Resistance to all Elemental damage\nExplosive Damage when Shield Breaks\nConstant heal near Electrum Veins\nStatus Effect immunity\""
+	myIconSprite "mySpriteId = -1252685079, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-mods-ship-armour.spritesheet\""
+	myIsHullEnhancement TRUE
+	myMod < uid=C91BB5515980C30E000000BC78F30B57 > = mod_warden_armour_l5
+	myBuff < uid=C91BB551599DBC7E0025ED4A716C2AA5 > = buff_warden_armour_l5
+	myEnhancementType Armour
+	myEnhancementTrackType WardenArmour
+	myDamageAffectors
+	{
+		DamageAffector_DamageBoostNearElectrumVein "Damage Boost Near Electrum Vein"
+		{
+			myDamageMultiplier 0.5
+		}
+	}
+}
+

@@ -1,0 +1,589 @@
+enum AttributeCategoryType
+{
+	Damage
+	Temperature
+	Gravity
+	TAG_Cap
+	TAG_Value
+	Player
+	Damage_Resist
+	Status_Effect
+}
+
+enum AttributeType < useCategories=1 >
+{
+	< startCategory="Damage" >
+	DMG_Area_Cold
+	DMG_Area_Crush
+	DMG_Area_Float
+	DMG_Area_Heat
+	DMG_Area_Impact
+	DMG_Area_Kinetic
+	DMG_Cold
+	DMG_Crush
+	DMG_Float
+	DMG_Heat
+	DMG_Kinetic
+	DMG_Impact
+	DMG_Max
+	DMG_IsSeige
+	DMG_IgnoreFriendlyFire
+	DMG_IgnoreResistances
+	DMG_Mult
+	DMG_MeleeBonus
+	DMG_PilotAbility
+	< startCategory="Damage Resistance" >
+	DMG_Resist_Cold
+	DMG_Resist_Crush
+	DMG_Resist_Float
+	DMG_Resist_Impact
+	DMG_Resist_Heat
+	DMG_Resist_Kinetic
+	DMG_Resist_All
+	< startCategory="TAG" >
+	TAG_Area_Cold
+	TAG_Area_Crush
+	TAG_Area_Heat
+	TAG_Cold
+	TAG_Cold_Cap
+	TAG_Crush
+	TAG_Crush_Cap
+	TAG_Heat
+	TAG_Heat_Cap
+	TAG_Float
+	TAG_Float_Cap
+	< startCategory="Status Effects" >
+	StatusEffect_Sunder
+	StatusEffect_Fire
+	StatusEffect_Chill
+	StatusEffect_Freeze
+	StatusEffect_Stasis
+	StatusEffect_StasisOverload
+	StatusEffect_Gravity
+	StatusEffect_Entangle
+	StatusEffect_Corrosion
+	StatusEffect_BlackHole
+	StatusEffect_Max
+	< startCategory="Status Effect Resistance" >
+	StatusEffectResist_Sunder
+	StatusEffectResist_Fire
+	StatusEffectResist_Chill
+	StatusEffectResist_Freeze
+	StatusEffectResist_Stasis
+	StatusEffectResist_StasisOverload
+	StatusEffectResist_Gravity
+	StatusEffectResist_BlackHole
+	StatusEffectResist_Entangle
+	StatusEffectResist_Corrosion
+	StatusEffectResist_All
+	< startCategory="Misc" >
+	Angle
+	Angle2
+	Angle3
+	BurstTimeMin
+	BurstTimeMax
+	Cooldown
+	Fire_Rate
+	Fire_Rate2
+	FinalFireRateMin
+	FinalFireRateMax
+	Force
+	Force2
+	Heal_Amount
+	Heal_Percent
+	Heal_Percent2
+	Heat_Transfer_Mult
+	Homing_Delay
+	Impact_Category
+	IsPuzzleOrb
+	Lifetime
+	Overuse_Time
+	Range
+	Range2
+	Range3
+	ReloadMin
+	ReloadMax
+	Size
+	Size2
+	Spread_Base
+	Spread_Coeff
+	StartFireRate
+	Thrust_Accel_Mult
+	Wind_Up
+	WindupMin
+	WindupMax
+	DeflectProjectiles_Chance
+	DeflectProjectiles_DamageModifier
+	StatusEffectRelation_Fire_From_Sunder
+	StatusEffectRelation_Sunder_From_Fire
+	Weapon_Range
+	Weapon_Range_Space
+	HasShatter
+	Num_Strikes
+	Num_Pellets
+	Maneuver_DeflectionRange
+	Maneuver_DeflectionAll
+	Interact_NumInventory
+	Is_Cover_Stub
+	Is_Black_Hole
+	< startCategory="Projectile" >
+	Projectile_Number
+	Projectile_Speed
+	Projectile_Speed_Space
+	Projectile_MaxTurnRate
+	Projectile_RicochetChance
+	Projectile_Impulse
+	< startCategory="Ram" >
+	Ram_Cooldown
+	Ram_Mass_Impact
+	Ram_Velocity_Impact
+	Ram_Mass_Heat
+	Ram_Velocity_Heat
+	Ram_Force_Impact
+	Ram_Min_TAG
+	< startCategory="Ability" >
+	Ability_CanCancel
+	Ability_CancelTime
+	Ability_ChargeTime
+	Ability_ChargeTimeMin
+	Ability_ChargeTimeMax
+	Ability_Cooldown
+	Ability_CooldownMax
+	Ability_CooldownMin
+	Ability_Delay
+	Ability_DurationMax
+	Ability_DurationMin
+	Ability_Energy
+	Ability_FireRate
+	Ability_HoldTime
+	Ability_ReloadRate
+	Ability_WindUp
+	Ability_XPCost
+	Ability_Energy2
+	AbilityXP_DMG_Cold
+	AbilityXP_DMG_Crush
+	AbilityXP_DMG_Float
+	AbilityXP_DMG_Heat
+	AbilityXP_DMG_Kinetic
+	AbilityXP_DMG_Impact
+	Ability_MinRange
+	Ability_MaxRange
+	Ability_Range
+	Ability_SpaceRange
+	Ability_StunTime
+	Ability_Level
+	Ability_XPRegenRate
+	Ability_XPCooldown
+	Ability_DimensionalRift_Enabled
+	Ability_DimensionalRift_Chance
+	Ability_DimensionalRift_Time
+	Ability_SuperStar_Enabled
+	Ability_EnergyGainTimeout
+	Ability_ShouldGainWhenPaused
+	< startCategory="PartStat" >
+	PartStat_Speed
+	PartStat_Handling
+	PartStat_Defense
+	PartStat_Mass
+	PartStat_Energy
+	PartStat_EnergyRegen
+	PartStat_Segments
+	< startCategory="NPC" >
+	NPC_Affinity_AuraRadius
+	NPC_Affinity_AuraPulseRate
+	NPC_Affinity_AuraStatusEffectAmount
+	NPC_Affinity_Damage1
+	NPC_AttackCone1
+	NPC_AttackCone2
+	NPC_Cooldown1
+	NPC_Cooldown2
+	NPC_Cooldown3
+	NPC_Cooldown4
+	NPC_Damage1
+	NPC_Damage2
+	NPC_Damage3
+	NPC_Damage4
+	NPC_Damage5
+	NPC_DamageState_LightThreshold
+	NPC_DamageState_MediumThreshold
+	NPC_DamageState_HeavyThreshold
+	NPC_Duration1
+	NPC_Duration2
+	NPC_Duration3
+	NPC_Duration4
+	NPC_Frozen_Shatter_DamageThreshold
+	NPC_Frozen_Shatter_ImpactThreshold
+	NPC_Frozen_Shatter_Damage
+	NPC_Frozen_MinFrozenTime
+	NPC_Frozen_Space_DecelerateTime
+	NPC_GlobalCooldown
+	NPC_HackLevel
+	NPC_JetpackDivebomb_CruisingAltitude
+	NPC_JetpackDivebomb_TriggerEnableTime
+	NPC_JetpackDivebomb_TriggerDisableTime
+	NPC_MaxHealth
+	NPC_MaxRange1
+	NPC_MaxRange2
+	NPC_MaxRange3
+	NPC_MaxRange4
+	NPC_MaxRange5
+	NPC_MinRange1
+	NPC_MinRange2
+	NPC_MinRange3
+	NPC_MinRange4
+	NPC_MinRange5
+	NPC_ProjectileSpeed1
+	NPC_ProjectileSpeed2
+	NPC_RateOfFire1
+	NPC_RateOfFire2
+	NPC_Spread1
+	NPC_Spread2
+	NPC_Spread_Horiz1
+	NPC_Spread_Horiz2
+	NPC_Spread_Vert1
+	NPC_Spread_Vert2
+	NPC_StunLevel
+	NPC_TriggerChance1
+	NPC_TriggerChance2
+	NPC_TriggerChance3
+	NPC_TriggerChance4
+	NPC_UserData1
+	NPC_UserData2
+	NPC_UserData3
+	NPC_UserData4
+	NPC_UserData5
+	< startCategory="Player" >
+	Player_Invalid
+	Player_XPBonus
+	Player_ElectrumBonus
+	Player_ElectrumDeliveryBonus
+	Player_HealthBonus
+	Player_ProspectorPointsBonus
+	Player_ExpeditionPointsBonus
+	Player_OutlawPointsBonus
+	Player_CombatXPBonus
+	Player_ExplorationXPBonus
+	Player_NavigationXPBonus
+	Player_AssistanceXPBonus
+	Player_CombatXPMeterBonus
+	Player_ExplorationXPMeterBonus
+	Player_NavigationXPMeterBonus
+	Player_AssistanceXPMeterBonus
+	Player_Thrust_TopSpeed
+	Player_Thrust_Accel
+	Player_Strafe_TopSpeed
+	Player_Strafe_Accel
+	Player_Drag
+	Player_VelocityTransfer
+	Player_DashImpulseUp
+	Player_NoSlideAngleLow
+	Player_NoSlideAngleHigh
+	Player_RepulsorHeightSlow
+	Player_ModFusionLevel
+	Player_DashDurationMultiplier
+	Player_DashForceMultiplier
+	Player_PercentRepair
+	Player_RecoilReduction
+	Player_DashDurationModifier
+	Player_DashStaminaModifier
+	Player_JumpStaminaModifier
+	Player_BoostStaminaModifier
+	Player_CollisionProtection
+	Player_GroundCollisionProtection
+	Player_ImpactReactionDowngradeChance
+	Player_DoubleHop
+	Player_FrozenMobility
+	Player_StaminaRechargePerTrick
+	Player_EnergyBonusFromHealthPickup
+	Player_TargetAssistance
+	Player_EnergyRegenDelay
+	Player_ElectrumToXP
+	Player_ShieldBreakInvulnerability
+    Player_StaminaCost_Immelmann
+    Player_StaminaCost_Dash
+    Player_StaminaCost_ShakeOff
+    Player_StaminaCost_BarrelRoll
+    Player_StaminaCost_Hop
+    Player_StaminaCost_DoubleHop
+    Player_StaminaCost_Trick
+	Player_StaminaCost_BoostInitial
+	Player_StaminaCost_BoostSustained
+	Player_StaminaCost_HopSustained
+	Player_ElectrumToAbility
+	Player_ElectrumToAbilityMax
+	Player_EnergyOnStatusEffectBlast
+	Player_GoodAtFindingChance
+    Player_AbilityChargeBonusOnDodge
+    Player_AbilityChargeBonusOnTrick
+	Player_WeaponEnergyBonusOnTrick
+	Player_OutlawMinesPassive
+	Player_OutlawsPassive
+	Player_OutlawMissileLockAvoidance
+	Player_DamageToAbilityCharge
+	Player_XPToAbilityCharge
+	Player_XPToAbilityChargeMultiplierOnShieldRam
+	Player_HealthOnCombo
+	Player_MassOverride
+	Player_EnergyOnCombo
+	Player_StaminaOnCombo
+	Player_ParryStunLevel
+	Player_ParryStunDuration
+	Player_ParryImpact
+	Player_ParryDamage
+	Player_ParryStasis
+	Player_ParryHeal
+	Player_ParryWeaponEnergy
+	Player_PrecisionZoomInfo
+    Player_BoostRam_DamageMin
+    Player_BoostRam_DamageMax
+    Player_GroundSlam_DamageMin
+    Player_GroundSlam_DamageMax
+    Player_GroundSlam_RadiusMin
+    Player_GroundSlam_RadiusMax
+    Player_GroundSlam_StaminaCostMin
+    Player_GroundSlam_StaminaCostMax
+    Player_BoostRam_HoverTankDamage
+	< startCategory="Pilot Perks" >
+	Player_Hunter_FollowUp
+	Player_IncreaseAbiltityDuration
+	Player_Eli_ExploitWeakness
+	Player_Kharl_EnergyLeak
+	Player_Razor_FullReverb
+	Player_GroupDestroyer
+	Player_ExplosiveFinish
+	Player_Razor_NumNotes
+	Player_Sorren_ChainReaction
+	Player_Sorren_WeakenedState
+	Player_Haywire_SystemFailure
+	Player_Startail_BunkerBuster
+	Player_Hunter_ComboPierce
+	Player_Haywire_HackDuration
+	Player_KillWindow
+	Player_Fern_RapidBloom
+	Player_Judge_TimeHeals
+	Player_Galla_LegionCage
+	Player_Galla_DeflectiveShield
+	Player_Rancor_UltimateAnger
+	Player_Rancor_OutlawPact
+	< startCategory="Equinox" >
+	Equinox_Outlaw_ExtraModDropChance1
+	Equinox_Outlaw_ExtraModDropChance2
+	Equinox_Expedition_ExtraModDropCount
+	< startCategory="Player/Health" >
+	Health_LastStand
+	Health_Shield
+	Health_Overshield
+	Health_MinShield
+	Health_MaxShield
+	Health_MinHealth
+	Health_MaxHealth
+	Health_RegenRate
+	Health_HealthRegenRate
+	Health_ShieldRegenRate
+	Health_RegenDelay
+	Health_Overflow
+	Health_RegenPastSegment
+	Health_RegenDelayLong
+	Health_RegenDelayShort
+	Health_DeathPreventionTime
+	Health_DeathPreventionMaxDamage
+	Health_DeathPreventionCooldown
+	< startCategory="Player/CombatKill" >
+	CombatKill_HealthBonus
+	CombatKill_EnergyBonus
+	CombatKill_StreakBonus
+	< startCategory="Player/DamageToEnergy" >
+	DMGToEnergy_Cold
+	DMGToEnergy_Heat
+	DMGToEnergy_Crush
+	DMGToEnergy_Float
+	DMGToEnergy_Kinetic
+	DMGToEnergy_Impact
+	< startCategory="Player/PickupBonus" >
+	PickupBonus_Affinity
+	PickupBonus_Kill
+	PickupBonus_Health
+	< startCategory="Player/Interact" >
+	InteractPickupBonus_Research
+	InteractPickupBonus_Mining
+	InteractXPBonus_Research
+	InteractXPBonus_Mining
+	< startCategory="Player/Melee" >
+	PlayerMelee_DmgModifier
+	PlayerMelee_ImpactModifier
+	< startCategory="Player/ShieldParry" >
+	ShieldParry_MinCost
+	ShieldParry_MaxCost
+	ShieldParry_HoldMinCost
+	ShieldParry_HoldMaxCost
+	ShieldParryScale_x
+	ShieldParryScale_y
+	ShieldParryScale_z
+	ShieldParry_Duration
+	ShieldParry_ParryTimeWindow
+	< startCategory="Shipments" >
+	Shipment_Electrum
+	Shipment_Enhancements_Lvl1
+	Shipment_Enhancements_Lvl2
+	Shipment_Enhancements_Lvl3
+	Shipment_Nova
+	< startCategory="Shipment Timers" >
+	Shipment_Timer_Electrum
+	Shipment_Timer_Enhancements
+	Shipment_Timer_Nova
+	< startCategory="Planetary Bonuses" >
+	PlanetaryBonus_OutpostXPGain
+	PlanetaryBonus_ObservatoryRange
+	PlanetaryBonus_ProspectorDefenderAttack
+	PlanetaryBonus_LegionVision
+	PlanetaryBonus_FullCreepCoverage_INVALID
+	PlanetaryBonus_FullCreepCoverage_Planet01
+	PlanetaryBonus_FullCreepCoverage_Planet03
+	PlanetaryBonus_FullCreepCoverage_Planet04
+	PlanetaryBonus_FullCreepCoverage_Planet05
+	PlanetaryBonus_FullCreepCoverage_Planet07
+	PlanetaryBonus_FullCreepCoverage_Planet08
+	PlanetaryBonus_FullCreepCoverage_Planet15
+	PlanetaryBonus_AlliedBonusLevels
+	< startCategory="Outpost Costs" >
+	OutpostCost_ObservationDeck_Electrum
+	OutpostCost_ObservationDeck_Nova
+	OutpostCost_ObservationDeck_Alliance
+	OutpostCost_ResearchBase_Electrum
+	OutpostCost_ResearchBase_Nova
+	OutpostCost_ResearchBase_Alliance
+	OutpostCost_MiningCenter_Electrum
+	OutpostCost_MiningCenter_Nova
+	OutpostCost_MiningCenter_Alliance
+	OutpostCost_DefenseBase_Electrum
+	OutpostCost_DefenseBase_Nova
+	OutpostCost_DefenseBase_Alliance
+	OutpostCost_AllianceStructure_Electrum
+	OutpostCost_AllianceStructure_Nova
+	OutpostCost_AllianceStructure_Alliance
+	< startCategory="Outpost Removal" >
+	OutpostRemoval_ObservationDeck_Electrum
+	OutpostRemoval_ObservationDeck_Nova
+	OutpostRemoval_ResearchBase_Electrum
+	OutpostRemoval_ResearchBase_Nova
+	OutpostRemoval_MiningCenter_Electrum
+	OutpostRemoval_MiningCenter_Nova
+	OutpostRemoval_DefenseBase_Electrum
+	OutpostRemoval_DefenseBase_Nova
+	OutpostRemoval_ObservationDeck_Electrum_L2
+	OutpostRemoval_ObservationDeck_Nova_L2
+	OutpostRemoval_ResearchBase_Electrum_L2
+	OutpostRemoval_ResearchBase_Nova_L2
+	OutpostRemoval_MiningCenter_Electrum_L2
+	OutpostRemoval_MiningCenter_Nova_L2
+	OutpostRemoval_DefenseBase_Electrum_L2
+	OutpostRemoval_DefenseBase_Nova_L2
+	OutpostRemoval_ObservationDeck_Electrum_L3
+	OutpostRemoval_ObservationDeck_Nova_L3
+	OutpostRemoval_ResearchBase_Electrum_L3
+	OutpostRemoval_ResearchBase_Nova_L3
+	OutpostRemoval_MiningCenter_Electrum_L3
+	OutpostRemoval_MiningCenter_Nova_L3
+	OutpostRemoval_DefenseBase_Electrum_L3
+	OutpostRemoval_DefenseBase_Nova_L3
+	OutpostRemoval_AllianceStructure_Electrum
+	OutpostRemoval_AllianceStructure_Nova
+	< startCategory="Outpost Modification" >
+	OutpostModification_ObservationDeckElectrum_L1
+	OutpostModification_ObservationDeckElectrum_L2
+	OutpostModification_ObservationDeckElectrum_L3
+	OutpostModification_ResearchBaseElectrum_L1
+	OutpostModification_ResearchBaseElectrum_L2
+	OutpostModification_ResearchBaseElectrum_L3
+	OutpostModification_MiningCenterElectrum_L1
+	OutpostModification_MiningCenterElectrum_L2
+	OutpostModification_MiningCenterElectrum_L3
+	OutpostModification_DefenseBaseElectrum_L1
+	OutpostModification_DefenseBaseElectrum_L2
+	OutpostModification_DefenseBaseElectrum_L3
+	OutpostModification_ObservationDeckNova_L1
+	OutpostModification_ObservationDeckNova_L2
+	OutpostModification_ObservationDeckNova_L3
+	OutpostModification_ResearchBaseNova_L1
+	OutpostModification_ResearchBaseNova_L2
+	OutpostModification_ResearchBaseNova_L3
+	OutpostModification_MiningCenterNova_L1
+	OutpostModification_MiningCenterNova_L2
+	OutpostModification_MiningCenterNova_L3
+	OutpostModification_DefenseBaseNova_L1
+	OutpostModification_DefenseBaseNova_L2
+	OutpostModification_DefenseBaseNova_L3
+	< startCategory="Plucking" >
+	Plucking_SweetSpotSizeModifier
+	Plucking_SweetSpotRateModifier
+	< startCategory="UI_Weapon_Stats" >
+	UI_Weapon_Damage
+	UI_Weapon_Range
+	UI_Weapon_FireRate
+	UI_Weapon_Energy
+	< startCategory="Inventory" >
+	Inventory_Organics
+	Inventory_Metals
+	Inventory_Cores
+	Inventory_Trophies
+	< startCategory="Reinforcement" >
+	Reinforcement_Delay
+	Reinforcement_Interval
+}
+
+list AttributeTypes
+{
+	AttributeType
+}
+
+class AttributeCategory
+{
+	AttributeCategoryType myCategory
+	AttributeTypes myTypes
+}
+
+list AttributeCategories
+{
+	AttributeCategory
+}
+
+class AttributeRange
+{
+	AttributeType myType
+	float myMin 0.0
+	float myMax 0.0
+}
+
+list AttributeRanges
+{
+	AttributeRange
+}
+
+class Attribute
+{
+	AttributeType myType
+	float myValue
+	bool myHasMin false
+	float myMinValue
+	bool myHasMax false
+	float myMaxValue
+	string myComment
+}
+
+list Attributes
+{
+	Attribute
+}
+
+class AttributeMod
+{
+	AttributeType myType
+	float myMultValue 1
+	float myAddValue 0
+	float myPercentageValue 0
+}
+
+list AttributeMods
+{
+	AttributeMod
+}

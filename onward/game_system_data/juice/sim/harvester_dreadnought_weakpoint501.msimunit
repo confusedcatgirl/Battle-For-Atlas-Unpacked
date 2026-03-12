@@ -1,0 +1,46 @@
+include ./harvester_dreadnought_part_base.msimunit
+
+SimUnit harvester_dreadnought_weakpoint501 < uid=2453D2865914B5C80000032159B21789 > : harvester_dreadnought_part_base
+{
+	mySubCategory WeakpointSlot
+	mySubCategoryVariant 501
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo harvester_dreadnought_eye < uid=C92F4D3F59443CE0000001811509E038 >
+		{
+			myCountMin 1
+			myCountMax 1
+			mySpawnOutsideZone FALSE
+			myElementSpawnInfo
+			{
+				SimUnitElementSpawnInfo harvester_dreadnought_eye
+				{
+					myEntityFile "onward/game system data/juice/ai/npc/harvester_dreadnought_eye.mnpc"
+				}
+			}
+			myRealizeOnDetach FALSE
+			myAttachBoneCategory CenterOfMass
+		}
+		SimUnitEntitySpawnInfo "SpaceLandmark Proxy" < uid=C92F4D3F5B0C2ABA00A0C87DCA659931 >
+		{
+			myCountMin 1
+			myCountMax 1
+			myIgnoreHealth TRUE
+			myIsSpaceLandmark TRUE
+			myElementSpawnInfo
+			{
+				SimUnitElementSpawnInfo harvester_dreadnought_weakpoint501_landmark
+				{
+					myEntityFile "onward/entity templates/harvester_dreadnought_weakpoint501_landmark.mentitytemplate"
+				}
+			}
+		}
+	}
+	mySpawnOutsideZone TRUE
+	myRevealedChallengeType Discover_Dreadnought
+	myUnlockedChallengeType Discover_Dreadnought
+	myUnkillable FALSE
+	myUnkillableType Killable
+	myPreserveSpawnInfo TRUE
+}
+

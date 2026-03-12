@@ -1,0 +1,64 @@
+include "onward/game system data/fruit/input/gameinput.fruit"
+include "onward/game system data/fruit/ui/uimenus.fruit"
+
+enum TutorialChannel
+{
+	Center
+	Left
+	Right
+}
+
+enum Tutorial
+{
+	Tutorial01
+	Tutorial02	
+	Starlink
+	Movement
+	CenteredMovement
+	Boost
+	OnIt
+	Pods
+	RightPod
+	LeftPod
+	PilotAbility
+	Launch
+	Camera
+	StarMap
+	HyperDrive
+	BuildScreen
+	PilotSkills
+	StrafeDash
+	BarrelRoll
+	KTurn
+	EquinoxUpgrade
+	Shield
+	Jump
+	Dreadnought
+	MissionSelect
+	TU5_Anvil_Choice_Tutorial
+}
+
+list GameActionList
+{
+	GameAction
+}
+
+class TutorialData
+{
+	Tutorial myTutorial
+	varmap myMessage < bhv = "localization" >
+	GameAction myGameAction	
+	GameActionList myGameActions
+    bool myRequiresOneGameActionToComplete FALSE
+	bool myShowPrompt
+	bool myHideBox
+	bool myUseProgressButton
+	TutorialChannel myChannel
+	UIMenu myMenuToOpenOnDismiss
+	uid myMenuSpecificUID
+}
+
+list TutorialDataList
+{
+	TutorialData
+}

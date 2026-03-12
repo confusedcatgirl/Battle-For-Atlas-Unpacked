@@ -1,0 +1,56 @@
+include ./fauna_major.mnpc
+include onward/skillscripts/npc_ability_fauna_shatter.mskillscriptjuice
+include onward/skillscripts/npc_ability_fauna_gatling.mskillscriptjuice
+include onward/skillscripts/npc_ability_fauna_knockback.mskillscriptjuice
+include onward/skillscripts/npc_ability_fauna_blast.mskillscriptjuice
+
+NPC fauna_06 < uid=4A8282B956DE05A7000000586AAA33D2 > : fauna_major
+{
+	myUIName_NonLocalized "Sun Sister"
+	myGraphObjectFile "onward/graph objects/character/fauna_06.mgraphobject"
+	myAbilityDefinitions
+	{
+		NPCAbilityDefinition Shoot
+		{
+			myGameAction NPC_Ability1
+			mySkillScript < uid=93869D535AA0541400364AE71DBF746F > = npc_ability_fauna_blast
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_fauna_06_shoot.juice"
+		}
+		NPCAbilityDefinition Shatter
+		{
+			myGameAction NPC_Ability2
+			mySkillScript < uid=C92F4D3F578CF19A016256EC8B2CF055 > = npc_ability_fauna_shatter
+			myInputType Hold_New
+			myEnabled FALSE
+		}
+		NPCAbilityDefinition Knockback
+		{
+			myGameAction NPC_Ability4
+			mySkillScript < uid=93869D535A9EB95E00001CDAAFC2EEE2 > = npc_ability_fauna_knockback
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_fauna_06_knockback.juice"
+		}
+	}
+	myPhysicsCapsuleHeight 4.0
+	myPhysicsSupportHeight -4.0
+	myPhysicsCapsuleRadius 3.0
+	myPhysicsPusherCapsuleRadius 4.5
+	myPhysicsPusherCapsule TRUE
+	myPhysicsCapsuleStart 0.0;8.5;-3.0
+	myPhysicsCapsuleEnd 0.0;14.5;3.0
+	myGroundOrientationFraction 0.3
+	myHitReactionConstants "onward/game system data/juice/combat/hitreactionsconstants_fauna_06.juice"
+	myPatternProfile < uid=4A8282B957F538E100000250C3B8EFB4 > = "Fauna 06"
+	myDefaultMotionPattern < uid=4A8282B957F538E100000251FDB1D673 > = "Fauna 06 Default"
+	myAvoidanceRadius 8.0
+	myNPCType Fauna_06
+	myAnimSystemType Fauna_06
+	myLeggedness Biped
+	myDefaultFootstepEvent 40BA6106333A91174912BF4C90EC73A3
+	myFootstepRealizationEventType FootstepMedium
+	myOnDeathChallenge Death_Fauna06
+	myOnDiscoveredChallenge Discover_Fauna06
+	myFullyScannedChallenge FullyScan_Fauna06
+}
+

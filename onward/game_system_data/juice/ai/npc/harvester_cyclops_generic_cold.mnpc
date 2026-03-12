@@ -1,0 +1,49 @@
+include ./harvester_cyclops_generic.mnpc
+include onward/skillscripts/npc_ability_cyclops_generic_grenade.mskillscriptjuice
+
+NPC harvester_cyclops_generic_cold < uid=4A8282B9587CF6660000042DBCB2E5C7 > : harvester_cyclops_generic
+{
+	myUIName "contextComment = \"[Placeholder - do not translate] The UI Name for the Cold Cyclops, shown when targeting it or viewing it in the database\", description = \"uiname-harvester-cyclops-cold-generic\", enabled = true, guid = #E9A1113559E8B414000000369F647B41, lineVersion = 2, maxLength = 30, text = \"Ice Cyclops\""
+	myUIName_NonLocalized "Elite Frost Giant"
+	myGraphObjectFile "onward/graph objects/character/harvester_12.mgraphobject"
+	myHealthConfig < uid=4A8282B959F8E75800001DBFD429A0B7 > = "harvester_cyclops_generic_cold Health"
+	mySunderReaction < uid=939A35415A83473000001B5D730C594B > = Cold_Infused_Cyclops_Sunder
+	myFireReaction < uid=939A35415A83473000001B5E59D3F2EE > = Cold_Infused_Cyclops_Fire
+	myChillReaction < uid=4A8282B958829091000013D194793020 > = Cold_Infused_Cyclops_Chill
+	myFreezeReaction < uid=939A354159BA861B000062CFA90D30BB > = Cold_Infused_Cyclops_Freeze
+	myAbilityDefinitions
+	{
+		NPCAbilityDefinition "Primary Attack - Gatling"
+		{
+			myGameAction NPC_Ability1
+			mySkillScript < uid=4A8282B9587CF6660000042E95636E9F > = harvester_cyclops_generic_gatling
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_harvester_cyclops_generic_gatling_cold.juice"
+		}
+		NPCAbilityDefinition "Secondary Attack - Grenade"
+		{
+			myGameAction NPC_Ability2
+			mySkillScript < uid=4A8282B9587F9B99004CB7C8507C36A3 > = npc_ability_cyclops_generic_grenade
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_harvester_cyclops_generic_grenade_cold.juice"
+		}
+	}
+	myResistanceSettings "onward/game system data/juice/ai/resistance/cold_infused_resistance.juice"
+	myCrowdControlAttributeSettings "onward/game system data/juice/ai/attributes/crowd control tiers/npc_cc_tier4.juice"
+	myDropTableOnDeath Kill_Cyclops_Cold_Drop_Table
+	myDropTableOnAffinityWeaknessDeathId AffinityKill_Cyclops_Cold
+	myDropTableOnDamage Cyclops_Affinity_Weakness
+	myDamageDropInterval 0.3
+	myIncludeDamageDropZero TRUE
+	myNPCType Harvester_Cyclops_Infused_Cold
+	myThreatLevel 7.0
+	myWeapon
+	{
+		myWeaponType Gatling
+		myDamageType Cold
+	}
+	myOnDeathChallenge Death_CyclopsGenericCold
+	myOnDiscoveredChallenge Discover_CyclopsGenericCold
+	myHackLevel 2
+	mySkillLevelOffset -1
+}
+

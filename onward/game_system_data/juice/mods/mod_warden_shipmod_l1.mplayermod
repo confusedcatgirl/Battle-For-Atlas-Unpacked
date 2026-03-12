@@ -1,0 +1,33 @@
+include ./template_hull.mplayermod
+
+float "Elemental Resistance" = Warden_Ship_Mod_l1_IncomingElemental
+
+PlayerMod mod_warden_shipmod_l1 < uid=939A35415A61015C00001BB6C90FD627 > : template_hull
+{
+	myAttributeMods
+	{
+		AttributeMod "Heat Resist"
+		{
+			myType DMG_Resist_Heat
+			myAddValue 0.0
+			myMultValue = "Elemental Resistance"
+		}
+		AttributeMod "Cold Resist"
+		{
+			myType DMG_Resist_Cold
+			myMultValue = "Elemental Resistance"
+		}
+		AttributeMod "Float Resist"
+		{
+			myType DMG_Resist_Float
+			myMultValue = "Elemental Resistance"
+		}
+		AttributeMod "Gravity Resist"
+		{
+			myType DMG_Resist_Crush
+			myMultValue = "Elemental Resistance"
+		}
+	}
+	myIsSelfMod TRUE
+}
+

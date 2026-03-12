@@ -1,0 +1,36 @@
+include ./templates/template_l4.juice
+include "onward/game system data/juice/mods/mod_fighter_shipcore_l4.mplayermod"
+include "onward/game system data/juice/mods/mod_elemental_shipcore_l4.mplayermod"
+include "onward/game system data/juice/buffs/buff_elemental_shipcore_l4.mbuff"
+include "onward/game system data/juice/mods/mod_nova_shipcore_l4.mplayermod"
+
+Enhancement novashipcore_l4 < uid=939A35415AB16D8300001BE2B8FF6852 > : "Level 4"
+{
+	myLocalizedName "contextComment = \"[Placeholder - do not translate]\nName for level 4 version of a Ship Core that greatly increases the ship's energy and elemental combo capabilities\", description = \"\", enabled = true, guid = #939A35415AB16D8300001BE0D0E8614F, lineVersion = 1, maxLength = 16, text = \"Nova Core IV\"}"
+	myLocalizedDescription "contextComment = \"[Placeholder - do not translate]\nDescription for level 4 version of a Ship Core that greatly increases the ship's energy and elemental combo capabilities\", description = \"enhancement-description-nova-ship-core-4\", enabled = true, guid = #939A35415AB16D8300001BE1E36ABFF8, lineVersion = 0, maxLength = 126, text = \"+45 Energy\n+25% Damage to affinity Imps & Cyclops\n+Boost after Affinity Combo\n+Parry applies Lift\"}"
+	myIconSprite "mySpriteId = -1455178886, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-mods-ship-core.spritesheet\""
+	myIsHullEnhancement TRUE
+	myMod < uid=939A35415AB16D8300001BE39636ADD2 > = mod_nova_shipcore_l4
+	myEnhancementType ShipCore
+	myEnhancementTrackType NovaShipCore
+	myDamageAffectors
+	{
+		DamageAffector_NPCType DamageToNPCType
+		{
+			myDamageMultiplier = Nova_Core_l4_ExtraDamage
+			myNPCTypes
+			{
+				NPCType "Cold Cyclops" Harvester_Cyclops_Cold
+				NPCType "Heat Cyclops" Harvester_Cyclops_Heat
+				NPCType "Crush Cyclops" Harvester_Cyclops_Crush
+				NPCType "Cold Giant" Harvester_Cyclops_Infused_Cold
+				NPCType "Crush Giant" Harvester_Cyclops_Infused_Crush
+				NPCType "Heat Giant" Harvester_Cyclops_Infused_Heat
+				NPCType "Cold Imp" Harvester_Imp_Cold
+				NPCType "Heat Imp" Harvester_Imp_Heat
+				NPCType "Crush Imp" Harvester_Imp_Crush
+			}
+		}
+	}
+}
+

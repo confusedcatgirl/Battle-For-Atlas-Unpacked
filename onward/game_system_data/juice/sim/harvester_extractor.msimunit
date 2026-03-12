@@ -1,0 +1,110 @@
+include "onward/game system data/fruit/sim/simunit.fruit"
+
+SimUnit harvester_extractor < uid=4A8282B95727A14B00000088813AAC03 >
+{
+	myUIName "contextComment = \"Extractor\", description = \"Extractor\", enabled = true, guid = #D1E9B2CB59021268000025113823A62C, lineVersion = 0, maxLength = 14, text = \"Extractor\""
+	myBehavior onward/simworld/behavior/harvester_extractor.msimunitbtgraph
+	myControlGraph onward/simworld/control/harvester_extractor.msimunitcontrolgraph
+	myFaction Harvester
+	myCategory Extractor
+	myMaxHealth 300.0
+	myRadius 20.0
+	myFindSettingsCategory Large
+	mySpeed 0.0
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo Extractor < uid=93869D53596E579B001050E5F023759F >
+		{
+			myCountMin 1
+			myCountMax 1
+			myEntitySize 20.0
+			myIgnoreHealth FALSE
+			myIgnoreNavMesh TRUE
+			mySpawnOutsideZone TRUE
+			myElementSpawnInfo
+			{
+				SimUnitElementSpawnInfo Extractor
+				{
+					myEntityFile "onward/entity templates/harvester_extractor_bronze.mentitytemplate"
+					myLevelMin -1
+					myLevelMax 9999
+				}
+			}
+		}
+		SimUnitEntitySpawnInfo Weakpoint < uid=93869D53596E579B001050E6207EC656 >
+		{
+			myCountMin 1
+			myCountMax 1
+			myIgnoreHealth TRUE
+			myIgnoreNavMesh TRUE
+			myIgnoreTerrain TRUE
+			myElementSpawnInfo
+			{
+				SimUnitElementSpawnInfo Weakpoint
+				{
+					myEntityFile "onward/entity templates/harvester_extractor_weakpoint.mentitytemplate"
+					myLevelMin -1
+					myLevelMax 999
+				}
+			}
+			myAttachParentSpawnInfoUID 93869D53596E579B001050E5F023759F
+			myAttachBoneCategory Weakpoints
+			myAttachBoneSocketIndex 0
+		}
+		SimUnitEntitySpawnInfo "Encounter Behavior" < uid=C92F4D3F5984BD99007793D14A3971AE >
+		{
+			myCountMin 1
+			myCountMax 1
+			myIgnoreHealth TRUE
+			myIgnoreNavMesh TRUE
+			myIgnoreTerrain TRUE
+			myElementSpawnInfo
+			{
+				SimUnitElementSpawnInfo harvester_extractor_encounter
+				{
+					myEntityFile "onward/game system data/juice/ai/npc/harvester_extractor_encounter.mnpc"
+				}
+			}
+			myAttachParentSpawnInfoUID 93869D53596E579B001050E5F023759F
+			myAttachBoneCategory CenterOfMass
+		}
+		SimUnitEntitySpawnInfo "Ring Eye" < uid=C92F4D3F5A3984350090B1E328E708C3 >
+		{
+			myCountMin 1
+			myCountMax 1
+			myIgnoreHealth TRUE
+			myIgnoreNavMesh TRUE
+			myIgnoreTerrain TRUE
+			myElementSpawnInfo
+			{
+				SimUnitElementSpawnInfo "Ring Eye"
+				{
+					myEntityFile "onward/entity templates/harvester_extractor_ring_eye.mentitytemplate"
+				}
+			}
+			myAttachParentSpawnInfoUID 93869D53596E579B001050E5F023759F
+			myAttachBoneCategory Muzzle
+			myAttachBoneSocketIndex 0
+		}
+	}
+	mySpawnOutsideZone TRUE
+	myDeathXPPayload UnitKilled_Extractor
+	myConstructionDuration 5.0
+	myUnlockedChallengeType Discover_Extractor
+	mySimUnitToSpawnWhenRemoved ./harvester_extractor_destroyed.msimunit
+	myRealizeOnLeader FALSE
+	myMaxKillableLevel 3
+	myPreserveSpawnInfo TRUE
+	mySkillLevelCoefficients
+	{
+		myPlanetActMultiplier 1
+		myUnitLevelMultiplier 1
+		myDormancyMultiplier 1
+		myBaseLevel 1
+	}
+	myMissionTargetTexture onward/baked/textures/UI/icons/outpost_targets/outpost_target_sim_unit/ui-icon-outpost-target-extractor.dds
+	myNeedsSaveOnAdd TRUE
+	myNeedsSaveOnRemove TRUE
+	mySetChildrenDestroyWhenSimulatedOnRemove TRUE
+}
+

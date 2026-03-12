@@ -1,0 +1,148 @@
+include ./base_npc.juice
+
+Attributes "Inherited Resistances" = "Base Resistances"
+
+Attributes "Inherited Shatter Values" = "Base Shatter Values"
+
+Attributes General
+{
+	Attribute "Jump when outside this range"
+	{
+		myType NPC_MaxRange1
+		myValue 200.0
+		myComment "range outside which mech will jump to close the distance"
+	}
+	Attribute "Missile Barrage Range"
+	{
+		myType NPC_MaxRange2
+		myValue 250.0
+		myHasMin FALSE
+		myMinValue 0.0
+		myHasMax FALSE
+		myMaxValue 0.0
+		myComment "range in which missiles will fire"
+	}
+	Attribute "Missile Barrage facing angle limit"
+	{
+		myType NPC_AttackCone1
+		myValue 60.0
+	}
+	Attribute "Rocket Fist Range"
+	{
+		myType NPC_MaxRange5
+		myValue 200.0
+		myMaxValue 0.0
+		myComment "max dist at which fist will fire"
+	}
+	Attribute "Rocket Fist facing angle limit"
+	{
+		myType NPC_AttackCone2
+		myValue 35.0
+		myComment "cone check for beginning fist attack"
+	}
+	Attribute "Corrosive Cannon Range"
+	{
+		myType NPC_MaxRange4
+		myValue 120.0
+		myHasMin FALSE
+		myMinValue 0.0
+		myHasMax FALSE
+		myMaxValue 0.0
+		myComment "range at which cannon will fire"
+	}
+	Attribute "Corrosive Cannon facing angle limit"
+	{
+		myType NPC_Spread_Horiz1
+		myValue 30.0
+		myComment "angle of cone in which mech will use corrosive cannon"
+	}
+	Attribute "Advance To Target Distance"
+	{
+		myType Range
+		myValue 30.0
+	}
+}
+
+Attributes Leap
+{
+	Attribute Cooldown
+	{
+		myType NPC_Cooldown3
+		myValue 10.0
+	}
+	Attribute "Stagger Event Emit Range"
+	{
+		myType NPC_MaxRange3
+		myValue 150.0
+	}
+	Attribute "Stagger Time"
+	{
+		myType NPC_UserData4
+		myValue 3.0
+	}
+}
+
+Attributes "Knock Back"
+{
+	Attribute Damage
+	{
+		myType NPC_Damage4
+		myValue 1500.0
+	}
+	Attribute Range
+	{
+		myType NPC_MinRange1
+		myValue 45.0
+	}
+}
+
+Attributes "Affinity Related"
+{
+	Attribute "Aura Radius"
+	{
+		myType NPC_Affinity_AuraRadius
+		myValue 35.0
+		myComment "This is modded by npc_mod_harvester_cyclops_cold_affinity_exit and used when exiting Affinity"
+	}
+	Attribute "Aura Status Effect Amount"
+	{
+		myType NPC_Affinity_AuraStatusEffectAmount
+		myValue 30.0
+		myComment "This is modded by npc_mod_harvester_cyclops_cold_affinity_exit and used when exiting Affinity"
+	}
+	Attribute "Aura Pulse Frequency"
+	{
+		myType NPC_Affinity_AuraPulseRate
+		myValue 0.5
+	}
+	Attribute "Exit Affinity Pulse Damage"
+	{
+		myType NPC_Affinity_Damage1
+		myValue 1000.0
+	}
+}
+
+Attributes Weakpoints
+{
+	Attribute "Phase 1 - Spine Time Before Hit (Duration1)"
+	{
+		myType NPC_Duration1
+		myValue 10.0
+	}
+	Attribute "Phase 1 - Spine Time After Hit (Duration2)"
+	{
+		myType NPC_Duration2
+		myValue 10.0
+	}
+	Attribute "Phase 2 - Spine Time Before Hit (Duration3)"
+	{
+		myType NPC_Duration3
+		myValue 10.0
+	}
+	Attribute "Phase 2 - Spine Time After Hit (Duration4)"
+	{
+		myType NPC_Duration4
+		myValue 5.0
+	}
+}
+

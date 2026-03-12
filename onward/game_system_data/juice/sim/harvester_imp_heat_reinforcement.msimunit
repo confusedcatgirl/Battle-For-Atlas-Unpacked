@@ -1,0 +1,37 @@
+include "onward/game system data/fruit/sim/simunit.fruit"
+
+SimUnit harvester_imp_heat_reinforcement < uid=93869D5358D172900000004CA32D898D >
+{
+	myBehavior onward/simworld/behavior/generic_reinforcement_volatile.msimunitbtgraph
+	myFaction Harvester
+	myCategory NPC
+	mySubCategory LegionReinforcement
+	myAffinityType Fire
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo imp_heat < uid=93869D535970E9E7034ABA707883B3DD >
+		{
+			myCountMin 1
+			myCountMax 1
+			myElementSpawnInfo
+			{
+				SimUnitElementSpawnInfo imp_heat
+				{
+					myEntityFile "onward/game system data/juice/ai/npc/harvester_imp_heat.mnpc"
+				}
+			}
+		}
+	}
+	mySaveable FALSE
+	myPreserveSpawnInfo TRUE
+	myIsValidPickupTarget FALSE
+	mySelfDestructAfterUnrealized TRUE
+	mySkillLevelCoefficients
+	{
+		myPlanetActMultiplier 0
+		myParentLevelMultiplier 0
+		myParentSkillLevelMultiplier 1
+		myUnitLevelMultiplier 0
+	}
+}
+

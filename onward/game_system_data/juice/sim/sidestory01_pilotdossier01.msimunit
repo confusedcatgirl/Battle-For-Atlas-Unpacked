@@ -1,0 +1,22 @@
+include "onward/game system data/fruit/sim/simunit.fruit"
+
+SimUnit sidestory01_pilotdossier01 < uid=0A13A8F05B15722B0003D950B1802EDD >
+{
+	myUIName "contextComment = \"This is the Pilot Dossier for Razor\", description = \"Pilot Dossier 01 - Razor\", enabled = true, guid = #CC9485AB5B43C9E300003996A522C86D, lineVersion = 0, maxLength = 23, text = \"[Pilot Dossier 01]\""
+	myCategory StoryTarget
+	mySubCategory Data
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo Entity < uid=0A13A8F05B15722B0003D9510A90E9F4 >
+		{
+			myCountMin 1
+			myCountMax 1
+			myIgnoreNavMesh TRUE
+			myIgnoreTerrain TRUE
+			myEntityFile "onward/entity templates/sidestory01_pilotdossier_canister.mentitytemplate"
+		}
+	}
+	myUnRealizableUntilEvent SideStory001_Seq01_SpawnPilotDossier1
+	myIsValidPickupTarget FALSE
+}
+

@@ -1,0 +1,27 @@
+include "onward/game system data/fruit/sim/simunit.fruit"
+
+SimUnit Sidestory001_Sequence04_MissionGiver < uid=0A13A8F05B0853D30006B7B247E23A7F >
+{
+	myUIName "contextComment = \"The station / lab of Dr thorn. The player comes up to this structure to talk to Dr thorn\", description = \"Dr Thorn's Lab - Sequence 06\", enabled = true, guid = #CC9485AB5B464CA7000757103B3A1C17, lineVersion = 0, maxLength = 21, text = \"[Dr Thorn's Lab]\""
+	myFaction Unaligned
+	myCategory StoryTarget
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo "New SimUnitEntitySpawnInfo (0)" < uid=0A13A8F05B0853D30006B7B348661CD6 >
+		{
+			myCountMin 1
+			myCountMax 1
+			myIgnoreNavMesh TRUE
+			myIgnoreTerrain FALSE
+			myEntityFile "onward/entity templates/sidestory001_sequence04_missiongiver.mentitytemplate"
+		}
+	}
+	myUnkillableUntilEvent NewGame
+	myUnRealizableUntilEvent SideStory001_Seq04_SpawnThorn
+	myIsValidPickupTarget FALSE
+	mySkillLevelCoefficients
+	{
+		mySkillLevelAffectsDamage FALSE
+	}
+}
+

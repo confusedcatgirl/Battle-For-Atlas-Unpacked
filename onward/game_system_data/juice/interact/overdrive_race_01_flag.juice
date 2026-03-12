@@ -1,0 +1,51 @@
+include "onward/game system data/fruit/interact/interact.fruit"
+include "onward/game system data/juice/ai/race/rubberbanding.juice"
+include "onward/game system data/juice/leaderboard/leaderboardinfo.juice"
+include "onward/game system data/fruit/progression/challenge_types.fruit"
+
+PilotTrialInteract PilotTrialFlag
+{
+	myInteractRange 215.0
+	myPilotTrialType Overdrive
+	myUIClubhouseRaceName "contextComment = \"The name of the Phantasm Chasm Race.\", description = \"ui-menu-race-name-phantasmchasm\", enabled = true, guid = #A08A88CF5C48B226000126CDF7B6DF8A, lineVersion = 0, maxLength = 18, text = \"Phantasm Chasm\""
+	myUIClubhouseRaceDescription "contextComment = \"A description of the phantasm chasm, as seen on the clubhouse menu.\", description = \"ui-menu-race-description-phantasmchasm\", enabled = true, guid = #A08A88CF5C48B23F000132D0A1F8CD4A, lineVersion = 0, maxLength = 39, text = \"[Phantasm Chasm - Description]\""
+	myFlythroughBinkPath onward/baked/videos/pilot_trials/flythroughs/pilot_trial_flythrough_overdrive_race_01.bk2
+	myLeaderboard < uid=F2ADB0475C3E1674000000409FABAF9B > = "Overdrive - Phantasm Chasm"
+	myNumberOfLaps 3
+	myNumberOfAIOpponents 3
+	myAssociatedUID B0DABE5B6A21D138A7CB47C4C498D3AA
+	myStuckTestEnabled TRUE
+	myStuckTestRespawnTimer 3.0
+	myWrongCheckpointTestEnabled FALSE
+	myMissedCheckpointTestEnabled TRUE
+	myWrongWayTestEnabled TRUE
+	myWrongWayTestTimer 5.0
+	myOffRaceTrackTestEnabled TRUE
+	myOffRaceTrackTestTimer 5.0
+	myOffRaceTrackTestDistance 115.0
+	myEnableAIPhysics TRUE
+	myDifficultyLevelOnePlayer AI_1_AbovePar_1_Par_1_BelowPar
+	myDifficultyLevelTwoPlayers AI_Par
+	myRubberBandingAbovePar < uid=5BF54C035C51D51B00A8164270AFAC6F > = "Chasm AbovePar Rubber Banding"
+	myRubberBandingPar < uid=5BF54C035C51D51B00A8164323716FD7 > = "Chasm Par Rubber Banding"
+	myRubberBandingBelowPar < uid=5BF54C035C51D51B00A8164425B5C8F5 > = "Chasm BelowPar Rubber Banding"
+	myRubberBandingDerealized < uid=5BF54C035C59A563000006353D0A3061 > = "Chasm Derealized Rubber Banding"
+	myBark_HitXBoost_BoostCount 3
+	myBark_HitXBoost_TimePerBoost 2.0
+	myUnlockCondition
+	{
+		PilotTrialInteract_UnlockOptions "Races Enabled"
+		{
+			ChallengeType "Races Enabled" Unlock_Races
+		}
+	}
+	myUnlockFactLabel Race_Unlocked_Phantoms
+	myRaceChallengeToAward Race_01_Win
+	myMiniMapTransform 1870.30603;-812.784485;-2403.76709;0.0;-0.06896;0.927548;-0.367287;0.0;951.637085;320.972992;631.91272;0.0;-241.358902;3246.416992;-1285.504028;1.0
+	myMiniMapTexture onward/baked/world_machine/stamps/race_01_track.dds
+	myCompletionDropTable Award_Race_Completion_Reward
+	myWinnerDropTable MissionDrop_Race_01
+	myMiniMapBounds 0.0;0.204;1.0;0.841
+	myMiniMapUpVector 1.0;0.0
+}
+

@@ -1,0 +1,18 @@
+include "onward/game system data/juice/story/sidestorymissions/sidestorymissioninfo.juice"
+include "onward/game system data/juice/story/partstories/sidestory_expedition.juice"
+
+SideStoryMissionInfo "Expedition SideStory MissionInfo 01" < uid=A08A88CF5C37BDBB0000003AA9F4FD8F >
+{
+	myMissionName "contextComment = \"The name of the side story mission for the Expedition faction.\", description = \"ui-sidestory-name-expedition\", enabled = true, guid = #A08A88CF5C37BDB2000000387E0BBA88, lineVersion = 0, maxLength = 36, text = \"[Expedition Side Story Name]\""
+	myMissionDescription "contextComment = \"A shortish (~100 character) description for the Expedition side story, as seen by players who have not yet started the sidequest.\", description = \"ui-sidestory-description-expedition\", enabled = true, guid = #A08A88CF5C37BDB20000003953844AD0, lineVersion = 0, maxLength = 46, text = \"[Expedition Side Story Description]\""
+	myStoryMissionSequence < uid=0A1D74E75C12BB870000003D5A53E537 > = SIDESTORY_EXPEDITION_01
+	myFaction Expedition
+	myIconSprite "mySpriteId = -299586229, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-sidestory-expedition.spritesheet\""
+	myStartStoryEvent TU5_Enable_Expedition_SideStory
+	myRequirementStoryEvents
+	{
+		StoryEvent "" Fern_LeaveOutpost
+	}
+	myRequirementDescription "contextComment = \"A short (one line in an outpost menu) detailing why the player cannot start the given side story. \", description = \"ui-sidestory-requirement-explanation-expedition\", enabled = true, guid = #A08A88CF5C6DA4CC00008D8A48D20740, lineVersion = 0, maxLength = 83, text = \"[Reason the player is unable to start the Expedition side story]\""
+}
+

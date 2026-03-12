@@ -1,0 +1,249 @@
+include "onward/game system data/fruit/progression/challenge_types.fruit"
+include "onward/game system data/fruit/attributes/attributes.fruit"
+include "onward/game system data/fruit/entity/faction.fruit"
+include "onward/game system data/fruit/mods/mod.fruit"
+
+list PointAmountList
+{
+	int
+}
+
+class ProgressionThresholds < abstract=1 >
+{
+}
+
+class ProgressionThresholdAuthored : ProgressionThresholds < uid=auto >
+{
+	PointAmountList				myPoints
+	bool						mySpilloverExcessToParent true
+}
+
+class ProgressionThresholdAlgorithmic  : ProgressionThresholds < uid=auto >
+{
+	int							myPointAmount 0
+	float						myMultiplicativeModifier 1
+	int							myAdditiveModifier 0
+	int							myMaximumPoints -1
+	int							myMaximumNumberOfThresholds -1
+	int							myMaximumIncrement -1
+}
+
+class ProgressionPartConfig
+{
+	string						myParts
+	ProgressionThresholds		myExperienceThresholds
+	bool						myAwardSkillPointOnThreshold
+}
+
+list ProgressionPartConfigList
+{
+	ProgressionPartConfig
+}
+
+enum OneOffEquinoxUpgrade < useCategories=1 >
+{
+	< startCategory="Errors" >
+	None
+	
+	< startCategory="GameCompletion" >
+	Unlock_FlightEngines
+	Unlock_AllEquinoxFacilities
+	Unlock_FinalBossFight
+	
+	< startCategory="Part_Customization" >
+	Unlock_Additional_Ship_Mod_Slot_1
+	Unlock_Additional_Ship_Mod_Slot_2
+	Unlock_Additional_Weapon_Mod_Slot_1
+	Unlock_Additional_Weapon_Mod_Slot_2
+	
+	< startCategory="Mods" >
+	Unlock_Common_Mod_Fusion
+	Unlock_Uncommon_Mod_Fusion
+	Unlock_Rare_Mod_Fusion
+	Unlock_Epic_Mod_Fusion
+	Unlock_Standard_Mod_Cloning
+	Unlock_Unique_Mod_Cloning
+	
+	< startCategory="Towing" >
+	Unlock_Pocket_1
+	Unlock_Pocket_2
+	Unlock_Easy_Plucking
+	Unlock_Pocket_3
+	Unlock_Pocket_4
+
+	< startCategory="Warden" >	
+	Unlock_FastTravel_SolvedWardenPuzzle
+	Unlock_BonusDamage_BaseArchetypes
+	Unlock_BonusDamage_InfusedArchetypes
+	Unlock_BonusDamage_EliteArchetypes
+	Unlock_BonusDamage_Weakpoints
+	
+	< startCategory="Expedition" >	
+	Unlock_Knowledge_GoldRushSpacePOI
+	Unlock_ModCollection_RuinsWrecks
+	Unlock_Knowledge_RuinsWrecks
+	Unlock_QuickRewards_Expedition
+	Unlock_AllyUnitShield
+	
+	< startCategory="Prospectors" >	
+	Unlock_BonusElectrum_ElectrumVeins
+	Unlock_Durability_AlliedUnits
+	Unlock_BonusElectrum_Deliveries
+	Unlock_QuickRewards_Prospectors
+	Unlock_AffinityWeapons_AlliedUnits
+	
+	< startCategory="Outlaws" >	
+	Unlock_FastTravel_SolvedOutlawBases
+	Unlock_BonusLoot_ExtraModDrop_1
+	Unlock_BonusDamage_AlliedUnits
+	Unlock_BonusLoot_ExtraModDrop_2
+	Unlock_Outlaw_EquipAnyMod
+	
+	< startCategory="OLDVALUES_FORDELETION" >
+	UnlockAdditionalHullModSlot
+	UnlockAdditionalHullModSlot
+	UnlockAdditionalPodModSlot
+	UnlockAdditionalModSlot
+	UnlockModFusion
+	PatchUp
+	RepairJumpDrive
+	ReplaceNovaDrive
+	TriggerAct5
+}
+
+enum UnlockCondition
+{
+	None
+	Total
+	SpecificPilot
+	Faction
+	Challenge
+	PeakOverallAllianceControl
+}
+
+class UnlockRule
+{
+	UnlockCondition myCondition None
+	FactionType 	myFaction Unaligned
+	FactionList		myFactions
+	int 			myPilotID 0
+	int 			myReqSkillPoints 0
+	ChallengeType 	myChallengeType
+    int             myReqChallengeRepeatCount 1
+    int				myPeakOverallAllianceControl
+}
+
+class ProgressionPurchasable < uid=auto >
+{
+	varmap						myLocalizedName			< bhv = "localization" >
+	varmap						myLocalizedDescription	< bhv = "localization" >
+	varmap						myLocalizedUnlockDescription < bhv = "localization" >
+	OneOffEquinoxUpgrade		myOneOffUpgrade
+	ChallengeType				myAcquireChallenge
+	bool						myIsActiveWhileAbilityIsActive false
+	bool						myAffectsAllPilots false
+	Enhancement*				myEnhancement
+	UnlockRule					myUnlockRule
+	int							mySkillPointCost 1
+	int							myElectrumCost 0
+	int							myNovaCost 0
+	file						myLockedTexture
+	file						myUnpurchasedTexture
+	file						myPurchasedTexture
+
+	string						myLockedSprite < bhv="sprite" default = "mySpriteId = -1055208626, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-pilotskills-specialskills.spritesheet\"" >
+	string						myUnpurchasedSprite < bhv="sprite" default = "mySpriteId = -7184954, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-pilotskills-skills.spritesheet\"" >
+	string						myPurchasedSprite < bhv="sprite" default = "mySpriteId = 751243024, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-pilotskills-skills.spritesheet\"" >
+}
+
+list ProgressionPurchasableList
+{
+	ProgressionPurchasable
+}
+
+enum EquinoxFacility
+{
+	DriveReactor
+	Part_Upgrades
+	Mod_Upgrades
+	Towing_Upgrades
+	Warden_Upgrades
+	Expedition_Upgrades
+	Prospector_Upgrades
+	Outlaw_Upgrades
+}
+
+class EquinoxUpgradeSet
+{
+	EquinoxFacility myFacility
+	varmap myLocalizedName < bhv = "localization" >
+	varmap myLocalizedDescription < bhv = "localization" >
+	file myIcon
+	string	mySprite < bhv="sprite" default = "mySpriteId = -1055208626, mySpritesheet = F\"onward/ui/spritesheets/ui-equinox-centerpiece-icons.spritesheet\"" >
+	ProgressionPurchasableList myUpgrades
+}
+
+enum PilotSkillType
+{
+	Keystone
+	Ability
+	Playstyle
+	Stat
+}
+
+class PilotSkill < uid=auto >
+{
+	int 						myTier
+	PilotSkillType				myType
+	varmap						myLocalizedName			< bhv = "localization" >
+	varmap						myLocalizedDescription	< bhv = "localization" >
+	string						myLockedSprite 			< bhv="sprite" default = "mySpriteId = -1055208626, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-pilotskills-specialskills.spritesheet\"" >
+	string						myUnpurchasedSprite 	< bhv="sprite" default = "mySpriteId = -7184954, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-pilotskills-skills.spritesheet\"" >
+	string						myPurchasedSprite 		< bhv="sprite" default = "mySpriteId = 751243024, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-pilotskills-skills.spritesheet\"" >
+	ProgressionPurchasableList 	myLevels
+}
+
+list PilotSkillList
+{
+	PilotSkill
+}
+
+class ProgressionPurchasableConfig
+{
+	int							myHardwareId
+	int							mySkillPointsToUnlockTier1 2
+	int							mySkillPointsToUnlockTier2 4
+	int							mySkillPointsToUnlockTier3 6
+	PilotSkillList				myPilotSkills
+}
+
+list ProgressionPurchasableConfigList
+{
+	ProgressionPurchasableConfig
+}
+
+class GameCompletionChallengeData
+{
+	ChallengeType myType
+	float myGameCompletion 1.0f
+	bool myPerUniqueInstance < tooltip="Award completion for every unique instance, otherwise will award for *every* instance" >
+	int myMaxInstances 1 < tooltip="Max times completion can be awarded" >
+}
+
+list GameCompletionChallengeDataList
+{
+	GameCompletionChallengeData
+}
+
+class GameCompletionData
+{
+	float 	myMinPlanetCompletion 0.5		< tooltip="Remap this value to MinPlanetGameCompletion" >
+	float 	myMinPlanetGameCompletion 1.0	< tooltip="Amount of Game Completion awarded upon acheiving Min Planet Completion" >
+	float 	myMaxPlanetCompletion 0.9		< tooltip="Remap this value to MaxPlanetGameCompletion" >
+	float 	myMaxPlanetGameCompletion 2.0	< tooltip="Amount of Game Completion awarded upon acheiving Min Planet Completion" >
+	float 	myDatabaseWeight 0.5			< tooltip="db weight + logs weight = 1" >
+	float 	myLogsWeight 0.5				< tooltip="db weight + logs weight = 1" >
+	int 	myCollectiblesCompletion 15		< tooltip="Amount of Game Completion awarded upon acheiving 100% in database and log entries." >
+	float 	myWardenModsCompletion 1.25 	< tooltip="Amount of Game Completion awarded upon finding a Warden Mod" >
+	GameCompletionChallengeDataList myGameCompletionChallengeData
+}

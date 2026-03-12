@@ -1,0 +1,112 @@
+include "onward/game system data/fruit/fogofwar/simunitdiscoverysettings.fruit"
+
+SimUnitDiscoverySet "Allied Observatories Grant Knowledge of a bunch of different units"
+{
+	mySimUnitFilter
+	{
+		myCategoryList
+		{
+			SimUnitCategory Outpost Outpost
+		}
+		mySubCategoryList
+		{
+			SimUnitSubCategory "New SimUnitSubCategory (0)" ObservationDeck
+		}
+	}
+	myDiscoveryTargets
+	{
+		SimUnitDiscoveryUnitSearch "All Outposts"
+		{
+			myKnowledgeToGrant 100.0
+			myUnitFilter
+			{
+				myCategoryList
+				{
+					SimUnitCategory Outpost Outpost
+				}
+				mySubCategoryList
+				{
+					SimUnitSubCategory Observatory ObservationDeck
+					SimUnitSubCategory Research ResearchBase
+					SimUnitSubCategory "Mining Center" MiningCenter
+					SimUnitSubCategory Armory DefenseBase
+				}
+				myFactionList
+				{
+				}
+			}
+			mySearchRadius 7000.0
+			myMaxUnitsToDiscover -1
+		}
+		SimUnitDiscoveryUnitSearch "All Empty Outposts"
+		{
+			myKnowledgeToGrant 100.0
+			myUnitFilter
+			{
+				myCategoryList
+				{
+					SimUnitCategory outpost Outpost
+				}
+				mySubCategoryList
+				{
+					SimUnitSubCategory "empty outpost" EmptyOutpost
+				}
+			}
+			mySearchRadius 7000.0
+			myMaxUnitsToDiscover -1
+		}
+		SimUnitDiscoveryUnitSearch "All Creep Sheds"
+		{
+			myKnowledgeToGrant 100.0
+			myUnitFilter
+			{
+				myCategoryList
+				{
+					SimUnitCategory outpost Outpost
+				}
+				mySubCategoryList
+				{
+					SimUnitSubCategory "creep shed" CreepShed
+				}
+			}
+			mySearchRadius 7000.0
+			myMaxUnitsToDiscover -1
+		}
+	}
+}
+
+SimUnitDiscoverySet "Allied Refinery Grants Knowledge of all Electrum Veins in Radius"
+{
+	mySimUnitFilter
+	{
+		myCategoryList
+		{
+			SimUnitCategory Outpost Outpost
+		}
+		mySubCategoryList
+		{
+			SimUnitSubCategory Refinery MiningCenter
+		}
+	}
+	myDiscoveryTargets
+	{
+		SimUnitDiscoveryUnitSearch "Electrum veins in range"
+		{
+			myKnowledgeToGrant 100.0
+			myUnitFilter
+			{
+				myCategoryList
+				{
+					SimUnitCategory "Resource Category" Resource
+				}
+				mySubCategoryList
+				{
+					SimUnitSubCategory "ElectrumVein SubCat" ElectrumVein
+				}
+			}
+			mySearchRadius 2000.0
+			myMaxUnitsToDiscover -1
+		}
+	}
+}
+

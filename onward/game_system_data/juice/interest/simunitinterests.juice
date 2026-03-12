@@ -1,0 +1,5102 @@
+include "onward/game system data/juice/sim/pickup_goldrush_air_filter.msimunit"
+include "onward/game system data/juice/sim/harvester_prime.msimunit"
+include "onward/game system data/juice/sim/harvester_probe.msimunit"
+include "onward/game system data/juice/sim/harvester_extractor.msimunit"
+include "onward/game system data/juice/sim/tower_repair.msimunit"
+include "onward/game system data/juice/sim/tower_hopper.msimunit"
+include "onward/game system data/juice/sim/tower_observation.msimunit"
+include "onward/game system data/juice/sim/tower_watchtower.msimunit"
+include ./playerinterest.juice
+include "onward/game system data/juice/sim/harvester_dreadnought.msimunit"
+include "onward/game system data/juice/sim/expedition_pickup02.msimunit"
+include "onward/game system data/juice/sim/prospector_pickup01.msimunit"
+include "onward/game system data/juice/sim/prospector_pickup02.msimunit"
+include "onward/game system data/juice/sim/pickup_infused_electrum_bomb.msimunit"
+include "onward/game system data/juice/sim/act_2_haven_mining_center.msimunit"
+include "onward/game system data/juice/sim/act_1_observation_deck.msimunit"
+include "onward/game system data/juice/sim/pickup_rareprop_p01b01.msimunit"
+include "onward/game system data/juice/sim/pickup_rareprop_p01b02.msimunit"
+include "onward/game system data/juice/sim/pickup_rareprop_p01b03.msimunit"
+include "onward/game system data/juice/sim/pickup_rareprop_p03b01.msimunit"
+include "onward/game system data/juice/sim/pickup_rareprop_p03b02.msimunit"
+include "onward/game system data/juice/sim/pickup_rareprop_p03b03.msimunit"
+include "onward/game system data/juice/sim/pickup_rareprop_p04b01.msimunit"
+include "onward/game system data/juice/sim/pickup_rareprop_p04b02.msimunit"
+include "onward/game system data/juice/sim/pickup_rareprop_p04b03.msimunit"
+include "onward/game system data/juice/sim/pickup_rareprop_p05b01.msimunit"
+include "onward/game system data/juice/sim/pickup_rareprop_p05b02.msimunit"
+include "onward/game system data/juice/sim/pickup_rareprop_p05b03.msimunit"
+include "onward/game system data/juice/sim/pickup_rareprop_p07b01.msimunit"
+include "onward/game system data/juice/sim/pickup_rareprop_p07b02.msimunit"
+include "onward/game system data/juice/sim/pickup_rareprop_p07b03.msimunit"
+include "onward/game system data/juice/sim/pickup_rareprop_p08b01.msimunit"
+include "onward/game system data/juice/sim/pickup_rareprop_p08b02.msimunit"
+include "onward/game system data/juice/sim/pickup_rareprop_p08b03.msimunit"
+include "onward/game system data/juice/sim/pickup_rareprop_p15b01.msimunit"
+include "onward/game system data/juice/sim/pickup_rareprop_p15b02.msimunit"
+include "onward/game system data/juice/sim/pickup_rareprop_p15b03.msimunit"
+include "onward/game system data/juice/sim/expedition_worker.msimunit"
+include "onward/game system data/juice/sim/prospector_worker.msimunit"
+include "onward/game system data/juice/sim/expedition_defender.msimunit"
+include "onward/game system data/juice/sim/prospector_defender.msimunit"
+include "onward/game system data/juice/sim/act_2_sonatus_observatory.msimunit"
+include "onward/game system data/juice/sim/act_3_vylus_observatory.msimunit"
+include ./playerspaceinterest.juice
+
+InterestDistanceDefinitions InterestDistanceDefinitions
+{
+	InterestDistanceDefinition Zero
+	{
+	}
+	InterestDistanceDefinition "Very Close"
+	{
+		myInterestDistance VeryClose
+		myDistance 300.0
+	}
+	InterestDistanceDefinition Close
+	{
+		myInterestDistance Close
+		myDistance 1000.0
+	}
+	InterestDistanceDefinition Medium
+	{
+		myInterestDistance Medium
+		myDistance 1750.0
+	}
+	InterestDistanceDefinition Far
+	{
+		myInterestDistance Far
+		myDistance 2500.0
+	}
+	InterestDistanceDefinition VeryFar
+	{
+		myInterestDistance VeryFar
+		myDistance 4000.0
+	}
+	InterestDistanceDefinition "PlanetWide - distance defined in code but need this placeholder"
+	{
+		myInterestDistance PlanetWide
+		myDistance -1.0
+	}
+	InterestDistanceDefinition "SolarSystem - distance defined in code but need this placeholder"
+	{
+		myInterestDistance SolarSystem
+		myDistance -1.0
+	}
+}
+
+InterestSet "Expedition Outpost - Observation Deck" < uid=4A79E0E4591F2F32000001E3393D33B1 >
+{
+	mySimUnit < uid=4A79E0E4591F2F32000001E4B117A1BA > = expedition_observation_deck
+	myInterestList
+	{
+		InterestPriority Prime < uid=4A79E0E4591F53B3000001E5EEF024C1 > : "Legion Prime"
+		{
+			myMaxDistance VeryClose
+		}
+		InterestPriority "Raider Giant" < uid=4A79E0E45A33FC320000225881C87D67 > : "Affinity Giant"
+		{
+			myMaxDistance VeryClose
+			mySetSelfAsTarget TRUE
+		}
+		InterestPriority "Raiding Party" < uid=4A79E0E4599EF055000000353936477B > : "Raiding Party"
+		{
+			myMaxDistance VeryClose
+			mySetSelfAsTarget TRUE
+		}
+		InterestPriority Extractor < uid=4A79E0E459A0348700000035F4A6F989 > : Extractor
+		{
+			myMaxDistance VeryClose
+		}
+		InterestPriority "Child Under Attack" < uid=4A79E0E459248053000002B25996AAD5 > : "Child Under Attack"
+		{
+			myEnabled TRUE
+			myMaxDistance VeryClose
+			mySetSelfAsTarget TRUE
+		}
+		InterestPriorityBucket Survival < uid=4A79E0E45A25BE6D0000200150402289 >
+		{
+			myInterestList
+			{
+				InterestPriorityDynamic "Child Under Attack" < uid=4A79E0E45A25BE6D00002002CE302FAB > : "Child Under Attack"
+				{
+					myEnabled TRUE
+					myMinDistance VeryClose
+					myMaxDistance Close
+					myWeight 5
+				}
+				InterestPriorityDynamic Prime < uid=4A79E0E45A25BE6D000020035227D2D8 > : "Legion Prime"
+				{
+					myMinDistance VeryClose
+					myMaxDistance Close
+					myWeight 15
+				}
+				InterestPriorityDynamic "Raider Giant" < uid=4A79E0E45A33FC63000022590BC2F411 > : "Affinity Giant"
+				{
+					myMinDistance VeryClose
+					myMaxDistance Close
+					myWeight 12
+				}
+				InterestPriorityDynamic "Raiding Party" < uid=4A79E0E45A25BE6D000020044CB8B6F1 > : "Raiding Party"
+				{
+					myMinDistance VeryClose
+					myMaxDistance Close
+					myWeight 10
+				}
+				InterestPriorityDynamic "Raiding Party" < uid=4A79E0E45A25BE6D000020051DBD8185 > : "Raiding Party"
+				{
+					myMinDistance VeryClose
+					myMaxDistance Close
+					myWeight 10
+				}
+				InterestPriorityDynamic Extractor < uid=4A79E0E45A25BE6D0000200652BFB8EE > : Extractor
+				{
+					myMinDistance VeryClose
+					myMaxDistance Medium
+					myWeight 5
+				}
+			}
+		}
+		InterestPriorityBucket "Dormant Legion" < uid=1E68E5355A679A5300001BAA78DDCF64 >
+		{
+			myInterestList
+			{
+				InterestPriorityDynamic "Extractor (Dormant)" < uid=1E68E5355A679A5300001BAB0F9DB415 > : "Extractor (Dormant)"
+				{
+					myMaxDistance Close
+				}
+				InterestPriorityDynamic "Affinity Giant (Dormant)" < uid=1E68E5355A679A5300001BACEC09EE78 > : "Affinity Giant (Dormant)"
+				{
+					myMaxDistance Close
+				}
+				InterestPriorityDynamic "Raiding Party (Dormant)" < uid=1E68E5355A679A5300001BADC0C10457 > : "Raiding Party (Dormant)"
+				{
+					myMaxDistance Close
+				}
+			}
+		}
+		InterestPriorityBucket "Expansion Interests" < uid=4A79E0E45924480B0000006CF8665F36 >
+		{
+			myInterestList
+			{
+				InterestPriorityDynamic Extractor < uid=4A79E0E45A81BDD400001B5D3D833A63 > : Extractor
+				{
+					myMinDistance Close
+					myMaxDistance Far
+					myWeight 12
+				}
+				InterestPriorityDynamic "Warden Puzzle (Unsolved)" < uid=4A79E0E459B6B21E00000037BEA4869D > : "Warden Puzzle (Unsolved)"
+				{
+					myMinDistance Close
+					myMaxDistance Far
+					myWeight 5
+				}
+				InterestPriorityDynamic "Corrupted Nova" < uid=4A79E0E4595263890000005A8003FB66 > : "Corrupted Nova (General)"
+				{
+					myMinDistance Close
+					myMaxDistance Far
+					myWeight 5
+				}
+				InterestPriorityDynamic Flora < uid=4A79E0E45995CFDD000000394DBB0D39 > : "Flora (General)"
+				{
+					myMinDistance Close
+					myMaxDistance Far
+					myWeight 3
+				}
+				InterestPriorityDynamic "Unallied Outpost" < uid=4A79E0E45924480B000000732F74B533 > : "Unallied Outpost"
+				{
+					myInterestComponents
+					{
+						InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+						{
+							myAllianceRequirement Allied
+						}
+						InterestPriorityComponentCategory Category
+						{
+							myCategory Outpost
+						}
+						InterestPriorityComponentFactionList "Faction List"
+						{
+							myFactions
+							{
+								FactionType Unaligned Expedition
+							}
+						}
+						InterestPriorityComponentCreepLevel "Creep Level"
+						{
+							myMinCreepLevel 0.0
+							myMaxCreepLevel 0.5
+						}
+						InterestPriorityComponentStoryAct "Story Act"
+						{
+							myMinAct 2
+						}
+					}
+					myMinDistance Close
+					myMaxDistance Far
+					myWeight 10
+				}
+				InterestPriorityDynamic "Sensor Array" < uid=4A79E0E45967BC280000005218E55FD6 > : "Expedition Observation Tower"
+				{
+					myEnabled TRUE
+					myInterestComponents
+					{
+						InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+						{
+							myAllianceRequirement Allied
+						}
+						InterestPriorityComponentCategory Category
+						{
+							myCategory Tower
+						}
+						InterestPriorityComponentSubCategory SubCategory
+						{
+							mySubCategory ObservatoryTower
+						}
+						InterestPriorityComponentFactionList "Faction List"
+						{
+							myFactions
+							{
+								FactionType "Expedition Allied" ExpeditionAllied
+								FactionType Expedition Expedition
+							}
+						}
+						InterestPriorityComponentStoryAct "Story Act"
+						{
+							myMinAct 2
+						}
+						InterestPriorityComponentAttachedToParent "Attached To Parent"
+						{
+							myIsNotAttachedTo TRUE
+							myAttachmentParentCategories
+							{
+								SimUnitCategory Category NPC
+							}
+							myAttachmentParentSubCategories
+							{
+								SimUnitSubCategory SubCategory Worker
+							}
+						}
+						InterestPriorityComponentHasInterestTarget "Has Interest Target"
+						{
+						}
+					}
+					mySearchRestriction Children
+					myMaxDistance Close
+					myWeight 12
+				}
+				InterestPriorityDynamic "Legion Data Core" < uid=4A79E0E459B6B376000000380506BEA8 > : "Legion Data Core"
+				{
+					myMinDistance Close
+					myMaxDistance Far
+					myWeight 8
+				}
+				InterestPriorityDynamic "Outpost Slot" < uid=4A79E0E45A8DBFB400001B5EBBB76F0D > : "Outpost Slot"
+				{
+					myMinDistance Close
+					myMaxDistance Far
+					myWeight 8
+				}
+				InterestPriorityDynamic "Fauna Analyzer" < uid=1E68E5355AF4A3AD00001E89FEF46287 > : "Fauna Analyzer"
+				{
+					myMaxDistance VeryClose
+					myWeight 12
+				}
+				InterestPriorityDynamic "Chest - TAG" < uid=1E68E5355AF5F6CD00001D9B66623452 > : "Chest - TAG"
+				{
+					myInterestComponents
+					{
+						InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+						{
+							myAllianceRequirement Allied
+						}
+						InterestPriorityComponentCategory Category
+						{
+							myCategory Puzzle
+						}
+						InterestPriorityComponentSubCategory SubCategory
+						{
+							mySubCategory Container
+						}
+						InterestPriorityComponentFaction Faction
+						{
+						}
+						InterestPriorityComponentSolvedState "Solved State"
+						{
+						}
+					}
+					myMinDistance Close
+					myMaxDistance Far
+					myWeight 5
+				}
+				InterestPriorityDynamic "Data Sample" < uid=4A79E0E45B04536800001DFA20A36306 > : "Data Sample"
+				{
+					myMinDistance Close
+					myMaxDistance Far
+					myWeight 10
+				}
+				InterestPriorityDynamic "Fauna Infection" < uid=1E68E5355B1595FF00001EF3F69FF82D > : "Fauna Infection"
+				{
+					myMinDistance Close
+					myMaxDistance Far
+					myWeight 10
+				}
+			}
+		}
+		InterestPriority "Far Child Under Attack" < uid=4A79E0E45924828A000002B432FC7890 > : "Child Under Attack"
+		{
+			myMinDistance Close
+			myMaxDistance Far
+		}
+		InterestPriorityBucket "Fallback Interests" < uid=4A79E0E4592446A000000064CAAC8218 >
+		{
+			myInterestList
+			{
+				InterestPriorityDynamic "Warden Puzzle (Unsolved)" < uid=4A79E0E459B6C6C400000039AA7A0B13 > : "Warden Puzzle (Unsolved)"
+				{
+					myMinDistance Far
+					myMaxDistance VeryFar
+					myWeight 5
+					myNeverSkip TRUE
+				}
+				InterestPriorityDynamic "Corrupted Nova" < uid=4A79E0E4595263B10000005B0096073F > : "Corrupted Nova (General)"
+				{
+					myMinDistance Far
+					myMaxDistance VeryFar
+					myWeight 5
+					myNeverSkip TRUE
+				}
+				InterestPriorityDynamic Flora < uid=4A79E0E45995D03D0000003AE5B879DB > : "Flora (General)"
+				{
+					myMinDistance Far
+					myMaxDistance VeryFar
+					myWeight 2
+					myNeverSkip TRUE
+				}
+				InterestPriorityDynamic "Unallied Outpost" < uid=4A79E0E4594006CA000000D1CE094A15 > : "Unallied Outpost"
+				{
+					myInterestComponents
+					{
+						InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+						{
+							myAllianceRequirement Allied
+						}
+						InterestPriorityComponentCategory Category
+						{
+							myCategory Outpost
+						}
+						InterestPriorityComponentFactionList "Faction List"
+						{
+							myFactions
+							{
+								FactionType Unaligned Expedition
+							}
+						}
+						InterestPriorityComponentCreepLevel "Creep Level"
+						{
+							myMinCreepLevel 0.0
+							myMaxCreepLevel 0.5
+						}
+						InterestPriorityComponentStoryAct "Story Act"
+						{
+							myMinAct 2
+						}
+					}
+					myMinDistance Far
+					myMaxDistance VeryFar
+					myWeight 10
+					myNeverSkip TRUE
+				}
+				InterestPriorityDynamic "Legion Data Core" < uid=4A79E0E45A7E007F00001B592D3C53B8 > : "Legion Data Core"
+				{
+					myMinDistance Far
+					myMaxDistance VeryFar
+					myWeight 8
+					myNeverSkip TRUE
+				}
+				InterestPriorityDynamic "Outpost Slot" < uid=4A79E0E45A8DBFDC00001B5FC267239F > : "Outpost Slot"
+				{
+					myMinDistance Far
+					myMaxDistance VeryFar
+					myWeight 8
+					myNeverSkip TRUE
+				}
+				InterestPriorityDynamic "Chest - TAG" < uid=1E68E5355AF5F6CD00001D9C6C8C12CD > : "Chest - TAG"
+				{
+					myInterestComponents
+					{
+						InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+						{
+							myAllianceRequirement Allied
+						}
+						InterestPriorityComponentCategory Category
+						{
+							myCategory Puzzle
+						}
+						InterestPriorityComponentSubCategory SubCategory
+						{
+							mySubCategory Container
+						}
+						InterestPriorityComponentFaction Faction
+						{
+						}
+						InterestPriorityComponentSolvedState "Solved State"
+						{
+						}
+					}
+					myMinDistance Far
+					myMaxDistance VeryFar
+					myWeight 5
+				}
+				InterestPriorityDynamic "Data Sample" < uid=4A79E0E45B04536800001DFBCA2F20AC > : "Data Sample"
+				{
+					myMinDistance Far
+					myMaxDistance VeryFar
+					myWeight 8
+					myNeverSkip TRUE
+				}
+				InterestPriorityDynamic "Fauna Infection" < uid=1E68E5355B15A22300024BD7B680105D > : "Fauna Infection"
+				{
+					myMinDistance Far
+					myMaxDistance VeryFar
+					myWeight 6
+				}
+			}
+		}
+		InterestPriorityBucket "Planetwide Fallback Interests" < uid=4A79E0E459A0362F00000037AE87A4CD >
+		{
+			myInterestList
+			{
+				InterestPriorityDynamic "Legion Data Core" < uid=1E68E53559B00C9F0000008409C9417F > : "Legion Data Core"
+				{
+					myMinDistance VeryFar
+					myMaxDistance PlanetWide
+					myWeight 10
+					myNeverSkip TRUE
+				}
+				InterestPriorityDynamic Flora < uid=4A79E0E459A0362F00000039873B3A80 > : "Flora (General)"
+				{
+					myInterestComponents
+					{
+						InterestPriorityComponentAllianceRequirement AllianceRequirement
+						{
+							myAllianceRequirement Either
+						}
+						InterestPriorityComponentCategory Category
+						{
+							myCategory Pickup
+						}
+						InterestPriorityComponentSubCategory SubCategory
+						{
+							mySubCategory RareFlora
+						}
+						InterestPriorityComponentCreepLevel "Creep Level"
+						{
+							myMaxCreepLevel 1.0
+						}
+						InterestPriorityComponentAttachedToParent "Attached To Parent"
+						{
+							myAttachmentParentCategories
+							{
+								SimUnitCategory Category PickupBase
+							}
+							myAttachmentParentSubCategories
+							{
+								SimUnitSubCategory SubCategory PluckableBase
+							}
+						}
+						InterestPriorityComponentStoryAct "Story Act"
+						{
+							myMinAct 2
+						}
+						InterestPriorityComponentSubCategoryVariant "SubCategoryVariant (1)"
+						{
+							myVariant 1
+						}
+						InterestPriorityComponentSubCategoryVariant "SubCategoryVariant (6)"
+						{
+							myVariant 6
+						}
+						InterestPriorityComponentSubCategoryVariant "SubCategoryVariant (9)"
+						{
+							myVariant 9
+						}
+						InterestPriorityComponentSubCategoryVariant "SubCategoryVariant (10)"
+						{
+							myVariant 10
+						}
+						InterestPriorityComponentSubCategoryVariant "SubCategoryVariant (13)"
+						{
+							myVariant 13
+						}
+						InterestPriorityComponentSubCategoryVariant "SubCategoryVariant (16)"
+						{
+							myVariant 16
+						}
+						InterestPriorityComponentSubCategoryVariant "SubCategoryVariant (20)"
+						{
+							myVariant 20
+						}
+					}
+					myMinDistance VeryFar
+					myWeight 10
+					myNeverSkip TRUE
+				}
+				InterestPriorityDynamic "Data Sample" < uid=4A79E0E45B0453B100001DFC3485C99E > : "Data Sample"
+				{
+					myMinDistance VeryFar
+					myWeight 10
+					myNeverSkip TRUE
+				}
+			}
+		}
+	}
+}
+
+InterestSet "Expedition Outpost - Research Base" < uid=4A79E0E459244D930000008EA25FDE8C >
+{
+	mySimUnit < uid=4A79E0E459244D930000008F1DD05901 > = expedition_research_base
+	myInterestList
+	{
+		InterestPriority Prime < uid=4A79E0E459244D9300000090D0812077 > : "Legion Prime"
+		{
+			myMaxDistance VeryClose
+		}
+		InterestPriority "Raider Giant" < uid=4A79E0E45A341A5E0000225A24FA88B7 > : "Affinity Giant"
+		{
+			myMaxDistance VeryClose
+			mySetSelfAsTarget TRUE
+		}
+		InterestPriority "Raiding Party" < uid=4A79E0E459A0373D0000003A2D2C57A3 > : "Raiding Party"
+		{
+			myMaxDistance VeryClose
+			mySetSelfAsTarget TRUE
+		}
+		InterestPriority Extractor < uid=4A79E0E459A03D9200000040EC4B1487 > : Extractor
+		{
+			myMaxDistance VeryClose
+		}
+		InterestPriority "Child Under Attack" < uid=4A79E0E459247DDB000002942AD84DD3 > : "Child Under Attack"
+		{
+			myEnabled TRUE
+			myMaxDistance VeryClose
+			mySetSelfAsTarget TRUE
+		}
+		InterestPriorityBucket Survival < uid=4A79E0E45A25BE0B00001FFB72FB48D5 >
+		{
+			myInterestList
+			{
+				InterestPriorityDynamic "Child Under Attack" < uid=4A79E0E45A25BE0B00001FFC3ABF4EF8 > : "Child Under Attack"
+				{
+					myEnabled TRUE
+					myMinDistance VeryClose
+					myMaxDistance Close
+					myWeight 5
+				}
+				InterestPriorityDynamic Prime < uid=4A79E0E45A25BE0B00001FFD9DA7877B > : "Legion Prime"
+				{
+					myMinDistance VeryClose
+					myMaxDistance Close
+					myWeight 15
+				}
+				InterestPriorityDynamic "Raider Giant" < uid=4A79E0E45A341A5E0000225B31447CAA > : "Affinity Giant"
+				{
+					myMinDistance VeryClose
+					myMaxDistance Close
+					myWeight 12
+				}
+				InterestPriorityDynamic "Raiding Party" < uid=4A79E0E45A25BE0B00001FFE9960F1C3 > : "Raiding Party"
+				{
+					myMinDistance VeryClose
+					myMaxDistance Close
+					myWeight 10
+				}
+				InterestPriorityDynamic "Raiding Party" < uid=4A79E0E45A25BE0B00001FFF3175BFDA > : "Raiding Party"
+				{
+					myMinDistance VeryClose
+					myMaxDistance Close
+					myWeight 10
+				}
+				InterestPriorityDynamic Extractor < uid=4A79E0E45A25BE0B00002000F17DFF82 > : Extractor
+				{
+					myMinDistance VeryClose
+					myMaxDistance Medium
+					myWeight 5
+				}
+			}
+		}
+		InterestPriorityBucket "Expansion Interests" < uid=4A79E0E459247E2C00000295AD6D2D4D >
+		{
+			myInterestList
+			{
+				InterestPriorityDynamic Extractor < uid=4A79E0E45A82077600001CF4D3E989E6 > : Extractor
+				{
+					myMinDistance Close
+					myMaxDistance Far
+					myWeight 10
+				}
+				InterestPriorityDynamic "Corrupted Nova" < uid=4A79E0E459526330000000581FA90578 > : "Corrupted Nova (General)"
+				{
+					myMinDistance Close
+					myMaxDistance Far
+					myWeight 12
+				}
+				InterestPriorityDynamic "Chest - X-Factor" < uid=4A79E0E459B802B700000041C1435F90 > : "Chest - X-Factor"
+				{
+					myInterestComponents
+					{
+						InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+						{
+						}
+						InterestPriorityComponentCategory Category
+						{
+							myCategory Landmark
+						}
+						InterestPriorityComponentSubCategory SubCategory
+						{
+							mySubCategory X_Factor
+						}
+						InterestPriorityComponentFaction Faction
+						{
+						}
+						InterestPriorityComponentStoryAct "Story Act"
+						{
+							myMinAct 2
+						}
+						InterestPriorityComponentStorySection "Story Section"
+						{
+							myStorySections
+							{
+								StorySection "Act 2 Gather Electrum" Act_02_GatherElectrum_GameLoop
+								StorySection "Act 4 Alliance Gameloop" Act_04_Alliance_GameLoop
+							}
+						}
+						InterestPriorityComponentSolvedState "Solved State"
+						{
+						}
+					}
+					myMinDistance Close
+					myMaxDistance Far
+					myWeight 5
+				}
+				InterestPriorityDynamic "Chest - TAG" < uid=4A79E0E459B804A500000043F3EBCAA8 > : "Chest - TAG"
+				{
+					myInterestComponents
+					{
+						InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+						{
+							myAllianceRequirement Allied
+						}
+						InterestPriorityComponentCategory Category
+						{
+							myCategory Puzzle
+						}
+						InterestPriorityComponentSubCategory SubCategory
+						{
+							mySubCategory Container
+						}
+						InterestPriorityComponentFaction Faction
+						{
+						}
+						InterestPriorityComponentSolvedState "Solved State"
+						{
+						}
+					}
+					myMinDistance Close
+					myMaxDistance Far
+					myWeight 5
+				}
+				InterestPriorityDynamic "Fauna Analyzer" < uid=4A79E0E459651B7D00000188626CE9F7 > : "Fauna Analyzer"
+				{
+					myMaxDistance VeryClose
+					myWeight 15
+				}
+				InterestPriorityDynamic "Fauna Samples" < uid=4A79E0E45A5E5C3200001CC220CA5EFB > : "Fauna Samples"
+				{
+					myMinDistance Close
+					myMaxDistance Far
+					myWeight 10
+				}
+				InterestPriorityDynamic "Unallied Outpost" < uid=4A79E0E4594049410000021A975DEA98 > : "Unallied Outpost"
+				{
+					myInterestComponents
+					{
+						InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+						{
+							myAllianceRequirement Allied
+						}
+						InterestPriorityComponentCategory Category
+						{
+							myCategory Outpost
+						}
+						InterestPriorityComponentCreepLevel "Creep Level"
+						{
+							myMinCreepLevel 0.0
+							myMaxCreepLevel 0.5
+						}
+						InterestPriorityComponentFactionList "Faction List"
+						{
+							myFactions
+							{
+								FactionType Expedition Expedition
+							}
+						}
+						InterestPriorityComponentStoryAct "Story Act"
+						{
+							myMinAct 2
+						}
+						InterestPriorityComponentStorySection "Story Section"
+						{
+							myStorySections
+							{
+								StorySection "Open Refinery Chest" Act_02_Refinery_Chest_Opened
+							}
+						}
+					}
+					myMinDistance Close
+					myMaxDistance Far
+					myWeight 12
+				}
+				InterestPriorityDynamic "Repair Station" < uid=4A79E0E45967BCC700000053098EF9E9 > : "Expedition Repair Station"
+				{
+					myEnabled TRUE
+					myInterestComponents
+					{
+						InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+						{
+							myAllianceRequirement Allied
+						}
+						InterestPriorityComponentCategory Category
+						{
+							myCategory Tower
+						}
+						InterestPriorityComponentSubCategory SubCategory
+						{
+							mySubCategory RepairStation
+						}
+						InterestPriorityComponentFactionList "Faction List"
+						{
+							myFactions
+							{
+								FactionType "Expedition Allied" ExpeditionAllied
+								FactionType Expedition Expedition
+							}
+						}
+						InterestPriorityComponentStoryAct "Story Act"
+						{
+							myMinAct 2
+						}
+						InterestPriorityComponentHasInterestTarget "Has Interest Target"
+						{
+						}
+						InterestPriorityComponentAttachedToParent "Attached to Parent"
+						{
+							myIsNotAttachedTo TRUE
+							myAttachmentParentCategories
+							{
+								SimUnitCategory Category NPC
+							}
+							myAttachmentParentSubCategories
+							{
+								SimUnitSubCategory SubCategory Worker
+							}
+						}
+					}
+					mySearchRestriction Children
+					myMaxDistance Close
+					myWeight 10
+				}
+				InterestPriorityDynamic "Data Sample" < uid=1E68E5355A6F410300001B076D568572 > : "Data Sample"
+				{
+					myEnabled TRUE
+					myMinDistance Close
+					myMaxDistance Far
+					myWeight 10
+				}
+				InterestPriorityDynamic "Outpost Slot" < uid=4A79E0E45A8DC29E00001B60627F345B > : "Outpost Slot"
+				{
+					myMinDistance Close
+					myMaxDistance Far
+					myWeight 8
+				}
+			}
+		}
+		InterestPriority "Child Under Attack" < uid=4A79E0E45924828A000002B577C97BDF > : "Child Under Attack"
+		{
+			myEnabled TRUE
+			myMinDistance Close
+			myMaxDistance Far
+		}
+		InterestPriorityBucket "Fallback Interests" < uid=4A79E0E459B81660000000442C1E48F9 >
+		{
+			myInterestList
+			{
+				InterestPriorityDynamic "Corrupted Nova" < uid=4A79E0E459B8166000000045F77A2D35 > : "Corrupted Nova (General)"
+				{
+					myMinDistance Far
+					myMaxDistance VeryFar
+					myWeight 12
+					myNeverSkip TRUE
+				}
+				InterestPriorityDynamic "Chest - X-Factor" < uid=4A79E0E459B8166000000046AFAC1C26 > : "Chest - X-Factor"
+				{
+					myInterestComponents
+					{
+						InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+						{
+						}
+						InterestPriorityComponentCategory Category
+						{
+							myCategory Landmark
+						}
+						InterestPriorityComponentSubCategory SubCategory
+						{
+							mySubCategory X_Factor
+						}
+						InterestPriorityComponentFaction Faction
+						{
+						}
+						InterestPriorityComponentStoryAct "Story Act"
+						{
+							myMinAct 2
+						}
+						InterestPriorityComponentStorySection "Story Section"
+						{
+							myStorySections
+							{
+								StorySection "Act 2 Gather Electrum" Act_02_GatherElectrum_GameLoop
+								StorySection "Act 4 Alliance Gameloop" Act_04_Alliance_GameLoop
+							}
+						}
+						InterestPriorityComponentSolvedState "Solved State"
+						{
+						}
+					}
+					myMinDistance Far
+					myMaxDistance VeryFar
+					myWeight 5
+					myNeverSkip TRUE
+				}
+				InterestPriorityDynamic "Chest - TAG" < uid=4A79E0E459B816600000004702BF3DF1 > : "Chest - TAG"
+				{
+					myInterestComponents
+					{
+						InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+						{
+							myAllianceRequirement Allied
+						}
+						InterestPriorityComponentCategory Category
+						{
+							myCategory Puzzle
+						}
+						InterestPriorityComponentSubCategory SubCategory
+						{
+							mySubCategory Container
+						}
+						InterestPriorityComponentFaction Faction
+						{
+						}
+						InterestPriorityComponentSolvedState "Solved State"
+						{
+						}
+					}
+					myMinDistance Far
+					myMaxDistance VeryFar
+					myWeight 5
+					myNeverSkip TRUE
+				}
+				InterestPriorityDynamic "Fauna Samples" < uid=4A79E0E45A820C5B00001CF557FE514F > : "Fauna Samples"
+				{
+					myMinDistance Far
+					myMaxDistance VeryFar
+					myWeight 10
+					myNeverSkip TRUE
+				}
+				InterestPriorityDynamic "Unallied Outpost" < uid=4A79E0E459B8166000000049FA0D69E8 > : "Unallied Outpost"
+				{
+					myInterestComponents
+					{
+						InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+						{
+							myAllianceRequirement Allied
+						}
+						InterestPriorityComponentCategory Category
+						{
+							myCategory Outpost
+						}
+						InterestPriorityComponentCreepLevel "Creep Level"
+						{
+							myMinCreepLevel 0.0
+							myMaxCreepLevel 0.5
+						}
+						InterestPriorityComponentFactionList "Faction List"
+						{
+							myFactions
+							{
+								FactionType Expedition Expedition
+							}
+						}
+						InterestPriorityComponentStoryAct "Story Act"
+						{
+							myMinAct 2
+						}
+						InterestPriorityComponentStorySection "Story Section"
+						{
+							myStorySections
+							{
+								StorySection "Open Refinery Chest" Act_02_Refinery_Chest_Opened
+							}
+						}
+					}
+					myMinDistance Far
+					myMaxDistance VeryFar
+					myWeight 12
+					myNeverSkip TRUE
+				}
+				InterestPriorityDynamic "Data Sample" < uid=1E68E5355A6F41EB00001B08C5EC468E > : "Data Sample"
+				{
+					myMinDistance Close
+					myMaxDistance Far
+					myWeight 5
+					myNeverSkip TRUE
+				}
+				InterestPriorityDynamic "Outpost Slot" < uid=4A79E0E45A8DC2C800001B615FFF1747 > : "Outpost Slot"
+				{
+					myMinDistance Far
+					myMaxDistance VeryFar
+					myWeight 8
+					myNeverSkip TRUE
+				}
+			}
+		}
+		InterestPriorityBucket "Planetwide Fallback Interests" < uid=4A79E0E459A03BE90000003C6D164A57 >
+		{
+			myInterestList
+			{
+				InterestPriorityDynamic "Corrupted Nova" < uid=4A79E0E459A03BE90000003E7C794AD7 > : "Corrupted Nova (General)"
+				{
+					myInterestComponents
+					{
+						InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+						{
+						}
+						InterestPriorityComponentCategory Category
+						{
+							myCategory Pickup
+						}
+						InterestPriorityComponentSubCategory SubCategory
+						{
+							mySubCategory ElectrumInfused
+						}
+						InterestPriorityComponentCreepLevel "Creep Level"
+						{
+							myMaxCreepLevel 1.0
+						}
+						InterestPriorityComponentAttachedToParent "Attached To Parent"
+						{
+							myAttachmentParentSubCategories
+							{
+								SimUnitSubCategory SubCategory ElectrumInfusedBase
+							}
+						}
+						InterestPriorityComponentStorySection "Story Section"
+						{
+							myStorySections
+							{
+								StorySection "Open Refinery Chest" Act_02_Refinery_Chest_Opened
+							}
+						}
+					}
+					myMinDistance VeryFar
+					myWeight 10
+					myNeverSkip TRUE
+				}
+				InterestPriorityDynamic "Fauna Samples" < uid=4A79E0E45A820EBD00001CF615175BEA > : "Fauna Samples"
+				{
+					myMinDistance VeryFar
+					myWeight 10
+					myNeverSkip TRUE
+				}
+			}
+		}
+	}
+}
+
+InterestSet "Prospector Outpost - Mining Center" < uid=F2C5C69258D0219F0000004BB83F7A11 >
+{
+	mySimUnit < uid=F2C5C69258D140010000004B325D03DA > = prospector_mining_center
+	myInterestList
+	{
+		InterestPriority Prime < uid=F2C5C69258EE796B0000004C5271EE5C > : "Legion Prime"
+		{
+			myMaxDistance VeryClose
+		}
+		InterestPriority "Raider Giant" < uid=4A79E0E45A341D180000225CF3A51CA0 > : "Affinity Giant"
+		{
+			myMaxDistance VeryClose
+			mySetSelfAsTarget TRUE
+		}
+		InterestPriority "Raiding Party" < uid=4A79E0E459A03ECF0000004255E817E0 > : "Raiding Party"
+		{
+			myInterestComponents
+			{
+				InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+				{
+					myAllianceRequirement Either
+				}
+				InterestPriorityComponentCategory Category
+				{
+					myCategory NPC
+				}
+				InterestPriorityComponentSubCategory SubCategory
+				{
+					mySubCategory Raider
+				}
+				InterestPriorityComponentFaction Faction
+				{
+					myFaction Harvester
+				}
+				InterestPriorityComponentStoryAct "Story Act"
+				{
+					myMinAct 2
+				}
+				InterestPriorityComponentStorySection "Story Section"
+				{
+					myStorySections
+					{
+						StorySection "Act 02 Refinery Chest Opened" Act_02_Refinery_Chest_Opened
+						StorySection "Act 03 BuildAlliance GameLoop" Act_03_BuildAlliance_GameLoop
+						StorySection "Act 04 Alliance GameLoop" Act_04_Alliance_GameLoop
+					}
+				}
+				InterestPriorityComponentDormancyState "Dormancy State"
+				{
+				}
+			}
+			myMaxDistance VeryClose
+			mySetSelfAsTarget TRUE
+		}
+		InterestPriority Extractor < uid=4A79E0E459A03F400000004457F754BF > : Extractor
+		{
+			myMaxDistance VeryClose
+		}
+		InterestPriority "Child Under Attack" < uid=4A79E0E4592480AD000002B3E095732F > : "Child Under Attack"
+		{
+			myEnabled TRUE
+			myMaxDistance VeryClose
+			mySetSelfAsTarget TRUE
+		}
+		InterestPriorityBucket Survival < uid=4A79E0E459F8841F00001C456BBB5CB7 >
+		{
+			myInterestList
+			{
+				InterestPriorityDynamic "Child Under Attack" < uid=4A79E0E459F8841F00001C46B835246D > : "Child Under Attack"
+				{
+					myEnabled TRUE
+					myMinDistance VeryClose
+					myMaxDistance Close
+					myWeight 5
+				}
+				InterestPriorityDynamic Prime < uid=4A79E0E459F8841F00001C4705731232 > : "Legion Prime"
+				{
+					myMinDistance VeryClose
+					myMaxDistance Close
+					myWeight 15
+				}
+				InterestPriorityDynamic "Raider Giant" < uid=4A79E0E45A341D3A0000225DEFDB1CB9 > : "Affinity Giant"
+				{
+					myMinDistance VeryClose
+					myMaxDistance Close
+					myWeight 12
+				}
+				InterestPriorityDynamic "Raiding Party" < uid=4A79E0E459F8841F00001C486F53EAA8 > : "Raiding Party"
+				{
+					myMinDistance VeryClose
+					myMaxDistance Close
+					myWeight 10
+				}
+				InterestPriorityDynamic "Raiding Party" < uid=4A79E0E459F8841F00001C49DEBC5D11 > : "Raiding Party"
+				{
+					myMinDistance VeryClose
+					myMaxDistance Close
+					myWeight 10
+				}
+				InterestPriorityDynamic Extractor < uid=4A79E0E459F8841F00001C4ACFBB1CE7 > : Extractor
+				{
+					myMinDistance VeryClose
+					myMaxDistance Medium
+					myWeight 5
+				}
+			}
+		}
+		InterestPriorityBucket "Dormant Legion" < uid=4A79E0E45A67919C00001B4820D8EA60 >
+		{
+			myInterestList
+			{
+				InterestPriorityDynamic "Extractor (Dormant)" < uid=4A79E0E45A67919C00001B49A0DE1ECA > : "Extractor (Dormant)"
+				{
+					myMaxDistance Close
+				}
+				InterestPriorityDynamic "Affinity Giant (Dormant)" < uid=4A79E0E45A67924600001B4B23DCD3CD > : "Affinity Giant (Dormant)"
+				{
+					myMaxDistance Close
+				}
+				InterestPriorityDynamic "Raiding Party (Dormant)" < uid=4A79E0E45A67924600001B4CC4B0B63C > : "Raiding Party (Dormant)"
+				{
+					myMaxDistance Close
+				}
+			}
+		}
+		InterestPriorityBucket "Expansion Interests" < uid=4A79E0E459024FF9000001D73AF06236 >
+		{
+			myInterestList
+			{
+				InterestPriorityDynamic "Minerals Rare" < uid=4A79E0E4590250B1000001DCF5A078CC > : "Minerals Rare"
+				{
+					myInterestComponents
+					{
+						InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+						{
+							myAllianceRequirement Either
+						}
+						InterestPriorityComponentCategory Category
+						{
+							myCategory Pickup
+						}
+						InterestPriorityComponentSubCategory SubCategory
+						{
+							mySubCategory MineralSampleRare
+						}
+						InterestPriorityComponentCreepLevel "Creep Level"
+						{
+							myMaxCreepLevel 0.5
+						}
+						InterestPriorityComponentAttachedToParent "Attached To Parent"
+						{
+							myAttachmentParentCategories
+							{
+								SimUnitCategory Category Resource
+							}
+							myAttachmentParentSubCategories
+							{
+								SimUnitSubCategory SubCategory MineralsRare
+							}
+						}
+						InterestPriorityComponentStorySection "Story Section"
+						{
+							myStorySections
+							{
+								StorySection "Act 02 Refinery Chest Opened" Act_02_Refinery_Chest_Opened
+								StorySection "Act 03 BuildAlliance GameLoop" Act_03_BuildAlliance_GameLoop
+								StorySection "Act 04 Alliance GameLoop" Act_04_Alliance_GameLoop
+							}
+						}
+						InterestPriorityComponentSubCategoryVariant "Sub Category Variant 1 (Allanite)"
+						{
+							myVariant 1
+						}
+					}
+					myMinDistance Close
+					myMaxDistance Far
+					myWeight 3
+				}
+				InterestPriorityDynamic "Goldrush Equipment" < uid=4A79E0E459024FF9000001D8A1EFF8C6 > : "Goldrush Equipment"
+				{
+					myInterestComponents
+					{
+						InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+						{
+							myAllianceRequirement Either
+						}
+						InterestPriorityComponentCategory Category
+						{
+							myCategory Pickup
+						}
+						InterestPriorityComponentSubCategory SubCategory
+						{
+							mySubCategory GoldrushEquipment
+						}
+						InterestPriorityComponentStorySection "Story Section"
+						{
+							myStorySections
+							{
+								StorySection "Act 02 Refinery Chest Opened" Act_02_Refinery_Chest_Opened
+								StorySection "Act 03 BuildAlliance GameLoop" Act_03_BuildAlliance_GameLoop
+								StorySection "Act 04 Alliance GameLoop" Act_04_Alliance_GameLoop
+							}
+						}
+						InterestPriorityComponentSubCategoryVariant "Sub Category Variant 1 (Fiber Wiring)"
+						{
+							myVariant 1
+						}
+						InterestPriorityComponentSubCategoryVariant "Sub Category Variant 3 (Heat Exchanger)"
+						{
+							myVariant 3
+						}
+						InterestPriorityComponentSubCategoryVariant "Sub Category Variant 4 (Fuel Cell)"
+						{
+							myVariant 4
+						}
+						InterestPriorityComponentSubCategoryVariant "Sub Category Variant 5 (Air Filter)"
+						{
+							myVariant 5
+						}
+					}
+					myMinDistance Close
+					myMaxDistance Far
+					myWeight 11
+				}
+				InterestPriorityDynamic "Goldrush Wreckage" < uid=4A79E0E459B824D80000004CD521EF51 > : "Goldrush Wreckage"
+				{
+					myMinDistance Close
+					myMaxDistance Far
+					myWeight 8
+				}
+				InterestPriorityDynamic "Corrupted Nova" < uid=4A79E0E4595262C20000005550070125 > : "Corrupted Nova (On RaiderGiant)"
+				{
+					myMinDistance Close
+					myMaxDistance Far
+					myWeight 10
+				}
+				InterestPriorityDynamic "Extractor Core" < uid=4A79E0E459B825650000004D44F29E34 > : "Extractor Core (On Extractor)"
+				{
+					myMinDistance Close
+					myMaxDistance Far
+					myWeight 10
+				}
+				InterestPriorityDynamic "Unallied Outpost" < uid=4A79E0E459025A48000001E85CC5F7B7 > : "Unallied Outpost"
+				{
+					myInterestComponents
+					{
+						InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+						{
+							myAllianceRequirement Allied
+						}
+						InterestPriorityComponentCategory Category
+						{
+							myCategory Outpost
+						}
+						InterestPriorityComponentFactionList "Faction List"
+						{
+							myFactions
+							{
+								FactionType Prospector Prospector
+							}
+						}
+						InterestPriorityComponentCreepLevel "Creep Level"
+						{
+							myMinCreepLevel 0.0
+							myMaxCreepLevel 0.5
+						}
+						InterestPriorityComponentStoryAct "Story Act"
+						{
+							myMinAct 2
+						}
+						InterestPriorityComponentStorySection "Story Section"
+						{
+							myStorySections
+							{
+								StorySection "New StorySection (0)" Act_02_Refinery_Chest_Opened
+							}
+						}
+					}
+					myMinDistance Close
+					myMaxDistance Far
+					myWeight 11
+				}
+				InterestPriorityDynamic "Electrum Hopper (Child)" < uid=4A79E0E45967BD29000000542CE49552 > : "Prospector Electrum Hopper"
+				{
+					myEnabled TRUE
+					myInterestComponents
+					{
+						InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+						{
+							myAllianceRequirement Allied
+						}
+						InterestPriorityComponentStorySection "Story Section"
+						{
+							myStorySections
+							{
+								StorySection "Chest Opened" Act_02_Refinery_Chest_Opened
+							}
+						}
+						InterestPriorityComponentCategory Category
+						{
+							myCategory Tower
+						}
+						InterestPriorityComponentSubCategory SubCategory
+						{
+							mySubCategory ElectrumHopper
+						}
+						InterestPriorityComponentFactionList "Faction List"
+						{
+							myFactions
+							{
+								FactionType "Prospector Allied" ProspectorAllied
+								FactionType Prospector Prospector
+							}
+						}
+						InterestPriorityComponentAttachedToParent "Attached to Parent"
+						{
+							myIsNotAttachedTo TRUE
+							myAttachmentParentCategories
+							{
+								SimUnitCategory Category NPC
+							}
+							myAttachmentParentSubCategories
+							{
+								SimUnitSubCategory SubCategory Worker
+							}
+						}
+						InterestPriorityComponentHasInterestTarget "Has Interest Target"
+						{
+						}
+					}
+					mySearchRestriction Children
+					myMaxDistance Close
+					myWeight 15
+				}
+				InterestPriorityDynamic "Outpost Slot" < uid=4A79E0E45A8DC34000001B625F30D4B2 > : "Outpost Slot"
+				{
+					myMinDistance Close
+					myMaxDistance Far
+					myWeight 5
+				}
+				InterestPriorityDynamic "Goldrush Site" < uid=4A79E0E45AFAE8F500001DB005447EC8 > : "Goldrush Site"
+				{
+					myMinDistance Close
+					myMaxDistance Far
+					myWeight 12
+				}
+				InterestPriorityDynamic "Outlaw Fusebox" < uid=4A79E0E45B7C6615000021F9A6599D31 > : "Outlaw Fusebox"
+				{
+					myEnabled TRUE
+					myMinDistance VeryClose
+					myMaxDistance Far
+					myWeight 12
+				}
+				InterestPriorityDynamic Battery < uid=1E68E5355AFDD5000055D0C77D6EEC2F > : Battery
+				{
+					myInterestComponents
+					{
+						InterestPriorityComponentCategory Category
+						{
+							myCategory Pickup
+						}
+						InterestPriorityComponentSubCategory SubCategory
+						{
+							mySubCategory Battery
+						}
+						InterestPriorityComponentStoryAct "Story Act"
+						{
+							myMinAct 2
+						}
+						InterestPriorityComponentFactionList "Faction List"
+						{
+							myFactions
+							{
+								FactionType "Prospector Allied" ProspectorAllied
+							}
+						}
+						InterestPriorityComponentStorySection "Story Section"
+						{
+							myStorySections
+							{
+								StorySection "Act 02 Refinery Chest Opened" Act_02_Refinery_Chest_Opened
+								StorySection "Act 03 Build Alliance GameLoop" Act_03_BuildAlliance_GameLoop
+								StorySection "Act 04 Alliance GameLoop" Act_04_Alliance_GameLoop
+							}
+						}
+						InterestPriorityComponentAttachedToParent "Attached To Parent"
+						{
+							myIsNotAttachedTo TRUE
+							myAttachmentParentFactions
+							{
+								FactionType Player Player
+							}
+						}
+					}
+					myMinDistance Zero
+					myMaxDistance Close
+					myWeight 12
+				}
+				InterestPriorityDynamic "Rogue Outlaws" < uid=1E68E5355B0D92AA0000208B68C5A6D1 > : "Rogue Outlaws"
+				{
+					myInterestComponents
+					{
+						InterestPriorityComponentCategory Category
+						{
+							myCategory NPC
+						}
+						InterestPriorityComponentSubCategory SubCategory
+						{
+							mySubCategory Rogue
+						}
+						InterestPriorityComponentFaction Faction
+						{
+							myFaction Outlaw
+						}
+						InterestPriorityComponentStoryAct "Story Act"
+						{
+							myMinAct 2
+						}
+						InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+						{
+						}
+						InterestPriorityComponentStorySection "Story Section"
+						{
+							myStorySections
+							{
+								StorySection "Act 02 Refinery Chest Opened" Act_02_Refinery_Chest_Opened
+								StorySection "Act 03 BuildAlliance GameLoop" Act_03_BuildAlliance_GameLoop
+								StorySection "Act 04 Alliance GameLoop" Act_04_Alliance_GameLoop
+							}
+						}
+					}
+					myMinDistance Close
+					myMaxDistance Far
+					myWeight 12
+				}
+			}
+		}
+		InterestPriority "Child Under Attack" < uid=4A79E0E459270DB60000004B18DB8277 > : "Child Under Attack"
+		{
+			myEnabled TRUE
+			myMinDistance Close
+			myMaxDistance Far
+		}
+		InterestPriorityBucket "Fallback Interests" < uid=4A79E0E459244D4400000085D72C2736 >
+		{
+			myInterestList
+			{
+				InterestPriorityDynamic "Minerals Rare" < uid=4A79E0E459B826650000004E098DAB06 > : "Minerals Rare"
+				{
+					myInterestComponents
+					{
+						InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+						{
+							myAllianceRequirement Either
+						}
+						InterestPriorityComponentCategory Category
+						{
+							myCategory Pickup
+						}
+						InterestPriorityComponentSubCategory SubCategory
+						{
+							mySubCategory MineralSampleRare
+						}
+						InterestPriorityComponentCreepLevel "Creep Level"
+						{
+							myMaxCreepLevel 0.5
+						}
+						InterestPriorityComponentAttachedToParent "Attached To Parent"
+						{
+							myAttachmentParentCategories
+							{
+								SimUnitCategory Category Resource
+							}
+							myAttachmentParentSubCategories
+							{
+								SimUnitSubCategory SubCategory MineralsRare
+							}
+						}
+						InterestPriorityComponentStorySection "Story Section"
+						{
+							myStorySections
+							{
+								StorySection "Act 02 Refinery Chest Opened" Act_02_Refinery_Chest_Opened
+								StorySection "Act 03 BuildAlliance GameLoop" Act_03_BuildAlliance_GameLoop
+								StorySection "Act 04 Alliance GameLoop" Act_04_Alliance_GameLoop
+							}
+						}
+						InterestPriorityComponentSubCategoryVariant "Sub Category Variant 1 (Allanite)"
+						{
+							myVariant 1
+						}
+					}
+					myMinDistance Far
+					myMaxDistance VeryFar
+					myWeight 3
+					myNeverSkip TRUE
+				}
+				InterestPriorityDynamic "Goldrush Equipment" < uid=4A79E0E459B826650000004FE0E26825 > : "Goldrush Equipment"
+				{
+					myInterestComponents
+					{
+						InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+						{
+							myAllianceRequirement Either
+						}
+						InterestPriorityComponentCategory Category
+						{
+							myCategory Pickup
+						}
+						InterestPriorityComponentSubCategory SubCategory
+						{
+							mySubCategory GoldrushEquipment
+						}
+						InterestPriorityComponentStorySection "Story Section"
+						{
+							myStorySections
+							{
+								StorySection "Act 02 Refinery Chest Opened" Act_02_Refinery_Chest_Opened
+								StorySection "Act 03 BuildAlliance GameLoop" Act_03_BuildAlliance_GameLoop
+								StorySection "Act 04 Alliance GameLoop" Act_04_Alliance_GameLoop
+							}
+						}
+						InterestPriorityComponentSubCategoryVariant "Sub Category Variant 1 (Fiber Wiring)"
+						{
+							myVariant 1
+						}
+						InterestPriorityComponentSubCategoryVariant "Sub Category Variant 2 (Act 2 Pickup)"
+						{
+							myVariant 2
+						}
+						InterestPriorityComponentSubCategoryVariant "Sub Category Variant 3 (Heat Exchanger)"
+						{
+							myVariant 3
+						}
+						InterestPriorityComponentSubCategoryVariant "Sub Category Variant 4 (Fuel Cell)"
+						{
+							myVariant 4
+						}
+						InterestPriorityComponentSubCategoryVariant "Sub Category Variant 5 (Air Filter)"
+						{
+							myVariant 5
+						}
+					}
+					myMinDistance Far
+					myMaxDistance VeryFar
+					myWeight 10
+					myNeverSkip TRUE
+				}
+				InterestPriorityDynamic "Goldrush Wreckage" < uid=4A79E0E459B82665000000503A63480F > : "Goldrush Wreckage"
+				{
+					myMinDistance Far
+					myMaxDistance VeryFar
+					myWeight 10
+					myNeverSkip TRUE
+				}
+				InterestPriorityDynamic "Goldrush Site" < uid=4A79E0E45AFAE92400001DB1FEA25A4D > : "Goldrush Site"
+				{
+					myMinDistance Far
+					myMaxDistance VeryFar
+					myWeight 12
+				}
+				InterestPriorityDynamic "Rogue Outlaws" < uid=1E68E5355B0D93080000208C42C3F23E > : "Rogue Outlaws"
+				{
+					myInterestComponents
+					{
+						InterestPriorityComponentCategory Category
+						{
+							myCategory NPC
+						}
+						InterestPriorityComponentSubCategory SubCategory
+						{
+							mySubCategory Rogue
+						}
+						InterestPriorityComponentFaction Faction
+						{
+							myFaction Outlaw
+						}
+						InterestPriorityComponentStoryAct "Story Act"
+						{
+							myMinAct 2
+						}
+						InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+						{
+						}
+						InterestPriorityComponentStorySection "Story Section"
+						{
+							myStorySections
+							{
+								StorySection "Act 02 Refinery Chest Opened" Act_02_Refinery_Chest_Opened
+								StorySection "Act 03 BuildAlliance GameLoop" Act_03_BuildAlliance_GameLoop
+								StorySection "Act 04 Alliance GameLoop" Act_04_Alliance_GameLoop
+							}
+						}
+					}
+					myMinDistance Far
+					myMaxDistance VeryFar
+					myWeight 12
+				}
+				InterestPriorityDynamic "Corrupted Nova" < uid=4A79E0E459B8266500000051EAB07249 > : "Corrupted Nova (On RaiderGiant)"
+				{
+					myMinDistance Far
+					myMaxDistance VeryFar
+					myWeight 10
+					myNeverSkip TRUE
+				}
+				InterestPriorityDynamic "Unallied Outpost" < uid=4A79E0E459B82665000000528E012182 > : "Unallied Outpost"
+				{
+					myInterestComponents
+					{
+						InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+						{
+							myAllianceRequirement Allied
+						}
+						InterestPriorityComponentCategory Category
+						{
+							myCategory Outpost
+						}
+						InterestPriorityComponentFactionList "Faction List"
+						{
+							myFactions
+							{
+								FactionType Prospector Prospector
+							}
+						}
+						InterestPriorityComponentCreepLevel "Creep Level"
+						{
+							myMinCreepLevel 0.0
+							myMaxCreepLevel 0.5
+						}
+						InterestPriorityComponentStoryAct "Story Act"
+						{
+							myMinAct 2
+						}
+						InterestPriorityComponentStorySection "Story Section"
+						{
+							myStorySections
+							{
+								StorySection "New StorySection (0)" Act_02_Refinery_Chest_Opened
+							}
+						}
+					}
+					myMinDistance Far
+					myMaxDistance VeryFar
+					myWeight 12
+					myNeverSkip TRUE
+				}
+				InterestPriorityDynamic "Outpost Slot" < uid=4A79E0E45A8DC36100001B63A4B07F10 > : "Outpost Slot"
+				{
+					myMinDistance Far
+					myMaxDistance VeryFar
+					myWeight 10
+					myNeverSkip TRUE
+				}
+				InterestPriorityDynamic "Outlaw Fusebox" < uid=4A79E0E45B7C666A000021FA15B7916A > : "Outlaw Fusebox"
+				{
+					myMinDistance Far
+					myMaxDistance VeryFar
+					myWeight 12
+					myNeverSkip TRUE
+				}
+			}
+		}
+		InterestPriorityBucket "Planetwide Fallback Interests" < uid=4A79E0E459A03FC2000000462F1C53D8 >
+		{
+			myInterestList
+			{
+				InterestPriorityDynamic "Goldrush Equipment" < uid=4A79E0E459A03FC200000047A86C22D9 > : "Goldrush Equipment"
+				{
+					myInterestComponents
+					{
+						InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+						{
+							myAllianceRequirement Either
+						}
+						InterestPriorityComponentCategory Category
+						{
+							myCategory Pickup
+						}
+						InterestPriorityComponentSubCategory SubCategory
+						{
+							mySubCategory GoldrushEquipment
+						}
+						InterestPriorityComponentStorySection "Story Section"
+						{
+							myStorySections
+							{
+								StorySection "Act 02 Refinery Chest Opened" Act_02_Refinery_Chest_Opened
+								StorySection "Act 03 BuildAlliance GameLoop" Act_03_BuildAlliance_GameLoop
+								StorySection "Act 04 Alliance GameLoop" Act_04_Alliance_GameLoop
+							}
+						}
+						InterestPriorityComponentSubCategoryVariant "Sub Category Variant 1 (Fiber Wiring)"
+						{
+							myVariant 1
+						}
+						InterestPriorityComponentSubCategoryVariant "Sub Category Variant 2 (Act 2 Pickup)"
+						{
+							myVariant 2
+						}
+						InterestPriorityComponentSubCategoryVariant "Sub Category Variant 3 (Heat Exchanger)"
+						{
+							myVariant 3
+						}
+						InterestPriorityComponentSubCategoryVariant "Sub Category Variant 4 (Fuel Cell)"
+						{
+							myVariant 4
+						}
+						InterestPriorityComponentSubCategoryVariant "Sub Category Variant 5 (Air Filter)"
+						{
+							myVariant 5
+						}
+					}
+					myMinDistance VeryFar
+					myWeight 10
+					myNeverSkip TRUE
+				}
+				InterestPriorityDynamic "Goldrush Wreckage" < uid=4A79E0E459B826A2000000537D51D327 > : "Goldrush Wreckage"
+				{
+					myMinDistance VeryFar
+					myWeight 10
+					myNeverSkip TRUE
+				}
+			}
+		}
+	}
+}
+
+InterestSet "Prospector Outpost - Defence Base" < uid=4A79E0E4591B52710000004BDDD83D8B >
+{
+	mySimUnit < uid=4A79E0E4591B52710000004C6DCF1C55 > = prospector_defense_base
+	myInterestList
+	{
+		InterestPriority Prime < uid=4A79E0E4591B570900000056D3FF7608 > : "Legion Prime"
+		{
+			myMaxDistance VeryClose
+		}
+		InterestPriority "Raider Giant" < uid=4A79E0E45A341EE20000225E1F948EC5 > : "Affinity Giant"
+		{
+			myMaxDistance VeryClose
+			mySetSelfAsTarget TRUE
+		}
+		InterestPriority "Raiding Party" < uid=4A79E0E459A0742E000000498FE4082D > : "Raiding Party"
+		{
+			myMaxDistance VeryClose
+			mySetSelfAsTarget TRUE
+		}
+		InterestPriority Extractor < uid=4A79E0E459A074B50000004B8B1890FC > : Extractor
+		{
+			myMaxDistance VeryClose
+		}
+		InterestPriority "Child under Attack" < uid=4A79E0E45924828A000002B69BE5B7F1 > : "Child Under Attack"
+		{
+			myEnabled TRUE
+			myMaxDistance VeryClose
+			mySetSelfAsTarget TRUE
+		}
+		InterestPriorityBucket Survival < uid=4A79E0E45A25BDBE00001FF57D6FB650 >
+		{
+			myInterestList
+			{
+				InterestPriorityDynamic "Child Under Attack" < uid=4A79E0E45A25BDBE00001FF6755E7B8A > : "Child Under Attack"
+				{
+					myEnabled TRUE
+					myMinDistance VeryClose
+					myMaxDistance Close
+					myWeight 5
+				}
+				InterestPriorityDynamic Prime < uid=4A79E0E45A25BDBE00001FF79B2B4CF5 > : "Legion Prime"
+				{
+					myMinDistance VeryClose
+					myMaxDistance Close
+					myWeight 15
+				}
+				InterestPriorityDynamic "Raider Giant" < uid=4A79E0E45A341EE20000225F0D2700B1 > : "Affinity Giant"
+				{
+					myMinDistance VeryClose
+					myMaxDistance Close
+					myWeight 12
+				}
+				InterestPriorityDynamic "Raiding Party" < uid=4A79E0E45A25BDBE00001FF835AFB476 > : "Raiding Party"
+				{
+					myMinDistance VeryClose
+					myMaxDistance Close
+					myWeight 10
+				}
+				InterestPriorityDynamic "Raiding Party" < uid=4A79E0E45A25BDBE00001FF9357259A5 > : "Raiding Party"
+				{
+					myMinDistance VeryClose
+					myMaxDistance Close
+					myWeight 10
+				}
+				InterestPriorityDynamic Extractor < uid=4A79E0E45A25BDBE00001FFAB376F6AA > : Extractor
+				{
+					myMinDistance VeryClose
+					myMaxDistance Medium
+					myWeight 5
+				}
+			}
+		}
+		InterestPriorityBucket "Expansion Interests" < uid=4A79E0E459244AAB0000007D40586037 >
+		{
+			myInterestList
+			{
+				InterestPriorityDynamic "Outpost Under Attack" < uid=4A79E0E459244AAB00000082BD618986 > : "Outpost Under Attack"
+				{
+					myMinDistance Close
+					myWeight 15
+				}
+				InterestPriorityDynamic "Raider Giant" < uid=4A79E0E45A341EE200002260D6BC5DA9 > : "Affinity Giant"
+				{
+					myMinDistance Close
+					myMaxDistance Far
+					myWeight 12
+				}
+				InterestPriorityDynamic "Raiding Party" < uid=4A79E0E459B941190000006D32B6EF10 > : "Raiding Party"
+				{
+					myMinDistance Close
+					myMaxDistance Far
+					myWeight 8
+				}
+				InterestPriorityDynamic "Corrupted Nova" < uid=4A79E0E4595263F10000005C57434090 > : "Corrupted Nova (On RaiderGiant)"
+				{
+					myInterestComponents
+					{
+						InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+						{
+							myAllianceRequirement Allied
+						}
+						InterestPriorityComponentCategory Category
+						{
+							myCategory Pickup
+						}
+						InterestPriorityComponentSubCategory SubCategory
+						{
+							mySubCategory ElectrumInfused
+						}
+						InterestPriorityComponentCreepLevel "Creep Level"
+						{
+							myMaxCreepLevel 1.0
+						}
+						InterestPriorityComponentAttachedToParent "Attached To Parent"
+						{
+							myAttachmentParentFactions
+							{
+								FactionType Faction Harvester
+							}
+							myAttachmentParentCategories
+							{
+								SimUnitCategory Category NPC
+							}
+							myAttachmentParentSubCategories
+							{
+								SimUnitSubCategory SubCategory RaiderGiant
+							}
+						}
+						InterestPriorityComponentStorySection "Story Section"
+						{
+							myStorySections
+							{
+								StorySection "Open Refinery Chest" Act_02_Refinery_Chest_Opened
+							}
+						}
+					}
+					myMinDistance Close
+					myMaxDistance Far
+					myWeight 5
+				}
+				InterestPriorityDynamic "Legion Flight Recorder" < uid=4A79E0E459B2EB8E00000085153ED0BF > : "Probe - Flight Recorder"
+				{
+					myMinDistance Close
+					myMaxDistance Far
+					myWeight 10
+				}
+				InterestPriorityDynamic "Creep Shed" < uid=4A79E0E459B942A40000006EB90D366E > : "Creep Shed"
+				{
+					myMinDistance Close
+					myMaxDistance Far
+					myWeight 5
+				}
+				InterestPriorityDynamic Extractor < uid=4A79E0E459B9433D0000006FB8D6BA69 > : Extractor
+				{
+					myMinDistance Close
+					myMaxDistance Far
+					myWeight 10
+				}
+				InterestPriorityDynamic "Extractor Core" < uid=4A79E0E459B9437300000070A32CCB25 > : "Extractor Core (On Extractor)"
+				{
+					myMinDistance Close
+					myMaxDistance Far
+					myWeight 12
+				}
+				InterestPriorityDynamic "Goldrush Wreckage" < uid=4A79E0E45A83137300001CF766F49302 > : "Goldrush Wreckage"
+				{
+					myMinDistance Close
+					myMaxDistance Far
+					myWeight 3
+				}
+				InterestPriorityDynamic "Watch Tower" < uid=4A79E0E45967BD80000000552F4610A8 > : "Prospector WatchTower"
+				{
+					myEnabled TRUE
+					myInterestComponents
+					{
+						InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+						{
+							myAllianceRequirement Allied
+						}
+						InterestPriorityComponentCategory Category
+						{
+							myCategory Tower
+						}
+						InterestPriorityComponentSubCategory SubCategory
+						{
+							mySubCategory Watchtower
+						}
+						InterestPriorityComponentFactionList "Faction List"
+						{
+							myFactions
+							{
+								FactionType "Prospector Allied" ProspectorAllied
+								FactionType Prospector Prospector
+							}
+						}
+						InterestPriorityComponentStoryAct "Story Act"
+						{
+							myMinAct 2
+						}
+						InterestPriorityComponentAttachedToParent "Attached to Parent"
+						{
+							myIsNotAttachedTo TRUE
+							myAttachmentParentCategories
+							{
+								SimUnitCategory Category NPC
+							}
+							myAttachmentParentSubCategories
+							{
+								SimUnitSubCategory SubCategory Worker
+							}
+						}
+						InterestPriorityComponentHasInterestTarget "Has Interest Target"
+						{
+						}
+					}
+					mySearchRestriction Children
+					myMaxDistance Close
+					myWeight 10
+				}
+				InterestPriorityDynamic "Outpost Slot" < uid=4A79E0E45A8DCD2400001B643FF65A31 > : "Outpost Slot"
+				{
+					myMinDistance Close
+					myMaxDistance Far
+					myWeight 5
+				}
+			}
+		}
+		InterestPriority "Child Under Attack" < uid=4A79E0E459270E210000004C8A979161 > : "Child Under Attack"
+		{
+			myEnabled TRUE
+			myMinDistance Close
+			myMaxDistance Far
+		}
+		InterestPriorityBucket "Fallback Interests" < uid=4A79E0E459B948030000007126677E3F >
+		{
+			myInterestList
+			{
+				InterestPriorityDynamic "Raider Giant" < uid=4A79E0E45A341EE200002261E1B5AD13 > : "Affinity Giant"
+				{
+					myMinDistance Far
+					myMaxDistance VeryFar
+					myWeight 12
+					myNeverSkip TRUE
+				}
+				InterestPriorityDynamic "Raiding Party" < uid=4A79E0E459B9480300000072F60982DB > : "Raiding Party"
+				{
+					myMinDistance Far
+					myMaxDistance VeryFar
+					myWeight 8
+					myNeverSkip TRUE
+				}
+				InterestPriorityDynamic "Corrupted Nova" < uid=4A79E0E459B9480300000073FB016B81 > : "Corrupted Nova (On RaiderGiant)"
+				{
+					myInterestComponents
+					{
+						InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+						{
+							myAllianceRequirement Allied
+						}
+						InterestPriorityComponentCategory Category
+						{
+							myCategory Pickup
+						}
+						InterestPriorityComponentSubCategory SubCategory
+						{
+							mySubCategory ElectrumInfused
+						}
+						InterestPriorityComponentCreepLevel "Creep Level"
+						{
+							myMaxCreepLevel 1.0
+						}
+						InterestPriorityComponentAttachedToParent "Attached To Parent"
+						{
+							myAttachmentParentFactions
+							{
+								FactionType Faction Harvester
+							}
+							myAttachmentParentCategories
+							{
+								SimUnitCategory Category NPC
+							}
+							myAttachmentParentSubCategories
+							{
+								SimUnitSubCategory SubCategory RaiderGiant
+							}
+						}
+						InterestPriorityComponentStorySection "Story Section"
+						{
+							myStorySections
+							{
+								StorySection "Open Refinery Chest" Act_02_Refinery_Chest_Opened
+							}
+						}
+					}
+					myMinDistance Far
+					myMaxDistance VeryFar
+					myWeight 5
+					myNeverSkip TRUE
+				}
+				InterestPriorityDynamic "Legion Flight Recorder" < uid=4A79E0E459B94803000000743EB1E227 > : "Probe - Flight Recorder"
+				{
+					myMinDistance Far
+					myMaxDistance VeryFar
+					myWeight 10
+					myNeverSkip TRUE
+				}
+				InterestPriorityDynamic "Creep Shed" < uid=4A79E0E459B9480300000075233AF548 > : "Creep Shed"
+				{
+					myMinDistance Far
+					myMaxDistance VeryFar
+					myWeight 5
+					myNeverSkip TRUE
+				}
+				InterestPriorityDynamic Extractor < uid=4A79E0E459B9480300000076999FB4AE > : Extractor
+				{
+					myMinDistance Far
+					myMaxDistance VeryFar
+					myWeight 10
+					myNeverSkip TRUE
+				}
+				InterestPriorityDynamic "Extractor Core" < uid=4A79E0E459B94803000000776932997F > : "Extractor Core (On Extractor)"
+				{
+					myMinDistance Far
+					myMaxDistance VeryFar
+					myWeight 12
+					myNeverSkip TRUE
+				}
+				InterestPriorityDynamic "Goldrush Wreckage" < uid=4A79E0E45A83167700001CF8F9CD8083 > : "Goldrush Wreckage"
+				{
+					myMinDistance Far
+					myMaxDistance VeryFar
+					myWeight 3
+					myNeverSkip TRUE
+				}
+				InterestPriorityDynamic "Outpost Slot" < uid=4A79E0E45A8DCD2400001B65981437A7 > : "Outpost Slot"
+				{
+					myInterestComponents
+					{
+						InterestPriorityComponentCategory Category
+						{
+							myCategory OutpostSlot
+						}
+						InterestPriorityComponentFactionList "Faction List"
+						{
+							myFactions
+							{
+								FactionType Unaligned Unaligned
+								FactionType Harvester Harvester
+							}
+						}
+						InterestPriorityComponentStoryAct "Story Act"
+						{
+							myMinAct 3
+						}
+						InterestPriorityComponentStorySection "Story Sections"
+						{
+							myStorySections
+							{
+								StorySection "Act 3 - Build Alliance" Act_03_BuildAlliance_GameLoop
+								StorySection "Act 4 - Upgrade Starlink" Act_04_Upgrade_Starlink
+								StorySection "Act 4 - Alliance Gameloop" Act_04_Alliance_GameLoop
+							}
+						}
+						InterestPriorityComponentLevel Level
+						{
+							myMinimumLevel 1
+						}
+					}
+					myMinDistance Far
+					myMaxDistance VeryFar
+					myWeight 8
+					myNeverSkip TRUE
+				}
+			}
+		}
+		InterestPriorityBucket "Planetwide Fallback Interests" < uid=4A79E0E459B831C9000000545D52CFB2 >
+		{
+			myInterestList
+			{
+				InterestPriorityDynamic Extractor < uid=4A79E0E459B9484800000078D823EEA4 > : Extractor
+				{
+					myMinDistance VeryFar
+					myMaxDistance PlanetWide
+					myWeight 10
+					myNeverSkip TRUE
+				}
+				InterestPriorityDynamic "Extractor Core" < uid=4A79E0E459B94848000000792C47D05D > : "Extractor Core (On Extractor)"
+				{
+					myMinDistance VeryFar
+					myMaxDistance PlanetWide
+					myWeight 10
+					myNeverSkip TRUE
+				}
+				InterestPriorityDynamic "Goldrush Wreckage" < uid=4A79E0E45B0EADA000001DD17A08138D > : "Goldrush Wreckage"
+				{
+					myWeight 5
+					myNeverSkip TRUE
+				}
+			}
+		}
+	}
+}
+
+InterestSet "Expedition Tower - Repair Station" < uid=4A79E0E458FF9E70000001CD4DCE37B3 >
+{
+	mySimUnit < uid=4A79E0E458FF9E70000001CEEC92D192 > = tower_repair
+	myInterestList
+	{
+		InterestPriority Attacker < uid=4A79E0E458FF9E70000001CF19241C46 >
+		{
+			myInterestComponents
+			{
+				InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+				{
+					myAllianceRequirement Allied
+				}
+				InterestPriorityComponentUnitUnderAttack "Unit Under Attack"
+				{
+				}
+			}
+			mySearchRestriction Self
+			myMaxDistance VeryClose
+			mySetSelfAsTarget TRUE
+		}
+		InterestPriorityBucket "Allied Outposts" < uid=4A79E0E45A3171EE000022ADE03FBD9E >
+		{
+			myEnabled FALSE
+			myShuffleEqualWeights TRUE
+			myInterestList
+			{
+				InterestPriorityDynamic "Allied Defence Base" < uid=4A79E0E45A317237000022B1C0962065 > : "Allied Defense Base"
+				{
+					myInterestComponents
+					{
+						InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+						{
+							myAllianceRequirement Allied
+						}
+						InterestPriorityComponentCategory Category
+						{
+							myCategory Outpost
+						}
+						InterestPriorityComponentCreepLevel "Creep Level"
+						{
+							myMinCreepLevel 0.0
+							myMaxCreepLevel 1.0
+						}
+						InterestPriorityComponentFactionList "Faction List"
+						{
+							myFactions
+							{
+								FactionType Prospector ProspectorAllied
+							}
+						}
+						InterestPriorityComponentStoryAct "Story Act"
+						{
+							myMinAct 2
+						}
+						InterestPriorityComponentStorySection "Story Section"
+						{
+							myStorySections
+							{
+								StorySection "Open Refinery Chest" Act_02_Refinery_Chest_Opened
+							}
+						}
+						InterestPriorityComponentSubCategory SubCategory
+						{
+							mySubCategory DefenseBase
+						}
+						InterestPriorityComponentUnitsInRange "Sibling Tower Search" : "COMPONENT - Sibling Towers In Range"
+						{
+						}
+					}
+					myMinDistance Close
+					myMaxDistance Medium
+					myWeight 1
+				}
+				InterestPriorityDynamic "Allied Observation Deck" < uid=4A79E0E45A3171EE000022AFE1643570 > : "Allied Observation Deck"
+				{
+					myInterestComponents
+					{
+						InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+						{
+							myAllianceRequirement Allied
+						}
+						InterestPriorityComponentCategory Category
+						{
+							myCategory Outpost
+						}
+						InterestPriorityComponentCreepLevel "Creep Level"
+						{
+							myMinCreepLevel 0.0
+							myMaxCreepLevel 1.0
+						}
+						InterestPriorityComponentFactionList "Faction List"
+						{
+							myFactions
+							{
+								FactionType Prospector ExpeditionAllied
+							}
+						}
+						InterestPriorityComponentStoryAct "Story Act"
+						{
+							myMinAct 2
+						}
+						InterestPriorityComponentStorySection "Story Section"
+						{
+							myStorySections
+							{
+								StorySection "Open Refinery Chest" Act_02_Refinery_Chest_Opened
+							}
+						}
+						InterestPriorityComponentSubCategory SubCategory
+						{
+							mySubCategory ObservationDeck
+						}
+						InterestPriorityComponentUnitsInRange "Sibling Tower Search" : "COMPONENT - Sibling Towers In Range"
+						{
+						}
+					}
+					myMinDistance Close
+					myMaxDistance Medium
+					myWeight 1
+				}
+				InterestPriorityDynamic "Allied Mining Centre" < uid=4A79E0E45A3171EE000022B0DD58A51D > : "Allied Mining Center"
+				{
+					myInterestComponents
+					{
+						InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+						{
+							myAllianceRequirement Allied
+						}
+						InterestPriorityComponentCategory Category
+						{
+							myCategory Outpost
+						}
+						InterestPriorityComponentCreepLevel "Creep Level"
+						{
+							myMinCreepLevel 0.0
+							myMaxCreepLevel 1.0
+						}
+						InterestPriorityComponentFactionList "Faction List"
+						{
+							myFactions
+							{
+								FactionType Prospector ProspectorAllied
+							}
+						}
+						InterestPriorityComponentStoryAct "Story Act"
+						{
+							myMinAct 2
+						}
+						InterestPriorityComponentStorySection "Story Section"
+						{
+							myStorySections
+							{
+								StorySection "Open Refinery Chest" Act_02_Refinery_Chest_Opened
+							}
+						}
+						InterestPriorityComponentSubCategory SubCategory
+						{
+							mySubCategory MiningCenter
+						}
+						InterestPriorityComponentUnitsInRange "Sibling Tower Search" : "COMPONENT - Sibling Towers In Range"
+						{
+						}
+					}
+					myMinDistance Close
+					myMaxDistance Medium
+					myWeight 1
+				}
+			}
+		}
+		InterestPriorityBucket "Allied Outposts 2" < uid=4A79E0E45A3172A1000022B23DE6CCD8 >
+		{
+			myShuffleEqualWeights TRUE
+			myInterestList
+			{
+				InterestPriorityDynamic "Allied Defence Base" < uid=4A79E0E45A3172A1000022B3FDE9B1A1 > : "Allied Defense Base"
+				{
+					myInterestComponents
+					{
+						InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+						{
+							myAllianceRequirement Allied
+						}
+						InterestPriorityComponentCategory Category
+						{
+							myCategory Outpost
+						}
+						InterestPriorityComponentCreepLevel "Creep Level"
+						{
+							myMinCreepLevel 0.0
+							myMaxCreepLevel 1.0
+						}
+						InterestPriorityComponentFactionList "Faction List"
+						{
+							myFactions
+							{
+								FactionType Prospector ProspectorAllied
+							}
+						}
+						InterestPriorityComponentStoryAct "Story Act"
+						{
+							myMinAct 2
+						}
+						InterestPriorityComponentStorySection "Story Section"
+						{
+							myStorySections
+							{
+								StorySection "Open Refinery Chest" Act_02_Refinery_Chest_Opened
+							}
+						}
+						InterestPriorityComponentSubCategory SubCategory
+						{
+							mySubCategory DefenseBase
+						}
+						InterestPriorityComponentUnitsInRange "Sibling Tower Search" : "COMPONENT - Sibling Towers In Range"
+						{
+						}
+					}
+					myMinDistance Medium
+					myMaxDistance VeryFar
+					myWeight 1
+				}
+				InterestPriorityDynamic "Allied Observation Deck" < uid=4A79E0E45A3172A1000022B4E581934C > : "Allied Observation Deck"
+				{
+					myInterestComponents
+					{
+						InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+						{
+							myAllianceRequirement Allied
+						}
+						InterestPriorityComponentCategory Category
+						{
+							myCategory Outpost
+						}
+						InterestPriorityComponentCreepLevel "Creep Level"
+						{
+							myMinCreepLevel 0.0
+							myMaxCreepLevel 1.0
+						}
+						InterestPriorityComponentFactionList "Faction List"
+						{
+							myFactions
+							{
+								FactionType Prospector ExpeditionAllied
+							}
+						}
+						InterestPriorityComponentStoryAct "Story Act"
+						{
+							myMinAct 2
+						}
+						InterestPriorityComponentStorySection "Story Section"
+						{
+							myStorySections
+							{
+								StorySection "Open Refinery Chest" Act_02_Refinery_Chest_Opened
+							}
+						}
+						InterestPriorityComponentSubCategory SubCategory
+						{
+							mySubCategory ObservationDeck
+						}
+						InterestPriorityComponentUnitsInRange "Sibling Tower Search" : "COMPONENT - Sibling Towers In Range"
+						{
+						}
+					}
+					myMinDistance Medium
+					myMaxDistance VeryFar
+					myWeight 1
+				}
+				InterestPriorityDynamic "Allied Mining Centre" < uid=4A79E0E45A3172A1000022B594651291 > : "Allied Mining Center"
+				{
+					myInterestComponents
+					{
+						InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+						{
+							myAllianceRequirement Allied
+						}
+						InterestPriorityComponentCategory Category
+						{
+							myCategory Outpost
+						}
+						InterestPriorityComponentCreepLevel "Creep Level"
+						{
+							myMinCreepLevel 0.0
+							myMaxCreepLevel 1.0
+						}
+						InterestPriorityComponentFactionList "Faction List"
+						{
+							myFactions
+							{
+								FactionType Prospector ProspectorAllied
+							}
+						}
+						InterestPriorityComponentStoryAct "Story Act"
+						{
+							myMinAct 2
+						}
+						InterestPriorityComponentStorySection "Story Section"
+						{
+							myStorySections
+							{
+								StorySection "Open Refinery Chest" Act_02_Refinery_Chest_Opened
+							}
+						}
+						InterestPriorityComponentSubCategory SubCategory
+						{
+							mySubCategory MiningCenter
+						}
+						InterestPriorityComponentUnitsInRange "Sibling Tower Search" : "COMPONENT - Sibling Towers In Range"
+						{
+						}
+					}
+					myMinDistance Medium
+					myMaxDistance VeryFar
+					myWeight 1
+				}
+			}
+		}
+		InterestPriorityBucket "Allied Outposts 3" < uid=4A79E0E45A3173AB000022B69FEE8CC9 >
+		{
+			myShuffleEqualWeights TRUE
+			myInterestList
+			{
+				InterestPriorityDynamic "Allied Defence Base" < uid=4A79E0E45A3173AB000022B72F3A422C > : "Allied Defense Base"
+				{
+					myInterestComponents
+					{
+						InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+						{
+							myAllianceRequirement Allied
+						}
+						InterestPriorityComponentCategory Category
+						{
+							myCategory Outpost
+						}
+						InterestPriorityComponentCreepLevel "Creep Level"
+						{
+							myMinCreepLevel 0.0
+							myMaxCreepLevel 1.0
+						}
+						InterestPriorityComponentFactionList "Faction List"
+						{
+							myFactions
+							{
+								FactionType Prospector ProspectorAllied
+							}
+						}
+						InterestPriorityComponentStoryAct "Story Act"
+						{
+							myMinAct 2
+						}
+						InterestPriorityComponentStorySection "Story Section"
+						{
+							myStorySections
+							{
+								StorySection "Open Refinery Chest" Act_02_Refinery_Chest_Opened
+							}
+						}
+						InterestPriorityComponentSubCategory SubCategory
+						{
+							mySubCategory DefenseBase
+						}
+						InterestPriorityComponentUnitsInRange "Sibling Tower Search" : "COMPONENT - Sibling Towers In Range"
+						{
+						}
+					}
+					myMinDistance VeryFar
+					myMaxDistance PlanetWide
+					myWeight 1
+					myNeverSkip TRUE
+				}
+				InterestPriorityDynamic "Allied Observation Deck" < uid=4A79E0E45A3173AB000022B8C6C8AF74 > : "Allied Observation Deck"
+				{
+					myInterestComponents
+					{
+						InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+						{
+							myAllianceRequirement Allied
+						}
+						InterestPriorityComponentCategory Category
+						{
+							myCategory Outpost
+						}
+						InterestPriorityComponentCreepLevel "Creep Level"
+						{
+							myMinCreepLevel 0.0
+							myMaxCreepLevel 1.0
+						}
+						InterestPriorityComponentFactionList "Faction List"
+						{
+							myFactions
+							{
+								FactionType Prospector ExpeditionAllied
+							}
+						}
+						InterestPriorityComponentStoryAct "Story Act"
+						{
+							myMinAct 2
+						}
+						InterestPriorityComponentStorySection "Story Section"
+						{
+							myStorySections
+							{
+								StorySection "Open Refinery Chest" Act_02_Refinery_Chest_Opened
+							}
+						}
+						InterestPriorityComponentSubCategory SubCategory
+						{
+							mySubCategory ObservationDeck
+						}
+						InterestPriorityComponentUnitsInRange "Sibling Tower Search" : "COMPONENT - Sibling Towers In Range"
+						{
+						}
+					}
+					myMinDistance VeryFar
+					myMaxDistance PlanetWide
+					myWeight 1
+					myNeverSkip TRUE
+				}
+				InterestPriorityDynamic "Allied Mining Centre" < uid=4A79E0E45A3173AB000022B97A85DCA6 > : "Allied Mining Center"
+				{
+					myInterestComponents
+					{
+						InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+						{
+							myAllianceRequirement Allied
+						}
+						InterestPriorityComponentCategory Category
+						{
+							myCategory Outpost
+						}
+						InterestPriorityComponentCreepLevel "Creep Level"
+						{
+							myMinCreepLevel 0.0
+							myMaxCreepLevel 1.0
+						}
+						InterestPriorityComponentFactionList "Faction List"
+						{
+							myFactions
+							{
+								FactionType Prospector ProspectorAllied
+							}
+						}
+						InterestPriorityComponentStoryAct "Story Act"
+						{
+							myMinAct 2
+						}
+						InterestPriorityComponentStorySection "Story Section"
+						{
+							myStorySections
+							{
+								StorySection "Open Refinery Chest" Act_02_Refinery_Chest_Opened
+							}
+						}
+						InterestPriorityComponentSubCategory SubCategory
+						{
+							mySubCategory MiningCenter
+						}
+						InterestPriorityComponentUnitsInRange "Sibling Tower Search" : "COMPONENT - Sibling Towers In Range"
+						{
+						}
+					}
+					myMinDistance VeryFar
+					myMaxDistance PlanetWide
+					myWeight 1
+					myNeverSkip TRUE
+				}
+			}
+		}
+	}
+}
+
+InterestSet "Expedition Tower - Observation Tower" < uid=4A79E0E4591B36AB013F3B143E104738 >
+{
+	mySimUnit < uid=4A79E0E4591B36AB013F3B157874C884 > = tower_observation
+	myInterestList
+	{
+		InterestPriority Self < uid=4A79E0E4591B36AB013F3B165CB861A7 >
+		{
+			myInterestComponents
+			{
+				InterestPriorityComponentUnitUnderAttack "Unit Under Attack"
+				{
+				}
+			}
+			mySearchRestriction Self
+			myMaxDistance Zero
+			mySetSelfAsTarget TRUE
+		}
+		InterestPriority "Science Camp" < uid=4A79E0E45A329F52000023FA593E7A9E > : "Science Camp"
+		{
+			myEnabled FALSE
+			myMinDistance Close
+			myMaxDistance Medium
+		}
+		InterestPriority "Science Camp" < uid=4A79E0E45A329F52000023FB03C1A87E > : "Science Camp"
+		{
+			myMinDistance Medium
+			myMaxDistance VeryFar
+		}
+		InterestPriority "Science Camp" < uid=4A79E0E45A329F52000023FCDA13BD30 > : "Science Camp"
+		{
+			myMinDistance VeryFar
+		}
+	}
+}
+
+InterestSet "Prospector Tower - Electrum Hopper" < uid=4A79E0E4591B36AB013F3B1772C5826A >
+{
+	mySimUnit < uid=4A79E0E4591B1BBB0054495DBD392475 > = tower_hopper
+	myInterestList
+	{
+		InterestPriority Self < uid=4A79E0E4591B36AB013F3B18CE50228D >
+		{
+			myInterestComponents
+			{
+				InterestPriorityComponentUnitUnderAttack "Unit Under Attack"
+				{
+				}
+			}
+			mySearchRestriction Self
+			myMaxDistance Zero
+			mySetSelfAsTarget TRUE
+		}
+		InterestPriority "Electrum Vein" < uid=4A79E0E45967D8440000008EE8562918 > : "Electrum Vein"
+		{
+			myEnabled FALSE
+			myMinDistance Close
+			myMaxDistance Medium
+		}
+		InterestPriority "Electrum Vein" < uid=4A79E0E45A328511000022BA91E69FFB > : "Electrum Vein"
+		{
+			myMinDistance Medium
+			myMaxDistance VeryFar
+		}
+		InterestPriority "Electrum Vein" < uid=4A79E0E45A328511000022BB6C3084C9 > : "Electrum Vein"
+		{
+			myMinDistance VeryFar
+		}
+	}
+}
+
+InterestSet "Prospector Tower - Watchtower" < uid=4A79E0E4591B36AB013F3B1910BEE32B >
+{
+	mySimUnit < uid=4A79E0E4591B36AB013F3B1A8F940DC2 > = tower_watchtower
+	myInterestList
+	{
+		InterestPriority Attacker < uid=4A79E0E45A32A1F0000023FD4EEBD0E9 >
+		{
+			myInterestComponents
+			{
+				InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+				{
+					myAllianceRequirement Allied
+				}
+				InterestPriorityComponentUnitUnderAttack "Unit Under Attack"
+				{
+				}
+			}
+			mySearchRestriction Self
+			myMaxDistance VeryClose
+			mySetSelfAsTarget TRUE
+		}
+		InterestPriorityBucket "Allied Outposts" < uid=4A79E0E45A32A1F0000023FEE4ABB920 >
+		{
+			myEnabled FALSE
+			myShuffleEqualWeights TRUE
+			myInterestList
+			{
+				InterestPriorityDynamic "Allied Research Base" < uid=4A79E0E45A32A1F0000023FFEA277F93 > : "Allied Research Base"
+				{
+					myInterestComponents
+					{
+						InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+						{
+							myAllianceRequirement Allied
+						}
+						InterestPriorityComponentCategory Category
+						{
+							myCategory Outpost
+						}
+						InterestPriorityComponentCreepLevel "Creep Level"
+						{
+							myMinCreepLevel 0.0
+							myMaxCreepLevel 1.0
+						}
+						InterestPriorityComponentFactionList "Faction List"
+						{
+							myFactions
+							{
+								FactionType Prospector ExpeditionAllied
+							}
+						}
+						InterestPriorityComponentStoryAct "Story Act"
+						{
+							myMinAct 2
+						}
+						InterestPriorityComponentStorySection "Story Section"
+						{
+							myStorySections
+							{
+								StorySection "Open Refinery Chest" Act_02_Refinery_Chest_Opened
+							}
+						}
+						InterestPriorityComponentSubCategory SubCategory
+						{
+							mySubCategory ResearchBase
+						}
+						InterestPriorityComponentUnitsInRange "Sibling Tower Search" : "COMPONENT - Sibling Towers In Range"
+						{
+						}
+					}
+					myMinDistance Close
+					myMaxDistance Medium
+					myWeight 1
+				}
+				InterestPriorityDynamic "Allied Observation Deck" < uid=4A79E0E45A32A1F000002400AD9AA5DA > : "Allied Observation Deck"
+				{
+					myInterestComponents
+					{
+						InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+						{
+							myAllianceRequirement Allied
+						}
+						InterestPriorityComponentCategory Category
+						{
+							myCategory Outpost
+						}
+						InterestPriorityComponentCreepLevel "Creep Level"
+						{
+							myMinCreepLevel 0.0
+							myMaxCreepLevel 1.0
+						}
+						InterestPriorityComponentFactionList "Faction List"
+						{
+							myFactions
+							{
+								FactionType Prospector ExpeditionAllied
+							}
+						}
+						InterestPriorityComponentStoryAct "Story Act"
+						{
+							myMinAct 2
+						}
+						InterestPriorityComponentStorySection "Story Section"
+						{
+							myStorySections
+							{
+								StorySection "Open Refinery Chest" Act_02_Refinery_Chest_Opened
+							}
+						}
+						InterestPriorityComponentSubCategory SubCategory
+						{
+							mySubCategory ObservationDeck
+						}
+						InterestPriorityComponentUnitsInRange "Sibling Tower Search" : "COMPONENT - Sibling Towers In Range"
+						{
+						}
+					}
+					myMinDistance Close
+					myMaxDistance Medium
+					myWeight 1
+				}
+				InterestPriorityDynamic "Allied Mining Centre" < uid=4A79E0E45A32A1F000002401BDE64418 > : "Allied Mining Center"
+				{
+					myInterestComponents
+					{
+						InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+						{
+							myAllianceRequirement Allied
+						}
+						InterestPriorityComponentCategory Category
+						{
+							myCategory Outpost
+						}
+						InterestPriorityComponentCreepLevel "Creep Level"
+						{
+							myMinCreepLevel 0.0
+							myMaxCreepLevel 1.0
+						}
+						InterestPriorityComponentFactionList "Faction List"
+						{
+							myFactions
+							{
+								FactionType Prospector ProspectorAllied
+							}
+						}
+						InterestPriorityComponentStoryAct "Story Act"
+						{
+							myMinAct 2
+						}
+						InterestPriorityComponentStorySection "Story Section"
+						{
+							myStorySections
+							{
+								StorySection "Open Refinery Chest" Act_02_Refinery_Chest_Opened
+							}
+						}
+						InterestPriorityComponentSubCategory SubCategory
+						{
+							mySubCategory MiningCenter
+						}
+						InterestPriorityComponentUnitsInRange "Sibling Tower Search" : "COMPONENT - Sibling Towers In Range"
+						{
+						}
+					}
+					myMinDistance Close
+					myMaxDistance Medium
+					myWeight 1
+				}
+			}
+		}
+		InterestPriorityBucket "Allied Outposts 2" < uid=4A79E0E45A32A1F000002402043D883D >
+		{
+			myShuffleEqualWeights TRUE
+			myInterestList
+			{
+				InterestPriorityDynamic "Allied Research Base" < uid=4A79E0E45A32A1F000002403D537B4CE > : "Allied Research Base"
+				{
+					myInterestComponents
+					{
+						InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+						{
+							myAllianceRequirement Allied
+						}
+						InterestPriorityComponentCategory Category
+						{
+							myCategory Outpost
+						}
+						InterestPriorityComponentCreepLevel "Creep Level"
+						{
+							myMinCreepLevel 0.0
+							myMaxCreepLevel 1.0
+						}
+						InterestPriorityComponentFactionList "Faction List"
+						{
+							myFactions
+							{
+								FactionType Prospector ExpeditionAllied
+							}
+						}
+						InterestPriorityComponentStoryAct "Story Act"
+						{
+							myMinAct 2
+						}
+						InterestPriorityComponentStorySection "Story Section"
+						{
+							myStorySections
+							{
+								StorySection "Open Refinery Chest" Act_02_Refinery_Chest_Opened
+							}
+						}
+						InterestPriorityComponentSubCategory SubCategory
+						{
+							mySubCategory ResearchBase
+						}
+						InterestPriorityComponentUnitsInRange "Sibling Tower Search" : "COMPONENT - Sibling Towers In Range"
+						{
+						}
+					}
+					myMinDistance Medium
+					myMaxDistance VeryFar
+					myWeight 1
+				}
+				InterestPriorityDynamic "Allied Observation Deck" < uid=4A79E0E45A32A1F000002404ADFB6FC7 > : "Allied Observation Deck"
+				{
+					myInterestComponents
+					{
+						InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+						{
+							myAllianceRequirement Allied
+						}
+						InterestPriorityComponentCategory Category
+						{
+							myCategory Outpost
+						}
+						InterestPriorityComponentCreepLevel "Creep Level"
+						{
+							myMinCreepLevel 0.0
+							myMaxCreepLevel 1.0
+						}
+						InterestPriorityComponentFactionList "Faction List"
+						{
+							myFactions
+							{
+								FactionType Prospector ExpeditionAllied
+							}
+						}
+						InterestPriorityComponentStoryAct "Story Act"
+						{
+							myMinAct 2
+						}
+						InterestPriorityComponentStorySection "Story Section"
+						{
+							myStorySections
+							{
+								StorySection "Open Refinery Chest" Act_02_Refinery_Chest_Opened
+							}
+						}
+						InterestPriorityComponentSubCategory SubCategory
+						{
+							mySubCategory ObservationDeck
+						}
+						InterestPriorityComponentUnitsInRange "Sibling Tower Search" : "COMPONENT - Sibling Towers In Range"
+						{
+						}
+					}
+					myMinDistance Medium
+					myMaxDistance VeryFar
+					myWeight 1
+				}
+				InterestPriorityDynamic "Allied Mining Centre" < uid=4A79E0E45A32A1F00000240522B238E4 > : "Allied Mining Center"
+				{
+					myInterestComponents
+					{
+						InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+						{
+							myAllianceRequirement Allied
+						}
+						InterestPriorityComponentCategory Category
+						{
+							myCategory Outpost
+						}
+						InterestPriorityComponentCreepLevel "Creep Level"
+						{
+							myMinCreepLevel 0.0
+							myMaxCreepLevel 1.0
+						}
+						InterestPriorityComponentFactionList "Faction List"
+						{
+							myFactions
+							{
+								FactionType Prospector ProspectorAllied
+							}
+						}
+						InterestPriorityComponentStoryAct "Story Act"
+						{
+							myMinAct 2
+						}
+						InterestPriorityComponentStorySection "Story Section"
+						{
+							myStorySections
+							{
+								StorySection "Open Refinery Chest" Act_02_Refinery_Chest_Opened
+							}
+						}
+						InterestPriorityComponentSubCategory SubCategory
+						{
+							mySubCategory MiningCenter
+						}
+						InterestPriorityComponentUnitsInRange "Sibling Tower Search" : "COMPONENT - Sibling Towers In Range"
+						{
+						}
+					}
+					myMinDistance Medium
+					myMaxDistance VeryFar
+					myWeight 1
+				}
+			}
+		}
+		InterestPriorityBucket "Allied Outposts 3" < uid=4A79E0E45A32A1F000002406CA2620EF >
+		{
+			myShuffleEqualWeights TRUE
+			myInterestList
+			{
+				InterestPriorityDynamic "Allied Research Base" < uid=4A79E0E45A32A1F000002407A2DF6CA1 > : "Allied Research Base"
+				{
+					myInterestComponents
+					{
+						InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+						{
+							myAllianceRequirement Allied
+						}
+						InterestPriorityComponentCategory Category
+						{
+							myCategory Outpost
+						}
+						InterestPriorityComponentCreepLevel "Creep Level"
+						{
+							myMinCreepLevel 0.0
+							myMaxCreepLevel 1.0
+						}
+						InterestPriorityComponentFactionList "Faction List"
+						{
+							myFactions
+							{
+								FactionType Prospector ExpeditionAllied
+							}
+						}
+						InterestPriorityComponentStoryAct "Story Act"
+						{
+							myMinAct 2
+						}
+						InterestPriorityComponentStorySection "Story Section"
+						{
+							myStorySections
+							{
+								StorySection "Open Refinery Chest" Act_02_Refinery_Chest_Opened
+							}
+						}
+						InterestPriorityComponentSubCategory SubCategory
+						{
+							mySubCategory ResearchBase
+						}
+						InterestPriorityComponentUnitsInRange "Sibling Tower Search" : "COMPONENT - Sibling Towers In Range"
+						{
+						}
+					}
+					myMinDistance VeryFar
+					myMaxDistance PlanetWide
+					myWeight 1
+					myNeverSkip TRUE
+				}
+				InterestPriorityDynamic "Allied Observation Deck" < uid=4A79E0E45A32A1F000002408D42CAA6A > : "Allied Observation Deck"
+				{
+					myInterestComponents
+					{
+						InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+						{
+							myAllianceRequirement Allied
+						}
+						InterestPriorityComponentCategory Category
+						{
+							myCategory Outpost
+						}
+						InterestPriorityComponentCreepLevel "Creep Level"
+						{
+							myMinCreepLevel 0.0
+							myMaxCreepLevel 1.0
+						}
+						InterestPriorityComponentFactionList "Faction List"
+						{
+							myFactions
+							{
+								FactionType Prospector ExpeditionAllied
+							}
+						}
+						InterestPriorityComponentStoryAct "Story Act"
+						{
+							myMinAct 2
+						}
+						InterestPriorityComponentStorySection "Story Section"
+						{
+							myStorySections
+							{
+								StorySection "Open Refinery Chest" Act_02_Refinery_Chest_Opened
+							}
+						}
+						InterestPriorityComponentSubCategory SubCategory
+						{
+							mySubCategory ObservationDeck
+						}
+						InterestPriorityComponentUnitsInRange "Sibling Tower Search" : "COMPONENT - Sibling Towers In Range"
+						{
+						}
+					}
+					myMinDistance VeryFar
+					myMaxDistance PlanetWide
+					myWeight 1
+					myNeverSkip TRUE
+				}
+				InterestPriorityDynamic "Allied Mining Centre" < uid=4A79E0E45A32A1F00000240967EADD13 > : "Allied Mining Center"
+				{
+					myInterestComponents
+					{
+						InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+						{
+							myAllianceRequirement Allied
+						}
+						InterestPriorityComponentCategory Category
+						{
+							myCategory Outpost
+						}
+						InterestPriorityComponentCreepLevel "Creep Level"
+						{
+							myMinCreepLevel 0.0
+							myMaxCreepLevel 1.0
+						}
+						InterestPriorityComponentFactionList "Faction List"
+						{
+							myFactions
+							{
+								FactionType Prospector ProspectorAllied
+							}
+						}
+						InterestPriorityComponentStoryAct "Story Act"
+						{
+							myMinAct 2
+						}
+						InterestPriorityComponentStorySection "Story Section"
+						{
+							myStorySections
+							{
+								StorySection "Open Refinery Chest" Act_02_Refinery_Chest_Opened
+							}
+						}
+						InterestPriorityComponentSubCategory SubCategory
+						{
+							mySubCategory MiningCenter
+						}
+						InterestPriorityComponentUnitsInRange "Sibling Tower Search" : "COMPONENT - Sibling Towers In Range"
+						{
+						}
+					}
+					myMinDistance VeryFar
+					myMaxDistance PlanetWide
+					myWeight 1
+					myNeverSkip TRUE
+				}
+			}
+		}
+	}
+}
+
+InterestSet "Expedition - Worker" < uid=4A79E0E4599B287F000001747E2DFFC0 >
+{
+	mySimUnit < uid=4A79E0E4599B287F00000175DCA3271E > = expedition_worker
+	myInterestList
+	{
+		InterestPriority "Unit is Downed" < uid=4A79E0E4599B319E000001770F7B9A90 >
+		{
+			myEnabled TRUE
+			myInterestComponents
+			{
+				InterestPriorityComponentDownedState "Downed State"
+				{
+				}
+			}
+			mySearchRestriction Self
+			myMaxDistance Zero
+			mySetSelfAsTarget TRUE
+		}
+		InterestPriority "Under Attack (Near Parent Outpost)" < uid=4A79E0E4599B287F000001760AEFDA81 >
+		{
+			myInterestComponents
+			{
+				InterestPriorityComponentAllianceRequirement Allied
+				{
+					myAllianceRequirement Either
+				}
+				InterestPriorityComponentUnitUnderAttack "Under Attack"
+				{
+					myUseCombatRequirementsFlag TRUE
+					myCombatRequirements
+					{
+						myAttackerExclusionFilters
+						{
+							SimUnitDiscoveryUnitFilter Probe
+							{
+								myCategoryList
+								{
+									SimUnitCategory NPC NPC
+								}
+								mySubCategoryList
+								{
+									SimUnitSubCategory Probe Probe
+								}
+								myFactionList
+								{
+									FactionType Harvester Harvester
+								}
+							}
+							SimUnitDiscoveryUnitFilter Player
+							{
+								myFactionList
+								{
+									FactionType Player Player
+								}
+							}
+							SimUnitDiscoveryUnitFilter Prime
+							{
+								myCategoryList
+								{
+									SimUnitCategory Prime Prime
+								}
+								myFactionList
+								{
+									FactionType Harvester Harvester
+								}
+							}
+						}
+					}
+				}
+			}
+			mySearchRestriction Parent
+			myMaxDistance VeryClose
+			mySetSelfAsTarget FALSE
+		}
+		InterestPriority "Under Attack (Self)" < uid=4A79E0E4599B319E000001781EB9B740 >
+		{
+			myInterestComponents
+			{
+				InterestPriorityComponentUnitUnderAttack "Unit Under Attack"
+				{
+					myCombatRequirements
+					{
+						myAttackerExclusionFilters
+						{
+							SimUnitDiscoveryUnitFilter Probe
+							{
+								myCategoryList
+								{
+									SimUnitCategory NPC NPC
+								}
+								mySubCategoryList
+								{
+									SimUnitSubCategory Probe Probe
+								}
+								myFactionList
+								{
+									FactionType Harvester Harvester
+								}
+							}
+							SimUnitDiscoveryUnitFilter Player
+							{
+								myFactionList
+								{
+									FactionType Player Player
+								}
+							}
+							SimUnitDiscoveryUnitFilter Prime
+							{
+								myCategoryList
+								{
+									SimUnitCategory Prime Prime
+								}
+								myFactionList
+								{
+									FactionType Harvester Harvester
+								}
+							}
+						}
+					}
+				}
+			}
+			mySearchRestriction Self
+			myMinDistance Zero
+			myMaxDistance Zero
+			mySetSelfAsTarget TRUE
+		}
+		InterestPriority "Unallied Parent" < uid=4A79E0E4599B319E00000179DBE7F85E >
+		{
+			myInterestComponents
+			{
+				InterestPriorityComponentAllianceRequirement Unallied
+				{
+					myAllianceRequirement UnAllied
+				}
+				InterestPriorityComponentKnowledge Knowledge
+				{
+					myCompareValue 100.0
+				}
+			}
+			mySearchRestriction Parent
+			myMaxDistance PlanetWide
+			mySetSelfAsTarget FALSE
+		}
+	}
+}
+
+InterestSet "Prospector - Worker" < uid=1E68E535599B462E000000855424F800 >
+{
+	mySimUnit < uid=1E68E535599B462E0000008673F575E4 > = prospector_worker
+	myInterestList
+	{
+		InterestPriority "Unit is Downed" < uid=1E68E535599C81010002603462B89A52 >
+		{
+			myEnabled TRUE
+			myInterestComponents
+			{
+				InterestPriorityComponentDownedState "Downed State"
+				{
+				}
+			}
+			mySearchRestriction Self
+			myMaxDistance Zero
+			mySetSelfAsTarget TRUE
+		}
+		InterestPriority "Under Attack (Near Parent Outpost)" < uid=1E68E535599C810100026035ED38634D >
+		{
+			myInterestComponents
+			{
+				InterestPriorityComponentAllianceRequirement Allied
+				{
+					myAllianceRequirement Either
+				}
+				InterestPriorityComponentUnitUnderAttack "Under Attack"
+				{
+					myCombatRequirements
+					{
+						myAttackerExclusionFilters
+						{
+							SimUnitDiscoveryUnitFilter Probe
+							{
+								myCategoryList
+								{
+									SimUnitCategory NPC NPC
+								}
+								mySubCategoryList
+								{
+									SimUnitSubCategory Probe Probe
+								}
+								myFactionList
+								{
+									FactionType Harvester Harvester
+								}
+							}
+							SimUnitDiscoveryUnitFilter Player
+							{
+								myFactionList
+								{
+									FactionType Player Player
+								}
+							}
+							SimUnitDiscoveryUnitFilter Prime
+							{
+								myCategoryList
+								{
+									SimUnitCategory Prime Prime
+								}
+								myFactionList
+								{
+									FactionType Harvester Harvester
+								}
+							}
+						}
+					}
+				}
+			}
+			mySearchRestriction Parent
+			myMaxDistance VeryClose
+			mySetSelfAsTarget FALSE
+		}
+		InterestPriority "Under Attack (Self)" < uid=1E68E535599C810100026036936039FF >
+		{
+			myInterestComponents
+			{
+				InterestPriorityComponentUnitUnderAttack "Unit Under Attack"
+				{
+					myCombatRequirements
+					{
+						myAttackerExclusionFilters
+						{
+							SimUnitDiscoveryUnitFilter Probe
+							{
+								myCategoryList
+								{
+									SimUnitCategory NPC NPC
+								}
+								mySubCategoryList
+								{
+									SimUnitSubCategory Probe Probe
+								}
+								myFactionList
+								{
+									FactionType Harvester Harvester
+								}
+							}
+							SimUnitDiscoveryUnitFilter Player
+							{
+								myFactionList
+								{
+									FactionType Player Player
+								}
+							}
+							SimUnitDiscoveryUnitFilter Prime
+							{
+								myCategoryList
+								{
+									SimUnitCategory Prime Prime
+								}
+								myFactionList
+								{
+									FactionType Harvester Harvester
+								}
+							}
+						}
+					}
+				}
+			}
+			mySearchRestriction Self
+			myMinDistance Zero
+			myMaxDistance Zero
+			mySetSelfAsTarget TRUE
+		}
+		InterestPriority "Unallied Parent" < uid=1E68E535599C81010002603768861DF3 >
+		{
+			myInterestComponents
+			{
+				InterestPriorityComponentAllianceRequirement Unallied
+				{
+					myAllianceRequirement UnAllied
+				}
+				InterestPriorityComponentKnowledge Knowledge
+				{
+					myCompareValue 100.0
+				}
+			}
+			mySearchRestriction Parent
+			myMaxDistance PlanetWide
+			mySetSelfAsTarget FALSE
+		}
+	}
+}
+
+InterestSet "Expedition - Defender" < uid=1E68E535599B462E0000008BC06ABDDA >
+{
+	mySimUnit < uid=1E68E535599B462E0000008C095FFF82 > = "Expedition Defender"
+	myInterestList
+	{
+		InterestPriority "Unit is Downed" < uid=1E68E535599C810100026038CE4A70BB >
+		{
+			myEnabled TRUE
+			myInterestComponents
+			{
+				InterestPriorityComponentDownedState "Downed State"
+				{
+				}
+			}
+			mySearchRestriction Self
+			myMaxDistance Zero
+			mySetSelfAsTarget TRUE
+		}
+		InterestPriority "Under Attack (Near Parent Outpost)" < uid=1E68E535599C810100026039E0464034 >
+		{
+			myInterestComponents
+			{
+				InterestPriorityComponentAllianceRequirement Allied
+				{
+					myAllianceRequirement Either
+				}
+				InterestPriorityComponentUnitUnderAttack "Under Attack"
+				{
+					myUseCombatRequirementsFlag TRUE
+					myCombatRequirements
+					{
+						myAttackerExclusionFilters
+						{
+							SimUnitDiscoveryUnitFilter Probe
+							{
+								myCategoryList
+								{
+									SimUnitCategory NPC NPC
+								}
+								mySubCategoryList
+								{
+									SimUnitSubCategory Probe Probe
+								}
+								myFactionList
+								{
+									FactionType Harvester Harvester
+								}
+							}
+							SimUnitDiscoveryUnitFilter Player
+							{
+								myFactionList
+								{
+									FactionType Player Player
+								}
+							}
+							SimUnitDiscoveryUnitFilter Prime
+							{
+								myCategoryList
+								{
+									SimUnitCategory Prime Prime
+								}
+								myFactionList
+								{
+									FactionType Harvester Harvester
+								}
+							}
+						}
+					}
+				}
+			}
+			mySearchRestriction Parent
+			myMaxDistance VeryClose
+			mySetSelfAsTarget FALSE
+		}
+		InterestPriority "Under Attack (Self)" < uid=1E68E535599C81010002603A727B3202 >
+		{
+			myInterestComponents
+			{
+				InterestPriorityComponentUnitUnderAttack "Unit Under Attack"
+				{
+					myCombatRequirements
+					{
+						myAttackerExclusionFilters
+						{
+							SimUnitDiscoveryUnitFilter Probe
+							{
+								myCategoryList
+								{
+									SimUnitCategory NPC NPC
+								}
+								mySubCategoryList
+								{
+									SimUnitSubCategory Probe Probe
+								}
+								myFactionList
+								{
+									FactionType Faction Harvester
+								}
+							}
+							SimUnitDiscoveryUnitFilter "Raiding Party"
+							{
+								myCategoryList
+								{
+									SimUnitCategory NPC NPC
+								}
+								mySubCategoryList
+								{
+									SimUnitSubCategory Raider Raider
+								}
+								myFactionList
+								{
+									FactionType Harvester Harvester
+								}
+							}
+							SimUnitDiscoveryUnitFilter Player
+							{
+								myFactionList
+								{
+									FactionType Player Player
+								}
+							}
+							SimUnitDiscoveryUnitFilter Prime
+							{
+								myCategoryList
+								{
+									SimUnitCategory Prime Prime
+								}
+								myFactionList
+								{
+									FactionType Harvester Harvester
+								}
+							}
+						}
+					}
+				}
+			}
+			mySearchRestriction Self
+			myMinDistance Zero
+			myMaxDistance Zero
+			mySetSelfAsTarget TRUE
+		}
+		InterestPriority "Unallied Parent" < uid=1E68E535599C81010002603B2A4AD03B >
+		{
+			myInterestComponents
+			{
+				InterestPriorityComponentAllianceRequirement Unallied
+				{
+					myAllianceRequirement UnAllied
+				}
+				InterestPriorityComponentKnowledge Knowledge
+				{
+					myCompareValue 100.0
+				}
+			}
+			mySearchRestriction Parent
+			myMaxDistance PlanetWide
+			mySetSelfAsTarget TRUE
+		}
+	}
+}
+
+InterestSet "Prospector - Defender" < uid=1E68E535599B462E00000091A59F8E78 >
+{
+	mySimUnit < uid=1E68E535599B462E000000923B8AF12B > = "Prospector Defender"
+	myInterestList
+	{
+		InterestPriority "Unit is Downed" < uid=1E68E535599C81010002603CB718B261 >
+		{
+			myEnabled TRUE
+			myInterestComponents
+			{
+				InterestPriorityComponentDownedState "Downed State"
+				{
+				}
+			}
+			mySearchRestriction Self
+			myMaxDistance Zero
+		}
+		InterestPriority "Under Attack (Near Parent Outpost)" < uid=1E68E535599C81010002603D658D0356 >
+		{
+			myInterestComponents
+			{
+				InterestPriorityComponentAllianceRequirement Allied
+				{
+					myAllianceRequirement Either
+				}
+				InterestPriorityComponentUnitUnderAttack "Under Attack"
+				{
+					myCombatRequirements
+					{
+						myAttackerExclusionFilters
+						{
+							SimUnitDiscoveryUnitFilter Probe
+							{
+								myCategoryList
+								{
+									SimUnitCategory NPC NPC
+								}
+								mySubCategoryList
+								{
+									SimUnitSubCategory Probe Probe
+								}
+								myFactionList
+								{
+									FactionType Harvester Harvester
+								}
+							}
+							SimUnitDiscoveryUnitFilter Player
+							{
+								myFactionList
+								{
+									FactionType Player Player
+								}
+							}
+							SimUnitDiscoveryUnitFilter Prime
+							{
+								myCategoryList
+								{
+									SimUnitCategory Prime Prime
+								}
+								myFactionList
+								{
+									FactionType Harvester Harvester
+								}
+							}
+						}
+					}
+				}
+			}
+			mySearchRestriction Parent
+			myMaxDistance VeryClose
+			mySetSelfAsTarget FALSE
+		}
+		InterestPriority "Under Attack (Self)" < uid=1E68E535599C81010002603ECECDC6C7 >
+		{
+			myInterestComponents
+			{
+				InterestPriorityComponentUnitUnderAttack "Unit Under Attack"
+				{
+					myCombatRequirements
+					{
+						myAttackerExclusionFilters
+						{
+							SimUnitDiscoveryUnitFilter Probe
+							{
+								myCategoryList
+								{
+									SimUnitCategory NPC NPC
+								}
+								mySubCategoryList
+								{
+									SimUnitSubCategory Probe Probe
+								}
+								myFactionList
+								{
+									FactionType Faction Harvester
+								}
+							}
+							SimUnitDiscoveryUnitFilter "Raiding Party"
+							{
+								myCategoryList
+								{
+									SimUnitCategory NPC NPC
+								}
+								mySubCategoryList
+								{
+									SimUnitSubCategory Raider Raider
+								}
+								myFactionList
+								{
+									FactionType Harvester Harvester
+								}
+							}
+							SimUnitDiscoveryUnitFilter Player
+							{
+								myFactionList
+								{
+									FactionType Player Player
+								}
+							}
+							SimUnitDiscoveryUnitFilter Prime
+							{
+								myCategoryList
+								{
+									SimUnitCategory Prime Prime
+								}
+								myFactionList
+								{
+									FactionType Harvester Harvester
+								}
+							}
+						}
+					}
+				}
+			}
+			mySearchRestriction Self
+			myMinDistance Zero
+			myMaxDistance Zero
+			mySetSelfAsTarget TRUE
+		}
+		InterestPriority "Unallied Parent" < uid=1E68E535599C81010002603FB27A1C2D >
+		{
+			myInterestComponents
+			{
+				InterestPriorityComponentAllianceRequirement Unallied
+				{
+					myAllianceRequirement UnAllied
+				}
+				InterestPriorityComponentKnowledge Knowledge
+				{
+					myCompareValue 100.0
+				}
+			}
+			mySearchRestriction Parent
+			myMaxDistance PlanetWide
+			mySetSelfAsTarget TRUE
+		}
+	}
+}
+
+InterestSet Player < uid=95430580592DA8990000990333C8FBD5 > : "Player Interest"
+{
+}
+
+InterestSet "Player In Space" < uid=132A31715B3D05BC0000223CBCBDA700 > : "Player Space Interest"
+{
+}
+
+InterestSet "Data Analyzer - Fauna" < uid=4A79E0E45942F151000001CED19B726B >
+{
+	mySimUnit < uid=4A79E0E4594A80DB000001A43405255E > = fauna_analyzer
+	myInterestList
+	{
+		InterestPriorityBucket "Close Fauna" < uid=4A79E0E4598B6A1B0000089CFC68EC3D >
+		{
+			myShuffleEqualWeights TRUE
+			myInterestList
+			{
+				InterestPriorityDynamic "Fauna 01" < uid=4A79E0E4598B6A1B0000089DD59DFC17 > : "Fauna 01"
+				{
+					myMaxDistance Close
+					myWeight 1
+				}
+				InterestPriorityDynamic "Fauna 02" < uid=4A79E0E4598B6A1B0000089EE037FCB7 > : "Fauna 02"
+				{
+					myMaxDistance Close
+					myWeight 1
+				}
+				InterestPriorityDynamic "Fauna 03" < uid=4A79E0E4598B6A1B0000089FBBD2CF24 > : "Fauna 03"
+				{
+					myMaxDistance Close
+					myWeight 1
+				}
+			}
+		}
+		InterestPriorityBucket "Medium Fauna" < uid=4A79E0E4598B6A1B000008A00060D567 >
+		{
+			myShuffleEqualWeights TRUE
+			myInterestList
+			{
+				InterestPriorityDynamic "Fauna 01" < uid=4A79E0E4598B6A1B000008A13A27EC38 > : "Fauna 01"
+				{
+					myMinDistance Close
+					myMaxDistance Far
+					myWeight 1
+				}
+				InterestPriorityDynamic "Fauna 02" < uid=4A79E0E4598B6A1B000008A265AA7D8F > : "Fauna 02"
+				{
+					myMinDistance Close
+					myMaxDistance Far
+					myWeight 1
+				}
+				InterestPriorityDynamic "Fauna 03" < uid=4A79E0E4598B6A1B000008A3482C35F1 > : "Fauna 03"
+				{
+					myMinDistance Close
+					myMaxDistance Far
+					myWeight 1
+				}
+			}
+		}
+		InterestPriorityBucket "Far Fauna" < uid=4A79E0E4598B6A1B000008A44EE11A7E >
+		{
+			myShuffleEqualWeights TRUE
+			myInterestList
+			{
+				InterestPriorityDynamic "Fauna 01" < uid=4A79E0E4598B6A1B000008A54BA279B6 > : "Fauna 01"
+				{
+					myMinDistance Far
+					myMaxDistance PlanetWide
+					myWeight 1
+					myNeverSkip TRUE
+				}
+				InterestPriorityDynamic "Fauna 02" < uid=4A79E0E4598B6A1B000008A67DD23348 > : "Fauna 02"
+				{
+					myMinDistance Far
+					myMaxDistance PlanetWide
+					myWeight 1
+					myNeverSkip TRUE
+				}
+				InterestPriorityDynamic "Fauna 03" < uid=4A79E0E4598B6A1B000008A7547802BE > : "Fauna 03"
+				{
+					myMinDistance Far
+					myMaxDistance PlanetWide
+					myWeight 1
+					myNeverSkip TRUE
+				}
+			}
+		}
+	}
+}
+
+InterestSet "Prospector Bomb" < uid=1E68E535596E6DDB000000825A6C747A >
+{
+	mySimUnit < uid=1E68E535596E6DDB00000083E2AC686C > = pickup_infused_electrum_bomb
+	myInterestList
+	{
+		InterestPriorityBucket "Legion Structures" < uid=4A79E0E45A32A35E0000240A9C30A859 >
+		{
+			myEnabled FALSE
+			myInterestList
+			{
+				InterestPriorityDynamic Extractor < uid=4A79E0E45A32A35E0000240BC5D3651A > : Extractor
+				{
+					myMaxDistance Close
+				}
+				InterestPriorityDynamic "Creep Shed" < uid=4A79E0E45A32A35E0000240C741DF830 > : "Creep Shed"
+				{
+					myMaxDistance Close
+				}
+			}
+		}
+		InterestPriorityBucket "Legion Structures 2" < uid=4A79E0E45A32A35E0000240D452EB1E5 >
+		{
+			myEnabled FALSE
+			myInterestList
+			{
+				InterestPriorityDynamic Extractor < uid=4A79E0E45A32A35E0000240E5C45AB79 > : Extractor
+				{
+					myMinDistance Close
+					myMaxDistance VeryFar
+				}
+				InterestPriorityDynamic "Creep Shed" < uid=4A79E0E45A32A35E0000240F02E0EE5E > : "Creep Shed"
+				{
+					myMinDistance Close
+					myMaxDistance VeryFar
+				}
+			}
+		}
+		InterestPriorityBucket "Legion Structures 3" < uid=4A79E0E45A32A35E0000241099A74A4A >
+		{
+			myEnabled FALSE
+			myInterestList
+			{
+				InterestPriorityDynamic Extractor < uid=4A79E0E45A32A35E00002411A9366102 > : Extractor
+				{
+					myMinDistance VeryFar
+				}
+				InterestPriorityDynamic "Creep Shed" < uid=4A79E0E45A32A35E00002412D859093E > : "Creep Shed"
+				{
+					myMinDistance VeryFar
+				}
+			}
+		}
+	}
+}
+
+InterestSet "Prospector Outpost - Mining Center - Act 2" < uid=2B55C72B596E37A20000004CB28531AE > : "Prospector Outpost - Mining Center"
+{
+	mySimUnit < uid=9FD9E8185A047CDB00001F0FD8606E53 > = act_2_haven_mining_center
+	myInterestList
+	{
+		InterestPriorityBucket "Act 02 Mining Centre Interest Bucket" < uid=4A79E0E45AFB482300001DB5797FAA3A > = "Act 02 Mining Centre Interest Bucket"
+		InterestPriority Prime < uid=4A79E0E45AFB482300001DB61CD3F215 > : "Legion Prime"
+		{
+			myMaxDistance VeryClose
+		}
+		InterestPriority "Raider Giant" < uid=4A79E0E45AFB482300001DB77D927EE3 > : "Affinity Giant"
+		{
+			myMaxDistance VeryClose
+			mySetSelfAsTarget TRUE
+		}
+		InterestPriority "Raiding Party" < uid=4A79E0E45AFB482300001DB87C483987 > : "Raiding Party"
+		{
+			myMaxDistance VeryClose
+			mySetSelfAsTarget TRUE
+		}
+		InterestPriority Extractor < uid=4A79E0E45AFB482300001DB9F8E2624E > : Extractor
+		{
+			myMaxDistance VeryClose
+		}
+		InterestPriority "Child Under Attack" < uid=4A79E0E45AFB482300001DBA7B22641D > : "Child Under Attack"
+		{
+			myEnabled TRUE
+			myMaxDistance VeryClose
+			mySetSelfAsTarget TRUE
+		}
+		InterestPriorityBucket Survival < uid=4A79E0E45AFB482300001DBB95A968FC >
+		{
+			myInterestList
+			{
+				InterestPriorityDynamic "Child Under Attack" < uid=4A79E0E45AFB482300001DBCA810FFCF > : "Child Under Attack"
+				{
+					myEnabled TRUE
+					myMinDistance VeryClose
+					myMaxDistance Close
+					myWeight 5
+				}
+				InterestPriorityDynamic Prime < uid=4A79E0E45AFB482300001DBD430B0891 > : "Legion Prime"
+				{
+					myMinDistance VeryClose
+					myMaxDistance Close
+					myWeight 15
+				}
+				InterestPriorityDynamic "Raider Giant" < uid=4A79E0E45AFB482300001DBE2B618E61 > : "Affinity Giant"
+				{
+					myMinDistance VeryClose
+					myMaxDistance Close
+					myWeight 12
+				}
+				InterestPriorityDynamic "Raiding Party" < uid=4A79E0E45AFB482300001DBFF551ED79 > : "Raiding Party"
+				{
+					myMinDistance VeryClose
+					myMaxDistance Close
+					myWeight 10
+				}
+				InterestPriorityDynamic "Raiding Party" < uid=4A79E0E45AFB482300001DC0DA909A9B > : "Raiding Party"
+				{
+					myMinDistance VeryClose
+					myMaxDistance Close
+					myWeight 10
+				}
+				InterestPriorityDynamic Extractor < uid=4A79E0E45AFB482300001DC1C1C44ED8 > : Extractor
+				{
+					myMinDistance VeryClose
+					myMaxDistance Medium
+					myWeight 5
+				}
+			}
+		}
+		InterestPriorityBucket "Dormant Legion" < uid=4A79E0E45AFB482300001DC2E6F1C207 >
+		{
+			myInterestList
+			{
+				InterestPriorityDynamic "Extractor (Dormant)" < uid=4A79E0E45AFB482300001DC39CB1C185 > : "Extractor (Dormant)"
+				{
+					myMaxDistance Close
+				}
+				InterestPriorityDynamic "Affinity Giant (Dormant)" < uid=4A79E0E45AFB482300001DC4C2ABD4CA > : "Affinity Giant (Dormant)"
+				{
+					myMaxDistance Close
+				}
+				InterestPriorityDynamic "Raiding Party (Dormant)" < uid=4A79E0E45AFB482300001DC521FAF0C9 > : "Raiding Party (Dormant)"
+				{
+					myMaxDistance Close
+				}
+			}
+		}
+		InterestPriorityBucket "Expansion Interests" < uid=4A79E0E45AFB482300001DC64973EF0B >
+		{
+			myInterestList
+			{
+				InterestPriorityDynamic "Minerals Rare" < uid=4A79E0E45AFB482300001DC75BDCB249 > : "Minerals Rare"
+				{
+					myInterestComponents
+					{
+						InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+						{
+							myAllianceRequirement Either
+						}
+						InterestPriorityComponentCategory Category
+						{
+							myCategory Pickup
+						}
+						InterestPriorityComponentSubCategory SubCategory
+						{
+							mySubCategory MineralSampleRare
+						}
+						InterestPriorityComponentCreepLevel "Creep Level"
+						{
+							myMaxCreepLevel 0.5
+						}
+						InterestPriorityComponentAttachedToParent "Attached To Parent"
+						{
+							myAttachmentParentCategories
+							{
+								SimUnitCategory Category Resource
+							}
+							myAttachmentParentSubCategories
+							{
+								SimUnitSubCategory SubCategory MineralsRare
+							}
+						}
+						InterestPriorityComponentStorySection "Story Section"
+						{
+							myStorySections
+							{
+								StorySection "Act 02 Refinery Chest Opened" Act_02_Refinery_Chest_Opened
+								StorySection "Act 03 BuildAlliance GameLoop" Act_03_BuildAlliance_GameLoop
+								StorySection "Act 04 Alliance GameLoop" Act_04_Alliance_GameLoop
+							}
+						}
+						InterestPriorityComponentSubCategoryVariant "Sub Category Variant 1 (Allanite)"
+						{
+							myVariant 1
+						}
+					}
+					myMinDistance Close
+					myMaxDistance Far
+					myWeight 3
+				}
+				InterestPriorityDynamic "Goldrush Equipment" < uid=4A79E0E45AFB482300001DC8C74D307C > : "Goldrush Equipment"
+				{
+					myInterestComponents
+					{
+						InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+						{
+							myAllianceRequirement Either
+						}
+						InterestPriorityComponentCategory Category
+						{
+							myCategory Pickup
+						}
+						InterestPriorityComponentSubCategory SubCategory
+						{
+							mySubCategory GoldrushEquipment
+						}
+						InterestPriorityComponentStorySection "Story Section"
+						{
+							myStorySections
+							{
+								StorySection "Act 02 Refinery Chest Opened" Act_02_Refinery_Chest_Opened
+								StorySection "Act 03 BuildAlliance GameLoop" Act_03_BuildAlliance_GameLoop
+								StorySection "Act 04 Alliance GameLoop" Act_04_Alliance_GameLoop
+							}
+						}
+						InterestPriorityComponentSubCategoryVariant "Sub Category Variant 1 (Fiber Wiring)"
+						{
+							myVariant 1
+						}
+						InterestPriorityComponentSubCategoryVariant "Sub Category Variant 2 (Act 2 Pickup)"
+						{
+							myVariant 2
+						}
+						InterestPriorityComponentSubCategoryVariant "Sub Category Variant 3 (Heat Exchanger)"
+						{
+							myVariant 3
+						}
+						InterestPriorityComponentSubCategoryVariant "Sub Category Variant 4 (Fuel Cell)"
+						{
+							myVariant 4
+						}
+						InterestPriorityComponentSubCategoryVariant "Sub Category Variant 5 (Air Filter)"
+						{
+							myVariant 5
+						}
+					}
+					myMinDistance Close
+					myMaxDistance Far
+					myWeight 12
+				}
+				InterestPriorityDynamic "Goldrush Wreckage" < uid=4A79E0E45AFB482300001DC931C7ECE4 > : "Goldrush Wreckage"
+				{
+					myInterestComponents
+					{
+						InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+						{
+							myAllianceRequirement Either
+						}
+						InterestPriorityComponentCategory Category
+						{
+							myCategory Pickup
+						}
+						InterestPriorityComponentSubCategory SubCategory
+						{
+							mySubCategory GoldrushWreckage
+						}
+						InterestPriorityComponentAttachedToParent "Attached To Parent"
+						{
+							myAttachmentParentFactions
+							{
+								FactionType Faction Unaligned
+							}
+							myAttachmentParentCategories
+							{
+								SimUnitCategory Category Wreckage
+							}
+							myAttachmentParentSubCategories
+							{
+								SimUnitSubCategory SubCategory None
+							}
+						}
+						InterestPriorityComponentCreepLevel "Creep Level"
+						{
+							myMaxCreepLevel 0.5
+						}
+						InterestPriorityComponentSubCategoryVariant "Sub Category Variant 1 (Cockpit)"
+						{
+							myVariant 1
+						}
+						InterestPriorityComponentSubCategoryVariant "Sub Category Variant 2 (Helium Diffuser)"
+						{
+							myVariant 2
+						}
+					}
+					myMinDistance Close
+					myMaxDistance Far
+					myWeight 8
+				}
+				InterestPriorityDynamic "Corrupted Nova" < uid=4A79E0E45AFB482300001DCAE71A5660 > : "Corrupted Nova (On RaiderGiant)"
+				{
+					myMinDistance Close
+					myMaxDistance Far
+					myWeight 10
+				}
+				InterestPriorityDynamic "Extractor Core" < uid=4A79E0E45AFB482300001DCB59EAFE30 > : "Extractor Core (On Extractor)"
+				{
+					myMinDistance Close
+					myMaxDistance Far
+					myWeight 10
+				}
+				InterestPriorityDynamic "Unallied Outpost" < uid=4A79E0E45AFB482300001DCCF78AEBA1 > : "Unallied Outpost"
+				{
+					myInterestComponents
+					{
+						InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+						{
+							myAllianceRequirement Allied
+						}
+						InterestPriorityComponentCategory Category
+						{
+							myCategory Outpost
+						}
+						InterestPriorityComponentFactionList "Faction List"
+						{
+							myFactions
+							{
+								FactionType Prospector Prospector
+							}
+						}
+						InterestPriorityComponentCreepLevel "Creep Level"
+						{
+							myMinCreepLevel 0.0
+							myMaxCreepLevel 0.5
+						}
+						InterestPriorityComponentStoryAct "Story Act"
+						{
+							myMinAct 2
+						}
+						InterestPriorityComponentStorySection "Story Section"
+						{
+							myStorySections
+							{
+								StorySection "New StorySection (0)" Act_02_Refinery_Chest_Opened
+							}
+						}
+					}
+					myMinDistance Close
+					myMaxDistance Far
+					myWeight 12
+				}
+				InterestPriorityDynamic "Electrum Hopper (Child)" < uid=4A79E0E45AFB482300001DCDF9249978 > : "Prospector Electrum Hopper"
+				{
+					myEnabled TRUE
+					myInterestComponents
+					{
+						InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+						{
+							myAllianceRequirement Allied
+						}
+						InterestPriorityComponentStorySection "Story Section"
+						{
+							myStorySections
+							{
+								StorySection "Chest Opened" Act_02_Refinery_Chest_Opened
+							}
+						}
+						InterestPriorityComponentCategory Category
+						{
+							myCategory Tower
+						}
+						InterestPriorityComponentSubCategory SubCategory
+						{
+							mySubCategory ElectrumHopper
+						}
+						InterestPriorityComponentFactionList "Faction List"
+						{
+							myFactions
+							{
+								FactionType "Prospector Allied" ProspectorAllied
+								FactionType Prospector Prospector
+							}
+						}
+						InterestPriorityComponentAttachedToParent "Attached to Parent"
+						{
+							myIsNotAttachedTo TRUE
+							myAttachmentParentCategories
+							{
+								SimUnitCategory Category NPC
+							}
+							myAttachmentParentSubCategories
+							{
+								SimUnitSubCategory SubCategory Worker
+							}
+						}
+						InterestPriorityComponentHasInterestTarget "Has Interest Target"
+						{
+						}
+					}
+					mySearchRestriction Children
+					myMaxDistance Close
+					myWeight 15
+				}
+				InterestPriorityDynamic "Outpost Slot" < uid=4A79E0E45AFB482300001DCECCB8796A > : "Outpost Slot"
+				{
+					myMinDistance Close
+					myMaxDistance Far
+					myWeight 5
+				}
+				InterestPriorityDynamic "Goldrush Site" < uid=4A79E0E45AFB482300001DCFC2AD05B3 > : "Goldrush Site"
+				{
+					myMinDistance Close
+					myMaxDistance Far
+					myWeight 12
+				}
+			}
+		}
+		InterestPriority "Child Under Attack" < uid=4A79E0E45AFB482300001DD062DA29A4 > : "Child Under Attack"
+		{
+			myEnabled TRUE
+			myMinDistance Close
+			myMaxDistance Far
+		}
+		InterestPriorityBucket "Fallback Interests" < uid=4A79E0E45AFB482300001DD1BFE893DE >
+		{
+			myInterestList
+			{
+				InterestPriorityDynamic "Minerals Rare" < uid=4A79E0E45AFB482300001DD2B094DE60 > : "Minerals Rare"
+				{
+					myInterestComponents
+					{
+						InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+						{
+							myAllianceRequirement Either
+						}
+						InterestPriorityComponentCategory Category
+						{
+							myCategory Pickup
+						}
+						InterestPriorityComponentSubCategory SubCategory
+						{
+							mySubCategory MineralSampleRare
+						}
+						InterestPriorityComponentCreepLevel "Creep Level"
+						{
+							myMaxCreepLevel 0.5
+						}
+						InterestPriorityComponentAttachedToParent "Attached To Parent"
+						{
+							myAttachmentParentCategories
+							{
+								SimUnitCategory Category Resource
+							}
+							myAttachmentParentSubCategories
+							{
+								SimUnitSubCategory SubCategory MineralsRare
+							}
+						}
+						InterestPriorityComponentStorySection "Story Section"
+						{
+							myStorySections
+							{
+								StorySection "Act 02 Refinery Chest Opened" Act_02_Refinery_Chest_Opened
+								StorySection "Act 03 BuildAlliance GameLoop" Act_03_BuildAlliance_GameLoop
+								StorySection "Act 04 Alliance GameLoop" Act_04_Alliance_GameLoop
+							}
+						}
+						InterestPriorityComponentSubCategoryVariant "Sub Category Variant 1 (Allanite)"
+						{
+							myVariant 1
+						}
+					}
+					myMinDistance Far
+					myMaxDistance VeryFar
+					myWeight 3
+					myNeverSkip TRUE
+				}
+				InterestPriorityDynamic "Goldrush Equipment" < uid=4A79E0E45AFB482300001DD31ABED55C > : "Goldrush Equipment"
+				{
+					myInterestComponents
+					{
+						InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+						{
+							myAllianceRequirement Either
+						}
+						InterestPriorityComponentCategory Category
+						{
+							myCategory Pickup
+						}
+						InterestPriorityComponentSubCategory SubCategory
+						{
+							mySubCategory GoldrushEquipment
+						}
+						InterestPriorityComponentStorySection "Story Section"
+						{
+							myStorySections
+							{
+								StorySection "Act 02 Refinery Chest Opened" Act_02_Refinery_Chest_Opened
+								StorySection "Act 03 BuildAlliance GameLoop" Act_03_BuildAlliance_GameLoop
+								StorySection "Act 04 Alliance GameLoop" Act_04_Alliance_GameLoop
+							}
+						}
+						InterestPriorityComponentSubCategoryVariant "Sub Category Variant 1 (Fiber Wiring)"
+						{
+							myVariant 1
+						}
+						InterestPriorityComponentSubCategoryVariant "Sub Category Variant 2 (Act 2 Pickup)"
+						{
+							myVariant 2
+						}
+						InterestPriorityComponentSubCategoryVariant "Sub Category Variant 3 (Heat Exchanger)"
+						{
+							myVariant 3
+						}
+						InterestPriorityComponentSubCategoryVariant "Sub Category Variant 4 (Fuel Cell)"
+						{
+							myVariant 4
+						}
+						InterestPriorityComponentSubCategoryVariant "Sub Category Variant 5 (Air Filter)"
+						{
+							myVariant 5
+						}
+					}
+					myMinDistance Far
+					myMaxDistance VeryFar
+					myWeight 10
+					myNeverSkip TRUE
+				}
+				InterestPriorityDynamic "Goldrush Wreckage" < uid=4A79E0E45AFB482300001DD4A99A48A6 > : "Goldrush Wreckage"
+				{
+					myInterestComponents
+					{
+						InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+						{
+							myAllianceRequirement Either
+						}
+						InterestPriorityComponentCategory Category
+						{
+							myCategory Pickup
+						}
+						InterestPriorityComponentSubCategory SubCategory
+						{
+							mySubCategory GoldrushWreckage
+						}
+						InterestPriorityComponentAttachedToParent "Attached To Parent"
+						{
+							myAttachmentParentFactions
+							{
+								FactionType Faction Unaligned
+							}
+							myAttachmentParentCategories
+							{
+								SimUnitCategory Category Wreckage
+							}
+							myAttachmentParentSubCategories
+							{
+								SimUnitSubCategory SubCategory None
+							}
+						}
+						InterestPriorityComponentCreepLevel "Creep Level"
+						{
+							myMaxCreepLevel 0.5
+						}
+						InterestPriorityComponentSubCategoryVariant "Sub Category Variant 1 (Cockpit)"
+						{
+							myVariant 1
+						}
+						InterestPriorityComponentSubCategoryVariant "Sub Category Variant 2 (Helium Diffuser)"
+						{
+							myVariant 2
+						}
+					}
+					myMinDistance Far
+					myMaxDistance VeryFar
+					myWeight 10
+					myNeverSkip TRUE
+				}
+				InterestPriorityDynamic "Corrupted Nova" < uid=4A79E0E45AFB482300001DD552174828 > : "Corrupted Nova (On RaiderGiant)"
+				{
+					myMinDistance Far
+					myMaxDistance VeryFar
+					myWeight 10
+					myNeverSkip TRUE
+				}
+				InterestPriorityDynamic "Unallied Outpost" < uid=4A79E0E45AFB482300001DD64466FBD4 > : "Unallied Outpost"
+				{
+					myInterestComponents
+					{
+						InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+						{
+							myAllianceRequirement Allied
+						}
+						InterestPriorityComponentCategory Category
+						{
+							myCategory Outpost
+						}
+						InterestPriorityComponentFactionList "Faction List"
+						{
+							myFactions
+							{
+								FactionType Prospector Prospector
+							}
+						}
+						InterestPriorityComponentCreepLevel "Creep Level"
+						{
+							myMinCreepLevel 0.0
+							myMaxCreepLevel 0.5
+						}
+						InterestPriorityComponentStoryAct "Story Act"
+						{
+							myMinAct 2
+						}
+						InterestPriorityComponentStorySection "Story Section"
+						{
+							myStorySections
+							{
+								StorySection "New StorySection (0)" Act_02_Refinery_Chest_Opened
+							}
+						}
+					}
+					myMinDistance Far
+					myMaxDistance VeryFar
+					myWeight 12
+					myNeverSkip TRUE
+				}
+				InterestPriorityDynamic "Outpost Slot" < uid=4A79E0E45AFB482300001DD7A89ED231 > : "Outpost Slot"
+				{
+					myMinDistance Far
+					myMaxDistance VeryFar
+					myWeight 10
+					myNeverSkip TRUE
+				}
+				InterestPriorityDynamic "Goldrush Site" < uid=4A79E0E45AFB482300001DD8D33A60FC > : "Goldrush Site"
+				{
+					myMinDistance Far
+					myMaxDistance VeryFar
+					myWeight 12
+				}
+			}
+		}
+		InterestPriorityBucket "Planetwide Fallback Interests" < uid=4A79E0E45AFB482300001DD93B8424BB >
+		{
+			myInterestList
+			{
+				InterestPriorityDynamic "Goldrush Equipment" < uid=4A79E0E45AFB482300001DDA484FC044 > : "Goldrush Equipment"
+				{
+					myInterestComponents
+					{
+						InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+						{
+							myAllianceRequirement Either
+						}
+						InterestPriorityComponentCategory Category
+						{
+							myCategory Pickup
+						}
+						InterestPriorityComponentSubCategory SubCategory
+						{
+							mySubCategory GoldrushEquipment
+						}
+						InterestPriorityComponentStorySection "Story Section"
+						{
+							myStorySections
+							{
+								StorySection "Act 02 Refinery Chest Opened" Act_02_Refinery_Chest_Opened
+								StorySection "Act 03 BuildAlliance GameLoop" Act_03_BuildAlliance_GameLoop
+								StorySection "Act 04 Alliance GameLoop" Act_04_Alliance_GameLoop
+							}
+						}
+						InterestPriorityComponentSubCategoryVariant "Sub Category Variant 1 (Fiber Wiring)"
+						{
+							myVariant 1
+						}
+						InterestPriorityComponentSubCategoryVariant "Sub Category Variant 2 (Act 2 Pickup)"
+						{
+							myVariant 2
+						}
+						InterestPriorityComponentSubCategoryVariant "Sub Category Variant 3 (Heat Exchanger)"
+						{
+							myVariant 3
+						}
+						InterestPriorityComponentSubCategoryVariant "Sub Category Variant 4 (Fuel Cell)"
+						{
+							myVariant 4
+						}
+						InterestPriorityComponentSubCategoryVariant "Sub Category Variant 5 (Air Filter)"
+						{
+							myVariant 5
+						}
+					}
+					myMinDistance VeryFar
+					myWeight 10
+					myNeverSkip TRUE
+				}
+				InterestPriorityDynamic "Goldrush Wreckage" < uid=4A79E0E45AFB482300001DDB161E9C26 > : "Goldrush Wreckage"
+				{
+					myInterestComponents
+					{
+						InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+						{
+							myAllianceRequirement Either
+						}
+						InterestPriorityComponentCategory Category
+						{
+							myCategory Pickup
+						}
+						InterestPriorityComponentSubCategory SubCategory
+						{
+							mySubCategory GoldrushWreckage
+						}
+						InterestPriorityComponentAttachedToParent "Attached To Parent"
+						{
+							myAttachmentParentFactions
+							{
+								FactionType Faction Unaligned
+							}
+							myAttachmentParentCategories
+							{
+								SimUnitCategory Category Wreckage
+							}
+							myAttachmentParentSubCategories
+							{
+								SimUnitSubCategory SubCategory None
+							}
+						}
+						InterestPriorityComponentCreepLevel "Creep Level"
+						{
+							myMaxCreepLevel 0.5
+						}
+						InterestPriorityComponentSubCategoryVariant "Sub Category Variant 1 (Cockpit)"
+						{
+							myVariant 1
+						}
+						InterestPriorityComponentSubCategoryVariant "Sub Category Variant 2 (Helium Diffuser)"
+						{
+							myVariant 2
+						}
+					}
+					myMinDistance VeryFar
+					myWeight 10
+					myNeverSkip TRUE
+				}
+			}
+		}
+	}
+}
+
+InterestSet "Expedition Outpost - Observatory - Act 1" < uid=9FD9E8185980E7ED00000176E95A4183 > : "Expedition Outpost - Observation Deck"
+{
+	mySimUnit < uid=9FD9E8185980E7ED00000177974ED187 > = act_1_observation_deck
+	myInterestList
+	{
+		InterestPriority "Creep Shed - Act 1" < uid=4A79E0E45B27F4FD00001F962D3BB01A > = "Creep Shed Act 1"
+		InterestPriority Prime < uid=4A79E0E45B27F4FD00001F973E9D3B94 > : "Legion Prime"
+		{
+			myMaxDistance VeryClose
+		}
+		InterestPriority "Raider Giant" < uid=4A79E0E45B27F4FD00001F989778DE5E > : "Affinity Giant"
+		{
+			myMaxDistance VeryClose
+			mySetSelfAsTarget TRUE
+		}
+		InterestPriority "Raiding Party" < uid=4A79E0E45B27F4FD00001F99D1F3E33F > : "Raiding Party"
+		{
+			myMaxDistance VeryClose
+			mySetSelfAsTarget TRUE
+		}
+		InterestPriority Extractor < uid=4A79E0E45B27F4FD00001F9A21B8227B > : Extractor
+		{
+			myMaxDistance VeryClose
+		}
+		InterestPriority "Child Under Attack" < uid=4A79E0E45B27F4FD00001F9BF62EFC43 > : "Child Under Attack"
+		{
+			myEnabled TRUE
+			myMaxDistance VeryClose
+			mySetSelfAsTarget TRUE
+		}
+		InterestPriorityBucket Survival < uid=4A79E0E45B27F4FD00001F9CA7F546F6 >
+		{
+			myInterestList
+			{
+				InterestPriorityDynamic "Child Under Attack" < uid=4A79E0E45B27F4FD00001F9DE951A32C > : "Child Under Attack"
+				{
+					myEnabled TRUE
+					myMinDistance VeryClose
+					myMaxDistance Close
+					myWeight 5
+				}
+				InterestPriorityDynamic Prime < uid=4A79E0E45B27F4FD00001F9E091AEF87 > : "Legion Prime"
+				{
+					myMinDistance VeryClose
+					myMaxDistance Close
+					myWeight 15
+				}
+				InterestPriorityDynamic "Raider Giant" < uid=4A79E0E45B27F4FD00001F9F8857C603 > : "Affinity Giant"
+				{
+					myMinDistance VeryClose
+					myMaxDistance Close
+					myWeight 12
+				}
+				InterestPriorityDynamic "Raiding Party" < uid=4A79E0E45B27F4FD00001FA08598E309 > : "Raiding Party"
+				{
+					myMinDistance VeryClose
+					myMaxDistance Close
+					myWeight 10
+				}
+				InterestPriorityDynamic "Raiding Party" < uid=4A79E0E45B27F4FD00001FA1E1B47855 > : "Raiding Party"
+				{
+					myMinDistance VeryClose
+					myMaxDistance Close
+					myWeight 10
+				}
+				InterestPriorityDynamic Extractor < uid=4A79E0E45B27F4FD00001FA23F0CD533 > : Extractor
+				{
+					myMinDistance VeryClose
+					myMaxDistance Medium
+					myWeight 5
+				}
+			}
+		}
+		InterestPriorityBucket "Dormant Legion" < uid=4A79E0E45B27F4FD00001FA3095D6B0F >
+		{
+			myInterestList
+			{
+				InterestPriorityDynamic "Extractor (Dormant)" < uid=4A79E0E45B27F4FD00001FA44B9F4186 > : "Extractor (Dormant)"
+				{
+					myMaxDistance Close
+				}
+				InterestPriorityDynamic "Affinity Giant (Dormant)" < uid=4A79E0E45B27F4FD00001FA509ABEE70 > : "Affinity Giant (Dormant)"
+				{
+					myMaxDistance Close
+				}
+				InterestPriorityDynamic "Raiding Party (Dormant)" < uid=4A79E0E45B27F4FD00001FA65057073B > : "Raiding Party (Dormant)"
+				{
+					myMaxDistance Close
+				}
+			}
+		}
+		InterestPriorityBucket "Expansion Interests" < uid=4A79E0E45B27F4FD00001FA7B2B01B2D >
+		{
+			myInterestList
+			{
+				InterestPriorityDynamic Extractor < uid=4A79E0E45B27F4FD00001FA80392EF8C > : Extractor
+				{
+					myMinDistance Close
+					myMaxDistance Far
+					myWeight 12
+				}
+				InterestPriorityDynamic "Warden Puzzle (Unsolved)" < uid=4A79E0E45B27F4FD00001FA9551C59E0 > : "Warden Puzzle (Unsolved)"
+				{
+					myMinDistance Close
+					myMaxDistance Far
+					myWeight 5
+				}
+				InterestPriorityDynamic "Corrupted Nova" < uid=4A79E0E45B27F4FD00001FAABD9AE2A7 > : "Corrupted Nova (General)"
+				{
+					myMinDistance Close
+					myMaxDistance Far
+					myWeight 5
+				}
+				InterestPriorityDynamic Flora < uid=4A79E0E45B27F4FD00001FAB8FC1EF4A > : "Flora (General)"
+				{
+					myMinDistance Close
+					myMaxDistance Far
+					myWeight 3
+				}
+				InterestPriorityDynamic "Unallied Outpost" < uid=4A79E0E45B27F4FD00001FAC1BBB9FB1 > : "Unallied Outpost"
+				{
+					myInterestComponents
+					{
+						InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+						{
+							myAllianceRequirement Allied
+						}
+						InterestPriorityComponentCategory Category
+						{
+							myCategory Outpost
+						}
+						InterestPriorityComponentFactionList "Faction List"
+						{
+							myFactions
+							{
+								FactionType Unaligned Expedition
+							}
+						}
+						InterestPriorityComponentCreepLevel "Creep Level"
+						{
+							myMinCreepLevel 0.0
+							myMaxCreepLevel 0.5
+						}
+						InterestPriorityComponentStoryAct "Story Act"
+						{
+							myMinAct 2
+						}
+					}
+					myMinDistance Close
+					myMaxDistance Far
+					myWeight 10
+				}
+				InterestPriorityDynamic "Sensor Array" < uid=4A79E0E45B27F4FD00001FADACDF167F > : "Expedition Observation Tower"
+				{
+					myEnabled TRUE
+					myInterestComponents
+					{
+						InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+						{
+							myAllianceRequirement Allied
+						}
+						InterestPriorityComponentCategory Category
+						{
+							myCategory Tower
+						}
+						InterestPriorityComponentSubCategory SubCategory
+						{
+							mySubCategory ObservatoryTower
+						}
+						InterestPriorityComponentFactionList "Faction List"
+						{
+							myFactions
+							{
+								FactionType "Expedition Allied" ExpeditionAllied
+								FactionType Expedition Expedition
+							}
+						}
+						InterestPriorityComponentStoryAct "Story Act"
+						{
+							myMinAct 2
+						}
+						InterestPriorityComponentAttachedToParent "Attached To Parent"
+						{
+							myIsNotAttachedTo TRUE
+							myAttachmentParentCategories
+							{
+								SimUnitCategory Category NPC
+							}
+							myAttachmentParentSubCategories
+							{
+								SimUnitSubCategory SubCategory Worker
+							}
+						}
+						InterestPriorityComponentHasInterestTarget "Has Interest Target"
+						{
+						}
+					}
+					mySearchRestriction Children
+					myMaxDistance Close
+					myWeight 12
+				}
+				InterestPriorityDynamic "Fauna Analyzer" < uid=4A79E0E45B27F4FD00001FB0818013CD > : "Fauna Analyzer"
+				{
+					myMaxDistance VeryClose
+					myWeight 12
+				}
+				InterestPriorityDynamic "Chest - TAG" < uid=4A79E0E45B27F4FD00001FB1D5B8816C > : "Chest - TAG"
+				{
+					myInterestComponents
+					{
+						InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+						{
+							myAllianceRequirement Allied
+						}
+						InterestPriorityComponentCategory Category
+						{
+							myCategory Puzzle
+						}
+						InterestPriorityComponentSubCategory SubCategory
+						{
+							mySubCategory Container
+						}
+						InterestPriorityComponentFaction Faction
+						{
+						}
+						InterestPriorityComponentSolvedState "Solved State"
+						{
+						}
+						InterestPriorityComponentStoryAct "Story Act"
+						{
+							myMinAct 2
+						}
+					}
+					myMinDistance Close
+					myMaxDistance Far
+					myWeight 5
+				}
+				InterestPriorityDynamic "Data Sample" < uid=4A79E0E45B27F4FD00001FB2C1228BDC > : "Data Sample"
+				{
+					myMinDistance Close
+					myMaxDistance Far
+					myWeight 5
+				}
+				InterestPriorityDynamic "Fauna Infection" < uid=4A79E0E45B27F4FD00001FB38D3AD541 > : "Fauna Infection"
+				{
+					myMinDistance Close
+					myMaxDistance Far
+					myWeight 10
+				}
+				InterestPriorityDynamic "Legion Data Core" < uid=4A79E0E45B27F4FD00001FAEC63A5699 > : "Legion Data Core"
+				{
+					myMinDistance Close
+					myMaxDistance Far
+					myWeight 8
+				}
+				InterestPriorityDynamic "Outpost Slot" < uid=4A79E0E45B27F4FD00001FAF46014AAB > : "Outpost Slot"
+				{
+					myMinDistance Close
+					myMaxDistance Far
+					myWeight 8
+				}
+			}
+		}
+		InterestPriority "Far Child Under Attack" < uid=4A79E0E45B27F4FD00001FB40CA5A150 > : "Child Under Attack"
+		{
+			myMinDistance Close
+			myMaxDistance Far
+		}
+		InterestPriorityBucket "Fallback Interests" < uid=4A79E0E45B27F4FD00001FB51D07F249 >
+		{
+			myInterestList
+			{
+				InterestPriorityDynamic "Warden Puzzle (Unsolved)" < uid=4A79E0E45B27F4FD00001FB6C8AEE65E > : "Warden Puzzle (Unsolved)"
+				{
+					myMinDistance Far
+					myMaxDistance VeryFar
+					myWeight 5
+					myNeverSkip TRUE
+				}
+				InterestPriorityDynamic "Corrupted Nova" < uid=4A79E0E45B27F4FD00001FB79365B2D7 > : "Corrupted Nova (General)"
+				{
+					myMinDistance Far
+					myMaxDistance VeryFar
+					myWeight 5
+					myNeverSkip TRUE
+				}
+				InterestPriorityDynamic Flora < uid=4A79E0E45B27F4FD00001FB8B2EB2ECA > : "Flora (General)"
+				{
+					myMinDistance Far
+					myMaxDistance VeryFar
+					myWeight 2
+					myNeverSkip TRUE
+				}
+				InterestPriorityDynamic "Legion Data Core" < uid=4A79E0E45B27F4FD00001FBA2F7F8F27 > : "Legion Data Core"
+				{
+					myMinDistance Far
+					myMaxDistance VeryFar
+					myWeight 8
+					myNeverSkip TRUE
+				}
+				InterestPriorityDynamic "Unallied Outpost" < uid=4A79E0E45B27F4FD00001FB9905C1764 > : "Unallied Outpost"
+				{
+					myInterestComponents
+					{
+						InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+						{
+							myAllianceRequirement Allied
+						}
+						InterestPriorityComponentCategory Category
+						{
+							myCategory Outpost
+						}
+						InterestPriorityComponentFactionList "Faction List"
+						{
+							myFactions
+							{
+								FactionType Unaligned Expedition
+							}
+						}
+						InterestPriorityComponentCreepLevel "Creep Level"
+						{
+							myMinCreepLevel 0.0
+							myMaxCreepLevel 0.5
+						}
+						InterestPriorityComponentStoryAct "Story Act"
+						{
+							myMinAct 2
+						}
+					}
+					myMinDistance Far
+					myMaxDistance VeryFar
+					myWeight 10
+					myNeverSkip TRUE
+				}
+				InterestPriorityDynamic "Chest - TAG" < uid=4A79E0E45B27F4FD00001FBC7A448287 > : "Chest - TAG"
+				{
+					myInterestComponents
+					{
+						InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+						{
+							myAllianceRequirement Allied
+						}
+						InterestPriorityComponentCategory Category
+						{
+							myCategory Puzzle
+						}
+						InterestPriorityComponentSubCategory SubCategory
+						{
+							mySubCategory Container
+						}
+						InterestPriorityComponentFaction Faction
+						{
+						}
+						InterestPriorityComponentSolvedState "Solved State"
+						{
+						}
+						InterestPriorityComponentStoryAct "Story Act"
+						{
+							myMinAct 2
+						}
+					}
+					myMinDistance Far
+					myMaxDistance VeryFar
+					myWeight 5
+				}
+				InterestPriorityDynamic "Data Sample" < uid=4A79E0E45B27F4FD00001FBD0AD35D9C > : "Data Sample"
+				{
+					myMinDistance Far
+					myMaxDistance VeryFar
+					myWeight 6
+					myNeverSkip TRUE
+				}
+				InterestPriorityDynamic "Fauna Infection" < uid=4A79E0E45B27F4FD00001FBED906ED56 > : "Fauna Infection"
+				{
+					myMinDistance Far
+					myMaxDistance VeryFar
+					myWeight 6
+				}
+				InterestPriorityDynamic "Outpost Slot" < uid=4A79E0E45B27F4FD00001FBB91327315 > : "Outpost Slot"
+				{
+					myMinDistance Far
+					myMaxDistance VeryFar
+					myWeight 8
+					myNeverSkip TRUE
+				}
+			}
+		}
+		InterestPriorityBucket "Planetwide Fallback Interests" < uid=4A79E0E45B27F4FD00001FBFDBAE87B8 >
+		{
+			myInterestList
+			{
+				InterestPriorityDynamic "Legion Data Core" < uid=4A79E0E45B27F4FD00001FC085A076F0 > : "Legion Data Core"
+				{
+					myMinDistance VeryFar
+					myMaxDistance PlanetWide
+					myWeight 10
+					myNeverSkip TRUE
+				}
+				InterestPriorityDynamic Flora < uid=4A79E0E45B27F4FD00001FC1150FE465 > : "Flora (General)"
+				{
+					myInterestComponents
+					{
+						InterestPriorityComponentAllianceRequirement AllianceRequirement
+						{
+							myAllianceRequirement Either
+						}
+						InterestPriorityComponentCategory Category
+						{
+							myCategory Pickup
+						}
+						InterestPriorityComponentSubCategory SubCategory
+						{
+							mySubCategory RareFlora
+						}
+						InterestPriorityComponentCreepLevel "Creep Level"
+						{
+							myMaxCreepLevel 1.0
+						}
+						InterestPriorityComponentAttachedToParent "Attached To Parent"
+						{
+							myAttachmentParentCategories
+							{
+								SimUnitCategory Category PickupBase
+							}
+							myAttachmentParentSubCategories
+							{
+								SimUnitSubCategory SubCategory PluckableBase
+							}
+						}
+						InterestPriorityComponentStoryAct "Story Act"
+						{
+							myMinAct 2
+						}
+						InterestPriorityComponentSubCategoryVariant "SubCategoryVariant (1)"
+						{
+							myVariant 1
+						}
+						InterestPriorityComponentSubCategoryVariant "SubCategoryVariant (6)"
+						{
+							myVariant 6
+						}
+						InterestPriorityComponentSubCategoryVariant "SubCategoryVariant (9)"
+						{
+							myVariant 9
+						}
+						InterestPriorityComponentSubCategoryVariant "SubCategoryVariant (10)"
+						{
+							myVariant 10
+						}
+						InterestPriorityComponentSubCategoryVariant "SubCategoryVariant (13)"
+						{
+							myVariant 13
+						}
+						InterestPriorityComponentSubCategoryVariant "SubCategoryVariant (16)"
+						{
+							myVariant 16
+						}
+						InterestPriorityComponentSubCategoryVariant "SubCategoryVariant (20)"
+						{
+							myVariant 20
+						}
+					}
+					myMinDistance VeryFar
+					myWeight 10
+					myNeverSkip TRUE
+				}
+				InterestPriorityDynamic "Data Sample" < uid=4A79E0E45B27F4FD00001FC2FB8DD7CF > : "Data Sample"
+				{
+					myMinDistance VeryFar
+					myWeight 10
+					myNeverSkip TRUE
+				}
+			}
+		}
+	}
+}
+
+InterestSet "Prospector Armory - Gallas Armory - Act 3" < uid=9FD9E8185A2861C5000020222055B739 > : "Prospector Outpost - Defence Base"
+{
+	mySimUnit < uid=9FD9E8185A319F91000022E6933599CB > = act_3_vylus_observatory
+}
+
+InterestSet "Expedition Outpost - Fern's Workshop - Act 2" < uid=4A79E0E45A95895200001B508FAFB088 > : "Expedition Outpost - Research Base"
+{
+	mySimUnit < uid=4A79E0E45A95895200001B51DF197E82 > = act_2_sonatus_observatory
+}
+

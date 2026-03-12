@@ -1,0 +1,30 @@
+include ./template_pilot.mplayermod
+include ./tuning/mod_tuning_master.juice
+
+PlayerMod ShipWarden_One < uid=A08A88CF583C79E3000002CA19F7D777 > : template_pilot
+{
+	myAttributeMods
+	{
+		AttributeMod PilotAbility
+		{
+			myType Ability_XPRegenRate
+			myPercentageValue = Warden_Ship_Relic_1_AbilityCharge
+		}
+		AttributeMod Defense
+		{
+			myType PartStat_Defense
+			myAddValue = Warden_Ship_Relic_1_Defense
+		}
+		AttributeMod ParryDamage
+		{
+			myType Player_ParryDamage
+			myAddValue = Warden_Ship_Relic_1_ParryDamage
+		}
+	}
+	myIsAgentMod TRUE
+	myEquipPartTypes
+	{
+		PartType Pilot Hull
+	}
+}
+

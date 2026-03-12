@@ -1,0 +1,245 @@
+include "onward/game system data/fruit/ui/collection/databasesubcategory.fruit"
+
+CustomDatabaseEntry Profile < uid=1ABBD50B584AE9F70000393F1FAF8671 >
+{
+	myLocalizedDescription "contextComment = \"Left blank to leave more room for the narrative text. Database tactics tips about the Outlaw faction.\", description = \"collectibles_database_outlaws_profile_tactics\", enabled = true, guid = #1ABBD50B584AE9DA00003824E3D6DD1D, lineVersion = 1, maxLength = 0, text = \"|empty|\""
+	myLocalizedNarrative "contextComment = \"[PLACEHOLDER - do not translate].\nDatabase narrative blurb about the Outlaw faction\", description = \"collectibles_database_outlaws_profile_description\", enabled = true, guid = #A08A88CF589A3A7D000030C1411527D4, lineVersion = 1, maxLength = 770, text = \"The Outlaws who roam the wild space between the worlds of Atlas are a formidable force to be reckoned with. Like vultures circling a dying animal, they wait in space while the Legion devastates Atlas, jumping at the chance to plunder from any traveller foolish enough to wander through their territory. \n\nThey are a disconnected, scattered collection of criminal scum, opportunistic in the extreme and allergic to infrastructure or organized governance.\n\nThe few Outlaw friends we've made in Atlas seem to work with us more to further their own ends, than out of any greater sense of loyalty.\"}"
+	myPortrait onward/baked/textures/ui/icons/database_banner_large/outlaws/ui-database-outlaws-large.dds
+	mySprite "mySpriteId = -1530616979, mySpritesheet = F\"onward/ui/spritesheets/ui-icons-collection-database.spritesheet\""
+	myBannerSprite "mySpriteId = -1530616979, mySpritesheet = F\"onward/ui/spritesheets/ui-icons-collection-database.spritesheet\""
+	myAttachScreenSprite "mySpriteId = -1530616979, mySpritesheet = F\"onward/ui/spritesheets/ui-icons-collection-database.spritesheet\""
+	myRevealedChallengeType Discover_Outlaws
+	myUnlockedChallengeType Discover_Outlaws
+	myCollectibleSubType Faction
+	myLocalizedName "contextComment = \"Name for Database entry about the Outlaw faction\", description = \"collectibles_database_outlaws_profile_name\", enabled = true, guid = #1ABBD50B584AE9DA00003822BD6FC6DB, lineVersion = 1, maxLength = 30, text = \"Outlaws\""
+}
+
+SimUnitDatabaseEntries Outposts
+{
+	SimUnitDatabaseEntry "Outlaw Outposts" < uid=A08A88CF59A06ED10003DE429F5CFD7D >
+	{
+		myLocalizedDescription "contextComment = \"[PLACEHOLDER - do not translate].\", description = \"collectibles_database_outlaws_base_description\", enabled = true, guid = #A08A88CF59A06E690003DE2FE232F1AD, lineVersion = 1, maxLength = 248, text = \"Raid Strongholds to gain access to some\nof the rarest loot in space\n\nWith the help of an Outlaw pilot, we can\nset up a transportation network to quickly\njump to any defeated Outlaw Stronghold\""
+		myLocalizedShortDescription "contextComment = \"[PLACEHOLDER - do not translate].\nA short description for outlaw outposts, typically displayed on starmap rollover panels.\", description = \"collectibles_database_outlaws_base_shortdescription\", enabled = true, guid = #A08A88CF5AC3F0290001B34361BAE7AB, lineVersion = 0, maxLength = 42, text = \"Outlaw Outpost Short Description\""
+		myLocalizedNarrative "contextComment = \"[PLACEHOLDER - do not translate].\", description = \"collectibles_database_outlaws_base_narrative\", enabled = true, guid = #A08A88CF59A06EA50003DE3F7B4513DE, lineVersion = 1, maxLength = 337, text = \"When an Outlaw Captain gains enough clout & scavenged booty, they set about fortifying a space wreck to defend their holdings from other opportunists. Outlaws in their employ help defend these Strongholds and raid the surrounding space to add to their riches.\""
+		myPortrait onward/baked/textures/ui/icons/database_banner_large/outlaws/ui-database-outlaws-base-large.dds
+		mySprite "mySpriteId = 1779018103, mySpritesheet = F\"onward/ui/spritesheets/ui-icons-collection-database.spritesheet\""
+		myBannerSprite "mySpriteId = 1779018103, mySpritesheet = F\"onward/ui/spritesheets/ui-icons-collection-database.spritesheet\""
+		myAttachScreenSprite "mySpriteId = 1779018103, mySpritesheet = F\"onward/ui/spritesheets/ui-icons-collection-database.spritesheet\""
+		myRevealedChallengeType Discover_OutlawBase
+		myUnlockedChallengeType Discover_OutlawBase
+		myDeathChallengeType Death_OutlawStronghold
+		myCollectibleSubType Structure
+		mySimUnitFiles
+		{
+			file "" "onward/game system data/juice/sim/outlaw_outpost.msimunit"
+			file "Collaborator Stronghold" "onward/game system data/juice/sim/collab_outlaw_outpost_base.msimunit"
+			file "" "onward/game system data/juice/sim/outlaw_outpost_base.msimunit"
+			file Wreck "onward/game system data/juice/sim/outlaw_outpost_wreck.msimunit"
+			file Turret "onward/game system data/juice/sim/outlaw_outpost_turret_01.msimunit"
+			file Turret "onward/game system data/juice/sim/outlaw_outpost_turret_02.msimunit"
+			file Turret "onward/game system data/juice/sim/outlaw_outpost_turret_03.msimunit"
+		}
+	}
+	SimUnitDatabaseEntry "Outlaw Hub" < uid=A08A88CF5BFEEAEE00009BFE1BC7F63A >
+	{
+		myLocalizedDescription "contextComment = \"A tactical summary of the Outlaw Hub. For other outpost types, this typically involves something to do with what they bring to the table/how they function.\", description = \"database-outlaw-description-outlawhub\", enabled = true, guid = #A08A88CF5BFEEB350000B904571A10C9, lineVersion = 0, maxLength = 30, text = \"[Outlaw Hub - Tactics.]\""
+		myLocalizedShortDescription "contextComment = \"A short description of the outlaw \", description = \"database-outlaw-shortdescription-outlawhub\", enabled = true, guid = #A08A88CF5C1BEA58000378DEA1192F83, lineVersion = 0, maxLength = 42, text = \"[Outlaw Hub - Short Description]\""
+		myLocalizedNarrative "contextComment = \"A narrative summary of the Outlaw Hub, and it's role in Atlas as the leader of the circus that is the outlaw games.\", description = \"database-outlaw-narrative-outlawhub\", enabled = true, guid = #A08A88CF5BFEEB350000B9089FFE569A, lineVersion = 0, maxLength = 32, text = \"[Outlaw Hub - Narrative.]\"}"
+		myPortrait onward/baked/textures/UI/icons/database_banner_large/outlaws/ui-database-outlaws-fortunesrest-large.dds
+		mySprite "mySpriteId = -812345846, mySpritesheet = F\"onward/ui/spritesheets/ui-icons-collection-database-03.spritesheet\""
+		myBannerSprite "mySpriteId = -812345846, mySpritesheet = F\"onward/ui/spritesheets/ui-icons-collection-database-03.spritesheet\""
+		myAttachScreenSprite "mySpriteId = -812345846, mySpritesheet = F\"onward/ui/spritesheets/ui-icons-collection-database-03.spritesheet\""
+		myRevealedChallengeType Unlock_OutlawHub
+		myUnlockedChallengeType Unlock_OutlawHub
+		myCollectibleSubType Faction
+		mySimUnitFiles
+		{
+			file "Outlaw Hub" "onward/game system data/juice/sim/outlaw_hub.msimunit"
+		}
+	}
+	SimUnitDatabaseEntry Mine < uid=9E6AFEDA5AB128F30001DD59E3BE3522 >
+	{
+		myLocalizedDescription "contextComment = \"Database tactics tips for dealing with Outlaw minefields\", description = \"collectibles_database_outlaws_mines_description\", enabled = true, guid = #9E6AFEDA5AB117C000001BED2F84CDE3, lineVersion = 0, maxLength = 142, text = \"[Shoot mines before they can reach you\n\nCladding ships in Outlaw Armor will prevent the mines from attacking]\""
+		myLocalizedNarrative "contextComment = \"Database narrative desciption regarding Outlaw minefields\", description = \"collectibles_database_outlaws_mines_narrative\", enabled = true, guid = #9E6AFEDA5AB117C000001BF1E936A007, lineVersion = 0, maxLength = 246, text = \"[Outlaws booby trap space close to their strongholds with proximity-activated space mines to keep intruders out. The mines recognize outsiders and approach them before exploding violently.]\""
+		myPortrait onward/baked/textures/ui/icons/database_banner_large/outlaws/ui-database-outlaws-mine.dds
+		mySprite "mySpriteId = -416961074, mySpritesheet = F\"onward/ui/spritesheets/ui-icons-collection-database-03.spritesheet\""
+		myBannerSprite "mySpriteId = -416961074, mySpritesheet = F\"onward/ui/spritesheets/ui-icons-collection-database-03.spritesheet\""
+		myAttachScreenSprite "mySpriteId = -416961074, mySpritesheet = F\"onward/ui/spritesheets/ui-icons-collection-database-03.spritesheet\""
+		myRevealedChallengeType Discover_OutlawMine
+		myUnlockedChallengeType Discover_OutlawMine
+		myDeathChallengeType Death_OutlawMine
+		myCollectibleSubType Structure
+		mySimUnitFiles
+		{
+			file Mine "onward/game system data/juice/sim/outlaw_mine.msimunit"
+			file Single "onward/game system data/juice/sim/outlaw_mine_single.msimunit"
+			file Laser "onward/game system data/juice/sim/outlaw_laser_mine.msimunit"
+			file "Laser Single" "onward/game system data/juice/sim/outlaw_laser_mine_single.msimunit"
+		}
+	}
+}
+
+NPCDatabaseEntries Units
+{
+	NPCDatabaseEntry Basic < uid=1ABBD50B594979C90001E21C2F521943 >
+	{
+		myLocalizedDescription "contextComment = \"[Placeholder - do not translate] Database tactics tips for the basic Outlaw unit type\", description = \"database-outlaw-worker-tactics\", enabled = true, guid = #9E6AFEDA5A8602BA00001B72093060F4, lineVersion = 0, maxLength = 224, text = \"Attack unwary ships in space\nand use hyperdrive jammers\nto keep prey from escaping\n\nWait in ambush to catch would-be scavengers\nat shipwrecks and ruins on land and in space\""
+		myLocalizedNarrative "contextComment = \"[Placeholder - do not translate] Database narrative summary for the basic Outlaw unit type\", description = \"database-outlaw-worker-narrative\", enabled = true, guid = #9E6AFEDA5A8602BA00001B76248B7CFB, lineVersion = 0, maxLength = 270, text = \"Loose bands of Outlaws roam the lawless space of the Atlas system, scavenging shipwrecks and raiding unwary transports.\n\nDevious thieves will use valuable salvage sites as bait, to ambush would-be scavengers.\""
+		myPortrait onward/baked/textures/ui/icons/database_banner_large/outlaws/ui-database-outlaws-ship-large.dds
+		mySprite "mySpriteId = 1744423589, mySpritesheet = F\"onward/ui/spritesheets/ui-icons-collection-database.spritesheet\""
+		myBannerSprite "mySpriteId = 1744423589, mySpritesheet = F\"onward/ui/spritesheets/ui-icons-collection-database.spritesheet\""
+		myAttachScreenSprite "mySpriteId = 1744423589, mySpritesheet = F\"onward/ui/spritesheets/ui-icons-collection-database.spritesheet\""
+		myRevealedChallengeType Discover_OutlawWorker
+		myUnlockedChallengeType Discover_OutlawWorker
+		myDeathChallengeType Death_OutlawWorker
+		myCollectibleSubType Enemy
+		myNPCFiles
+		{
+			file 1 "onward/game system data/juice/ai/npc/outlaw_defender.mnpc"
+			file 2 "onward/game system data/juice/ai/npc/outlaw_shattered_planet.mnpc"
+			file "Ground Units" "onward/game system data/juice/ai/npc/outlaw_defender_ground.mnpc"
+		}
+	}
+	NPCDatabaseEntry Elite < uid=1ABBD50B594979C90001E21BF172D3DA >
+	{
+		myLocalizedDescription "contextComment = \"[Placeholder - do not translate] Database tactics tips for the Outlaw elite unit type\", description = \"database-outlaw-elite-tactics\", enabled = true, guid = #9E6AFEDA5A86022700001B6885D27C54, lineVersion = 0, maxLength = 52, text = \"May drop valuable Mod tech when defeated\""
+		myLocalizedNarrative "contextComment = \"[Placeholder - do not translate] Database narrative summary for the Outlaw elite unit type\", description = \"database-outlaw-elite-narrative\", enabled = true, guid = #9E6AFEDA5A86022700001B6CE53D7D8B, lineVersion = 0, maxLength = 272, text = \"The right and left hands of powerful Outlaw Captains, these elite fighters tend to fly more durable ships with better weaponry, but also carry better salvage for those skilled or lucky enough to take one down.\""
+		myPortrait onward/baked/textures/ui/icons/database_banner_large/outlaws/ui-database-outlaws-elict-large.dds
+		mySprite "mySpriteId = -1454461691, mySpritesheet = F\"onward/ui/spritesheets/ui-icons-collection-database-02.spritesheet\""
+		myBannerSprite "mySpriteId = -1454461691, mySpritesheet = F\"onward/ui/spritesheets/ui-icons-collection-database-02.spritesheet\""
+		myRevealedChallengeType Discover_OutlawElite
+		myUnlockedChallengeType Discover_OutlawElite
+		myDeathChallengeType Death_OutlawElite
+		myCollectibleSubType Enemy
+		myNPCFiles
+		{
+			file 1 "onward/game system data/juice/ai/npc/outlaw_defender_elite.mnpc"
+		}
+	}
+	NPCDatabaseEntry Leader < uid=9E6AFEDA5A8603C400001B7B2A6067F4 >
+	{
+		myLocalizedDescription "contextComment = \"[Placeholder - do not translate] Database tactics tips for the Outlaw leader unit type\", description = \"database-outlaw-leader-tactics\", enabled = true, guid = #9E6AFEDA5A85FFF800001B5E840B024D, lineVersion = 0, maxLength = 177, text = \"Most formidable of the Outlaw space forces\n\nLeaders let their underlings attack first,\nand show up in later waves\n\nCarry the rarest loot\""
+		myLocalizedNarrative "contextComment = \"[Placeholder - do not translate] Database narrative summary of the Outlaw Leader unit type\", description = \"database-outlaw-leader-narrative\", enabled = true, guid = #9E6AFEDA5A85FFF800001B624A51DA10, lineVersion = 0, maxLength = 270, text = \"The most successful Outlaws, through luck or cunning or sheer combat prowess, tend to amass holdings of valuable salvage, as well as followers from the weaker Outlaws, looking to ride their coattails to glory\""
+		myPortrait onward/baked/textures/ui/icons/database_banner_large/outlaws/ui-database-outlaws-leader-large.dds
+		mySprite "mySpriteId = -1839079876, mySpritesheet = F\"onward/ui/spritesheets/ui-icons-collection-database.spritesheet\""
+		myBannerSprite "mySpriteId = -1839079876, mySpritesheet = F\"onward/ui/spritesheets/ui-icons-collection-database.spritesheet\""
+		myRevealedChallengeType Discover_OutlawLeader
+		myUnlockedChallengeType Discover_OutlawLeader
+		myDeathChallengeType Death_OutlawLeader
+		myCollectibleSubType Enemy
+		myNPCFiles
+		{
+			file 1 "onward/game system data/juice/ai/npc/outlaw_defender_leader.mnpc"
+			file 2 "onward/game system data/juice/ai/npc/outlaw_leader_shattered_planet.mnpc"
+		}
+	}
+}
+
+CustomDatabaseEntry "Wanted Outlaws" < uid=A08A88CF5BFEE253000463D3DD9184C9 >
+{
+	myLocalizedDescription "contextComment = \"A tactical description of how to handle the wanted outlaws strewn throughout the Atlas Star System.\", description = \"database-outlaw-tactics-wanted\", enabled = true, guid = #A08A88CF5BFEE23600045615CBED6EE6, lineVersion = 0, maxLength = 52, text = \"[Wanted Outlaws - Tactical Description.]\""
+	myLocalizedNarrative "contextComment = \"A tactical description of how to handle the wanted outlaws strewn throughout the Atlas Star System.\", description = \"database-outlaw-narrative-wanted\", enabled = true, guid = #A08A88CF5BFEE239000457A8193700E1, lineVersion = 0, maxLength = 53, text = \"[Wanted Outlaws - Narrative Description.]\""
+	myPortrait onward/baked/textures/UI/icons/database_banner_large/outlaws/ui-database-outlaws-wantedoutlaws-large.dds
+	mySprite "mySpriteId = 1428551633, mySpritesheet = F\"onward/ui/spritesheets/ui-icons-collection-database-03.spritesheet\""
+	myBannerSprite "mySpriteId = 1428551633, mySpritesheet = F\"onward/ui/spritesheets/ui-icons-collection-database-03.spritesheet\""
+	myAttachScreenSprite "mySpriteId = 1428551633, mySpritesheet = F\"onward/ui/spritesheets/ui-icons-collection-database-03.spritesheet\""
+	myRevealedChallengeType Unlock_WantedOutlaws
+	myUnlockedChallengeType Unlock_WantedOutlaws
+	myLocalizedName "contextComment = \"The name for the categories of outlaws the player is going to be performing civilian arrests on.\", description = \"database-outlaw-name-wanted\", enabled = true, guid = #A08A88CF5BFEE2A00004875B7C124964, lineVersion = 0, maxLength = 21, text = \"[Wanted Outlaws]\""
+}
+
+CustomDatabaseEntries Personalities
+{
+	CustomDatabaseEntry Fortune < uid=A08A88CF5BFEDBB40001709057FCC06F >
+	{
+		myLocalizedDescription "contextComment = \"\", description = \"\", enabled = false, guid = #A08A88CF5BFEDB6F0001507BB412EFC6, lineVersion = 0, maxLength = 1, text = \"|empty|\""
+		myLocalizedNarrative "contextComment = \"A narrative description of the 'Fortune' Outlaw, leader of the Outlaw Games and presumed hero of the Blood Moon.\", description = \"database-outlaw-narrative-fortune\", enabled = true, guid = #A08A88CF5BFEDB6F0001507F2FEBBBC9, lineVersion = 0, maxLength = 29, text = \"[Fortune - Narrative.]\""
+		myPortrait onward/baked/textures/UI/icons/database_banner_large/outlaws/ui-database-outlaws-fortune-large.dds
+		mySprite "mySpriteId = -66618134, mySpritesheet = F\"onward/ui/spritesheets/ui-icons-collection-database-03.spritesheet\""
+		myBannerSprite "mySpriteId = -66618134, mySpritesheet = F\"onward/ui/spritesheets/ui-icons-collection-database-03.spritesheet\""
+		myAttachScreenSprite "mySpriteId = -66618134, mySpritesheet = F\"onward/ui/spritesheets/ui-icons-collection-database-03.spritesheet\""
+		myRevealedChallengeType Unlock_Fortune
+		myUnlockedChallengeType Unlock_Fortune
+		myCollectibleSubType Faction
+		myLocalizedName "contextComment = \"The name for the elusive, effusive leader of the Outlaw Games and the Blood Moon.\", description = \"database-outlaw-name-fortune\", enabled = true, guid = #A08A88CF5BFEDECE0002D3FDFD1A4B43, lineVersion = 0, maxLength = 14, text = \"[Fortune]\""
+	}
+	CustomDatabaseEntry "Arena Champion" < uid=A08A88CF5BFEDEB30002C9C351D6B538 >
+	{
+		myLocalizedDescription "contextComment = \"\", description = \"\", enabled = false, guid = #A08A88CF5BFEDD650002347CD1C105C8, lineVersion = 0, maxLength = 1, text = \"|empty|\""
+		myLocalizedNarrative "contextComment = \"The narrative backstory for the Arena Champion, in whatever form they manifest.\", description = \"database-outlaw-narrative-champion\", enabled = true, guid = #A08A88CF5BFEDD650002347DEA47C616, lineVersion = 0, maxLength = 38, text = \"[Arena Champion - Narrative.]\""
+		myPortrait onward/baked/textures/UI/icons/database_banner_large/outlaws/ui-database-outlaws-championflavox-large.dds
+		mySprite "mySpriteId = -687738483, mySpritesheet = F\"onward/ui/spritesheets/ui-icons-collection-database-03.spritesheet\""
+		myBannerSprite "mySpriteId = -687738483, mySpritesheet = F\"onward/ui/spritesheets/ui-icons-collection-database-03.spritesheet\""
+		myAttachScreenSprite "mySpriteId = -687738483, mySpritesheet = F\"onward/ui/spritesheets/ui-icons-collection-database-03.spritesheet\""
+		myRevealedChallengeType Unlock_ArenaChampion
+		myUnlockedChallengeType Unlock_ArenaChampion
+		myCollectibleSubType Faction
+		myLocalizedName "contextComment = \"The name of the Arena Champion, the final 'boss fight' for the Outlaw Arenas.\", description = \"database-outlaw-name-champion\", enabled = true, guid = #A08A88CF5BFEDD650002347EEB1B8FF0, lineVersion = 0, maxLength = 21, text = \"[Arena Champion]\""
+	}
+	CustomDatabaseEntry "Lazy Dake" < uid=A08A88CF5BFEE4BC0005AAC17957B2AD >
+	{
+		myLocalizedShortDescription "contextComment = \"\", description = \"\", enabled = false, guid = #A08A88CF5BFEE391000525CE35A8D4C4, lineVersion = 0, maxLength = 1, text = \"|empty|\""
+		myLocalizedNarrative "contextComment = \"The grimy descent into outlawhood that personifies the narrative backstory for Lazy Dake.\", description = \"database-outlaw-narrative-lazydake\", enabled = true, guid = #A08A88CF5BFEE391000525D08017EEE8, lineVersion = 0, maxLength = 31, text = \"[Lazy Dake - Narrative.]\""
+		myPortrait onward/baked/textures/UI/icons/database_banner_large/outlaws/ui-database-outlaws-lazykyp-large.dds
+		mySprite "mySpriteId = 541127097, mySpritesheet = F\"onward/ui/spritesheets/ui-icons-collection-database-03.spritesheet\""
+		myBannerSprite "mySpriteId = 541127097, mySpritesheet = F\"onward/ui/spritesheets/ui-icons-collection-database-03.spritesheet\""
+		myAttachScreenSprite "mySpriteId = 541127097, mySpritesheet = F\"onward/ui/spritesheets/ui-icons-collection-database-03.spritesheet\""
+		myRevealedChallengeType Unlock_LazyDake
+		myUnlockedChallengeType Unlock_LazyDake
+		myCollectibleSubType Faction
+		myLocalizedName "contextComment = \"Lazy Dake's name, Lazy Dake.\", description = \"database-outlaw-name-lazydake\", enabled = true, guid = #A08A88CF5BFEE391000525D27BF373B6, lineVersion = 0, maxLength = 14, text = \"[Lazy Dake]\"}"
+	}
+	CustomDatabaseEntry Perrel < uid=A08A88CF5BFEE5080005CB2EBC4DD5DD >
+	{
+		myLocalizedShortDescription "contextComment = \"\", description = \"\", enabled = false, guid = #A08A88CF5BFEE4C40005AE69C5F966FF, lineVersion = 0, maxLength = 1, text = \"|empty|\""
+		myLocalizedNarrative "contextComment = \"The perilous journey of Perrel as they became (and continue to be) an Outlaw; a narrative story.\", description = \"database-outlaw-narrative-perrel\", enabled = true, guid = #A08A88CF5BFEE4C40005AE6A3DA0A386, lineVersion = 0, maxLength = 43, text = \"[Perrel - Narrative Description.]\""
+		myPortrait onward/baked/textures/UI/icons/database_banner_large/outlaws/ui-database-outlaws-perrel-large.dds
+		mySprite "mySpriteId = -1907005222, mySpritesheet = F\"onward/ui/spritesheets/ui-icons-collection-database-03.spritesheet\""
+		myBannerSprite "mySpriteId = -1907005222, mySpritesheet = F\"onward/ui/spritesheets/ui-icons-collection-database-03.spritesheet\""
+		myAttachScreenSprite "mySpriteId = -1907005222, mySpritesheet = F\"onward/ui/spritesheets/ui-icons-collection-database-03.spritesheet\""
+		myRevealedChallengeType Unlock_Perrel
+		myUnlockedChallengeType Unlock_Perrel
+		myCollectibleSubType Faction
+		myLocalizedName "contextComment = \"The name of the captureable outlaw bounty, Perrel.\", description = \"database-outlaw-name-perrel\", enabled = true, guid = #A08A88CF5BFEE4C40005AE6BEC55FDD5, lineVersion = 0, maxLength = 13, text = \"[Perrel]\""
+	}
+	CustomDatabaseEntry Thicket < uid=A08A88CF5BFEE581000601151B13BEE5 >
+	{
+		myLocalizedShortDescription "contextComment = \"\", description = \"\", enabled = false, guid = #A08A88CF5BFEE5380005DF16D5E81C2F, lineVersion = 0, maxLength = 1, text = \"|empty|\""
+		myLocalizedNarrative "contextComment = \"The story of Thicket's life altering decision to stop doing science and start breaking the law. Narrative context for the Thicket Outlaw.\", description = \"database-outlaw-narrative-thicket\", enabled = true, guid = #A08A88CF5BFEE5380005DF17317E5D07, lineVersion = 0, maxLength = 44, text = \"[Thicket - Narrative Description.]\"}"
+		myPortrait onward/baked/textures/UI/icons/database_banner_large/outlaws/ui-database-outlaws-thicket-large.dds
+		mySprite "mySpriteId = -570745977, mySpritesheet = F\"onward/ui/spritesheets/ui-icons-collection-database-03.spritesheet\""
+		myBannerSprite "mySpriteId = -570745977, mySpritesheet = F\"onward/ui/spritesheets/ui-icons-collection-database-03.spritesheet\""
+		myAttachScreenSprite "mySpriteId = -570745977, mySpritesheet = F\"onward/ui/spritesheets/ui-icons-collection-database-03.spritesheet\""
+		myRevealedChallengeType Unlock_Thicket
+		myUnlockedChallengeType Unlock_Thicket
+		myCollectibleSubType Faction
+		myLocalizedName "contextComment = \"Thicket, the name of the captureable Outlaw Bounty in the Prospector Storyline.\", description = \"database-outlaw-name-thicket\", enabled = true, guid = #A08A88CF5BFEE5380005DF18312E90C2, lineVersion = 0, maxLength = 14, text = \"[Thicket]\""
+	}
+	CustomDatabaseEntry "King Rydra" < uid=A08A88CF5BFEE5FB000639DC072A5496 >
+	{
+		myLocalizedShortDescription "contextComment = \"\", description = \"\", enabled = false, guid = #A08A88CF5BFEE59E00060EAF70E58FB4, lineVersion = 0, maxLength = 1, text = \"|empty|\""
+		myLocalizedNarrative "contextComment = \"Narrative backstory for King Rydra, one of the captureable outlaw bandits. \", description = \"database-outlaw-narrative-kingrydra\", enabled = true, guid = #A08A88CF5BFEE59E00060EB0AA72285B, lineVersion = 0, maxLength = 48, text = \"[King Rydra - Narrative Description.]\""
+		myPortrait onward/baked/textures/UI/icons/database_banner_large/outlaws/ui-database-outlaws-kingrydra-large.dds
+		mySprite "mySpriteId = -960007530, mySpritesheet = F\"onward/ui/spritesheets/ui-icons-collection-database-03.spritesheet\""
+		myBannerSprite "mySpriteId = -960007530, mySpritesheet = F\"onward/ui/spritesheets/ui-icons-collection-database-03.spritesheet\""
+		myAttachScreenSprite "mySpriteId = -960007530, mySpritesheet = F\"onward/ui/spritesheets/ui-icons-collection-database-03.spritesheet\""
+		myRevealedChallengeType Unlock_KingRydra
+		myUnlockedChallengeType Unlock_KingRydra
+		myCollectibleSubType Faction
+		myLocalizedName "contextComment = \"King Rydra, the name of the captureable Outlaw Bounty in the Prospector Storyline.\", description = \"database-outlaw-name-kingrydra\", enabled = true, guid = #A08A88CF5BFEE59E00060EB170D209B6, lineVersion = 0, maxLength = 16, text = \"[King Rydra]\""
+	}
+	CustomDatabaseEntry "Reed Arborwood" < uid=A08A88CF5BFEE7740006E46DBF372F41 >
+	{
+		myLocalizedShortDescription "contextComment = \"\", description = \"\", enabled = false, guid = #A08A88CF5BFEE60700063F362A6876ED, lineVersion = 0, maxLength = 1, text = \"|empty|\""
+		myLocalizedNarrative "contextComment = \"The seedy life of Reed Arborwood that blossomed into a life of crime. Narrative backstory for the captureable outlaw Reed Arborwood.\", description = \"database-outlaw-narrative-reedarborwood\", enabled = true, guid = #A08A88CF5BFEE60700063F37D6FE608A, lineVersion = 0, maxLength = 53, text = \"[Reed Arborwood - Narrative Description.]\""
+		myPortrait onward/baked/textures/UI/icons/database_banner_large/outlaws/ui-database-outlaws-reedaberwood-large.dds
+		mySprite "mySpriteId = -1905594854, mySpritesheet = F\"onward/ui/spritesheets/ui-icons-collection-database-03.spritesheet\""
+		myBannerSprite "mySpriteId = -1905594854, mySpritesheet = F\"onward/ui/spritesheets/ui-icons-collection-database-03.spritesheet\""
+		myAttachScreenSprite "mySpriteId = -1905594854, mySpritesheet = F\"onward/ui/spritesheets/ui-icons-collection-database-03.spritesheet\""
+		myRevealedChallengeType Unlock_ReedArborwood
+		myUnlockedChallengeType Unlock_ReedArborwood
+		myCollectibleSubType Faction
+		myLocalizedName "contextComment = \"Arborwood, the name of the captureable Outlaw Bounty in the Prospector Storyline.\", description = \"database-outlaw-name-reedarborwood\", enabled = true, guid = #A08A88CF5BFEE60700063F380F2AA472, lineVersion = 0, maxLength = 21, text = \"[Reed Arborwood]\""
+	}
+}
+

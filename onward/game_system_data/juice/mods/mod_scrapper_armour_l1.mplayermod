@@ -1,0 +1,21 @@
+include ./template_hull.mplayermod
+include ./tuning/mod_tuning_master.juice
+
+PlayerMod mod_scrapper_armour_l1 < uid=C91BB551597F9CE200164809138F3223 > : template_hull
+{
+	myAttributeMods
+	{
+		AttributeMod "Kinetic Resistance"
+		{
+			myType DMG_Resist_Kinetic
+			myAddValue 0.0
+			myMultValue = Scrap_Armor_l1_KineticResist
+		}
+		AttributeMod "Defense"
+		{
+			myType PartStat_Defense
+			myAddValue = Scrap_Armor_l1_Defense
+		}
+	}
+}
+

@@ -1,0 +1,34 @@
+include ./faction_unit_base.msimunit
+
+SimUnit expedition_worker < uid=C92F4D3F5805270300909F8B512B0E6C > : faction_unit_base
+{
+	myUIName "contextComment = \"The UI name for the Expedition Worker\", description = \"uiname-expedition-worker\", enabled = true, guid = #1ABBD50B58B4790600026A9ECD14105C, lineVersion = 0, maxLength = 22, text = \"Expedition Worker\""
+	myBehavior onward/simworld/behavior/expedition_worker.msimunitbtgraph
+	myControlGraph ""
+	myFaction Expedition
+	myCategory NPC
+	mySubCategory Worker
+	myRadius 6.0
+	mySpeed 25.0
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo expedition_worker < uid=1E68E535599C758300000083D0ECB40D >
+		{
+			myCountMin 1
+			myCountMax 1
+			myEntityFile "onward/game system data/juice/ai/npc/expedition_worker.mnpc"
+			myElementSpawnInfo
+			{
+			}
+		}
+	}
+	myUnlockedChallengeType Discover_ExpeditionWorker
+	myInterestSettings
+	{
+		myIsEnabled TRUE
+		myOnlySearchWhenRealized FALSE
+		myShouldLockValidTarget FALSE
+	}
+	myMissionTargetTexture onward/baked/textures/UI/icons/outpost_targets/outpost_target_sim_unit/ui-icon-outpost-target-defend-worker-research-base.dds
+}
+

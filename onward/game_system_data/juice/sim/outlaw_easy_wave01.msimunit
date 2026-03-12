@@ -1,0 +1,46 @@
+include "onward/game system data/fruit/sim/simunit.fruit"
+
+SimUnit outlaw_easy_wave01 < uid=6D25F4C6598A069800A34128F84DD8F0 >
+{
+	myUIName "contextComment = \"[Placeholder - do not translate] HUD name that shows when targeting an outlaw spaceship.\", description = \"ui-target-outlaw-squad\", enabled = true, guid = #6D25F4C6598A069800A341277720FE5B, lineVersion = 0, maxLength = 22, text = \"Raider\""
+	myBehavior ""
+	myFaction Outlaw
+	myCategory NPC
+	mySubCategory SpaceEncounter
+	mySubCategoryVariant 1
+	myRadius 6.0
+	mySpeed 80.0
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo Defenders < uid=6D25F4C6598A069800A3412926619D60 >
+		{
+			myCountMin 3
+			myCountMax 3
+			myEntitySize 30.0
+			myEntityFile ""
+			myElementSpawnInfo
+			{
+				SimUnitElementSpawnInfo Defenders
+				{
+					myEntityFile "onward/game system data/juice/ai/npc/outlaw_defender.mnpc"
+				}
+			}
+			mySpaceSettings
+			{
+				mySpawnFormation AmbushPlayer
+				myFormationFlightDist 0.0
+			}
+			myEnsurePhysicsClearance TRUE
+		}
+	}
+	mySaveable FALSE
+	myNapTime 1.0
+	myPreserveSpawnInfo FALSE
+	myIsValidPickupTarget FALSE
+	mySelfDestructAfterUnrealized TRUE
+	mySkillLevelCoefficients
+	{
+		myPlanetActMultiplier 1
+	}
+}
+

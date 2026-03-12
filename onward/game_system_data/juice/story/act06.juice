@@ -1,0 +1,63 @@
+include ./act_simstate.juice
+include ./act06_storybeats.juice
+
+StoryBeatSequence "SEQUENCE 1 - SETUP" < uid=9FD9E8185AB123C700001C09478FA249 >
+{
+	myStoryBeats
+	{
+		StoryBeatData "Victory Cinematic" < uid=9FD9E81859F1027C00000087E1820777 > = Act6_SEQ1_VictoryCinematic
+		StoryBeatSequence "Sim Setup" < uid=9FD9E8185AB123DF00001C0EFA4BC45B > = ACT6_SimState
+		StoryBeatData Credits < uid=9FD9E81859F1027C000000880FC09518 > = Act6_SEQ1_Credits
+		StoryBeatData "Setup - Extractors & Primes" < uid=9FD9E81859E4CD630000024FEBB0B56A > = Act6_SEQ1_Setup
+		StoryBeatData Cinematic < uid=9FD9E81859E4CBF40000024E5CD42D3D > = Act6_SEQ1_Cinematic
+		StoryBeatData "Present PopUp" < uid=2B55C72B5B579FC100002215F96361A7 > = Act6_SEQ2_PresentPopup
+		StoryBeatData "Fade In" < uid=2B55C72B5B579FC100002216A98B6A1C > = Act6_SEQ1_FadeFromWhite
+	}
+}
+
+StoryBeatSequence "SEQUENCE 2 - ACT 6" < uid=9FD9E8185AB123C700001C0A5C7C4E66 >
+{
+	myStoryBeats
+	{
+		StoryBeatData "Enable Blood Moon Intro (All)" < uid=CC9485AB5C7074530000038B19AFDC63 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_CompleteStoryEvent "Complete Story Event: Moon Intro 01"
+				{
+					myStoryEvent TU5_Enable_MoonIntro_01
+				}
+				StoryDataAction_CompleteStoryEvent "Complete Story Event: Moon Intro 02"
+				{
+					myStoryEvent TU5_Enable_MoonIntro_02
+				}
+				StoryDataAction_CompleteStoryEvent "Complete Story Event: Moon Intro 03"
+				{
+					myStoryEvent TU5_Enable_MoonIntro_03
+				}
+				StoryDataAction_CompleteStoryEvent "Complete Story Event: Moon Intro 04"
+				{
+					myStoryEvent TU5_Enable_MoonIntro_04
+				}
+				StoryDataAction_CompleteStoryEvent "Complete Story Event: Moon Intro 05"
+				{
+					myStoryEvent TU5_Enable_MoonIntro_05
+				}
+			}
+		}
+		StoryBeatData "Save Atlas" < uid=9FD9E8185B35263A0000210FEDA188AB > = Act6_SEQ2_SaveAtlas
+		StoryBeatData "Atlas Saved" < uid=9FD9E8185B35263A00002110883E115F > = Act6_SEQ2_AtlasSaved
+		StoryBeatData Empty < uid=9FD9E81859E4CDDA00000252ECF76B2A > = Act6_SEQ2_Act6Start
+	}
+}
+
+StoryBeatSequence "Act Six Sequence" < uid=9FD9E8185AB123C700001C0B28E9ED92 >
+{
+	myStoryBeats
+	{
+		StoryBeatSequence "Sequence 1 - Setup" < uid=9FD9E8185AB123C700001C0C7E5DC5B4 > = "SEQUENCE 1 - SETUP"
+		StoryBeatSequence "Sequence 2 - Act 6" < uid=9FD9E8185AB123C700001C0D44FABDDC > = "SEQUENCE 2 - ACT 6"
+	}
+}
+

@@ -1,0 +1,420 @@
+include "onward/game system data/fruit/interact/interactablecustomtype.fruit"
+include "onward/game system data/fruit/reinforcement/reinforcement.fruit"
+include "onward/game system data/fruit/ui/uilocalizedinteractiontext.fruit"
+include "onward/game system data/fruit/sim/simunitcategories.fruit"
+include "onward/game system data/fruit/sim/simunit.fruit"
+include "onward/game system data/fruit/story/storyevent.fruit"
+include "onward/game system data/fruit/attributes/attributes.fruit"
+include "onward/game system data/fruit/ai/npctype.fruit"
+include "onward/game system data/fruit/physics/impact.fruit"
+include "onward/game system data/fruit/ai/rubberbanding.fruit"
+include "onward/game system data/fruit/input/gameinput.fruit"
+include "onward/game system data/fruit/leaderboard/leaderboardinfo.fruit"
+include "onward/game system data/fruit/rulesystem/fact.fruit"
+
+enum InteractionType
+{
+	InteractionNone
+	InteractionTarget
+	InteractionPickup
+	InteractionDrop
+	InteractionUse
+	InteractionBegin
+	InteractionUpdate
+	InteractionEnd
+	InteractionScan
+	InteractionInspect
+	InteractionHail
+	InteractionScanFail
+	InteractionRepair
+	InteractionCancel
+	InteractionOpen
+	InteractionStow
+	InteractionPluckComplete
+	InteractionPluckStart
+	InteractionDeliver
+	InteractionHack
+	InteractionHackBegins
+	InteractionPluckBreak
+	InteractionPluckAdvanceStage
+    InteractionPluckDecreaseStage
+	InteractionInventoryStore
+	InteractionChargeBegin
+	InteractionUnlockKeyhole
+	InteractionDisableDefense
+	InteractionStartRepair
+	InteractionPilotTrialInteractBegin
+}
+
+enum TowableWeightClass
+{
+	Light
+	Heavy
+}
+
+enum PilotTrialType
+{
+	Prototype
+	Overdrive
+	Countdown
+}
+
+enum PluckMiniGameType
+{
+    SweetSpot
+    ButtonMash
+    ButtonSequence
+    Capture
+    ShieldRam
+    SpawnItem
+}
+
+class Interactable
+{
+	float myTargetingCooldown 5.0
+	float myInteractRange 50.0
+	float myInteractRangeHystersis 10.0
+	InteractableTextType myInteractableTextType Invalid
+	bool myRequiresReticleIntersection FALSE
+	bool myIncludeAvoidanceRadius FALSE
+	bool myRequiresAlliedTarget FALSE
+	bool myPreventFastTravel FALSE
+	bool myPreventPlanetEntry FALSE
+	bool myPreventPlanetExit FALSE
+}
+
+class Towable : Interactable
+{
+	TowableWeightClass myWeightClass
+	float myAnimationTime 0.5
+    float myMass 0.0
+	vec3f myRotationRates
+	vec3f myRotationRanges
+	vec3f myRotationIntervals
+	vec3f myScaleFactor
+	float myBobPeriod
+	float myBobRange
+	float myArcHeight 0.0
+	float myThrowLinearSpeedSpace -1.0
+	float myThrowAngularSpeedSpace -1.0
+}
+
+class Scannable : Interactable
+{
+	float myRefocusTime 5.0
+}
+
+enum HailableType
+{
+	Unknown
+	EmptyOutpost
+	Outpost
+	NPC
+}
+
+list PilotTrialCheckpointNextTarget
+{
+	uid
+}
+
+class SpawnableEntityTemplatePilotTrial
+{
+	uid				 			   mySimUnitUID 			< tooltip="SimUnit to spawn as part of this Pilot Trial" >
+	PilotTrialCheckpointNextTarget myCheckpointTargetUIDs 	< tooltip="Next Checkpoint(s) associated with this spawnable entity. If empty just use next in the list." >
+}
+
+list SpawnableEntityTemplatePilotTrialList
+{
+	SpawnableEntityTemplatePilotTrial
+}
+
+class Hailable : Interactable
+{
+	bool myAcceptDeliveries false		< tooltip="Allow deliveries?" >
+	HailableType myHailableType Unknown	< tooltip="Type of Hailable?" >
+}
+
+enum PilotTrialDifficultyLevelOnePlayer
+{
+	AI_3_AbovePar
+	AI_2_AbovePar_1_Par
+	AI_1_AbovePar_2_Par
+	AI_3_Par
+	AI_2_Par_1_BelowPar
+	AI_1_Par_2_BelowPar
+	AI_3_BelowPar
+	AI_1_AbovePar_1_Par_1_BelowPar
+}
+
+enum PilotTrialDifficultyLevelTwoPlayers
+{
+	AI_AbovePar
+	AI_Par
+	AI_BelowPar
+}
+
+list PilotTrialInteract_UnlockOptions
+{
+	ChallengeType
+}
+
+list PilotTrialInteract_UnlockCondition
+{
+	PilotTrialInteract_UnlockOptions
+}
+
+class PilotTrialInteract : Hailable
+{
+	PilotTrialType myPilotTrialType Prototype						< tooltip="Select type of pilot trial" >
+	varmap myUIClubhouseRaceName									< bhv="localization" >
+	varmap myUIClubhouseRaceDescription								< bhv="localization" >
+	varmap myUIClubhouseClanName									< bhv="localization" >
+	string myUIClubhouseClanLogo 									< default = "mySpriteId = -455779427, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-placeholder.spritesheet\"" bhv="sprite" >
+	string myIconSprite												< default = "mySpriteId = -455779427, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-placeholder.spritesheet\"" bhv="sprite" >
+	file myFlythroughBinkPath										< bhv=asset assettype="Bink" >
+	LeaderboardInfo* myLeaderboard									< tooltip="Leaderboard info" >
+	int myStartingTimer 0											< tooltip="Starting timer for countdown races in milliseconds" >
+	float myDFNTimeoutSeconds 30.0									< tooltip="Did Not Finish Timeout in seconds (0 or less mean DFN is not active)" >
+	int myNumberOfLaps	1											< tooltip="Set the number of laps for this race" >
+	float myUIDelayToExitResultsScreen 0.0							< tooltip="Seconds of UI delay before Exiting the Race (after Awarding the Prize)" >
+	int myNumberOfAIOpponents	0									< tooltip="Set the number of ai opponents for this race" >
+	uid myCameraEyeUID 												< tooltip="Camera Eye Spline Path UID" >
+	uid	myCameraTargetUID 											< tooltip="Camera Target Spline Path UID" >
+	uid	myAssociatedUID 											< tooltip="Associated UID to associated a layer UID with the clubhouse. A waypoint grid start UID would be a good example." >
+	bool myStuckTestEnabled FALSE									< tooltip="Enable AI stuck test" >
+	float myStuckTestRespawnTimer 5.0								< tooltip="Set AI stuck test time limit" >
+	float myStuckTestDistance 10.0									< tooltip="Set AI stuck test distance limit" >
+	bool myWrongCheckpointTestEnabled FALSE							< tooltip="Enable wrong waypoint test" >
+	float myWrongCheckpointTestRespawnTimer 5.0						< tooltip="[DEPRECATED]" >
+	float myBehindCheckpointDistance 20.0							< tooltip="Distance behind the checkpoint to respawn the player following a Race Warning (out of bounds, wrong way, etc)" >
+	bool myMissedCheckpointTestEnabled FALSE						< tooltip="Enable missed waypoint test" >
+	float myMissedCheckpointTestRespawnTimer 5.0					< tooltip="[DEPRECATED]" >
+	bool myWrongWayTestEnabled  FALSE								< tooltip="Enable wrong way test" >
+	float myWrongWayTestTimer 10.0									< tooltip="[DEPRECATED]" >
+	bool myOffRaceTrackTestEnabled  FALSE							< tooltip="Enable off race track test" >
+	float myOffRaceTrackTestTimer 10.0								< tooltip="[DEPRECATED]" >
+	float myOffRaceTrackTestDistance 40.0							< tooltip="Tolerance for player distance from track" >
+	float myLeadBarkTimeDelay 1.0									< tooltip="Time in seconds that a player must remain lead-lost/lead-gained to play the announcer Bark" >
+	float myMinPhysicsEnabledRadius 125.0							< min=50.0 tooltip="Distance within from players in order to have the physics always enable for AI" >
+	float myMaxPhysicsEnabledRadius 625.0							< min=100.0 tooltip="Distance within from players in order to have the physics enabled for AI if it is in the camera FOV" >
+	float myThresholdPhysicsEnabledRadius 25.0						< min=15.0 tooltip="Distance threshold to avoid sudden enabling/disabling physics during realization/de-realization flow when the AI is in the camera FOV" >
+    float myWarningTime 5.0											< tooltip="Number of seconds before teleporting the player following a Warning (wrong way, out of bounds, etc)" >
+	float myWarningDelay 1.0										< tooltip="Number of seconds delay before a warning (out of bounds, wrong way) will display)" >
+	bool myEnableAIPhysics FALSE									< tooltip="Is Physic Enabled for the AI for this race" >
+	PilotTrialDifficultyLevelOnePlayer myDifficultyLevelOnePlayer	< default = AI_3_AbovePar tooltip="Difficulty level for the AI when 1 player is racing " >
+	PilotTrialDifficultyLevelTwoPlayers myDifficultyLevelTwoPlayers < default = AI_AbovePar tooltip="Difficulty level for the AI when 2 players are racing " >
+	RubberBanding myRubberBandingAbovePar							< tooltip="Rubber banding setting for Above Par difficulty level" >
+	RubberBanding myRubberBandingPar								< tooltip="Rubber banding setting for Par difficulty level" >
+	RubberBanding myRubberBandingBelowPar							< tooltip="Rubber banding setting for Below Par difficulty level" >
+	RubberBanding myRubberBandingDerealized							< tooltip="Rubber banding setting for derealized entities" >
+	int myBark_HitXBoost_BoostCount 3								< tooltip="Bark: Hit X Boosts ... Number of boosts to hit to play bark (1 or less disables the Bark)" >
+	float myBark_HitXBoost_TimePerBoost 4.0							< tooltip="Bark: Hit X Boosts ... Timelimit between each boost hit (seconds)" >
+	PilotTrialInteract_UnlockCondition myUnlockCondition			< tooltip="Race wins required to unlock this pilot trial" >
+	IntFactLabel myUnlockFactLabel									< tooltip="The int fact label that is set for dialogue when this pilot trial is unlocked" >
+	ChallengeType myRaceChallengeToAward							< tooltip="Race challenge that will be marked as completed when the player wins" >
+	mat44 myMiniMapTransform  1.0;0.0;0.0;0.0;0.0;1.0;0.0;0.0;0.0;0.0;1.0;0.0;0.0;0.0;0.0;1.0 < tooltip="Transform for the races map icon relative to planet" >
+	file myMiniMapTexture "onward/baked/textures/debug_white.dds"  < tooltip="Texture used for the mini map in the race" >
+	string myCompletionDropTable ""									< tooltip="Loot drop table that will be rewarded when the player completes the race (any position)" >
+	string myWinnerDropTable ""										< tooltip="Loot drop table that will be rewarded when the player wins the race" >
+	vec4f myMiniMapBounds 0.0;0.0;1.0;1.0							< tooltip="2D Rectangle region of the racemap ocupied by track" >
+	vec2f myMiniMapUpVector 0.0;1.0									< tooltip="2D vecor to orient minimap on the screen" >
+}
+
+class Repairable : Interactable
+{
+}
+
+class Openable : Interactable
+{
+}
+
+class Stowable : Interactable
+{
+}
+
+class PluckableStageConfigBase
+{
+}
+
+class PluckableStageConfigCapture_SwayParams
+{
+	vec3f myMinOffset 5.0;5.0;0.0 < tooltip="Sway offset when 'Easy'" >
+	vec3f myMaxOffset 5.0;5.0;0.0 < tooltip="Sway offset when 'Very Hard'" >
+	
+	vec3f myMinSineModifier 2.0;4.0;1.0 < tooltip="Sway sine modifier when 'Easy'" >
+	vec3f myMaxSineModifier 2.0;4.0;1.0 < tooltip="Sway sine modifier when 'Very Hard'" >
+}
+
+class PluckableStageConfigCapture : PluckableStageConfigBase
+{
+	float myMinReticleSize 0.080 < tooltip="Reticle size when 'Easy'" >
+	float myMaxReticleSize 0.040 < tooltip="Reticle size when 'Very Hard'" >
+	
+	int myMinLockOnDuration 675 < tooltip="Lock on duration in MS when 'Easy'" >
+	int myMaxLockOnDuration 1250 < tooltip="Lock on duration in MS when 'Very Hard'" >
+	
+	PluckableStageConfigCapture_SwayParams mySwayParams1
+	PluckableStageConfigCapture_SwayParams mySwayParams2
+}
+
+class PluckableStageConfigShieldRam : PluckableStageConfigBase
+{
+}
+
+list PluckableStageConfigSpawnItem_LocationIDAssets
+{
+	SimUnit*
+}
+
+class PluckableStageConfigSpawnItem : PluckableStageConfigBase
+{
+	SimUnit*	mySimUnitAsset
+	bool		myAutomaticallyTow TRUE
+	bool		myInheritParent FALSE < tooltip="If true, the spawned simunit will have the same parent as the pluckable" >
+	bool		myUtilizeParentLocationID FALSE < tooltip="If true, it uses the spawn info location id to access the array below" >
+	PluckableStageConfigSpawnItem_LocationIDAssets myLocationIDAssets
+}
+
+class PluckableStageConfigButtonMash : PluckableStageConfigBase
+{
+    int myTapCount 5
+    float myTimeWindow 9999999
+}
+
+list PluckableButtonSequenceList
+{
+	GameAction
+}
+
+class PluckableStageConfigButtonSequence : PluckableStageConfigBase
+{
+	float myDelayOnSuccessTime 1.5
+	float myDelayOnRotationTime 1.0
+	float myDelayOnShiftTime 0.5
+	int myNumRings 3
+	int myDegreesOfRotation 4
+	int myLinkedRingsVariant 0
+}
+
+class PluckableStageConfigSweetSpot : PluckableStageConfigBase
+{
+	float mySweetSpot 10.0				< tooltip="<Base start of the sweet spot" >
+	float mySweetSpotMax 10.0			< tooltip="<Max start of the sweet spot, set same as Sweet Spot to turn off randomness" >
+	float mySweetSpotRange 10.0 		< tooltip="Size of the sweet spot" >
+	float mySweetSpotDepletionRate 1.0 	< tooltip="How fast the sweet spot progress is lost" >
+	float myTimeInSweetSpot 10.0 		< tooltip="How long to stay in the sweet spot to complete the pluck" >
+    float myMinImpulse 5.0 				< tooltip="Min pulling force/frame" >
+    float myMaxImpulse 10.0 			< tooltip="Max pulling force/frame" >
+    float myOscillation 0.0 			< tooltip="Range of sweet spot movement" >
+    float myOscillationRate 0.0 		< tooltip="Speed of sweet spot movement" >
+}
+
+class PluckableStageButtonMash
+{
+    int myTapCount 5
+    float myTimeWindow 9999999
+}
+
+class PluckableStage
+{
+	float mySweetSpot 10.0				< tooltip="<Base start of the sweet spot" >
+	float mySweetSpotMax 10.0			< tooltip="<Max start of the sweet spot, set same as Sweet Spot to turn off randomness" >
+	float mySweetSpotRange 10.0 		< tooltip="Size of the sweet spot" >
+	float mySweetSpotDepletionRate 1.0 	< tooltip="How fast the sweet spot progress is lost" >
+	float myTimeInSweetSpot 10.0 		< tooltip="How long to stay in the sweet spot to complete the pluck" >
+    float myMinImpulse 5.0 				< tooltip="Min pulling force/frame" >
+    float myMaxImpulse 10.0 			< tooltip="Max pulling force/frame" >
+    float myOscillation 0.0 			< tooltip="Range of sweet spot movement" >
+    float myOscillationRate 0.0 		< tooltip="Speed of sweet spot movement" >
+    PluckableStageButtonMash myButtonMashConfig
+}
+
+list PluckableStages
+{
+	PluckableStage
+}
+
+list PluckableStageConfigs
+{
+    PluckableStageConfigBase
+}
+
+class Pluckable_PostCompletionOptions
+{
+	bool myDestroy FALSE
+	bool myKillIfAgent TRUE < tooltip="Requires 'myDestroy'" >
+}
+
+class Pluckable : Interactable
+{
+    PluckMiniGameType myMiniGameType SweetSpot
+	float myMaxDistance 20.0			< tooltip="Max distance for play area" >
+	float myMinImpulseDistance 5.0 		< tooltip="Distance that pulling forces start" >
+	float myStageAdvanceImpulse 5.0		< tooltip="Inwards impulse to apply on stage complete" >
+	float myDamage 100.0				< tooltip="Amount to damage pluckable" >
+	float myDamageImpulse 5.0			< tooltip="Impulse to apply when damaging pluckable" >
+    float myBreakDistance 200.0         < tooltip="Distance at which the link will break, cancelling the pluck" >
+	bool myShouldSaveStage false
+    bool myShouldPullInteractor false
+    bool myShouldApplyImpactOnBreak true
+    bool myShouldStartWhenShieldIsDown false
+    bool myShouldDecreaseStageOnImpact false
+    ImpactCategory myMinImpactCategoryForDecrease
+	StoryEvent myDisableUntilStoryEvent NewGame
+	Pluckable_PostCompletionOptions myPostCompletionOptions
+    string myLootDropId < tooltip = "Loot Drop awarded to player upon completing interaction" >
+    PluckableStageConfigs myStageConfigs
+}
+
+class Deliverable : Interactable
+{
+}
+
+class Hackable : Interactable
+{
+	ReinforcementType myReinforcementType Legion	< tooltip="Type of reinforcements to spawn" >
+	float myHackTime	30.0						< tooltip="How long the player needs to defend for" >
+	float myReinforcementInterval	10.0			< tooltip="How often reinforcements are spawned" >
+	float myMinSpawnRadius	10.0					< tooltip="Minimum distance from the hackable reinforcements are spawned" >
+	float myMaxSpawnRadius	75.0					< tooltip="Maximum distance from the hackable reinforcements are spawned" >
+	float myExceedsZonePercent 1.1 					< tooltip="How far outside of the interaction ( > 1.0 = outside the circle) the player will trigger the reentry phase" >
+	float myZoneReentryTime 5						< tooltip="How long the player has to get back into the defend zone" >
+	float myReinforcementsDelay 3					< tooltip="After the hack is initiated, how long before the first reinforcements spawn." >
+	float myHackableZoneRadius 0					< tooltip="How big the radius is for the hackable zone, must be at least as big as interact range" >
+	int   myMaxUnits 8                              < tooltip="How many agents can be spawned simultaneously" >
+	ReinforcementTypes myReinforcementTypes			< tooltip="Use this list to defines waves of reinforcements" >
+}
+
+list ChargeableThresholds
+{
+	float
+}
+
+class Chargeable : Interactable
+{
+	float myDrainPerSecond	100.0
+	float myChargePerSecond	5.0
+	ChargeableThresholds myBarkThresholds
+	NPCTypeList myAcceptableTargetTypes
+}
+
+class Keyhole : Interactable
+{
+}
+
+enum TowableCategory
+{
+	Organic
+	Metal
+	Core
+	Trophy
+	None
+}
+
+class TowableCategoryInfo
+{
+	TowableCategory 		myTowableCategory
+	AttributeType			myCapacityAttribute			< tooltip="The player's attribute that defines the capacity for this inventory slot." >
+	SimUnitCategoryList		mySimCategories
+	SimUnitSubCategoryList	mySimSubCategories
+}

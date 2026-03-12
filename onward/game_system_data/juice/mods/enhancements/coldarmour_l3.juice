@@ -1,0 +1,16 @@
+include ./templates/template_l3.juice
+include "onward/game system data/juice/mods/mod_cold_armour_l3.mplayermod"
+include "onward/game system data/juice/buffs/buff_cold_armour_l3.mbuff"
+
+Enhancement coldarmour_l3 < uid=C91BB551597F7394005048F1D98191B9 > : "Level 3"
+{
+	myLocalizedName "contextComment = \"[Placeholder - do not translate]\nName for level 3 version of a Ship Armor that protects against Cold damage and gives the player bonuses in cold status effects (chill / freeze)\", description = \"\", enabled = true, guid = #C91BB551597F7394005048F0D5DA4615, lineVersion = 1, maxLength = 30, text = \"Cold Armor III\""
+	myLocalizedDescription "contextComment = \"[Placeholder - do not translate]\nDescription for level 3 version of a Ship Armor that protects against Cold damage and gives the player bonuses in cold status effects (chill / freeze), and is weak to Heat\", description = \"enhancement-description-cold-armour-3\", enabled = true, guid = #D42C88721344423897CDA68556CAA26B, lineVersion = 2, maxLength = 153, text = \"+60 Defense\n+60% Cold DMG Resist | -20% Heat DMG Resist\nMore Durable while Chilled or Frozen\nChance to Chill on Impact\""
+	myIconSprite "mySpriteId = 1502898816, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-mods-ship-armour.spritesheet\""
+	myIsHullEnhancement TRUE
+	myMod < uid=C91BB551597F7394005048F23A9BA7BE > = mod_cold_armour_l3
+	myBuff < uid=C91BB551597F7394005048F3A59E215A > = buff_cold_armour_l3
+	myEnhancementType Armour
+	myEnhancementTrackType ColdArmour
+}
+

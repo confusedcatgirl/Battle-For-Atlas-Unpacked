@@ -1,0 +1,61 @@
+include "onward/game system data/fruit/physics/impactaffectors.fruit"
+include "onward/game system data/juice/mods/tuning/mod_tuning_master.juice"
+
+ImpactAffector_StatusEffect "Chill on Impact"
+{
+	myThreshold 20.0
+	myStatusEffectType Chill
+	myValue 1000.0
+	myChance 0.5
+}
+
+ImpactAffector_StatusEffect "Stasis on Impact"
+{
+	myThreshold 20.0
+	myStatusEffectType Stasis
+	myValue 1000.0
+	myChance = Stasis_Armor_l1_StasisChance
+}
+
+ImpactAffector_StatusEffect "Stasis on Impact l2"
+{
+	myThreshold 20.0
+	myStatusEffectType Stasis
+	myValue 1000.0
+	myChance = Stasis_Armor_l5_StasisChance
+}
+
+ImpactAffector_Damage "Damage on Impact 100"
+{
+	myThreshold 20.0
+	myDamage 100.0
+}
+
+ImpactAffector_Damage "Damage on Impact 200"
+{
+	myThreshold 20.0
+	myDamage 200.0
+}
+
+ImpactAffector_Stun "Stun on Impact"
+{
+	myThreshold 20.0
+	myStunTime 3.0
+	myChance 0.5
+}
+
+ImpactAffector_ChangeFaction "Hack on Impact 50"
+{
+	myThreshold 20.0
+	myNPCTypes
+	{
+		NPCType Harvester_Imp Harvester_Imp
+		NPCType Harvester_Imp_Cold Harvester_Imp_Cold
+		NPCType Harvester_Imp_Heat Harvester_Imp_Heat
+		NPCType Harvester_Imp_Crush Harvester_Imp_Crush
+	}
+	myFaction Player
+	myFactionTime 10.0
+	myChance 1.0
+}
+

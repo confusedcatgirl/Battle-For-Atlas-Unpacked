@@ -1,0 +1,56 @@
+include ./harvester_cyclops_generic.mnpc
+include onward/skillscripts/npc_ability_cyclops_generic_grenade.mskillscriptjuice
+
+NPC harvester_cyclops_generic_crush < uid=4A8282B9587CF66C000004315C6EBF96 > : harvester_cyclops_generic
+{
+	myUIName "contextComment = \"The UI Name for the Crush Cyclops\", description = \"uiname-harvester-cyclops-crush-generic\", enabled = true, guid = #93869D535AB1515600001D170AE9649B, lineVersion = 0, maxLength = 17, text = \"Crush Cyclops\""
+	myUIName_NonLocalized "Crush Infused Cyclops"
+	myGraphObjectFile "onward/graph objects/character/harvester_13.mgraphobject"
+	myHealthConfig < uid=4A8282B959F8E76C00001DC2AD77F611 > = "harvester_cyclops_generic_crush Health"
+	myGravityReaction < uid=939A35415A847DF1000D4B7E43B91E7B > = Crush_Infused_Cyclops_Gravity
+	myAbilityDefinitions
+	{
+		NPCAbilityDefinition "Primary Attack - Gatling"
+		{
+			myGameAction NPC_Ability1
+			mySkillScript < uid=4A8282B9587CF66C000004329935B0DA > = harvester_cyclops_generic_gatling
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_harvester_cyclops_generic_gatling_crush.juice"
+		}
+		NPCAbilityDefinition "Secondary Attack - Grenade"
+		{
+			myGameAction NPC_Ability2
+			mySkillScript < uid=4A8282B9587F9BB8004CB7CD43D597D5 > = npc_ability_cyclops_generic_grenade
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_harvester_cyclops_generic_grenade_crush.juice"
+			myEnabled FALSE
+		}
+		NPCAbilityDefinition "Infused Special - Bullet Hell"
+		{
+			myGameAction NPC_Ability3
+			mySkillScript < uid=4A8282B9587CF66C000004329935B0DA > = harvester_cyclops_generic_gatling
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_harvester_cyclops_generic_crush_bullet_hell.juice"
+		}
+	}
+	myResistanceSettings "onward/game system data/juice/ai/resistance/crush_infused_resistance.juice"
+	myCrowdControlAttributeSettings "onward/game system data/juice/ai/attributes/crowd control tiers/npc_cc_tier4.juice"
+	myDropTableOnDeath Kill_Cyclops_Crush_Drop_Table
+	myDropTableOnAffinityWeaknessDeathId AffinityKill_Cyclops_Crush
+	myDropTableOnDamage Cyclops_Affinity_Weakness
+	myDamageDropInterval 0.3
+	myDamageDropOnWeakness TRUE
+	myIncludeDamageDropZero TRUE
+	myNPCType Harvester_Cyclops_Infused_Crush
+	myThreatLevel 7.0
+	myWeapon
+	{
+		myWeaponType Gatling
+		myDamageType Crush
+	}
+	myHitReactionRules "onward/game system data/juice/ai/reactions/reaction_rules_npc_large.juice"
+	myOnDeathChallenge Death_CyclopsGenericCrush
+	myOnDiscoveredChallenge Discover_CyclopsGenericCrush
+	myHackLevel 2
+	mySkillLevelOffset -1
+}
+

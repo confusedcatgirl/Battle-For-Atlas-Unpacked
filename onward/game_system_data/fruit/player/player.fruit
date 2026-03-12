@@ -1,0 +1,859 @@
+
+include "onward/game system data/fruit/camera/camera.fruit"
+include "onward/game system data/fruit/statuseffects/statuseffects.fruit"
+include "onward/game system data/fruit/physics/impact.fruit"
+include "onward/game system data/fruit/attributes/attributes.fruit"
+include "onward/game system data/fruit/ui/uilocalizedinteractiontext.fruit"
+include "onward/game system data/fruit/entity/realization.fruit"
+include "onward/game system data/fruit/player/player_features.fruit"
+include "onward/game system data/fruit/mods/mod.fruit"
+include "onward/game system data/fruit/progression/challenge_types.fruit"
+
+enum ShipMassCategory
+{
+	ExtraLight
+	Light
+	Medium
+	Heavy
+	ExtraHeavy
+}
+
+class RecognitionSettings
+{
+	float myAngle 45.0		< tooltip="FOV angle in degrees" >
+	float myRange 250.0		< tooltip="Range of entity detection" >
+	float myUpdateInterval 1	< tooltip="Interval in seconds to update the Player Recognition Manager" >
+}
+
+class WeaponTargetFinderParams
+{
+	float myWeaponTargetFinderMaxDistance 225.0
+	float myWeaponTargetFinderMaxAngle 90.0
+	float myWeaponTargetFinderForwardPreference 0.018
+	vec2f myWeaponTargetFinderReticleZoneSize 0.0075;0.01 < tooltip="DEPRECATED - TO REMOVE">
+	vec2f myWeaponTargetFinderReticleSize 75.0;75.0
+	int   myWeaponTargetFinderFocusEventPeriod 500	< tooltip="Time in milliseconds a target must be targeted before the ON_TARGETED rule concept will fire." >
+}
+
+class AimAssistTargetFinderParams
+{
+	float myAimAssistTargetFinderMaxDistance 225.0
+	float myAimAssistTargetFinderMaxAngle 90.0
+	float myAimAssistTargetFinderForwardPreference 0.018
+	float myAimAssistTargetFinderBillboardInnerWidthMultiplier 0.8
+	float myAimAssistTargetFinderBillboardInnerHeightMultiplier 1.0
+	float myAimAssistTargetFinderBillboardOuterWidthMultiplier 5.0
+	float myAimAssistTargetFinderBillboardOuterHeightMultiplier 1.5
+	float myAimAssistTargetFinderDeadMinDistance 4.5
+	float myAimAssistTargetFinderDeadMaxDistance 6.5
+	bool myPrioritizeCurrentTargetWhenMovingCamera FALSE
+}
+
+class InteractionTargetFinderParams
+{
+	float myInteractionTargetFinderMaxDistance 100.0
+	float myInteractionTargetFinderMaxAngle 60.0
+	float myInteractionTargetFinderForwardPreference 0.018
+}
+
+class LostBalanceSettings
+{
+	float myMaxRoll 0.4
+	float myPartRemovedRoll 0.2
+	float myDuration 5.0
+	float myRepulsorHeightModifier 0.2
+	float myRecoverPercent 0.9
+	float myRollSpringTension 20.0
+	float myRollSpringFriction 0.2
+	float myRecoverSpringTension 5.0
+	float myRecoverSpringFriction 0.5
+}
+
+class ShipStaminaSettings
+{
+    float myPoints 0.0
+	float myRechargeRate 0.0
+	float myRechargeCooldown 0.0
+    float myAvailabilityThresholdAfterDepletion 0.0
+}
+
+class AutoBoostSettings
+{
+    float myChargeDuration 0.0
+    float myBoostDuration 0.0
+}
+
+class DriftSettings
+{
+    AutoBoostSettings myAutoBoostL1
+    AutoBoostSettings myAutoBoostL2
+    AutoBoostSettings myAutoBoostL3
+    float myTopSpeedMultiplier 0.0
+    float myMinSpeedToStartDrift 0.0
+}
+
+class ShipBoostSettings
+{
+	float myMinDuration 1.0
+}
+
+class CoopLeashSettings
+{
+	float myMaxDistanceStrong 100.0
+	float myMaxDistanceWeak 500.0
+	float myMaxDistanceBreaking 1000.0
+	float myMaxDistanceSpaceMultiplier 3.0
+	float myJoinForcesMaxDuration 5.0
+	float myFollowModeRange 100.0
+	float myFollowModeRangeHyperDrive 600.0
+	float myFollowModeOutOfRangeDelay 3.0
+	float myFollowModePlanetaryTransitionDelay 1.0
+}
+
+class PlayerTrialSettings
+{
+    float myStartBoostWindowStart 3.1
+	float myStartBoostWindowEnd 1.9
+	float myStartBoostDuration 3.0
+	float myStartStallDuration 2.0
+}
+
+class PlayerSettings
+{
+	string myMotionYawInputCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, keys = { inTangents = { -0 -0, -0.602639 -0.038683, }, outTangents = { 0.307335 0.942354, 0 0, }, properties = { -749, -749, }, values = { 0 0, 1 1, }, }, numKeys = 2, }" < bhv=inputgraph >
+	vec2f myMotionYawInputDeadzone 0.1;0.7
+	string myMotionPitchInputCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, keys = { inTangents = { -0 -0, -0.602639 -0.038683, }, outTangents = { 0.307335 0.942354, 0 0, }, properties = { -749, -749, }, values = { 0 0, 1 1, }, }, numKeys = 2, }" < bhv=inputgraph >
+	vec2f myMotionPitchUpDeadzone 0.1;0.7
+	vec2f myMotionPitchDownDeadzone 0.1;0.5
+	string myMotionStrafeLRInputCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.202783 -0.000466534, }, outTangents = { 0.201428 0.00286382, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }" < bhv=inputgraph >
+	vec2f myMotionStrafeLRInputDeadzone 0.1;0.7
+	string myMotionStrafeFBInputCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { 0 0, -0.19846 -0.000466527, }, outTangents = { 0.20575 0.00286394, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }" < bhv=inputgraph >
+	vec2f myMotionStrafeForwardDeadzone 0.1;0.5
+	vec2f myMotionStrafeBackwardDeadzone 0.1;0.7
+	string myStickStrafeInputCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.202783 -0.000466534, }, outTangents = { 0.201428 0.00286382, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }" < bhv=inputgraph >
+	vec2f myStickStrafeInputDeadzone 0.0;1.0
+    string myCameraInputCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.202783 -0.000466534, }, outTangents = { 0.201428 0.00286382, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }" < bhv=inputgraph >
+
+	float myThrottleInputThreshold 0.5
+	float myThrottleInputThresholdOff 0.15
+	float myThrottleInputLengthThreshold 0.92
+	float myThrottleInputLengthThresholdOff 0.7
+
+	float myFlightEngineIgnitionDuration 1.0        < tooltip="Duration launch button need to be held to take off" >
+    float myFlightEngineRestartDuration 0.0         < tooltip="Duration launch button need to be held to restart engines" >
+
+	float myHighSpeedSmoothingRateAsc 3.0           < tooltip="Smoothing rate of the ascending speed" >
+	float myHighSpeedSmoothingRateDesc 0.5          < tooltip="Smoothing rate of the descending speed" >
+	float myHighSpeedSmoothingRateReset 1.0         < tooltip="Smoothing rate of the descending speed when resetting to 0" >
+	float myHighSpeedMinSpeed 45.0                  < tooltip="Speed at which high speed factor starts increasing" >
+	float myHighSpeedMaxSpeed 100.0                 < tooltip="Speed at which high speed factor is at its peak" >
+	string myHighSpeedCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.333333 -0.333333, }, outTangents = { 0.333333 0.333333, 0 0, }, properties = { 203, 1227, }, values = { 0 0, 1 1, }, }, numKeys = 2, }" < bhv=inputgraph >
+
+	RecognitionSettings myRecognitionSettings
+
+	float myAtmosphereTransitionViewFriction 0.2
+	float myAtmospherePreTransitionBlendInPercent 0.75 < tooltip="Percentage of the pre transition zone during which we ramp up the constraint effect" >
+	float myAtmosphereTransitionBlendInPercent 0.035 < tooltip="Percentage of the transition zone during which we ramp up the view friction/slowdown effect" >
+	float myAtmosphereTransitionBlendOutPercent 0.13 < tooltip="Percentage of the transition zone during which we ramp down the view friction/slowdown effect" >
+	float myAtmosphereTransitionProximityBlendOutDuration 2.0 < tooltip="DEPRECATED" >
+	float myAtmosphereTransitionProximityBlendOutDurationEntry 2.0 < tooltip="Duration during which we ramp down the proximity blend after exiting the transition zone" >
+	float myAtmosphereTransitionProximityBlendOutDurationExit 0.5 < tooltip="Duration during which we ramp down the proximity blend after exiting the transition zone" >
+	float myAtmosphereTransitionProximityBlendAngleMin 50.0 < tooltip="Angle (between forward and transition dir) at which proximity blend is at 100%" >
+	float myAtmosphereTransitionProximityBlendAngleMax 80.0 < tooltip="Angle (between forward and transition dir) at which proximity blend is at 0%" >
+    bool myAtmosphereTransitionDisableAutoRoll TRUE
+    float myAtmosphereTransitionDuration 5.0
+
+	float myHyperDriveStartDuration 0.5
+	float myHyperDriveDisableDistance 1000.0
+	float myHyperDriveDisableAngle 80.0
+	float myHyperDriveEnergyDrainPerSecond 1.0
+	float myHyperDriveExitDuration 1.5
+
+	float mySpaceRecoveryAlignDamping 3.0
+	float mySpaceRecoveryAlignVelocityClamp 1.5
+	float mySpaceRecoveryExitAngleThreshold 0.1
+
+	float myCameraOffsetStartSize 4.0				    < tooltip="Size at which offset starts taking effects" >
+	float myCameraOffsetEndSize 8.0					    < tooltip="Size at which offset is at its max value" >
+	float myCameraLookAtOffsetStartSize 4.0				< tooltip="Size at which look at offset starts taking effects" >
+	float myCameraLookAtOffsetEndSize 8.0				< tooltip="Size at which look at offset is at its max value" >
+	vec3f myCameraOffsetMaxModifier 0.0;0.0;-8.0	    < tooltip="Offset applied proportionally to the size of the ship" >
+	vec3f myCameraLookAtOffsetMaxModifier 0.0;2.0;0.0 	< tooltip="Offset applied proportionally to the size of the ship" >
+	float myCameraOffsetDamping 2.0
+
+	float myGravityUpdateInterval 1.0                   < tooltip="Minimum time required between gravity update (optimization)" >
+	float myGravityUpdateEpsilon 1.0                    < tooltip="Difference required to update gravity (optimization)" >
+	float myGravityWeightModifier 0.5                   < tooltip="How much gravity affects weight. For example with a value of 0.5, doubling gravity will only increase weight by half" >
+
+	bool myMotionIsLeftStick TRUE                       < tooltip="Whether motion replaces the left or right stick" >
+	
+	float myEnergyRegenDelay 0.0
+	float myMinEnergy 1000.0
+	float myMaxEnergy 2800.0
+	float myMinEnergyStat 100.0
+	float myMaxEnergyStat 300.0
+	
+	float myMinDefense 0.0
+	float myMaxDefense 1800.0
+	float myMinDefenseStat 100.0
+	float myMaxDefenseStat 300.0
+	
+	float myDefenseToHealthMult 50.0f
+	
+	float myManeuverCooldownDuration 0.5
+
+	float myLandingHeightMin 1.5
+	float myLandingHeightMax 8.0
+	vec3f myLandingVelocityImpulse 0.0;10.0;30.0
+	float myLandingImpactImmunityDuration 3.0
+	float myLandingDisableManeuversDuration 1.5
+
+	float myAirTrickHeightGoingUp 4.0
+	float myAirTrickHeightGoingDown 10.0
+
+	float myHopHeightMax 3.0
+
+	float myDriftMinDurationForBoost 1.5
+
+	float myBoostChargeDuration 5.0
+	
+	float			myImpactLinearLerpIn 5
+	float			myImpactAngularLerpIn 5
+
+	float			myImpactLinearLerpOut 5
+	float			myImpactAngularLerpOut 5
+
+	float			myImpactLinearStrength 0.2 // remove soon
+	float			myImpactAngularStrength 2 // remove soon
+
+	float			myImpactLinearStrengthMultiplierMin 0.5
+	float			myImpactLinearStrengthMultiplierMax 1
+
+	float			myImpactAngularStrengthMultiplierMin 0.5
+	float			myImpactAngularStrengthMultiplierMax 1
+
+	float			myVisualImpactLinearStrengthMin 0.05
+	float			myVisualImpactLinearStrengthMax 0.2
+
+	float			myVisualImpactAngularStrengthMin 0.5
+	float			myVisualImpactAngularStrengthMax 2
+
+	float			myImpactMaxDistance 1
+	float			myImpactMaxYaw 20
+	float			myImpactMaxPitch 20
+	float			myImpactMaxRoll 25
+
+	LostBalanceSettings     myLostBalanceSettings
+    ShipStaminaSettings     myStaminaSettings
+    ShipBoostSettings       myBoostSettings
+
+	VisualImpactSettings 	myDamageImpactSettings
+	VisualImpactSettings 	mySpaceDamageImpactSettings
+	VisualImpactSettings 	myCollisionImpactSettings
+	VisualImpactSettings 	myScriptImpactSettings
+
+	vec3f myEntityDetectionScale 100.0;100.0;100.0		< tooltip="Rule Evaluation Detection Extents aka 'halfsize' (5,5,5 means 10m cubed volume)" >
+	vec3f myEntityDetectionScaleInSpace 300.0;300.0;300.0 < tooltip="Rule Evaluation Detection Extents while in Space aka 'halfsize' (5,5,5 means 10m cubed volume)" >
+	vec3f myEntityDetectionOffset 0.0;0.0;0.0			< tooltip="Rule Evaluation Detection Center Offset" >
+	vec3f myEntityDetectionOffsetInSpace 0.0;0.0;0.0	< tooltip="Rule Evaluation Detection Center Offset in space" >
+	
+	float myFastTravelDistanceFromPlanet 500.0
+	float myFastTravelActivatableDistance 2000.0
+	
+	float myDownPilotDuration 900000.0
+
+	float myBouncyVelocityImpulseMin 60.0
+	float myBouncyVelocityImpulseMax 80.0
+	float myBouncyMinTimeBetween 1.0
+	float myBouncyHystersisTime 2.0
+
+    float myGroundBoostVelocityPercentTresholdForRagdoll 0.8
+
+	float myFlippedOverDuration 1.0
+	float myFlippedOverJumpHeight 1.0
+	
+	StatusEffectReactionList myStatusEffectReactions
+	
+	WeaponTargetFinderParams myWeaponTargetFinderParams
+	AimAssistTargetFinderParams myAimAssistTargetFinderParams
+	InteractionTargetFinderParams myInteractionTargetFinderParams
+	
+	WeaponTargetFinderParams myWeaponTargetFinderParamsSpace
+	AimAssistTargetFinderParams myAimAssistTargetFinderParamsSpace
+	InteractionTargetFinderParams myInteractionTargetFinderParamsSpace
+	
+    AimAssistTargetFinderParams myAimAssistTargetFinderParamsSpaceInterior
+
+	float mySunderTemp 1500.0
+	float myFireTemp 750.0
+	float myChillTemp -150.0
+	float myFreezeTemp -273.0
+
+	float myRespawnElectrumPercentCost 2.0
+	float myDeathTimeScale 0.5
+	float myDeathTimeScaleRampUpDuration 2.0
+	float myDeathTimeScaleDuration 2.0
+	string myDeathTimeScaleCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, keys = { inTangents = { -0 -0, -0.602639 -0.038683, }, outTangents = { 0.307335 0.942354, 0 0, }, properties = { -749, -749, }, values = { 0 0, 1 1, }, }, numKeys = 2, }" < bhv=inputgraph >
+	vec3f myDeathAngularImpulseDirGround -0.3;1.0;0.0
+	vec3f myDeathAngularImpulseDirAir -0.2;0.2;1.0
+	float myDeathAngularSpeed 5.0
+	float myDeathLinearSpeed 10.0
+	
+	string myRagdollTimeScaleInCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { 0 0, -0.22516 -0.0023385, }, outTangents = { 0.000784814 -0.833507, 0 0, }, properties = { 275, 1299, }, values = { 0 1, 0.25 0.2, }, }, numKeys = 2, }"
+	string myRagdollTimeScaleOutCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, 0 0, }, outTangents = { 0.916094 0.354305, 0 0, }, properties = { 275, 2323, }, values = { 0 0.2, 0.5 0.994597, }, }, numKeys = 2, }"
+
+	float myImpactHystersisTime 0.08f
+	float myPickupAttractionRange 150
+	float myPickupNearThreshold 3
+	float myPickupAttractionRangeSpace 350
+	float myPickupNearThresholdSpace 3
+
+	float myRecoveryHeightForFlight 10.0
+	
+	bool myUseNewPhysics FALSE
+
+	Attributes myAttributes
+	
+	float myStreakDamageWindow 0.5
+	
+	float myMinimapPlanetCombatRadius 300.0
+	float myMinimapPlanetNonCombatRadius 900.0
+	float myMinimapPlanetVisionBonus 135.0 < tooltip="Used to increase the distance a simunit can be discovered to avoid issues where simunits are covered by a sliver of the green find area" >
+	float myMinimapSpaceRadius 1024.0
+	
+	float myEnergyStatMultiplier 1.0
+	
+	float myDamageWindow 5.0
+
+	float myAimAssistGroundSpeedBlendMin 20.0
+	float myAimAssistGroundSpeedBlendMax 45.0
+
+	float myUnattackableTimeAfterSpawn 2.0
+	
+	file myRepairableConfig < types=*.juice >
+	InteractableTextType myInteractableTextType RepairUnit
+
+	float myFollowModeRange 100.0 < tooltip="DEPRECATED - TO REMOVE" >
+	float myFollowModeRangeHyperDrive 600.0 < tooltip="DEPRECATED - TO REMOVE" >
+	float myFollowModeOutOfRangeDelay 3.0 < tooltip="DEPRECATED - TO REMOVE" >
+	float myFollowModePlanetaryTransitionDelay 1.0 < tooltip="DEPRECATED - TO REMOVE" >
+	CoopLeashSettings myCoopLeashSettings
+
+	float myScanningViewFrictionMultiplier 1.0
+
+    float myNearElectrumVeinDistance 300.0
+	float myNearElectrumVeinDuration 1.0
+
+	float myNearAlliedAgentDistance 300.0
+	float myNearAlliedAgentDuration 1.0
+
+	file myShieldParryTemplate < assettype="Entity Template" >
+	Enhancement* myShieldParryEnhancement
+	float myShieldParryAgentDetachForwardImpulse 30.0
+	float myShieldParryAgentDetachUpwardImpulse 15.0
+	float myShieldParryAgentDamage 200.0
+	
+	float myTimeToRecoverHull 30.0
+	float myCoopShipRefreshTime 300.0
+	
+	RealizationEventObserverConfigList myRealizationEventSetup
+
+    PlayerFeatureDefaults myPlayerFeatureDefaultValues
+	
+	bool myEnergyPercentageRegen false
+	
+	float myUpwardTowableThrowForceDotThreshold 0.98
+	float myUpwardTowableThrowForce 0.1 
+	float myTowableThrowLinearSpeed 150
+	float myTowableThrowAngularSpeed 3 
+	float myTowableThrowLinearSpeedSpace 150 
+	float myTowableThrowAngularSpeedSpace 0.5 
+	float myTowableThrowDropTime 0.1
+
+	ChallengeTypes myDNAKillNPCChallengeTypes
+	ChallengeTypes myDNAKillTierNPCChallengeTypes
+	ChallengeTypes myDNAProfileChallengeTypes
+
+    PlayerTrialSettings myTrialSettings
+}
+
+list SettingsList
+{
+}
+
+class MovementConfigCategory
+{
+	float value
+	SettingsList config
+}
+
+class GroundSettings
+{
+	float fallingHeight 0.0
+	float takeOffSpeedThreshold 0.0
+	float wingCollisionSlowDownFactor 0.0
+	float highSpeedShakeThreshold 0.0
+	float myStallEngineStrength 0.0
+	float myFallTimeToZeroThrottle 0.0
+	float myNoseDiveAngleThreshold 0.0
+	float myNoseDiveRecoveryAngleThreshold 0.0
+	float myReverseBrakeTime 0.0
+	float myEngineBrakeTime 0.0
+	float myObstacleForceMaxHeight 0.0
+	float myObstacleForceUpSpeedNormal 0.0
+	float myObstacleForceUpSpeedBoost 0.0
+}
+
+class FlightSettings
+{
+	float safeLaunchDuration 0.0
+	float landingHeight 0.0
+	float myAutoLandDuration 0.0
+	float myAutoLandAngleThreshold 0.0
+	float alignBlendInDuration 0.0
+	float enablePitchTime 0.0
+	string enablePitchCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, keys = { inTangents = { -0 -0, -0.602639 -0.038683, }, outTangents = { 0.307335 0.942354, 0 0, }, properties = { -749, -749, }, values = { 0 0, 1 1, }, }, numKeys = 2, }" < bhv=inputgraph >
+	float myTakeOffTiltSpeedThreshold 0.0
+	float myTakeOffLevelDamping 0.0
+	float myTakeOffDuration 0.0
+	float myTakeOffTiltStartTime 0.0
+	float myTakeOffTiltDuration 0.0
+	string myTakeOffTiltCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.333333 -0.333333, }, outTangents = { 0.333333 0.333333, 0 0, }, properties = { 203, 1227, }, values = { 0 0, 1 1, }, }, numKeys = 2, }" < bhv=inputgraph >
+	float myTakeOffGasStartTime 0.0
+	float myTakeOffGasDuration 0.0
+	string myTakeOffGasCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.333333 -0.333333, }, outTangents = { 0.333333 0.333333, 0 0, }, properties = { 203, 1227, }, values = { 0 0, 1 1, }, }, numKeys = 2, }" < bhv=inputgraph >
+	float myTakeOffDisableManeuversDuration 0.0
+	float myRestartDuration 0.0
+	float myRestartTiltStartTime 0.0
+	float myRestartTiltDuration 0.0
+	string myRestartTiltCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.333333 -0.333333, }, outTangents = { 0.333333 0.333333, 0 0, }, properties = { 203, 1227, }, values = { 0 0, 1 1, }, }, numKeys = 2, }" < bhv=inputgraph >
+	float myRestartGasStartTime 0.0
+	float myRestartGasDuration 0.0
+	string myRestartGasCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.333333 -0.333333, }, outTangents = { 0.333333 0.333333, 0 0, }, properties = { 203, 1227, }, values = { 0 0, 1 1, }, }, numKeys = 2, }" < bhv=inputgraph >
+	float myRestartDisableManeuversDuration 0.0
+}
+
+class DownedSettings
+{
+	float groundHeightTreshold 5.0
+}
+
+class ControlledSpeedSettings
+{
+	float topSpeed 0.0
+	float secondsToTopSpeed 0.0
+	string accelerationCurve "" < bhv=inputgraph >
+	bool myIgnoreAttributes FALSE
+}
+
+class ForwardThrustSettings : ControlledSpeedSettings
+{
+	bool isReverse false
+	float secondsToMinThrottle 0.0
+	float minThrottle 0.0               < tooltip="0 (none) to 1 (full throttle)" >
+}
+
+class SteeringSettings
+{
+	float yawSpeed 0.0                  < tooltip="Yaw angular speed, around the Y axis. Deg/s." >
+	float pitchSpeed 0.0                < tooltip="Pitch angular speed, around the X axis. Deg/s." >
+	float lowYawSpeed 0.0               < tooltip="Yaw angular speed, around the Y axis. Deg/s." >
+	float lowPitchSpeed 0.0             < tooltip="Pitch angular speed, around the X axis. Deg/s." >
+	float yawLag 0.0
+	float pitchLag 0.0
+	float yawResetLag 0.0
+	float pitchResetLag 0.0
+	float yawLift 0.0
+	float pitchLift 0.0
+	float visualYaw 0.0                < tooltip="The maximum amount of yaw applied at maximum input." >
+	float visualPitch 0.0              < tooltip="The maximum amount of pitch applied at maximum input." >
+	float visualRoll 0.0               < tooltip="The maximum amount of roll applied at maximum input." >
+	float cameraRoll 0.0
+	float cameraRollSmoothingRate 0.0
+	vec3f cameraLookAtYawOffset 0.0;0.0;0.0
+	vec3f cameraLookAtPitchOffset 0.0;0.0;0.0
+}
+
+class DragSettings
+{
+	float drag 0.0                      < tooltip="Drag factor. 0 means infinite acceleration. Higher value will make the velocity drop quickly." >
+}
+
+class RepulsorSettings
+{
+	float repulsorHeight 0.0            < tooltip="Height (m) off the ground at which the forces should be in balance (ie. where it should settle eventually)." >
+	float turnHeightModifier 0.0        < tooltip="Height modifier when turning" >
+	float repulsorSpringStiffness 0.0   < tooltip="How quickly does the force increase as the range to ground decreases?" >
+	float repulsorVelocityDamping 0.0   < tooltip="How much damping to apply to velocity in the direction of the repulsor (0 = no damping, 1 = complete cancellation, <0 = flubber)." >
+	float noSlideAngleLow 0.0           < tooltip="Under that angle, the repulsor considers the ground normal to be the up vector, hence no sliding" >
+	float noSlideAngleHigh 0.0          < tooltip="Above that angle, the repulsor uses ground normal without modifications" >
+	float gravityModifier 0.0           < tooltip="Multiplier for the world gravity" >
+    bool forceRepulsorHeight FALSE
+    bool myForceRepulsorHeightBelowOnly FALSE
+    bool myUseHeightAttribute TRUE
+}
+
+class GroundAutoAlignSettings
+{
+	float myDampingFast 10.0
+	float myDampingSlow 1.0
+	bool myAlignToPlanet FALSE
+	float myPitchOffset 0.0
+}
+
+class AlignToVelocitySettings
+{
+	float myAlignDamping 3.0
+}
+
+class LiftForceSettings
+{
+	float myLiftForce 0.0
+	float myForwardAcceleration 0.0
+	float myVisualPitch 0.0
+}
+
+class VisualRotationSettings
+{
+	float rotationDamping 0.0           < tooltip="How fast we reach the steering rotation. High values means faster." >
+    bool myUseSpringDamping FALSE
+	float myPitchTension 0.0
+	float myPitchDamping 0.0
+	float myYawTension 0.0
+	float myYawDamping 0.0
+	float myRollTension 0.0
+	float myRollDamping 0.0
+}
+
+class StrafeSettings : ControlledSpeedSettings
+{
+	bool lateralOnly false
+	bool upDown false
+	float lateralTopSpeed 0.0
+	float reverseTopSpeed 0.0
+	float visualYaw 0.0                < tooltip="The maximum amount of yaw applied at maximum input." >
+	float visualPitch 0.0              < tooltip="The maximum amount of pitch applied at maximum input." >
+	float visualRoll 0.0               < tooltip="The maximum amount of roll applied at maximum input." >
+	bool updateSmallThrustersDirection false
+	float myInputDampingDown 0.0
+	float myInputCeiling 0.0
+}
+
+class AutoRollSettings
+{
+	float myMaxRollSpeed 0.0
+	float rollDamping 0.0
+	float myCorrectionAmountDampingUp 0.0
+	float myCorrectionAmountDampingDown 0.0
+	float myUpDownAngleThresholdMin 0.0
+	float myUpDownAngleThresholdMax 0.0
+	float myUpsideDownAngleThresholdOut 0.0
+	float myUpsideDownAngleThresholdInMax 0.0
+	float myUpsideDownAngleThresholdInMin 0.0
+	bool disableOnPitchInput TRUE
+	bool myAlignProportionalToInput TRUE
+	bool myBlockInputUpsideDown FALSE
+	bool myUseGlobalUpFlip FALSE
+}
+
+class AvoidanceSettings
+{
+	float sideDistance 0.0            < tooltip="Distance on the side from which the raycasts start" >
+	float loSpeedCheckDistance 0.0    < tooltip="Length of the raycast at low speed" >
+	float hiSpeedCheckDistance 0.0    < tooltip="Length of the raycast at high speed" >
+	float closeAcceleration 0.0       < tooltip="Side acceleration applied when close to the obstacle" >
+	float farAcceleration 0.0         < tooltip="Side acceleration applied when far from the obstacle" >
+	float backAcceleration 0.0        < tooltip="Backward acceleration" >
+	float throttleCurving 0.0         < tooltip="Curving applied to the throttle to determine how much avoidance is applied. POW curve (0 -> 1)" >
+	float visualRoll 0.0              < tooltip="The maximum amount of roll applied when applying obstacle avoidance." >
+}
+
+class BobSettings
+{
+	float periodX 0.0
+	float periodY 0.0
+	float offsetX 0.0
+	float offsetY 0.0
+}
+
+class LateralDashSettings
+{
+	vec3f dashDirection 0.0;0.0;0.0
+	float dashDuration 0.0
+	float anticipationDuration 0.0
+	float visualRoll 0.0
+	bool isImpulseOnStartOnly FALSE
+    	bool myUseInitialSpeed TRUE
+	float dashVelocityImpulse 0.0
+	float forwardVelocityImpulse 0.0
+	bool isBarrelRoll FALSE
+	string dashCurve "" < bhv=inputgraph >
+	bool myUseCameraModifier TRUE
+	bool myUsePlayerShakeDuration FALSE
+	CameraModifier cameraModifier
+	string playerShake ""
+	string anticipationPlayerShake ""
+	bool removeShakeOnStop FALSE
+	bool canDoubleDash FALSE
+	float dashInterruptionTime 0.0
+	float dashRestartTime 0.0
+	float cameraModifierInterruptionTime 0.0
+	float isDashingStartTime 0.0
+	float isInvulnerableStartTime 0.0
+	float isDashingEndTime 0.0
+	float isInvulnerableEndTime 0.0
+	float crashSusceptibleStartTime 0.0
+	float crashSusceptibleEndTime 0.0
+	float disableRepulsorDuration 0.0
+	bool myDisableJetEngine TRUE
+	float myDirectionalDetachImpulseMagnitude 20
+	float myUpwardsDetachImpulseMagnitude 20
+    bool myUseCurrentVelocityOnDetach TRUE
+	float myDetachDamage 200.0  < tooltip="Tuned against the max health of the base imp." >
+    float myStaminaCost 0.0
+    bool myCancelOppositeVelocity FALSE
+	bool myApplyDashModifiers FALSE
+	bool myApplyJumpModifiers FALSE
+	bool myUseRenderingShaker FALSE
+}
+
+class ImmelmannTurnSettings
+{
+	float pitchDuration 0.0f        < tooltip="The duration of the pitch turn. The curve is scaled to that duration" >
+	float rollDuration 0.0f         < tooltip="The duration we stay in this state after the pitch turn (while rolling)" >
+	string pitchCurve "" < bhv=inputgraph >
+	float interruptionTime 0.0f
+	string accelerationCurve "" < bhv=inputgraph >
+	float totalPitch 0.0f
+	float totalRoll 0.0f
+	float pitchDelay 0.0f
+	float rollDelay 0.0f
+    float myStaminaCost 0.0
+	float myDirectionalDetachImpulseMagnitude 20
+	float myUpwardsDetachImpulseMagnitude 20
+	float myDetachDamage 200.0
+}
+
+class AlignToCameraSettings
+{
+	bool myAlignPitch true
+	float myAlignDampingWithoutInput 0.0
+	float myAlignDampingWithInput 0.0
+	bool myUseCarrot false
+	float myCarrotZDistanceWithoutInput 0.0
+	float myCarrotZDistanceWithInput 0.0
+	float myCarrotZDamping 0.0
+	float myCarrotXDistance 0.0
+	float myCarrotXDampingUpNormal 0.0
+	float myCarrotXDampingUpThrottle 0.0
+	float myCarrotXDampingDown 0.0
+    bool myCarrotXDrivenByRightStick false
+	float myCarrotYDistance 0.0
+	float myCarrotYDampingUp 0.0
+	float myCarrotYDampingDown 0.0
+	float visualYaw 0.0
+	float visualRoll 0.0
+	float visualPitch 0.0
+}
+
+class CameraPivotSettings
+{
+	float myOffsetXDistanceWithoutInput 0.0
+	float myOffsetXDistanceWithInput 0.0
+	float myOffsetXMinSpeed 0.0
+	float myOffsetXMaxSpeed 0.0
+	float myOffsetXDamping 0.0
+
+	float myOffsetYDistanceWithoutInput 0.0
+	float myOffsetYDistanceWithInput 0.0
+	float myOffsetYMinSpeed 0.0
+	float myOffsetYMaxSpeed 0.0
+	float myOffsetYDamping 0.0
+
+	float myOffsetZ 0.0
+	float myOffsetZMinSpeed 0.0
+	float myOffsetZMaxSpeed 0.0
+	float myOffsetZDamping 0.0
+
+	vec3f myStrafeOffset 0.0;0.0;0.0
+    float myStrafeOffsetTension 0.0
+	float myStrafeOffsetDamping 0.0
+
+	float myLookLeftRightOffsetX 0.0
+	float myLookLeftRightOffsetY 0.0
+	float myLookLeftRightOffsetDamping 0.0
+	float myLookDownOffsetY 0.0
+	float myLookDownOffsetDamping 0.0
+    float myLookDownInputMin 0.8
+    float myLookDownInputMax 0.85
+}
+
+class CameraInputSettings
+{
+	float myDampingUp 0.0
+	float myDampingDown 0.0
+	float myMaxPitch 0.0
+	float myMaxYaw 0.0
+	float myPlateauYaw 0.0
+    float myTimeBeforeRampUp 0.0
+    float myRampUpDuration -1.0
+    string myRampUpCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.202783 -0.000466534, }, outTangents = { 0.201428 0.00286382, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }" < bhv=inputgraph >
+}
+
+class InitialThrustEffectSettings
+{
+	float myFOVModifier 0.0            < tooltip="FOV modifier applied during the initial thrust" >
+	string myFOVCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.202783 -0.000466534, }, outTangents = { 0.201428 0.00286382, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }" < bhv=inputgraph >
+	float myZDistance 0.0               < tooltip="Offset applied to the camera pivot during the initial thrust" >
+	string myZDistanceCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.202783 -0.000466534, }, outTangents = { 0.201428 0.00286382, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }" < bhv=inputgraph >
+	float myDuration 0.0                < tooltip="Duration of the effect" >
+	float myTriggerSpeed 0.0           < tooltip="Effect is on triggered beyond that speed" >
+}
+
+class VelocityTransferSettings
+{
+	float myTransferSpeed 0.0
+}
+
+class BoostSettings
+{
+    float myInitialSpeedBoost 0.0
+    ControlledSpeedSettings myForwardSettings
+    ControlledSpeedSettings myLateralSettings
+    float mySteeringMaxInput 0.0
+    float mySteeringDamping 0.0
+	float myHomingMaxDistance 0.0
+	float myHomingMaxAngle 0.0
+	float myHomingForwardPreference 0.0
+	float myHomingBreakingDistance 0.0
+	float myHomingBreakingAngle 0.0
+	float myHomingTopSpeedBonus 0.0
+	float myHomingSecondsToTopSpeedMultiplier 0.0
+	float myHomingTargetLockBlendInDuration 0.0
+	float myHomingTargetLockMinDistance 0.0
+	float myHomingTargetLockMaxDistance 0.0
+}
+
+class JetEngineSettings
+{
+	float myVelocity 0.0
+	float myPitch 0.0
+	float myGroundDistanceThreshold 0.0
+	float myMaxDuration 0.0
+	float myIgnoreGroundDistanceDuration 0.0
+	vec3f myDirection 0.0;1.0;0.0
+}
+
+class FollowSettings
+{
+	float myVisualYaw 0.0
+	float myVisualRoll 0.0
+	float myVisualRotationDamping 0.0
+	float myBreakDistance 0.0
+	float myFollowDistance 0.0
+	float myMaxSpeed 0.0
+	float myCatchDuration 0.0
+	float myAlignDamping 0.0
+}
+
+class FlippedOverSettings
+{
+	string myRollSpeedCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.202783 -0.000466534, }, outTangents = { 0.201428 0.00286382, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }" < bhv=inputgraph >
+	float myRecoverDuration 0.0
+	float myAlignToCameraStartTime 0.0
+	float myRemoveRollStartTime 0.0
+	float mySecondImpulseTime 0.0
+	float myFirstImpulseForce 0.0
+	float mySecondImpulseForce 0.0
+}
+
+class RollingBallSettings
+{
+	float myRadius 0.0
+	float myForwardAngularAccel 0.0
+	float mySideAngularAccel 0.0
+	float myMaxAngularSpeed 0.0
+    ControlledSpeedSettings myLinearSpeedSettings
+    ControlledSpeedSettings myDashSpeedSettings
+    float myDashDuration 0.0
+	float myJumpImpulse 0.0
+	float myGravityModifier 0.0
+	float myForwardLinearAccel 0.0
+    float myMaxLinearSpeed 0.0
+}
+
+class SpaceMovementSettings
+{
+	float mySlowDownDistanceMin 0.0
+	float mySlowDownDistanceMax 0.0
+	float mySlowDownFromDistanceMin 0.0
+	float mySlowDownFromDistanceMax 0.0
+	float mySlowDownAngleMinAtMinDistance 0.0
+	float mySlowDownAngleMaxAtMinDistance 0.0
+	float mySlowDownAngleMinAtMaxDistance 0.0
+	float mySlowDownAngleMaxAtMaxDistance 0.0
+	float mySlowDownFromAngleMin 0.0
+	float mySlowDownFromAngleMax 0.0
+}
+
+class ImpactConfig
+{
+	ImpactCategory	myMinImpactCategory ExtraSmall
+	float			myMinVelocityChange 100
+	float			myMinVelocityChangeFlight 100
+	float			myMinVelocityChangeSpace 100
+	float			myCooldown 0.25
+	float			myInputBlendRatio 1.0
+	float			myLinearForce 0.0
+	float			myLinearForceFlight 0.0
+	float			myLinearForceSpace 0.0
+	float			myAngularForce 0.0
+	float			myAngularForceFlight 0.0
+	float			myAngularForceSpace 0.0
+	bool			myUseFixedMass FALSE
+	float			myFixedMass 0.0
+	bool			myDetachPickups FALSE
+	bool			myDetachNPCs FALSE
+	
+	float			myVerticalAngleLimit 60
+	float			myVerticalAngleLimitFlight 0
+	float			myVerticalAngleLimitSpace 0
+	
+	float			myRagdollRecoveryCooldown 1
+}
+
+class ImpactDamageConfig
+{
+	float myDamage 0.0
+}
+
+class ShipImpactDamageConfig
+{
+	ImpactDamageConfig myFlinchConfig
+	ImpactDamageConfig myStumbleConfig
+	ImpactDamageConfig myRagdollConfig
+}
+
+class ShipImpactConfig
+{
+	VisualImpactSettings 	myImpactSettings
+
+	VisualImpactSettings 	myGroundImpactSettings
+	VisualImpactSettings 	myFlightImpactSettings
+	VisualImpactSettings 	mySpaceImpactSettings
+	
+	ShipImpactDamageConfig myDamageConfig
+
+	ImpactConfig 		myFlinchConfig
+	ImpactConfig 		myStumbleConfig
+	ImpactConfig 		myRagdollConfig
+}
+
+class ShipImpactMassConfig
+{
+	ShipImpactConfig myVeryLight
+	ShipImpactConfig myLight
+	ShipImpactConfig myMedium
+	ShipImpactConfig myHeavy
+	ShipImpactConfig myVeryHeavy
+}

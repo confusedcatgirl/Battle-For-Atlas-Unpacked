@@ -1,0 +1,27 @@
+include "onward/game system data/fruit/sim/simunit.fruit"
+
+SimUnit act_3_vylus_downed_galla < uid=9FD9E8185A1F105C00003098A19D9B5F >
+{
+	myControlGraph onward/simworld/control/downed_galla.msimunitcontrolgraph
+	myFaction Resistance
+	myCategory NPC
+	mySubCategory None
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo "Downed Galla ET" < uid=9FD9E8185A1F11900000206961763222 >
+		{
+			myCountMin 1
+			myCountMax 1
+			myEntitySize 30.0
+			myIgnoreHealth TRUE
+			myIgnoreNavMesh TRUE
+			myIgnoreTerrain TRUE
+			myEntityFile "onward/entity templates/repairable_galla_downed.mentitytemplate"
+		}
+	}
+	myUnkillable FALSE
+	myUnkillableType Invulnerable
+	myUnkillableUntilEvent Act03_RepairedGalla
+	myUnRealizableUntilEvent Act03
+}
+

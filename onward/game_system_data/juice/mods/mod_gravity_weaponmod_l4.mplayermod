@@ -1,0 +1,22 @@
+include ./template_pod.mplayermod
+
+float "Weapon Damage" = Gravity_Weapon_Mod_l4_Damage
+
+PlayerMod mod_gravity_weaponmod_l4 < uid=C91BB551598368C60000028685480AF3 > : template_pod
+{
+	myAttributeMods
+	{
+		AttributeMod Gravity
+		{
+			myType DMG_Crush
+			myMultValue 1.0
+			myPercentageValue = "Weapon Damage"
+		}
+		AttributeMod UI_Weapon_Damage
+		{
+			myType UI_Weapon_Damage
+			myPercentageValue = "Weapon Damage"
+		}
+	}
+}
+

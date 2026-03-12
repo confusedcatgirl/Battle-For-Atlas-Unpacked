@@ -1,0 +1,45 @@
+include "onward/game system data/fruit/rulesystem/criteriabank.fruit"
+
+CriteriaBank outlaw_hovertank_criteria < uid=DFF203395C49EBEC000000888BED4F7E >
+{
+	myOasisAIElementTypeID 49
+	myIntCriteria
+	{
+	}
+	myStringCriteria
+	{
+		String_Criterion "Instigator is Hover_Tank" < uid=DFF203395C49EBEC00000089CE6EBD76 >
+		{
+			myScope Instigator
+			myDescription "check that the instigator is a hover tank"
+			myOasisAIElementID 3907
+			label SubCategory
+			value Hovertank
+		}
+		String_Criterion "Za Target is Hover_Tank" < uid=DFF203395C49EBEC0000008A06C84545 >
+		{
+			myScope Target
+			myDescription "target is hover tank"
+			myOasisAIElementID 3916
+			label SubCategory
+			value Hovertank
+		}
+		String_Criterion "Za Instigator isn't Hover_Tank" < uid=600A30F35C4A33E80003F7D7F6ED0166 >
+		{
+			myScope Instigator
+			myOasisAIElementID 3917
+			label SubCategory
+			value Hovertank
+			notEqual TRUE
+		}
+		String_Criterion "Za Target isn't Hover_Tank" < uid=600A30F35C4A33E80003F7D8022C01BB >
+		{
+			myScope Target
+			myOasisAIElementID 3918
+			label SubCategory
+			value Hovertank
+			notEqual TRUE
+		}
+	}
+}
+

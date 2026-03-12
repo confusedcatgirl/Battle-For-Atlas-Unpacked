@@ -1,0 +1,669 @@
+include ./../../fruit/camera/camera.fruit
+
+GameCameraPreset BaseModifier
+{
+	myType Game
+	myFoV 0.0
+	myCollisionSphereRadius 0.0
+	myDefaultTransition
+	{
+		myDuration 1.0
+		myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, keys = { inTangents = { -0 -0, -0.602639 -0.038683, }, outTangents = { 0.307335 0.942354, 0 0, }, properties = { -749, -749, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		myResetAngles FALSE
+	}
+	myUseOutTransition TRUE
+	myDefaultOutTransition
+	{
+		myDuration 1.0
+		myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, keys = { inTangents = { -0 -0, -0.602639 -0.038683, }, outTangents = { 0.307335 0.942354, 0 0, }, properties = { -749, -749, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		myResetAngles FALSE
+	}
+	myYawSpeed 1.0
+	myPitchSpeed 1.0
+}
+
+GameCameraPreset Boost : BaseModifier
+{
+	myFoV 50.0
+	myDefaultTransition
+	{
+		myDuration 1.0
+		myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.602639 -0.038683, }, outTangents = { 0.524585 0.306553, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		myResetAngles FALSE
+	}
+	myUseOutTransition TRUE
+	myDefaultOutTransition
+	{
+		myDuration 1.0
+		myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { 0 0, -0.298271 -0.0036516, }, outTangents = { 0.524585 0.306553, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		myResetAngles FALSE
+	}
+	myOffset 0.0;1.0;3.0
+	myLookAtOffset 0.0;0.5;0.0
+}
+
+GameCameraPreset LookAround : BaseModifier
+{
+	myDefaultTransition
+	{
+		myDuration 0.75
+		myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.602639 -0.038683, }, outTangents = { 0.524585 0.306553, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		myResetAngles FALSE
+	}
+	myUseOutTransition TRUE
+	myDefaultOutTransition
+	{
+		myDuration 1.0
+		myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.602639 -0.038683, }, outTangents = { 0.524585 0.306553, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		myResetAngles FALSE
+	}
+	myOffset 0.0;0.5;-3.0
+	myLookAtOffset 0.0;0.5;0.0
+}
+
+GameCameraPreset BoostWindUp : BaseModifier
+{
+	myFoV 10.0
+	myDefaultTransition
+	{
+		myDuration 1.0
+		myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.0864553 0.00271839, }, outTangents = { 1.46695 0.0294825, 0 -0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		myResetAngles FALSE
+	}
+	myUseOutTransition TRUE
+	myDefaultOutTransition
+	{
+		myDuration 0.5
+		myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.602639 -0.038683, }, outTangents = { 0.524585 0.306553, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		myResetAngles FALSE
+	}
+	myOffset 0.0;0.2;1.5
+	myLookAtOffset 0.0;0.1;0.0
+}
+
+GameCameraPreset TargetLock : BaseModifier
+{
+	myFoV -10.0
+	myDefaultTransition
+	{
+		myDuration 0.5
+		myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.602639 -0.038683, }, outTangents = { 0.416292 0.525942, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		myResetAngles FALSE
+	}
+	myOffset 0.0;0.3;-1.0
+	myLookAtOffset 0.0;0.5;0.0
+}
+
+GameCameraPreset Dash : BaseModifier
+{
+	myFoV 0.0
+	myDefaultTransition
+	{
+		myDuration 0.6
+		myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.602639 -0.038683, }, outTangents = { 0.416292 0.525942, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		myResetAngles FALSE
+	}
+	myUseOutTransition TRUE
+	myDefaultOutTransition
+	{
+		myDuration 1.5
+		myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { 0 0, -0.55725 -0.309384, }, outTangents = { 0.716724 0.299828, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		myResetAngles FALSE
+	}
+}
+
+GameCameraPreset DashRight : Dash
+{
+	myOffset -2.0;0.0;0.0
+	myLookAtOffset -2.0;0.0;0.0
+}
+
+GameCameraPreset DashLeft : Dash
+{
+	myOffset 2.0;0.0;0.0
+	myLookAtOffset 2.0;0.0;0.0
+}
+
+GameCameraPreset DashForward : Dash
+{
+	myDefaultOutTransition
+	{
+		myDuration 0.75
+		myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { 0 0, -0.55725 -0.309384, }, outTangents = { 0.716724 0.299828, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		myResetAngles FALSE
+	}
+	myOffset 0.0;0.0;-1.95
+	myLookAtOffset 0.0;0.0;-1.25
+}
+
+GameCameraPreset DashBackward : Dash
+{
+	myDefaultOutTransition
+	{
+		myDuration 0.75
+		myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { 0 0, -0.55725 -0.309384, }, outTangents = { 0.716724 0.299828, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		myResetAngles FALSE
+	}
+	myOffset 0.0;0.0;1.25
+	myLookAtOffset 0.0;0.0;1.25
+}
+
+GameCameraPreset Hop : Dash
+{
+	myDefaultTransition
+	{
+		myDuration 1.0
+		myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 0, -0.449616 -0.0354982, }, outTangents = { 0.561479 -1.66594, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		myResetAngles FALSE
+	}
+	myUseOutTransition TRUE
+	myDefaultOutTransition
+	{
+		myDuration 0.25
+		myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.317326 -0.0482377, }, outTangents = { 0.348336 0.624669, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		myResetAngles FALSE
+		myResetAltitude 0.0
+	}
+	myOffset 0.0;5.0;0.0
+	myLookAtOffset 0.0;5.0;0.0
+}
+
+GameCameraPreset HopHeavy : Dash
+{
+	myDefaultTransition
+	{
+		myDuration 0.9
+		myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.204685 0.000289781, -0.430163 0.00312918, }, outTangents = { 0.0584181 0.00748134, 0.4416 -0.000625192, 0 0, }, properties = { 275, 2323, 1298, }, values = { 0 0, 0.31671 -0.703239, 1 1, }, }, numKeys = 3, }"
+		myResetAngles FALSE
+	}
+	myUseOutTransition TRUE
+	myDefaultOutTransition
+	{
+		myDuration 0.25
+		myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.317326 -0.0482377, }, outTangents = { 0.348336 0.624669, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		myResetAngles FALSE
+		myResetAltitude 0.0
+	}
+	myOffset 0.0;3.0;0.0
+	myLookAtOffset 0.0;3.0;0.0
+}
+
+GameCameraPreset BarrelRoll : BaseModifier
+{
+	myFoV 0.0
+	myDefaultTransition
+	{
+		myDuration 0.4
+		myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.602639 -0.038683, }, outTangents = { 0.416292 0.525942, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		myResetAngles FALSE
+	}
+	myUseOutTransition TRUE
+	myDefaultOutTransition
+	{
+		myDuration 3.0
+		myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { 0 0, -0.55725 -0.309384, }, outTangents = { 0.716724 0.299828, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		myResetAngles FALSE
+	}
+}
+
+GameCameraPreset BarrelRollRight : BarrelRoll
+{
+	myDefaultTransition
+	{
+		myDuration 0.5
+		myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.602639 -0.038683, }, outTangents = { 0.416292 0.525942, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		myResetAngles FALSE
+	}
+	myUseOutTransition TRUE
+	myDefaultOutTransition
+	{
+		myDuration 3.0
+		myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { 0 0, -0.55725 -0.309384, }, outTangents = { 0.716724 0.299828, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		myResetAngles FALSE
+	}
+	myOffset -1.0;0.0;0.0
+	myLookAtOffset -1.0;0.0;0.1
+}
+
+GameCameraPreset BarrelRollLeft : BarrelRoll
+{
+	myOffset 1.0;0.0;0.0
+	myLookAtOffset 1.0;0.0;0.0
+}
+
+GameCameraPreset FlipForward : BarrelRoll
+{
+	myUseOutTransition TRUE
+	myDefaultOutTransition
+	{
+		myDuration 1.5
+		myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.602639 -0.038683, }, outTangents = { 0.416292 0.525942, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		myResetAngles FALSE
+	}
+	myOffset 0.0;0.0;-6.5
+	myLookAtOffset 0.0;0.0;-6.5
+}
+
+GameCameraPreset Zoom : BaseModifier
+{
+	myFoV -30.0
+	myDefaultTransition
+	{
+		myDuration 0.5
+		myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.602639 -0.038683, }, outTangents = { 0.416292 0.525942, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		myResetAngles FALSE
+	}
+	myUseOutTransition TRUE
+	myDefaultOutTransition
+	{
+		myDuration 0.5
+		myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.602639 -0.038683, }, outTangents = { 0.416292 0.525942, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		myResetAngles FALSE
+	}
+	myYawSpeed 0.5
+	myPitchSpeed 0.5
+}
+
+GameCameraPreset GaussCharge : BaseModifier
+{
+	myFoV -8.0
+	myDefaultTransition
+	{
+		myDuration 3.0
+		myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 0, -0.359521 -0.817895, }, outTangents = { 0.176146 -0.0107809, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		myResetAngles FALSE
+	}
+	myUseOutTransition TRUE
+	myDefaultOutTransition
+	{
+		myDuration 1.0
+		myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.602639 -0.038683, }, outTangents = { 0 0.979427, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		myResetAngles FALSE
+	}
+	myOffset 0.0;0.0;0.25
+	myYawSpeed 0.2
+	myPitchSpeed 0.2
+}
+
+GameCameraPreset BoostBonus : BaseModifier
+{
+	myFoV 25.0
+	myDefaultTransition
+	{
+		myDuration 1.0
+		myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -1.22427 0.000790298, }, outTangents = { 0.105908 0.00321078, 0 -0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		myResetAngles FALSE
+	}
+	myUseOutTransition TRUE
+	myDefaultOutTransition
+	{
+		myDuration 2.0
+		myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { 0 0, -0.583187 -0.0156569, }, outTangents = { 0.237752 -0.00594741, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		myResetAngles FALSE
+	}
+	myOffset 0.0;0.0;1.5
+	myLookAtOffset 0.0;0.0;1.5
+	myPivotLagY 0.025
+}
+
+GameCameraPreset BoostBonusTrial : BaseModifier
+{
+	myFoV 25.0
+	myDefaultTransition
+	{
+		myDuration 1.0
+		myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -1.22427 0.000790298, }, outTangents = { 0.105908 0.00321078, 0 -0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		myResetAngles FALSE
+	}
+	myUseOutTransition TRUE
+	myDefaultOutTransition  
+	{
+		myDuration 2.0
+		myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { 0 0, -0.583187 -0.0156569, }, outTangents = { 0.237752 -0.00594741, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		myResetAngles FALSE
+	}
+	myOffset 0.0;-0.3;2.0
+	myOffsetUp 0.0;-0.3;2.0
+	myOffsetDown 0.0;-0.3;2.0
+}
+
+GameCameraPreset Drift : BaseModifier
+{
+	myDefaultTransition
+	{
+		myDuration 0.7
+		myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -1.22427 0.000790298, }, outTangents = { 0.105908 0.00321078, 0 -0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		myResetAngles FALSE
+	}
+	myUseOutTransition TRUE
+	myDefaultOutTransition
+	{
+		myDuration 2.0
+		myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { 0 0, -0.583187 -0.0156569, }, outTangents = { 0.237752 -0.00594741, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		myResetAngles FALSE
+	}
+	myOffset 0.0;0.5;-0.5
+	myOffsetUp 0.0;0.5;-0.5
+	myOffsetDown 0.0;0.5;-0.5
+}
+
+GameCameraPreset FreezeCharge : BaseModifier
+{
+	myFoV -10.0
+	myDefaultTransition
+	{
+		myDuration 2.0
+		myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.226558 -0.621485, }, outTangents = { 0.419727 0.133437, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		myResetAngles FALSE
+	}
+	myUseOutTransition TRUE
+	myDefaultOutTransition
+	{
+		myDuration 0.5
+		myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.602639 -0.038683, }, outTangents = { 0.00216138 0.983755, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		myResetAngles FALSE
+	}
+	myYawSpeed 1.0
+	myPitchSpeed 1.0
+}
+
+GameCameraPreset ShotRecoil : BaseModifier
+{
+	myFoV 0.0
+	myDefaultTransition
+	{
+		myDuration 0.025
+		myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.514023 0.0059033, }, outTangents = { 0.40892 0.00604802, 0 -0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		myResetAngles FALSE
+	}
+	myUseOutTransition TRUE
+	myDefaultOutTransition
+	{
+		myDuration 0.075
+		myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.501054 -0.0132054, }, outTangents = { 0.471601 0.0156023, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		myResetAngles FALSE
+	}
+	mySpecialTransitions
+	{
+	}
+	myOffset 0.0;0.0;0.025
+}
+
+GameCameraPreset Pickup : BaseModifier
+{
+	myFoV 0.0
+	myDefaultTransition
+	{
+		myDuration 1.0
+		myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.602639 -0.038683, }, outTangents = { 0.524585 0.306553, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		myResetAngles FALSE
+	}
+	myUseOutTransition TRUE
+	myDefaultOutTransition
+	{
+		myDuration 1.0
+		myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.602639 -0.038683, }, outTangents = { 0.524585 0.306553, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		myResetAngles FALSE
+	}
+	myOffset 0.0;0.0;-3.0
+	myOffsetUp 0.0;0.0;-3.0
+	myOffsetDown 0.0;0.0;-3.0
+}
+
+GameCameraPreset Pluck : BaseModifier
+{
+	myFoV -5.0
+	myDefaultTransition
+	{
+		myDuration 0.75
+		myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.38434 -0.0577912, }, outTangents = { 0.153939 0.438429, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		myResetAngles FALSE
+	}
+	myUseOutTransition TRUE
+	myDefaultOutTransition
+	{
+		myDuration 1.0
+		myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { 0 0, -0.490247 -0.006836, }, outTangents = { 0.524585 0.306553, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		myResetAngles TRUE
+	}
+	myOffset 0.0;0.0;0.0
+	myOffsetUp 0.0;0.0;0.0
+	myOffsetDown 0.0;0.0;0.0
+	myLookAtOffset 0.0;0.5;0.0
+	myLookAtOffsetUp 0.0;0.0;0.0
+	myLookAtOffsetDown 0.0;0.0;0.0
+}
+
+GameCameraPreset Doppler : BaseModifier
+{
+	myFoV 30.0
+	myDefaultTransition
+	{
+		myDuration 2.0
+		myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.602639 -0.038683, }, outTangents = { 0.524585 0.306553, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		myResetAngles FALSE
+	}
+	myUseOutTransition TRUE
+	myDefaultOutTransition
+	{
+		myDuration 2.0
+		myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.602639 -0.038683, }, outTangents = { 0.524585 0.306553, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		myResetAngles FALSE
+	}
+	myOffset 0.0;0.0;3.5
+	myOffsetUp 0.0;0.0;3.5
+	myOffsetDown 0.0;0.0;3.5
+	myLookAtOffset 0.0;0.0;10.0
+	myLookAtOffsetUp 0.0;0.0;10.0
+	myLookAtOffsetDown 0.0;0.0;10.0
+}
+
+GameCameraPreset ArmyOfOne : BaseModifier
+{
+	myFoV -15.0
+	myDefaultTransition
+	{
+		myDuration 1.0
+		myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.790679 -0.00683564, }, outTangents = { 0 0.932801, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 2 1, }, }, numKeys = 2, }"
+		myResetAngles FALSE
+	}
+	myUseOutTransition TRUE
+	myDefaultOutTransition
+	{
+		myDuration 0.5
+		myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 0, -0.0194525 -0.474989, }, outTangents = { 0.538603 -0.00669056, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		myResetAngles FALSE
+	}
+	myOffset 0.0;0.0;-5.0
+	myOffsetUp 0.0;0.0;-5.0
+	myOffsetDown 0.0;0.0;-5.0
+	myYawSpeed 0.5
+	myPitchSpeed 0.5
+	myUsePlayerReferenceAsSafeTransform TRUE
+}
+
+GameCameraPreset TidalWaveCharge : BaseModifier
+{
+	myFoV -5.0
+	myDefaultTransition
+	{
+		myFrom ""
+		myTo ""
+		myDuration 1.5
+		myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.00432277 -0.79983, }, outTangents = { 0.22088 0.0633727, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		myResetAngles FALSE
+		myFreezeSourceOrientation FALSE
+	}
+	myDefaultOutTransition
+	{
+		myFrom 0
+		myTo ""
+		myDuration 0.0
+		myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.998172 -0.00683588, }, outTangents = { 0 0.999679, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		myResetAngles FALSE
+	}
+}
+
+GameCameraPreset BoostJaunt : BaseModifier
+{
+	myFoV 15.0
+	myDefaultTransition
+	{
+		myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.190202 -0.0068354, }, outTangents = { 0.88442 0.00286335, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		myResetAngles FALSE
+	}
+	myOffset 0.0;0.0;2.0
+}
+
+GameCameraPreset FreezeRayDualLink : BaseModifier
+{
+	myFoV -10.0
+	myDefaultTransition
+	{
+		myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, 0 -0.400265, }, outTangents = { 0.00755668 0.154218, -0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		myResetAngles FALSE
+	}
+	myDefaultOutTransition
+	{
+		myDuration 0.5
+		myResetAngles FALSE
+	}
+}
+
+GameCameraPreset GaussChargeDualLink : BaseModifier
+{
+	myFoV -8.0
+	myDefaultTransition
+	{
+		myDuration 1.5
+		myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.00377834 -0.793459, }, outTangents = { 0.00944585 0.20987, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		myResetAngles FALSE
+	}
+	myDefaultOutTransition
+	{
+		myDuration 1.0
+		myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, keys = { inTangents = { -0 -0, -0.602639 -0.038683, }, outTangents = { 0.307335 0.942354, 0 0, }, properties = { -749, -749, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		myResetAngles FALSE
+	}
+}
+
+GameCameraPreset LostArtifactGun : BaseModifier
+{
+	myFoV 5.0
+	myDefaultTransition
+	{
+		myDuration 3.85
+		myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { 0 0, -0.247481 -0.00195932, }, outTangents = { 0.481134 -0.015481, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		myResetAngles FALSE
+	}
+	myUseOutTransition TRUE
+	myDefaultOutTransition
+	{
+		myDuration 0.15
+		myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { 0 0, -1.00345 0.00894001, }, outTangents = { 0.232368 -0.00700611, 0 -0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		myResetAngles FALSE
+	}
+}
+
+GameCameraPreset ToSpaceOut : BaseModifier
+{
+	myFoV 30.0
+	myDefaultTransition
+	{
+		myDuration 1.0
+		myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.602639 -0.038683, }, outTangents = { 0.0815014 0.532668, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		myResetAngles FALSE
+	}
+	myUseOutTransition TRUE
+	myDefaultOutTransition
+	{
+		myDuration 2.1
+		myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { 0 0, -0.298271 -0.0036516, }, outTangents = { 0.524585 0.306553, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		myResetAngles FALSE
+	}
+	myOffset 0.0;1.0;0.0
+}
+
+GameCameraPreset Follow : BaseModifier
+{
+	myLockAnglesToZero TRUE
+}
+
+GameCameraPreset FastTravelIn : BaseModifier
+{
+	myFoV 10.0
+	myDefaultTransition
+	{
+		myDuration 2.0
+		myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.602639 -0.038683, }, outTangents = { 0.0815014 0.532668, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		myResetAngles FALSE
+	}
+	myDefaultOutTransition
+	{
+		myDuration 0.0
+	}
+	myOffset 0.0;-2.0;2.0
+	myOffsetUp 0.0;-2.0;2.0
+	myOffsetDown 0.0;-2.0;2.0
+}
+
+GameCameraPreset FastTravelOut : BaseModifier
+{
+	myFoV 0.0
+	myDefaultTransition
+	{
+		myDuration 0.0
+	}
+	myDefaultOutTransition
+	{
+		myDuration 1.0
+		myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.602639 -0.038683, }, outTangents = { 0.0815014 0.532668, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		myResetAngles FALSE
+	}
+}
+
+GameCameraPreset Platformer : BaseModifier
+{
+	myFoV 20.0
+	myDefaultTransition
+	{
+		myDuration 1.0
+		myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, keys = { inTangents = { -0 -0, -0.602639 -0.038683, }, outTangents = { 0.307335 0.942354, 0 0, }, properties = { -749, -749, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		myResetAngles FALSE
+	}
+	myDefaultOutTransition
+	{
+		myDuration 1.0
+		myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.615607 0.00736957, }, outTangents = { 0.320303 0.0114328, 0 -0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		myResetAngles FALSE
+	}
+	myOffset 0.0;5.0;-3.0
+	myOffsetUp 0.0;5.0;-3.0
+	myOffsetDown 0.0;5.0;-3.0
+	myLookAtOffset 0.0;4.0;3.0
+	myLookAtOffsetUp 0.0;4.0;3.0
+	myLookAtOffsetDown 0.0;4.0;3.0
+	myUseCameraAsRefOrientation TRUE
+	myUsePlanetUpAsBase TRUE
+	myLockAltitudeToTarget TRUE
+}
+
+GameCameraPreset GroundSlam : BaseModifier
+{
+	myFoV 20.0
+	myDefaultTransition
+	{
+		myDuration 1.0
+		myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.602639 -0.038683, }, outTangents = { 0.524585 0.306553, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		myResetAngles FALSE
+	}
+	myUseOutTransition TRUE
+	myDefaultOutTransition
+	{
+		myDuration 1.0
+		myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { 0 0, -0.298271 -0.0036516, }, outTangents = { 0.524585 0.306553, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		myResetAngles FALSE
+	}
+	myOffset 0.0;1.0;-5.0
+	myLookAtOffset 0.0;0.5;0.0
+}

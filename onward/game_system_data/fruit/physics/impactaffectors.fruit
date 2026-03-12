@@ -1,0 +1,44 @@
+include "onward/game system data/fruit/statuseffects/statuseffects.fruit"
+include "onward/game system data/fruit/ai/npctype.fruit"
+include "onward/game system data/fruit/entity/faction.fruit"
+
+class ImpactAffector < abstract=1 >
+{
+	float myCooldown < tooltip="seconds" default=1.0 >
+}
+
+list ImpactAffectorList
+{
+	ImpactAffector
+}
+
+class ImpactAffectorVelocityChange : ImpactAffector < abstract=1 >
+{
+	float myThreshold < tooltip="0-1" >
+}
+
+class ImpactAffector_StatusEffect : ImpactAffectorVelocityChange
+{
+	StatusEffectType myStatusEffectType
+	float myValue
+	float myChance < tooltip="0-1" >
+}
+
+class ImpactAffector_Stun : ImpactAffectorVelocityChange
+{	
+	float myStunTime < tooltip="seconds" >
+	float myChance < tooltip="0-1" >
+}
+
+class ImpactAffector_ChangeFaction : ImpactAffectorVelocityChange
+{	
+	NPCTypeList myNPCTypes
+	FactionType myFaction
+	float myFactionTime < tooltip="seconds" >
+	float myChance < tooltip="0-1" >
+}
+
+class ImpactAffector_Damage : ImpactAffectorVelocityChange
+{	
+	float myDamage
+}

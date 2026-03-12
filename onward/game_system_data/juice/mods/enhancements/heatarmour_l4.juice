@@ -1,0 +1,16 @@
+include "onward/game system data/juice/mods/heat_armour_l4.mplayermod"
+include "onward/game system data/juice/buffs/heat_armour_l4_l5.mbuff"
+include ./templates/template_l4.juice
+
+Enhancement heatarmour_l4 < uid=C91BB551596E6392000000FEA4612B05 > : "Level 4"
+{
+	myLocalizedName "contextComment = \"[Placeholder - do not translate]\nName for level 4 version of a Ship Armor that protects against Heat damage and gives the player bonuses in hot status effects (fire / sunder)\", description = \"\", enabled = true, guid = #C91BB551596FC178005B616298CA1D72, lineVersion = 1, maxLength = 30, text = \"Heat Armor IV\""
+	myLocalizedDescription "contextComment = \"[Placeholder - do not translate]\nDescription for level 4 version of a Ship Armor that protects against Heat damage and gives the player bonuses in hot status effects (fire / sunder), but is weak to Cold damage\", description = \"enhancement-description-heat-armour-4\", enabled = true, guid = #DC7648076A5E41509A5E47808F2F88D4, lineVersion = 2, maxLength = 151, text = \"+25 Defense\n+80% Resistance to Heat damage\n-20% Resistance to Cold damage\nDeal extra damage when on Fire or Sundered\""
+	myIconSprite "mySpriteId = -778107496, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-mods-ship-armour.spritesheet\""
+	myIsHullEnhancement TRUE
+	myMod < uid=C91BB551596E6392000000FF0D632C22 > = HeatArmour_L4
+	myBuff < uid=C91BB551596E63AF000001217CAF01EA > = heat_armour_l4_l5
+	myEnhancementType Armour
+	myEnhancementTrackType HeatArmour
+}
+

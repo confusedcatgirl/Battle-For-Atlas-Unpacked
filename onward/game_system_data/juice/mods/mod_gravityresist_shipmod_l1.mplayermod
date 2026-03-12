@@ -1,0 +1,20 @@
+include ./template_hull.mplayermod
+
+PlayerMod mod_gravityresist_shipmod_l1 < uid=C91BB551598335620000035EADB09FD5 > : template_hull
+{
+	myAttributeMods
+	{
+		AttributeMod "Gravity Resist"
+		{
+			myType DMG_Resist_Crush
+			myAddValue 0.0
+			myMultValue = Gravity_Resist_Ship_Mod_l1_IncomingGravity
+		}
+		AttributeMod "Gravity Field Resist"
+		{
+			myType StatusEffectResist_Gravity
+			myMultValue = Gravity_Resist_Ship_Mod_l1_IncomingGravity
+		}
+	}
+}
+

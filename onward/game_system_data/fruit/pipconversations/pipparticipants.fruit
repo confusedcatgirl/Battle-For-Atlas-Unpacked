@@ -1,0 +1,50 @@
+include "onward/game system data/fruit/entity/faction.fruit"
+include "onward/game system data/fruit/pipconversations/piptypes.fruit"
+include "onward/game system data/fruit/pipconversations/pipportraitbank.fruit"
+include "onward/game system data/fruit/story/storyevent.fruit"
+
+class PipVideoSegment
+{
+	OGame_PipContext myContext			< tooltip = "PipContext that this videosegment should be played for." >
+	int myStartFrame					< tooltip = "Start frame in the bink for this Segment" >
+	int myEndFrame						< tooltip = "End frame in the bink for this Segment" >
+	int myWeightedProbability			< default = 1 tooltip = "Weighted probability of this Segment being chosen over one for the same context" >
+}
+
+list PipVideoSegments
+{
+	PipVideoSegment
+}
+
+class PipParticipantFactionReplacementCondition < abstract = 1 >
+{
+	FactionType myReplacementFaction
+}
+
+class PipParticipantFactionReplacementCondition_StoryEvent : PipParticipantFactionReplacementCondition
+{
+	StoryEvent					myStoryEvent	< default = NewGame tooltip = "When this story event happens, replace the default faction with the generic version" >
+}
+
+list PipParticipantFactionReplacementConditionList
+{
+	PipParticipantFactionReplacementCondition
+}
+
+class PipParticipant < uid = auto >
+{
+	varmap myDisplayName 				< tooltip = "Name to show up in the UI" bhv = "localization" >
+	FactionType myDefaultFaction		< tooltip = "Default faction if we try to use this without an associated SimUnit" >
+	PipParticipantFactionReplacementConditionList myFactionReplacements
+	int myOasisCharacterId				< tooltip = "Oasis Character Id. Look this up in Oasis character browser" >
+	bool myUsesPrimaryWindow			< default = FALSE tooltip = "This Participant should be shown in the primary PIP window (usually it's a player)" >
+	PipPortraitInfoSet* myPipPortraits	< tooltip = "Override the bink with a set of static portraits" >
+	file myBink							< tooltip = "Bink containing loops for various contexts" >
+	PipVideoSegments myVideoSegments	< tooltip = "List of the contexts in the Bink, and where they start/end" >
+	vec4i myBoundingBox 				< tooltip = "The coordinates for the bounding box of the participant" >
+}
+
+list PipParticipantsRefList
+{
+	PipParticipant*
+}

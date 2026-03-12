@@ -1,0 +1,58 @@
+include "onward/game system data/fruit/interact/interact.fruit"
+include "onward/game system data/juice/ai/race/rubberbanding.juice"
+include "onward/game system data/juice/leaderboard/leaderboardinfo.juice"
+include "onward/game system data/fruit/progression/challenge_types.fruit"
+
+PilotTrialInteract PilotTrialFlag
+{
+	myInteractRange 270.0
+	myInteractRangeHystersis 10.0
+	myAcceptDeliveries TRUE
+	myHailableType Outpost
+	myPilotTrialType Overdrive
+	myUIClubhouseRaceName "contextComment = \"The name of the Paradise Race.\", description = \"ui-menu-race-name-paradise\", enabled = true, guid = #A08A88CF5C48B1F300011040ACB05F14, lineVersion = 0, maxLength = 13, text = \"Paradise\""
+	myUIClubhouseRaceDescription "contextComment = \"A description of the  paradise, as seen on the clubhouse menu.\", description = \"ui-menu-race-description-paradise\", enabled = true, guid = #A08A88CF5C48B1EF00010E5B5294F73E, lineVersion = 0, maxLength = 30, text = \"[Paradise- Description]\""
+	myFlythroughBinkPath onward/baked/videos/pilot_trials/flythroughs/pilot_trial_flythrough_overdrive_race_02.bk2
+	myLeaderboard < uid=F2ADB0475C3E167D00000043A58E7209 > = "Overdrive - Paradise"
+	myNumberOfLaps 3
+	myNumberOfAIOpponents 3
+	myAssociatedUID 11AA63F46BF98B040860BB601FC579E8
+	myStuckTestEnabled TRUE
+	myStuckTestRespawnTimer 3.0
+	myWrongCheckpointTestEnabled FALSE
+	myMissedCheckpointTestEnabled TRUE
+	myWrongWayTestEnabled TRUE
+	myWrongWayTestTimer 5.0
+	myOffRaceTrackTestEnabled TRUE
+	myOffRaceTrackTestTimer 5.0
+	myOffRaceTrackTestDistance 70.0
+	myEnableAIPhysics TRUE
+	myDifficultyLevelOnePlayer AI_1_AbovePar_1_Par_1_BelowPar
+	myDifficultyLevelTwoPlayers AI_Par
+	myRubberBandingAbovePar < uid=5BF54C035C5097C50007ABC365548ECE > = "Eden AbovePar Rubber Banding"
+	myRubberBandingPar < uid=5BF54C035C5097C50007ABC46E25AD80 > = "Eden Par Rubber Banding"
+	myRubberBandingBelowPar < uid=5BF54C035C5097C50007ABC53DF50971 > = "Eden BelowPar Rubber Banding"
+	myRubberBandingDerealized < uid=5BF54C035C59A56400000638CD517747 > = "Eden Derealized Rubber Banding"
+	myBark_HitXBoost_BoostCount 3
+	myBark_HitXBoost_TimePerBoost 2.0
+	myUnlockCondition
+	{
+		PilotTrialInteract_UnlockOptions "Race  1 Won"
+		{
+			ChallengeType "Race 1 Win" Race_01_Win
+		}
+		PilotTrialInteract_UnlockOptions "Races Unlocked"
+		{
+			ChallengeType "Races Enabled" Unlock_Races
+		}
+	}
+	myUnlockFactLabel Race_Unlocked_WildWinds
+	myRaceChallengeToAward Race_02_Win
+	myMiniMapTransform 917.091492;1418.172974;538.034607;0.0;-0.498823;-0.006232;0.866682;0.0;2163.137939;-1866.084961;1231.58606;0.0;-1745.880005;-21.812651;3033.38501;1.0
+	myMiniMapTexture onward/baked/world_machine/stamps/race_02_track.dds
+	myCompletionDropTable Award_Race_Completion_Reward
+	myWinnerDropTable MissionDrop_Race_02
+	myMiniMapBounds 0.093;0.329;0.83;0.915
+	myMiniMapUpVector 0.0;1.0
+}
+

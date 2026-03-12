@@ -1,0 +1,28 @@
+include "onward/game system data/fruit/collectibles/CollectibleTypes.fruit"
+
+class DatabaseSubCategory < uid=auto >
+{
+	varmap myLocalizedName < bhv="localization" >
+	file myJuiceFile "" < types=*.juice >
+	CollectibleCategories myCollectibleCategory
+	CollectibleTypes myCollectibleType
+	bool myIsHidden
+}
+
+class DatabasePlanetSubCategory : DatabaseSubCategory
+{
+	file myPlanetFile "" < types=*.juice >
+}
+
+list DatabaseSubCategories
+{
+	DatabaseSubCategory
+}
+
+class DatabaseCategory
+{
+	varmap myName < bhv="localization" >
+	CollectibleCategories myCollectibleCategory
+	DatabaseSubCategories mySubCategories
+	bool myIsHidden
+}

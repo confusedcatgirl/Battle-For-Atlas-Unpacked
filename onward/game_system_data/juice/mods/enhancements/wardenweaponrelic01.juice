@@ -1,0 +1,26 @@
+include "onward/game system data/juice/mods/pod_warden_one.mplayermod"
+
+Enhancement WardenWeaponRelic01 < uid=9E6AFEDA5978FC500000003982D3DF29 >
+{
+	myLocalizedName "contextComment = \"[Placeholder - do not translate]\nName for unique Weapon Mod found in an ancient Warden Chest. Boosts weapon damage and firerate\", description = \"\", enabled = true, guid = #C308E4DB59A05DE500000021F0CA6C2D, lineVersion = 2, maxLength = 30, text = \"Relic of Power\""
+	myLocalizedDescription "contextComment = \"[Placeholder - do not translate]\nDescription for unique Weapon Mod found in an ancient Warden Chest. Boosts weapon damage and firerate\", description = \"enhancement-description-warden-weapon-relic-01\", enabled = true, guid = #9E6AFEDA59DD3D6800000083D59E31C0, lineVersion = 2, maxLength = 42, text = \"+20% Weapon Damage\n+20 Fire Rate\""
+	myIconSprite "mySpriteId = -353570344, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-mods-weapon-booster.spritesheet\""
+	myRarity Warden
+	myOnAcquiredChallenge WardenRelic_Weapon_01_Acquired
+	myMod < uid=9E6AFEDA5978FC500000003A99253203 > = pod_warden_one
+	myEnhancementType Mod
+	myEnhancementTrackType WardenWeaponRelic
+	myDamageAffectors
+	{
+		DamageAffector_DamageToHealth "Damage to Health"
+		{
+			myDamageToHealthRatio = Warden_Weapon_Relic_1_DamageHP
+		}
+		DamageAffector_CloseRange "Close Range Dmg"
+		{
+			myDamageMultiplier = Warden_Weapon_Relic_1_CloseExtraDamage
+			myWithinMeters 50.0
+		}
+	}
+}
+

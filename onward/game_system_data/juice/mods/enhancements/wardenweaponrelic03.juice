@@ -1,0 +1,26 @@
+include "onward/game system data/juice/mods/pod_warden_three.mplayermod"
+
+Enhancement WardenWeaponRelic03 < uid=9E6AFEDA597A2A930000004657F46D82 >
+{
+	myLocalizedName "contextComment = \"[Placeholder - do not translate]\nName for unique Weapon Mod found in an ancient Warden Chest.Increases weapon damage & gives a chance of a massive damage boost.\", description = \"\", enabled = true, guid = #C308E4DB59A060C40000002F59CC9A42, lineVersion = 3, maxLength = 30, text = \"Relic of Fate\""
+	myLocalizedDescription "contextComment = \"[Placeholder - do not translate]\nDescription for unique Weapon Mod found in an ancient Warden Chest. Increases weapon damage & gives a chance of a massive damage boost.\", description = \"enhancement-description-warden-weapon-relic-03\", enabled = true, guid = #9E6AFEDA59DD40790000009B5A48567A, lineVersion = 3, maxLength = 66, text = \"+20% Weapon Damage\n+10% Chance to deal +100% damage\""
+	myIconSprite "mySpriteId = 1163630054, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-mods-weapon-booster.spritesheet\""
+	myRarity Warden
+	myOnAcquiredChallenge WardenRelic_Weapon_03_Acquired
+	myMod < uid=9E6AFEDA597A2B50000000A186CC0748 > = pod_warden_three
+	myEnhancementType Mod
+	myEnhancementTrackType WardenWeaponRelic
+	myDamageAffectors
+	{
+		DamageAffector_Chance "10% Chance to do 500% damage"
+		{
+			myDamageMultiplier = Warden_Weapon_Relic_3_ExtraDamage
+			myChance = Warden_Weapon_Relic_3_ExtraChance
+		}
+		DamageAffector_Weakness "Weakness Damage"
+		{
+			myDamageMultiplier = Warden_Weapon_Relic_3_WeaknessDamage
+		}
+	}
+}
+

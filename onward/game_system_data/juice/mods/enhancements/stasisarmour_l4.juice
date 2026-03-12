@@ -1,0 +1,21 @@
+include ./templates/template_l4.juice
+include "onward/game system data/juice/mods/mod_stasis_armour_l4.mplayermod"
+include "onward/game system data/juice/buffs/buff_stasis_armour_l3.mbuff"
+include ./impactaffectors/impact_affectors.juice
+
+Enhancement stasisarmour_l4 < uid=C91BB551597F8BF5007476AFCE6DE496 > : "Level 4"
+{
+	myLocalizedName "contextComment = \"[Placeholder - do not translate]\nName for level 4 version of a Ship Armor that lets to player unleash Stasis/anti-gravity effects even if they have no Stasis weapons equipped\", description = \"\", enabled = true, guid = #C91BB551597F8BF5007476AE7EB01430, lineVersion = 1, maxLength = 30, text = \"Stasis Armor IV\""
+	myLocalizedDescription "contextComment = \"[Placeholder - do not translate]\nDescription for level 4 version of a Ship Armor that lets to player unleash Stasis/anti-gravity effects even if they have no Stasis weapons equipped\", description = \"enhancement-description-stasis-armour-4\", enabled = true, guid = #591077E9441C47F49CC8DBE56D2C5241, lineVersion = 1, maxLength = 178, text = \"+25 Defense\nChance to Lift on impact | -20% Gravity Resist\nLift Blast when Shield Breaks\nDodge to turn a Status Effect into a Blast Combo\""
+	myIconSprite "mySpriteId = 1582233031, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-mods-ship-armour.spritesheet\""
+	myIsHullEnhancement TRUE
+	myMod < uid=C91BB551597F8BF5007476B05D57C6AB > = mod_stasis_armour_l4
+	myBuff < uid=C91BB551597F8BF5007476B18C143694 > = buff_stasis_armour_l3
+	myEnhancementType Armour
+	myEnhancementTrackType StasisArmour
+	myImpactAffectors
+	{
+		ImpactAffector_StatusEffect "Stasis on Impact" = "Stasis on Impact"
+	}
+}
+

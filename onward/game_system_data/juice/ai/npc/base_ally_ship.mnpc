@@ -1,0 +1,73 @@
+include ./base_npc.mnpc
+include onward/skillscripts/npc_ability_pod_shredder.mskillscriptjuice
+
+NPC base_ally_ship < uid=6D25F4C658B06A8B000002833A591F33 > : base_npc
+{
+	myUIName_NonLocalized "Allied NPC"
+	myGraphObjectFile "onward/graph objects/character/temp_ally_ship.mgraphobject"
+	myBehavior "onward/game system data/juice/ai/behavior/allied_npc_space.mbehavior"
+	myExitWorldAffector ""
+	myHealthConfig < uid=4A8282B959F8974000001DD554B83398 > = "base_ally_ship Health"
+	myIsInvulnerable TRUE
+	myDeathSettings
+	{
+		myDeathCullTime 0.0
+		myEventDeathCullTime 0.0
+		myDieOnFlightStaticCollision TRUE
+		myDieOnFlightDynamicCollision FALSE
+	}
+	myAbilityDefinitions
+	{
+		NPCAbilityDefinition Shredder
+		{
+			myGameAction NPC_Ability1
+			mySkillScript < uid=C92F4D3F59C1845800EC95607235735D > = npc_ability_pod_shredder
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_ally_ship_shredder.juice"
+		}
+	}
+	myResistanceSettings "onward/game system data/juice/ai/resistance/base_ally_ship_resistance.juice"
+	myDropTableOnDeath ""
+	myDropTableOnAffinityWeaknessDeathId ""
+	myDropTableOnDamage ""
+	myAwarenessDistance 1000.0
+	myAwarenessDistanceLargeEntity 2000.0
+	myAwarenessDistanceAsteroid 1000.0
+	myMass 600.0
+	myLinearInertiaThreshold 2200.0
+	myMaxLinearForce 450000.0
+	myPhysicsCapsuleRadius 2.25
+	myPhysicsCapsuleOriented TRUE
+	myPhysicsCapsuleStart 0.0;0.0;0.5
+	myPhysicsCapsuleEnd 0.0;0.0;2.76
+	myPhysicsSnapToGround FALSE
+	myIsCollisionEnabled FALSE
+	myIsAffectedByGravity FALSE
+	myNeedsGroundToSteer FALSE
+	myNeedsGroundToMove FALSE
+	myUseNavMeshForMovement FALSE
+	myPatternProfile < uid=6D25F4C658B06A8B000002840B10EC9D > = "Civ Raider"
+	myDefaultMotionPattern < uid=6D25F4C658B06A8B000002852ADA9EFD > = "Civ Raider Flight"
+	myAvoidanceRadius 5.0
+	myNPCFaction Equinox
+	myNPCType Wingmate
+	myAnimSystemType Civ_Raider
+	myThreatLevel 18.0
+	myBaseThreatProfile
+	{
+		myDeAggroRange 2000.0
+		myPlayerEnemyBaseThreat 150.0
+		myHarvesterBaseThreat 200.0
+		myCloseRange 100.0
+		myMediumRange 300.0
+		myLongRange 500.0
+		myExtremeRange 800.0
+	}
+	mySteeringParameters "onward/game system data/juice/ai/steering/civ_raider.juice"
+	myAIVisionConeTypeName SpaceUnitVisionCone
+	myIsTargetable TRUE
+	myIsShieldRamTarget FALSE
+	myIsAimAssistTarget FALSE
+	myDefaultNavigationType Newtonian
+}
+

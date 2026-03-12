@@ -1,0 +1,56 @@
+include "onward/game system data/fruit/sim/simunit.fruit"
+
+SimUnit harvester_extractor_e3 < uid=93869D5358F4D02E0000020B9BCEA67D >
+{
+	myUIName "contextComment = \"Extractor\", description = \"Extractor\", enabled = true, guid = #D1E9B2CB59021368000055D12B7954C0, lineVersion = 0, maxLength = 14, text = \"Extractor\""
+	myBehavior onward/simworld/behavior/harvester_extractor.msimunitbtgraph
+	myControlGraph onward/simworld/control/harvester_extractor.msimunitcontrolgraph
+	myFaction Harvester
+	myCategory Extractor
+	myMaxHealth 100.0
+	myRadius 20.0
+	mySpeed 0.0
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo Extractor
+		{
+			myCountMin 1
+			myCountMax 1
+			myEntitySize 20.0
+			myIgnoreHealth FALSE
+			myIgnoreNavMesh TRUE
+			mySpawnOutsideZone TRUE
+			myElementSpawnInfo
+			{
+				SimUnitElementSpawnInfo Extractor
+				{
+					myEntityFile "onward/entity templates/harvester_extractor_bronze_e3.mentitytemplate"
+					myLevelMin 0
+					myLevelMax 9999
+				}
+			}
+		}
+		SimUnitEntitySpawnInfo Weakpoint
+		{
+			myCountMin 2
+			myCountMax 2
+			myIgnoreHealth TRUE
+			myIgnoreNavMesh TRUE
+			myElementSpawnInfo
+			{
+				SimUnitElementSpawnInfo Bronze
+				{
+					myEntityFile "onward/game system data/juice/ai/npc/harvester_extractor_bronze_e3_weakpoint.mnpc"
+					myLevelMin 0
+					myLevelMax 9999
+				}
+			}
+		}
+	}
+	mySpawnOutsideZone TRUE
+	myDeathXPPayload UnitKilled_Extractor
+	myConstructionDuration 5.0
+	mySpawnAttachedSimUnit ./core_extractor.msimunit
+	myRealizeOnLeader FALSE
+}
+

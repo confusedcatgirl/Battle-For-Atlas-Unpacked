@@ -1,0 +1,21 @@
+include "onward/game system data/juice/mods/mod_assault_weaponcore_l3.mplayermod"
+include ./templates/template_l3.juice
+
+Enhancement assaultweaponcore_l3 < uid=C91BB551596FB62B00000035360C0C72 > : "Level 3"
+{
+	myLocalizedName "contextComment = \"[Placeholder - do not translate]\nName for the level 3 version of the Assault Weapon Core, which improves damage & range\", description = \"\", enabled = true, guid = #C91BB551596FC13B005B61106B5E83CD, lineVersion = 2, maxLength = 18, text = \"Power Ammo III\""
+	myLocalizedDescription "contextComment = \"[Placeholder - do not translate]\nDescription of the gameplay effects of the Assault Weapon Core level 3\", description = \"enhancement-description-assault-weapon-core-3\", enabled = true, guid = #9E6AFEDA59CD87690001895F0A8D0B29, lineVersion = 2, maxLength = 79, text = \"+35% Damage\n+25% Damage for 5s after a kill\n+10% Weapon Range\""
+	myIconSprite "mySpriteId = 417723662, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-mods-weapon-core.spritesheet\""
+	myMod < uid=C91BB551596FB95C000000CBA29E1DB6 > = mod_assault_weaponcore_l3
+	myEnhancementType WeaponCore
+	myEnhancementTrackType AssaultWeaponCore
+	myDamageAffectors
+	{
+		DamageAffector_PlayerDamageBoostOnKill "Boost on Kill"
+		{
+			myDamageMultiplier = Assault_WeaponCore_l3_KillDmg
+			myDamageBoostTime 5.0
+		}
+	}
+}
+

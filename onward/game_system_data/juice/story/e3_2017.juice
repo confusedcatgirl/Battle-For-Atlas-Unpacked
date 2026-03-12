@@ -1,0 +1,2078 @@
+include ./act01.juice
+
+StoryBeatSequence E3_2017 : "ACT I SEQUENCE"
+{
+	myStoryBeats
+	{
+		StoryBeatData "Opening Title Screen (Fade Up)" < uid=1ABBD50B59248798000090E01D39ED44 >
+		{
+			myActStartFlag TRUE
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_AddFadeRequest "Fade Up"
+				{
+					myFadeTime 3.0
+				}
+				StoryDataAction_SuppressPips "Suppress PIPs"
+				{
+					myShouldSuppress TRUE
+				}
+			}
+		}
+		StoryBeatData "Opening Title Screen (Wait for Hull)" < uid=63C8917A590388780000AE4C2A2B4E8D >
+		{
+			myActStartFlag FALSE
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_WaitForHullAttached WaitForHullAttached
+				{
+				}
+			}
+		}
+		StoryBeatData "Opening Title Screen (Wait for X)" < uid=63C8917A590388780000AE4D40D170C6 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_WaitForGameAction "New StoryDataAction_WaitForGameAction (0)"
+				{
+					myGameAction UIStartGame
+				}
+			}
+		}
+		StoryBeatData "Fade Down" < uid=63C8917A590388780000AE4ECF2D437E >
+		{
+			myStoryDataActions
+			{
+				StoryDataAction_Wait "New StoryDataAction_Wait (1)"
+				{
+					mySecondsToWait 4.0
+				}
+				StoryDataAction_AddFadeRequest "Fade Down"
+				{
+					myFadeRequestType Fade_Out
+					myFadeTime 3.0
+				}
+				StoryDataAction_SoundEvent "Music Stinger"
+				{
+					myAudioEvent
+					{
+						myGuid 4FFC84373404E007CAC7FC04447BF4BC
+					}
+					myCompleteImmediately TRUE
+				}
+			}
+		}
+		StoryBeatSequence "1 - SEQUENCE - Opening Cinematic" : "SEQUENCE 1 - Opening Cinematic"
+		{
+			myStoryBeats
+			{
+				StoryBeatData "CINEMAITC - ACT 1A" < uid=63C8917A591606240000933F42B08187 > : Act1_SEQ1_Cinematic_ActOneA
+				{
+					myActStartFlag FALSE
+					myStoryDataActions
+					{
+						StoryDataAction_AddFadeRequest "Fade Out"
+						{
+							myFadeRequestType Fade_Out
+						}
+						StoryDataAction_Cinematic "Act One Cinematic Action"
+						{
+						}
+						StoryDataAction_SetGameAction GameActionTest
+						{
+							mySetGameActionList
+							{
+								SetGameAction StarDrive
+								{
+									myGameAction StartHyperDrive
+								}
+								SetGameAction Camera
+								{
+									myGameAction LookUp
+									myEnabled TRUE
+								}
+								SetGameAction "Fast Travel"
+								{
+								}
+								SetGameAction HyperSpace
+								{
+									myGameAction StartHyperDrive
+								}
+								SetGameAction Flight
+								{
+									myGameAction FlightEngineStart
+								}
+								SetGameAction "Pilot Ability"
+								{
+									myGameAction PodTwo
+								}
+							}
+						}
+						StoryDataAction_CompleteStoryEvent "Complete Event"
+						{
+							myStoryEvent Act01
+						}
+						StoryDataAction_SetGameAction DisableMovement
+						{
+							mySetGameActionList
+							{
+								SetGameAction MoveForward
+								{
+									myGameAction MoveForward
+								}
+								SetGameAction "Move Backward"
+								{
+									myGameAction MoveBackward
+								}
+								SetGameAction MoveLeft
+								{
+									myGameAction MoveLeft
+								}
+								SetGameAction MoveRight
+								{
+									myGameAction MoveRight
+								}
+								SetGameAction Throttle
+								{
+									myGameAction Throttle
+								}
+							}
+						}
+						StoryDataAction_SetGameAction "Disable Starmap"
+						{
+							mySetGameActionList
+							{
+								SetGameAction "Disable Starmap"
+								{
+									myGameAction UIBuild
+								}
+							}
+						}
+						StoryDataAction_SetUIFeature "Disable WarEffort"
+						{
+							myUIFeature WarEffortBar
+						}
+						StoryDataAction_SetUIFeature "Disable Collection Banner"
+						{
+							myUIFeature CollectionBanner
+						}
+						StoryDataAction_SuppressOpportunities "Suppress Oportunities"
+						{
+							myShouldSuppress TRUE
+						}
+						StoryDataAction_SetUIFeature "Disable Navigation Controls"
+						{
+							myUIFeature NavigationControls
+						}
+						StoryDataAction_SetUIFeature "Disable Title Card"
+						{
+							myUIFeature TitleCard
+						}
+						StoryDataAction_SetUIFeature "Disable Take Off Controls"
+						{
+							myUIFeature TakeOffControl
+						}
+						StoryDataAction_SetUIFeature "Disable Pilot Abiltiy UI"
+						{
+							myUIFeature PilotAbility
+						}
+						StoryDataAction_PreventPlayerDeath "Prevent Death"
+						{
+						}
+					}
+				}
+			}
+		}
+		StoryBeatSequence "2 - SEQUENCE - Opening Space Battle" : "SEQUENCE 2 - Opening Space Battle"
+		{
+			myStoryBeats
+			{
+				StoryBeatData "Enabling UI" < uid=2B55C72B591F5EA100000195280BA72A >
+				{
+					myStoryDataActions
+					{
+					}
+					myStoryDataActionSets
+					{
+						StoryDataActionSet "Enable All UI" : "Enable All Screen UI Set"
+						{
+						}
+						StoryDataActionSet "Enable PIPs"
+						{
+							myStoryDataActions
+							{
+								StoryDataAction_SuppressPips "Enable PIPs"
+								{
+								}
+							}
+						}
+					}
+				}
+				StoryBeatData "Start Padding" < uid=2B55C72B58EE38720000029B31E01D9C > : Act1_SEQ2_StartPadding
+				{
+					myStoryDataActions
+					{
+						StoryDataAction_SetNumPrimes "Set Num Primes"
+						{
+							myNumPrimes 0
+						}
+						StoryDataAction_SetMaxPrimeLevel "Set Max Prime Level"
+						{
+							myMaxPrimeLevel 1
+						}
+						StoryDataAction_SetNumExtractors "Set Max Extractors"
+						{
+							myNumExtractors 1
+						}
+						StoryDataAction_SetMaxExtractorLevel "Set Max Extractor Level"
+						{
+							myMaxExtractorLevel 1
+						}
+						StoryDataAction_SoundEvent SFX_Scritped_EquinoxHatch
+						{
+							myAudioEvent
+							{
+								myGuid 4383956C4C83823D8D3B0073ECFA4BA1
+							}
+							myCompleteImmediately TRUE
+						}
+						StoryDataAction_Wait "Wait [2] seconds"
+						{
+							mySecondsToWait 4.0
+						}
+						StoryDataAction_SetUIFeature "Disable Title Card"
+						{
+							myUIFeature TitleCard
+						}
+						StoryDataAction_SetUIFeature "Disable Nav Prompts"
+						{
+							myUIFeature NavigationalButtonPrompts
+						}
+						StoryDataAction_SetUIFeature "Disable Take Off"
+						{
+							myUIFeature TakeOffControl
+						}
+						StoryDataAction_SetUIFeature "Disable Hyperdrive UI"
+						{
+							myUIFeature HyperdriveControl
+						}
+					}
+				}
+				StoryBeatData StartDialogue < uid=2B55C72B58EE38720000029C00957A92 > : Act1_SEQ2_StartDialogue
+				{
+					myStoryDataActions
+					{
+						StoryDataAction_Dialog "Quit Daydreaming"
+						{
+							myDialogSequenceID 1
+						}
+						StoryDataAction_SetGameAction "Enabled Movement"
+						{
+							mySetGameActionList
+							{
+								SetGameAction "Left Enable"
+								{
+									myGameAction MoveLeft
+									myEnabled TRUE
+								}
+								SetGameAction "Right Enable"
+								{
+									myGameAction MoveRight
+									myEnabled TRUE
+								}
+								SetGameAction Throttle
+								{
+									myGameAction Throttle
+									myEnabled TRUE
+								}
+								SetGameAction "Fast Travel"
+								{
+									myGameAction FastTravel
+								}
+								SetGameAction "Forward Enable"
+								{
+									myGameAction MoveForward
+									myEnabled TRUE
+								}
+								SetGameAction "Backward Enable"
+								{
+									myGameAction MoveBackward
+									myEnabled TRUE
+								}
+							}
+						}
+						StoryDataAction_AddFadeRequest "Fade In"
+						{
+							myFadeTime 1.0
+						}
+						StoryDataAction_CompleteStoryEvent CompleteSpawnAllies
+						{
+							myStoryEvent SpawnAllies
+						}
+					}
+				}
+				StoryBeatData MovementTutorial < uid=2B55C72B58EE38720000029D5E1FDEE4 > : Act1_SEQ2_MovementTutorial
+				{
+					Enabled FALSE
+					myStoryDataActions
+					{
+						StoryDataAction_ShowTutorial "Movement Tutorial"
+						{
+							myTutorial Movement
+						}
+						StoryDataAction_SetTarget "Target Space Battle"
+						{
+							mySimUnitAssetTarget "onward/game system data/juice/sim/poi_space_battle.msimunit"
+						}
+						StoryDataAction_SetObjective "Objective Get To the Fight"
+						{
+							myObjective "contextComment = \"Travel to the Battle\", description = \"Travel to the Battle\", enabled = true, guid = #95430580589E0FED0000004B4C574176, lineVersion = 0, maxLength = 26, text = \"Travel to the Battle\""
+						}
+						StoryDataAction_SetGameplayBounds "Constrain Gameplay Bounds To Battle"
+						{
+							myBoundsCenter -33500.0;-150.0;-31900.0
+							myBoundsRadius 6000.0
+						}
+						StoryDataAction_WaitForGameAction "Wait for Movement"
+						{
+							myGameAction MoveForward
+						}
+					}
+				}
+				StoryBeatData "Movement to Camera Padding" < uid=2B55C72B58EE38720000029E46E74548 > : Act1_SEQ2_MovementToCameraPadding
+				{
+					Enabled FALSE
+					myStoryDataActions
+					{
+						StoryDataAction_Wait "Wait [1] Second"
+						{
+							mySecondsToWait 1.0
+						}
+					}
+				}
+				StoryBeatData "Camera Tutorial" < uid=2B55C72B58EE38720000029F77DABCF5 > : Act1_SEQ2_CameraTutorial
+				{
+					Enabled FALSE
+				}
+				StoryBeatData "Camera To Weapons Padding" < uid=2B55C72B58EE3872000002A0DC301976 > : Act1_SEQ2_CameraToWeaponsPadding
+				{
+					Enabled FALSE
+					myStoryDataActions
+					{
+						StoryDataAction_Wait "Wait for [1] second"
+						{
+							mySecondsToWait 1.0
+						}
+					}
+				}
+				StoryBeatData "Fire Right Pod" < uid=2B55C72B58EE3872000002A17C7814EA > : Act1_SEQ2_FireRightPod
+				{
+					Enabled FALSE
+					myStoryDataActions
+					{
+						StoryDataAction_DismissTutorial "Dismiss Movement Tutorial"
+						{
+							myTutorial Movement
+						}
+						StoryDataAction_ShowTutorial "Show Pod Tutorial"
+						{
+							myTutorial RightPod
+						}
+						StoryDataAction_SetTarget "Dismiss the Target"
+						{
+						}
+						StoryDataAction_SetObjective "Objective - Destroy the Fighters"
+						{
+							myObjective "contextComment = \"Story Beat - Destroy the Enemy Fighters\", description = \"Destroy the Enemy Fighters\", enabled = true, guid = #95430580589E107C0000367FA9690413, lineVersion = 0, maxLength = 34, text = \"Destroy the Enemy Fighters\""
+						}
+						StoryDataAction_WaitForGameAction "Wait for Player to Fire RT"
+						{
+							myGameAction PodThree
+						}
+						StoryDataAction_Dialog "DIALOG - What this ship can do"
+						{
+							myDialogSequenceID 2
+						}
+					}
+				}
+			
+				StoryBeatData "Fire Left Pod" < uid=2B55C72B58EE3872000002A3A256FAD0 > : Act1_SEQ2_FireLeftPod
+				{
+					Enabled FALSE
+					myStoryDataActions
+					{
+						StoryDataAction_DismissTutorial "Dismiss RT Tutorial"
+						{
+							myTutorial RightPod
+						}
+						StoryDataAction_ShowTutorial "Show LT Tutorial"
+						{
+							myTutorial LeftPod
+						}
+						StoryDataAction_WaitForGameAction "Wait for LT"
+						{
+							myGameAction PodOne
+						}
+					}
+				}
+				StoryBeatData "LT to Flow Padding" < uid=2B55C72B58EE3872000002A4FEF1BC45 > : Act1_SEQ2_LTtoFlowPadding
+				{
+					Enabled FALSE
+					myStoryDataActions
+					{
+						StoryDataAction_Wait "Wait for [1] second"
+						{
+							mySecondsToWait 1.0
+						}
+					}
+				}
+				StoryBeatData "Kill First drakes" < uid=2B55C72B58EE3872000002A542923835 > = Act1_SEQ2_KillFirstDrake
+				StoryBeatData "Kill Second Drake" < uid=2B55C72B58EE3872000002A60C8CF3DC > = Act1_SEQ2_KillSecondDrake
+				StoryBeatData "Kill Third Drake" < uid=2B55C72B58EE3872000002A7191908E7 > = Act1_SEQ2_KillThirdDrake
+				StoryBeatData "Kill Fourth Last Drake" < uid=2B55C72B58EE3872000002A86A798C15 > = Act1_SEQ2_KillFourthDrake
+				StoryBeatData "Kill Last Drake" < uid=2B55C72B58EE3872000002A9B9F942FF > : Act1_SEQ2_KillLastDrake
+				{
+					Enabled TRUE
+					myIsDebugStoryBeat TRUE
+				}
+				StoryBeatData "Wait After Kill" < uid=2B55C72B58FFB1F50000004DDAD57C53 > : Act1_SEQ2_WaitAfterKill
+				{
+					myStoryDataActionSets
+					{
+						StoryDataActionSet Wait
+						{
+							myStoryDataActions
+							{
+								StoryDataAction_Wait "Wait for 2 seconds"
+								{
+									mySecondsToWait 1.5
+								}
+							}
+						}
+					}
+				}
+				StoryBeatData "Fade [0.25]" < uid=2B55C72B59274BEE0000004BA41F1FCC >
+				{
+					myStoryDataActionSets
+					{
+						StoryDataActionSet "Fade and Wait"
+						{
+							myStoryDataActions
+							{
+								StoryDataAction_AddFadeRequest "Fade Out"
+								{
+									myFadeRequestType Fade_Out
+									myFadeTime 0.25
+								}
+								StoryDataAction_Wait wait
+								{
+									mySecondsToWait 0.25
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		StoryBeatSequence "3 - SEQUENCE - Cinematic 1B" : "SEQUENCE 3 - Cinematic 1B"
+		{
+			myStoryBeats
+			{
+				StoryBeatData "CINEMATIC - ACT 1B" < uid=2B55C72B58F61EFB0000021C20A9BA94 > : Act1_SEQ3_Cinemaric_ActOneB
+				{
+					myStoryDataActions
+					{
+						StoryDataAction_Cinematic ActOneBCinematic
+						{
+						}
+						StoryDataAction_SetTarget "Set Target On PlayerStart"
+						{
+							mySimUnitAssetTarget "onward/game system data/juice/sim/playerstart.msimunit"
+							myTargetPlanet 2B55C72B560154A200000053621E3961
+						}
+						StoryDataAction_CompleteStoryEvent "Complete Event"
+						{
+							myStoryEvent Act01b
+						}
+						StoryDataAction_SetGameplayBounds "Set Gameplay Bounds to Galaxy"
+						{
+						}
+						StoryDataAction_SendStoryToGameEvent "Send Teleport Event"
+						{
+						}
+						StoryDataAction_SetObjective ClearObjective
+						{
+						}
+						StoryDataAction_SetGameAction "Disable Flip Ship"
+						{
+							mySetGameActionList
+							{
+								SetGameAction "Flip Ship"
+								{
+									myGameAction FlippedOverRecover
+								}
+							}
+						}
+						StoryDataAction_SetUIFeature "Disable Banners"
+						{
+							myUIFeature CollectionBanner
+						}
+						StoryDataAction_SetUIFeature "Disable Target Information"
+						{
+							myUIFeature TargetInformation
+						}
+					}
+				}
+			}
+		}
+		StoryBeatSequence "4 - SEQUENCE - Crash Landing" : "SEQUENCE 4 - Crash Landing"
+		{
+			myStoryBeats
+			{
+				StoryBeatData FadeAndDisableUI < uid=2B55C72B59107E9F0000004CE107EA72 >
+				{
+					myStoryDataActionSets
+					{
+						StoryDataActionSet Fade
+						{
+							myStoryDataActions
+							{
+								StoryDataAction_AddFadeRequest FadeScreenOut
+								{
+									myFadeRequestType Fade_Out
+									myFadeColor 0xff000000
+								}
+							}
+						}
+						StoryDataActionSet "Disable UI"
+						{
+							myStoryDataActions = "Disable All Screen UI"
+						}
+						StoryDataActionSet "Mute/Unmute Sound Events"
+						{
+							myStoryDataActions
+							{
+								StoryDataAction_SoundEvent "Mute/Unmuite Sound Events"
+								{
+									myAudioEvent
+									{
+										myGuid 40CF856B1D7962E407736E158A66E9A7
+									}
+									myCompleteImmediately TRUE
+								}
+							}
+						}
+						StoryDataActionSet "Fade Ambience Sound Events"
+						{
+							myStoryDataActions
+							{
+								StoryDataAction_SoundEvent "Fade Ambience Sound Events"
+								{
+									myAudioEvent
+									{
+										myGuid 455E7CCB5154EE408EE27497CDB190B9
+									}
+									myCompleteImmediately TRUE
+								}
+							}
+						}
+					}
+				}
+				StoryBeatData TeleportUpsideDown < uid=2B55C72B58EE2B4A0000021EF8EC91D4 > : Act1_SEQ4_TeleportUpsideDown
+				{
+					myStoryDataActions
+					{
+						StoryDataAction_SetTarget "Set Target on Player Start"
+						{
+							mySimUnitAssetTarget "onward/game system data/juice/sim/playerstart.msimunit"
+							myTargetPlanet 2B55C72B560154A200000053621E3961
+						}
+						StoryDataAction_SendStoryToGameEvent "Send Teleport Event"
+						{
+							myStoryToGameEvent TeleportUpsideDown
+						}
+						StoryDataAction_SetGameAction "Disable Movement"
+						{
+							mySetGameActionList
+							{
+								SetGameAction Throttle
+								{
+									myGameAction Throttle
+									myEnabled TRUE
+								}
+								SetGameAction "Disable Flip"
+								{
+									myGameAction FlippedOverRecover
+								}
+							}
+						}
+						StoryDataAction_CompleteStoryEvent "Complete Teleport"
+						{
+							myStoryEvent TeleportUpsideDown
+						}
+						StoryDataAction_SetUIFeature "Disable Minimap"
+						{
+							myUIFeature Minimap
+							myIsSet FALSE
+						}
+						StoryDataAction_SetUIFeature "Disable Health"
+						{
+							myUIFeature PlayerHealth
+							myIsSet FALSE
+						}
+						StoryDataAction_SetUIFeature "Disable Pilot Ability"
+						{
+							myUIFeature PilotAbility
+							myIsSet FALSE
+						}
+						StoryDataAction_SetGameAction "Pilot Ability Action"
+						{
+							mySetGameActionList
+							{
+								SetGameAction "Pilot Ability"
+								{
+									myGameAction PodTwo
+								}
+							}
+						}
+						StoryDataAction_SetUIFeature "Disable Navigation Controls"
+						{
+							myUIFeature NavigationControls
+						}
+						StoryDataAction_SetUIFeature "Disable War Effort"
+						{
+							myUIFeature WarEffortBar
+						}
+						StoryDataAction_SetUIFeature "Disable Mission Banner"
+						{
+							myUIFeature MissonBanner
+						}
+						StoryDataAction_SetPlayerInvincible "Turn Off Invulnerable"
+						{
+						}
+						StoryDataAction_Wait "Wait [5] on Black"
+						{
+							mySecondsToWait 5.0
+						}
+					}
+				}
+				StoryBeatData "Wait for A Second" < uid=2B55C72B59036691000001CA5C4906CA >
+				{
+					myStoryDataActions
+					{
+						StoryDataAction_Wait wait
+						{
+							mySecondsToWait 1.0
+						}
+					}
+				}
+				StoryBeatData "DIALOGUE - Wake Up" < uid=2B55C72B590344E4000001E5E878B3CE > : Act1_SEQ4_WakeUp
+				{
+					myStoryDataActions
+					{
+						StoryDataAction_Dialog "Wake Up"
+						{
+							myDialogSequenceID 10
+						}
+						StoryDataAction_SetTarget "Clear Target"
+						{
+						}
+						StoryDataAction_AddFadeRequest FadeFromCinematic
+						{
+							myFadeColor 0xff000000
+							myFadeTime 7.0
+						}
+					}
+				}
+				StoryBeatData FlipTheShip < uid=2B55C72B58EE2B4A0000021F06CDC2D0 > : Act1_SEQ4_FlipTheShip
+				{
+					myIsDebugStoryBeat TRUE
+					myStoryDataActions
+					{
+						StoryDataAction_WaitForGameAction "Wait For Flip"
+						{
+							myGameAction FlippedOverRecover
+						}
+						StoryDataAction_SetGameAction "Enable FLip"
+						{
+							mySetGameActionList
+							{
+								SetGameAction "Enable Flip"
+								{
+									myGameAction FlippedOverRecover
+									myEnabled TRUE
+								}
+							}
+						}
+						StoryDataAction_SetObjective "Clear Objective"
+						{
+						}
+						StoryDataAction_SetTarget "Clear Target"
+						{
+						}
+						StoryDataAction_SetUIFeature "Nav Button Prompts"
+						{
+							myUIFeature NavigationalButtonPrompts
+							myIsSet TRUE
+						}
+					}
+				}
+				StoryBeatData "Delay PIP appearance" < uid=2B55C72B59137F82000000C60849618D >
+				{
+					myStoryDataActionSets
+					{
+						StoryDataActionSet Wait
+						{
+							myStoryDataActions
+							{
+								StoryDataAction_Wait "Wait 2 Seconds"
+								{
+									mySecondsToWait 4.0
+								}
+							}
+						}
+					}
+				}
+				StoryBeatData "DIALOGUE - After Flipping" < uid=2B55C72B58EE2B4A000002209B06B894 > : Act1_SEQ4_AfterFlipping
+				{
+					Enabled TRUE
+					myIsDebugStoryBeat TRUE
+					myStoryDataActions
+					{
+					}
+					myStoryDataActionSets
+					{
+						StoryDataActionSet "DIALOGUE - Get Out of Canyon"
+						{
+							myStoryDataActionSetType AND
+							myStoryDataActions
+							{
+								StoryDataAction_WaitForGameToStoryEvent "Wait for ACT_01_CanyonDialogue_01"
+								{
+									myGameToStoryStoryEvent ACT_01_CanyonDialogue_01
+								}
+								StoryDataAction_SetUIFeature "Enable Player Health"
+								{
+									myUIFeature PlayerHealth
+									myIsSet TRUE
+								}
+								StoryDataAction_SetUIFeature "Pilot PIP"
+								{
+									myUIFeature PilotPIP
+									myIsSet TRUE
+								}
+								StoryDataAction_SetUIFeature "HUD Frame"
+								{
+									myUIFeature HUDFrame
+									myIsSet TRUE
+								}
+								StoryDataAction_SetUIFeature Reticule
+								{
+									myUIFeature Reticule
+									myIsSet TRUE
+								}
+								StoryDataAction_SetUIFeature "Pilot Ability"
+								{
+									myUIFeature PilotAbility
+								}
+								StoryDataAction_SoundEvent "HUD Sound Event"
+								{
+									myAudioEvent
+									{
+										myGuid 4B97B1C6D3AEA607F312785102E73680
+									}
+									myCompleteImmediately TRUE
+								}
+							}
+						}
+					}
+				}
+				StoryBeatData "Trigger First Commentary" < uid=2B55C72B58EE2B4A000002217D3DDDE2 >
+				{
+					Enabled TRUE
+					myStoryDataActionSets
+					{
+						StoryDataActionSet "AND - Wait for First Trigger"
+						{
+							myStoryDataActions
+							{
+								StoryDataAction_DialogLine "DIALOGUE - What is this place"
+								{
+									myDialogSequenceID 12
+									myDialogLineID 1
+								}
+								StoryDataAction_SetObjective "OBJECTIVE - Exit the Canyon"
+								{
+									myObjective "contextComment = \"Exit the Canyon\", description = \"Exit the Canyon\", enabled = true, guid = #2B55C72B58BF3549000000CD7E674DDD, lineVersion = 0, maxLength = 20, text = \"Exit the Canyon\""
+								}
+								StoryDataAction_WaitForGameToStoryEvent "Wait for ACT_01_Canyon_Dialogue_03"
+								{
+									myGameToStoryStoryEvent ACT_01_CanyonDialogue_03
+								}
+								StoryDataAction_SoundEvent "Music Stinger"
+								{
+									myAudioEvent
+									{
+										myGuid 44DE92E5D58D923DE4190B3B5A1AC189
+									}
+									myCompleteImmediately TRUE
+								}
+							}
+						}
+					}
+				}
+				StoryBeatData "DIALOGUE - Exit" < uid=2B55C72B5910904D00000D3909041A64 > : Act1_SEQ4_TheresTheExit
+				{
+					myStoryDataActions
+					{
+						StoryDataAction_Dialog "DIALOGUE - Theres the Exit"
+						{
+							myCompleteImmediately TRUE
+							myDialogSequenceID 13
+						}
+					}
+				}
+				StoryBeatData "Wait for Imp Trigger" < uid=2B55C72B5910942E00000D552C2B6D9A >
+				{
+					myStoryDataActions
+					{
+						StoryDataAction_WaitForGameToStoryEvent "Wait for Imp Trigger"
+						{
+							myGameToStoryStoryEvent ACT_01_CanyonDialogue_04
+						}
+					}
+					myStoryDataActionSets
+					{
+					}
+				}
+				StoryBeatData "Spawn and Wait" < uid=2B55C72B590362A5000001C754AFB519 >
+				{
+					myIsDebugStoryBeat FALSE
+					myStoryDataActions
+					{
+					}
+					myStoryDataActionSets
+					{
+						StoryDataActionSet "Spawn and Wait"
+						{
+							myStoryDataActions
+							{
+								StoryDataAction_SendStoryToGameEvent "Spawn Imps"
+								{
+									myStoryToGameEvent E3_SpawnImps
+								}
+								StoryDataAction_WaitForGameToStoryEvent "Imps Spawned"
+								{
+									myGameToStoryStoryEvent E3_ImpsSpawned
+								}
+							}
+						}
+					}
+				}
+				StoryBeatData "Delay Dialogue" < uid=2B55C72B592498A70000004BC330F60A >
+				{
+					myStoryDataActionSets
+					{
+						StoryDataActionSet "Delay 0.5"
+						{
+							myStoryDataActions
+							{
+								StoryDataAction_Wait "Wait 0.5"
+								{
+									mySecondsToWait 0.5
+								}
+							}
+						}
+					}
+				}
+				StoryBeatData "Delay Imp Scripted Camera" < uid=2B55C72B5919E855000000C62C28498A >
+				{
+					myStoryDataActionSets
+					{
+						StoryDataActionSet Wait
+						{
+							myStoryDataActions
+							{
+								StoryDataAction_Wait Wait
+								{
+									mySecondsToWait 1.0
+								}
+								StoryDataAction_Dialog "DIALOGUE - I have to deal"
+								{
+									myCompleteImmediately TRUE
+									myDialogSequenceID 14
+								}
+							}
+						}
+					}
+				}
+				StoryBeatData "Imp Intro" < uid=2B55C72B59034745000001EA3E8DD308 >
+				{
+					myStoryDataActionSets
+					{
+						StoryDataActionSet ImpIntro
+						{
+							myStoryDataActions
+							{
+								StoryDataAction_SetTarget "Set Imps Target"
+								{
+									mySimUnitAssetTarget "onward/game system data/juice/sim/creep_squad_e3.msimunit"
+									myTargetPlanet 2B55C72B560154A200000053621E3961
+								}
+								StoryDataAction_StartDialogueCamera "Start Camera"
+								{
+									myTriggerOnPipInteraction FALSE
+									myPlayerPreset ImpIntro
+									myTargetPreset ImpIntro
+								}
+								StoryDataAction_SoundEvent "Start Camera SFX"
+								{
+									myAudioEvent
+									{
+										myGuid 4720499CC274E45D6C41E5BAEB746DAD
+									}
+									myCompleteImmediately TRUE
+								}
+								StoryDataAction_Wait "Camera Time [4]"
+								{
+									mySecondsToWait 4.0
+								}
+								StoryDataAction_SetGameAction "Disable All Actions" = "Disable All Actions"
+								StoryDataAction_SoundEvent "Music Stinger"
+								{
+									myAudioEvent
+									{
+										myGuid 48A99CA5F9298B851ED087DF75B76180
+									}
+									myCompleteImmediately TRUE
+								}
+							}
+						}
+						StoryDataActionSet "Disable Screen UI"
+						{
+							myStoryDataActions = "Disable All Screen UI"
+						}
+					}
+				}
+				StoryBeatData "Wait for Equinox Link" < uid=2B55C72B5903491A000001F0F05383EF >
+				{
+					myStoryDataActionSets
+					{
+						StoryDataActionSet "Wait for Link"
+						{
+							myStoryDataActions
+							{
+								StoryDataAction_StopDialogueCamera "Stop Camera"
+								{
+								}
+								StoryDataAction_SoundEvent "Stop Camera SFX"
+								{
+									myAudioEvent
+									{
+										myGuid 4D8E34B83B92730FFD7B7138AF4BBEAF
+									}
+									myCompleteImmediately TRUE
+								}
+								StoryDataAction_WaitForGameToStoryEvent "Wait for ACT_01_CanyonDialogue_05"
+								{
+									myGameToStoryStoryEvent ACT_01_CanyonDialogue_05
+								}
+								StoryDataAction_SetUIFeature Waypoints
+								{
+									myUIFeature Waypoints
+									myIsSet TRUE
+								}
+								StoryDataAction_SetGameAction EnableAct1Actions : "Enable All ACT 1 Actions"
+								{
+								}
+								StoryDataAction_SetUIFeature "Enable HUD"
+								{
+									myUIFeature HUD
+									myIsSet TRUE
+								}
+								StoryDataAction_SetTarget "Clear Target"
+								{
+								}
+							}
+						}
+						StoryDataActionSet "Enable UI" : "Enable All Screen UI Set"
+						{
+							myStoryDataActions
+							{
+								StoryDataAction_SetUIFeature "Enable HUD Frame"
+								{
+									myUIFeature HUDFrame
+									myIsSet TRUE
+								}
+								StoryDataAction_SetUIFeature "Enable Minimap"
+								{
+									myUIFeature Minimap
+									myIsSet TRUE
+								}
+								StoryDataAction_SetUIFeature "Enable Player Health"
+								{
+									myUIFeature PlayerHealth
+									myIsSet TRUE
+								}
+								StoryDataAction_SetUIFeature "Enable Pilot Ability"
+								{
+									myUIFeature PilotAbility
+									myIsSet TRUE
+								}
+								StoryDataAction_SetUIFeature "Enable Reticule"
+								{
+									myUIFeature Reticule
+									myIsSet TRUE
+								}
+								StoryDataAction_SetUIFeature "Enable Target Information"
+								{
+									myUIFeature TargetInformation
+									myIsSet TRUE
+								}
+								StoryDataAction_SetUIFeature "Enable Part Attachment Information"
+								{
+									myUIFeature PartAttachmentInformation
+									myIsSet TRUE
+								}
+								StoryDataAction_SetUIFeature "Enable Objective Text"
+								{
+									myUIFeature ObjectiveText
+									myIsSet TRUE
+								}
+								StoryDataAction_SetUIFeature "Enable Waypoint"
+								{
+									myUIFeature Waypoints
+									myIsSet TRUE
+								}
+								StoryDataAction_SetUIFeature "Enable Contextual Button Prompts"
+								{
+									myUIFeature ContextualButtonPrompts
+									myIsSet TRUE
+								}
+								StoryDataAction_SetUIFeature "Enable Navigational Button Prompts"
+								{
+									myUIFeature NavigationalButtonPrompts
+									myIsSet TRUE
+								}
+								StoryDataAction_SetUIFeature "Enable Mission Banner"
+								{
+									myUIFeature MissonBanner
+									myIsSet TRUE
+								}
+								StoryDataAction_SetUIFeature "Enable Collection Banner"
+								{
+									myUIFeature CollectionBanner
+									myIsSet TRUE
+								}
+								StoryDataAction_SetUIFeature "Enable Discovery Banner"
+								{
+									myUIFeature DiscoveryExplorationBanner
+									myIsSet TRUE
+								}
+								StoryDataAction_SetUIFeature "Enable War Effort Bar"
+								{
+									myUIFeature WarEffortBar
+									myIsSet FALSE
+								}
+								StoryDataAction_SetUIFeature "Enable Tutorial Message"
+								{
+									myUIFeature TutorialMessage
+									myIsSet TRUE
+								}
+								StoryDataAction_SetUIFeature "Enable Status Vignettes"
+								{
+									myUIFeature StatusVignettes
+									myIsSet TRUE
+								}
+								StoryDataAction_SetUIFeature "Enable Fly Damage"
+								{
+									myUIFeature FlyDamage
+									myIsSet TRUE
+								}
+								StoryDataAction_SetUIFeature "Enable Currency Collection"
+								{
+									myUIFeature CurrencyCollection
+									myIsSet TRUE
+								}
+								StoryDataAction_SetUIFeature "Enable Navigation Controls"
+								{
+									myUIFeature HyperdriveControl
+									myIsSet FALSE
+								}
+								StoryDataAction_SetUIFeature "Enable Take Off Controls"
+								{
+									myUIFeature TakeOffControl
+									myIsSet FALSE
+								}
+								StoryDataAction_SetUIFeature "Enable Pilot Pip"
+								{
+									myUIFeature PilotPIP
+									myIsSet TRUE
+								}
+								StoryDataAction_SetUIFeature "Enable NPC PIP"
+								{
+									myUIFeature NPCPIP
+									myIsSet TRUE
+								}
+								StoryDataAction_SetUIFeature "Enable Enemy Markers"
+								{
+									myUIFeature NearbyAgentMarkers
+									myIsSet TRUE
+								}
+							}
+						}
+					}
+				}
+				StoryBeatData "DIALOGUE - Link to Equinox" < uid=2B55C72B58EE2B4A00000227403780BD > : Act1_SEQ4_LinkToEquinox
+				{
+					myStoryDataActionSets
+					{
+						StoryDataActionSet LINK
+						{
+							myStoryDataActions
+							{
+								StoryDataAction_Dialog "DIALOGUE - Link to Equinox"
+								{
+									myDialogSequenceID 15
+								}
+								StoryDataAction_SetObjective "OBJECTIVE - Reach the Equinox"
+								{
+									myObjective "contextComment = \"Storybeat - Find the Equinox\", description = \"Reach the Equinox\", enabled = true, guid = #95430580589E1D050000004EF4684D8A, lineVersion = 0, maxLength = 22, text = \"Reach the Equinox\""
+								}
+								StoryDataAction_SetTarget "Target the Equinox"
+								{
+									mySimUnitAssetTarget "onward/game system data/juice/sim/onward_equinox_planet.msimunit"
+									myTargetPlanet 2B55C72B560154A200000053621E3961
+								}
+								StoryDataAction_SoundEvent "Music Stinger"
+								{
+									myAudioEvent
+									{
+										myGuid 4DFE4434BEBD27285FB3F17D8A2077B4
+									}
+									myCompleteImmediately TRUE
+								}
+							}
+						}
+					}
+				}
+				StoryBeatData "Approach Equinox" < uid=2B55C72B58EE2B4A000002288197669C > : Act1_SEQ4_ApproachEquinox
+				{
+					Enabled FALSE
+					myStoryDataActions
+					{
+						StoryDataAction_WaitForArriveAtTarget "Approach Equinox (700)"
+						{
+							myDistance 600.0
+							myRequireInFOV FALSE
+						}
+					}
+				}
+				StoryBeatData "Equinox Under Attack" < uid=2B55C72B58EE2B4A00000229DB337C3E > : Act1_SEQ4_EquinoxUnderAttack
+				{
+					myStoryDataActions
+					{
+						StoryDataAction_SendStoryToGameEvent SendStoryToGame
+						{
+							myStoryToGameEvent Act01_SpawnCyclops
+						}
+						StoryDataAction_WaitForGameToStoryEvent "Wait for Spawned"
+						{
+							myGameToStoryStoryEvent Act_01_CyclopsSpawned
+						}
+					}
+				}
+				StoryBeatData "Delay Cyclops Scripted Camera" < uid=2B55C72B5919E855000000C73B803CB8 >
+				{
+					myStoryDataActionSets
+					{
+						StoryDataActionSet WAit
+						{
+							myStoryDataActions
+							{
+								StoryDataAction_Wait Wait
+								{
+									mySecondsToWait 2.0
+								}
+								StoryDataAction_Dialog "DIALOGUE - Attack isnt over"
+								{
+									myCompleteImmediately TRUE
+									myDialogSequenceID 16
+								}
+							}
+						}
+					}
+				}
+				StoryBeatData "Cyclops Intro Camera" < uid=2B55C72B58EE2B4A0000022AE60E9A6B > : Act1_SEQ4_CyclopsIntroCamera
+				{
+					myStoryDataActions
+					{
+					}
+					myStoryDataActionSets
+					{
+						StoryDataActionSet "cyclops Intro"
+						{
+							myStoryDataActions
+							{
+								StoryDataAction_SoundEvent "Target Cyclops SFX"
+								{
+									myAudioEvent
+									{
+										myGuid 47CD090AC7DA4EFFFFF80DEA97C1C4B2
+									}
+									myCompleteImmediately TRUE
+								}
+								StoryDataAction_SetTarget "Target Cyclops"
+								{
+									mySimUnitAssetTarget "onward/game system data/juice/sim/act_1_exquinox_attackers.msimunit"
+									myTargetPlanet 2B55C72B560154A200000053621E3961
+								}
+								StoryDataAction_StartDialogueCamera "Start Camera"
+								{
+									myIsTargetFirstSpeaker TRUE
+									myTriggerOnPipInteraction FALSE
+									myPlayerPreset NPCIntro
+									myTargetPreset NPCIntro
+								}
+								StoryDataAction_SoundEvent "Start Camera SFX"
+								{
+									myAudioEvent
+									{
+										myGuid 4720499CC274E45D6C41E5BAEB746DAD
+									}
+									myCompleteImmediately TRUE
+								}
+								StoryDataAction_Wait "Wait [4]"
+								{
+									mySecondsToWait 4.0
+								}
+								StoryDataAction_SetGameAction "Disable All Actions" = "Disable All Actions"
+								StoryDataAction_SoundEvent "Music Stinger"
+								{
+									myAudioEvent
+									{
+										myGuid 4E162BE0C24BB7D5362A2AB6FFCFF1BF
+									}
+									myCompleteImmediately TRUE
+								}
+							}
+						}
+						StoryDataActionSet "Disable Screen UI"
+						{
+							myStoryDataActions = "Disable All Screen UI"
+						}
+					}
+				}
+				StoryBeatData "Wrap Up Intro" < uid=2B55C72B5910AD0E0000004DF0A3591B >
+				{
+					myStoryDataActionSets
+					{
+						StoryDataActionSet "Wrap Up Intro"
+						{
+							myStoryDataActions
+							{
+								StoryDataAction_StopDialogueCamera "Stop Camera"
+								{
+								}
+								StoryDataAction_SoundEvent "Stop Camera SFX"
+								{
+									myAudioEvent
+									{
+										myGuid 4D8E34B83B92730FFD7B7138AF4BBEAF
+									}
+									myCompleteImmediately TRUE
+								}
+								StoryDataAction_WaitForTargetDeath "Wait for Cyclops Death"
+								{
+								}
+								StoryDataAction_SetObjective "OBJECTIVE - Defend the Equinox"
+								{
+									myObjective "contextComment = \"Defend the Equinox\", description = \"Defend the Equinox\", enabled = true, guid = #2B55C72B58C837000000005017F9F5DD, lineVersion = 0, maxLength = 23, text = \"Defend the Equinox\""
+								}
+								StoryDataAction_Dialog "DIALOGUE - I got this"
+								{
+									myDialogSequenceID 17
+								}
+								StoryDataAction_SetGameAction EnableActions = "Enable All Actions"
+							}
+						}
+						StoryDataActionSet "Enable Screen UI" : "Enable All Screen UI Set"
+						{
+							myStoryDataActions
+							{
+								StoryDataAction_SetUIFeature "Enable HUD Frame"
+								{
+									myUIFeature HUDFrame
+									myIsSet TRUE
+								}
+								StoryDataAction_SetUIFeature "Enable Minimap"
+								{
+									myUIFeature Minimap
+									myIsSet TRUE
+								}
+								StoryDataAction_SetUIFeature "Enable Player Health"
+								{
+									myUIFeature PlayerHealth
+									myIsSet TRUE
+								}
+								StoryDataAction_SetUIFeature "Enable Pilot Ability"
+								{
+									myUIFeature PilotAbility
+									myIsSet TRUE
+								}
+								StoryDataAction_SetUIFeature "Enable Reticule"
+								{
+									myUIFeature Reticule
+									myIsSet TRUE
+								}
+								StoryDataAction_SetUIFeature "Enable Target Information"
+								{
+									myUIFeature TargetInformation
+									myIsSet TRUE
+								}
+								StoryDataAction_SetUIFeature "Enable Part Attachment Information"
+								{
+									myUIFeature PartAttachmentInformation
+									myIsSet TRUE
+								}
+								StoryDataAction_SetUIFeature "Enable Objective Text"
+								{
+									myUIFeature ObjectiveText
+									myIsSet TRUE
+								}
+								StoryDataAction_SetUIFeature "Enable Waypoint"
+								{
+									myUIFeature Waypoints
+									myIsSet FALSE
+								}
+								StoryDataAction_SetUIFeature "Enable Contextual Button Prompts"
+								{
+									myUIFeature ContextualButtonPrompts
+									myIsSet TRUE
+								}
+								StoryDataAction_SetUIFeature "Enable Navigational Button Prompts"
+								{
+									myUIFeature NavigationalButtonPrompts
+									myIsSet TRUE
+								}
+								StoryDataAction_SetUIFeature "Enable Mission Banner"
+								{
+									myUIFeature MissonBanner
+									myIsSet TRUE
+								}
+								StoryDataAction_SetUIFeature "Enable Collection Banner"
+								{
+									myUIFeature CollectionBanner
+									myIsSet TRUE
+								}
+								StoryDataAction_SetUIFeature "Enable Discovery Banner"
+								{
+									myUIFeature DiscoveryExplorationBanner
+									myIsSet TRUE
+								}
+								StoryDataAction_SetUIFeature "Enable War Effort Bar"
+								{
+									myUIFeature WarEffortBar
+									myIsSet TRUE
+								}
+								StoryDataAction_SetUIFeature "Enable Tutorial Message"
+								{
+									myUIFeature TutorialMessage
+									myIsSet TRUE
+								}
+								StoryDataAction_SetUIFeature "Enable Status Vignettes"
+								{
+									myUIFeature StatusVignettes
+									myIsSet TRUE
+								}
+								StoryDataAction_SetUIFeature "Enable Fly Damage"
+								{
+									myUIFeature FlyDamage
+									myIsSet TRUE
+								}
+								StoryDataAction_SetUIFeature "Enable Currency Collection"
+								{
+									myUIFeature CurrencyCollection
+									myIsSet TRUE
+								}
+								StoryDataAction_SetUIFeature "Enable Navigation Controls"
+								{
+									myUIFeature NavigationControls
+									myIsSet TRUE
+								}
+								StoryDataAction_SetUIFeature "Enable Take Off Controls"
+								{
+									myUIFeature TakeOffControl
+									myIsSet FALSE
+								}
+								StoryDataAction_SetUIFeature "Enable Pilot Pip"
+								{
+									myUIFeature PilotPIP
+									myIsSet TRUE
+								}
+								StoryDataAction_SetUIFeature "Enable NPC PIP"
+								{
+									myUIFeature NPCPIP
+									myIsSet TRUE
+								}
+								StoryDataAction_SetUIFeature "Enable Enemy Markers"
+								{
+									myUIFeature NearbyAgentMarkers
+									myIsSet TRUE
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		StoryBeatSequence "6 - SEQUENCE - Extractor & Core" : "SEQUENCE 6 - Extractor and Core"
+		{
+			myStoryBeats
+			{
+				StoryBeatData "DIALOGUE - Post Fight" < uid=2B55C72B58EE31CC0000029A1CA0881F >
+				{
+					myStoryDataActions
+					{
+						StoryDataAction_Dialog "DIALOGUE - Post Fight"
+						{
+							myDialogSequenceID 18
+						}
+					}
+					myStoryDataActionSets
+					{
+					}
+				}
+				StoryBeatData "DIALOGUE - Energy Signal" < uid=2B55C72B591DA5430000004B5F39A767 >
+				{
+					myStoryDataActionSets
+					{
+						StoryDataActionSet "DIALOGUE - I see an Energy Signal"
+						{
+							myStoryDataActions
+							{
+								StoryDataAction_Dialog "DIALOGUE - Energy Signal"
+								{
+									myDialogSequenceID 19
+								}
+								StoryDataAction_SetTarget "Set Extractor Target"
+								{
+									mySimUnitAssetTarget "onward/game system data/juice/sim/harvester_extractor_e3.msimunit"
+									myTargetPlanet 2B55C72B560154A200000053621E3961
+								}
+								StoryDataAction_SetUIFeature "Turn On Waypoint"
+								{
+									myUIFeature Waypoints
+									myIsSet TRUE
+								}
+							}
+						}
+					}
+				}
+				StoryBeatData "Head to Extractor" < uid=2B55C72B58EE31CC00000294B06B932E > : Act1_SEQ6_HeadToExtractor
+				{
+					myStoryDataActions
+					{
+						StoryDataAction_SetObjective "Objective - Find Extractor"
+						{
+							myObjective "contextComment = \"Find Energy Source\", description = \"Find Energy Source\", enabled = true, guid = #2B55C72B58C3012B0000004E176597DA, lineVersion = 0, maxLength = 23, text = \"Find Energy Source\""
+						}
+						StoryDataAction_WaitForArriveAtTarget "Wait for Arrive at Extractor"
+						{
+							myDistance 1250.0
+							myRequireInFOV FALSE
+						}
+						StoryDataAction_Dialog "DIALOGUE - Good Job"
+						{
+							myDialogSequenceID 20
+						}
+					}
+				}
+				StoryBeatData "Arrive at Cloud" < uid=2B55C72B58EE31CC00000295ACC032A4 > : Act1_SEQ6_ArriveAtCloud
+				{
+					myStoryDataActions
+					{
+						StoryDataAction_WaitForArriveAtTarget "Get Closer to Extractor"
+						{
+							myDistance 250.0
+						}
+						StoryDataAction_Dialog "DIALOGUE - Storm"
+						{
+							myDialogSequenceID 21
+						}
+						StoryDataAction_SoundEvent "Music Stinger"
+						{
+							myAudioEvent
+							{
+								myGuid 4380437DDCE32D4B417AC6C1FD4D40A4
+							}
+							myCompleteImmediately TRUE
+						}
+					}
+				}
+				StoryBeatData "Wait For Ice Mage" < uid=2B55C72B59075F03000001CBF3892E4C >
+				{
+					myStoryDataActions
+					{
+						StoryDataAction_Dialog "DIALOGUE - There is is"
+						{
+							myDialogSequenceID 46
+						}
+						StoryDataAction_SetObjective "Objective Destroy"
+						{
+							myObjective "contextComment = \"Recover Energy Source\", description = \"Recover Energy Source\", enabled = true, guid = #9543058058A5D9EF0000AEF406797F86, lineVersion = 0, maxLength = 27, text = \"Recover Energy Source\""
+						}
+						StoryDataAction_WaitForGameToStoryEvent "Ice Giand Spawned"
+						{
+							myGameToStoryStoryEvent E3_IceGiantSpawned
+						}
+					}
+				}
+				StoryBeatData "Delay Camera" < uid=2B55C72B5919ED52000000C845468BF2 >
+				{
+					myStoryDataActionSets
+					{
+						StoryDataActionSet Wait
+						{
+							myStoryDataActions
+							{
+								StoryDataAction_Wait "Wait 1 seconds"
+								{
+									mySecondsToWait 1.0
+								}
+							}
+						}
+					}
+				}
+				StoryBeatData "Ice Giant Intro" < uid=2B55C72B59075F03000001CC972CB505 >
+				{
+					myStoryDataActions
+					{
+					}
+					myStoryDataActionSets
+					{
+						StoryDataActionSet "Ice Giant Intro"
+						{
+							myStoryDataActions
+							{
+								StoryDataAction_SetTarget "Target Ice Mage"
+								{
+									mySimUnitAssetTarget "onward/game system data/juice/sim/harvester_cyclops_cold_reinforcement.msimunit"
+									myTargetPlanet 2B55C72B560154A200000053621E3961
+								}
+								StoryDataAction_StartDialogueCamera "Start Camera"
+								{
+									myTriggerOnPipInteraction FALSE
+									myPlayerPreset GiantIntro
+									myTargetPreset GiantIntro
+								}
+								StoryDataAction_SoundEvent "Start Camera SFX"
+								{
+									myAudioEvent
+									{
+										myGuid 4720499CC274E45D6C41E5BAEB746DAD
+									}
+									myCompleteImmediately TRUE
+								}
+								StoryDataAction_SetGameAction "Disable All Actions" = "Disable All Actions"
+								StoryDataAction_Wait "Hold Camera for 3 Seconds"
+								{
+									mySecondsToWait 3.0
+								}
+							}
+						}
+						StoryDataActionSet "Disable UI"
+						{
+							myStoryDataActions = "Disable All Screen UI"
+						}
+					}
+				}
+				StoryBeatData "Stop Camera" < uid=2B55C72B59076140000001CE4836807C >
+				{
+					myStoryDataActions
+					{
+					}
+					myStoryDataActionSets
+					{
+						StoryDataActionSet "Wrap Up Intro"
+						{
+							myStoryDataActions
+							{
+								StoryDataAction_StopDialogueCamera "Stop Camera"
+								{
+								}
+								StoryDataAction_SoundEvent "Stop Camera SFX"
+								{
+									myAudioEvent
+									{
+										myGuid 4D8E34B83B92730FFD7B7138AF4BBEAF
+									}
+									myCompleteImmediately TRUE
+								}
+								StoryDataAction_SetTarget "Target Extractor"
+								{
+									mySimUnitAssetTarget "onward/game system data/juice/sim/harvester_extractor_e3.msimunit"
+									myTargetPlanet 2B55C72B560154A200000053621E3961
+								}
+								StoryDataAction_SetUIFeature "Turn On Waypoints"
+								{
+									myUIFeature Waypoints
+									myIsSet TRUE
+								}
+								StoryDataAction_SetGameAction "Enable Actions" = "Enable All Actions"
+							}
+						}
+						StoryDataActionSet "Enable Screen UI" : "Enable All Screen UI Set"
+						{
+							myStoryDataActions
+							{
+								StoryDataAction_SetUIFeature "Enable HUD Frame"
+								{
+									myUIFeature HUDFrame
+									myIsSet TRUE
+								}
+								StoryDataAction_SetUIFeature "Enable Minimap"
+								{
+									myUIFeature Minimap
+									myIsSet TRUE
+								}
+								StoryDataAction_SetUIFeature "Enable Player Health"
+								{
+									myUIFeature PlayerHealth
+									myIsSet TRUE
+								}
+								StoryDataAction_SetUIFeature "Enable Pilot Ability"
+								{
+									myUIFeature PilotAbility
+									myIsSet TRUE
+								}
+								StoryDataAction_SetUIFeature "Enable Reticule"
+								{
+									myUIFeature Reticule
+									myIsSet TRUE
+								}
+								StoryDataAction_SetUIFeature "Enable Target Information"
+								{
+									myUIFeature TargetInformation
+									myIsSet TRUE
+								}
+								StoryDataAction_SetUIFeature "Enable Part Attachment Information"
+								{
+									myUIFeature PartAttachmentInformation
+									myIsSet TRUE
+								}
+								StoryDataAction_SetUIFeature "Enable Objective Text"
+								{
+									myUIFeature ObjectiveText
+									myIsSet TRUE
+								}
+								StoryDataAction_SetUIFeature "Enable Waypoint"
+								{
+									myUIFeature Waypoints
+									myIsSet TRUE
+								}
+								StoryDataAction_SetUIFeature "Enable Contextual Button Prompts"
+								{
+									myUIFeature ContextualButtonPrompts
+									myIsSet TRUE
+								}
+								StoryDataAction_SetUIFeature "Enable Navigational Button Prompts"
+								{
+									myUIFeature NavigationalButtonPrompts
+									myIsSet TRUE
+								}
+								StoryDataAction_SetUIFeature "Enable Mission Banner"
+								{
+									myUIFeature MissonBanner
+									myIsSet TRUE
+								}
+								StoryDataAction_SetUIFeature "Enable Collection Banner"
+								{
+									myUIFeature CollectionBanner
+									myIsSet TRUE
+								}
+								StoryDataAction_SetUIFeature "Enable Discovery Banner"
+								{
+									myUIFeature DiscoveryExplorationBanner
+									myIsSet TRUE
+								}
+								StoryDataAction_SetUIFeature "Enable War Effort Bar"
+								{
+									myUIFeature WarEffortBar
+									myIsSet FALSE
+								}
+								StoryDataAction_SetUIFeature "Enable Tutorial Message"
+								{
+									myUIFeature TutorialMessage
+									myIsSet TRUE
+								}
+								StoryDataAction_SetUIFeature "Enable Status Vignettes"
+								{
+									myUIFeature StatusVignettes
+									myIsSet TRUE
+								}
+								StoryDataAction_SetUIFeature "Enable Fly Damage"
+								{
+									myUIFeature FlyDamage
+									myIsSet TRUE
+								}
+								StoryDataAction_SetUIFeature "Enable Currency Collection"
+								{
+									myUIFeature CurrencyCollection
+									myIsSet TRUE
+								}
+								StoryDataAction_SetUIFeature "Enable Navigation Controls"
+								{
+									myUIFeature NavigationControls
+									myIsSet TRUE
+								}
+								StoryDataAction_SetUIFeature "Enable Take Off Controls"
+								{
+									myUIFeature TakeOffControl
+									myIsSet FALSE
+								}
+								StoryDataAction_SetUIFeature "Enable Pilot Pip"
+								{
+									myUIFeature PilotPIP
+									myIsSet TRUE
+								}
+								StoryDataAction_SetUIFeature "Enable NPC PIP"
+								{
+									myUIFeature NPCPIP
+									myIsSet TRUE
+								}
+								StoryDataAction_SetUIFeature "Enemy Markers"
+								{
+									myUIFeature NearbyAgentMarkers
+									myIsSet TRUE
+								}
+							}
+						}
+					}
+				}
+				StoryBeatData "Destroy Extractor" < uid=2B55C72B59075F03000001CD7EB22239 >
+				{
+					myStoryDataActions
+					{
+						StoryDataAction_WaitForTargetDeath "Kill Extractor"
+						{
+						}
+						StoryDataAction_SetUIFeature "Mission Banner"
+						{
+							myUIFeature MissonBanner
+							myIsSet TRUE
+						}
+						StoryDataAction_SetGameAction "Disable Pick UP"
+						{
+							mySetGameActionList
+							{
+								SetGameAction Pickup
+								{
+									myGameAction Interact_Start
+								}
+							}
+						}
+					}
+					myStoryDataActionSets
+					{
+					}
+				}
+				StoryBeatData "Padding After Killing Extractor" < uid=2B55C72B59034F6400000E6A3A23BDD3 >
+				{
+					myStoryDataActions
+					{
+						StoryDataAction_Wait Wait
+						{
+							mySecondsToWait 11.0
+						}
+					}
+				}
+				StoryBeatData "Extractor Mission complete" < uid=2B55C72B591DBFA20000004CAF62431E >
+				{
+					myStoryDataActionSets
+					{
+						StoryDataActionSet "Complete and Wait"
+						{
+							myStoryDataActions
+							{
+								StoryDataAction_QueueUIMessage "Extractor Destroyed"
+								{
+									myEventInfoName extractor_destroyed
+								}
+								StoryDataAction_Wait "Wait [2]"
+								{
+									mySecondsToWait 4.0
+								}
+							}
+						}
+					}
+				}
+				StoryBeatData "DIALOGUE - Go Pick the Core" < uid=2B55C72B5925F3FA000000C644FCDEAC >
+				{
+					myStoryDataActions
+					{
+						StoryDataAction_Dialog "DIALOGUE - Killed Extractor"
+						{
+							myDialogSequenceID 24
+						}
+					}
+				}
+				StoryBeatData "Pickup Extractor Core" < uid=2B55C72B58EE31CC00000297B9B29BEC > : Act1_SEQ6_PickUpExtractorCore
+				{
+					myStoryDataActions
+					{
+						StoryDataAction_SetObjective "Objective Pick up Extractor Core"
+						{
+							myObjective "contextComment = \"Pick up the Extractor's Core\", description = \"Pick up the Extractor's Core\", enabled = true, guid = #9543058058A61E3B00037035794649F6, lineVersion = 0, maxLength = 36, text = \"Pick up the Extractor's Core\"}"
+						}
+						StoryDataAction_SetTarget "Set Target Core"
+						{
+							mySimUnitAssetTarget "onward/game system data/juice/sim/core_extractor.msimunit"
+							myTargetPlanet 2B55C72B560154A200000053621E3961
+						}
+						StoryDataAction_WaitForTargetInteraction "Pick Up  Core"
+						{
+							myInteractionType InteractionPickup
+						}
+						StoryDataAction_SetGameAction "Enable Pickup"
+						{
+							mySetGameActionList
+							{
+								SetGameAction pickup
+								{
+									myGameAction Interact_Start
+									myEnabled TRUE
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		StoryBeatSequence "7 - SEQUENCE - Repair the Equinox" : "SEQUENCE 7 - Repair the Equinox"
+		{
+			myStoryBeats
+			{
+				StoryBeatData "Deliver Nova" < uid=2B55C72B58EE3F07000002AAD280540F > : Act1_SEQ7_DeliverNova
+				{
+					myStoryDataActions
+					{
+						StoryDataAction_SetTarget "Set Target Equinox"
+						{
+							mySimUnitAssetTarget "onward/game system data/juice/sim/onward_equinox_planet.msimunit"
+						}
+						StoryDataAction_SetObjective "Objective Take Core to Equinox"
+						{
+							myObjective "contextComment = \"Bring Core to Equinox\", description = \"Bring Core to Equinox\", enabled = true, guid = #9543058058A61F5E0003A392FE75DE6A, lineVersion = 0, maxLength = 27, text = \"Bring Core to Equinox\""
+						}
+						StoryDataAction_WaitForArriveAtTarget "Wait for Arrive at Equinox"
+						{
+							myDistance 930.0
+							myRequireInFOV FALSE
+						}
+					}
+				}
+				StoryBeatData "Return to Equinox" < uid=2B55C72B58EE3F07000002AB030F2088 > : Act1_SEQ7_ReturnToEquinox
+				{
+					myStoryDataActions
+					{
+						StoryDataAction_Dialog "DIALOGUE - Came Back"
+						{
+							myDialogSequenceID 26
+						}
+						StoryDataAction_WaitForArriveAtTarget "Get Close"
+						{
+							myDistance 200.0
+							myRequireInFOV FALSE
+						}
+					}
+				}
+				StoryBeatData "Deliver and Wait" < uid=2B55C72B591DBEF20000004BD5ED39FD >
+				{
+					myStoryDataActionSets
+					{
+						StoryDataActionSet "CORE DELIVERED MESSAGE"
+						{
+							myStoryDataActions
+							{
+								StoryDataAction_QueueUIMessage "Core Delivered"
+								{
+									myEventInfoName extractor_core_delivered
+								}
+								StoryDataAction_SoundEvent "SFX Core Delivered"
+								{
+									myAudioEvent
+									{
+										myGuid 4E6F924B8B8E475581F1C1FE04134298
+									}
+									myCompleteImmediately TRUE
+								}
+								StoryDataAction_Wait "Wait [7]"
+								{
+									mySecondsToWait 6.5
+								}
+								StoryDataAction_SetTarget "Clear Target"
+								{
+								}
+							}
+						}
+					}
+				}
+				StoryBeatData "Fade Before Cinematic" < uid=2B55C72B591B4588000000E0DEB0ABA7 >
+				{
+					myStoryDataActionSets
+					{
+						StoryDataActionSet "Fade Action"
+						{
+							myStoryDataActions
+							{
+								StoryDataAction_AddFadeRequest "Fade Out"
+								{
+									myFadeRequestType Fade_Out
+									myFadeTime 1.0
+								}
+								StoryDataAction_Wait "Wait until faded"
+								{
+									mySecondsToWait 1.05
+								}
+							}
+						}
+					}
+				}
+				StoryBeatData "Equinox Take Off" < uid=2B55C72B58EE3F07000002ADD62D5D2B > : Act1_SEQ7_EquinoxTakeOff
+				{
+					myIsDebugStoryBeat TRUE
+					myStoryDataActions
+					{
+						StoryDataAction_Cinematic "Act One 2A Cinematic"
+						{
+						}
+						StoryDataAction_SetGameAction "Enable Flight"
+						{
+							mySetGameActionList
+							{
+								SetGameAction Flight
+								{
+									myGameAction FlightEngineStart
+									myEnabled TRUE
+								}
+							}
+						}
+						StoryDataAction_CompleteStoryEvent "Complete Equinox Take Off"
+						{
+							myStoryEvent EquinoxTakeOff
+						}
+						StoryDataAction_SetUIFeature "Enable Take Off Control"
+						{
+							myUIFeature TakeOffControl
+							myIsSet TRUE
+						}
+					}
+				}
+				StoryBeatData "First Take Off" < uid=2B55C72B58EE3F07000002AE06DD4BCD > : Act1_SEQ7_FirstTakeOff
+				{
+					myStoryDataActions
+					{
+						StoryDataAction_AddFadeRequest "Fade In After Cinematic"
+						{
+							myFadeTime 1.0
+						}
+						StoryDataAction_SetObjective "Set Objective"
+						{
+							myObjective "contextComment = \"Take Off into Space\", description = \"Take Off into Space\", enabled = true, guid = #9543058058AC7FAF0000004B800060DC, lineVersion = 0, maxLength = 25, text = \"Take Off into Space\""
+						}
+						StoryDataAction_ShowTutorial "Flight Tutorial"
+						{
+							myTutorial Launch
+						}
+						StoryDataAction_SetTarget "Target - Space Equinox"
+						{
+							mySimUnitAssetTarget "onward/game system data/juice/sim/onward_equinox_space.msimunit"
+						}
+						StoryDataAction_WaitForGameAction "Wait for Flight"
+						{
+							myGameAction FlightEngineStart
+						}
+						StoryDataAction_Dialog "DIALOGUE - Take Off"
+						{
+							myDialogSequenceID 28
+						}
+					}
+				}
+				StoryBeatData "Fly to Equinox" < uid=2B55C72B58EE3F07000002AF7CAC20FE > : Act1_SEQ7_FlyToEquinox
+				{
+					myStoryDataActions
+					{
+						StoryDataAction_SetObjective "Objective Fly to Equinox"
+						{
+							myObjective "contextComment = \"Travel to the Equinox\", description = \"Travel to the Equinox\", enabled = true, guid = #9543058058AC810D0000004F79FB7448, lineVersion = 0, maxLength = 27, text = \"Travel to the Equinox\""
+						}
+						StoryDataAction_DismissTutorial "Dismiss Flight Tutorial"
+						{
+							myTutorial Launch
+						}
+						StoryDataAction_WaitForArriveAtTarget "Wait for Arrive at Space Equinox"
+						{
+							myDistance 1500.0
+							myRequireInFOV FALSE
+						}
+					}
+				}
+				StoryBeatData FadeOut < uid=2B55C72B5908D9BD000000C6F772ABAB >
+				{
+					myStoryDataActions
+					{
+						StoryDataAction_AddFadeRequest FadeToBlack
+						{
+							myFadeRequestType Fade_Out
+							myFadeColor 0xff000000
+							myFadeTime 2.0
+						}
+						StoryDataAction_Wait "Wait [2]"
+						{
+							mySecondsToWait 2.0
+						}
+					}
+				}
+				StoryBeatData DisableAllActions < uid=2B55C72B5908D9BD000000C75B3CB04C >
+				{
+					myStoryDataActions
+					{
+						StoryDataAction_SetGameAction "Disable All" = "Disable All Actions"
+					}
+				}
+				StoryBeatData "End Demo" < uid=2B55C72B59032ECA000000C657067E98 >
+				{
+					myStoryDataActions
+					{
+						StoryDataAction_CompleteStoryEvent CompleteAct2B
+						{
+							myStoryEvent Act02
+						}
+						StoryDataAction_Cinematic PlayCinematic
+						{
+						}
+						StoryDataAction_SetObjective "Clear Objective"
+						{
+						}
+						StoryDataAction_SetTarget "Clear Target"
+						{
+						}
+						StoryDataAction_SoundEvent "Music End"
+						{
+							myAudioEvent
+							{
+								myGuid 4C5FFBC07AADE044D891FD0C89BBEAB1
+							}
+							myCompleteImmediately TRUE
+						}
+					}
+				}
+			}
+		}
+	}
+}
+

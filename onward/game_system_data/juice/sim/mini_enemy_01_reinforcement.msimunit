@@ -1,0 +1,56 @@
+include "onward/game system data/fruit/sim/simunit.fruit"
+
+SimUnit mini_enemy_01_reinforcement < uid=C92F4D3F5BAA98D1000024B3510CF35B >
+{
+	myUIName "contextComment = \"\", description = \"ui-name-obelisk\", enabled = true, guid = #93869D535BB7771A000027A2BFDB1C81, lineVersion = 0, maxLength = 11, text = \"Obelisk\""
+	myBehavior onward/simworld/behavior/generic_reinforcement.msimunitbtgraph
+	myFaction Harvester
+	myCategory NPC
+	mySubCategory MiniEnemy
+	mySubCategoryVariant 1
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo "Obelisk Base" < uid=C92F4D3F5BC5F5AA000002E5265E2F38 >
+		{
+			myCountMin 1
+			myCountMax 1
+			myElementSpawnInfo
+			{
+				SimUnitElementSpawnInfo mini_enemy_01_base
+				{
+					myEntityFile "onward/entity templates/mini_enemy_01_base.mentitytemplate"
+				}
+			}
+		}
+		SimUnitEntitySpawnInfo "Obelisk Logic" < uid=C92F4D3F5BAA98D1000024B4CE80226C >
+		{
+			myCountMin 1
+			myCountMax 1
+			myElementSpawnInfo
+			{
+				SimUnitElementSpawnInfo mini_enemy_01
+				{
+					myEntityFile "onward/game system data/juice/ai/npc/mini_enemy_01.mnpc"
+				}
+			}
+			myAttachParentSpawnInfoUID C92F4D3F5BC5F5AA000002E5265E2F38
+			myAttachBoneCategory Muzzle
+		}
+	}
+	mySaveable FALSE
+	myConstructionDuration 2.0
+	myRevealedChallengeType Discover_Obelisk
+	myUnlockedChallengeType Death_Obelisk
+	mySpawnAttachedSimUnit ""
+	myPreserveSpawnInfo TRUE
+	myIsValidPickupTarget FALSE
+	mySelfDestructAfterUnrealized TRUE
+	mySkillLevelCoefficients
+	{
+		myPlanetActMultiplier 0
+		myParentLevelMultiplier 0
+		myParentSkillLevelMultiplier 1
+		myUnitLevelMultiplier 0
+	}
+}
+

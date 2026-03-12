@@ -1,0 +1,27 @@
+include ./harvester_dreadnought_part_base.msimunit
+
+SimUnit harvester_dreadnought_interior_core802 < uid=C92F4D3F595D02DB000001883C86D760 > : harvester_dreadnought_part_base
+{
+	myUIName "contextComment = \"[Placeholder - do not translate] HUD name shown when aiming at a Dreadnought's repair drone spawner\", description = \"ui-target-dreadnought-repair-drone-spawner\", enabled = true, guid = #C92F4D3F595D02FC0000019443356887, lineVersion = 0, maxLength = 26, text = \"Repair Drone Spawner\"}"
+	mySubCategoryVariant 802
+	myRadius 35.0
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo "Drone Spawner" < uid=C92F4D3F595D02DB00000189BDB0343F >
+		{
+			myCountMin 1
+			myCountMax 1
+			mySpawnOutsideZone FALSE
+			myElementSpawnInfo
+			{
+				SimUnitElementSpawnInfo Core
+				{
+					myEntityFile "onward/entity templates/harvester_dreadnought_repair_drone_spawner.mentitytemplate"
+				}
+			}
+		}
+	}
+	myUnkillable FALSE
+	myUnkillableType Killable
+}
+

@@ -1,0 +1,25 @@
+include ./template_hull.mplayermod
+
+PlayerMod mod_coldresist_shipmod_l3 < uid=C91BB551598334C3000002DB837C2950 > : template_hull
+{
+	myAttributeMods
+	{
+		AttributeMod "Cold Resist"
+		{
+			myType DMG_Resist_Cold
+			myAddValue 0.0
+			myMultValue = Cold_Resist_Ship_Mod_l3_IncomingCold
+		}
+		AttributeMod "Chill Resist"
+		{
+			myType StatusEffectResist_Chill
+			myMultValue = Cold_Resist_Ship_Mod_l3_IncomingCold
+		}
+		AttributeMod "Freeze Resist"
+		{
+			myType StatusEffectResist_Freeze
+			myMultValue = Cold_Resist_Ship_Mod_l3_IncomingCold
+		}
+	}
+}
+

@@ -1,0 +1,53 @@
+include ./harvester_dreadnought_part_base.msimunit
+
+SimUnit harvester_dreadnought_frontaccess601 < uid=2453D2865914B5000000030F35634F4C > : harvester_dreadnought_part_base
+{
+	mySubCategory DoorSlot
+	mySubCategoryVariant 601
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo "Front Door" < uid=C92F4D3F594A926C01265ACC1E5EFCFE >
+		{
+			myCountMin 1
+			myCountMax 1
+			myElementSpawnInfo
+			{
+				SimUnitElementSpawnInfo "Front Door"
+				{
+					myEntityFile "onward/entity templates/space_dreadnought_frontaccess_door.mentitytemplate"
+				}
+			}
+		}
+		SimUnitEntitySpawnInfo "Gas Flow" < uid=C92F4D3F594A92C701265ADCCF998841 >
+		{
+			myCountMin 1
+			myCountMax 1
+			myIgnoreHealth TRUE
+			myElementSpawnInfo
+			{
+				SimUnitElementSpawnInfo "Gas Flow"
+				{
+					myEntityFile "onward/entity templates/harvester_dreadnought_entrance_gasflow.mentitytemplate"
+				}
+			}
+		}
+		SimUnitEntitySpawnInfo "Landmark Proxy" < uid=C92F4D3F5B0C4AD100001F6C2DEA21DC >
+		{
+			myCountMin 1
+			myCountMax 1
+			myIgnoreHealth TRUE
+			myIsSpaceLandmark TRUE
+			myElementSpawnInfo
+			{
+				SimUnitElementSpawnInfo harvester_dreadnought_frontaccess601_landmark
+				{
+					myEntityFile "onward/entity templates/harvester_dreadnought_frontaccess601_landmark.mentitytemplate"
+				}
+			}
+		}
+	}
+	myRevealedChallengeType Discover_Dreadnought
+	myUnlockedChallengeType Discover_Dreadnought
+	myUnkillableType UnkillableGameSide
+}
+

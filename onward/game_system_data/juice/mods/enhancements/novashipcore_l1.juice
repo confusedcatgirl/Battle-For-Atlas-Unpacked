@@ -1,0 +1,36 @@
+include ./templates/template_l1.juice
+include "onward/game system data/juice/mods/mod_fighter_shipcore_l1.mplayermod"
+include "onward/game system data/juice/mods/mod_elemental_shipcore_l1.mplayermod"
+include "onward/game system data/juice/mods/mod_nova_shipcore_l1.mplayermod"
+
+Enhancement novashipcore_l1 < uid=939A35415AB16D4200001BD57D41DA4E > : "Level 1"
+{
+	myLocalizedName "contextComment = \"[Placeholder - do not translate]\nName for level 1 version of a Ship Core that greatly increases the ship's energy and elemental combo capabilities\", description = \"\", enabled = true, guid = #939A35415AB16D4200001BD38D1A7F15, lineVersion = 1, maxLength = 14, text = \"Nova Core I\"}"
+	myLocalizedDescription "contextComment = \"[Placeholder - do not translate]\nDescription for level 1 version of a Ship Core that greatly increases the ship's energy and elemental combo capabilities\", description = \"enhancement-description-nova-ship-core-1\", enabled = true, guid = #939A35415AB16D4200001BD497B4722E, lineVersion = 0, maxLength = 64, text = \"+20 Energy\n+10% Damage to affinity Imps & Cyclops\"}"
+	myIconSprite "mySpriteId = -1455178886, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-mods-ship-core.spritesheet\""
+	myIsHullEnhancement TRUE
+	myMod < uid=939A35415AB16D4200001BD61B086D90 > = mod_nova_shipcore_l1
+	myBuff < uid=939A35415AB16D4200001BD745B45B33 > = NULLREFERENCE
+	myEnhancementType ShipCore
+	myEnhancementTrackType NovaShipCore
+	myDamageAffectors
+	{
+		DamageAffector_NPCType DamageToNPCType
+		{
+			myDamageMultiplier = Nova_Core_l1_ExtraDamage
+			myNPCTypes
+			{
+				NPCType "Cold Cyclops" Harvester_Cyclops_Cold
+				NPCType "Heat Cyclops" Harvester_Cyclops_Heat
+				NPCType "Crush Cyclops" Harvester_Cyclops_Crush
+				NPCType "Cold Giant" Harvester_Cyclops_Infused_Cold
+				NPCType "Crush Giant" Harvester_Cyclops_Infused_Crush
+				NPCType "Heat Giant" Harvester_Cyclops_Infused_Heat
+				NPCType "Cold Imp" Harvester_Imp_Cold
+				NPCType "Heat Imp" Harvester_Imp_Heat
+				NPCType "Crush Imp" Harvester_Imp_Crush
+			}
+		}
+	}
+}
+

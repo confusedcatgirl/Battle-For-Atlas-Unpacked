@@ -1,0 +1,27 @@
+include ./template_hull.mplayermod
+include ./tuning/mod_tuning_master.juice
+
+PlayerMod mod_explorer_armour_l3 < uid=C91BB5515980887A000F226088594253 > : template_hull
+{
+	myAttributeMods
+	{
+		AttributeMod Weight
+		{
+			myType PartStat_Mass
+			myAddValue = Explorer_Armor_l3_Mass
+		}
+		AttributeMod Defense
+		{
+			myType PartStat_Defense
+			myAddValue = Explorer_Armor_l3_Defense
+		}
+		AttributeMod "Kinetic Resist"
+		{
+			myType DMG_Resist_Kinetic
+			myMultValue = Explorer_Armor_l3_KineticResist
+		}
+	}
+	myIsSelfMod TRUE
+	myIsAgentMod TRUE
+}
+

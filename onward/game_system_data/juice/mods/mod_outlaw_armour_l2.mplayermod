@@ -1,0 +1,27 @@
+include ./template_hull.mplayermod
+include ./tuning/mod_tuning_master.juice
+
+PlayerMod mod_outlaw_armour_l2 < uid=C91BB5515980A17600000079836E5F36 > : template_hull
+{
+	myAttributeMods
+	{
+		AttributeMod Defense
+		{
+			myType PartStat_Defense
+			myAddValue = Outlaw_Armor_l2_Defense
+			myPercentageValue 0.0
+		}
+		AttributeMod "Outlaw Mines Passive"
+		{
+			myType Player_OutlawMinesPassive
+			myAddValue = Outlaw_Armor_l2_OutlawLock
+		}
+		AttributeMod "Outlaw Missile Lock Avoidance"
+		{
+			myType Player_OutlawMissileLockAvoidance
+			myAddValue = Outlaw_Armor_l2_OutlawLock
+		}
+	}
+	myIsAgentMod TRUE
+}
+

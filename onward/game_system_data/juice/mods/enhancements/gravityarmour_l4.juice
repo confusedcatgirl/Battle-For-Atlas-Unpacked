@@ -1,0 +1,16 @@
+include ./templates/template_l4.juice
+include "onward/game system data/juice/mods/mod_gravity_armour_l4.mplayermod"
+include "onward/game system data/juice/buffs/buff_gravity_armour_l4.mbuff"
+
+Enhancement gravityarmour_l4 < uid=C91BB551597F862B0066E1A10DEBD1EB > : "Level 4"
+{
+	myLocalizedName "contextComment = \"[Placeholder - do not translate]\nName for level 4 version of a Ship Armor that protects against Gravity/crush damage and gives the player bonuses in hot status effects (gravity field / black hole)\", description = \"\", enabled = true, guid = #C91BB551597F862B0066E1A08FF61443, lineVersion = 1, maxLength = 30, text = \"Gravity Armor IV\""
+	myLocalizedDescription "contextComment = \"[Placeholder - do not translate]\nDescription for level 4 version of a Ship Armor that protects against Gravity/crush damage and gives the player bonuses in hot status effects (gravity field / black hole)\", description = \"enhancement-description-gravity-armour-4\", enabled = true, guid = #18432D24097545B497C6335E7AB3D297, lineVersion = 1, maxLength = 142, text = \"+40 Defense\n+80% Resistance to Gravity damage\nHeal while inside Gravity\nAdds weight to Ship & Resist Crashing\""
+	myIconSprite "mySpriteId = 694401933, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-mods-ship-armour.spritesheet\""
+	myIsHullEnhancement TRUE
+	myMod < uid=C91BB551597F862B0066E1A2B1E8AE18 > = mod_gravity_armour_l4
+	myBuff < uid=C91BB551597F862B0066E1A384DFB26D > = buff_gravity_armour_l4
+	myEnhancementType Armour
+	myEnhancementTrackType GravityArmour
+}
+

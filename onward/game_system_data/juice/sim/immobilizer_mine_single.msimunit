@@ -1,0 +1,35 @@
+include "onward/game system data/fruit/sim/simunit.fruit"
+
+SimUnit immobilizer_mine_single < uid=6D25F4C65C48DDB40000D42D3AAA830F >
+{
+	myUIName "contextComment = \"The name of the 'Immobilizer Mine' simunit.\", description = \"simunit-immobilizer-mine\", enabled = true, guid = #6D25F4C65C48DE140000E5AA6C2180A1, lineVersion = 0, maxLength = 21, text = \"Immobilizer Mine\""
+	myFaction Outlaw
+	myCategory Unassigned
+	mySubCategory None
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo Mine < uid=6D25F4C65C48DDB40000D42E792812C3 >
+		{
+			myCountMin 1
+			myCountMax 1
+			myEntitySize 50.0
+			myElementSpawnInfo
+			{
+				SimUnitElementSpawnInfo Mine
+				{
+					myEntityFile "onward/entity templates/immobilizer_mine.mentitytemplate"
+				}
+			}
+		}
+	}
+	mySaveable FALSE
+	myNapTime 1.0
+	myPreserveSpawnInfo TRUE
+	myIsValidPickupTarget TRUE
+	mySkillLevelCoefficients
+	{
+		mySkillLevelAffectsDamage FALSE
+		myPlanetActMultiplier 0
+	}
+}
+

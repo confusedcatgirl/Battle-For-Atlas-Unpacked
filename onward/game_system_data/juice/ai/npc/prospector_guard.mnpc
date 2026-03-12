@@ -1,0 +1,35 @@
+include onward/skillscripts/npc_ability_prospector_rocket_barrage.mskillscriptjuice
+include ./prospector_worker.mnpc
+
+NPC prospector_guard < uid=B84764AD5B17E70B00002920FAD20C77 > : prospector_worker
+{
+	myUIName_NonLocalized "Prospector Guard"
+	myGraphObjectFile "onward/graph objects/character/prospector_guard.mgraphobject"
+	myBehavior "onward/game system data/juice/ai/behavior/prospector_guard.mbehavior"
+	myIsInitiallyAggressive TRUE
+	myHealthConfig < uid=B84764AD5B17E70B00002921AFD36DBC > = "prospector_guard Health"
+	myAbilityDefinitions
+	{
+		NPCAbilityDefinition "Primary Attack - Gatling"
+		{
+			myGameAction NPC_Ability1
+			mySkillScript < uid=B84764AD5B17E70B00002922158CEC02 > = npc_ability_prospector_worker_gatling
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_prospector_worker_gatling.juice"
+		}
+		NPCAbilityDefinition "Secondary Attack - Rocket Barrage"
+		{
+			myGameAction NPC_Ability2
+			mySkillScript < uid=B84764AD5B18222200204E7D320E9570 > = npc_ability_prospector_rocket_barrage
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_prospector_defender_rocket_barrage.juice"
+		}
+	}
+	myDropTableOnDeath Worker_Drop_Table
+	myNPCFaction ProspectorAllied
+	myIsInteractable TRUE
+	myConstructionDuration 5.0
+	myOnDeathChallenge None
+	myOnDiscoveredChallenge None
+}
+

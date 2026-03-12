@@ -1,0 +1,35 @@
+include "onward/game system data/fruit/sim/simunit.fruit"
+
+SimUnit cyclops_goldenshield < uid=BEFFEE115C50B6E700000086691BA3A2 >
+{
+	myUIName "contextComment = \"Fallback name for all Raiding parties - deliberately identical to the one used in unitname.juice\", description = \"Unitname_RaidingPartyDefault_UnitType\", enabled = true, guid = #BEFFEE115C50B6E70000008570B7BFD5, lineVersion = 0, maxLength = 16, text = \"Legion Squad\""
+	myBehavior onward/simworld/behavior/harvester_extractor_defender_squad.msimunitbtgraph
+	myFaction Harvester
+	myCategory NPC
+	mySubCategory Raider
+	mySubCategoryVariant 1
+	myAffinityType None
+	myRadius 20.0
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo "Golden Cyclops" < uid=BEFFEE115C50B6E700000087142219F1 >
+		{
+			myCountMin 0
+			myCountMax 0
+			myEntityFile "onward/game system data/juice/ai/npc/harvester_cyclops_gold_no_shield.mnpc"
+		}
+		SimUnitEntitySpawnInfo "Golden Shield Cyclops" < uid=BEFFEE115C50B6E7000000881A4BBA23 >
+		{
+			myCountMin 2
+			myCountMax 2
+			myEntityFile "onward/game system data/juice/ai/npc/harvester_cyclops_gold.mnpc"
+		}
+	}
+	myDeathXPPayload UnitKilled_RaidingParty
+	mySkillLevelCoefficients
+	{
+		myParentSkillLevelMultiplier 1
+	}
+	myMissionTargetTexture onward/baked/textures/UI/icons/outpost_targets/outpost_target_sim_unit/ui-icon-outpost-target-legion-raiders.dds
+}
+

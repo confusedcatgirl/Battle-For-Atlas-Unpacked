@@ -1,0 +1,45 @@
+include "onward/game system data/fruit/entity/faction.fruit"
+include "onward/game system data/fruit/sim/simunit.fruit"
+include "onward/game system data/fruit/pipconversations/pipparticipants.fruit"
+include "onward/game system data/fruit/pipconversations/pipvariationsmap.fruit"
+include "onward/game system data/fruit/story/storyevent.fruit"
+
+class PipReplacementCondition < abstract = 1 >
+{
+}
+
+class PipReplacementCondition_StoryEvent : PipReplacementCondition
+{
+	StoryEvent					myStoryEventToReplaceWithGeneric	< default = NewGame tooltip = "When this story event happens, replace this with the generic version" >
+}
+
+// Replace if player PipParticipant is X
+class PipReplacementCondition_PlayerPipParticipant : PipReplacementCondition
+{
+	PipParticipant*				myPlayerPilot						< tooltip = "If either player is THIS guy, we have to fallback to the generic" >
+}
+
+// Replace if player owns part X
+class PipReplacementCondition_OwnsPart : PipReplacementCondition
+{
+	int myPartID	< default = -1 tooltip = "If Player owns PartID, replace with the generic version" >
+}
+
+list PipReplacementConditionList
+{
+	PipReplacementCondition
+}
+
+class PipParticipantLookup < uid = auto >
+{
+	string 				myTags						< tooltip = "CSV set of markup tags to group Lookups together. eg: all combat allies" >
+	FactionType 		myFaction
+	SimUnitCategory		myCategory
+	SimUnitSubCategory	mySubCategory
+	int					mySubCategoryVariant		< default = 0 >
+
+	PipParticipantVariationPack* myVariationPack
+	
+	PipReplacementConditionList myReplacementConditions
+	PipParticipantVariationPack* myReplacementPack					< tooltip = "If we can't be the Outpost Pilot, who are we" >
+}

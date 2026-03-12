@@ -1,0 +1,28 @@
+include "onward/skillscripts/skillscript.fruit"
+include "onward/game system data/fruit/health/DamageTypes.fruit"
+include "onward/game system data/fruit/mods/mod.fruit"
+include "onward/game system data/fruit/input/gameinput.fruit"
+include "onward/game system data/fruit/ai/affinitytype.fruit"
+
+class NPCAffinityModItem
+{
+	GameAction myGameAction None < tooltip = "GameAction to apply this mod to.  An action of \"None\" applies to overall NPC attributes." >
+	NPCMod* myMod < tooltip = "Mod to apply" >
+}
+
+list NPCAffinityModItemList
+{
+	NPCAffinityModItem
+}
+
+class NPCAffinityDefinition
+{
+	AffinityType myAffinityType None < tooltip = "NOTE: This is not tied to activation *yet* but is mostly for metadata purposes,\ne.g. what I'm affine to and who around me is also affine to that" >
+	float myDuration 10.0 < tooltip = "Duration after which affinity will deactivate on it's own" >
+	float myExhaustionDuration 5.0 < tooltip = "Duration the NPC will exhausted after affinity has concluded." >
+	SkillScript* myEnterSkillScript
+	SkillScript* myRunningSkillScript
+	SkillScript* myExitSkillScript
+	
+	NPCAffinityModItemList myMods
+}

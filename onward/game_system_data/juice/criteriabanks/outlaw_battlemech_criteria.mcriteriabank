@@ -1,0 +1,42 @@
+include "onward/game system data/fruit/rulesystem/criteriabank.fruit"
+
+CriteriaBank outlaw_battlemech_criteria < uid=DFF203395C49EBCD0000008520ECA550 >
+{
+	myOasisAIElementTypeID 48
+	myStringCriteria
+	{
+		String_Criterion "Instigator is Battlemech_" < uid=DFF203395C49EBCD0000008660550771 >
+		{
+			myScope Instigator
+			myDescription "check that the instigator is a Battlemech"
+			myOasisAIElementID 3905
+			label SubCategory
+			value Battlemech
+		}
+		String_Criterion "Target is Battlemech_" < uid=DFF203395C49EBCD00000087533BC784 >
+		{
+			myScope Target
+			myDescription "target is battle mech"
+			myOasisAIElementID 3906
+			label SubCategory
+			value Battlemech
+		}
+		String_Criterion "Za Instigator isn't Battlemech" < uid=600A30F35C4A34380003F7D961EF5BD1 >
+		{
+			myScope Instigator
+			myOasisAIElementID 3914
+			label SubCategory
+			value Battlemech
+			notEqual TRUE
+		}
+		String_Criterion "Za Target isn't Battlemech" < uid=600A30F35C4A34380003F7DA9D12F3D0 >
+		{
+			myScope Target
+			myOasisAIElementID 3915
+			label SubCategory
+			value Battlemech
+			notEqual TRUE
+		}
+	}
+}
+

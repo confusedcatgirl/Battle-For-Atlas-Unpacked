@@ -1,0 +1,22 @@
+class PipPortraitInfo
+{
+	file myTextureName				< bhv=asset assettype="Texture" tooltip = "Texture to be used for Pips" >
+	file myOutpostTextureName		< bhv=asset assettype="Texture" tooltip = "Texture to be used for Outpost conversations" >
+	file myShadowOutpostTextureName	< bhv=asset assettype="Texture" tooltip = "Texture to be used for Outpost conversations when unallied" >
+	string myMedallionTextureName 	< bhv="sprite" tooltip "Sprite to be shown when this SimUnit talks in the world" >
+}
+
+list PipPortraitInfoList
+{
+	PipPortraitInfo
+}
+
+//
+// Method of Mapping a SimUnit to a portrait
+// We use the SimUnit's UID as a lookup into a pool
+// Use the PipParticipantLookup to map a simunit to one of these
+//
+class PipPortraitInfoSet < uid = auto >
+{
+	PipPortraitInfoList myVariations
+}

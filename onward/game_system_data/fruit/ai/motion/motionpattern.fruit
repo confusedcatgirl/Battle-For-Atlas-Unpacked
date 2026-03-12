@@ -1,0 +1,57 @@
+include "onward/game system data/fruit/ai/motion/motioncommon.fruit"
+
+list AnimSystemTypeList
+{
+	AnimSystemType
+}
+
+class DrivenMotionSettings
+{
+	float myAccelRate 1.0 < tooltip="linear acceleration rate" >
+	float myDecelRate 2.0 < tooltip="linear decceleration rate" >
+	float myMinNavSpeed 0.0 < tooltip="minimum speed (in meters/sec)" >
+	float myMaxNavSpeed 20.0 < tooltip="maximum speed (in meters/sec)" >
+}
+
+class SkimmerMotionSettings
+{
+	float myRepulsorHeight 3.0 < tooltip="height which will try to be maintained" >
+	float myRepulsorSpringStiffness 10.0 < tooltip="spring stiffness used by the repulsor to maintain height" >
+	float myRepulsorVelocityDamping 5.0 < tooltip="velocity damping applied to repulsor" >
+	float myGravityModifier 4.0 < tooltip="gravity multiplier" >
+}
+
+class NewtonianMotionSettings
+{
+	vec3f myPYRTensor 1.0;0.3;1.0 < tooltip="Pitch Yaw Roll (x,y,z) rotation tensor/scalar" >
+	bool  myUsePathUpOrientation FALSE < tooltip="Use up orientation provided in spline path" >
+	bool  myFixedHeading FALSE < tooltip="Don't reorient heading to path" >
+	float myResponsiveness 1.0 < tooltip="Lower responsiveness means greater linear/angular damping, lower turn rate, and increased control latency (generally used for formations)" >
+	bool  myMatchSimParentSpeed FALSE < tooltip="Match speed of parent SimUnit (used for wingmate staying in formation with player)" >
+	float mySpeedMatchingScalar 1.1 < tooltip="Speed matching scalar (when myMatchSimParentSpeed is true)" >
+}
+
+class MotionPattern < uid=auto >
+{
+	AnimSystemTypeList myAnimSystemTypes
+	MoveStyle myStyle Default
+
+	float myIdealSpeed 5.f
+	float myAngularAcceleration  1.0 < tooltip="rad/s/s angular speed change rate" >
+	float myMaxAngularSpeed  1.0 < tooltip="Max radians per second of angular velocity" >
+	float myMaxStrafeAngle 3.14159 < tooltip="Max Radians of strafe direction (0 - no strafe)" >
+	float myMaxSlowdownToTurn 1.0 < tooltip="Slowdown ratio while turning" >
+	float myTurnRateBoostFactor 4.0 < tooltip="turn rate boost factor while avoiding" >
+	float myTurnAngleBoostFactor 3.0 < tooltip="turn angle boost factor while avoiding" >
+
+	DrivenMotionSettings myDrivenMotionSettings < tooltip="Only used if IsAnimationDriven is false" >
+	SkimmerMotionSettings mySkimmerMotionSettings < tooltip="Only used for NPCs with Skimmer navigation type" >
+	NewtonianMotionSettings myNewtonianMotionSettings < tooltip="Only used for NPCs using Newtonian locomotion" >
+
+	string myAnimTag
+
+	bool myKeepPaceWithTarget FALSE
+	bool myMaintainSpeed FALSE < tooltip="Try not to slow down" >
+	bool myIsAnimationDriven TRUE < tooltip="If true, animation will drive locomotion" >
+}
+

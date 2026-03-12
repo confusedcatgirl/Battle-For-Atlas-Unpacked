@@ -1,0 +1,48 @@
+include ./harvester_drake_base.mnpc
+
+NPC harvester_drake_intro < uid=6D25F4C658D97BE40156488DBBBC8123 > : harvester_drake_base
+{
+	myBehavior "onward/game system data/juice/ai/behavior/harvester_drake_intro.mbehavior"
+	myHealthConfig < uid=6D25F4C65A008C340182F86296A871E1 > = "harvester_drake_intro Health"
+	myAbilityDefinitions
+	{
+		NPCAbilityDefinition Gatling
+		{
+			myGameAction NPC_Ability1
+			mySkillScript < uid=6D25F4C65A00A75A001ADCFA18EDFAA8 > = npc_ability_harvester_drake_gatling
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_harvester_drake_intro_gatling.juice"
+			myEnabled TRUE
+		}
+		NPCAbilityDefinition "Homing Missiles"
+		{
+			myGameAction NPC_Ability2
+			mySkillScript < uid=6D25F4C65A00A75A001ADCFBC4445F25 > = npc_ability_homing_missile
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_homing_missiles.juice"
+			myEnabled FALSE
+		}
+		NPCAbilityDefinition Laser
+		{
+			myGameAction NPC_Ability3
+			mySkillScript < uid=6D25F4C65A00A75A001ADCFCD513C65A > = npc_ability_laser
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_laser.juice"
+			myEnabled FALSE
+		}
+		NPCAbilityDefinition "HyperDrive Jammer"
+		{
+			myGameAction NPC_Ability10
+			mySkillScript < uid=6D25F4C65A00A75A001ADCFD11A638A5 > = npc_ability_hyperdrive_jammer
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_hyperdrive_jammer.juice"
+			myEnabled TRUE
+		}
+	}
+	myAttributeSettings "onward/game system data/juice/ai/attributes/harvester_drake_intro.juice"
+	myDropTableOnDeath Kill_Drake_Intro_Drop_Table
+	myThreatLevel 13.0
+	myConstructionDuration 0.0
+	myPreWorldEntrySkillScript < uid=6D25F4C659EA421E01D2AC98D8D19E19 > = NULLREFERENCE
+}
+

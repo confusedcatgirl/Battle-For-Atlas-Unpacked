@@ -1,0 +1,35 @@
+include ./tower_base.msimunit
+
+SimUnit tower_hopper < uid=C92F4D3F58FE35C3000004CA5750EB41 > : tower_base
+{
+	myUIName "contextComment = \"[Placeholder - do not translate] HUD name shown when aiming at an Electrum Hopper tower\", description = \"ui-target-tower-hopper\", enabled = true, guid = #C92F4D3F59039C2401169D745D391C7C, lineVersion = 0, maxLength = 20, text = \"Electrum Hopper\""
+	myControlGraph onward/simworld/control/tower_hopper.msimunitcontrolgraph
+	myFaction Prospector
+	mySubCategory ElectrumHopper
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo tower_hopper < uid=4A79E0E45970BF31000008B63C2F2A19 >
+		{
+			myCountMin 1
+			myCountMax 1
+			myEntitySize 4.0
+			myEntityFile ""
+			myElementSpawnInfo
+			{
+				SimUnitElementSpawnInfo tower_hopper
+				{
+					myEntityFile "onward/entity templates/tower_hopper.mentitytemplate"
+				}
+			}
+		}
+	}
+	myNapTime 1.0
+	myInterestSettings
+	{
+		myIsEnabled TRUE
+		myShouldLockValidTarget FALSE
+	}
+	myIconSprite "mySpriteId = 389997020, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-outpost-inventory-faction-towers.spritesheet\""
+	myMissionTargetTexture onward/baked/textures/UI/icons/outpost_targets/outpost_target_sim_unit/ui-icon-outpost-target-electrum-tower-mining-center.dds
+}
+

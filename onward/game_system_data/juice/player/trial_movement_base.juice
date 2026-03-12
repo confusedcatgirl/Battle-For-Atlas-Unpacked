@@ -1,0 +1,163 @@
+include ./../../juice/player/movement_base.juice
+
+GroundSettings Override_Ground : Ground
+{
+	myObstacleForceMaxHeight 3.0
+	myObstacleForceUpSpeedBoost 3.0
+    myStallEngineStrength 0.0
+}
+
+ForwardThrustSettings Override_GroundForwardThrust : GroundForwardThrust
+{
+	topSpeed 90.0
+}
+
+ForwardThrustSettings Override_GroundForwardThrustFast : GroundForwardThrustFast
+{
+	topSpeed 90.0
+}
+
+BoostSettings Override_GroundBoost : GroundBoost
+{
+	myInitialSpeedBoost 10.0
+    myInitialSpeedBoostFullGaugeMultiplier 1.0
+	myForwardSettings
+	{
+		topSpeed 110.0
+		secondsToTopSpeed 3.0
+		accelerationCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { 0 0, -0.785888 -0.232599, }, outTangents = { 0 1.08494, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+	}
+}
+
+StrafeSettings Override_GroundStrafeThrustLateral : GroundStrafeThrustLateral
+{
+	topSpeed 70.0
+	lateralTopSpeed 70.0
+}
+
+AlignToCameraSettings Override_GroundAlignToCameraThrust : GroundAlignToCameraThrust
+{
+	myAlignDampingWithoutInput 5.0
+	myAlignDampingWithInput 5.0
+	myCarrotZDistanceWithoutInput 100.0
+	myCarrotZDistanceWithInput 100.0
+	myCarrotXDistance 10.0
+	myCarrotXDampingUpNormal 2.0
+	myCarrotXDampingUpThrottle 2.0
+	visualRoll 55.0
+}
+
+AlignToCameraSettings Override_GroundAlignToCameraDriftOver : Override_GroundAlignToCameraThrust
+{
+	myAlignDampingWithoutInput 2.0
+	myAlignDampingWithInput 2.0
+	myCarrotZDistanceWithoutInput 50.0
+	myCarrotZDistanceWithInput 50.0
+	myCarrotXDistance 100.0
+	myCarrotXDampingUpNormal 4.0
+	myCarrotXDampingUpThrottle 4.0
+    myCarrotXDrivenByRightStick TRUE
+	visualRoll 25.0
+}
+
+AlignToCameraSettings Override_GroundAlignToCameraDriftUnder : Override_GroundAlignToCameraThrust
+{
+	myAlignDampingWithoutInput 2.0
+	myAlignDampingWithInput 2.0
+	myCarrotZDistanceWithoutInput 50.0
+	myCarrotZDistanceWithInput 50.0
+	myCarrotXDistance 50.0
+	myCarrotXDampingUpNormal 4.0
+	myCarrotXDampingUpThrottle 4.0
+    myCarrotXDrivenByRightStick TRUE
+	visualRoll 25.0
+}
+
+CameraInputSettings Override_GroundCameraInputThrust : GroundCameraInputThrust
+{
+	myDampingUp 4.0
+	myDampingDown 4.0
+	myMaxPitch 0.2
+	myMaxYaw 0.45
+}
+
+CameraInputSettings Override_GroundCameraInputDriftOver : Override_GroundCameraInputThrust
+{
+	myDampingUp 4.0
+	myDampingDown 4.0
+	myMaxPitch 0.2
+	myMaxYaw 0.7
+}
+
+CameraInputSettings Override_GroundCameraInputDriftUnder : Override_GroundCameraInputThrust
+{
+	myDampingUp 4.0
+	myDampingDown 4.0
+	myMaxPitch 0.2
+	myMaxYaw 0.1
+}
+
+DragSettings Override_GroundDrag : GroundDrag
+{
+	drag 1.5
+}
+
+DragSettings Override_FallDrag : FallDrag
+{
+	drag 0.1
+}
+
+GroundAutoAlignSettings Override_GroundAutoAlign : GroundAutoAlign
+{
+	myDampingFast 20.0
+	myDampingSlow 6.0
+}
+
+RepulsorSettings Override_Repulsor : Repulsor
+{
+	repulsorHeight 1.0
+    turnHeightModifier 0.6
+	repulsorSpringStiffness 50.0
+	repulsorVelocityDamping 4.0
+    myForceRepulsorHeightBelowOnly TRUE
+}
+
+RepulsorSettings Override_RepulsorSlope : RepulsorSlope
+{
+	repulsorHeight 1.0
+    turnHeightModifier 0.6
+	repulsorSpringStiffness 50.0
+	repulsorVelocityDamping 4.0
+    myForceRepulsorHeightBelowOnly TRUE
+}
+
+LateralDashSettings Override_Hop : Hop
+{
+	dashVelocityImpulse 50.0
+}
+
+DriftSettings Override_Drift : Drift
+{
+    myAutoBoostL1
+    {
+        myChargeDuration 1.0
+        myBoostDuration 1.0
+    }
+    myAutoBoostL2
+    {
+        myChargeDuration 2.0
+        myBoostDuration 2.0
+    }
+    myAutoBoostL3
+    {
+        myChargeDuration 3.0
+        myBoostDuration 4.0
+    }
+    myTopSpeedMultiplier 1.1
+    myMinSpeedToStartDrift 20.0
+}
+
+CameraPivotSettings Override_GroundPivotThrust : GroundPivotThrust
+{
+	myLookLeftRightOffsetDamping 3.75
+}

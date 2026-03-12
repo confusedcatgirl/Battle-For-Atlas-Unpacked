@@ -1,0 +1,71 @@
+include "onward/game system data/fruit/sim/simunit.fruit"
+
+SimUnit guard_imp_cold < uid=8A9CA2865AC638D800073B4BE6124A98 >
+{
+	myBehavior onward/simworld/behavior/harvester_extractor_defender_squad.msimunitbtgraph
+	myFaction Harvester
+	myCategory NPC
+	mySubCategory DefenderSquad
+	mySubCategoryVariant 0
+	myRadius 8.0
+	mySpeed 100.0
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo Imp < uid=8A9CA2865AC638D800073B4CDA83638C >
+		{
+			myCountMin 0
+			myCountMax 0
+			myEntitySize 2.0
+			myEntityFile ""
+			myElementSpawnInfo
+			{
+				SimUnitElementSpawnInfo Imp
+				{
+					myEntityFile "onward/game system data/juice/ai/npc/harvester_imp_base.mnpc"
+				}
+			}
+		}
+		SimUnitEntitySpawnInfo FireImp < uid=8A9CA2865AC638D800073B4D36B21D4B >
+		{
+			myCountMin 0
+			myCountMax 0
+			myElementSpawnInfo
+			{
+				SimUnitElementSpawnInfo FireImps
+				{
+					myEntityFile "onward/game system data/juice/ai/npc/harvester_imp_heat.mnpc"
+				}
+			}
+		}
+		SimUnitEntitySpawnInfo ColdImp < uid=8A9CA2865AC638D800073B4E7E176514 >
+		{
+			myCountMin 2
+			myCountMax 5
+			myElementSpawnInfo
+			{
+				SimUnitElementSpawnInfo imp
+				{
+					myEntityFile "onward/game system data/juice/ai/npc/harvester_imp_cold.mnpc"
+				}
+			}
+		}
+		SimUnitEntitySpawnInfo CrushImp < uid=8A9CA2865AC638D800073B4F0A25A6C4 >
+		{
+			myCountMin 0
+			myCountMax 0
+			myElementSpawnInfo
+			{
+				SimUnitElementSpawnInfo imps
+				{
+					myEntityFile "onward/game system data/juice/ai/npc/harvester_imp_crush.mnpc"
+				}
+			}
+		}
+	}
+	myRealizeOnLeader FALSE
+	mySkillLevelCoefficients
+	{
+		myParentSkillLevelMultiplier 1
+	}
+}
+

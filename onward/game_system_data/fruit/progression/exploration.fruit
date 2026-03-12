@@ -1,0 +1,32 @@
+include "onward/game system data/fruit/sim/simunit.fruit"
+include "onward/game system data/fruit/progression/challenge_types.fruit"
+
+enum ExplorationThresholdType
+{
+	None
+	UnlockFastTravel
+	UnlockPlanetMod
+}
+
+list ExplorationSimUnitCatgories
+{
+	SimUnitCategory
+}
+
+list ExplorationPOICategories
+{
+	SimUnitCategory	
+}
+
+class ExplorationThreshold
+{
+	float myPointAmount
+	ExplorationThresholdType myType
+	ChallengeType myThresholdReachedChallenge
+	varmap myLocalizedDescription < bhv="localization" >
+}
+
+list ExplorationThresholds
+{
+	ExplorationThreshold
+}

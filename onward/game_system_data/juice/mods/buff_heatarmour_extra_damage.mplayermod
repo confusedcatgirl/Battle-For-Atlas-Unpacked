@@ -1,0 +1,55 @@
+include ./template_pilot.mplayermod
+
+float "Damage Inc" 0.5
+
+PlayerMod buff_heatarmour_extra_damage < uid=C91BB551596F9DC200104B6C66046B9E > : template_pilot
+{
+	myAttributeMods
+	{
+		AttributeMod Heat
+		{
+			myType DMG_Heat
+			myMultValue 1.0
+			myPercentageValue = "Damage Inc"
+		}
+		AttributeMod Cold
+		{
+			myType DMG_Cold
+			myMultValue 1.0
+			myPercentageValue = "Damage Inc"
+		}
+		AttributeMod Float
+		{
+			myType DMG_Float
+			myMultValue 1.0
+			myPercentageValue = "Damage Inc"
+		}
+		AttributeMod Crush
+		{
+			myType DMG_Crush
+			myMultValue 1.0
+			myPercentageValue = "Damage Inc"
+		}
+		AttributeMod Kinetic
+		{
+			myType DMG_Kinetic
+			myMultValue 1.0
+			myPercentageValue = "Damage Inc"
+		}
+		AttributeMod "Area Kinetic"
+		{
+			myType DMG_Area_Kinetic
+			myPercentageValue = "Damage Inc"
+		}
+		AttributeMod "Area Cold"
+		{
+			myPercentageValue = "Damage Inc"
+		}
+		AttributeMod "Area Heat"
+		{
+			myType DMG_Area_Heat
+			myPercentageValue = "Damage Inc"
+		}
+	}
+}
+

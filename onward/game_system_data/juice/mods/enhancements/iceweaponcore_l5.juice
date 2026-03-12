@@ -1,0 +1,28 @@
+include ./templates/template_l5.juice
+include "onward/game system data/juice/mods/mod_ice_weaponcore_l5.mplayermod"
+include ./damageaffectors/damage_affectors.juice
+
+Enhancement iceweaponcore_l5 < uid=C91BB55159822781000883DE5E71936F > : "Level 5"
+{
+	myLocalizedName "contextComment = \"[Placeholder - do not translate]\nName for level 5 version of Ice Weapon Core, which boosts the effectiveness of Cold-type weapons (Freeze/Chill)\", description = \"\", enabled = true, guid = #C91BB55159822781000883DD05C9CA3E, lineVersion = 2, maxLength = 16, text = \"Frost Ammo V\""
+	myLocalizedDescription "contextComment = \"[Placeholder - do not translate]\nDescription for level 5 version of Ice Weapon Core, which greatly boosts damage output, especially against targets with cold status effects, reduces energy cost, and allows any weapon on which it's equipped to cause a Shatter combo on frozen enemies (normally weapons that cause freeze can't also shatter)\", description = \"enhancement-description-ice-weapon-core-5\", enabled = true, guid = #9E6AFEDA59D2733E000000524C891F76, lineVersion = 3, maxLength = 155, text = \"+100% Damage\n+50% Damage to Chilled targets\n-25% Energy Cost\nFreeze can cause Shatter Combo\nEquipd on Cold type weapons\""
+	myIconSprite "mySpriteId = 1949626062, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-mods-weapon-core.spritesheet\""
+	myPartFlavor Cold
+	myMod < uid=C91BB55159822781000883DF2098E236 > = mod_ice_weaponcore_l5
+	myEnhancementType WeaponCore
+	myEnhancementTrackType IceWeaponCore
+	myDamageAffectors
+	{
+		DamageAffector_StatusEffect "Extra Damage"
+		{
+			myDamageMultiplier = Ice_WeaponCore_l5_ChilledDmg
+			myStatusEffectType Chill
+			myStatusEffectTypes
+			{
+				StatusEffectType Chill Chill
+				StatusEffectType Freeze Freeze
+			}
+		}
+	}
+}
+

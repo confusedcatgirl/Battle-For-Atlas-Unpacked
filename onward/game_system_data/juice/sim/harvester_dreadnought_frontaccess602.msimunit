@@ -1,0 +1,54 @@
+include ./harvester_dreadnought_part_base.msimunit
+
+SimUnit harvester_dreadnought_frontaccess602 < uid=DDDD6F5D5BD74F9200000330636FE650 > : harvester_dreadnought_part_base
+{
+	myUIName "contextComment = \"The name of the door to the inside of the Outlaw Dreadnought, the Arboretum. Players destroy this door to progress the fight.\", description = \"simunit-arboretum-door-01\", enabled = true, guid = #2290993C5C799EF40000003DA824B420, lineVersion = 0, maxLength = 18, text = \"Arboretum Door\""
+	mySubCategory DoorSlot
+	mySubCategoryVariant 602
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo "Front Door" < uid=DDDD6F5D5BD74F9200000331C52CAA89 >
+		{
+			myCountMin 1
+			myCountMax 1
+			myElementSpawnInfo
+			{
+				SimUnitElementSpawnInfo "Front Door"
+				{
+					myEntityFile "onward/entity templates/space_dreadnought_frontaccess_door_shielded.mentitytemplate"
+				}
+			}
+		}
+		SimUnitEntitySpawnInfo "Gas Flow" < uid=DDDD6F5D5BD74F9200000332AB2E31C6 >
+		{
+			myCountMin 1
+			myCountMax 1
+			myIgnoreHealth TRUE
+			myElementSpawnInfo
+			{
+				SimUnitElementSpawnInfo "Gas Flow"
+				{
+					myEntityFile "onward/entity templates/harvester_dreadnought_entrance_gasflow.mentitytemplate"
+				}
+			}
+		}
+		SimUnitEntitySpawnInfo "Landmark Proxy" < uid=DDDD6F5D5BD74F9200000333118407FC >
+		{
+			myCountMin 1
+			myCountMax 1
+			myIgnoreHealth TRUE
+			myIsSpaceLandmark TRUE
+			myElementSpawnInfo
+			{
+				SimUnitElementSpawnInfo harvester_dreadnought_frontaccess601_landmark
+				{
+					myEntityFile "onward/entity templates/harvester_dreadnought_frontaccess601_landmark.mentitytemplate"
+				}
+			}
+		}
+	}
+	myRevealedChallengeType Discover_OutlawDreadnaught
+	myUnlockedChallengeType Discover_OutlawDreadnaught
+	myUnkillableType UnkillableGameSide
+}
+

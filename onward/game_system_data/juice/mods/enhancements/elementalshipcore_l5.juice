@@ -1,0 +1,17 @@
+include ./templates/template_l5.juice
+include "onward/game system data/juice/mods/mod_fighter_shipcore_l5.mplayermod"
+include "onward/game system data/juice/mods/mod_elemental_shipcore_l5.mplayermod"
+include "onward/game system data/juice/buffs/buff_elemental_shipcore_l5.mbuff"
+
+Enhancement elementalshipcore_l5 < uid=939A35415AB12E3100001BDCDCF6BA96 > : "Level 5"
+{
+	myLocalizedName "contextComment = \"[Placeholder - do not translate]\nName for level 5 version of a Ship Core that greatly increases the ship's energy and elemental combo capabilities\", description = \"\", enabled = true, guid = #939A35415AB12E3100001BDA4B719FEA, lineVersion = 1, maxLength = 21, text = \"Elemental Core V\"}"
+	myLocalizedDescription "contextComment = \"[Placeholder - do not translate]\nDescription for level 5 version of a Ship Core that greatly increases the ship's energy and elemental combo capabilities\", description = \"enhancement-description-elemental-ship-core-5\", enabled = true, guid = #939A35415AB12E3100001BDBC7FF7854, lineVersion = 0, maxLength = 122, text = \"+55 Energy\n+200 Energy on Elemental Combo\n+ Target Assist\n+ Stuns nearby units on Shield Break\"}"
+	myIconSprite "mySpriteId = 2117133210, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-mods-ship-core.spritesheet\""
+	myIsHullEnhancement TRUE
+	myMod < uid=939A35415AB12E3100001BDD72EFCA24 > = mod_elemental_shipcore_l5
+	myBuff < uid=939A35415AB1637100001CCA2230D9E1 > = buff_elemental_shipcore_l5
+	myEnhancementType ShipCore
+	myEnhancementTrackType ElementalShipCore
+}
+

@@ -1,0 +1,38 @@
+include "onward/game system data/fruit/sim/simunit.fruit"
+
+SimUnit act_2_goldrush_harvester_cyclops_heat_giant < uid=9FD9E8185A55312B00001B8580EE5836 >
+{
+	myUIName "contextComment = \"The UI Name for the Elite Fire Cyclops\", description = \"uiname-harvester-cyclops-heat-generic\", enabled = true, guid = #9FD9E8185A55312B00001B84A658068C, lineVersion = 0, maxLength = 23, text = \"Elite Fire Cyclops\""
+	myBehavior onward/simworld/behavior/generic_simunit_idle.msimunitbtgraph
+	myControlGraph onward/simworld/control/act_2_firegiant.msimunitcontrolgraph
+	myFaction Harvester
+	myCategory NPC
+	mySubCategory RaiderGiant
+	myAffinityType Fire
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo harvester_cyclops_heat < uid=9FD9E8185A55312B00001B86B86261CF >
+		{
+			myCountMin 1
+			myCountMax 1
+			myElementSpawnInfo
+			{
+				SimUnitElementSpawnInfo harvester_cyclops_heat
+				{
+					myEntityFile "onward/game system data/juice/ai/npc/harvester_cyclops_heat.mnpc"
+				}
+			}
+		}
+	}
+	mySaveable TRUE
+	myRealizeOnLeader FALSE
+	myUnkillableUntilEvent FireGiantStarted
+	myPreserveSpawnInfo TRUE
+	mySkillLevelCoefficients
+	{
+		myParentSkillLevelMultiplier 0
+		myBaseLevel 1
+	}
+	myMissionTargetTexture onward/baked/textures/UI/icons/outpost_targets/outpost_target_sim_unit/ui-icon-outpost-target-heat-gaint.dds
+}
+

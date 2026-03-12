@@ -1,0 +1,59 @@
+include "onward/game system data/fruit/rulesystem/criteriabank.fruit"
+
+CriteriaBank Mini_Enemy_Criteria < uid=954305805BC750F8000002C31EB972F5 >
+{
+	myOasisAIElementTypeID 44
+	myStringCriteria
+	{
+		String_Criterion "Target Sub-Category is Mini Enemy" < uid=954305805BC750F8000002C4AAE8E666 >
+		{
+			myScope Target
+			myDescription "Target Sub-Category is Mini Enemy"
+			myOasisAIElementID 3586
+			label SubCategory
+			value MiniEnemy
+		}
+		String_Criterion "Target Sub-Category is NOT Mini Enemy" < uid=2290993C5C818503000000389887B889 >
+		{
+			myScope Target
+			myDescription "Target Sub-Category is NOT Mini-Enemy"
+			myOasisAIElementID 3979
+			label SubCategory
+			value MiniEnemy
+			notEqual TRUE
+		}
+		String_Criterion "Instigator Sub-Category is MiniEnemy" < uid=954305805BC7754C0000003891B24AC8 >
+		{
+			myScope Instigator
+			myDescription "Instigator Sub-Category is MiniEnemy"
+			myOasisAIElementID 3587
+			label SubCategory
+			value MiniEnemy
+		}
+		String_Criterion "Target Faction is HostileFauna" < uid=600A30F35BD761C000000038D321F221 >
+		{
+			myScope Target
+			myDescription "Target Faction is Hostile Fauna"
+			myOasisAIElementID 3613
+			label Faction
+			value HostileFauna
+		}
+		String_Criterion "Instigator Faction is HostileFauna" < uid=600A30F35BD761C000000039182D12C3 >
+		{
+			myScope Instigator
+			myDescription "Instigator Faction is Hostile Fauna"
+			myOasisAIElementID 3614
+			label Faction
+			value HostileFauna
+		}
+		String_Criterion "ThirdParty Faction is HostileFauna" < uid=600A30F35BD761C00000003A9959BFA3 >
+		{
+			myScope ThirdParty
+			myDescription "Third Party is Hostile Fauna"
+			myOasisAIElementID 3615
+			label Faction
+			value HostileFauna
+		}
+	}
+}
+

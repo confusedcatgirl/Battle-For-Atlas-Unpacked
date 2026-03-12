@@ -1,0 +1,59 @@
+enum NPCGender
+{
+	None
+	Male
+	Female
+}
+
+//To keep synched with RShared_NPCSpecialRole::Role in the code
+enum NPCSpecialRole
+{
+	None
+	Veteran
+	Elite
+	Named
+}
+
+enum NPCOrderType
+{
+	AutoFireOn
+	AutoFireOff
+	Follow
+	TakeCover
+	MoraleBoost
+}
+
+class AISkillReactionProfile
+{
+	string mySkillReactionProfileName ""
+}
+
+list AISkillReactionProfileList
+{
+	AISkillReactionProfile
+}
+
+class NPCSettings
+{
+	float myMeleeDistance 10.0
+
+	float myClaimTimeOut 30.0
+	float myContributionTimeOut 60.0
+
+	float myDefaultNPCDespawnTime 10.0
+	
+	int myMaxShootTicketsFor1 2
+	int myMaxShootTicketsFor2 3
+	int myMaxShootTicketsFor3 4
+	int myMaxShootTicketsFor4 5
+	
+	int mySimultaneousBarkLimit 3
+	float mySimultaneousBarkLimitCooldown 4.0
+	
+	file myAIDialogDataXML
+	file myNPCTicketTypes
+	
+	int myEliteScalingLevelBonus 2
+	
+	AISkillReactionProfileList mySkillReactionProfiles
+}

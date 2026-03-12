@@ -1,0 +1,27 @@
+include ./templates/template_l1.juice
+include "onward/game system data/juice/mods/mod_ice_weaponcore_l1.mplayermod"
+
+Enhancement iceweaponcore_l1 < uid=C91BB5515982271B0008839EC4A8C480 > : "Level 1"
+{
+	myLocalizedName "contextComment = \"[Placeholder - do not translate]\nName for level 1 version of Ice Weapon Core, which boosts the effectiveness of Cold-type weapons (Freeze/Chill)\", description = \"\", enabled = true, guid = #C91BB5515982271B0008839DC1CBF537, lineVersion = 2, maxLength = 16, text = \"Frost Ammo I\""
+	myLocalizedDescription "contextComment = \"Placeholder - do not translate]\nDescription for level 2 version of Ice Weapon Core, which boosts damage output. Can only be equipped on Cold-type weapons.\", description = \"enhancement-description-ice-weapon-core-1\", enabled = true, guid = #9E6AFEDA59D274730000006A72B49D9B, lineVersion = 3, maxLength = 91, text = \"+20% Damage\n+25% Damage to Chilled targets\nEquipd on Cold type weapons\""
+	myIconSprite "mySpriteId = 1949626062, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-mods-weapon-core.spritesheet\""
+	myPartFlavor Cold
+	myMod < uid=C91BB5515982271B0008839F2E6ECC12 > = mod_ice_weaponcore_l1
+	myEnhancementType WeaponCore
+	myEnhancementTrackType IceWeaponCore
+	myDamageAffectors
+	{
+		DamageAffector_StatusEffect "Extra Damage"
+		{
+			myDamageMultiplier = Ice_WeaponCore_l1_ChilledDmg
+			myStatusEffectType Chill
+			myStatusEffectTypes
+			{
+				StatusEffectType Chill Chill
+				StatusEffectType Freeze Freeze
+			}
+		}
+	}
+}
+

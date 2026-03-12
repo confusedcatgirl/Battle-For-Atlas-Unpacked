@@ -1,0 +1,172 @@
+include "onward/game system data/juice/input/inputactions.juice"
+include "onward/game system data/fruit/input/gameinput.fruit"
+
+TriggerGameAction "[Camera] Mouse Look"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction "Right Click Hold Down"
+		{
+			myInputActionType HoldDown
+			myInputAction = RIGHT_CLICK
+		}
+	}
+	myGameAction MouseLook
+}
+
+TriggerGameAction "[Camera] Camera Look"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction "Left Click Hold Down"
+		{
+			myInputActionType HoldDown
+			myInputAction = LEFT_CLICK
+		}
+	}
+	myGameAction CameraLook
+}
+
+TriggerGameAction "[Camera] Look Up"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction "Right Stick Up Analog"
+		{
+			myInputActionType Analog
+			myInputAction = RIGHT_STICK_UP
+		}
+	}
+	myGameAction LookUp
+}
+
+TriggerGameAction "[Camera] Look Down"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction "Right Stick Down Analog"
+		{
+			myInputActionType Analog
+			myInputAction = RIGHT_STICK_DOWN
+		}
+	}
+	myGameAction LookDown
+}
+
+TriggerGameAction "[Camera] Look Left"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction "Right Stick Left Analog"
+		{
+			myInputActionType Analog
+			myInputAction = RIGHT_STICK_LEFT
+		}
+	}
+	myGameAction LookLeft
+}
+
+TriggerGameAction "[Camera] Look Right"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction "Right Stick Right Analog"
+		{
+			myInputActionType Analog
+			myInputAction = RIGHT_STICK_RIGHT
+		}
+	}
+	myGameAction LookRight
+}
+
+TriggerGameAction "[Camera] Look Up - UI"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction "Right Stick Up Analog"
+		{
+			myInputActionType Analog
+			myInputAction = RIGHT_STICK_UP
+		}
+	}
+	myGameAction LookUp
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[Camera] Look Down - UI"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction "Right Stick Down Analog"
+		{
+			myInputActionType Analog
+			myInputAction = RIGHT_STICK_DOWN
+		}
+	}
+	myGameAction LookDown
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[Camera] Look Left - UI"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction "Right Stick Left Analog"
+		{
+			myInputActionType Analog
+			myInputAction = RIGHT_STICK_LEFT
+		}
+	}
+	myGameAction LookLeft
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[Camera] Look Right - UI"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction "Right Stick Right Analog"
+		{
+			myInputActionType Analog
+			myInputAction = RIGHT_STICK_RIGHT
+		}
+	}
+	myGameAction LookRight
+	myIsUIAction TRUE
+}
+
+TriggerGameAction "[Camera] Look Back"
+{
+	myOperator Or
+	myConditionalInputActions
+	{
+		ConditionalInputAction "Click Right Thumbstick"
+		{
+			myInputAction = RIGHT_STICK_BUTTON
+		}
+		ConditionalInputAction "Click Middle Mouse"
+		{
+			myInputAction = KB_ZOOM
+		}
+	}
+	myGameAction LookBack
+}
+
+TriggerGameAction "[Camera] Zoom"
+{
+	myOperator Or
+	myConditionalInputActions
+	{
+		ConditionalInputAction "RS"
+		{
+			myToggle TRUE
+			myInputAction = RIGHT_STICK_BUTTON
+		}
+		ConditionalInputAction "MB"
+		{
+			myToggle TRUE
+			myInputAction = KB_ZOOM
+		}
+	}
+	myGameAction Zoom
+}

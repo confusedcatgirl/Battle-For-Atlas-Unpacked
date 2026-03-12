@@ -1,0 +1,29 @@
+include ./expedition_worker.msimunit
+
+SimUnit expedition_worker_elite < uid=4A8282B95734DA6000000086A7F536BB > : expedition_worker
+{
+	myUIName "contextComment = \"The UI name for the Expedition Worker which constructs new bases\", description = \"uiname-expedition-worker-elite\", enabled = true, guid = #93869D535AB50ED300001D0632AF8659, lineVersion = 0, maxLength = 31, text = \"Expedition Worker Elite \""
+	myBehavior onward/simworld/behavior/expedition_worker_elite.msimunitbtgraph
+	mySubCategory Worker
+	mySubCategoryVariant 1
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo expedition_worker < uid=93869D535ABA830F00001DC97465D82B >
+		{
+			myCountMin 1
+			myCountMax 1
+			myEntityFile "onward/game system data/juice/ai/npc/expedition_worker_elite.mnpc"
+			myElementSpawnInfo
+			{
+			}
+		}
+	}
+	mySkillLevelCoefficients
+	{
+		myPlanetActMultiplier 1
+		myParentLevelMultiplier 0
+		myParentSkillLevelMultiplier 0
+		myBaseLevel 10
+	}
+}
+

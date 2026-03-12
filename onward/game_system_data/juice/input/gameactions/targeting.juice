@@ -1,0 +1,42 @@
+include "onward/game system data/juice/input/inputactions.juice"
+include "onward/game system data/fruit/input/gameinput.fruit"
+
+TriggerGameAction "[Targeting] Lock"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction "Left Trigger"
+		{
+			myInputActionType HoldDown
+			myInputAction = LEFT_TRIGGER_L2
+		}
+	}
+	myGameAction Lock
+}
+
+TriggerGameAction "[Targeting] Cycle Left"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction "Press RS Left"
+		{
+			myInputActionType SinglePress
+			myInputAction = RIGHT_STICK_LEFT
+		}
+	}
+	myGameAction CycleLeft
+}
+
+TriggerGameAction "[Targeting] Cycle Right"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction "Press RS Right"
+		{
+			myInputActionType SinglePress
+			myInputAction = RIGHT_STICK_RIGHT
+		}
+	}
+	myGameAction CycleRight
+}
+

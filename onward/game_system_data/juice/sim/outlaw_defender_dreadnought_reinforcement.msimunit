@@ -1,0 +1,46 @@
+include "onward/game system data/fruit/sim/simunit.fruit"
+
+SimUnit outlaw_defender_dreadnought_reinforcement < uid=DDDD6F5D5C38C96100018B709F3B8860 >
+{
+	myBehavior onward/simworld/behavior/harvester_drake_dreadnought_reinforcement.msimunitbtgraph
+	myControlGraph ""
+	myFaction Outlaw
+	myCategory NPC
+	mySubCategory Defender
+	mySpeed 80.0
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo outlaw_defender_dreadnought < uid=DDDD6F5D5C38C96100018B7140B72A19 >
+		{
+			myCountMin 1
+			myCountMax 1
+			myEntityFile ""
+			myElementSpawnInfo
+			{
+				SimUnitElementSpawnInfo outlaw_defender_dreadnought
+				{
+					myEntityFile "onward/game system data/juice/ai/npc/outlaw_defender_dreadnought.mnpc"
+				}
+			}
+			mySpaceSettings
+			{
+				myFormationFlightDist 10.0
+			}
+			myEnsurePhysicsClearance TRUE
+		}
+	}
+	myNapTime 0.0
+	myRevealedChallengeType Discover_OutlawDefender
+	myUnlockedChallengeType Discover_OutlawDefender
+	mySkillLevelCoefficients
+	{
+		myUseTargetRelativeLevel TRUE
+		mySkillLevelAffectsDamage TRUE
+		myPlanetActMultiplier 0
+		myParentLevelMultiplier 0
+		myParentSkillLevelMultiplier 0
+		myUnitLevelMultiplier 0
+		myBaseLevel 1
+	}
+}
+

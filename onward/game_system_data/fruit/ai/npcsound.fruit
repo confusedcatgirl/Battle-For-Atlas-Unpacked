@@ -1,0 +1,46 @@
+include "modules/core/audio/audio.fruit"
+include "onward/game system data/fruit/ai/behavior.fruit"
+include "onward/game system data/fruit/ai/npc.fruit"
+include "onward/game system data/fruit/ai/reactions.fruit"
+
+
+class AIEventResponse < uid=auto >
+{
+	AIBehaviorState myStateEntered  < tooltip = "Hit Reaction State" >
+	HitReactionType myHitReaction
+	AIAudioState myAudioStateEntered
+	AIAudioState myAudioStateExited
+	AudioEvent myAudioEvent
+}
+
+list ResponseList
+{
+	AIEventResponse
+}
+class ResponseBank
+{	
+	int myIndex
+	ResponseList myResponseList
+}
+list ResponseBankList
+{
+	ResponseBank
+}
+class StateResponse < uid=auto >
+{
+	NPCType myNPCType
+	ResponseBankList myResponseBankList
+}
+
+list NPCResponseList
+{
+	StateResponse
+}
+
+class NPCVoiceData
+{
+//	AIEventResponse myTestResponse
+//	ResponseBank myTestBank
+//	StateResponse myTestNPC
+	NPCResponseList myNPCList
+}

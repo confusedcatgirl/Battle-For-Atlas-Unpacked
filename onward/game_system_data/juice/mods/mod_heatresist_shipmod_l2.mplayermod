@@ -1,0 +1,25 @@
+include ./template_hull.mplayermod
+
+PlayerMod mod_heatresist_shipmod_l2 < uid=C91BB5515983337B000002698A079989 > : template_hull
+{
+	myAttributeMods
+	{
+		AttributeMod "Heat Resist"
+		{
+			myType DMG_Resist_Heat
+			myAddValue 0.0
+			myMultValue = Heat_Resist_Ship_Mod_l2_IncomingHeat
+		}
+		AttributeMod "Sunder Resist"
+		{
+			myType StatusEffectResist_Sunder
+			myMultValue = Heat_Resist_Ship_Mod_l2_IncomingHeat
+		}
+		AttributeMod "Fire Resist"
+		{
+			myType StatusEffectResist_Fire
+			myMultValue = Heat_Resist_Ship_Mod_l2_IncomingHeat
+		}
+	}
+}
+

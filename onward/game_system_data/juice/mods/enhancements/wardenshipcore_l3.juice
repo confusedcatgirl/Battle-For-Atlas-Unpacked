@@ -1,0 +1,27 @@
+include ./templates/template_l3.juice
+include "onward/game system data/juice/mods/mod_warden_shipcore_l3.mplayermod"
+include "onward/game system data/juice/buffs/buff_warden_shipcore_l2.mbuff"
+
+Enhancement wardenshipcore_l3 < uid=C91BB551597F639B0000009A55FF63E0 > : "Level 3"
+{
+	myLocalizedName "contextComment = \"[Placeholder - do not translate]\nName for level 3 version of a Ship Core from the ancient Wardens who created the Legion, which can interfere with Legion units (stunning or, at max level, turning them to your side)\", description = \"\", enabled = true, guid = #C91BB551597F639B0000009946ADFFDE, lineVersion = 1, maxLength = 30, text = \"Warden Core III\""
+	myLocalizedDescription "contextComment = \"[Placeholder - do not translate]\nDescription for level 3 version of a Ship Core from the ancient Wardens who created the Legion, which can interfere with Legion units (stunning or, at max level, turning them to your side)\", description = \"enhancement-description-warden-ship-core-3\", enabled = true, guid = #16F741CFFC02444894E0FEAC45E49C7E, lineVersion = 1, maxLength = 108, text = \"+60 Energy\n+25% Damage for 5s after Elemental Combo\n+25% Damage while near Electrum\""
+	myIconSprite "mySpriteId = 830671703, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-mods-ship-core.spritesheet\""
+	myIsHullEnhancement TRUE
+	myMod < uid=C91BB551597F639B0000009BED7E6516 > = mod_warden_shipcore_l3
+	myEnhancementType ShipCore
+	myEnhancementTrackType WardenShipCore
+	myDamageAffectors
+	{
+		DamageAffector_RecentCombo "Combo Damage"
+		{
+			myDamageMultiplier = Warden_Core_l3_ComboDamage
+			myDamageBoostTime 5.0
+		}
+		DamageAffector_DamageBoostNearElectrumVein "Damage Near Electrum"
+		{
+			myDamageMultiplier = Warden_Core_l3_StrongDamage
+		}
+	}
+}
+

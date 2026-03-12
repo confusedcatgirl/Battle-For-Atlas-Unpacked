@@ -1,0 +1,157 @@
+class Input
+{
+	mat44 MuzzlePosition_Primary
+	mat44 MuzzlePosition_Secondary
+	mat44 MuzzlePosition_Tertiary
+	mat44 TargetablePosition
+    vec3f TargetableLocalPosition
+	int TargetablePriority < default=0 >
+    bool TargetableRequireLOS < default=FALSE >
+    bool TargetableRequireValidBodyPart < default=FALSE >
+	vec3f TargetableBoundsMin
+	vec3f TargetableBoundsMax
+    vec3f TargetableLOSLocalOffset
+	vec3f EyesPosition
+	mat44 EnemyAttachmentTransform
+    bool ShouldCollideWithDialogueCamera < default=TRUE >
+    bool ShouldCollideWithCamera < default=TRUE >
+    float AttachmentExtrudedShapeBottomOffset < default=0.0 >
+}
+
+class Output
+{
+	float HealthPercentage < default=1.0 >
+	int InteractPulse
+	bool Fragment < default=FALSE >
+	int AuraCount < default=0 >
+	bool HasBeenHit < default=FALSE >
+	vec4f NearbyExplosion < default=0;0;0;0 >
+	float Temperature < default=0 >
+	float Levitation < default=0 >
+	bool Shatter < default=FALSE >
+	bool IsReady < default=FALSE >
+	float Speed < default=0 >
+	float Acceleration < default=0 >
+	vec3f Velocity < default=0;0;0 >
+	float YawRate < default=0 >
+	float RollRate < default=0 >
+	float PitchRate < default=0 >
+	vec3f Scale	< default=1;1;1 >
+	bool ShieldHitPulse < default=FALSE >
+	bool HullHitPulse < default=FALSE >
+	bool IsShieldRegen < default=FALSE >
+	bool IsShieldBreak < default=FALSE >
+	bool IsShieldActive < default=FALSE >
+	bool IsPlayerShield < default=FALSE >
+	bool IsHeatShield < default=FALSE >
+	bool IsColdShield < default=FALSE >
+	bool IsCrushShield < default=FALSE >
+	int ShieldType < default=0 >
+	mat44 ShieldTransform
+	vec3f ShieldScale < default=1;1;1 >
+	vec3f ShieldOffset < default=0;0;0 >
+	color ShieldColor < default=0xFFFFFF00 >
+	vec3f ShieldHitLoc0 < default=0;0;0 >
+	vec3f ShieldHitLoc1 < default=0;0;0 >
+	vec3f ShieldHitLoc2 < default=0;0;0 >
+	vec3f ShieldHitNormal0 < default=0;0;0 >
+	vec3f ShieldHitNormal1 < default=0;0;0 >
+	vec3f ShieldHitNormal2 < default=0;0;0 >
+	bool ShieldHitPulse0 < default=FALSE >
+	bool ShieldHitPulse1 < default=FALSE >
+	bool ShieldHitPulse2 < default=FALSE >
+	bool HullHitPulse0 < default=FALSE >
+	bool HullHitPulse1 < default=FALSE >
+	bool HullHitPulse2 < default=FALSE >
+	vec3f HullHitLoc0 < default=0;0;0 >
+	vec3f HullHitLoc1 < default=0;0;0 >
+	vec3f HullHitLoc2 < default=0;0;0 >
+	vec3f HullHitNormal0 < default=0;0;0 >
+	vec3f HullHitNormal1 < default=0;0;0 >
+	vec3f HullHitNormal2 < default=0;0;0 >
+	int ShieldHitCount < default=0 >
+	string AnimationName
+	bool PartAttachedPulse < default=FALSE >
+	bool PartRemovedPulse < default=FALSE >
+	bool MuzzleFlashPulse < default=FALSE >
+	mat44 BlackHoleBeamTransform
+	vec3f BlackHoleBeamPosition < default=0;0;0 >
+	bool BlackHoleStormActive < default=FALSE >
+	float BlackHoleStormIntensity < default=0 >
+	float DecalOpacity < default=1 min=0 max=1 >
+	int DecalIndex < default=0 >
+	float PropagationIntensity < default=0 >
+	float ActionValue < default=0 min=0 max=1 >
+	float ElementalValue < default=0 min=-10 max=10 >
+	float ResourcePct < default=0 min=0 max=1 >
+	float CursorizedActionValue < default=0 min=0 max=1 >
+	float PropagationArea < default=1 min=1 max=5 >
+	color ProjectileColor < default=0xFFFFFFFF >
+	bool HasWingCollision < default=FALSE >
+	mat44 WingCollisionTransform
+	bool OverShieldActive < default=FALSE >
+	color OverShieldColor < default=0xFFFFFF00 >
+	float ElementalValueNormalized < default=0 min=-1 max=1 >
+	bool IsOnGround true
+	int BaseLevel < default=0 >
+	int BaseFaction < default=0 >
+	bool IsPodActive < default=FALSE >
+	bool ResourceDepleted < default=FALSE >
+	float InteractPercent < default=0 >
+	int AffinityType < default=0 >
+	bool IsUnstable < default=FALSE >
+	bool IsDormant < default=FALSE >
+	bool VeinDepleted < default=FALSE >
+	bool Hacked < default=FALSE >
+	bool IsAttachedToBase < default=FALSE >
+	bool IsCollapsed < default=FALSE >
+	bool IsBeingTowed < default=FALSE >
+	bool IsSolved < default=FALSE >
+	vec3f TowableRotation < default=0;0;0 >
+	vec3f TowableScaleFactor < default=1;1;1 >
+	bool IsTargeted < default=FALSE >
+	float TowableAnimationProgress < default=0 >
+	bool IsShieldParryActive < default=FALSE >
+	float BatteryCharge < default=0 >
+	vec3f HyperspaceNetSize < default=2000;2000;2000 >
+	float HyperspaceHoleRadius < default=0.07 >
+	vec4f HyperspaceNetHole1
+	vec4f HyperspaceNetHole2
+	vec4f HyperspaceNetHole3
+	vec4f HyperspaceNetHole4
+	vec4f HyperspaceNetHole5
+	vec4f HyperspaceNetHole6
+	vec4f HyperspaceNetHole7
+	vec4f HyperspaceNetHole8
+	vec4f HyperspaceNetColour < default=1;1;1;1 >
+	float HyperspaceNetLife < default=1.0 >
+	float HyperspaceNetRotation < default=0.0f >
+	bool ShowFlags < default=FALSE >
+	bool OutlawOwned < default=FALSE >
+	bool UI_IsShipPartSelected
+	bool UI_PlayShipPartPodSwap
+	float UI_ShipPartAlpha < default=1.0 >
+	color UI_ShipPartColor < default=0x00000000 >
+	int UI_ShipPaintJob < default=0 >
+	bool SandWormSpawnFracture < default=FALSE >
+	bool SandWormIsFullySubmerged < default=FALSE >
+	bool SandWormIsPartiallySubmerged < default=FALSE >
+	bool SandWormIsAboveGround < default=FALSE >
+	bool SandWormPluckJustCompleted < default=FALSE >
+	int SandWormSubmergeState < default=0 >
+	float LaserLength1 < default=40.0 >
+	float LaserLength2 < default=40.0 >
+	float LaserLength3 < default=40.0 >
+	float LaserLength4 < default=40.0 >
+	float LaserLength5 < default=40.0 >
+	float LaserLength6 < default=40.0 >
+	float LaserLength7 < default=40.0 >
+	float LaserLength8 < default=40.0 >
+	int LaserCount < default=4 >
+	vec3f RiftOne < default=0;0;0 >
+	vec3f RiftTwo < default=0;0;0 >
+	vec3f RiftThree < default=0;0;0 >
+	bool RiftOneSolved < default=TRUE >
+	bool RiftTwoSolved < default=TRUE >
+	bool RiftThreeSolved < default=TRUE >
+}

@@ -1,0 +1,37 @@
+include "onward/game system data/fruit/sim/simunit.fruit"
+
+SimUnit harvester_imp_cold_reinforcement < uid=93869D5358D1727D0000004BC8509737 >
+{
+	myBehavior onward/simworld/behavior/generic_reinforcement_volatile.msimunitbtgraph
+	myFaction Harvester
+	myCategory NPC
+	mySubCategory LegionReinforcement
+	myAffinityType Ice
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo imp_cold < uid=93869D535970E9E7034ABA6F3A2B970C >
+		{
+			myCountMin 1
+			myCountMax 1
+			myElementSpawnInfo
+			{
+				SimUnitElementSpawnInfo imp_cold
+				{
+					myEntityFile "onward/game system data/juice/ai/npc/harvester_imp_cold.mnpc"
+				}
+			}
+		}
+	}
+	mySaveable FALSE
+	myPreserveSpawnInfo TRUE
+	myIsValidPickupTarget FALSE
+	mySelfDestructAfterUnrealized TRUE
+	mySkillLevelCoefficients
+	{
+		myPlanetActMultiplier 0
+		myParentLevelMultiplier 0
+		myParentSkillLevelMultiplier 1
+		myUnitLevelMultiplier 0
+	}
+}
+

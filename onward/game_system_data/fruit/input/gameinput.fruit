@@ -1,0 +1,644 @@
+include "modules/core/input/gameactions.fruit"
+
+enum GameAction < useCategories=1 >
+{
+	None
+
+	< startCategory="Movement" >
+	Throttle
+	ToggleFlightEngine
+	FlightEngineStart
+	FlightEngineStop
+	FlightEngineFailStart
+	FlightEnginesStartTutorial
+	Roll90
+	MoveForward
+	MoveBackward
+	MoveLeft
+	MoveRight
+	NotMoving
+	Brake
+	FlippedOverRecover
+	StartHyperDrive
+	StartHyperDriveFail
+	StopHyperDrive
+	ManeuverStart
+	ManeuverLeft
+	ManeuverRight
+	ManeuverFront
+	ManeuverBack
+	ManeuverNeutral
+    DashButton
+	DashStart
+	DashLeft
+	DashRight
+	DashFront
+	DashBack
+    TrickStart
+	TrickLeft
+	TrickRight
+	TrickForward
+	TrickBackward
+	TrickNeutral
+    GroundSlam
+	Hop
+	DoubleHop
+	Drift
+	ResetOrientation
+	ToggleMotion
+	ToggleGhost
+	SwitchActionScheme
+	PushLeft
+	PushRight
+	PushForward
+	PushBackward
+	StickNeutral
+	JetEngine
+	ShakeOffStart
+	ShakeOffLeft
+	ShakeOffRight
+	ShakeOffFront
+	ShakeOffBack
+    Boost
+    BoostTrialAlt
+	BoostInRaceDummy
+	BoostFailLowStamina
+    BoostFailLowStaminaInput
+    BallJump
+    BallDash
+	ShieldParry
+	ShieldParryHold
+	ShieldParryFail
+    Extinguish
+    RaceBoostStart
+	< endCategory="" >
+
+	< startCategory="Camera" >
+	LookUp
+	LookDown
+	LookLeft
+	LookRight
+	MouseLook
+	CameraLook
+	LookBack
+	Zoom
+	LookAround
+    TogglePhotoMode
+    FovUp
+    FovDown
+    RollUp
+    RollDown
+    UseOrbitMode
+    UseFastMode
+    PanUp
+    PanDown
+    PanLeft
+    PanRight
+    ResetFraming
+	ResetEdits
+	< endCategory="" >
+
+	< startCategory="Targeting" >
+	Lock
+	CycleLeft
+	CycleRight
+	< endCategory="" >
+
+	< startCategory="PodAbilities" >
+	SwapPrimary
+	Hull
+	PodOne
+	PodOneFailActivate
+	PodTwo
+	PilotFailActivate
+    PilotFailActivateInsideDreadnought
+	PodTwoAlt
+	PodThree
+	PodThreeFailActivate
+	< endCategory="" >
+
+	< startCategory="General" >
+	Respawn
+	HotSwap
+	Scan
+	Interact
+	Drop
+	FastTravel
+	StartFollow
+	StopFollow
+	ArcheologyScanPulse
+	< endCategory="" >
+	
+	< startCategory="Interact" >
+	Interact_Long
+	Interact_Start
+	Interact_End
+	Interact_UseTow
+	Interact_DropTow
+	Interact_StartHail
+	Interact_StartScan
+	Interact_StartRepair
+	Interact_StartStow
+	Interact_SwapL
+	Interact_SwapR
+	Interact_Repair
+	Interact_Hail
+	Interact_Scan
+	Interact_Pickup
+	Interact_Open
+	Interact_Stow
+	Interact_Pluck
+	Interact_Deliver
+	Interact_FailDropTow
+	Interact_FailSwapL
+	Interact_FailSwapR
+	Interact_FailUseTow
+	Interact_FailTow_InventoryFull
+	Interact_FailHail_InCombat
+	Interact_Hack
+	Interact_Store
+	Interact_Fail
+	Interact_Charge
+	Interact_UnlockKeyhole
+	Interact_StartCharge
+    Interact_PluckButtonMashTap
+    Interact_PluckCapture
+	Interact_PilotTrialInteract
+	Interact_PluckButtonSequenceTop
+	Interact_PluckButtonSequenceLeft
+	Interact_PluckButtonSequenceRight
+	Interact_PluckButtonSequenceBottom
+	Interact_PluckButtonSequenceShiftLeft
+	Interact_PluckButtonSequenceShiftRight
+	Interact_PluckButtonSequenceRotateLeft
+	Interact_PluckButtonSequenceRotateRight
+	Interact_PluckButtonSequenceCycle
+	< endCategory="" >
+	
+	< startCategory="UI" >
+	UIStartGame
+	UIMoveUp
+	UIMoveDown
+	UIMoveLeft
+	UIMoveRight
+	UIScrollLeft
+	UIScrollRight
+	UIScrollUp
+	UIScrollDown
+	UIRightStickUp
+	UIRightStickDown
+	UIRightStickLeft
+	UIRightStickRight
+	UIRightStickClick
+	UILeftStickClick
+	UIAccept
+	UIApply
+	UICancel
+	UIButtonX
+	UIButtonPressAndReleaseX
+	UIButtonY
+	UIStart
+	UIBack
+	UIChangeTabLeft
+	UIChangeTabRight
+	UIAssignToA
+	UIAssignToX
+	UIAssignToY
+	UIAssignToB
+	UIAssignToLB
+	UIAssignToRB
+	UIHoldAssignToLB
+	UIHoldAssignToRB
+	UIDPadUp
+	UIDPadRight
+	UIDPadDown
+	UIDPadLeft
+	UIOnReleaseA
+	UIOnReleaseX
+	UIOnReleaseY
+	UIOnReleaseB
+	UIHoldStart
+	UIHoldButtonX
+	UIHoldDPadUp
+	UIHoldButtonY
+	UIToyTutorialWatchAgain
+	UIToyTutorialWatchPrevious
+	UIOpenLeaderboards
+	UIOpenChallenges
+	UIClaimRewards
+	OnIt
+	OnItCancel
+	UIOnItCenterMap
+	UIOnItRemove
+	UIRSScrollLeft
+	UIRSScrollRight
+	UIRSScrollUp
+	UIRSScrollDown
+	UIHarpoonMoveReticule
+	UIHub
+	UIPodOne
+	UIPodThree
+	PauseCinematic
+	OtherCinematic
+	SkipCinematic
+	TutorialAccept
+	UI_Mods_Fuse
+	UI_Mods_Clone
+	UI_Mods_Dismantle
+	UI_Mods_Dismantle_Max
+	UI_Digital_Tab_Left
+	UI_Digital_Tab_Right
+	UINavigateUp
+	UINavigateDown
+	UINavigateLeft
+	UINavigateRight
+	UISliderLeft
+	UISliderRight
+	UISwapCoopPlayer
+	UI_Toggle_ObjectiveSelection
+	UI_Toggle_ObjectiveSelectionBack
+	UIConfirmDestructiveAction
+	UIDatabaseShortcut
+	UIPhotoModeZoomIn
+	UIPhotoModeZoomOut
+	UIPhotoModeToggleInternalModes
+	UIPhotoModeToggleHideUI
+	UINewsAccept
+	UI_StartRace
+	UI_ViewLeaderboards
+	< endCategory="" >
+
+	< startCategory="UI [Starmap]" >
+	UIStarMapOpen
+	UIStarMapClose
+	UIStarMapSetMarker
+	UIStarMapOpenLog
+	UIStarMap_CenterOnPlayer
+	UIStarmap_FastTravel
+	UIStarMapOpenEquinoxScreen
+	UIStarmap_OpenCollections
+	< endCategory="" >
+
+	< startCategory="UI [Debug]" >
+	UI_Debug_ChangeStarMapState
+	UI_Debug_StarMapHelp
+	UI_Debug_StarMapDisableVision
+	UI_Debug_StarMapUseTiltedView
+	UI_Debug_StarMapSelectionDebug
+	UI_Debug_StarMapEquinoxScreen
+	UI_Debug_UIFeatureList
+	UI_Debug_LayerTest_SwapMinMax
+	UI_Debug_LayerTest_IncreaseLayer
+	UI_Debug_LayerTest_DecreaseLayer
+	< endCategory="" >
+
+	< startCategory="UI_Legacy" >
+	UIBuild
+	UIOpen
+	UIClose
+	UIBuildScreenOpen
+	UIBuildScreenClose
+	UI_Build_Open_Pilot_Skill_Screen
+	UI_Build_Open_Mod_Screen
+	< endCategory="" >
+
+	< startCategory="UI Contextual" >
+	UI_Build_Open_Ship_Attach
+	UI_Build_Open_Pilot_Attach
+	UI_Build_Edit_Part
+	UI_Build_Edit_Part_PC
+	UI_Build_Edit_Part_Shortcut
+	UI_Build_Equip_Part
+	UI_Build_Flip_Part
+	UI_Build_Remove_Part
+	UI_Build_Remove_Last_Part
+	UI_Build_Remove_Loadout_Part
+	UI_Build_Switch_Left_Side
+	UI_Build_Switch_Right_Side
+	UI_Build_Swap_Part_From_Opposing_Side
+	UI_Build_Remove_Outermost_Wing
+	UI_Build_ResetShipOrientation
+	UI_Build_Open_Pilot_Skills
+	UI_Build_Toggle_Locked_Part_Display
+	UI_Build_Mods_Alt
+	UI_Build_Ship_Rotate_Left
+	UI_Build_Ship_Rotate_Right
+	UI_Splash_SkipSplashPage
+	UI_ShipDowned_ExitCoop
+	UI_ShipDowned_Accept
+	UI_ShipDowned_Cancel
+	UI_InworldDialog_Accept
+	UI_InworldDialog_Cancel
+	UI_Collections_OpenUpsell
+	UI_Mods_Toggle_Mod_Comparison
+	UI_Mods_Toggle_PaintJob_Preview
+	UI_Mods_Fuse_Max
+	UI_Leaderboards_Toggle_LeaderboardType
+	UI_Arena_QuitArenaEvent
+	UI_Arena_RetryArenaEvent
+	UI_Arena_ViewLeaderboards
+	< endCategory="" >
+	
+	< startCategory="NPC" >
+	NPC_Ability1
+	NPC_Ability2
+	NPC_Ability3
+	NPC_Ability4
+	NPC_Ability5
+	NPC_Ability6
+	NPC_Ability7
+	NPC_Ability8
+	NPC_Ability9
+	NPC_Ability10
+	< endCategory="" >
+
+	< startCategory="PlayerQuery" >
+	PlayerQuery_CanInteract
+	PlayerQuery_CanDropTowable
+	PlayerQuery_CanStartFlightEngines
+	PlayerQuery_CanStopFlightEngines
+	PlayerQuery_CanStartHyperDrive
+	PlayerQuery_CanStopHyperDrive
+	PlayerQuery_CanManeuver
+	PlayerQuery_CanPerformTrick
+	PlayerQuery_CanDash
+	PlayerQuery_CanUseTowable
+	PlayerQuery_CanFastTravel
+	PlayerQuery_CanAcceptMission
+	PlayerQuery_CanUsePod
+	PlayerQuery_CanUsePilotAbility
+	PlayerQuery_CanStartScan
+	PlayerQuery_CanHail
+	PlayerQuery_CanShakeOff
+	PlayerQuery_IsRagdollRecoverable
+	PlayerQuery_CanSwapLeft
+	PlayerQuery_CanSwapRight
+	PlayerQuery_HasItemInLeftPocket
+	PlayerQuery_HasItemInRightPocket
+    PlayerQuery_CanStartFollow
+    PlayerQuery_CanBoost
+    PlayerQuery_CanMove
+	PlayerQuery_CanStartHack
+	PlayerQuery_CanStartTowing
+	PlayerQuery_CanStartRepair
+	PlayerQuery_CanStartOpening
+	PlayerQuery_CanStartStow
+	PlayerQuery_CanStartPluck
+	PlayerQuery_CanStartInteract
+	PlayerQuery_CanStoreReticleItem
+	PlayerQuery_InventoryHasSpaceForReticleItem
+	PlayerQuery_IsPrimaryPlayer
+	PlayerQuery_ShouldDisplayReticle
+	PlayerQuery_CanNPCAttach
+    PlayerQuery_CanRespawn
+	PlayerQuery_IsHailEnabled
+	PlayerQuery_IsAttemptingToExitPlanet
+    PlayerQuery_CanShieldParry
+	PlayerQuery_CanStarmapFastTravel
+	PlayerQuery_IsInFollow
+	PlayerQuery_IsPickupAnimating
+	PlayerQuery_InteractFailFullInventory
+	PlayerQuery_InteractFailInCombat
+	PlayerQuery_CanStartCharging
+	PlayerQuery_CanUnlockKeyhole
+	PlayerQuery_CanCancelMission
+    PlayerQuery_CanRamUsingBoostShield
+    PlayerQuery_CanRamUsingShieldBoost
+    PlayerQuery_HasReticleOverFullyScannedEntity
+    PlayerQuery_CanUsePhotoMode
+	PlayerQuery_CanPilotTrialInteract
+    PlayerQuery_IsInitiatingPhotoMode
+    PlayerQuery_IsTowablePreventingFastTravel
+    PlayerQuery_IsTowablePreventingPlanetEntry
+    PlayerQuery_IsTowablePreventingPlanetExit
+    PlayerQuery_CanCancelInteraction
+	PlayerQuery_InsideDreadnought
+    PlayerQuery_CanDrift
+	PlayerQuery_InSpaceInterior
+	< endCategory="" >
+	
+	< startCategory="Special" >
+	Special_A_Cross
+	Special_B_Circle
+	Special_X_Square
+	Special_Y_Triangle
+	Special_A_Cross_Hold
+	Special_B_Circle_Hold
+	Special_Face_A_Cross
+	Special_Face_B_Circle
+	Special_Face_X_Square
+	Special_Face_Y_Triangle
+	Special_Boost_Default
+	Special_Boost_Alternate
+	< endCategory="" >
+
+	< startCategory="TRC" >
+	TRCAccept
+	TRCCancel
+	TRCButtonX
+	TRCConfirmFullJoycon
+	< endCategory="" >
+}
+
+enum GameActionState
+{
+	IsFlying
+	IsRamming
+	IsFalling
+	InThrust
+	InHyperspace
+	InAirTrickWindow
+	InHopWindow
+	InDoubleHopWindow
+	InStasis
+	InGravity
+	IsOnFire
+	IsDead
+    IsPrimaryPlayerDead
+    AreAllPlayersDead
+	IsFlippedOver
+	IsHoldingObject
+	IsHoldingHeavyObject
+	IsRagdoll
+	IsGhosting
+	IsPickingUp
+	IsPendingInventoryItem
+	IsPickupAnimating
+	IsStalled
+	CanDropTowable
+	IsLaunching
+	IsTakingOff
+	IsStartingHyperDrive
+	IsInHyperSpaceRange
+	IsManeuvering
+	HasInteractionWithinRange
+	AreFlightEnginesEnabled
+    AreAirTricksEnabled
+    AreManeuversEnabled
+	IsInUIContext
+	IsPrimaryPlayer
+	IsFrozen
+	ShouldBeDowned
+	IsHyperDriveEnabled
+	HasNPCAttached
+	IsCoopShuttle
+	IsInFollowMode
+	IsInPlanetaryTransition
+	IsDeactivated
+	CanUseTowable
+	IsReticleOverTowable
+	IsReticleOverScannable
+    IsReticleOverScannedEntity
+    IsReticleOverFullyScannedEntity
+	IsReticleOverHailable
+	IsReticleOverPilotTrialInteractable
+	IsReticleOverRepairable
+	IsReticleOverOpenable
+	IsReticleOverStowable
+	IsReticleOverPluckable
+	IsReticleOverHackable
+	IsRagdollRecoverable
+	IsReverseCameraEnabled
+	IsInReverseCamera
+    IsCameraZoomEnabled
+	IsJetEngineEnabled
+	InSpace
+	InDialogue
+	InFullScreenDialogue
+	FastTravelInitiated
+	AreInteractionsBlocked
+    IsBoosting
+    IsStaminaAvailable
+    IsStaminaAvailableForHop
+    IsStaminaDepleted
+	IsInCombat
+	HasDoubleHop
+	HasFreezeMobility
+    InsideDreadnought
+    IsInInterior
+    CanPilotAbilityBeUsedInsideDreadnought
+    CanPilotAbilityBeUsedInInterior
+	CanPilotAbilityBeUsedWithImpAttached
+	CanPilotAbilityBeUsedWhilePlucking
+	CanPilotAbilityBeUsedWhileCapturing
+	IsScanning
+    HasValidFastTravelTarget
+	IsHacking
+    IsWithinGameplayBounds
+	IsInAct1
+	IsInAct2
+	IsInAct3
+	IsInAct4
+	IsInAct5
+	IsInAct6
+	IsInCoop
+	CanStoreReticleItem
+	InventoryHasSpaceForReticleItem
+	IsShieldAvailable
+	IsPlucking
+	IsBeingTowed
+    CanBoostWhilePlucking
+    CanShootWhilePlucking
+	IsPilotAbilityActive
+	IsHailableInCombat
+	IsFeatureEnabled_Weapon
+	IsFeatureEnabled_Boost
+    IsFeatureEnabled_Dash
+    IsFeatureEnabled_Skimmer
+	IsInBlackHole
+    IsOnSpline
+    IsEnteringSpline
+	IsPickupEnabled
+	IsUseItemEnabled
+	IsPluckEnabled
+	IsScanEnabled
+	IsHailEnabled
+	IsOpenEnabled
+	IsRepairEnabled
+	IsHackEnabled
+	IsImpAttachEnabled
+	IsShieldParryEnabled
+	IsCaptureEnabled
+	IsFastTravelEnabled
+	IsRepairing
+	IsPilotAbilityMeterFull
+	IsAttemptingToExitPlanet
+	IsRollingBall
+	CanActivateShieldParry
+	IsShieldParryActive
+	IsOverburdened
+	IsFastTravelling
+	IsCoopEnterHandshake
+    IsCoopJoinForcesInProgress
+	IsTutorialActive
+	CanStartCharging
+	CanUnlockKeyhole
+	CanCancelSelectedOpportunity
+	IsPhotoModeShortcutEnabled
+	CanActivateArcheologyScanPulse
+	IsArcheologyScanPulseActive
+	IsPilotTrialEventActive
+	IsArenaEventActive
+	IsInPhotoMode
+	IsTowablePreventingFastTravel
+	IsTowablePreventingPlanetEntry
+	IsTowablePreventingPlanetExit
+    CanCancelInteraction
+	IsPilotTrialEventInProgress
+	IsPilotAbilityLocked
+	IsPluckingButtonSequence
+	IsPilotTrialDisablingAllInputs
+    IsFastEnoughToStartDrift
+    IsDrifting
+	IsInFadeRequest
+}
+
+class ConditionalGameActionState : ConditionalGameActionBase
+{
+	GameActionState myGameActionState
+}
+
+class ConditionalGameAction : ConditionalGameActionBase
+{
+	GameAction myGameAction
+}
+
+list InputActionList
+{
+	ConditionalInputActionBase
+	ConditionalGameActionBase
+	ConditionalActionGroup
+}
+
+class TriggerGameAction
+{
+	InputActionList myConditionalInputActions < tooltip="List of input conditions" >
+	GameAction myGameAction < tooltip="The game action to enable if all conditions are met" >
+	bool myIsUIAction < tooltip="If true, this will only trigger when in UI Mode" >
+	bool myIsCinematicAction < tooltip="If true, this will only trigger when in Cinematic Mode" >
+	bool myIsExclusiveToggle < tooltip="If true, this will disable any other active GameAction that also has this set to true" >	
+	string myConsoleCommand < tooltip="If set, this console command will be run when the action is triggered" >
+	bool myIsUIAndGameAction < tooltip="If set, this action can be used in ui and in game. Setting this will override myIsUIAction" >
+	bool myIsTRCAction < tooltip="If true, this will only trigger when a TRC message is displayed" >
+	bool myUseAltWhenConfirmSwapped false < tooltip="this action will use the alt mapping when the confirm button is swapped on PS4 SCEJ unit" >
+}
+
+list InputActionLabelList
+{
+	varmap myLabel < bhv="localization" >
+}
+
+class InputActionLabel
+{
+	InputActionLabelList myLabels
+}
+
+list GameActionsSet
+{
+	string
+}
+
+list GameActionStateList
+{
+	GameActionState
+}

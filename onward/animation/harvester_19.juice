@@ -1,0 +1,582 @@
+include "onward/game system data/fruit/animation/animsys.fruit"
+
+SpecializationList mySpecializations
+{
+}
+
+FileList mySubsystems
+{
+}
+
+MotionPose "Ready (IC (Flight))"
+{
+	myStateName Ready
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;WorldEntryMethod_Ground;WorldEntryMethod_Space;MoveStyle_InCombat;MoveStyle_Polluted;
+	myAnimsOut "GTR_ToDash;GTR_To Flame Wave;GTR_To Volley;GTR_To Bullet Hell;GTR_To Disarmed Air;GTR_To Disarmed;GTR_To Stunned;GTR_To Ground Stunned;"
+}
+
+OneshotMotionStateWithModes Ragdoll_Recover < uid=4A8282B95A7CB2AD00002061196A9D67 >
+{
+	myEnabled TRUE
+	myStateName Ragdoll_Recover
+	myTotalDuration 7.346666
+	myDistance 4.891253
+	myAnimationDuration 7.666667
+	myAnimationDistance 4.891253
+	myHorizontalDistance 4.891253
+	myVerticalDisplacement 0.0
+	myAnimsOut "GTR_ToDash;GTR_To Flame Wave;GTR_To Volley;GTR_To Bullet Hell;GTR_To Disarmed Air;GTR_To Disarmed;GTR_To Stunned;GTR_To Ground Stunned;"
+	myAnimCommand Ragdoll_Recover
+	myDisplacementAngle -140.022003
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;WorldEntryMethod_Ground;WorldEntryMethod_Space;MoveStyle_Default;MoveStyle_InCombat;MoveStyle_Polluted;
+}
+
+OneshotMotionStateWithModes Die < uid=4A8282B95A7CB2AD00002063C45E811B >
+{
+	myEnabled TRUE
+	myStateName Die
+	myTotalDuration 10.413334
+	myDistance 15.013077
+	myAnimationDuration 10.733334
+	myAnimationDistance 15.013077
+	myHorizontalDistance 0.190741
+	myVerticalDisplacement 15.011866
+	myAnimsOut "GTR_ToDash;GTR_To Flame Wave;GTR_To Volley;GTR_To Bullet Hell;GTR_To Disarmed Air;GTR_To Disarmed;GTR_To Stunned;GTR_To Ground Stunned;"
+	myAnimCommand Die
+	myDisplacementAngle -138.567337
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;WorldEntryMethod_Ground;WorldEntryMethod_Space;MoveStyle_Default;MoveStyle_InCombat;MoveStyle_Polluted;
+}
+
+MotionPose Dash
+{
+	myStateName Dash
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;WorldEntryMethod_Ground;WorldEntryMethod_Space;MoveStyle_Default;MoveStyle_InCombat;MoveStyle_Polluted;
+	myAnimsOut "GTR_FromDash;GTR_To Stunned;TR_To Stunned;GTR_To Ground Stunned;GTR_To Flame Wave;GTR_To Volley;GTR_To Bullet Hell;GTR_To Disarmed Air;GTR_To Disarmed;"
+}
+
+TransitionMotionState GTR_ToDash < uid=4A8282B95A7CB2AD000020645326FFD6 >
+{
+	myEnabled TRUE
+	myTotalDuration 0.713333
+	myDistance 22.243317
+	myAnimationDuration 1.033333
+	myAnimationDistance 22.243317
+	myHorizontalDistance 21.701103
+	myVerticalDisplacement 4.881318
+	myAnimsOut Dash;
+	myDisplacementAngle 90.341324
+	myRotationAngle 0.0
+	myIsGlobalTransition TRUE
+	myGlobalTransitionPriority 0
+}
+
+TransitionMotionState GTR_FromDash < uid=4A8282B95A7CB2AD000020651EEAD170 >
+{
+	myEnabled TRUE
+	myTotalDuration 1.113333
+	myDistance 53.071617
+	myAnimationDuration 1.433333
+	myAnimationDistance 53.071617
+	myHorizontalDistance 50.556499
+	myVerticalDisplacement -17.002697
+	myAnimsOut "Ready (IC (Flight));Ready (Walk / Run);Ready (Idle);Ragdoll_Recover;Die;TurnOnSpot Air;TurnOnSpot;Stumble;Stunned (Air);Stunned;Flame Wave Begin;Flame Wave Complete;Shielded Volley;Enter Flight;Ice Volley;Pre Dash;Blade Rush;Flame Barrage Start;Bullet Hell;Fire Volley;Crush Volley;Disarmed;Disarmed (Air);Flame Barrage Turn;Enter Arena;"
+	myDisplacementAngle 90.356682
+	myRotationAngle 0.0
+	myIsGlobalTransition TRUE
+	myGlobalTransitionPriority 0
+}
+
+OneshotMotionStateWithModes "TurnOnSpot Air" < uid=4A8282B95A7CB2AD000020665A1909E7 >
+{
+	myStateName "TurnOnSpot Air"
+	myTotalDuration 6.346666
+	myDistance 0.281039
+	myAnimationDuration 6.666667
+	myAnimationDistance 0.281039
+	myHorizontalDistance 0.281039
+	myVerticalDisplacement 0.0
+	myAnimsOut "GTR_ToDash;GTR_To Flame Wave;GTR_To Volley;GTR_To Bullet Hell;GTR_To Disarmed Air;GTR_To Disarmed;GTR_To Stunned;GTR_To Ground Stunned;"
+	myAnimCommand StaticTurn
+	myDisplacementAngle 0.0
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;WorldEntryMethod_Ground;WorldEntryMethod_Space;MoveStyle_InCombat;
+}
+
+MotionPose "Ready (Walk / Run)"
+{
+	myStateName Ready
+	myAnimModes Speed_Walk;Speed_Run;WorldEntryMethod_Ground;WorldEntryMethod_Space;MoveStyle_Default;
+	myAnimsOut "GTR_ToDash;GTR_To Flame Wave;GTR_To Volley;GTR_To Bullet Hell;GTR_To Disarmed Air;GTR_To Disarmed;GTR_To Stunned;GTR_To Ground Stunned;"
+}
+
+MotionPose "Ready (Idle)"
+{
+	myStateName Ready
+	myAnimModes Speed_Idle;WorldEntryMethod_Ground;WorldEntryMethod_Space;MoveStyle_Default;
+	myAnimsOut "GTR_ToDash;GTR_To Flame Wave;GTR_To Volley;GTR_To Bullet Hell;GTR_To Disarmed Air;GTR_To Disarmed;GTR_To Stunned;GTR_To Ground Stunned;"
+}
+
+OneshotMotionStateWithModes TurnOnSpot < uid=4A8282B95A7CB2AD000020680EC39730 >
+{
+	myStateName TurnOnSpot
+	myTotalDuration 9.446667
+	myDistance 1.600416
+	myAnimationDuration 9.766666
+	myAnimationDistance 1.600416
+	myHorizontalDistance 1.600416
+	myVerticalDisplacement 0.0
+	myAnimsOut "GTR_ToDash;GTR_To Flame Wave;GTR_To Volley;GTR_To Bullet Hell;GTR_To Disarmed Air;GTR_To Disarmed;GTR_To Stunned;GTR_To Ground Stunned;"
+	myAnimCommand StaticTurn
+	myDisplacementAngle 0.0
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;WorldEntryMethod_Ground;WorldEntryMethod_Space;MoveStyle_Default;
+}
+
+OneshotMotionStateWithModes Stumble < uid=4A8282B95A7CB2AD0000206946EAA6C9 >
+{
+	myEnabled TRUE
+	myStateName Stumble
+	myTotalDuration 2.08
+	myDistance 24.629784
+	myAnimationDuration 2.4
+	myAnimationDistance 24.629784
+	myHorizontalDistance 24.629784
+	myVerticalDisplacement 0.000004
+	myAnimsOut "GTR_ToDash;GTR_To Flame Wave;GTR_To Volley;GTR_To Bullet Hell;GTR_To Disarmed Air;GTR_To Disarmed;GTR_To Stunned;GTR_To Ground Stunned;"
+	myAnimCommand Stumble
+	myDisplacementAngle 179.999863
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;WorldEntryMethod_Ground;WorldEntryMethod_Space;MoveStyle_Default;MoveStyle_InCombat;MoveStyle_Polluted;
+}
+
+MotionPose "Stunned (Air)"
+{
+	myStateName Stunned
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;WorldEntryMethod_Ground;WorldEntryMethod_Space;MoveStyle_InCombat;MoveStyle_Polluted;
+	myAnimsOut "GTR_ToDash;GTR_From Sunned;GTR_To Flame Wave;GTR_To Volley;GTR_To Bullet Hell;GTR_To Disarmed Air;GTR_To Disarmed;GTR_To Ground Stunned;"
+}
+
+MotionPose "Flame Wave Begin"
+{
+	myStateName "Flame Wave Begin"
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;WorldEntryMethod_Ground;WorldEntryMethod_Space;MoveStyle_Default;MoveStyle_InCombat;MoveStyle_Polluted;
+	myAnimsOut "Flame Wave Complete;GTR_ToDash;GTR_To Volley;GTR_To Bullet Hell;GTR_To Disarmed Air;GTR_To Disarmed;GTR_To Stunned;GTR_To Ground Stunned;"
+}
+
+TransitionMotionState "GTR_To Flame Wave" < uid=4A8282B95A7CB2AD0000206AD42EC9C2 >
+{
+	myEnabled TRUE
+	myTotalDuration 0.48
+	myDistance 0.065051
+	myAnimationDuration 0.8
+	myAnimationDistance 0.065051
+	myHorizontalDistance 0.065051
+	myVerticalDisplacement 0.0
+	myAnimsOut "Flame Wave Begin;"
+	myDisplacementAngle -58.962284
+	myRotationAngle 0.0
+	myIsGlobalTransition TRUE
+	myGlobalTransitionPriority 0
+}
+
+OneshotMotionStateWithModes "Flame Wave Complete" < uid=4A8282B95A7CB2AD0000206B46ACFE9C >
+{
+	myEnabled TRUE
+	myStateName "Flame Wave Complete"
+	myTotalDuration 2.08
+	myDistance 0.093923
+	myAnimationDuration 2.4
+	myAnimationDistance 0.093923
+	myHorizontalDistance 0.093923
+	myVerticalDisplacement 0.0
+	myAnimsOut "GTR_ToDash;GTR_To Flame Wave;GTR_To Volley;GTR_To Bullet Hell;GTR_To Disarmed Air;GTR_To Disarmed;GTR_To Stunned;GTR_To Ground Stunned;"
+	myAnimCommand "Flame Wave Complete"
+	myDisplacementAngle 121.028778
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;WorldEntryMethod_Ground;WorldEntryMethod_Space;MoveStyle_Default;MoveStyle_InCombat;MoveStyle_Polluted;
+}
+
+LayerMotionState "Affinity Blast"
+{
+	myLayerName "Affinity Blast"
+	myTotalDuration 0.0
+	myIsLoop TRUE
+}
+
+TransitionMotionState "GTR_To Volley" < uid=4A8282B95A7CB2AD0000206D470BA3D1 >
+{
+	myEnabled TRUE
+	myTotalDuration 1.213333
+	myDistance 0.592209
+	myAnimationDuration 1.533333
+	myAnimationDistance 0.592209
+	myHorizontalDistance 0.592209
+	myVerticalDisplacement 0.0
+	myAnimsOut "Shielded Volley;"
+	myDisplacementAngle 2.481269
+	myRotationAngle 0.0
+	myIsGlobalTransition TRUE
+	myGlobalTransitionPriority 0
+}
+
+OneshotMotionState "Enter Flight" < uid=4A8282B95A7CB2AD0000206EE5C9122B >
+{
+	myStateName "Enter Flight"
+	myTotalDuration 8.533334
+	myDistance 4.625352
+	myAnimationDuration 8.533334
+	myAnimationDistance 4.625352
+	myHorizontalDistance 0.132739
+	myVerticalDisplacement 4.623447
+	myAnimsOut "GTR_ToDash;GTR_To Flame Wave;GTR_To Volley;GTR_To Bullet Hell;GTR_To Disarmed Air;GTR_To Disarmed;GTR_To Stunned;GTR_To Ground Stunned;"
+	myAnimCommand "Enter Flight"
+	myDisplacementAngle 2.50114
+}
+
+OneshotMotionStateWithModes "Ice Volley" < uid=4A8282B95A7CB2AD0000206FC4B04810 >
+{
+	myEnabled TRUE
+	myStateName "Ice Volley"
+	myTotalDuration 3.766667
+	myDistance 0.000004
+	myAnimationDuration 3.766667
+	myAnimationDistance 0.000004
+	myHorizontalDistance 0.000004
+	myVerticalDisplacement 0.0
+	myAnimsOut "GTR_ToDash;GTR_To Flame Wave;GTR_To Volley;GTR_To Bullet Hell;GTR_To Disarmed Air;GTR_To Disarmed;GTR_To Stunned;GTR_To Ground Stunned;"
+	myAnimCommand "Ice Volley"
+	myDisplacementAngle 90.0
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;WorldEntryMethod_Ground;WorldEntryMethod_Space;MoveStyle_InCombat;MoveStyle_Polluted;
+}
+
+OneshotMotionState "Pre Dash" < uid=4A8282B95A7CB2AD00002071AED08C62 >
+{
+	myStateName "Pre Dash"
+	myTotalDuration 2.666667
+	myDistance 5.762755
+	myAnimationDuration 2.666667
+	myAnimationDistance 5.762755
+	myHorizontalDistance 0.014581
+	myVerticalDisplacement 5.762749
+	myAnimsOut "GTR_ToDash;GTR_To Flame Wave;GTR_To Volley;GTR_To Bullet Hell;GTR_To Disarmed Air;GTR_To Disarmed;GTR_To Stunned;GTR_To Ground Stunned;"
+	myAnimCommand "Pre Dash"
+	myDisplacementAngle 165.222107
+}
+
+OneshotMotionState "Blade Rush" < uid=4A8282B95A7CB2AD0000207203258BD9 >
+{
+	myEnabled TRUE
+	myStateName "Blade Rush"
+	myTotalDuration 2.166667
+	myDistance 0.0
+	myAnimationDuration 2.166667
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.0
+	myAnimsOut "GTR_ToDash;GTR_To Flame Wave;GTR_To Volley;GTR_To Bullet Hell;GTR_To Disarmed Air;GTR_To Disarmed;GTR_To Stunned;GTR_To Ground Stunned;"
+	myAnimCommand "Blade Rush"
+	myDisplacementAngle 0.0
+}
+
+OneshotMotionState "Flame Barrage Start" < uid=4A8282B95A7CB2AD000020740C25F868 >
+{
+	myStateName "Flame Barrage Start"
+	myTotalDuration 1.0
+	myDistance 0.000091
+	myAnimationDuration 1.0
+	myAnimationDistance 0.000091
+	myHorizontalDistance 0.000091
+	myVerticalDisplacement 0.0
+	myAnimsOut "Flame Barrage Turn;GTR_ToDash;GTR_To Flame Wave;GTR_To Volley;GTR_To Bullet Hell;GTR_To Disarmed Air;GTR_To Disarmed;GTR_To Stunned;GTR_To Ground Stunned;"
+	myAnimCommand "Flame Barrage Start"
+	myDisplacementAngle -112.249023
+}
+
+LayerMotionState "Guarded Volley (IC)"
+{
+	myLayerName "Guarded Volley"
+	myTotalDuration 2.68
+	myIsLoop FALSE
+	mySupportedStatesAndPoses "Ready (Walk / Run);Ready (Idle);"
+}
+
+TransitionMotionState "GTR_To Bullet Hell" < uid=4A8282B95A8F184E0000238AEA859648 >
+{
+	myEnabled TRUE
+	myTotalDuration 1.746667
+	myDistance 4.120731
+	myAnimationDuration 2.066667
+	myAnimationDistance 4.120731
+	myHorizontalDistance 0.035567
+	myVerticalDisplacement 4.120577
+	myAnimsOut "Bullet Hell;"
+	myDisplacementAngle 169.543594
+	myRotationAngle 0.0
+	myIsGlobalTransition TRUE
+	myGlobalTransitionPriority 0
+}
+
+TransitionMotionState "GTR_From Bullet Hell" < uid=4A8282B95A8F184E0000238B7BDBF76E >
+{
+	myEnabled TRUE
+	myTotalDuration 2.346667
+	myDistance 4.643719
+	myAnimationDuration 2.666667
+	myAnimationDistance 4.643719
+	myHorizontalDistance 0.049247
+	myVerticalDisplacement -4.643458
+	myAnimsOut "Dash;Flame Wave Begin;Shielded Volley;Ready (IC (Flight));Ready (Walk / Run);Ready (Idle);Ragdoll_Recover;Die;TurnOnSpot Air;TurnOnSpot;Stumble;Stunned (Air);Stunned;Flame Wave Complete;Enter Flight;Ice Volley;Pre Dash;Blade Rush;Flame Barrage Start;Fire Volley;Crush Volley;Disarmed;Disarmed (Air);Flame Barrage Turn;Enter Arena;"
+	myDisplacementAngle -10.230907
+	myRotationAngle 0.0
+	myIsGlobalTransition TRUE
+	myGlobalTransitionPriority 0
+}
+
+MotionPose "Bullet Hell"
+{
+	myStateName "Bullet Hell"
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;WorldEntryMethod_Ground;WorldEntryMethod_Space;MoveStyle_Default;MoveStyle_InCombat;MoveStyle_Polluted;
+	myAnimsOut "GTR_ToDash;GTR_From Bullet Hell;GTR_To Flame Wave;GTR_To Volley;GTR_To Stunned;TR_To Stunned;GTR_To Ground Stunned;GTR_To Disarmed Air;GTR_To Disarmed;"
+}
+
+OneshotMotionStateWithModes "Shielded Volley" < uid=4A8282B95A8F19BF000023A80E8A4D66 >
+{
+	myEnabled TRUE
+	myStateName "Shielded Volley"
+	myTotalDuration 1.5
+	myDistance 0.748378
+	myAnimationDuration 1.5
+	myAnimationDistance 0.748378
+	myHorizontalDistance 0.748378
+	myVerticalDisplacement 0.0
+	myAnimsOut "GTR_ToDash;GTR_To Flame Wave;GTR_To Bullet Hell;GTR_To Disarmed Air;GTR_To Disarmed;GTR_To Stunned;GTR_To Ground Stunned;"
+	myAnimCommand "Fire Volley"
+	myDisplacementAngle -177.5159
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;WorldEntryMethod_Ground;WorldEntryMethod_Space;MoveStyle_Default;
+}
+
+OneshotMotionStateWithModes "Crush Volley" < uid=4A8282B95A8F19BF000023A9C466FC89 >
+{
+	myEnabled TRUE
+	myStateName "Crush Volley"
+	myTotalDuration 3.566667
+	myDistance 0.043198
+	myAnimationDuration 3.566667
+	myAnimationDistance 0.043198
+	myHorizontalDistance 0.043198
+	myVerticalDisplacement 0.0
+	myAnimsOut "GTR_ToDash;GTR_To Flame Wave;GTR_To Volley;GTR_To Bullet Hell;GTR_To Disarmed Air;GTR_To Disarmed;GTR_To Stunned;GTR_To Ground Stunned;"
+	myAnimCommand "Crush Volley"
+	myDisplacementAngle 0.0
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;WorldEntryMethod_Ground;WorldEntryMethod_Space;MoveStyle_InCombat;MoveStyle_Polluted;
+}
+
+MotionPose Disarmed
+{
+	myStateName Disarmed
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;WorldEntryMethod_Ground;WorldEntryMethod_Space;MoveStyle_Default;
+	myAnimsOut "GTR_ToDash;GTR_From Disarmed;GTR_To Flame Wave;GTR_To Volley;GTR_To Bullet Hell;GTR_To Disarmed Air;GTR_To Stunned;GTR_To Ground Stunned;"
+}
+
+TransitionMotionState "GTR_To Disarmed Air" < uid=4A8282B95A8F19BF000023AAA7DC1745 >
+{
+	myEnabled TRUE
+	myTotalDuration 3.213333
+	myDistance 3.717685
+	myAnimationDuration 3.533333
+	myAnimationDistance 3.717685
+	myHorizontalDistance 0.049295
+	myVerticalDisplacement -3.717358
+	myAnimsOut "Disarmed (Air);"
+	myDisplacementAngle 13.902408
+	myRotationAngle 0.0
+	myIsGlobalTransition TRUE
+	myGlobalTransitionPriority 0
+}
+
+TransitionMotionState "GTR_From Disarmed Air" < uid=4A8282B95A8F19BF000023AB49CD97DD >
+{
+	myEnabled TRUE
+	myTotalDuration 4.68
+	myDistance 11.920342
+	myAnimationDuration 5.0
+	myAnimationDistance 11.920342
+	myHorizontalDistance 0.406038
+	myVerticalDisplacement 11.913424
+	myAnimsOut "Dash;Flame Wave Begin;Shielded Volley;Bullet Hell;Ready (IC (Flight));Ready (Walk / Run);Ready (Idle);Ragdoll_Recover;Die;TurnOnSpot Air;TurnOnSpot;Stumble;Stunned (Air);Stunned;Flame Wave Complete;Enter Flight;Ice Volley;Pre Dash;Blade Rush;Flame Barrage Start;Fire Volley;Crush Volley;Disarmed;Flame Barrage Turn;Enter Arena;"
+	myDisplacementAngle -90.887672
+	myRotationAngle 0.0
+	myIsGlobalTransition TRUE
+	myGlobalTransitionPriority 0
+}
+
+MotionPose "Disarmed (Air)"
+{
+	myStateName Disarmed
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;WorldEntryMethod_Ground;WorldEntryMethod_Space;MoveStyle_InCombat;MoveStyle_Polluted;
+	myAnimsOut "GTR_ToDash;GTR_From Disarmed Air;GTR_To Flame Wave;GTR_To Volley;GTR_To Bullet Hell;GTR_To Stunned;GTR_To Ground Stunned;GTR_To Disarmed;"
+}
+
+TransitionMotionState "GTR_To Disarmed" < uid=4A8282B95A8F19BF000023AC157002FF >
+{
+	myEnabled TRUE
+	myTotalDuration 1.413333
+	myDistance 0.123796
+	myAnimationDuration 1.733333
+	myAnimationDistance 0.123796
+	myHorizontalDistance 0.123796
+	myVerticalDisplacement 0.0
+	myAnimsOut Disarmed;
+	myDisplacementAngle -179.796967
+	myRotationAngle 0.0
+	myIsGlobalTransition TRUE
+	myGlobalTransitionPriority 0
+}
+
+TransitionMotionState "GTR_From Disarmed" < uid=4A8282B95A8F1A77000023CBD15915F2 >
+{
+	myEnabled FALSE
+	myTotalDuration 0.0
+	myDistance 0.0
+	myAnimationDuration 0.0
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.0
+	myAnimsOut "Dash;Flame Wave Begin;Shielded Volley;Bullet Hell;Disarmed (Air);Ready (IC (Flight));Ready (Walk / Run);Ready (Idle);Ragdoll_Recover;Die;TurnOnSpot Air;TurnOnSpot;Stumble;Stunned (Air);Stunned;Flame Wave Complete;Enter Flight;Ice Volley;Pre Dash;Blade Rush;Flame Barrage Start;Fire Volley;Crush Volley;Flame Barrage Turn;Enter Arena;"
+	myDisplacementAngle 0.0
+	myRotationAngle 0.0
+	myIsGlobalTransition TRUE
+	myGlobalTransitionPriority 0
+}
+
+OneshotMotionState "Flame Barrage Turn" < uid=4A8282B95A9051870026A2754E84E2BF >
+{
+	myEnabled TRUE
+	myStateName "Flame Barrage Turn"
+	myTotalDuration 1.666667
+	myDistance 0.0
+	myAnimationDuration 1.666667
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.0
+	myAnimsOut "GTR_ToDash;GTR_To Flame Wave;GTR_To Volley;GTR_To Bullet Hell;GTR_To Disarmed Air;GTR_To Disarmed;GTR_To Stunned;GTR_To Ground Stunned;"
+	myAnimCommand "Flame Barrage Turn"
+	myDisplacementAngle 0.0
+}
+
+OneshotMotionState "Enter Arena" < uid=4A8282B95A96F7ED002D19437EB473EB >
+{
+	myEnabled TRUE
+	myStateName "Enter Arena"
+	myTotalDuration 8.5
+	myDistance 0.0
+	myAnimationDuration 8.5
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.0
+	myAnimsOut "GTR_ToDash;GTR_To Flame Wave;GTR_To Volley;GTR_To Bullet Hell;GTR_To Disarmed Air;GTR_To Disarmed;GTR_To Stunned;GTR_To Ground Stunned;"
+	myAnimCommand "Enter Arena"
+	myDisplacementAngle 0.0
+}
+
+LayerMotionState "Shield Raised"
+{
+	myLayerName "Shield Raised"
+	myTotalDuration 0.0
+	myIsLoop TRUE
+	mySupportedStatesAndPoses "Ready (Walk / Run);Ready (Idle);"
+}
+
+OneshotMotionStateWithModes "Fire Volley" < uid=4A8282B95A9D9EA800001C52947881FD >
+{
+	myStateName "Fire Volley"
+	myTotalDuration 2.766667
+	myAnimationDuration 2.766667
+	myAnimsOut "GTR_ToDash;GTR_To Flame Wave;GTR_To Volley;GTR_To Bullet Hell;GTR_To Disarmed Air;GTR_To Disarmed;GTR_To Stunned;GTR_To Ground Stunned;"
+	myDisplacementAngle 0.0
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;WorldEntryMethod_Ground;WorldEntryMethod_Space;MoveStyle_InCombat;MoveStyle_Polluted;
+}
+
+TransitionMotionState "GTR_From Sunned" < uid=4A8282B95AA057A300001C622240778E >
+{
+	myEnabled TRUE
+	myTotalDuration 2.546667
+	myDistance 6.007201
+	myAnimationDuration 2.866667
+	myAnimationDistance 6.007201
+	myHorizontalDistance 0.462305
+	myVerticalDisplacement 5.989386
+	myAnimsOut "Dash;Flame Wave Begin;Shielded Volley;Bullet Hell;Disarmed;Disarmed (Air);Ready (IC (Flight));Ready (Walk / Run);Ready (Idle);Ragdoll_Recover;Die;TurnOnSpot Air;TurnOnSpot;Stumble;Flame Wave Complete;Enter Flight;Ice Volley;Pre Dash;Blade Rush;Flame Barrage Start;Fire Volley;Crush Volley;Flame Barrage Turn;Enter Arena;Stunned;"
+	myDisplacementAngle -90.88768
+	myRotationAngle 0.0
+	myIsGlobalTransition TRUE
+	myGlobalTransitionPriority 0
+}
+
+TransitionMotionState "GTR_To Stunned" < uid=4A8282B95AB2AB9E00AA90ED0376087E >
+{
+	myEnabled TRUE
+	myTotalDuration 3.846667
+	myDistance 3.991863
+	myAnimationDuration 4.166667
+	myAnimationDistance 3.991863
+	myHorizontalDistance 0.408586
+	myVerticalDisplacement -3.970897
+	myAnimsOut "Stunned (Air);"
+	myDisplacementAngle 89.11232
+	myRotationAngle 0.0
+	myIsGlobalTransition TRUE
+	myGlobalTransitionPriority 0
+}
+
+TransitionMotionState "TR_To Stunned" < uid=4A8282B95ABBE0DD01DCA464EBD94291 >
+{
+	myEnabled TRUE
+	myTotalDuration 3.846667
+	myDistance 3.991863
+	myAnimationDuration 4.166667
+	myAnimationDistance 3.991863
+	myHorizontalDistance 0.408586
+	myVerticalDisplacement -3.970897
+	myAnimsOut "Stunned (Air);"
+	myDisplacementAngle 89.11232
+	myRotationAngle 0.0
+	myIsGlobalTransition FALSE
+	myGlobalTransitionPriority 0
+}
+
+MotionPose Stunned
+{
+	myStateName Stunned
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;WorldEntryMethod_Ground;WorldEntryMethod_Space;MoveStyle_Default;
+	myAnimsOut "GTR_ToDash;GTR_From Ground Stunned;GTR_To Flame Wave;GTR_To Volley;GTR_To Bullet Hell;GTR_To Disarmed Air;GTR_To Disarmed;GTR_To Stunned;"
+}
+
+TransitionMotionState "GTR_To Ground Stunned" < uid=C92F4D3F5C92831C008195D542B90054 >
+{
+	myEnabled TRUE
+	myTotalDuration 1.413333
+	myDistance 0.123796
+	myAnimationDuration 1.733333
+	myAnimationDistance 0.123796
+	myHorizontalDistance 0.123796
+	myVerticalDisplacement 0.0
+	myAnimsOut Stunned;
+	myDisplacementAngle -179.796967
+	myRotationAngle 0.0
+	myIsGlobalTransition TRUE
+	myGlobalTransitionPriority 0
+}
+
+TransitionMotionState "GTR_From Ground Stunned" < uid=C92F4D3F5C92831C008195D6155B91C7 >
+{
+	myEnabled FALSE
+	myTotalDuration 0.0
+	myDistance 0.0
+	myAnimationDuration 0.0
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.0
+	myAnimsOut "Dash;Flame Wave Begin;Shielded Volley;Bullet Hell;Disarmed;Disarmed (Air);Stunned (Air);Ready (IC (Flight));Ready (Walk / Run);Ready (Idle);Ragdoll_Recover;Die;TurnOnSpot Air;TurnOnSpot;Stumble;Flame Wave Complete;Enter Flight;Ice Volley;Pre Dash;Blade Rush;Flame Barrage Start;Fire Volley;Crush Volley;Flame Barrage Turn;Enter Arena;"
+	myDisplacementAngle 0.0
+	myRotationAngle 0.0
+	myIsGlobalTransition TRUE
+	myGlobalTransitionPriority 0
+}
+

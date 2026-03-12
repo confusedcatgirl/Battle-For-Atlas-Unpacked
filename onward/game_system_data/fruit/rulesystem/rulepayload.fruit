@@ -1,0 +1,152 @@
+include "onward/game system data/fruit/environment/Resources.fruit"
+
+//
+// Labels for all the entities that might be involved in an Event
+// Primarily for the target of an "On It"
+// Can also be used to determine who is speaking a line
+//
+enum OnItType
+{
+	None
+	Instigator
+	Target
+	ThirdParty
+	InstigatorInterestTarget
+	TargetInterestTarget
+	ThirdPartyInterestTarget
+	InstigatorParent
+	TargetParent
+	ThirdPartyParent
+	LastCompletedOpportunityTarget
+	LastCompletedOpportunityRequester
+	InstigatorPickup
+	TargetPickup
+	ThirdPartyPickup
+	InstigatorPickupInterestTarget
+	TargetPickupInterestTarget
+	ThirdPartyPickupInterestTarget
+}
+
+//
+// Contains the basic Rule Payload types
+//
+class RulePayload < abstract = 1, uid = auto >
+{
+}
+
+class RulePayload_Log : RulePayload
+{
+	string myText < tooltip = "Text to print when this payload is deployed" >
+}
+
+list RulePayload_Log_List
+{
+	RulePayload_Log
+}
+
+class RulePayload_Points : RulePayload
+{
+	string MyDropTable		< tooltip = "Must match the name of the Drop Table in loot.juice - i.e. Expedition_Outpost_Drop_Table" >
+}
+
+list RulePayload_Points_List
+{
+	RulePayload_Points
+}
+
+class RulePayload_UIMessage : RulePayload
+{
+	string MyEventInfoName		< tooltip = "Must match the name of the Event Info entry in localizedeventinfo.juice - i.e. 'sample_delivered'" >
+}
+
+list RulePayload_UIMessage_List
+{
+	RulePayload_UIMessage
+}
+
+class RulePayload_KnowledgeQuotient : RulePayload
+{
+	string MyKnowledgeQuotient		< tooltip = "Must match the name of the Knowledge Quotient entry in knowledgequotients.juice - i.e. 'half'" >
+	OnItType myOnItType				< default = None tooltip = "If user clicks On It!, who do we set the marker on?" >	
+}
+
+list RulePayload_KnowledgeQuotient_List
+{
+	RulePayload_KnowledgeQuotient
+}
+
+class RulePayload_Resources : RulePayload
+{
+	ResourceContainer myResources 			< tooltip = "Amount of each resource to be modified" >
+}
+
+list RulePayload_Resources_List
+{
+	RulePayload_Resources
+}
+
+//
+// Each line has the Line's snowdrop UID and who's talking (and maybe who they're talking to?)
+//
+class RulePayload_Bark_Line
+{
+	uid myLineUID					< bhv=AudioId type=Event tooltip = "UID of DialogueEvent to be played. Should have been assigned by Oasis" >
+}
+
+list RulePayload_Bark_LineList
+{
+	RulePayload_Bark_Line
+}
+
+//
+// Each Bark Scene can have multiple lines
+// We don't use this feature atm because we group things under Characters, but for example:
+// Scene A:
+// 		Line1: Pilot Mason: "Hi there"
+//		Line2: Prospector Tim: "Welcome to Arr-Id"
+//
+class RulePayload_Bark_Scene
+{
+	RulePayload_Bark_LineList myLines		< tooltip = "All the lines of dialogue for this scene" >
+	int myPriority							< default = 0 tooltip="Lower values are played first" >
+}
+
+list RulePayload_Bark_SceneList
+{
+	RulePayload_Bark_Scene
+}
+
+//
+// We want to package together the selection of scenes a specific character
+// can play when a rule matches
+// For NPCs we 
+//
+class RulePayload_Bark_CharacterVariationPack < uid = auto >
+{
+	RulePayload_Bark_SceneList	myScenes		< tooltip = "Set of scenes to pick from for this character" >
+}
+
+list RulePayload_Bark_CharacterVariationPackList
+{
+	 RulePayload_Bark_CharacterVariationPack
+}
+
+//
+// Payload that picks between a bunch of Scenes, each of which has 1-X Lines of dialogue
+// The UID looks up into AIDialogueData.xml via Core_DialogueData::GetDialogueEvent
+//
+class RulePayload_Bark : RulePayload
+{
+	float myCooldown						< default = 30.0 tooltip = "Cooldown for any playback of these scenes/bark by a specific Rule" >
+	string myCommonCooldownTag				< tooltip = "Tag if this rule shares a common cooldown with some other barks. eg: OnDamagedHarvester barks from Equinox Wingmates" >
+	string myBarkTag						< tooltip = "Tag to mark up the context for this line when referring to it in a conversation" >
+	string myMissionId						< tooltip = "Designer's tag to indicate the mission this belongs to" >
+	uid myOpportunityPayloadUID				< bhv="RulePayloadSelector" payloadtype = Opportunity tooltip = "UID of OpportunityPayload associated with this bark. Can be empty" >
+
+	RulePayload_Bark_CharacterVariationPackList myCharacterVariations	< tooltip = "A selection of characters to pick from" >
+}
+
+list RulePayload_Bark_List
+{
+	RulePayload_Bark
+}

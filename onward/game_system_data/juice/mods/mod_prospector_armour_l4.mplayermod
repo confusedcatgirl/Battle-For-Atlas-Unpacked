@@ -1,0 +1,27 @@
+include ./template_hull.mplayermod
+include ./tuning/mod_tuning_master.juice
+
+PlayerMod mod_prospector_armour_l4 < uid=C91BB5515980C180000000787DCC96D9 > : template_hull
+{
+	myAttributeMods
+	{
+		AttributeMod "Damage Resistance"
+		{
+			myType DMG_Resist_All
+			myAddValue 0.0
+			myMultValue = Prospector_Armor_l4_DamageResist
+		}
+		AttributeMod Defense
+		{
+			myType PartStat_Defense
+			myAddValue = Prospector_Armor_l4_Defense
+		}
+		AttributeMod ParryStun
+		{
+			myType Player_ParryStunDuration
+			myAddValue = Prospector_Armor_l4_ParryStun
+		}
+	}
+	myIsAgentMod TRUE
+}
+

@@ -1,0 +1,18 @@
+include ./templates/template_l1.juice
+include ./damageaffectors/damage_affectors.juice
+include "onward/game system data/juice/mods/mod_warden_weaponmod_l1.mplayermod"
+
+Enhancement wardenweaponmod_l1 < uid=939A35415A59262900001B8B64807FA6 > : "Level 1"
+{
+	myLocalizedName "contextComment = \"[Placeholder - do not translate]\nName of a level 1 Warden Weapon Mod that increases player's Weapon Damage & Critical Damage\", description = \"enhancement-name-warden-weapon-mod-1\", enabled = true, guid = #939A35415A6116BA00008D7816453CB8, lineVersion = 0, maxLength = 27, text = \"Warden Weapon Booster\"}"
+	myLocalizedDescription "contextComment = \"[Placeholder - do not translate]\nDescription of a level 1 Warden Weapon Mod that increases player's Weapon Damage & Critical Damage\", description = \"enhancement-description-warden-weapon-mod-1\", enabled = true, guid = #939A35415A6207EA00004958E9405B17, lineVersion = 1, maxLength = 52, text = \"+10% Damage\n+2% Critical Damage Increase\"}"
+	myIconSprite "mySpriteId = -1207965377, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-mods-weapon-booster.spritesheet\""
+	myMod < uid=939A35415A59273400001B93619E3B42 > = mod_warden_weaponmod_l1
+	myEnhancementType Mod
+	myEnhancementTrackType WardenWeaponMod
+	myDamageAffectors
+	{
+		DamageAffector_CriticalModifier Critical_Hit_Increase = WardenWeaponBooster_l1
+	}
+}
+

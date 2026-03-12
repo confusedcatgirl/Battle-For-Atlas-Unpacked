@@ -1,0 +1,29 @@
+include ./fauna_base.msimunit
+
+SimUnit fauna_06 < uid=C92F4D3F5730AFB900000094CA97AFD9 > : fauna_base
+{
+	myUIName "contextComment = \"The UI name for Fauna 06\", description = \"uiname-fauna-06\", enabled = true, guid = #1ABBD50B58B48A3A00055E1C83DB20EF, lineVersion = 0, maxLength = 16, text = \"Sun Sister\""
+	myBehavior onward/simworld/behavior/fauna_major.msimunitbtgraph
+	mySubCategory Fauna_01
+	mySubCategoryVariant 6
+	myRadius 12.0
+	mySpeed 7.0
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo "Level 0"
+		{
+			myCountMin 1
+			myCountMax 1
+			myEntitySize 6.0
+			myElementSpawnInfo
+			{
+				SimUnitElementSpawnInfo Herd
+				{
+					myEntityFile "onward/game system data/juice/ai/npc/fauna_06.mnpc"
+				}
+			}
+		}
+	}
+	mySpawnAttachedSimUnit ./pickup_fauna_sample_fauna_06.msimunit
+}
+

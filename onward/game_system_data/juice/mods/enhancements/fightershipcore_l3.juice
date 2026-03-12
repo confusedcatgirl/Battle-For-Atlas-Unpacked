@@ -1,0 +1,22 @@
+include ./templates/template_l3.juice
+include "onward/game system data/juice/mods/mod_fighter_shipcore_l3.mplayermod"
+
+Enhancement fightershipcore_l3 < uid=C91BB551597F4F82007FB658B899B155 > : "Level 3"
+{
+	myLocalizedName "contextComment = \"[Placeholder - do not translate]\nName for level 3 version of a Ship Core that greatly increases the ship's maneuverability and dodging capabilities (analogy to a nimble fighter jet)\", description = \"\", enabled = true, guid = #C91BB551597F4F82007FB657D1BC7618, lineVersion = 2, maxLength = 22, text = \"Champion Core III\"}"
+	myLocalizedDescription "contextComment = \"[Placeholder - do not translate]\nDescription for level 3 version of a Ship Core that greatly increases the ship's maneuverability and dodging capabilities (analogy to a nimble fighter jet)\", description = \"enhancement-description-fighter-ship-core-3\", enabled = true, guid = #61C05E19EA684B469E9ECA9576E8A048, lineVersion = 1, maxLength = 79, text = \"+60 Handling\n+20 Speed\n+25% Damage after Precision Hit for 5s\"}"
+	myIconSprite "mySpriteId = 19010988, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-mods-ship-core.spritesheet\""
+	myIsHullEnhancement TRUE
+	myMod < uid=C91BB551597F4F82007FB6599B278BBE > = mod_fighter_shipcore_l3
+	myEnhancementType ShipCore
+	myEnhancementTrackType FighterShipCore
+	myDamageAffectors
+	{
+		DamageAffector_DamageBoostOnHeadshot "Boost On Headshot"
+		{
+			myDamageMultiplier = Fighter_Core_l3_ExtraDamage
+			myDamageBoostTime 5.0
+		}
+	}
+}
+

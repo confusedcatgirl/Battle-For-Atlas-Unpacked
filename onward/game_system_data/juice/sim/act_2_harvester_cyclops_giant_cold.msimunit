@@ -1,0 +1,36 @@
+include "onward/game system data/fruit/sim/simunit.fruit"
+
+SimUnit act_2_harvester_cyclops_giant_cold < uid=9FD9E8185AC2632000001CA44AED2373 >
+{
+	myUIName "contextComment = \"The UI Name for the Elite Ice Cyclops\", description = \"uiname-harvester-cyclops-giant-cold\", enabled = true, guid = #9FD9E8185AC2632000001CA38BFFFBBE, lineVersion = 0, maxLength = 22, text = \"Elite Frost Giant\""
+	myBehavior onward/simworld/behavior/generic_reinforcement.msimunitbtgraph
+	myFaction Harvester
+	myCategory NPC
+	mySubCategory RaiderGiant
+	myAffinityType Ice
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo harvester_cyclops_cold < uid=9FD9E8185AC2632000001CA5DB3355E0 >
+		{
+			myCountMin 1
+			myCountMax 1
+			myElementSpawnInfo
+			{
+				SimUnitElementSpawnInfo harvester_cyclops_cold
+				{
+					myEntityFile "onward/game system data/juice/ai/npc/harvester_cyclops_cold.mnpc"
+				}
+			}
+		}
+	}
+	mySaveable FALSE
+	myRealizeOnLeader FALSE
+	myPreserveSpawnInfo TRUE
+	mySkillLevelCoefficients
+	{
+		myParentSkillLevelMultiplier 0
+		myBaseLevel 6
+	}
+	myMissionTargetTexture onward/baked/textures/UI/icons/outpost_targets/outpost_target_sim_unit/ui-icon-outpost-target-cold-gaint.dds
+}
+

@@ -1,0 +1,47 @@
+include "onward/game system data/fruit/story/storydataactions.fruit"
+
+class StoryFlowFocus_Selector
+{
+	bool myFocusMainFlow TRUE
+	string myPartStoryFocus
+}
+
+list StoryFlowFocus_SelectorList
+{
+	StoryFlowFocus_Selector
+}
+
+class StoryFlowFocus
+{
+	StoryFlowFocus_Selector myPrimary
+	StoryFlowFocus_SelectorList mySecondaries
+	bool myOnlyUpdateThisFocus FALSE
+}
+
+class StoryFlowFocuser_Section
+{
+	StorySection mySection
+	StoryFlowFocus myFocus
+}
+
+class StoryFlowFocuser_Act
+{
+	int myAct
+	StoryFlowFocus myFocus
+}
+
+list StoryFlowFocuser_Section_List
+{
+	StoryFlowFocuser_Section
+}
+
+list StoryFlowFocuser_Act_List
+{
+	StoryFlowFocuser_Act
+}
+
+class StoryFlowFocuser
+{
+	StoryFlowFocuser_Section_List mySections
+	StoryFlowFocuser_Act_List myActs
+}

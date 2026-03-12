@@ -1,0 +1,86 @@
+include "onward/game system data/fruit/input/gameinput.fruit"
+include "onward/game system data/fruit/ai/affinitytype.fruit"
+include "onward/game system data/fruit/reinforcement/reinforcementtype.fruit"
+include ./extractorvarianttype.fruit
+include ./extractorphasetype.fruit
+
+class ExtractorPhaseConfig
+{
+	ExtractorPhaseType myPhase A
+	int myExtractorJumpRopeCount 0 < tooltip="Jump Rope count when extractor is downed.  Not used for Test of Strength variant." >
+	int mySatelliteCount 0 < tooltip="Number of satellites.  Not used for Test of Strength variant." >
+	int mySatelliteJumpRopeCount 0 < tooltip="Jump Rope count per satellite.  Only used for Trap variant." >
+	int mySatellitePluckCount 0 < tooltip="[NYI] Number of times satellites have to be plucked before becoming attackable.  Usage depends on variant." >
+	int mySatelliteArmorCount 0 < tooltip="Number of armor parts per satellite.  Only used for Armored variant." >
+	float mySatelliteArmorRPM 0.0 < tooltip="Satellite armor RPM.  Only used for Armored variant." >
+	ReinforcementType myReinforcementType None < tooltip="Type of reinforcement spawned.  Usage depends on variant." >
+}
+
+list ExtractorPhaseConfigList
+{
+	ExtractorPhaseConfig
+}
+
+class ExtractorVariantPhaseConfig
+{
+	ExtractorVariantType myVariant
+	ExtractorPhaseConfigList myConfiguration
+}
+
+list ExtractorVariantPhaseConfigList
+{
+	ExtractorVariantPhaseConfig
+}
+
+class ExtractorAbility
+{
+	bool myIsExtractorAbility FALSE < tooltip="FALSE if satellite abililty, TRUE if extractor ability" >
+	GameAction myAbilityAction NPC_Ability1
+	ExtractorPhaseType myMinPhaseType A
+	AffinityType myAffinityType None
+}
+
+list ExtractorAbilityList
+{
+	ExtractorAbility
+}
+
+class ExtractorVariantAbilityConfig
+{
+	ExtractorVariantType myVariant Default
+	ExtractorAbilityList myAbilities
+}
+
+list ExtractorVariantAbilityConfigList
+{
+	ExtractorVariantAbilityConfig
+}
+
+class ExtractorLocationVariant
+{
+	int myLocationID 0
+	ExtractorVariantType myVariant
+}
+
+list ExtractorLocationVariantList
+{
+	ExtractorLocationVariant
+}
+
+class ExtractorVariantPlanetConfig
+{
+	uid myPlanet < bhv=asset assettype=level >
+	ExtractorVariantAbilityConfigList myVariantAbilities
+	ExtractorLocationVariantList myLocationVariants
+}
+
+list ExtractorVariantPlanetConfigList
+{
+	ExtractorVariantPlanetConfig
+}
+
+class ExtractorConfiguration
+{
+	ExtractorVariantPhaseConfigList myPhaseConfig
+	ExtractorVariantPlanetConfigList myPlanetConfig
+}

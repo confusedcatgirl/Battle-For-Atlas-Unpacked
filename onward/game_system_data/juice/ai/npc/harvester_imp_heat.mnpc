@@ -1,0 +1,66 @@
+include ./harvester_imp_base.mnpc
+include onward/skillscripts/npc_affinity_harvester_imp_heat_enter.mskillscriptjuice
+include onward/skillscripts/npc_affinity_harvester_imp_heat_exit.mskillscriptjuice
+include onward/skillscripts/npc_affinity_harvester_imp_heat_running.mskillscriptjuice
+
+NPC harvester_imp_heat < uid=4A8282B956DDE95D000000C797492251 > : harvester_imp_base
+{
+	myUIName "contextComment = \"The UI Name for the Fire Imp\", description = \"uiname-harvester-imp-heat\", enabled = true, guid = #93869D535AB15AEA00001D66449EE17F, lineVersion = 0, maxLength = 13, text = \"Fire Imp\""
+	myUIName_NonLocalized "Fire Imp"
+	myGraphObjectFile "onward/graph objects/character/harvester_06.mgraphobject"
+	myHealthConfig < uid=4A8282B959F8E99500001DF88475DF55 > = "harvester_imp_heat Health"
+	mySunderReaction < uid=4A8282B95818DC4A008A887226B749D6 > = Affinity_Sunder
+	myFireReaction < uid=4A8282B95818DC4A008A88738D7960D7 > = Affinity_Fire
+	myChillReaction < uid=939A35415A84931E00001B5D8A833306 > = Heat_Infused_Cyclops_Chill
+	myFreezeReaction < uid=939A35415A84931F00001B5E457C2DB3 > = Heat_Infused_Cyclops_Freeze
+	myAbilityDefinitions
+	{
+		NPCAbilityDefinition "Jump Attach"
+		{
+			myGameAction NPC_Ability1
+			mySkillScript < uid=4A8282B9587D3C8D001170E6C2D99846 > = npc_ability_imp_attach
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_harvester_imp_heat_jump_attach.juice"
+		}
+		NPCAbilityDefinition "Self Destruct"
+		{
+			myGameAction NPC_Ability2
+			mySkillScript < uid=4A8282B9587D3C8D001170E7295ED619 > = npc_ability_harvester_imp_generic_self_destruct
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_harvester_imp_generic_self_destruct.juice"
+		}
+		NPCAbilityDefinition "Rock Throw"
+		{
+			myGameAction NPC_Ability3
+			mySkillScript < uid=4A8282B95AA808930308AC17CC872697 > = npc_ability_harvester_imp_generic_rock_throw
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_harvester_imp_generic_rock_throw.juice"
+		}
+	}
+	myAffinityDefinition
+	{
+		myAffinityType Fire
+		myDuration 10.0
+		myEnterSkillScript < uid=4A8282B9581B89400000025B5569ABBE > = npc_affinity_harvester_imp_heat_enter
+		myRunningSkillScript < uid=4A8282B9581B89400000025C3598EF3B > = npc_affinity_harvester_imp_heat_running
+		myExitSkillScript < uid=4A8282B9581B89400000025D9D81DFAF > = npc_affinity_harvester_imp_heat_exit
+		myMods
+		{
+		}
+	}
+	myResistanceSettings "onward/game system data/juice/ai/resistance/heat_affinity_resistance.juice"
+	myAttributeSettings "onward/game system data/juice/ai/attributes/harvester_imp_heat.juice"
+	myCrowdControlAttributeSettings "onward/game system data/juice/ai/attributes/crowd control tiers/npc_cc_tier2.juice"
+	myDropTableOnDeath Kill_Imp_Heat_Drop_Table
+	myDropTableOnAffinityWeaknessDeathId AffinityKill_Imp_Heat
+	myPhysicsCapsuleHeight 1.5
+	myPhysicsSupportHeight -1.5
+	myPhysicsCapsuleRadius 0.9
+	myPatternProfile < uid=4A8282B9590A1F5D000001F541B8EEE9 > = "Harvester Imp Heat"
+	myDefaultMotionPattern < uid=4A8282B9590A1F5D000001F6C61D7062 > = "Harvester Imp Heat Default"
+	myAvoidanceRadius 1.5
+	myNPCType Harvester_Imp_Heat
+	myAnimSystemType Harvester_Imp_Heat
+	myDefaultFootstepEvent 447DEA9D120E80C55A99A62608506DB9
+	myOnDeathChallenge Death_ImpHeat
+	myOnDiscoveredChallenge Discover_ImpHeat
+	myHackLevel 2
+}
+

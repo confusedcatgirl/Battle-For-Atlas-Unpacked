@@ -1,0 +1,84 @@
+include "onward/game system data/juice/rulesystem/rulesbank.juice"
+
+RulesBank tu5_exploration_rulesbank < uid=2290993C5C54A91F000000BD9BB83441 >
+{
+	myRules
+	{
+		Rule "CRIMSON MOON - Atmospheric Entry Denied" < uid=2290993C5C54B027000000C1AE1D13F6 >
+		{
+			myRuleConcept ON_CHALLENGE_BLOCKING_TRANSITION
+			myCriteriaList
+			{
+				uid "Za Challenge Blocking Transition is Crimson Moon Story" 600A30F35C589545000000383D2BB7B6
+			}
+			myPayloads
+			{
+				uid "CRIMSON MOON - Atmospheric Entry Denied VO" 2290993C5C549CCA00000064C01E52A4
+			}
+		}
+		Rule "CRIMSON MOON - Landing (PILOTS)" < uid=2290993C5C54A91F000000BE103BBD52 >
+		{
+			myRuleConcept ON_PLANET_ENTER
+			myCriteriaList
+			{
+				uid "Act 01 Complete" 9543058058139DAE000000514F9A8A5A
+				uid "Planet Is Blood Moon" DFE837425C351A5E0003873CB9C4BC97
+			}
+			myPayloads
+			{
+				uid "Crimson Moon - Landing VO (PILOTS)" 2290993C5C549CCA00000065172A20B0
+			}
+		}
+		Rule "CRADLE - Approach Too Early (PILOTS)" < uid=2290993C5C54B027000000C26301FA4A >
+		{
+			myRuleConcept ENTERED_RANGE
+			myCriteriaList
+			{
+				uid "Expedition SideStory 01 Not Started" 0A1D74E75C5CAE9000018DDBDDCC1448
+				uid "Instigator Faction Is Player" F2C5C6925767FAEB0000000520B9FAB2
+				uid "Planet Is Blood Moon" DFE837425C351A5E0003873CB9C4BC97
+				uid "Target Category is sparkPuzzle" 0A1D74E75C7D8008000187D248BC2250
+			}
+			myPayloads
+			{
+				uid "CRADLE - Approach Too Early (PILOTS) VO" 2290993C5C54A38C000000848FD419C7
+			}
+		}
+		Rule "SPARK - Approach" < uid=2290993C5C54B027000000C33E7AC037 >
+		{
+			myRuleConcept ENTERED_RANGE
+			myCriteriaList
+			{
+				uid "Instigator Faction Is Player" F2C5C6925767FAEB0000000520B9FAB2
+				uid "Target Category is rift" E21E96E35C8A685E00000ABABDF4959C
+				uid "Target SubCategoryVariant is 00" 9543058058F90E560000004C0CC314BF
+			}
+			myPayloads
+			{
+				uid "SPARK - Approach" 2290993C5C549CCA0000006869D0BABB
+			}
+		}
+		Rule "[UNFINISHED] SPARK - Warden Projection" < uid=2290993C5C54B061000000C42362E9D3 >
+		{
+		}
+		Rule "[UNFINISHED] SPARK - Warden Projection as KHARL" < uid=2290993C5C54B061000000C565A6CCEA >
+		{
+		}
+		Rule "SPARK - Solved" < uid=0A1D74E75C5DCB3C00000038182E7653 >
+		{
+			myRuleConcept ON_SOLVED
+			myCriteriaList
+			{
+				uid "Instigator Faction Is Expedition" D1E9B2CB5755BE000000008149238D2C
+				uid "Instigator Category is Landmark" 813F3F3A59DF78AE00000036D4FC52E4
+				uid "Instigator Subcategory is Data" 4A79E0E45980DEA40000003544F6C98B
+				uid "Instigator SubCategory Variant is greater than 5" 0A1D74E75C86AEA30017ABF127E365A7
+			}
+			myPayloads
+			{
+				uid "New uid (0)" 0A1D74E75C5DCB7400000039442230F0
+			}
+		}
+	}
+}
+

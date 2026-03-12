@@ -1,0 +1,34 @@
+include "onward/game system data/fruit/sim/simunit.fruit"
+
+SimUnit outlaw_leader_shattered_planet < uid=6D25F4C659E4EBEA0001BA25856B5F34 >
+{
+	myUIName "contextComment = \"The UI Name for the outlaw leader\", description = \"uiname-outlaw-defender-ground\", enabled = true, guid = #6D25F4C659E4EBEA0001BA24E821A6BF, lineVersion = 0, maxLength = 17, text = \"Outlaw Leader\""
+	myBehavior onward/simworld/behavior/outlaw_outpost_reinforcement.msimunitbtgraph
+	myFaction Outlaw
+	myCategory NPC
+	mySubCategory Defender
+	mySubCategoryVariant 10
+	myMaxHealth 100.099998
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo "Outlaw leader" < uid=6D25F4C659E4EBEA0001BA262C4129EC >
+		{
+			myCountMin 1
+			myCountMax 1
+			myElementSpawnInfo
+			{
+				SimUnitElementSpawnInfo "Outlaw Leader"
+				{
+					myEntityFile "onward/game system data/juice/ai/npc/outlaw_leader_shattered_planet.mnpc"
+				}
+			}
+		}
+	}
+	mySaveable FALSE
+	mySkillLevelCoefficients
+	{
+		myPlanetActMultiplier 0
+		myBaseLevel 20
+	}
+}
+

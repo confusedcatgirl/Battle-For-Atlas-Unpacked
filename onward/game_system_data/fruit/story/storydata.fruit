@@ -1,0 +1,48 @@
+include "onward/game system data/fruit/sim/simunit.fruit"
+include "onward/game system data/fruit/story/storydataactions.fruit"
+include "onward/game system data/fruit/story/storyforcecompleteoptions.fruit"
+include "onward/game system data/fruit/story/storyevent.fruit"
+include "onward/game system data/fruit/progression/challenge_types.fruit"
+
+class StoryGlobals
+{
+	int myMaxPrimes			< default = 0 >
+	int myMaxPrimeLevel		< default = 0 >
+	float myPrimeTimeBetweenExtractors < default = 600.0 tooltip="Prime time between extractors in seconds" >
+	bool mySuppressAllPipsFlag false
+	bool mySuppressOpportunityPipsFlag false
+	bool myDisablePhysicalPickupDetach false
+}
+
+class BaseStoryData < abstract = 1 >
+{
+}
+
+class StoryBeatData : BaseStoryData < uid = auto >
+{
+	bool Enabled true
+	bool myActStartFlag
+	bool myIsDebugStoryBeat 
+	bool myIsDebugStartingBeat < hidden = 1 tooltip="DEPRECATED">
+	bool myIsCheckpoint true < tooltip="Should we save after this beat is completed." >
+	StoryBeatData_ForceCompleteOptions myForceCompleteOptions
+	StoryDataActionList myStoryDataActions < tooltip="Each item in this list must be complete to advance." >
+	StoryDataActionSetList myStoryDataActionSets < tooltip="Each of these sets must be complete, but each one can be an AND or OR list" >
+}
+
+list StoryBeatDataList
+{
+	StoryBeatData
+}
+
+list StoryBeatList
+{
+	BaseStoryData
+}
+
+class StoryBeatSequence : BaseStoryData < uid = auto >
+{
+	bool myIsResettingSequence false
+	file myResetSkillScript "" < assettype="A skillscript to run. When it ends this sequence will restart. Checkpoints are not valid in sequences that can reset" >
+	StoryBeatList myStoryBeats 
+}

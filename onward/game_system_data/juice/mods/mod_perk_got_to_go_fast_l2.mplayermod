@@ -1,0 +1,23 @@
+include ./template_pilot.mplayermod
+include "onward/game system data/juice/progression/pilot_tuning_master.juice"
+
+PlayerMod mod_perk_got_to_go_fast_l2 < uid=C91BB55159B81E4B00000048C406923F > : template_pilot
+{
+	myAttributeMods
+	{
+		AttributeMod "Boost Sustained"
+		{
+			myType Player_StaminaCost_BoostSustained
+			myMultValue 1.0
+			myAddValue 0.0
+			myPercentageValue = Got_to_Go_Fast_l2_BoostCost
+		}
+		AttributeMod "Hop Sustained"
+		{
+			myType Player_StaminaCost_HopSustained
+			myPercentageValue = Got_to_Go_Fast_l2_BoostCost
+		}
+	}
+	myIsAgentMod TRUE
+}
+

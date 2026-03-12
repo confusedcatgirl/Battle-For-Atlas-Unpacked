@@ -1,0 +1,74 @@
+include ./base_npc.juice
+
+Attributes "Inherited Resistances" = "Base Resistances"
+
+Attributes "Inherited Shatter Values" = "Base Shatter Values"
+
+Attributes General
+{
+	Attribute "Attack Range"
+	{
+		myType NPC_MaxRange1
+		myValue 150.0
+	}
+}
+
+Attributes Leap
+{
+	Attribute Cooldown
+	{
+		myType NPC_Cooldown3
+		myValue 10.0
+	}
+	Attribute "Stagger Time"
+	{
+		myType NPC_UserData4
+		myValue 3.0
+	}
+	Attribute "Stagger Event Emit Range"
+	{
+		myType NPC_MaxRange3
+		myValue 150.0
+	}
+}
+
+Attributes "Knock Back"
+{
+	Attribute Damage
+	{
+		myType NPC_Damage4
+		myValue 1000.0
+	}
+	Attribute Range
+	{
+		myType NPC_MaxRange4
+		myValue 15.0
+	}
+}
+
+Attributes "Affinity Related"
+{
+	Attribute "Aura Radius"
+	{
+		myType NPC_Affinity_AuraRadius
+		myValue 35.0
+		myComment "This is modded by npc_mod_harvester_cyclops_cold_affinity_exit and used when exiting Affinity"
+	}
+	Attribute "Aura Status Effect Amount"
+	{
+		myType NPC_Affinity_AuraStatusEffectAmount
+		myValue 30.0
+		myComment "This is modded by npc_mod_harvester_cyclops_cold_affinity_exit and used when exiting Affinity"
+	}
+	Attribute "Aura Pulse Frequency"
+	{
+		myType NPC_Affinity_AuraPulseRate
+		myValue 0.5
+	}
+	Attribute "Exit Affinity Pulse Damage"
+	{
+		myType NPC_Affinity_Damage1
+		myValue 1000.0
+	}
+}
+

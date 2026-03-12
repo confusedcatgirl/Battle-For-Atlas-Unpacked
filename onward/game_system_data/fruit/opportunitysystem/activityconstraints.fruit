@@ -1,0 +1,50 @@
+
+//Keep in sync with OGame_OnItTypes.h OGame_OnItActivityType
+enum RequestType
+{
+	None
+	Attack
+	Defend
+	Pickup
+	Deliver
+	Find
+	Repair
+	Interact
+	DeliverStructure
+	DeliverAnalyzer
+	DeliverBomb
+	Survive
+	Solve
+	BuildOutpost
+}
+
+enum Participant
+{
+	Never
+	Requester
+	WhoToOnIt
+	Always
+}
+
+class ActivityConstraint
+{
+	RequestType myActivityType
+	Participant myParticipant
+	bool myAllowInRangeOfMission
+}
+
+list ActivityConstraintList
+{
+	ActivityConstraint
+}
+
+class OnItConstraints
+{
+	RequestType myOnItType
+	ActivityConstraintList myActivityConstraints
+}
+
+list OnItConstraintsList
+{
+	OnItConstraints
+}

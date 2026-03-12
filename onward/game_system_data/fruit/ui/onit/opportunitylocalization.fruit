@@ -1,0 +1,117 @@
+include "onward/game system data/fruit/rulesystem/rulepayloadbank.fruit"
+include "onward/game system data/fruit/health/DamageTypes.fruit"
+include "onward/game system data/fruit/opportunitysystem/onitopportunitystate.fruit"
+include "onward/game system data/fruit/fogofwar/simunitdiscoverysettings.fruit"
+
+class OpportunityLocalizationStateVariation
+{
+	OnItOpportunityState myState			< tooltip = "What state this description will apply to" >
+	varmap myDescription 					< bhv = "localization" >
+}
+
+list OpportunityLocalizationStateVariationList
+{
+	OpportunityLocalizationStateVariation
+}
+
+class OpportunityLocalizationWeaknessHint
+{
+	varmap myHint 								< bhv = "localization" tooltip = "Text describing how to deal with this attack target" >
+	DamageType myWeaknessType
+}
+
+list OpportunityLocalizationWeaknessHintList
+{
+	OpportunityLocalizationWeaknessHint
+}
+
+//
+// When the opportunities localization needs vary, it's quite a lot.
+// After trying to integrate the requirements for DeliverAnalyzer into the old system,
+// I think the best case is for everything to use Generic, unless they need to specialize. Then the entire
+// localization can be swapped out without breaking everything else by adding a new class
+//
+class OpportunityLocalizationGeneric
+{
+	string myMissionID < tooltip = "Makes this localization specific to a Mission ID" >
+	OnItActivityType myOnItActivityType 		< default = None tooltip = "Which Opportunity this applies to" >
+	SimUnitDiscoveryUnitFilter mySimUnitFilter	< tooltip = "Informs the system to use this localization when the OnIt target matches this filter." >
+	varmap myTitle 								< bhv = "localization" tooltip = "Short Title of Opportunity" >
+	varmap myDescription 						< bhv = "localization" tooltip = "Description of the Opportunity" >
+	varmap myLongDescription 						< bhv = "localization" tooltip = "Long Description of the Opportunity" >
+	varmap myOnItTimerDescription				< bhv = "localization" tooltip = "Some text indicating the context of the OnIt timer like:  Flora Bio-degrading" >
+}
+
+//
+// AttackOpportunity
+//
+class OpportunityLocalizationAttack : OpportunityLocalizationGeneric
+{
+	OpportunityLocalizationWeaknessHintList myWeaknessHints
+}
+
+//
+// Deliver Opportunity
+//
+class OpportunityLocalizationDeliver : OpportunityLocalizationGeneric
+{
+	OpportunityLocalizationStateVariationList myStateVariations		< tooltip = "Variations per State (overrides the base)" >
+}
+
+//
+// DeliverAnalyzer Opportunity
+//
+class OpportunityLocalizationDeliverAnalyzer : OpportunityLocalizationDeliver
+{
+	varmap myProgressText 						< bhv = "localization" tooltip = "text to show current and desired Scan count" >	
+}
+
+//
+// Build Outpost Opportunity
+//
+class OpportunityLocalizationBuildOutpost : OpportunityLocalizationGeneric
+{
+	OpportunityLocalizationStateVariationList myStateVariations		< tooltip = "Variations per State (overrides the base)" >
+}
+
+list OpportunityLocalizationList
+{
+	OpportunityLocalizationGeneric
+}
+
+class OpportunityLocalizationContainer
+{
+	OpportunityLocalizationList myLocalizations
+}
+
+//
+// Liberate Opportunity
+//
+class OpportunityLocalizationLiberate : OpportunityLocalizationGeneric
+{
+	OpportunityLocalizationStateVariationList myStateVariations		< tooltip = "Variations per State (overrides the base)" >
+}
+
+//
+// DeliverBattery Opportunity
+//
+class OpportunityLocalizationDeliverBattery : OpportunityLocalizationDeliver
+{
+}
+
+//
+// Siege Opportunity
+//
+class OpportunityLocalizationSiege : OpportunityLocalizationGeneric
+{
+	OpportunityLocalizationStateVariationList myStateVariations		< tooltip = "Variations per State (overrides the base)" >
+}
+
+//
+// Disable Defense Opportunity
+//
+class OpportunityLocalizationDisableDefense : OpportunityLocalizationGeneric
+{
+}
+
+

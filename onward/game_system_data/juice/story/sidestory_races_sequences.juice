@@ -1,0 +1,301 @@
+include "onward/game system data/fruit/story/partstory.fruit"
+include ./actions_library.juice
+include "onward/game system data/fruit/entity/faction.fruit"
+include "onward/game system data/fruit/sim/simunitcategories.fruit"
+include "onward/game system data/fruit/ai/affinitytype.fruit"
+include "onward/game system data/fruit/fogofwar/findsettings.fruit"
+include "onward/game system data/fruit/unitprogression/unitxppayloadtype.fruit"
+include "onward/game system data/fruit/progression/challenge_types.fruit"
+include "onward/game system data/fruit/story/storyevent.fruit"
+include ./objectives/tu5_races_objectives.juice
+include "onward/game system data/juice/sim/overdrive_race_01_flag.msimunit"
+include "onward/game system data/juice/sim/overdrive_race_02_flag.msimunit"
+include "onward/game system data/juice/sim/overdrive_race_03_flag.msimunit"
+include "onward/game system data/juice/sim/overdrive_race_04_flag.msimunit"
+
+StoryBeatSequence SETUP < uid=B3DC843C5C700DBA00000628BEF2BE9F >
+{
+	myStoryBeats
+	{
+		StoryBeatData "Gate Story Access" < uid=B3DC843C5C700DBA000006292662B4FA >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_SetObjectiveBlockEnabled "Disable Block"
+				{
+				}
+				StoryDataAction_WaitForChallengeComplete "Wait for Challenge Completed"
+				{
+					myChallenge Unlock_Races
+				}
+			}
+		}
+		StoryBeatData "Quest Block Initialization" < uid=B3DC843C5C700DBA0000062A1525AC52 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_SetObjectiveBlockEnabled "Enable Block"
+				{
+					myEnable TRUE
+				}
+				StoryDataAction_SetObjectiveHeader "Set Objective Header"
+				{
+					myObjectiveHeader "contextComment = \"\", description = \"\", enabled = true, guid = #B3DC843C5C70194300000638F695DA61, lineVersion = 0, maxLength = 11, text = \"[RACES]\""
+				}
+				StoryDataAction_MakeOwnerStoryFlowSelected "Set as Active Quest"
+				{
+				}
+				StoryDataAction_SetCustomStoryFaction "Set Faction"
+				{
+					myCustomStoryFaction Outlaw
+				}
+			}
+		}
+		StoryBeatData "Manual Save" < uid=B3DC843C5C700DBA0000062BC97446DB > : "Save Point"
+		{
+		}
+	}
+}
+
+StoryBeatSequence "PHANTASM CHASM" < uid=B3DC843C5C700DBA0000062CE2591F2C >
+{
+	myStoryBeats
+	{
+		StoryBeatData "Set Objective & Target" < uid=B3DC843C5C7017450000062ECFA39919 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_SetTarget "Set Target"
+				{
+					mySimUnitAssetTarget "onward/game system data/juice/sim/outlaw_clubhouse_phantoms.msimunit"
+					myActivityType Interact
+				}
+				StoryDataAction_SetObjective "Set Objective: Phantasm Chasm"
+				{
+					myObjectiveData < uid=B3DC843C5C703CB10004CF5E33710EAB > = races.m1
+					myObjectiveState Active
+				}
+				StoryDataAction_SetObjective "Set Sub Objective: Win the Phantasm Chasm Race"
+				{
+					myObjectiveData < uid=B3DC843C5C70286900098447617CB028 > = races.m1.sub1
+					myObjectiveState Active
+				}
+			}
+		}
+		StoryBeatData "Wait for Phantasm Chasm Won" < uid=B3DC843C5C701B0C000006465DDA30E6 >
+		{
+			myStoryDataActions
+			{
+				StoryDataAction_WaitForChallengeComplete "Wait for Challenge Completed: Race 1 Win"
+				{
+					myChallenge Race_01_Win
+				}
+			}
+		}
+		StoryBeatData "Manual Save" < uid=B3DC843C5C701B8000000647404C5ACD > : "Save Point"
+		{
+		}
+	}
+}
+
+StoryBeatSequence PARADISE < uid=B3DC843C5C70153E0000062642490D84 >
+{
+	myStoryBeats
+	{
+		StoryBeatData "Set Objective & Target" < uid=B3DC843C5C7017450000062ECFA39919 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_SetTarget "Set Target"
+				{
+					mySimUnitAssetTarget "onward/game system data/juice/sim/outlaw_clubhouse_original.msimunit"
+					myActivityType Interact
+				}
+				StoryDataAction_SetObjective "Remove Objective"
+				{
+					myObjectiveData < uid=B3DC843C5C703F2F0004CF6CC29DB4E4 > = races.m1
+					myObjectiveState Remove
+				}
+				StoryDataAction_SetObjective "Remove Sub Objective"
+				{
+					myObjectiveData < uid=B3DC843C5C703F2F0004CF6D0714075B > = races.m1.sub1
+					myObjectiveState Remove
+				}
+				StoryDataAction_SetObjective "Set Objective: Paradise"
+				{
+					myObjectiveData < uid=B3DC843C5C703E340004CF652A711BDF > = races.m2
+					myObjectiveState Active
+				}
+				StoryDataAction_SetObjective "Set Sub Objective: Win the Paradise Race"
+				{
+					myObjectiveData < uid=B3DC843C5C70286900098447617CB028 > = races.m2.sub1
+					myObjectiveState Active
+				}
+			}
+		}
+		StoryBeatData "Wait for Paradise Won" < uid=B3DC843C5C701B0C000006465DDA30E6 >
+		{
+			myStoryDataActions
+			{
+				StoryDataAction_WaitForChallengeComplete "Wait for Challenge Completed: Race 2 Win"
+				{
+					myChallenge Race_02_Win
+				}
+			}
+		}
+		StoryBeatData "Manual Save" < uid=B3DC843C5C701B8000000647404C5ACD > : "Save Point"
+		{
+		}
+	}
+}
+
+StoryBeatSequence "WARDEN'S PILGRIMAGE" < uid=B3DC843C5C70153E000006270A9F32C1 >
+{
+	myStoryBeats
+	{
+		StoryBeatData "Set Objective & Target" < uid=B3DC843C5C7017450000062ECFA39919 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_SetTarget "Set Target"
+				{
+					mySimUnitAssetTarget "onward/game system data/juice/sim/outlaw_clubhouse_overlords.msimunit"
+					myActivityType Interact
+				}
+				StoryDataAction_SetObjective "Remove Objective"
+				{
+					myObjectiveData < uid=B3DC843C5C703F730004CF72CEF46732 > = races.m2
+					myObjectiveState Remove
+				}
+				StoryDataAction_SetObjective "Remove Sub Objective"
+				{
+					myObjectiveData < uid=B3DC843C5C703F730004CF73491505DC > = races.m2.sub1
+					myObjectiveState Remove
+				}
+				StoryDataAction_SetObjective "Set Objective: Warden's Pilgrimage"
+				{
+					myObjectiveData < uid=B3DC843C5C703E340004CF6605DA2B15 > = races.m3
+					myObjectiveState Active
+				}
+				StoryDataAction_SetObjective "Set Sub Objective: Win the Warden's Pilgrimage Race"
+				{
+					myObjectiveData < uid=B3DC843C5C70286900098447617CB028 > = races.m3.sub3
+					myObjectiveState Active
+				}
+			}
+		}
+		StoryBeatData "Wait for Warden's Pilgrimage Won" < uid=B3DC843C5C701B0C000006465DDA30E6 >
+		{
+			myStoryDataActions
+			{
+				StoryDataAction_WaitForChallengeComplete "Wait for Challenge Completed: Race 3 Win"
+				{
+					myChallenge Race_03_Win
+				}
+			}
+		}
+		StoryBeatData "Manual Save" < uid=B3DC843C5C701B8000000647404C5ACD > : "Save Point"
+		{
+		}
+	}
+}
+
+StoryBeatSequence "FOUNDRY OF KINGS" < uid=B3DC843C5C70153E00000628C22BC418 >
+{
+	myStoryBeats
+	{
+		StoryBeatData "Set Objective & Target" < uid=B3DC843C5C7017450000062ECFA39919 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_SetTarget "Set Target"
+				{
+					mySimUnitAssetTarget "onward/game system data/juice/sim/outlaw_clubhouse_bloodedkings.msimunit"
+					myActivityType Interact
+				}
+				StoryDataAction_SetObjective "Remove Objective"
+				{
+					myObjectiveData < uid=B3DC843C5C703F730004CF72CEF46732 > = races.m3
+					myObjectiveState Remove
+				}
+				StoryDataAction_SetObjective "Remove Sub Objective"
+				{
+					myObjectiveData < uid=B3DC843C5C703F730004CF73491505DC > = races.m3.sub3
+					myObjectiveState Remove
+				}
+				StoryDataAction_SetObjective "Set Objective: Foundry of Kings"
+				{
+					myObjectiveData < uid=B3DC843C5C703E340004CF67FBF0037D > = races.m4
+					myObjectiveState Active
+				}
+				StoryDataAction_SetObjective "Set Sub Objective: Win the Foundry of Kings Race"
+				{
+					myObjectiveData < uid=B3DC843C5C70286900098447617CB028 > = races.m4.sub4
+					myObjectiveState Active
+				}
+			}
+		}
+		StoryBeatData "Wait for Foundry of Kings Won" < uid=B3DC843C5C701B0C000006465DDA30E6 >
+		{
+			myStoryDataActions
+			{
+				StoryDataAction_WaitForChallengeComplete "Wait for Challenge Completed: Race 4 Win"
+				{
+					myChallenge Race_04_Win
+				}
+			}
+		}
+		StoryBeatData "Manual Save" < uid=B3DC843C5C701B8000000647404C5ACD > : "Save Point"
+		{
+		}
+	}
+}
+
+StoryBeatSequence END < uid=B3DC843C5C700DBA000006D71F92713E >
+{
+	myStoryBeats
+	{
+		StoryBeatData Cleanup < uid=B3DC843C5C704749000D0581ED691178 >
+		{
+			myStoryDataActions
+			{
+				StoryDataAction_SetObjective "Remove Objective"
+				{
+					myObjectiveData < uid=B3DC843C5C704749000D05828114E90F > = races.m4
+					myObjectiveState Remove
+				}
+				StoryDataAction_SetObjective "Remove Sub Objective"
+				{
+					myObjectiveData < uid=B3DC843C5C704749000D0583BA54F0E5 > = races.m4.sub4
+					myObjectiveState Remove
+				}
+				StoryDataAction_SetTarget "Clear Target"
+				{
+					myShowWaypoint FALSE
+				}
+				StoryDataAction_SetObjectiveBlockEnabled "Disable Objective Block"
+				{
+					myEnable FALSE
+				}
+			}
+		}
+		StoryBeatData "Wait Forever" < uid=B3DC843C5C700DBA000006D8A3D8BCFB >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_WaitForGameToStoryEvent "Wait Forever"
+				{
+					myGameToStoryStoryEvent Act_06_WaitForever
+				}
+			}
+		}
+	}
+}
+

@@ -1,0 +1,69 @@
+include ./fauna_major.mnpc
+include onward/skillscripts/npc_ability_fauna_charge.mskillscriptjuice
+include onward/skillscripts/npc_ability_fauna_gatling.mskillscriptjuice
+include onward/skillscripts/npc_ability_fauna_shatter.mskillscriptjuice
+include onward/skillscripts/npc_ability_fauna_knockback.mskillscriptjuice
+
+NPC fauna_09 < uid=4A8282B956DE05B90000005B32A2DB71 > : fauna_major
+{
+	myUIName_NonLocalized Brassbear
+	myGraphObjectFile "onward/graph objects/character/fauna_09.mgraphobject"
+	myAbilityDefinitions
+	{
+		NPCAbilityDefinition Shoot
+		{
+			myGameAction NPC_Ability1
+			mySkillScript < uid=93869D535AF4769E0001970F504564EB > = npc_ability_fauna_gatling
+			myInputType Hold_New
+			myEnabled FALSE
+		}
+		NPCAbilityDefinition Shatter
+		{
+			myGameAction NPC_Ability2
+			mySkillScript < uid=93869D535AF4769E00019710414A3F74 > = npc_ability_fauna_shatter
+			myInputType Hold_New
+			myEnabled FALSE
+		}
+		NPCAbilityDefinition Charge
+		{
+			myGameAction NPC_Ability3
+			mySkillScript < uid=93869D535A79FA5D0056B77450424806 > = npc_ability_fauna_charge
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_fauna_09_charge.juice"
+		}
+		NPCAbilityDefinition Knockback
+		{
+			myGameAction NPC_Ability4
+			mySkillScript < uid=93869D535AF4769E00019711E449305F > = npc_ability_fauna_knockback
+			myInputType Hold_New
+			myEnabled FALSE
+		}
+	}
+	myPhysicsCapsuleHeight 5.0
+	myPhysicsSupportHeight -6.0
+	myPhysicsCapsuleRadius 4.0
+	myPhysicsPusherCapsuleRadius 6.0
+	myPhysicsCapsuleOriented FALSE
+	myPhysicsPusherCapsule TRUE
+	myPhysicsCapsuleStart 0.0;13.0;11.0
+	myPhysicsCapsuleEnd 0.0;9.0;-3.0
+	myGroundOrientationFraction 0.95
+	myHitReactionConstants "onward/game system data/juice/combat/hitreactionsconstants_fauna_09.juice"
+	myPatternProfile < uid=4A8282B957BB265B000000B05863A5B8 > = "Fauna 09"
+	myDefaultMotionPattern < uid=4A8282B957BB265B000000B11D2E91BA > = "Fauna 09 Default"
+	myAvoidanceRadius 9.0
+	myNPCType Fauna_09
+	myAnimSystemType Fauna_09
+	myLeggedness Quadruped
+	myWeapon
+	{
+		myWeaponType Beam
+		myDamageType Unknown
+	}
+	mySteeringParameters "onward/game system data/juice/ai/steering/fauna_09.juice"
+	myDefaultFootstepEvent 4EDA36D6B82E789EA07A64EECC8B0584
+	myOnDeathChallenge Death_Fauna09
+	myOnDiscoveredChallenge Discover_Fauna09
+	myFullyScannedChallenge FullyScan_Fauna09
+}
+

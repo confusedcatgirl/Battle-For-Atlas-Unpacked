@@ -1,0 +1,41 @@
+include ./template_hull.mplayermod
+include ./tuning/mod_tuning_master.juice
+
+float ResistValue = Expedition_Armor_l4_ElementalResist
+
+PlayerMod mod_expedition_armour_l4 < uid=C91BB5515980BDF200000040CDE9E816 > : template_hull
+{
+	myAttributeMods
+	{
+		AttributeMod Defense
+		{
+			myType PartStat_Defense
+			myAddValue = Expedition_Armor_l4_Defense
+			myPercentageValue 0.0
+		}
+		AttributeMod Mass
+		{
+			myType PartStat_Mass
+			myAddValue = Expedition_Armor_l4_Mass
+		}
+		AttributeMod "Heat Resist"
+		{
+			myMultValue = ResistValue
+		}
+		AttributeMod "Cold Resist"
+		{
+			myMultValue = ResistValue
+		}
+		AttributeMod "Stasis Resist"
+		{
+			myMultValue = ResistValue
+		}
+		AttributeMod "Gravity Resist"
+		{
+			myMultValue = ResistValue
+		}
+	}
+	myIsSelfMod TRUE
+	myIsAgentMod TRUE
+}
+

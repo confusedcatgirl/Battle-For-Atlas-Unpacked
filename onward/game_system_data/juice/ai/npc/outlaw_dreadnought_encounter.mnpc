@@ -1,0 +1,26 @@
+include ./invisible_npc_base.mnpc
+include onward/skillscripts/harvester_dreadnought_encounter_phased_metadata_maintenance.mskillscriptjuice
+include onward/skillscripts/npc_ability_outlaw_dreadnought_front_door_missile_volley.mskillscriptjuice
+
+NPC outlaw_dreadnought_encounter < uid=DDDD6F5D5C366EDA001BEC24D218829A > : invisible_npc_base
+{
+	myBehavior "onward/game system data/juice/ai/behavior/outlaw_dreadnought_encounter.mbehavior"
+	myAbilityDefinitions
+	{
+		NPCAbilityDefinition "Front Door Missile Volley"
+		{
+			myGameAction NPC_Ability2
+			mySkillScript < uid=DDDD6F5D5C366EDA001BEC253240F40E > = npc_ability_outlaw_dreadnought_front_door_missile_volley
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_harvester_dreadnought_super_front_door_missile_volley.juice"
+		}
+	}
+	myPersistentScripts
+	{
+		SkillScript "Phase Meta Data Maintenance" < uid=DDDD6F5D5C366EDA001BEC26A61AB958 > = harvester_dreadnought_encounter_phased_metadata_maintenance
+	}
+	myAttributeSettings "onward/game system data/juice/ai/attributes/outlaw_dreadnought_encounter.juice"
+	myCrowdControlAttributeSettings "onward/game system data/juice/ai/attributes/crowd control tiers/npc_cc_tier6.juice"
+	myNPCFaction Outlaw
+}
+

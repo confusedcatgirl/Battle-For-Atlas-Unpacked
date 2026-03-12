@@ -1,0 +1,54 @@
+include "onward/game system data/fruit/interact/interact.fruit"
+include "onward/game system data/juice/ai/race/rubberbanding.juice"
+include "onward/game system data/juice/leaderboard/leaderboardinfo.juice"
+include "onward/game system data/fruit/progression/challenge_types.fruit"
+
+PilotTrialInteract PilotTrialFlag
+{
+	myInteractRange 175.0
+	myPilotTrialType Overdrive
+	myUIClubhouseRaceName "contextComment = \"The name of the Foundry of Kings Race.\", description = \"ui-menu-race-name-foundryofkings\", enabled = true, guid = #A08A88CF5C48B1260000B443D97D47C3, lineVersion = 0, maxLength = 21, text = \"Foundry Of Kings\""
+	myUIClubhouseRaceDescription "contextComment = \"A description of the foundry of kings, as seen on the clubhouse menu.\", description = \"ui-menu-race-description-foundryofkings\", enabled = true, guid = #A08A88CF5C48B1260000B445118139F1, lineVersion = 0, maxLength = 42, text = \"[Foundry Of Kings - Description]\""
+	myFlythroughBinkPath onward/baked/videos/pilot_trials/flythroughs/pilot_trial_flythrough_overdrive_race_04.bk2
+	myLeaderboard < uid=F2ADB0475C3E167E000000492F307BA3 > = "Overdrive - Foundry of Kings"
+	myNumberOfLaps 3
+	myNumberOfAIOpponents 3
+	myAssociatedUID 45FEBE17E7D81C564B3CAD85E6472E86
+	myStuckTestEnabled TRUE
+	myStuckTestRespawnTimer 3.0
+	myWrongCheckpointTestEnabled FALSE
+	myMissedCheckpointTestEnabled TRUE
+	myWrongWayTestEnabled TRUE
+	myWrongWayTestTimer 5.0
+	myOffRaceTrackTestEnabled TRUE
+	myOffRaceTrackTestTimer 5.0
+	myOffRaceTrackTestDistance 75.0
+	myEnableAIPhysics TRUE
+	myDifficultyLevelOnePlayer AI_1_AbovePar_1_Par_1_BelowPar
+	myDifficultyLevelTwoPlayers AI_Par
+	myRubberBandingAbovePar < uid=5BF54C035C51A87000000919281E1831 > = "Construct AbovePar Rubber Banding"
+	myRubberBandingPar < uid=5BF54C035C51A8700000091A90B09D71 > = "Construct Par Rubber Banding"
+	myRubberBandingBelowPar < uid=5BF54C035C51A8700000091BE8F75611 > = "Construct BelowPar Rubber Banding"
+	myRubberBandingDerealized < uid=5BF54C035C59A5660000063E0B2744AC > = "Construct Derealized Rubber Banding"
+	myBark_HitXBoost_TimePerBoost 2.0
+	myUnlockCondition
+	{
+		PilotTrialInteract_UnlockOptions "Race 3 Won"
+		{
+			ChallengeType "Race 3 Win" Race_03_Win
+		}
+		PilotTrialInteract_UnlockOptions "Races Unlocked"
+		{
+			ChallengeType "Races Enabled" Unlock_Races
+		}
+	}
+	myUnlockFactLabel Race_Unlocked_BloodedKings
+	myRaceChallengeToAward Race_04_Win
+	myMiniMapTransform -716.407898;-558.097717;1099.261963;0.0;0.371342;-0.902925;-0.216407;0.0;1564.301025;355.716309;1200.078979;0.0;1299.697021;-3160.237061;-757.424072;1.0
+	myMiniMapTexture onward/baked/world_machine/stamps/race_04_track.dds
+	myCompletionDropTable Award_Race_Completion_Reward
+	myWinnerDropTable MissionDrop_Race_04
+	myMiniMapBounds 0.021;0.299;0.715;0.976
+	myMiniMapUpVector 0.0;1.0
+}
+

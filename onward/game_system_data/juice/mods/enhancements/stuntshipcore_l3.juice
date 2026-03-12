@@ -1,0 +1,21 @@
+include ./templates/template_l3.juice
+include "onward/game system data/juice/mods/mod_stunt_shipcore_l3.mplayermod"
+
+Enhancement stuntshipcore_l3 < uid=C91BB551597F4B0E007FB4D06EC36A39 > : "Level 3"
+{
+	myLocalizedName "contextComment = \"[Placeholder - do not translate]\nName for level 3 version of a Ship Core that increases the ship's ability to pull off dodge maneuvers and acrobatic tricks\", description = \"\", enabled = true, guid = #C91BB551597F4B90007FB5474C625AC6, lineVersion = 2, maxLength = 21, text = \"Warrior Core III\"}"
+	myLocalizedDescription "contextComment = \"[Placeholder - do not translate]\nDescription for level 3 version of a Ship Core that increases the ship's ability to pull off dodge maneuvers and acrobatic tricks\", description = \"enhancement-description-stunt-ship-core-3\", enabled = true, guid = #391B460B382A44989D5B5E44514EC9FA, lineVersion = 1, maxLength = 73, text = \"+35 Speed\n+35 Handling\nPrecision hits give weapon energy\"}"
+	myIconSprite "mySpriteId = 1963072963, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-mods-ship-core.spritesheet\""
+	myIsHullEnhancement TRUE
+	myMod < uid=C91BB551597F4B4F007FB4E3FDBFB9CD > = mod_stunt_shipcore_l3
+	myEnhancementType ShipCore
+	myEnhancementTrackType StuntShipCore
+	myDamageAffectors
+	{
+		DamageAffector_PrecisionEnergy "Precision Energy"
+		{
+			myAmount = Stunt_Core_l3_EnergyOnHit
+		}
+	}
+}
+

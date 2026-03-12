@@ -1,0 +1,88 @@
+include ./base_turret.mnpc
+include onward/skillscripts/npc_ability_tower_watchtower_emp.mskillscriptjuice
+include onward/skillscripts/npc_ability_watchtower_turret_hostile_gattling.mskillscriptjuice
+include onward/skillscripts/npc_ability_outlaw_watchtower_turret_hostile_reflect.mskillscriptjuice
+include onward/skillscripts/tower_watchtower_hostile.mskillscriptjuice
+include onward/skillscripts/npc_ability_shipwreck_turret_gattling.mskillscriptjuice
+include onward/skillscripts/npc_ability_shipwreck_turret_reflect.mskillscriptjuice
+include onward/skillscripts/shipwreck_turret_reflect_projectile.mskillscriptjuice
+include onward/skillscripts/shipwreck_turret_vfx_listener.mskillscriptjuice
+include onward/skillscripts/shipwreck_turret_attackability.mskillscriptjuice
+include onward/skillscripts/shipwreck_turret_death.mskillscriptjuice
+
+NPC shipwreck_turret < uid=93869D535BC8C20300000324A77A951E > : base_turret
+{
+	myUIName_NonLocalized "Shipwreck Turret"
+	myGraphObjectFile "onward/graph objects/character/shipwreck_turret.mgraphobject"
+	myBehavior "onward/game system data/juice/ai/behavior/shipwreck_turret.mbehavior"
+	myIsInitiallyAggressive TRUE
+	myExitWorldAffector ""
+	myHealthConfig < uid=93869D535BC8C20300000325ACA45213 > = "shipwreck_turret Health"
+	myIsInvulnerable FALSE
+	myDeathSettings
+	{
+		myDeathCullTime 31536000.0
+		myEventDeathCullTime 31536000.0
+	}
+	myAbilityDefinitions
+	{
+		NPCAbilityDefinition Gatling
+		{
+			myGameAction NPC_Ability1
+			mySkillScript < uid=B840DCB35B1ADC7F000020547137C59E > = npc_ability_shipwreck_turret_gattling
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_shipwreck_turret_gattling.juice"
+		}
+		NPCAbilityDefinition Reflect
+		{
+			myGameAction NPC_Ability2
+			mySkillScript < uid=B840DCB35B1ADC7F00002055AFBEA83C > = npc_ability_shipwreck_turret_reflect
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_shipwreck_turret_reflect.juice"
+		}
+		NPCAbilityDefinition EMP
+		{
+			myGameAction NPC_Ability9
+			mySkillScript < uid=B840DCB35B1ADC7F0000205C07FC3CF9 > = npc_ability_tower_watchtower_emp
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_tower_watchtower_emp.juice"
+		}
+	}
+	myControllerContextDefinitions
+	{
+		ControllerContextDefinition "New ControllerContextDefinition (0)"
+		{
+			myContextType Dead
+			mySkillScript < uid=93869D535BD9EEBA0051FF42975C4C1F > = shipwreck_turret_death
+		}
+	}
+	myPersistentScripts
+	{
+		SkillScript "vfx listener" < uid=93869D535BCE1C120000032B10E46F3E > = shipwreck_turret_vfx_listener
+		SkillScript attackability < uid=93869D535BD20325021CDA095990F5A1 > = shipwreck_turret_attackability
+	}
+	myResistanceSettings "onward/game system data/juice/ai/resistance/shipwreck_turret_resistance.juice"
+	myAttributeSettings "onward/game system data/juice/ai/attributes/tower_watchtower_hostile_logic.juice"
+	myCrowdControlAttributeSettings "onward/game system data/juice/ai/attributes/crowd control tiers/npc_cc_tier64.juice"
+	myAwarenessDistance 300.0
+	myAvoidanceRadius 8.0
+	myNPCFaction Outlaw
+	myNPCType Outlaw_Ground_Turret
+	myThreatLevel 5.0
+	myBaseThreatProfile
+	{
+		myAddedBaseThreat -200.0
+		myPlayerBaseThreat 3000.0
+		myHarvesterBaseThreat -10.0
+		myCloseRange 30.0
+		myMediumRange 50.0
+		myLongRange 100.0
+		myExtremeRange 150.0
+	}
+	myAIVisionConeTypeName WatchtowerVisionCone
+	myIsInteractProxy FALSE
+	myIsTargetable TRUE
+	myDefaultNavigationType Invalid
+	myHasProjectileResponse TRUE
+}
+

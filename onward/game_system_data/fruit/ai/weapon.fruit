@@ -1,0 +1,122 @@
+enum EmplacementType < useCategories = 1 >
+{
+  < startCategory = "Actions" >
+  Build
+  Scavenge
+  Feed
+  Mine
+  Load
+  Defend
+  Deliver
+  EscortLeader
+  Follow
+  Gather
+  HealToFull
+  Repair
+  Scan
+  Patrol
+  PatrolVeryNear
+  PatrolNear
+  PatrolMedium
+  PatrolFar
+  PatrolVeryFar
+  Pluck
+  Suicide
+  
+  < startCategory = "Combat" >
+  Melee
+  Ranged
+  LongRange
+  BehindRanged
+  FlightRanged
+  GenericCombat
+  BehindFlightRanged
+  BehindFlightLongRanged
+  HarvesterExtractor
+  HarvesterImp
+  HarvesterImpUnreachable
+  HarvesterImpJump
+  HarvesterImpFire
+  HarvesterImpIce
+  HarvesterImpCrush
+  HarvesterCyclops
+  HarvesterCyclopsCCWOrbit
+  HarvesterCyclopsHeatInfusedCWOrbit
+  HarvesterCyclopsHeatInfusedCCWOrbit
+  HarvesterCyclopsFire
+  HarvesterCyclopsIce
+  HarvesterCyclopsCrush
+  HarvesterTurret
+  HarvesterTurretFire
+  HarvesterTurretIce
+  HarvesterTurretCrush
+  HarvesterPrimeCombat
+  HarvesterProbeAttack
+  HarvesterProbeHeal
+  HarvesterProbeMug
+  ExpeditionWorker
+  ExpeditionDefender
+  ExpeditionOutpost
+  ProspectorWorker
+  ProspectorDefender
+  ProspectorOutpost
+  ProspectorSquad
+  ProspectorSquadElite
+  TargetWeakpoint
+  OutlawGround
+  OutlawGroundCWOrbit
+  OutlawGroundCCWOrbit
+  OutlawGroundElite
+  OutlawGroundEliteCWOrbit
+  OutlawGroundEliteCCWOrbit
+  OutlawGroundLeader
+  OutlawGroundLeaderCWOrbit
+  OutlawGroundLeaderCCWOrbit
+  OutlawGroundRelocateCW
+  OutlawGroundRelocateCCW
+  OutlawDefender
+  MiniEnemy10Attack
+  MiniEnemy10Heal
+  OutlawMechCWOrbit
+  OutlawMechCCWOrbit
+  
+  < startCategory = "FTC" >
+  FTC_Lieutenant_M3_Probe
+  FTC_TargetWeakpointAdvanced
+
+  < startCategory = "SimCombat" >
+  LegionSquad
+  
+  < startCategory = "Deprecated" >
+  ScanSpace
+  ExpeditionDefenderSpace
+  ExpeditionOutpostSpaceDeliver
+  HarvesterDart
+  OutlawWorker
+  OutlawOutpost
+  OutlawOutpostDeliver
+}
+
+class InteractionDef < uid=auto >
+{
+	EmplacementType myEmplacementType Build
+	bool myIsHostile FALSE
+	bool myIsExclusive TRUE
+	float myMaxRange  30.0      < tooltip="DEPRECATED" >
+	float myDesiredRadius -1.0  < tooltip="if not between min and max, will be the average" >
+	float myMinRadius 15.0      < tooltip="minimum emplacement distance" >
+	float myMaxRadius 25.0      < tooltip="maximum emplacement distance" >
+	float myAngle 0.0           < tooltip="degrees, relative to target facing. (0 is frontal)" >
+	float myAngleRange 30.0     < tooltip="width of emplacement slice in degrees" >
+	float myAccuracy 1.0        < tooltip="SIM: probability of hitting" >
+	float myShotDelay 0.0       < tooltip="SIM: delay between shots in seconds, or time for action to complete" >
+	float myDamage   0.0       < tooltip="SIM: damage per hit" >
+	bool  myDownInsteadOfKill false < tooltip="SIM: if damage would kill the SimUnit, and the SimUnit is downable, the SimUnit will be downed." >
+	float myOrbitOnReaching 0.0 < tooltip="orbit the emplacement if reached by degrees" >
+	bool myPreferBehindTarget FALSE < tooltip="prefer being behind the target" >
+	bool myIs3D FALSE  < tooltip="is this a 3d emplacement" >
+	bool myHasAnglePriority FALSE < tooltip="should this always start at the preferred angle instead of current angle to attacker?" >
+	bool myIsStationaryAttacker FALSE < tooltip="simpler emplacement for a stationary attacker" >
+	bool myRequiresDirectPath FALSE < tooltip="do line of sight checks on navmesh for this attack" >
+	float myMinDeviationAngle   0.0 < tooltip="minimum angle away from the target's front to try to move to (for escorting)" >
+}

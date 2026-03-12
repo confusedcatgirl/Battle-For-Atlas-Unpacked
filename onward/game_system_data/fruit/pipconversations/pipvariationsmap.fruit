@@ -1,0 +1,12 @@
+include "onward/game system data/fruit/pipconversations/pipparticipants.fruit"
+
+//
+// Mapping file to indicate in Oasis which Character contains the metadata to be used for line variations
+//
+class PipParticipantVariationPack < uid = auto >
+{
+	bool myIsPlayerPack								< default = false tooltip = "This is a player pack" >
+	bool myIsUniqueNPC								< default = false tooltip = "A Unique NPC, eg: Dreadnought or Outlaw captain" >
+	PipParticipant* myPrimaryParticipant			< tooltip = "Which Oasis Character to pull metadata from" >
+	PipParticipantsRefList mySecondaries			< tooltip = "Which Oasis Characters to apply the Primary's metadata to" >
+}

@@ -1,0 +1,28 @@
+include "onward/game system data/fruit/sim/simunit.fruit"
+
+SimUnit harvester_probe < uid=4A8282B9572CD1B000000083C0F8DB61 >
+{
+	myBehavior onward/simworld/behavior/harvester_probe.msimunitbtgraph
+	myFaction Harvester
+	myCategory NPC
+	mySubCategory Probe
+	myMaxHealth 50.0
+	myRadius 5.0
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo Probe < uid=46D5728F597672150000189255B37FD9 >
+		{
+			myCountMin 1
+			myCountMax 1
+			myEntityFile "onward/game system data/juice/ai/npc/harvester_probe.mnpc"
+		}
+	}
+	myDeathXPPayload UnitKilled_LegionProbe
+	mySkillLevelCoefficients
+	{
+		myParentLevelMultiplier 0
+		myParentSkillLevelMultiplier 1
+		myBaseLevel 0
+	}
+}
+

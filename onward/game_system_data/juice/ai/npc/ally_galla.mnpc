@@ -1,0 +1,23 @@
+include ./base_ally_ship.mnpc
+include onward/skillscripts/npc_ability_pod_volcano.mskillscriptjuice
+
+NPC ally_galla < uid=C92F4D3F59CBB8DA00276273AD8113EF > : base_ally_ship
+{
+	myUIName_NonLocalized Galla
+	myGraphObjectFile "onward/graph objects/character/ship_galla_ally.mgraphobject"
+	myAbilityDefinitions
+	{
+		NPCAbilityDefinition Volcano
+		{
+			myGameAction NPC_Ability1
+			mySkillScript < uid=C92F4D3F59C17ABD00311C648FE2D9E6 > = npc_ability_pod_volcano
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_ally_ship_volcano.juice"
+		}
+	}
+	myPatternProfile < uid=6D25F4C65C004031000003594DFB8338 > = "Ally Galla"
+	myDefaultMotionPattern < uid=6D25F4C65C0040310000035A5456B51D > = "Wingmate Space Default"
+	myNPCType Galla
+	myAnimSystemType Ally_Galla
+}
+

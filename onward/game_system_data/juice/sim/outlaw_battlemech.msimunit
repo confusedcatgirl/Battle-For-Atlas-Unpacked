@@ -1,0 +1,39 @@
+include ./outlaw_rogue_elite.msimunit
+
+SimUnit outlaw_battlemech < uid=33EAD34B5BD8AD14000047D8D0BAFDA4 > : outlaw_rogue_elite
+{
+	myUIName "contextComment = \"The UI Name for the Outlaw Battlemech\", description = \"uiname-outlaw-battlemech\", enabled = true, guid = #33EAD34B5BD8AD14000047D7B1C6ED59, lineVersion = 0, maxLength = 14, text = \"Outlaw Mech\""
+	mySubCategory Battlemech
+	myAffinityType None
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo Battlemech < uid=33EAD34B5BD8AD14000047D9234D60C1 >
+		{
+			myCountMin 1
+			myCountMax 1
+			myElementSpawnInfo
+			{
+				SimUnitElementSpawnInfo battlemech
+				{
+					myEntityFile "onward/game system data/juice/ai/npc/outlaw_battlemech.mnpc"
+				}
+			}
+		}
+		SimUnitEntitySpawnInfo Targets < uid=DDDD6F5D5C0707A6000003FA35473A6B >
+		{
+			myCountMin 3
+			myCountMax 3
+			myIgnoreHealth TRUE
+			myIgnoreNavMesh TRUE
+			myIgnoreTerrain TRUE
+			myEntityFile "onward/entity templates/outlaw_battlemech_weakpoint_target.mentitytemplate"
+			myElementSpawnInfo
+			{
+			}
+			myAttachParentSpawnInfoUID 33EAD34B5BD8AD14000047D9234D60C1
+			myAttachBoneCategory Weakpoints
+		}
+	}
+	myPreserveSpawnInfo TRUE
+}
+

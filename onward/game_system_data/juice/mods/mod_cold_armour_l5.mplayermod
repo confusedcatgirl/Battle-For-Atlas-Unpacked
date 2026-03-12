@@ -1,0 +1,26 @@
+include ./template_hull.mplayermod
+include ./tuning/mod_tuning_master.juice
+
+PlayerMod mod_cold_armour_l5 < uid=C91BB551597F74D0005049589494E812 > : template_hull
+{
+	myAttributeMods
+	{
+		AttributeMod "Cold Damage Resist"
+		{
+			myType DMG_Resist_Cold
+			myMultValue = Cold_Armor_l5_ColdResist
+		}
+		AttributeMod Defense
+		{
+			myType PartStat_Defense
+			myAddValue = Cold_Armor_l5_Defense
+		}
+		AttributeMod "Frozen Mobility"
+		{
+			myType Player_FrozenMobility
+			myAddValue 1.0
+		}
+	}
+	myIsAgentMod TRUE
+}
+

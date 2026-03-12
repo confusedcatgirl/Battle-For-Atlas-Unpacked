@@ -1,0 +1,88 @@
+include "onward/game system data/juice/rulesystem/rulesbank.juice"
+
+RulesBank Rules_Outlaw_Fortification < uid=2B55C72B5BC4D5300000008524C3A805 >
+{
+	myRules
+	{
+		Rule Approach < uid=2B55C72B5BC4D5A7000000867C56A42D >
+		{
+			myRuleConcept ENTERED_RANGE
+			myCriteriaList
+			{
+				uid GuardPoint 2B55C72B5BC4D709000000886301450D
+				uid "Target is not Solved" E9A111355AB4384F00001BCCA9DBA0D4
+			}
+			myPayloads
+			{
+				uid "Dialogue Payload" 2B55C72B5BC4D86B0000008AC6289FD1
+			}
+		}
+		Rule DestroyFusebox < uid=2B55C72B5BC8C5620000004089D3EDE5 >
+		{
+			myRuleConcept ON_SOLVED
+			myCriteriaList
+			{
+				uid "New uid (0)" 4A79E0E45B2D4A5A0000205FAF2F58E7
+				uid "New uid (1)" 3BC8B70A57F2CAB50000005707168D12
+			}
+			myPayloads
+			{
+				uid "New uid (0)" 2B55C72B5BC8C3830000003E775BACFC
+			}
+		}
+		Rule DestroyTurret < uid=2B55C72B5BC8C56200000041C84B0F48 >
+		{
+			myRuleConcept ON_SOLVED
+			myCriteriaList
+			{
+				uid "New uid (0)" 2B55C72B5BC8D601000003099BA39FBE
+				uid "New uid (1)" 3BC8B70A57F2CAB50000005707168D12
+			}
+			myPayloads
+			{
+				uid "New uid (0)" 2B55C72B5BC8A23E0000003A28EF0515
+			}
+		}
+		Rule DamageResisted < uid=2B55C72B5BC8C56200000043F8BF5BA4 >
+		{
+			myRuleConcept ON_BLOCKED_BY_SHIELD
+			myCriteriaList
+			{
+				uid "Instigator Category is Shipwreck" 0A1D74E75BCF80D90001FA827B0C18D4
+				uid "Instigator SubCategory is Fortifications" 2B55C72B5BC8D601000003099BA39FBE
+			}
+			myPayloads
+			{
+				uid "New uid (0)" 2B55C72B5BC8A23E0000003813289D4F
+			}
+		}
+		Rule OnPlayerHit < uid=2B55C72B5BC8EB8900000038199E800B >
+		{
+			myRuleConcept ON_DAMAGE
+			myCriteriaList
+			{
+				uid "New uid (0)" F2C5C6925767FAEB00000006332B93AC
+				uid "New uid (1)" 2B55C72B5BC8D601000003099BA39FBE
+			}
+			myPayloads
+			{
+				uid "New uid (0)" 2B55C72B5BC8EBEE0000003921DCA40B
+			}
+		}
+		Rule OnPlayerParriedHardTurret < uid=954305805BE1C37400000038539334E7 >
+		{
+			myRuleConcept ON_PARRY_STRIKE
+			myCriteriaList
+			{
+				uid "New uid (0)" F2C5C6925767FAEB0000000520B9FAB2
+				uid "New uid (1)" 2B55C72B5BC4D709000000886301450D
+				uid "New uid (2)" 9543058058F9101D0000004CDDC4CC20
+			}
+			myPayloads
+			{
+				uid "New uid (0)" 954305805BE1EAEB000002D7C786688B
+			}
+		}
+	}
+}
+

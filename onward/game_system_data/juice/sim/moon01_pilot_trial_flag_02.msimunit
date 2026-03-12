@@ -1,0 +1,29 @@
+include ./prospector_mining_center.msimunit
+
+SimUnit Moon01_Pilot_Trial_Flag_02 < uid=F34F47D65BB5FBDC000026C6A20BC1BE > : prospector_mining_center
+{
+	myUIName "contextComment = \"The UI name for the Skill Race Outpost\", description = \"uiname-skrill-race-outpost\", enabled = true, guid = #F34F47D65BB5FBDC000026C53347AD80, lineVersion = 1, maxLength = 21, text = \"Pilot Trial Flag\""
+	myBehavior ""
+	myControlGraph onward/simworld/control/pilot_trial_manager.msimunitcontrolgraph
+	myFaction Outlaw
+	myCategory Outpost
+	mySubCategory MiningCenter
+	myAffinityType None
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo Outpost < uid=F34F47D65BB5FBDC000026C7462B709F >
+		{
+			myCountMin 1
+			myCountMax 1
+			myEntitySize 24.0
+			myIgnoreNavMesh TRUE
+			mySpawnOutsideZone TRUE
+			myEntityFile "onward/entity templates/Moon01_Pilot_Trial_Flag_02.mentitytemplate"
+		}
+	}
+	myPreserveSpawnInfo FALSE
+	myIsValidPickupTarget FALSE
+	myNeedsSaveOnAdd FALSE
+	myNeedsSaveOnRemove FALSE
+}
+

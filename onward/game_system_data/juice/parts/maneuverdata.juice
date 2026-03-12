@@ -1,0 +1,258 @@
+include "onward/game system data/fruit/parts/maneuvers.fruit"
+
+ManeuverDataList myManeuverData
+{
+	ManeuverData Immelmann
+	{
+		myMovementSetting Immelmann
+		myScript onward/skillscripts/maneuver_immelmann.mskillscriptjuice
+		myGameActions
+		{
+			GameAction Back ManeuverBack
+		}
+		myIsFlight TRUE
+		myIsSpace TRUE
+		myStaminaCost 0.0
+        myStaminaCostType Player_StaminaCost_Immelmann
+	}
+	ManeuverData InverseImmelmann
+	{
+		myMovementSetting InverseImmelmann
+		myScript onward/skillscripts/maneuver_immelmann.mskillscriptjuice
+		myGameActions
+		{
+			GameAction Back ManeuverBack
+		}
+		myIsFlight TRUE
+		myIsSpace TRUE
+		myStaminaCost 0.0
+        myStaminaCostType Player_StaminaCost_Immelmann
+	}
+	ManeuverData DashLeft
+	{
+		myMovementSetting DashLeft
+		myScript onward/skillscripts/maneuver_dash.mskillscriptjuice
+		myGameActions
+		{
+			GameAction Left DashLeft
+		}
+		myIsHover TRUE
+        myStaminaCostType Player_StaminaCost_Dash
+	}
+	ManeuverData DashRight
+	{
+		myMovementSetting DashRight
+		myScript onward/skillscripts/maneuver_dash.mskillscriptjuice
+		myGameActions
+		{
+			GameAction Right DashRight
+		}
+		myIsHover TRUE
+        myStaminaCostType Player_StaminaCost_Dash
+	}
+	ManeuverData DashForward
+	{
+		myMovementSetting DashForward
+		myScript onward/skillscripts/maneuver_dash.mskillscriptjuice
+		myGameActions
+		{
+			GameAction Front DashFront
+		}
+		myIsHover TRUE
+        myStaminaCostType Player_StaminaCost_Dash
+	}
+	ManeuverData DashBackward
+	{
+		myMovementSetting DashBackward
+		myScript onward/skillscripts/maneuver_dash.mskillscriptjuice
+		myGameActions
+		{
+			GameAction Back DashBack
+		}
+		myIsHover TRUE
+        myStaminaCostType Player_StaminaCost_Dash
+	}
+	ManeuverData ShakeOffFront
+	{
+		myMovementSetting ShakeOffFront
+		myGameActions
+		{
+			GameAction Left ShakeOffFront
+		}
+		myIsHover TRUE
+		myIsFlight TRUE
+        myStaminaCostType Player_StaminaCost_ShakeOff
+	}
+	ManeuverData ShakeOffBack
+	{
+		myMovementSetting ShakeOffBack
+		myGameActions
+		{
+			GameAction Right ShakeOffBack
+		}
+		myIsHover TRUE
+        myStaminaCostType Player_StaminaCost_ShakeOff
+	}
+	ManeuverData ShakeOffLeft
+	{
+		myMovementSetting ShakeOffLeft
+		myGameActions
+		{
+			GameAction Left ShakeOffLeft
+		}
+		myIsHover TRUE
+        myStaminaCostType Player_StaminaCost_ShakeOff
+	}
+	ManeuverData ShakeOffRight
+	{
+		myMovementSetting ShakeOffRight
+		myGameActions
+		{
+			GameAction Right ShakeOffRight
+		}
+		myIsHover TRUE
+        myStaminaCostType Player_StaminaCost_ShakeOff
+	}
+	ManeuverData BarrelRollLeft
+	{
+		myMovementSetting BarrelRollLeft
+		myScript onward/skillscripts/maneuver_roll_left.mskillscriptjuice
+		myGameActions
+		{
+			GameAction Left ManeuverLeft
+		}
+		myIsFlight TRUE
+		myIsSpace TRUE
+        myStaminaCostType Player_StaminaCost_BarrelRoll
+	}
+	ManeuverData BarrelRollRight
+	{
+		myMovementSetting BarrelRollRight
+		myScript onward/skillscripts/maneuver_roll_right.mskillscriptjuice
+		myGameActions
+		{
+			GameAction Right ManeuverRight
+		}
+		myIsFlight TRUE
+		myIsSpace TRUE
+        myStaminaCostType Player_StaminaCost_BarrelRoll
+	}
+	ManeuverData FlipForward
+	{
+		myMovementSetting FlipForward
+		myScript onward/skillscripts/maneuver_roll_forward.mskillscriptjuice
+		myGameActions
+		{
+			GameAction Back ManeuverFront
+		}
+		myIsFlight TRUE
+		myIsSpace TRUE
+        myStaminaCostType Player_StaminaCost_Immelmann
+	}
+	ManeuverData Hop
+	{
+		myMovementSetting Hop
+		myScript onward/skillscripts/maneuver_hop.mskillscriptjuice
+		myGameActions
+		{
+			GameAction Hop Hop
+		}
+		myIsHover TRUE
+		myCooldownDuration 0.0
+		myIsJump TRUE
+		myStaminaCost 1.0
+        myStaminaCostType Player_StaminaCost_Hop
+	}
+	ManeuverData DoubleHop
+	{
+		myMovementSetting DoubleHop
+		myScript onward/skillscripts/maneuver_hop.mskillscriptjuice
+		myGameActions
+		{
+			GameAction DoubleHop DoubleHop
+		}
+		myIsHover TRUE
+		myCooldownDuration 0.0
+		myIsJump TRUE
+		myStaminaCost 50.0
+        myStaminaCostType Player_StaminaCost_DoubleHop
+	}
+	ManeuverData TrickNeutral
+	{
+		myMovementSetting TrickNeutral
+		myScript onward/skillscripts/maneuver_roll_forward.mskillscriptjuice
+		myGameActions
+		{
+			GameAction TrickNeutral TrickNeutral
+		}
+		myIsHover TRUE
+		myCooldownDuration 0.0
+        myStaminaCostType Player_StaminaCost_Trick
+	}
+	ManeuverData TrickLeft
+	{
+		myMovementSetting TrickLeft
+		myScript onward/skillscripts/maneuver_trick_barrel_left.mskillscriptjuice
+		myGameActions
+		{
+			GameAction TrickLeft TrickLeft
+		}
+		myIsHover TRUE
+		myCooldownDuration 0.0
+		myStaminaCost 0.0
+        myStaminaCostType Player_StaminaCost_Trick
+	}
+	ManeuverData TrickRight
+	{
+		myMovementSetting TrickRight
+		myScript onward/skillscripts/maneuver_trick_barrel_right.mskillscriptjuice
+		myGameActions
+		{
+			GameAction TrickRight TrickRight
+		}
+		myIsHover TRUE
+		myCooldownDuration 0.0
+		myStaminaCost 0.0
+        myStaminaCostType Player_StaminaCost_Trick
+	}
+	ManeuverData TrickForward
+	{
+		myMovementSetting TrickForward
+		myScript onward/skillscripts/maneuver_trick_barrel_forward.mskillscriptjuice
+		myGameActions
+		{
+			GameAction TrickForward TrickForward
+		}
+		myIsHover TRUE
+		myCooldownDuration 0.0
+		myStaminaCost 0.0
+        myStaminaCostType Player_StaminaCost_Trick
+	}
+	ManeuverData TrickBackward
+	{
+		myMovementSetting TrickBackward
+		myScript onward/skillscripts/maneuver_trick_barrel_backward.mskillscriptjuice
+		myGameActions
+		{
+			GameAction TrickBackward TrickBackward
+		}
+		myIsHover TRUE
+		myCooldownDuration 0.0
+		myStaminaCost 0.0
+        myStaminaCostType Player_StaminaCost_Trick
+	}
+	ManeuverData GroundSlam
+	{
+		myMovementSetting GroundSlam
+		myScript onward/skillscripts/maneuver_ground_slam.mskillscriptjuice
+		myGameActions
+		{
+			GameAction GroundSlam GroundSlam
+		}
+		myIsHover TRUE
+		myCooldownDuration 0.0
+		myStaminaCost 0.0
+        myStaminaCostType Player_StaminaCost_Trick
+	}
+}
+

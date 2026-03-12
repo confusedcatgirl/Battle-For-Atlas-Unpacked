@@ -1,0 +1,24 @@
+list UnlockedHardwareIds
+{
+	int
+}
+
+class StorePack < uid=auto >
+{
+	string				myUpsellAsset
+	string				myULCCodeXBL
+	string				myULCCodePSN
+	string				myULCCodeUPC
+	UnlockedHardwareIds myUnlockedHardwareIds
+}
+
+class PhysicalPack < uid=auto >
+{
+	UnlockedHardwareIds myUnlockedHardwareIds
+}
+
+class StoreUnlock < uid=auto >
+{
+	int					myHardwareId
+	string				myUpsellAsset
+}

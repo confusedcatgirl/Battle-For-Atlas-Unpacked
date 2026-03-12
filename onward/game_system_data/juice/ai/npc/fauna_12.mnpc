@@ -1,0 +1,59 @@
+include ./fauna_major.mnpc
+include onward/skillscripts/npc_ability_fauna_shatter.mskillscriptjuice
+include onward/skillscripts/npc_ability_fauna_gatling.mskillscriptjuice
+include onward/skillscripts/npc_ability_fauna_knockback.mskillscriptjuice
+
+NPC fauna_12 < uid=4A8282B956DE05C80000005E6FE274A9 > : fauna_major
+{
+	myUIName_NonLocalized Ghoulcrab
+	myGraphObjectFile "onward/graph objects/character/fauna_12.mgraphobject"
+	myIsInitiallyAggressive TRUE
+	myAbilityDefinitions
+	{
+		NPCAbilityDefinition Shoot
+		{
+			myGameAction NPC_Ability1
+			mySkillScript < uid=C92F4D3F578CF19A016256EC8B2CF055 > = npc_ability_fauna_gatling
+			myInputType Hold_New
+			myEnabled FALSE
+		}
+		NPCAbilityDefinition Shatter
+		{
+			myGameAction NPC_Ability2
+			mySkillScript < uid=C92F4D3F578CF19A016256EC8B2CF055 > = npc_ability_fauna_shatter
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_fauna_12_shatter.juice"
+		}
+		NPCAbilityDefinition Knockback
+		{
+			myGameAction NPC_Ability4
+			mySkillScript < uid=93869D535A9EB95E00001CDAAFC2EEE2 > = npc_ability_fauna_knockback
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_fauna_12_knockback.juice"
+		}
+	}
+	myPhysicsCapsuleHeight 2.0
+	myPhysicsSupportHeight -4.0
+	myPhysicsCapsuleRadius 3.0
+	myPhysicsPusherCapsuleRadius 7.0
+	myPhysicsPusherCapsule TRUE
+	myPhysicsCapsuleStart 0.0;10.0;12.0
+	myPhysicsCapsuleEnd 0.0;10.0;-4.0
+	myHitReactionConstants "onward/game system data/juice/combat/hitreactionsconstants_fauna_12.juice"
+	myPatternProfile < uid=4A8282B957BB265B000000B05863A5B8 > = "Fauna 12"
+	myDefaultMotionPattern < uid=4A8282B957BB265B000000B11D2E91BA > = "Fauna 12 Default"
+	myNPCType Fauna_12
+	myAnimSystemType Fauna_12
+	myLeggedness Quadruped
+	myWeapon
+	{
+		myWeaponType Pulse
+		myDamageType Crush
+	}
+	mySteeringParameters "onward/game system data/juice/ai/steering/fauna_12.juice"
+	myDefaultFootstepEvent 4218F057FBB2C969FA12B055E3C0F6B8
+	myOnDeathChallenge Death_Fauna12
+	myOnDiscoveredChallenge Discover_Fauna12
+	myFullyScannedChallenge FullyScan_Fauna12
+}
+

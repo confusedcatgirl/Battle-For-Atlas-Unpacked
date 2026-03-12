@@ -1,0 +1,755 @@
+//
+// Labels for all facts that relate to whole numbers
+//
+enum IntFactLabel < useCategories=1 >
+{
+	Undefined
+	< startCategory = "Test Int Facts"
+		< startCategory = "Agent" >
+		TEST_Agent_Faction
+		TEST_Agent_TakenDamage
+		< endCategory = "" >
+	
+		< startCategory = "Factions" >
+		TEST_Factions_Pirate_Reputation
+		TEST_Factions_Scientist_Reputation
+		TEST_Factions_Raider_Reputation
+		TEST_Factions_OnwardInitiative_Reputation
+		< endCategory = "" >
+	
+		< startCategory = "Resources" >
+		TEST_Resource_Minerals
+		TEST_Resource_Electronics
+		TEST_Resource_Crystals
+		TEST_Resource_Metals
+		TEST_Resource_Gases
+		< endCategory = "" >
+
+		< startCategory = "CombatStats" >	
+		TEST_CombatStats_SoldiersKilled
+		TEST_CombatStats_WorkersKilled
+		TEST_CombatStats_EscapeDronesKilled
+		TEST_CombatStats_DestroyersKilled
+		TEST_CombatStats_TRexesKilled
+		< endCategory = "" >
+		
+	< endCategory = "" >
+	
+	< startCategory = "Global Facts" >
+		Player_WingCount
+		Player_InSpace
+		Planet_Changed
+		Pilot_HWID
+		Rule_Debug_Mode
+		Last_Hack_Fail_Reason
+		Transition_Is_Space_To_Planet
+		Pilot_Skill_Level
+		Pilot_To_Difficulty_Domain_Delta
+		Pilot_To_Previous_Difficulty_Domain_Delta
+		Current_Planet_Has_A_Starlink_Tower
+		Current_Planet_Has_A_Prime
+		Harvesters_Are_In_Combat_With_Player
+		Outlaws_Are_In_Combat_With_Player
+		Inventory_Organics_Count
+		Inventory_Metals_Count
+		Inventory_Cores_Count
+		Sector_A_Has_Starlink_Tower
+		Sector_B_Has_Starlink_Tower
+		Sector_C_Has_Starlink_Tower
+		Current_Sector_Has_A_Starlink_Tower
+		Skill_Delta_Of_Last_Attack_On_Player
+		Skill_Delta_Of_Players_Last_Attack
+		Last_Fauna_Is_Fully_Discovered
+		Last_Fauna_Became_Fully_Discovered
+		Player_Inside_Dreadnought
+	< endCategory = "" >
+	
+	< startCategory = "Agent Facts" >
+		Agent_FullHealth
+		Agent_Healed
+		Agent_Damaged
+		Agent_HealthSegment
+		Agent_TemperatureState
+	< endCategory = "" >
+	TimesEnteredHover
+	PodDisabled
+	Is_Immune
+	Player_AddedPartSinceLastDamage
+	EntitySeen_Num
+	Shield_Regen
+	Shield_Break
+	Part_Added
+	Player_EnteredSpace
+	
+	< startCategory = "SimWorld Facts" >
+		SimWorld_Order_Type
+		SimWorld_Order_State
+		SimWorld_Order_Faction_Owner
+		SimWorld_Order_Faction_Receiver
+		SimWorld_Order_Faction_Target
+		
+		SimWorld_Order_PlayerPlanetMatches_Owner
+		SimWorld_Order_PlayerPlanetMatches_Receiver
+		SimWorld_Order_PlayerPlanetMatches_Target
+		
+		Target_Faction_Is_Hostile
+		Last_Detected_Target_Was_Hostile
+	< endCategory = "" >
+	
+	< startCategory = "On-It Facts" >
+		Player_Has_On_It_Target	
+	< endCategory = "" >
+
+	< startCategory = "Bark Facts - for ON_BARK_X Concepts" >
+		Bark_Chain_Count
+		Bark_Speaker_OasisCharacterID
+		Bark_Speaker_Faction
+		Bark_Speaker_Category
+		Bark_Speaker_SubCategory
+		Bark_Listener_OasisCharacterID
+		Bark_Listener_Faction
+		Bark_Listener_Category
+		Bark_Listener_SubCategory
+	< endCategory = "" >
+	
+	< startCategory = "Opportunity Facts - for ON_ONIT_X Concepts" >
+		OnIt_Opportunity_RequesterFaction
+		OnIt_Opportunity_RequesterCategory
+		OnIt_Opportunity_RequesterSubCategory
+		OnIt_Opportunity_OnItFaction
+		OnIt_Opportunity_OnItCategory
+		OnIt_Opportunity_OnItSubCategory
+	< endCategory = "" >
+
+	< startCategory = "Scope Facts" >
+		Criterion_Scope_Is_Valid
+	< endCategory = "" >
+	
+	< startCategory = "SimProxy Facts" >
+	Unit_Is_Realized
+	Is_On_It_Target
+	Is_On_It_Requester
+	Num_On_It_Times
+	Leader_Is_Alive
+	Unit_Level
+	Is_Solved
+	
+	Total_Entity_Count
+	Living_Entity_Count
+	
+	Is_In_Combat
+	Is_Allied
+	SubCategory_Variant
+	SimUnit_Interest_Target_Is_Self
+	SimUnit_Interest_Target_Is_Set
+	SimUnit_Is_Downed
+	SimUnit_Downed_Time_Remaining
+	SimUnit_Is_Dormant
+	SimUnit_Is_On_Player_Planet
+	SimUnit_InteractionCount
+		< startCategory = "SimProxy Facts/Analyzer Facts" >
+			Is_Analyzer_Full
+			Analyzer_ScanningFor_SubCategoryVariant
+			Analyzer_Scan_Count
+		< endCategory = "" >
+		< startCategory = "SimProxy Facts/Tower Facts" >
+			Is_Tower_Expanded
+		< endCategory = "" >
+		< startCategory = "SimProxy Facts/Dreadnought Facts" >
+			Num_Prime_Children
+			Current_Sector_Has_Active_Dreadnought
+		< endCategory = "" >
+		< startCategory = "SimProxy Facts/Facts about the specific Entity that caused the RuleConcept" >
+			SpecificEntity_IsScannedByAnalyzer
+		< endCategory = "" >
+	< endCategory = "" >
+	
+	< startCategory = "Player Facts" >
+		Player_In_Combat
+	< endCategory = "" >
+
+	< startCategory = "Story Facts" >
+		Current_Act
+		Dialog_SequenceID
+		Dialog_LineID
+		Dialog_StoryFlowID
+		OutlawStory_In_Arena_Brawl
+		OutlawStory_In_Arena_Laserdome
+		OutlawStory_In_Arena_Champion
+		Started_Expedition_SideStory_01
+	< endCategory = "" >
+	
+	< startCategory = "Global Opportunity Facts" >
+		Selected_Opportunity_RequesterIsRealized
+		Selected_Opportunity_RequesterInCombat
+		Selected_Opportunity_Requester_Is_Allied
+		Selected_Opportunity_Requester_SubCategory_Variant
+		Selected_Opportunity_OnItIsRealized
+		Selected_Opportunity_OnItInCombat
+		Selected_Opportunity_OnIt_Total_Entity_Count
+		Selected_Opportunity_OnIt_Is_Allied
+		Selected_Opportunity_OnIt_SubCategory_Variant
+		Selected_Opportunity_ThirdPartyIsRealized
+		Selected_Opportunity_ThirdPartyInCombat
+		Selected_Opportunity_ThirdParty_Total_Entity_Count
+		Selected_Opportunity_ThirdParty_Is_Allied
+		Selected_Opportunity_ThirdParty_SubCategory_Variant
+		Selected_Opportunity_Delivery_Player_Pickup_Count
+	< endCategory = "" >
+	
+	< startCategory = "Health Facts" >
+		Phased_Health_Current_Stage
+	< endCategory = "" >
+	
+	< startCategory = "Hull Part Owned Facts" >
+		Part_Is_Owned_Gauntlet
+		Part_Is_Owned_Gravcraft
+		Part_Is_Owned_Marauder
+		Part_Is_Owned_Nadir
+		Part_Is_Owned_Nomad
+		Part_Is_Owned_Starblade
+		Part_Is_Owned_Zenith
+		Part_Is_Owned_Red-1
+		Part_Is_Owned_Scramble
+		Part_Is_Owned_Cerberus
+	< endCategory = "" >
+	< startCategory = "Wing Part Owned Facts" >
+		Part_Is_Owned_Left_Wing_Chase
+		Part_Is_Owned_Left_Wing_Fern
+		Part_Is_Owned_Left_Wing_Galla
+		Part_Is_Owned_Left_Wing_Hunter
+		Part_Is_Owned_Left_Wing_Mason
+		Part_Is_Owned_Left_Wing_Neptune
+		Part_Is_Owned_Left_Wing_Rancor
+		Part_Is_Owned_Left_Wing_Shaide
+		Part_Is_Owned_Left_Wing_Scramble
+		Part_Is_Owned_Left_Wing_Cerberus
+		Part_Is_Owned_Right_Wing_Chase
+		Part_Is_Owned_Right_Wing_Fern
+		Part_Is_Owned_Right_Wing_Galla
+		Part_Is_Owned_Right_Wing_Hunter
+		Part_Is_Owned_Right_Wing_Mason
+		Part_Is_Owned_Right_Wing_Neptune
+		Part_Is_Owned_Right_Wing_Rancor
+		Part_Is_Owned_Right_Wing_Shaide
+		Part_Is_Owned_Right_Wing_Scramble		
+		Part_Is_Owned_Right_Wing_Cerberus
+		Part_Is_Owned_Top_Wing_Neptune
+	< endCategory = "" >
+	< startCategory = "Pod Part Owned Facts" >
+		Part_Is_Owned_Charge_Freeze_Ray
+		Part_Is_Owned_Charge_Freeze_Ray_Mk2
+		Part_Is_Owned_Crusher
+		Part_Is_Owned_Fireball
+		Part_Is_Owned_Flamethrower
+		Part_Is_Owned_Frost_Mine
+		Part_Is_Owned_Gauss_Gun
+		Part_Is_Owned_Gauss_Gun_Mk2
+		Part_Is_Owned_Hailstorm
+		Part_Is_Owned_Ice_Missile
+		Part_Is_Owned_Imploder
+		Part_Is_Owned_Imploder_Mk2
+		Part_Is_Owned_Iron_Fist
+		Part_Is_Owned_Jaunt
+		Part_Is_Owned_Levitator
+		Part_Is_Owned_Levitator_Mk2
+		Part_Is_Owned_Meteor
+		Part_Is_Owned_Meteor_Mk2
+		Part_Is_Owned_Nullifier
+		Part_Is_Owned_Nullifier_Mk2
+		Part_Is_Owned_Shockwave
+		Part_Is_Owned_Shredder
+		Part_Is_Owned_Shredder_Mk2
+		Part_Is_Owned_Tidal_Wave
+		Part_Is_Owned_Volcano
+		Part_Is_Owned_Volcano_Mk2
+	< endCategory = "" >
+	< startCategory = "Pilot Part Owned Facts" >
+	Part_Is_Owned_Pilot_Mason
+		Part_Is_Owned_Pilot_Cash
+		Part_Is_Owned_Pilot_Chase
+		Part_Is_Owned_Pilot_Eli
+		Part_Is_Owned_Pilot_Fern
+		Part_Is_Owned_Pilot_Galla
+		Part_Is_Owned_Pilot_Haywire
+		Part_Is_Owned_Pilot_Hunter
+		Part_Is_Owned_Pilot_Judge
+		Part_Is_Owned_Pilot_Kharl
+		Part_Is_Owned_Pilot_Levi
+		Part_Is_Owned_Pilot_Rancor
+		Part_Is_Owned_Pilot_Razor
+		Part_Is_Owned_Pilot_Shaide
+		Part_Is_Owned_Pilot_Sorren
+		Part_Is_Owned_Pilot_Startail
+	< endCategory = "" >
+
+	< startCategory = "Hull Part Attached Facts" >
+		Part_Is_Attached_Gauntlet
+		Part_Is_Attached_Gravcraft
+		Part_Is_Attached_Marauder
+		Part_Is_Attached_Nadir
+		Part_Is_Attached_Nomad
+		Part_Is_Attached_Starblade
+		Part_Is_Attached_Zenith
+		Part_Is_Attached_Red-1
+		Part_Is_Attached_Scramble
+		Part_Is_Attached_Cerberus
+	< endCategory = "" >
+	< startCategory = "Wing Part Attached Facts" >
+		Part_Is_Attached_Left_Wing_Chase
+		Part_Is_Attached_Left_Wing_Fern
+		Part_Is_Attached_Left_Wing_Galla
+		Part_Is_Attached_Left_Wing_Hunter
+		Part_Is_Attached_Left_Wing_Mason
+		Part_Is_Attached_Left_Wing_Neptune
+		Part_Is_Attached_Left_Wing_Rancor
+		Part_Is_Attached_Left_Wing_Shaide
+		Part_Is_Attached_Left_Wing_Scramble
+		Part_Is_Attached_Left_Wing_Cerberus
+		Part_Is_Attached_Right_Wing_Chase
+		Part_Is_Attached_Right_Wing_Fern
+		Part_Is_Attached_Right_Wing_Galla
+		Part_Is_Attached_Right_Wing_Hunter
+		Part_Is_Attached_Right_Wing_Mason
+		Part_Is_Attached_Right_Wing_Neptune
+		Part_Is_Attached_Right_Wing_Rancor
+		Part_Is_Attached_Right_Wing_Shaide
+		Part_Is_Attached_Right_Wing_Scramble
+		Part_Is_Attached_Right_Wing_Cerberus
+		Part_Is_Attached_Top_Wing_Neptune
+	< endCategory = "" >
+	< startCategory = "Pod Part Attached Facts" >
+		Part_Is_Attached_Charge_Freeze_Ray
+		Part_Is_Attached_Charge_Freeze_Ray_Mk2
+		Part_Is_Attached_Crusher
+		Part_Is_Attached_Fireball
+		Part_Is_Attached_Flamethrower
+		Part_Is_Attached_Frost_Mine
+		Part_Is_Attached_Gauss_Gun
+		Part_Is_Attached_Gauss_Gun_Mk2
+		Part_Is_Attached_Hailstorm
+		Part_Is_Attached_Ice_Missile
+		Part_Is_Attached_Imploder
+		Part_Is_Attached_Imploder_Mk2
+		Part_Is_Attached_Iron_Fist
+		Part_Is_Attached_Jaunt
+		Part_Is_Attached_Levitator
+		Part_Is_Attached_Levitator_Mk2
+		Part_Is_Attached_Meteor
+		Part_Is_Attached_Meteor_Mk2
+		Part_Is_Attached_Nullifier
+		Part_Is_Attached_Nullifier_Mk2
+		Part_Is_Attached_Shockwave
+		Part_Is_Attached_Shredder
+		Part_Is_Attached_Shredder_Mk2
+		Part_Is_Attached_Tidal_Wave
+		Part_Is_Attached_Volcano
+		Part_Is_Attached_Volcano_Mk2
+	< endCategory = "" >
+	< startCategory = "Pilot Part Attached Facts" >
+		Part_Is_Attached_Pilot_Mason
+		Part_Is_Attached_Pilot_Cash
+		Part_Is_Attached_Pilot_Chase
+		Part_Is_Attached_Pilot_Eli
+		Part_Is_Attached_Pilot_Fern
+		Part_Is_Attached_Pilot_Galla
+		Part_Is_Attached_Pilot_Haywire
+		Part_Is_Attached_Pilot_Hunter
+		Part_Is_Attached_Pilot_Judge
+		Part_Is_Attached_Pilot_Kharl
+		Part_Is_Attached_Pilot_Levi
+		Part_Is_Attached_Pilot_Rancor
+		Part_Is_Attached_Pilot_Razor
+		Part_Is_Attached_Pilot_Shaide
+		Part_Is_Attached_Pilot_Sorren
+		Part_Is_Attached_Pilot_Startail
+		Part_Is_Attached_Pilot_GemPilot1
+		Part_Is_Attached_Pilot_GemPilot2
+		Part_Is_Attached_Pilot_GemPilot3
+		Part_Is_Attached_Pilot_GemPilot4
+	< endCategory = "" >
+	
+	< startCategory = "War Effort Facts" >
+		WarEffort_CurrentPlanet_AllianceStrength
+		WarEffort_CurrentPlanet_LegionStrength
+	< endCategory = "" >
+	
+	< startCategory = "Story Section" >
+		Section_Is_Act_01_Intro_Space_Battle
+		Section_Is_Act_01_Crash_Landing
+		Section_Is_Act_01_Onboarding
+		Section_Is_Act_01_Pre_Shed_Attack_Imp_Activity
+		Section_Is_Act_01_Post_Shed_Attack_Imp_Activity
+		Section_Is_Act_01_Post_Shed_Attack_Shed_Activity
+		Section_Is_Act_02_Pilot_Upgrades
+		Section_Is_Act_02_Travel_To_Haven
+		Section_Is_Act_02_Hack_The_Drake
+		Section_Is_Act_02_Ally_With_Eli
+		Section_Is_Act_02_Find_Warden_Totem
+		Section_Is_Act_02_Attack_FireGiant
+		Section_Is_Act_02_Mining_Alliance
+		Section_Is_Act_02_Mining_Alliance_Accepted
+		Section_Is_Act_02_Refinery_Chest_Opened
+		Section_Is_Act_02_Electrum_Vein
+		Section_Is_Act_02_Upgrade_Sensors
+		Section_Is_Act_02_Travel_To_Sonatus
+		Section_Is_Act_02_GatherElectrum_GameLoop
+		Section_Is_Act_02_Destroy_Prime
+		Section_Is_Act_02_Deliver_Prime_Core
+		Section_Is_Act_03_Build_Observatory
+		Section_Is_Act_03_Build_Workshop_1
+		Section_Is_Act_03_Build_Workshop_2
+		Section_Is_Act_03_Armory_Mission_1
+		Section_Is_Act_03_Armory_Mission_2
+		Section_Is_Act_03_BuildAlliance_GameLoop
+		Section_Is_Act_03_Destroy_Dreadnought
+		Section_Is_Act_04_Collect_Artefacts
+		Section_Is_Act_04_Build_Armory
+		Section_Is_Act_04_StarlinkTowers
+		Section_Is_Act_04_Alliance_GameLoop
+		Section_Is_Act_04_AfterFirstTowerBuilt
+		Section_Is_Act_04_Upgrade_Starlink
+		Section_Is_Act_04_Travel_To_AtlasB
+		Section_Is_Act_05
+		Section_Is_Act_05_Drake_Battle
+		Section_Is_Act_05_Gauntlet
+		Section_Is_Act_05_Blockade
+		Section_Is_Act_05_StationApproach
+		Section_Is_Act_05_Grax_Planet_Battle
+		Section_Is_Act_05_Grax_Drake_Battle
+		Section_Is_Enable_MissionType_Survival
+		Section_Is_FirstContact_CreepZone
+		Section_Is_Enable_ObservatoryMissions
+		Section_Is_Enable_RefineryMissions
+		Section_Is_Enable_WorkshopMissions
+		Section_Is_Enable_ArmoryMissions
+		Section_Is_Enable_EnterRangeActivities_Kharl
+		Section_Is_Enable_EnterRangeActivities_Eli
+		Section_Is_Enable_EnterRangeActivities_Fern
+		Section_Is_Enable_EnterRangeActivities_Galla
+		Section_Is_Act_06
+		Section_Is_Met_Kharl
+		Section_Is_Met_Eli
+		Section_Is_Met_Rancor
+		Section_Is_Enable_WardenPuzzles
+		Section_Is_Act_01_Extractor
+		Section_Is_sidestory01_sequence01
+		Section_Is_sidestory01_sequence02
+		Section_Is_sidestory01_sequence03
+		Section_Is_sidestory01_sequence04
+		Section_Is_sidestory01_sequence05
+		Section_Is_sidestory01_sequence06
+		Section_Is_sidestory01_sequence07
+		Section_Is_Ally_Kharl
+		Section_Is_Ally_Fern
+		Section_Is_Ally_Galla
+		Section_Is_Ally_Eli
+		Section_Is_DisableGallaOutpostMissions
+		Section_Is_Gemtwo_Mission1
+		Section_Is_Gemtwo_Mission2
+		Section_Is_Gemtwo_Mission3
+		Section_Is_Gemtwo_Mission4
+		Section_Is_Gemtwo_Mission5
+		Section_Is_Gemtwo_Mission6
+		Section_Is_ProspectorSideStory_1
+		Section_Is_ProspectorSideStory_2
+		Section_Is_ProspectorSideStory_3
+		Section_Is_ProspectorSideStory_4
+		Section_Is_ProspectorSideStory_5
+		Section_Is_ProspectorSideStory_6
+		Section_Is_ProspectorSideStory_7
+		Section_Is_ProspectorSideStory_8
+		Section_Is_ProspectorSideStory_9
+		Section_Is_ExpeditionSideStory_1
+		Section_Is_ExpeditionSideStory_2
+		Section_Is_ExpeditionSideStory_3
+		Section_Is_ExpeditionSideStory_4
+		Section_Is_ExpeditionSideStory_5
+		Section_Is_OutlawSideStory_1
+		Section_Is_OutlawSideStory_2
+		Section_Is_OutlawSideStory_3
+		Section_Is_OutlawSideStory_4
+		Section_Is_OutlawSideStory_5
+		Section_Is_MoonIntro_1
+		
+		
+		
+	< endCategory = "" >
+	
+	< startCategory = "Gameloop Facts" >
+		Num_Gameloop_Events
+	< endCategory = "" >
+	
+	Is_In_Harvested_Territory
+	
+	< startCategory = "Pilot Trial Global Facts" >
+		Overdrive_PlayerLeading
+		Overdrive_LeaderLap
+		Overdrive_LeaderLapsLeft
+		Races_Are_Unlocked
+		Race_Unlocked_BloodedKings
+		Race_Unlocked_WildWinds
+		Race_Unlocked_Overlords
+		Race_Unlocked_Phantoms
+	< endCategory = "" >
+	
+	< startCategory = "Pilot Trial SimUnitProxy Facts" >
+		Overdrive_LastPlacing
+		Overdrive_CurrPlacing
+		Overdrive_HumanWon
+	< endCategory = "" >
+
+	< startCategory = "Arena Facts" >
+		Is_In_Arena
+		Current_Arena_Wave
+		Arena_Reward_Earned
+		Arena_HighScore_Beaten
+		Arena_Score
+		Arena_Ship_Swap_Count
+		Is_Showing_Arena_Results
+	< endCategory = "" >
+	
+	< startCategory = "Reputation" >
+		Outlaw_Reputation_Level
+	< endCategory = "" >
+}
+
+//
+// Labels for all facts that relate to fractional numbers
+//
+enum FloatFactLabel < useCategories=1 >
+{
+	Undefined
+	< startCategory = "Test Float Facts"
+		< startCategory = "Planet" >
+		TEST_Planet_Temperature
+		TEST_Planet_Atmosphere
+		TEST_Planet_Gravity
+		< endCategory = "" >
+	
+		< startCategory = "Agent" >
+		TEST_Agent_CurrentHealth
+		TEST_Agent_LastDamageAmountTaken
+		TEST_Agent_LastTimeFireDamageTaken
+		TEST_Agent_LastTimeIceDamageTaken
+		< endCategory = "" >
+	< endCategory = "" >
+	
+	< startCategory = "Agent Facts" >
+		Agent_CurrentHealth
+		Agent_CurrentGravity
+		Agent_CurrentAltitude
+		Agent_CurrentSpeed
+		Agent_CurrentCold
+		Agent_CurrentHeat
+	< endCategory = "" >
+	Damage_Taken
+	DistanceToPlayer
+	Player_Health_Percent
+	
+	< startCategory = "Target or Instigator Facts" >
+		SimUnit_Health_Percent
+	< endCategory = "" >
+	
+	Living_Entity_Percent
+	SimUnit_Knowledge
+	
+	< startCategory = "Global Facts" >
+		Inventory_Organics_Percent
+		Inventory_Metals_Percent
+		Inventory_Cores_Percent
+	< endCategory = "" >
+	
+	Charge_Percent
+}
+
+//
+// Labels for all facts that relate to whole numbers and strings
+//
+enum StringFactLabel < useCategories=1 >
+{
+	Undefined
+	< startCategory = "Test String Facts"
+		< startCategory = "Planet" >
+		TEST_Planet_Name
+		< endCategory = "" >
+	
+		< startCategory = "Agent" >
+		TEST_Agent_Name
+		TEST_Agent_HomeBase
+		TEST_Agent_FavoriteCheese
+		TEST_Agent_SecretPassword
+		TEST_Agent_McNuggetSauce
+		< endCategory = "" >
+	< endCategory = "" >
+	
+	< startCategory = "Global Facts" >
+		Pilot_Name
+		Planet_Name
+		Planet_UID
+		Level_Type
+		NPC_Type_AttachedTo_Player
+		Category_AttachedTo_PlayerTow
+		Category_AttachedTo_PlayerPocketL
+		Category_AttachedTo_PlayerPocketR
+		SubCategory_AttachedTo_PlayerTow
+		SubCategory_AttachedTo_PlayerPocketL
+		SubCategory_AttachedTo_PlayerPocketR
+		Affinity_AttachedTo_PlayerTow
+		Affinity_AttachedTo_PlayerPocketL
+		Affinity_AttachedTo_PlayerPocketR
+		Local_Computer_Name
+		Current_Sector_Name
+		Last_Destroyed_Dreadnought_Sector_Name
+		Platform_Name
+		Last_Gemini_Ally_Selected_For_Wingmate
+		Sidestory_Mission_SubMenu_Faction
+		Challenge_Blocking_Transition
+	< endCategory = "" >
+	
+	< startCategory = "Agent Facts" >
+		Agent_Name
+		Other_Agent_Name
+		Agent_Faction
+		Other_Agent_Faction
+		NPC_Type
+		Other_NPC_Type
+		Last_Status_Effect_Reaction_Name
+	< endCategory = "">
+	< startCategory = "AIInterestInfo" >
+		Combat_Name
+		Combat_Faction
+	< endCategory = "">
+	Damage_Type
+	AIState
+	AIState_Prev
+	EntitySeen_Name
+	Player_State
+	Resource_Type
+	Part_Type
+	Part_Name
+	
+	< startCategory = "SimProxy Facts" >
+		Faction
+		Category
+		SubCategory
+		AffinityType
+		Goal
+		Leader_Affinity
+		Leader_NPC_Type
+		Agent_Ability
+		Eye_State
+		Pluck_Stage
+		< startCategory = "SimProxy Facts/Damage Facts" >
+			Last_Received_DamageType
+		< endCategory = "" >
+		< startCategory = "SimProxy Facts/Order Facts" >
+			SimWorld_Order_Behavior_Owner
+			SimWorld_Order_Behavior_Receiver
+			SimWorld_Order_Behavior_Target
+			SimWorld_Order_PlanetName_Owner
+			SimWorld_Order_PlanetName_Receiver
+			SimWorld_Order_PlanetName_Target
+			SimWorld_Order_PlanetName_Player
+		< endCategory = "" >
+		< startCategory = "SimProxy Facts/AttachedTo Facts" >
+			AttachedTo_Leader_Affinity
+			AttachedTo_Leader_NPC_Type
+			AttachedTo_Category
+			AttachedTo_SubCategory
+			AttachedTo_Faction
+			AttachedTo_Affinity
+		< endCategory = "" >
+		< startCategory = "SimProxy Facts/Facts about the specific Entity that caused the RuleConcept" >
+			SpecificEntity_Name
+			SpecificEntity_NPCType
+			SpecificEntity_AffinityType
+		< endCategory = "" >
+		< startCategory = "SimProxy Facts/Analyzer Facts" >
+			Analyzer_ScanningFor_Category
+			Analyzer_ScanningFor_SubCategory
+			Analyzer_ScanningFor_Faction
+		< endCategory = "" >
+	< endCategory = "" >
+	
+	< startCategory = "Global Opportunity Facts" >
+		Selected_Opportunity_ActivityType
+		Selected_Opportunity_RequesterFaction
+		Selected_Opportunity_RequesterCategory
+		Selected_Opportunity_RequesterSubCategory
+		Selected_Opportunity_OnItFaction
+		Selected_Opportunity_OnItCategory
+		Selected_Opportunity_OnItSubCategory
+		Selected_Opportunity_OnItAffinity
+		Selected_Opportunity_ThirdPartyFaction
+		Selected_Opportunity_ThirdPartyCategory
+		Selected_Opportunity_ThirdPartySubCategory
+		Selected_Opportunity_MissionId
+		Last_Expired_Opportunity_Reason
+		Last_Expired_Opportunity_MissionId
+		Last_Completed_Opportunity_MissionId
+		Last_Completed_Opportunity_ActivityType
+	< endCategory = "" >
+
+	< startCategory = "Global Activity Facts" >
+		Last_Expired_Activity_MissionId
+		Last_Completed_Activity_MissionId
+	< endCategory = "" >
+
+	< startCategory = "Story Facts" >
+		Current_Story_Beat
+		Current_Story_Dialog_Tag
+	< endCategory = "" >
+	
+	< startCategory = "Affinity event facts" >
+		Last_AffinityType_Triggered
+		Last_WeaknessDamage_Applied
+		Last_AffinityDamage_Applied
+	< endCategory = "" >
+	
+	Last_NonActivatable_StatusEffectType
+	
+	< startCategory = "Bark Facts - for ON_BARK_X Concepts" >	
+		Bark_Chain_Initial_Concept
+		Bark_Concept
+		Bark_BarkTag
+		Bark_Chain_Initial_BarkTag
+		Bark_Speaker_Faction
+		Bark_Speaker_Category
+		Bark_Speaker_SubCategory
+		Bark_Listener_Faction
+		Bark_Listener_Category
+		Bark_Listener_SubCategory
+		Bark_Speaker_InterestTarget_Faction
+		Bark_Speaker_InterestTarget_Category
+		Bark_Speaker_InterestTarget_SubCategory
+	< endCategory = "" >
+
+	< startCategory = "Opportunity Facts - for ON_ONIT_X Concepts" >
+		OnIt_Opportunity_ActivityType
+		OnIt_Opportunity_RequesterFaction
+		OnIt_Opportunity_RequesterCategory
+		OnIt_Opportunity_RequesterSubCategory
+		OnIt_Opportunity_OnItFaction
+		OnIt_Opportunity_OnItCategory
+		OnIt_Opportunity_OnItSubCategory
+	< endCategory = "" >
+	
+	Shipment_Name
+
+	< startCategory = "Co-op Facts - for for ON_COOP_X Concepts" >
+		Coop_Leash_Strength
+	< endCategory = "" >
+	
+	< startCategory = "Unlockables Facts - Databse Entries and Challenges" >
+		Last_Challenge_Type_Completed
+	< endCategory = "" >
+
+	< startCategory = "Arena Facts" >
+		Arena_Event_Type
+		Arena_Tier_Type
+		Arena_Boss_Tier_Unit
+	< endCategory = "" >
+	
+	Last_Hyperspace_Net_Faction
+}

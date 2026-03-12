@@ -1,0 +1,317 @@
+include "onward/game system data/fruit/meta object/meta object.fruit"
+
+MetaObject "Agent Shared"
+{
+	MetaVariable "Ability In Progress" Boolean
+	MetaVariable CODESHARED_IsDormantSettled Boolean
+	MetaVariable CODESHARED_IsDowned Boolean
+	MetaVariable CODESHARED_IsFrozen Boolean
+	MetaVariable CODESHARED_IsJetpackEnabled Boolean
+	MetaVariable CODESHARED_IsLifted Boolean
+	MetaVariable CODESHARED_IsPlanted Boolean
+	MetaVariable CODESHARED_IsReturningToNavMesh Boolean
+	MetaVariable CODESHARED_JetpackDivebombTriggerEnabled Boolean
+	MetaVariable CODESHARED_LastNPCDetachTime Float
+	MetaVariable CODESHARED_ReinforcementRequestor Entity
+	MetaVariable CODESHARED_RealizationCount Integer
+	MetaVariable CODESHARED_ShouldShatter Boolean
+	MetaVariable HealingSource Entity
+	MetaVariable IsEntangled Boolean
+	MetaVariable IsHacked Boolean
+	MetaVariable IsIdle Boolean
+	MetaVariable LastDamageTakenTime Float
+	MetaVariable LastDamageTakenBy Entity
+	MetaVariable CODESHARED_WhoFrozeMe Entity
+}
+
+MetaObject Cyclops
+{
+	MetaVariable CanDash Boolean
+	MetaVariable DashDirection Vector3f
+	MetaVariable InterruptDash Boolean
+	MetaVariable "Last Shield Hit Time" Float
+}
+
+MetaObject "Ice Cyclops"
+{
+	MetaVariable "Can Ice Barrage" Boolean
+	MetaVariable Charging Boolean
+	MetaVariable "Ice Wave Light Enabled" Boolean
+	MetaVariable "Shield Destroyed" Boolean
+	MetaVariable "Staff Destroyed" Boolean
+}
+
+MetaObject "Heat Cyclops"
+{
+	MetaVariable Charging Boolean
+	MetaVariable "Weapon Destroyed" Boolean
+	MetaVariable ThrustersOn Boolean
+}
+
+MetaObject "Grax Cyclops"
+{
+	MetaVariable Affinity Integer
+	MetaVariable "Guarded Volley" Boolean
+	MetaVariable "Shield Active" Boolean
+	MetaVariable "Ram Collided" Boolean
+}
+
+MetaObject "Crush Giant"
+{
+	MetaVariable "Next Leap Black Hole Time" Float
+	MetaVariable "Spawned Imps" Boolean
+	MetaVariable ThrustersOn Boolean
+	MetaVariable IsFiring Boolean
+	MetaVariable IsObstructed Boolean
+}
+
+MetaObject Drake
+{
+	MetaVariable CanBarrelRoll Boolean
+}
+
+MetaObject Dreadnought
+{
+	MetaVariable "Eye Opened" Boolean
+	MetaVariable "Eye State" Integer
+	MetaVariable "Encounter Initialized" Boolean
+	MetaVariable "Encounter Level" Integer
+	MetaVariable "Left Eyes Active" Integer
+	MetaVariable "Right Eyes Active" Integer
+	MetaVariable "Core Lasers Active" Boolean
+	MetaVariable "Core Ring Lasers Active" Boolean
+	MetaVariable "Laser Active" Boolean
+	MetaVariable "Laser Length" Float
+	MetaVariable "Ring Entity" Entity
+	MetaVariable "Is Ring Active" Boolean
+	MetaVariable "Ring Speed" Float
+	MetaVariable "Ring Rotation Speed" Float
+	MetaVariable "Is Core Rotating" Boolean
+	MetaVariable "Is Enraged" Boolean
+	MetaVariable "Shell Entity" Entity
+	MetaVariable "Shell Look At" FarPosition
+	MetaVariable "Shell Pitch" Float
+	MetaVariable "Shell Yaw" Float
+	MetaVariable Phase Integer
+	MetaVariable "Heal Target" Entity
+	MetaVariable "Encounter Range" Float
+	MetaVariable "Mega Cannon Winding Up" Boolean
+	MetaVariable "Mega Cannon Wind Up Duration" Float
+	MetaVariable "Corruption Count" Integer
+	MetaVariable "Core Door Opened" Boolean
+	MetaVariable "Last Destroyed Eye" Entity
+	MetaVariable "Is Core Active" Boolean
+	MetaVariable "Is Core Destroyed" Boolean
+	MetaVariable "Player Exited" Boolean
+	MetaVariable "Needs Reset" Boolean
+	MetaVariable TEMPPHASE_IsEyePhase Boolean
+	MetaVariable TEMPPHASE_IsInteriorPhase Boolean
+	MetaVariable TEMPPHASE_ActiveEyeCount Integer
+	MetaVariable TEMPPHASE_MissileCount Integer
+	MetaVariable TEMPPHASE_MaxFiringEyeCount Integer
+	MetaVariable TEMPPHASE_EyeFiringCooldown Float
+}
+
+MetaObject Extractor
+{
+	MetaVariable "Encounter Level" Integer
+	MetaVariable "Encounter Entity" Entity
+	MetaVariable "Ring Deactivated" Boolean
+	MetaVariable "Eye Active" Boolean
+	MetaVariable "Ability Affinity Type" Integer
+	MetaVariable "Ability Combo Type" Integer
+	MetaVariable "Winding Up" Boolean
+	MetaVariable "Winding Up Duration" Float
+	MetaVariable "Weakpoint Active" Boolean
+	MetaVariable "Weakpoint Destroyed" Boolean
+	MetaVariable "Jump Rope Count" Integer
+	MetaVariable Variant Integer
+	MetaVariable "Has Ability" Boolean
+	MetaVariable "Is Near Prime" Boolean
+}
+
+MetaObject "Extractor Corruption"
+{
+	MetaVariable Active Boolean
+	MetaVariable Destroyed Boolean
+	MetaVariable "Abilities Allowed" Boolean
+	MetaVariable "Selected Ability" Integer
+	MetaVariable "Pluckable Cover" Entity
+	MetaVariable "Cover Plucked" Boolean
+	MetaVariable "Shield Count" Integer
+	MetaVariable "Shield RPM" Float
+	MetaVariable "Ability Target Position" FarPosition
+}
+
+MetaObject "Faction Units"
+{
+	MetaVariable "Talk Target" Entity
+}
+
+MetaObject "Harvester Cover"
+{
+	MetaVariable Active Boolean
+}
+
+MetaObject "Outlaw Ground"
+{
+	MetaVariable "Perform Damage Reaction" Boolean
+	MetaVariable "Shield Active" Boolean
+}
+
+MetaObject Prime
+{
+	MetaVariable "Air Phase" Boolean
+	MetaVariable "Front Right Corruption" Entity
+	MetaVariable "Front Left Corruption" Entity
+	MetaVariable "Back Right Corruption" Entity
+	MetaVariable "Back Left Corruption" Entity
+	MetaVariable "Tail Corruption" Entity
+	MetaVariable "Weakpoint Destroyed" Boolean
+	MetaVariable "Weakpoint Active" Boolean
+	MetaVariable "Extractor Target" Entity
+	MetaVariable "Front Core Vulnerable" RefCount
+	MetaVariable "Lower Core Vulnerable" Boolean
+	MetaVariable "Upper Core Vulnerable" Boolean
+	MetaVariable Downed Boolean
+	MetaVariable "Dead On Ground" Boolean
+	MetaVariable "Turrets Powered Off" Boolean
+	MetaVariable "Nova Infusion" Boolean
+	MetaVariable "Encounter Reset" Boolean
+	MetaVariable "Earthshatter Activate" Boolean
+	MetaVariable "Earthshatter Distance" Float
+	MetaVariable "Extractor Removed" Boolean
+	MetaVariable "Earthshatter Kit Piece" Integer
+	MetaVariable "Nova Beam Source" Entity
+	MetaVariable "Player In Airphase AOE" Boolean
+	MetaVariable "Phase 1 Active Leg Weakpoint" Entity
+	MetaVariable "Tail Target" FarPosition
+	MetaVariable "Phase 1 Destroyed Weakpoint" Entity
+	MetaVariable "Pluckable Core Hidden" Boolean
+	MetaVariable "Transition Distance Sq" Float
+	MetaVariable "Ready To Render" Boolean
+	MetaVariable "Electrum Vein Cleared" Boolean
+}
+
+MetaObject Probe
+{
+	MetaVariable "Evasive Maneuvers" Boolean
+}
+
+MetaObject Temporary
+{
+	MetaVariable "Ignore Maintain Movement Animation" Boolean
+	MetaVariable "Requested Scan Type" Integer
+	MetaVariable "UI Name" String
+}
+
+MetaObject Turret
+{
+	MetaVariable "NPC Logic" Entity
+	MetaVariable "Tracking Target" Entity
+	MetaVariable "Tracking Position" FarPosition
+	MetaVariable RateOfFire Float
+	MetaVariable Reflected Boolean
+	MetaVariable PreventNormalFire Boolean
+	MetaVariable "Charge-Up Time Remaining" Float
+}
+
+MetaObject Wyvern
+{
+	MetaVariable LastBarrageTime Float
+}
+
+MetaObject "Outlaw Mech"
+{
+	MetaVariable "Phase II" Boolean
+	MetaVariable WeakPointShield Boolean
+	MetaVariable GrabAttach Boolean
+	MetaVariable GrabState Integer
+	MetaVariable "Fist Detached" Boolean
+	MetaVariable SpineExposed Boolean
+	MetaVariable MechDowned Boolean
+	MetaVariable "Damaged Limb Index" Integer
+	MetaVariable "Active Knee Index" Integer
+	MetaVariable "Corrosive Cannon Desired Angle" Float
+	MetaVariable "Fist Attached" Boolean
+	MetaVariable "Torso Twist Angle" Float
+	MetaVariable AttemptingGrapple Boolean
+	MetaVariable GrappleSequenceNearComplete Boolean
+	MetaVariable FistActionInProgress Boolean
+	MetaVariable GrappleState Integer
+	MetaVariable FistVanish Boolean
+	MetaVariable PullIntensity Float
+	MetaVariable "Left Or Right Knee Impact" Float
+	MetaVariable "Knee Impact Amount" Float
+	MetaVariable "Post Stagger Combat Delay" Boolean
+	MetaVariable "Fist Detached State" Integer
+	MetaVariable HitEntity Entity
+	MetaVariable "Despawn State" Integer
+	MetaVariable "Corrosive Cannon Charge-Up Time Remaining" Float
+	MetaVariable FistEntity Entity
+}
+
+MetaObject "Mini Enemy 01"
+{
+	MetaVariable Affinity Integer
+}
+
+MetaObject "Mini Enemy 02"
+{
+	MetaVariable "Shell Disabled" Boolean
+	MetaVariable "Shell Plucked" Boolean
+}
+
+MetaObject "Mini Enemy 06"
+{
+	MetaVariable "Health Percent On Contact" Float
+}
+
+MetaObject "Mini Enemy 09"
+{
+	MetaVariable Disappear Boolean
+}
+
+MetaObject Sentinel
+{
+	MetaVariable "X-Hole Entity" Entity
+	MetaVariable "Constructing X-Hole" Boolean
+}
+
+MetaObject "Outlaw Hovertank"
+{
+	MetaVariable "Front Attachment" Entity
+	MetaVariable "Back Attachment" Entity
+	MetaVariable "Left Attachment" Entity
+	MetaVariable "Right Attachment" Entity
+	MetaVariable "Turret Attachment" Entity
+	MetaVariable "Mines Tank" Entity
+	MetaVariable "Attachment State" Integer
+	MetaVariable "Mine Pattern Alpha Count" Integer
+	MetaVariable "Mine Pattern Beta Count" Integer
+	MetaVariable "Phase Two Cannon" Boolean
+	MetaVariable "Phase Two Mine" Boolean
+	MetaVariable "Consecutive Cannon Shots" Integer
+	MetaVariable "Freeze Cannon" Boolean
+	MetaVariable "Show Top Weakpoints" Boolean
+	MetaVariable "First Super Shot Fired" Boolean
+	MetaVariable "Super Shot In Progress" Boolean
+	MetaVariable "Play Mine Assist VO" Boolean
+	MetaVariable "Despawn State" Integer
+	MetaVariable "Maneuver State" Integer
+	MetaVariable "Hit Reaction Intensity" Float
+	MetaVariable "Armor Plate Destroy Time" Float
+}
+
+MetaObject "Pilot Trial"
+{
+	MetaVariable CODESHARED_IsRaceBegan Boolean
+	MetaVariable CODESHARED_RacePathUID UID
+	MetaVariable CODESHARED_RacerMotionPattern String
+	MetaVariable CODESHARED_CheckpointStateForPlayer1 Integer
+	MetaVariable CODESHARED_CheckpointStateForPlayer2 Integer
+	MetaVariable CODESHARED_RaceResetPath Boolean
+	MetaVariable CODESHARED_RaceResetPosition FarPosition
+	MetaVariable CODESHARED_RaceInProgress Boolean
+}
+

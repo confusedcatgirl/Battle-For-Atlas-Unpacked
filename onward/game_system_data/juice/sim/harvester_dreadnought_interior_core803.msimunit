@@ -1,0 +1,132 @@
+include ./harvester_dreadnought_part_base.msimunit
+
+SimUnit harvester_dreadnought_interior_core803 < uid=DDDD6F5D5BEF355400664424171FB2FF > : harvester_dreadnought_part_base
+{
+	myFaction Outlaw
+	mySubCategory DreadnoughtCore
+	mySubCategoryVariant 803
+	myRadius 35.0
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo Core < uid=DDDD6F5D5BEF35540066442515039C13 >
+		{
+			myCountMin 1
+			myCountMax 1
+			myIgnoreHealth TRUE
+			myIgnoreNavMesh TRUE
+			myIgnoreTerrain TRUE
+			mySpawnOutsideZone FALSE
+			myElementSpawnInfo
+			{
+				SimUnitElementSpawnInfo Core
+				{
+					myEntityFile "onward/game system data/juice/ai/npc/harvester_dreadnought_super_core.mnpc"
+				}
+			}
+		}
+		SimUnitEntitySpawnInfo Ring < uid=DDDD6F5D5BEF355400664426D33496F7 >
+		{
+			myCountMin 1
+			myCountMax 1
+			myIgnoreHealth TRUE
+			myIgnoreNavMesh TRUE
+			myIgnoreTerrain TRUE
+			mySpawnOutsideZone FALSE
+			myElementSpawnInfo
+			{
+				SimUnitElementSpawnInfo Ring
+				{
+					myEntityFile "onward/entity templates/harvester_dreadnought_core_ring.mentitytemplate"
+				}
+			}
+		}
+		SimUnitEntitySpawnInfo "Ring Lasers" < uid=DDDD6F5D5BEF3554006644273108C84C >
+		{
+			myCountMin 16
+			myCountMax 16
+			myIgnoreHealth TRUE
+			myIgnoreNavMesh TRUE
+			myIgnoreTerrain TRUE
+			myElementSpawnInfo
+			{
+				SimUnitElementSpawnInfo Laser
+				{
+					myEntityFile "onward/entity templates/harvester_dreadnought_laser.mentitytemplate"
+				}
+			}
+			myAttachParentSpawnInfoUID DDDD6F5D5BEF355400664426D33496F7
+			myAttachBoneCategory BeamPort
+		}
+		SimUnitEntitySpawnInfo Shell < uid=DDDD6F5D5BEF355400664428DB6A0CD8 >
+		{
+			myCountMin 1
+			myCountMax 1
+			myIgnoreHealth TRUE
+			myIgnoreNavMesh TRUE
+			myIgnoreTerrain TRUE
+			myElementSpawnInfo
+			{
+				SimUnitElementSpawnInfo Shell
+				{
+					myEntityFile "onward/entity templates/harvester_dreadnought_core_shell.mentitytemplate"
+				}
+			}
+		}
+		SimUnitEntitySpawnInfo "Core Lasers" < uid=DDDD6F5D5BEF355400664429D280F0A2 >
+		{
+			myCountMin 18
+			myCountMax 18
+			myIgnoreHealth TRUE
+			myIgnoreNavMesh TRUE
+			myIgnoreTerrain TRUE
+			myElementSpawnInfo
+			{
+				SimUnitElementSpawnInfo Laser
+				{
+					myEntityFile "onward/entity templates/harvester_dreadnought_laser.mentitytemplate"
+				}
+			}
+			myAttachParentSpawnInfoUID DDDD6F5D5BEF355400664428DB6A0CD8
+			myAttachBoneCategory BeamPort
+		}
+		SimUnitEntitySpawnInfo "Ring Secondary" < uid=DDDD6F5D5BF336D50004C08959E9A686 >
+		{
+			myCountMin 1
+			myCountMax 1
+			myIgnoreHealth TRUE
+			myIgnoreNavMesh TRUE
+			myIgnoreTerrain TRUE
+			myElementSpawnInfo
+			{
+				SimUnitElementSpawnInfo "Ring Secondary"
+				{
+					myEntityFile "onward/entity templates/harvester_dreadnought_core_ring_secondary.mentitytemplate"
+				}
+			}
+		}
+		SimUnitEntitySpawnInfo "Ring Secondary Lasers" < uid=DDDD6F5D5BF3375E0004C08E839150C1 >
+		{
+			myCountMin 16
+			myCountMax 16
+			myIgnoreHealth TRUE
+			myIgnoreNavMesh TRUE
+			myIgnoreTerrain TRUE
+			myElementSpawnInfo
+			{
+				SimUnitElementSpawnInfo Laser
+				{
+					myEntityFile "onward/entity templates/harvester_dreadnought_laser.mentitytemplate"
+				}
+			}
+			myAttachParentSpawnInfoUID DDDD6F5D5BF336D50004C08959E9A686
+		}
+	}
+	myUnkillable FALSE
+	myUnkillableType Killable
+	mySkillLevelCoefficients
+	{
+		myUseTargetRelativeLevel TRUE
+		myParentSkillLevelMultiplier 1
+	}
+}
+

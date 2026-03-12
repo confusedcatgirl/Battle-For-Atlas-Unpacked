@@ -1,0 +1,91 @@
+enum NPCSpeedType < useCategories=1 >
+{
+	< startCategory="Common" >
+	Walk
+	Run
+	Chase
+	Investigate
+	Flight
+	TakeOff
+
+	< startCategory="Combat" >
+	Reinforce
+	MissileBarrage
+	FlightChase
+	StrafingRun
+	InCombat
+	Attacking
+
+	< startCategory="Misc" >
+	Road
+	AirDrop
+	SuperJump
+
+	< startCategory="Do Not Use" >
+	Default
+}
+
+class NPCLocomotionModeMapping
+{
+	bool myAppliesToWalkSpeedMode false
+	bool myAppliesToRunSpeedMode false
+	bool myAppliesToLowGravityMode false
+	bool myAppliesToNormalGravityMode false
+	bool myAppliesToHighGravityMode false
+
+	float myMinSupportedSpeed 1.0 < tooltip="The minimum supported speed in m/s that the NPC can travel while in this animation mode.  Must be greater than zero." >
+	float myMaxSupportedSpeed 15.0 < tooltip="The maximum supported speed in m/s that the NPC can travel while in this animation mode.  Must be greater than zero." >
+	float myApproximateSpeed  10.0 < tooltip="The approximate speed in m/s that the NPC travels while in this animation mode.  Must be greater than zero." >
+}
+
+list NPCLocomotionModeMappingList
+{
+	NPCLocomotionModeMapping
+}
+
+class BaseNPCMovementSetting
+{
+	NPCSpeedType mySpeedType
+	float   myTurnRate  1.0 < tooltip="rotational acceleration rate" >
+	float   myMaxTurnRate  1.0 < tooltip="max radians per frame of angular velocity" >
+	float   myMaxSlope    90.0    < tooltip="Max Slope that the agent can navigate up (in Degrees)" >
+}
+
+class NPCSpeedSetting : BaseNPCMovementSetting
+{
+	NPCSpeedType mySpeedType
+	float   myTurnRate  1.0 < tooltip="rotational acceleration rate" >
+	float   myMaxTurnRate  1.0 < tooltip="max radians per frame of angular velocity" >
+	float   myAccelRate 1.0 < tooltip="linear acceleration rate" >
+	float   myDecelRate 2.0 < tooltip="linear decceleration rate" >
+
+	float   myMinNavSpeed 0.0 < tooltip="minimum speed (in meters/sec)" >
+	float   myMaxNavSpeed 20.0 < tooltip="maximum speed (in meters/sec)" >
+	float   myNavSpeed    10.0 < tooltip="cruising speed (in meters/sec)" >
+	
+	bool	myKeepPaceWithTarget false < tooltip = "use combat target speed as nav speed" >
+}
+
+list NPCSpeedSettingList
+{
+	BaseNPCMovementSetting
+}
+
+list NPCMovementSettingList
+{
+	BaseNPCMovementSetting
+}
+
+class DrivenMotionNPCMovementSetting : BaseNPCMovementSetting
+{
+	float   myAccelRate 1.0 < tooltip="linear acceleration rate" >
+	float   myDecelRate 2.0 < tooltip="linear decceleration rate" >
+	float   myMinNavSpeed 0.0 < tooltip="minimum speed (in meters/sec)" >
+	float   myMaxNavSpeed 20.0 < tooltip="maximum speed (in meters/sec)" >
+	float   myNavSpeed    10.0 < tooltip="cruising speed (in meters/sec)" >
+}
+
+class RootMotionNPCMovementSetting : BaseNPCMovementSetting
+{
+	bool	myIsRun false < tooltip="If true, will use the Run animation speed mode.  Walk otherwise" >
+}

@@ -1,0 +1,98 @@
+include "onward/game system data/fruit/ui/collection/databasesubcategory.fruit"
+
+CustomDatabaseEntry Profile < uid=1ABBD50B584AE9C700003776A476CF04 >
+{
+	myLocalizedDescription "contextComment = \"Left blank to leave more room for the narrative text. Database tactics tips about the Expedition faction.\", description = \"collectibles_database_expedition_profile_tactics\", enabled = true, guid = #1ABBD50B584AE9A000003631B75C805E, lineVersion = 1, maxLength = 350, text = \"|empty|\""
+	myLocalizedNarrative "contextComment = \"[PLACEHOLDER - do not translate].\nDatabase profile about the Expedition faction\", description = \"collectibles_database_expedition_profile_description\", enabled = true, guid = #A08A88CF589A3AC0000030CB68BFB016, lineVersion = 1, maxLength = 607, text = \"The Expedition are a scientific organization dedicated to discovery and exploration of the worlds of Atlas. They may present themselves as peaceful scientists, but their quest for knowledge can sometimes spur them into harsh action when they feel their research is being tampered with, or the purity of a world is being threatened.\n\nExpeditioners excel in mapping uncharted regions of planets and using their research discoveries to develop new technology prototypes.\""
+	myPortrait onward/baked/textures/ui/icons/database_banner_large/expedition/ui-database-expedition-large.dds
+	mySprite "mySpriteId = -1086606962, mySpritesheet = F\"onward/ui/spritesheets/ui-icons-collection-database.spritesheet\""
+	myBannerSprite "mySpriteId = -1086606962, mySpritesheet = F\"onward/ui/spritesheets/ui-icons-collection-database.spritesheet\""
+	myAttachScreenSprite "mySpriteId = -1086606962, mySpritesheet = F\"onward/ui/spritesheets/ui-icons-collection-database.spritesheet\""
+	myRevealedChallengeType Discover_Expedition
+	myUnlockedChallengeType Discover_Expedition
+	myCollectibleSubType Faction
+	myLocalizedName "contextComment = \"Name for the Expedition faction, shown in the Database entry profiling that faction\", description = \"collectibles_database_expedition_profile_name\", enabled = true, guid = #1ABBD50B584AE9A00000362FA9D86E6E, lineVersion = 1, maxLength = 1, text = \"The Expedition\""
+}
+
+SimUnitDatabaseEntries Structures
+{
+	SimUnitDatabaseEntry "Observation Deck" < uid=1ABBD50B594979920001D4A977E76AA0 >
+	{
+		myLocalizedDescription "contextComment = \"[PLACEHOLDER - do not translate].\nExpedition Observation Deck tactical summary shown in database\", description = \"database-item-description-expedition-observationdeck\", enabled = true, guid = #A08A88CF588A742E00003BFD511A1F5A, lineVersion = 2, maxLength = 176, text = \"Produces Explorers and Observation Towers\nto map & monitor wide swaths of a planet\n\nCollects Organic materials for study\n\nWeak defenses\""
+		myLocalizedShortDescription "contextComment = \"[PLACEHOLDER - do not translate]\nA short summary about Expedition observation outposts & their benefits shown when selecting an observatory icon on the Starmap\", description = \"database-item-shortdescription-observationdeck\", enabled = true, guid = #9E6AFEDA59DFF08400024B6FA4BD54FA, lineVersion = 0, maxLength = 200, text = \"Observatories scan a huge swath of the planet, helping to track threats & reveal secrets\""
+		myLocalizedNarrative "contextComment = \"[PLACEHOLDER - do not translate].\nNarrative blurb for the Expedition Observation deck shown in database\", description = \"database-item-description-expedition-observationdeck\", enabled = true, guid = #A08A88CF588A762C00006D9D381E07BF, lineVersion = 2, maxLength = 316, text = \"Observatories use powerful scanners and sensor beacons to offer their allies a greater view of the surrounding area. They are often the first to signal an alarm when something is awry in their environment and are eager to share that knowledge.\""
+		myPortrait onward/baked/textures/ui/icons/database_banner_large/expedition/ui-database-expedition-observation-base-large.dds
+		mySprite "mySpriteId = 1103994209, mySpritesheet = F\"onward/ui/spritesheets/ui-icons-collection-database.spritesheet\""
+		myBannerSprite "mySpriteId = 1103994209, mySpritesheet = F\"onward/ui/spritesheets/ui-icons-collection-database.spritesheet\""
+		myAttachScreenSprite "mySpriteId = 1103994209, mySpritesheet = F\"onward/ui/spritesheets/ui-icons-collection-database.spritesheet\""
+		myRevealedChallengeType Discover_ExpeditionObservationDeck
+		myUnlockedChallengeType Discover_ExpeditionObservationDeck
+		myDeathChallengeType Build_ExpeditionObservationDeck
+		myCollectibleSubType Structure
+		mySuppressPipAutoUnlock TRUE
+		mySimUnitFiles
+		{
+			file 1 "onward/game system data/juice/sim/expedition_observation_deck.msimunit"
+			file "Kharl's Outpost" "onward/game system data/juice/sim/act_1_observation_deck.msimunit"
+		}
+	}
+	SimUnitDatabaseEntry "Research Base" < uid=1ABBD50B594979920001D4AA5176E1C4 >
+	{
+		myLocalizedDescription "contextComment = \"[PLACEHOLDER - do not translate].\nTactical summary for the research base, shown in database\", description = \"database-item-description-expedition-researchbase\", enabled = true, guid = #A08A88CF588A743100003C7279327E8A, lineVersion = 2, maxLength = 235, text = \"Produces Ship & Weapon Mods\nto upgrade your spacecraft\n\nBuilds Repair Towers to assist units in the field\n\nCollects Organic materials for study,\nespecially those from local wildlife\""
+		myLocalizedShortDescription "contextComment = \"[PLACEHOLDER - do not translate]\nA short summary about Expedition research outposts (workshops) & their benefits shown when selecting an workshop icon on the Starmap\", description = \"database-item-shortdescription-researchbase\", enabled = true, guid = #9E6AFEDA59DFF649003E35620683D1CF, lineVersion = 0, maxLength = 200, text = \"Workshops study local wildlife and apply their findings to develop new mod technology.\""
+		myLocalizedNarrative "contextComment = \"[PLACEHOLDER - do not translate].\nNarrative blurb for the ersearch base, shown in the database\", description = \"database-item-narrative-expedition-researchbase\", enabled = true, guid = #A08A88CF588A743100003C7353094020, lineVersion = 1, maxLength = 231, text = \"Workshops are the where the Expedition practices their applied science & engineering. Building on research discoveries, they can develop new technologies to benefit their allies.\""
+		myPortrait onward/baked/textures/ui/icons/database_banner_large/expedition/ui-database-expedition-research-base-large.dds
+		mySprite "mySpriteId = 1343738175, mySpritesheet = F\"onward/ui/spritesheets/ui-icons-collection-database.spritesheet\""
+		myBannerSprite "mySpriteId = 1343738175, mySpritesheet = F\"onward/ui/spritesheets/ui-icons-collection-database.spritesheet\""
+		myAttachScreenSprite "mySpriteId = 1343738175, mySpritesheet = F\"onward/ui/spritesheets/ui-icons-collection-database.spritesheet\""
+		myRevealedChallengeType Discover_ExpeditionResearchBase
+		myUnlockedChallengeType Discover_ExpeditionResearchBase
+		myDeathChallengeType Build_ExpeditionResearchBase
+		myCollectibleSubType Structure
+		mySuppressPipAutoUnlock TRUE
+		mySimUnitFiles
+		{
+			file 1 "onward/game system data/juice/sim/expedition_research_base.msimunit"
+			file "Act 2 Story" "onward/game system data/juice/sim/act_2_sonatus_observatory.msimunit"
+		}
+	}
+}
+
+SimUnitDatabaseEntries Units
+{
+	SimUnitDatabaseEntry Worker < uid=1ABBD50B594979920001D4AC91AD8B82 >
+	{
+		myLocalizedDescription "contextComment = \"[PLACEHOLDER - do not translate].\nA tactical summary of the workers of the, shown in the Database\", description = \"database-item-description-expedition-worker\", enabled = true, guid = #A08A88CF588A743A00003D76E5A5D854, lineVersion = 1, maxLength = 92, text = \"Produced by Observatories\nStudies local flora & terrain\n\nWeak in combat\""
+		myLocalizedNarrative "contextComment = \"[PLACEHOLDER - do not translate].\nA narrative summary of the Expedition workers, shown in the Database\", description = \"database-item-narrative-expedition-worker\", enabled = true, guid = #A08A88CF588A743A00003D77B6105F61, lineVersion = 1, maxLength = 358, text = \"Explorers are the main workforce of the Expedition. They explore, observe, and sample the environment around their outposts, then return to analyze their findings.  They are equipped with modular functionality to switch between specialized scientific equipment for each task.\""
+		myPortrait onward/baked/textures/ui/icons/database_banner_large/expedition/ui-database-expedition-worker-large.dds
+		mySprite "mySpriteId = 262464169, mySpritesheet = F\"onward/ui/spritesheets/ui-icons-collection-database.spritesheet\""
+		myBannerSprite "mySpriteId = 262464169, mySpritesheet = F\"onward/ui/spritesheets/ui-icons-collection-database.spritesheet\""
+		myAttachScreenSprite "mySpriteId = 262464169, mySpritesheet = F\"onward/ui/spritesheets/ui-icons-collection-database.spritesheet\""
+		myRevealedChallengeType Discover_ExpeditionWorker
+		myUnlockedChallengeType Discover_ExpeditionWorker
+		myCollectibleSubType Unit
+		mySimUnitFiles
+		{
+			file 1 "onward/game system data/juice/sim/expedition_worker.msimunit"
+			file 2 "onward/game system data/juice/sim/expedition_worker_elite.msimunit"
+		}
+	}
+	SimUnitDatabaseEntry Defender < uid=1ABBD50B594979920001D4ABAF34F0AB >
+	{
+		myLocalizedDescription "contextComment = \"[PLACEHOLDER - do not translate].\nTactical summary of the expedition defender unit, shown in the Database\", description = \"database-item-description-expedition-defender\", enabled = true, guid = #A08A88CF588A743600003D0A7B45B106, lineVersion = 1, maxLength = 225, text = \"Produced from Workshops\nStudies local animal life\n\nMore durasble & formidable than Explorers\n\nRescue a downed Researcher and they'll\nsometimes thank you with a Mod prototype\"}"
+		myLocalizedNarrative "contextComment = \"[PLACEHOLDER - do not translate].\nNarrative blurb about Expedition defenders, shown in the Database\", description = \"database-item-narrative-expedition-defender\", enabled = true, guid = #A08A88CF588A743600003D0BBEB30E0E, lineVersion = 1, maxLength = 354, text = \"Researcher ships were developed with the intention of protecting both other research staff and valuable samples they acquire. They have very sturdy chassis, allowing them to do scientific work at extreme temperatures, under heavy gravity, or even in corrosive atmospheres.\""
+		myPortrait onward/baked/textures/ui/icons/database_banner_large/expedition/ui-database-expedition-defender-large.dds
+		mySprite "mySpriteId = 450708078, mySpritesheet = F\"onward/ui/spritesheets/ui-icons-collection-database.spritesheet\""
+		myBannerSprite "mySpriteId = 450708078, mySpritesheet = F\"onward/ui/spritesheets/ui-icons-collection-database.spritesheet\""
+		myAttachScreenSprite "mySpriteId = 450708078, mySpritesheet = F\"onward/ui/spritesheets/ui-icons-collection-database.spritesheet\""
+		myRevealedChallengeType Discover_ExpeditionDefender
+		myUnlockedChallengeType Discover_ExpeditionDefender
+		myCollectibleSubType Unit
+		mySimUnitFiles
+		{
+			file 1 "onward/game system data/juice/sim/expedition_defender.msimunit"
+			file 2 "onward/game system data/juice/sim/expedition_defender_elite.msimunit"
+		}
+	}
+}
+

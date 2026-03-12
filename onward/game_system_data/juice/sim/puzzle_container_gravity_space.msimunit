@@ -1,0 +1,23 @@
+include ./puzzle_container_base.msimunit
+
+SimUnit puzzle_container_gravity_space < uid=2453D28658DD09F6000000EED630DF63 > : puzzle_container_base
+{
+	myControlGraph onward/simworld/control/puzzle_container_space.msimunitcontrolgraph
+	myCategory Puzzle
+	mySubCategory ChestMod
+	mySubCategoryVariant 3
+	myAffinityType Crush
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo InteractablePickup < uid=CC9485AB59C1AC0D000198303ABADFC5 >
+		{
+			myCountMin 1
+			myCountMax 1
+			myIgnoreNavMesh TRUE
+			myIgnoreTerrain TRUE
+			myEntityFile "onward/entity templates/ld_puzzle_container_gravity_space.mentitytemplate"
+		}
+	}
+	myNapTime 0.1
+}
+

@@ -1,0 +1,25 @@
+include ./ship_ally_base_dreadnought_reinforcement.msimunit
+
+SimUnit ship_ally_sorren_act_structure < uid=6D25F4C65AFDE546000E60D73A24205E > : ship_ally_base_dreadnought_reinforcement
+{
+	myBehavior ""
+	myControlGraph onward/simworld/control/ship_ally_sorren_act_structure.msimunitcontrolgraph
+	mySubCategoryVariant 200
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo Sorren < uid=6D25F4C65AFDE546000E60D86C830125 >
+		{
+			myCountMin 1
+			myCountMax 1
+			myElementSpawnInfo
+			{
+				SimUnitElementSpawnInfo Sorren
+				{
+					myEntityFile "onward/game system data/juice/ai/npc/ally_sorren.mnpc"
+				}
+			}
+		}
+	}
+	mySaveable TRUE
+}
+

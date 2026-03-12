@@ -1,0 +1,18 @@
+include ./base_faction_outpost_turret.mnpc
+
+NPC prospector_turret_02 < uid=C92F4D3F59C29A09002EF66623A298CB > : base_faction_outpost_turret
+{
+	myGraphObjectFile "onward/graph objects/prop/prospector_turret_02.mgraphobject"
+	myAbilityDefinitions
+	{
+		NPCAbilityDefinition Gatling
+		{
+			myGameAction NPC_Ability1
+			mySkillScript < uid=8A9CA28659E8FE6900029444E32C17BE > = npc_ability_generic_turret_gatling
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_prospector_outpost_turret_gatling.juice"
+		}
+	}
+	myNPCFaction Prospector
+}
+

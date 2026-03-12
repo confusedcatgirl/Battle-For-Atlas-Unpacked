@@ -1,0 +1,53 @@
+include "onward/game system data/fruit/sim/simunit.fruit"
+
+SimUnit Dreadnought < uid=C92F4D3F5730AC00000000837B55653B >
+{
+	myUIName "contextComment = \"[PLACEHOLDER - do not translate].\nThe name of the largest spacefaring unit in the Legion; the dreadnought. It is a massive, heavily armoured space ship.\", description = \"simunit_name_harvester_dreadnought\", enabled = true, guid = #A08A88CF598B2A8A00000036BE31C1A2, lineVersion = 0, maxLength = 14, text = \"Dreadnought\""
+	myBehavior ""
+	myControlGraph onward/simworld/control/harvester_dreadnought.msimunitcontrolgraph
+	myFaction Harvester
+	myCategory Dreadnought
+	myRadius 3000.0
+	myFindSettingsCategory Enormous
+	mySpeed 0.0
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo "Dreadnought Logic" < uid=C92F4D3F5956AE57000001A080956AE3 >
+		{
+			myCountMin 1
+			myCountMax 1
+			myEntitySize 2500.0
+			myIgnoreHealth TRUE
+			mySpawnOutsideZone TRUE
+			myIsSpaceLandmark TRUE
+			myElementSpawnInfo
+			{
+				SimUnitElementSpawnInfo "Dreadnought Logic"
+				{
+					myEntityFile "onward/entity templates/harvester_dreadnought.mentitytemplate"
+				}
+			}
+		}
+	}
+	mySaveable TRUE
+	mySpawnOutsideZone TRUE
+	myNapTime 0.1
+	myRealizeOnLeader FALSE
+	myUnkillable TRUE
+	myUnkillableType UnkillableGameSide
+	myIsSpaceLandmark TRUE
+	myInterestSettings
+	{
+		myIsEnabled TRUE
+		myShouldLockValidTarget TRUE
+	}
+	mySkillLevelCoefficients
+	{
+		myPlanetActMultiplier 1
+		myUnitLevelMultiplier 5
+		myBaseLevel -5
+		mySquareUnitLevel FALSE
+	}
+	myNeedsSaveOnSolve TRUE
+}
+

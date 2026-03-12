@@ -1,0 +1,18 @@
+include "onward/game system data/juice/story/sidestorymissions/sidestorymissioninfo.juice"
+include "onward/game system data/juice/story/partstories/sidestory_prospector.juice"
+
+SideStoryMissionInfo "Prospector SideStory MissionInfo 01" < uid=A08A88CF5C37BDE800000040D1454808 >
+{
+	myMissionName "contextComment = \"The name of the side story mission for the Prospector faction.\", description = \"ui-sidestory-name-prospector\", enabled = true, guid = #A08A88CF5C37BDD80000003E131F230D, lineVersion = 0, maxLength = 36, text = \"[Prospector Side Story Name]\""
+	myMissionDescription "contextComment = \"A shortish (~100 character) description for the Prospector side story, as seen by players who have not yet started the sidequest.\", description = \"ui-sidestory-description-prospector\", enabled = true, guid = #A08A88CF5C37BDD80000003FE8975ED3, lineVersion = 0, maxLength = 46, text = \"[Prospector Side Story Description]\""
+	myStoryMissionSequence < uid=600A30F35C3E6C3B0001CB43BE78E2DC > = SIDESTORY_PROSPECTOR_01
+	myFaction Prospector
+	myIconSprite "mySpriteId = 800957933, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-sidestory-prospector.spritesheet\""
+	myStartStoryEvent TU5_Enable_Prospector_SideStory
+	myRequirementStoryEvents
+	{
+		StoryEvent "" Galla_LeaveOutpost
+	}
+	myRequirementDescription "contextComment = \"A short (one line in an outpost menu) detailing why the player cannot start the given side story. \", description = \"ui-sidestory-requirement-explanation-prospector\", enabled = true, guid = #A08A88CF5C6DA5180000AF6F98AFFC7D, lineVersion = 0, maxLength = 83, text = \"[Reason the player is unable to start the Prospector side story]\""
+}
+

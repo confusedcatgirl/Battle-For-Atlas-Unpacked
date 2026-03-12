@@ -1,0 +1,40 @@
+include "onward/game system data/juice/input/inputactions.juice"
+include "onward/game system data/fruit/input/gameinput.fruit"
+
+TriggerGameAction "[PodAbilities] Pod One"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction "Hold X"
+		{
+			myInputActionType HoldDown
+			myInputAction = LEFT_TRIGGER_L2
+		}
+	}
+	myGameAction PodOne
+}
+
+TriggerGameAction "[PodAbilities] Pod Two"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction "Hold Y"
+		{
+			myInputAction = B_CRICLE
+		}
+	}
+	myGameAction PodTwo
+}
+
+TriggerGameAction "[PodAbilities] Pod Three"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction "Hold B"
+		{
+			myInputActionType HoldDown
+			myInputAction = RIGHT_TRIGGER_R2
+		}
+	}
+	myGameAction PodThree
+}

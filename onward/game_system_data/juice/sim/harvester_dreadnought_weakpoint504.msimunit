@@ -1,0 +1,53 @@
+include ./harvester_dreadnought_part_base.msimunit
+
+SimUnit harvester_dreadnought_weakpoint504 < uid=DDDD6F5D5BC8B6070002CA578152A944 > : harvester_dreadnought_part_base
+{
+	myFaction Outlaw
+	mySubCategory TurretSlot
+	mySubCategoryVariant 504
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo "Corruption Turret" < uid=DDDD6F5D5BC8B6070002CA58149F4DBE >
+		{
+			myCountMin 1
+			myCountMax 1
+			mySpawnOutsideZone FALSE
+			myElementSpawnInfo
+			{
+				SimUnitElementSpawnInfo "Corruption Turret"
+				{
+					myEntityFile "onward/game system data/juice/ai/npc/harvester_dreadnought_turret_03.mnpc"
+				}
+			}
+			myRealizeOnDetach FALSE
+			myAttachBoneCategory CenterOfMass
+		}
+		SimUnitEntitySpawnInfo "Landmark Entity" < uid=DDDD6F5D5BC8B6070002CA59F4707E05 >
+		{
+			myCountMin 1
+			myCountMax 1
+			myIgnoreHealth TRUE
+			myIsSpaceLandmark TRUE
+			myElementSpawnInfo
+			{
+				SimUnitElementSpawnInfo harvester_dreadnought_weakpoint504_landmark
+				{
+					myEntityFile "onward/entity templates/harvester_dreadnought_weakpoint504_landmark.mentitytemplate"
+				}
+			}
+		}
+	}
+	mySpawnOutsideZone TRUE
+	myRevealedChallengeType Discover_OutlawDreadnaught
+	myUnlockedChallengeType Discover_OutlawDreadnaught
+	myUnkillable FALSE
+	myUnkillableType Killable
+	myPreserveSpawnInfo TRUE
+	mySkillLevelCoefficients
+	{
+		myUseTargetRelativeLevel TRUE
+		myParentSkillLevelMultiplier 0
+		myBaseLevel 1
+	}
+}
+

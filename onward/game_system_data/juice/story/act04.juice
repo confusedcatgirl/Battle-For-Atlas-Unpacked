@@ -1,0 +1,343 @@
+include ./act04_storybeats.juice
+include ./act_simstate.juice
+include "onward/game system data/fruit/ai/ai.fruit"
+include "onward/game system data/fruit/entity/faction.fruit"
+include "onward/game system data/fruit/progression/challenge_types.fruit"
+
+StoryBeatSequence "SEQUENCE 1 - Setup" < uid=9FD9E8185A9481F600001B8C28623F6C >
+{
+	myStoryBeats
+	{
+		StoryBeatData "OBJECTIVE - Chapter 1 - HEADER" < uid=9FD9E8185ABD7A6F00001C5EFE334C7E > = Act4.Objective.Chapter1.Header
+		StoryBeatData "Save Point" < uid=1EE141815AE32E6A00001D8621E8A07C > : "Save Point"
+		{
+		}
+		StoryBeatData "Complete Act4 StoryEvent" < uid=9FD9E8185B43C1F600002416339EC6C3 > = Act4_SEQ1_CompleteAct4Event
+		StoryBeatSequence "Sim Setup" < uid=9FD9E8185AB123B000001C08BD9D6FF4 > = ACT4_SimState
+		StoryBeatData Padding < uid=9FD9E8185AF5BC7700001DAEDB709BF2 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_AddFadeRequest Fade
+				{
+					myFadeRequestType Fade_Out
+					myFadeTime 0.0
+				}
+				StoryDataAction_Wait Wait
+				{
+					mySecondsToWait 1.5
+				}
+			}
+		}
+		StoryBeatData Cinematic < uid=9FD9E818596E6E1B000000816C9C7EB2 > = Act4_SEQ1_Cinematic
+		StoryBeatData Setup < uid=9FD9E818596E6D9E0000007E2BC6C2E2 > = Act4_SEQ1_InitialObjectiveAndSetup
+		StoryBeatData "Fade In" < uid=9FD9E8185A81E9B000001B9D0CEED501 > = Act4_SEQ1_FadeIn
+		StoryBeatData "Save Point" < uid=9FD9E8185AC4E29200001CD7B7E85380 > : "Save Point"
+		{
+		}
+		StoryBeatData Debrief < uid=9FD9E8185A9483D300001B9B8631D0E4 > = Act4_SEQ1_Debrief
+	}
+}
+
+StoryBeatSequence "SEQUENCE 2 - First Tower" < uid=9FD9E8185A9481F600001B8DCAEC87B7 >
+{
+	myStoryBeats
+	{
+		StoryBeatData "OBJECTIVE - Chapter 1 - Sub 1" < uid=9FD9E8185ABD7A5A00001C5CE0D67399 > = Act4.Objective.Chapter1.Sub1
+		StoryBeatData "Save Point" < uid=1EE141815AE32E6A00001D87982A05BF > : "Save Point"
+		{
+		}
+		StoryBeatData "Head to Kirite" < uid=9FD9E8185A9484B900001B9F466AC562 > = Act4_SEQ2_HeadToKirite
+		StoryBeatData "Head to Kirite Dialogue" < uid=9FD9E8185A81E8E100001D0B5A55F068 > = Act4_SEQ2_HeadToKiriteDialogue
+		StoryBeatData "Open Suppress Until Reveal" < uid=9FD9E8185AB56D1000001C26BE0794AD > = Act4_SEQ2_UnSuppressForFreeRoam
+		StoryBeatData "Dreadnoughts Spawner / Sim Alerts" < uid=9FD9E8185AA0089B00001B9D81D20D37 > = Act4_SEQ2_SpawnDreadnoughts
+		StoryBeatData "Reveal Dialogue" < uid=9FD9E8185AA0076100001B9C94CC490A > = Act4_SEQ2_RevealDialogue
+		StoryBeatData "Complete Story Event: Enable_MoonIntro_04" < uid=CC9485AB5C701AC000000090D43430B0 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_CompleteStoryEvent "Complete Story Event: Enable_MoonIntro_04"
+				{
+					myObjectiveAutoRemoves FALSE
+					myStoryEvent TU5_Enable_MoonIntro_04
+				}
+			}
+		}
+		StoryBeatData "Wait for Arrival in Kirite" < uid=2B55C72B5B560FB8000022149DADADC2 > = Act4_SEQ2_WaitForKiriteArrival
+		StoryBeatData "Near Kirite Dialogue" < uid=9FD9E8185ABAD48F00001C4E1F71445F > = Act4_SEQ2_AfterRevealDialogue
+		StoryBeatData "UnSuppress Until Arrival" < uid=9FD9E8185AB574D100001C2B426352F1 > = Act4_SEQ2_UnSuppressUntilArrival
+		StoryBeatData "Arrive at Kirite" < uid=9FD9E8185A94878100001BA0D4912370 > = Act4_SEQ2_ArriveAtKirite
+		StoryBeatData "Save Point" < uid=9FD9E8185ACB8EA700001ED4BCAAC4D4 > : "Save Point"
+		{
+		}
+		StoryBeatData "Padding 1" < uid=9FD9E8185ABAE33000001C7377C20F70 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_Wait "Wait 5"
+				{
+					mySecondsToWait 1.0
+				}
+			}
+		}
+		StoryBeatData "OBJECTIVE - Chapter 1A - Header" < uid=9FD9E8185ABD7A5A00001C5D4FECA837 > = Act4.Objective.Chapter1A.Header
+		StoryBeatData "Save Point" < uid=9FD9E8185ABD79CC00001C59BC8262E6 > : "Save Point"
+		{
+		}
+		StoryBeatData "Arrive in Kirite" < uid=2B55C72B5B5634F800002219408722D9 > = Act4_SEQ2_KiriteArrivalDialogue
+		StoryBeatData "Legion Threat Pop Up" < uid=2B55C72B5B56397C00002213DBE3292D > = Act4_SEQ2_WarEffortPopUp
+		StoryBeatData "Alliance Check 1" < uid=9FD9E8185A9487D000001BA28A4805FC > = Act4_SEQ2_AllianceCheck1
+		StoryBeatData "Save Point" < uid=9FD9E8185ACB8E8500001ED19E2F3744 > : "Save Point"
+		{
+		}
+		StoryBeatData "Padding 5 w/ Objective" < uid=9FD9E8185ABD3F3D00001C43A6DA2C3D >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+			}
+			myStoryDataActionSets
+			{
+				StoryDataActionSet "Padding w/ Objective"
+				{
+					myStoryDataActionSetType OR
+					myStoryDataActions
+					{
+						StoryDataAction_Wait "Wait 5"
+						{
+							mySecondsToWait 5.0
+						}
+						StoryDataAction_WaitForAllianceLevel "Alliance Objective Fallthrough"
+						{
+							myObjectiveUID < uid=9FD9E8185ABD7D3500001C7F277F5FA4 > = Act4.Chapter1A.Sub1
+							myObjectiveAutoRemoves TRUE
+							myAllianceLevel 50
+							myPlanet 2B55C72B560154A200000053621E3961
+						}
+					}
+				}
+			}
+		}
+		StoryBeatData "Alliance Check 2" < uid=9FD9E8185ABAD67700001C52FAC08239 > = Act4_SEQ2_AllianceCheck2
+		StoryBeatData "Save Point" < uid=9FD9E8185ACB8E8500001ED295757C2C > : "Save Point"
+		{
+		}
+		StoryBeatData "Padding 5 w/ Objective" < uid=9FD9E8185ABD3F1E00001C424525C6F3 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+			}
+			myStoryDataActionSets
+			{
+				StoryDataActionSet "Padding w/ Objective"
+				{
+					myStoryDataActionSetType OR
+					myStoryDataActions
+					{
+						StoryDataAction_Wait Wait
+						{
+							mySecondsToWait 5.0
+						}
+						StoryDataAction_WaitForAllianceLevel "Alliance Objective Fallthrough"
+						{
+							myObjectiveUID < uid=9FD9E8185ABD7D3500001C80BE0702C2 > = Act4.Chapter1A.Sub1
+							myObjectiveAutoRemoves TRUE
+							myAllianceLevel 50
+							myPlanet 2B55C72B560154A200000053621E3961
+						}
+					}
+				}
+			}
+		}
+		StoryBeatData "Alliance Check 3" < uid=9FD9E8185ABAD67700001C5335DFDDA2 > = Act4_SEQ2_AllianceCheck3
+		StoryBeatData "Save Point" < uid=9FD9E8185ACB8E8500001ED3F30DEF4B > : "Save Point"
+		{
+		}
+		StoryBeatData "Padding 5 w/ Objective" < uid=9FD9E8185ABD3F5400001C44492849EA >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+			}
+			myStoryDataActionSets
+			{
+				StoryDataActionSet "Padding w/ Objective"
+				{
+					myStoryDataActionSetType OR
+					myStoryDataActions
+					{
+						StoryDataAction_WaitForAllianceLevel "Alliance Objective Fallthrough"
+						{
+							myObjectiveUID < uid=9FD9E8185ABD7D3500001C81D884EB16 > = Act4.Chapter1A.Sub1
+							myObjectiveAutoRemoves TRUE
+							myAllianceLevel 50
+							myPlanet 2B55C72B560154A200000053621E3961
+						}
+						StoryDataAction_Wait Wait
+						{
+							mySecondsToWait 5.0
+						}
+					}
+				}
+			}
+		}
+		StoryBeatData "Kirite Alliance Check Resources" < uid=9FD9E8185A94894200001BA5BC830647 > = Act4_SEQ2_KiriteAllianceCheckResources
+		StoryBeatData "Save Point" < uid=9FD9E8185ABD79E700001C5A08B73B37 > : "Save Point"
+		{
+		}
+		StoryBeatData "Electrum Skips SQ22" < uid=9FD9E8185A948BB400001BA6762E93CE > = Act4_SEQ2_WaitForResources
+		StoryBeatData "Electrum Gate" < uid=9FD9E8185ABD7DB700001C847469FFEE > = Act4_SEQ2_ElectrumGate
+		StoryBeatData "Save Point" < uid=9FD9E8185ABD79E700001C5B5F551DBD > : "Save Point"
+		{
+		}
+		StoryBeatData "Nova Skips SQ23" < uid=9FD9E8185ABD3F6B00001C4598F69A1B > = Act4_SEQ2_NovaSkipsDialogue
+		StoryBeatData "Nova Gate" < uid=9FD9E8185ABD7DB700001C858B4A762E > = Act4_SEQ2_NovaGate
+		StoryBeatData "Save Point" < uid=9FD9E8185ACB8F4A00001EDA79259121 > : "Save Point"
+		{
+		}
+		StoryBeatData "Resources Aquired" < uid=9FD9E8185A948F4500001BBDCC54B6DE > = Act4_SEQ2_ResourcesAquired
+	}
+}
+
+StoryBeatSequence "SEQUENCE 4 - Upgrade Starlink" < uid=9FD9E8185A9481F600001B8F76925663 >
+{
+	myStoryBeats
+	{
+		StoryBeatData "OBJECTIVE - Chapter 2 - Header" < uid=9FD9E8185AAC5B1A00001DA6D31D8332 > = Act4.Objective.Chapter2.Header
+		StoryBeatData "OBJECTIVE - Chapter 2 - Sub 1" < uid=9FD9E8185AAC5B3A00001DA7376B9F58 > = Act4.Objective.Chapter2.Sub1
+		StoryBeatData "Save Point" < uid=1EE141815AE32E6A00001D880701F1EF > : "Save Point"
+		{
+		}
+		StoryBeatData "Unlock Towers" < uid=9FD9E81859A6AF02000138C01B0DF95C > = Act4_SEQ4_UniteAtlasObjective
+		StoryBeatData "Wait for Tower Built 1" < uid=9FD9E8185A381B4F00001E4052A83830 > = Act4_SEQ4_WaitForTowerBuilt_1
+		StoryBeatData "Save Point" < uid=9FD9E8185ACB8EED00001ED55BD85112 > : "Save Point"
+		{
+		}
+		StoryBeatData "After Tower 1" < uid=9FD9E8185A381B4F00001E41231AD4FC > = Act4_SEQ4_AfterTower_1
+		StoryBeatData "OBJECTIVE - Chapter 2 - Sub 2" < uid=9FD9E8185AAC5B5400001DA855029AA9 > = Act4.Objective.Chapter2.Sub2
+		StoryBeatData "OBJECTIVE - Chapter 2 - Sub 3" < uid=9FD9E8185AAC5B7200001DA9B2A7B0A8 > = Act4.Objective.Chapter2.Sub3
+		StoryBeatData "Save Point" < uid=1EE141815AE32E6A00001D89F5BA172C > : "Save Point"
+		{
+		}
+		StoryBeatData "Pre-Objective C" < uid=9FD9E8185A3AD48600001B9F715146B2 > = Act4_SEQ4_PreObjectiveC
+		StoryBeatData "Wait for Tower Built 2" < uid=9FD9E8185A381B4F00001E42003719DA > = Act4_SEQ4_WaitForTowerBuilt_2
+		StoryBeatData "Save Point" < uid=9FD9E8185ACB8F0C00001ED66572D259 > : "Save Point"
+		{
+		}
+		StoryBeatData "Wait for Tower Built 3" < uid=9FD9E8185A381B4F00001E4430E0E567 > = Act4_SEQ4_WaitforTowerBuilt_3
+		StoryBeatData "Save Point" < uid=9FD9E8185ACB8F0C00001ED7F9991E0B > : "Save Point"
+		{
+		}
+		StoryBeatData "OBJECTIVE - Chapter 3 - Header" < uid=9FD9E8185AAC5B9300001DAA8D9CB1DD > = Act4.Objective.Chapter3.Header
+		StoryBeatData "OBJECTIVE - Chapter 3 - Sub 1" < uid=9FD9E8185AAC5BA500001DABE6666E69 > = Act4.Objective.Chapter3.Sub1
+		StoryBeatData "Save Point" < uid=1EE141815AE32E6A00001D8A9135A2A7 > : "Save Point"
+		{
+		}
+		StoryBeatData "Return to Equinox" < uid=9FD9E8185A3824DC00001E50A800D2D8 > = Act4_SEQ4_ReturnToEquinox
+		StoryBeatData "Save Point" < uid=9FD9E8185ACB8F3000001ED98A367A24 > : "Save Point"
+		{
+		}
+		StoryBeatData "Complete Story Event: Disable_MoonIntro_05" < uid=CC9485AB5C701BDF00000091E220B07D >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_CompleteStoryEvent "Complete Story Event: Disable_MoonIntro_05"
+				{
+					myObjectiveAutoRemoves FALSE
+					myStoryEvent TU5_Disable_MoonIntro_05
+				}
+			}
+		}
+		StoryBeatData "Set Sub Objective - Upgrade Starlink" < uid=9FD9E818596E792900000088EF7BF4BE > = Act4_SEQ4_ObjectiveUpgradeStarlink
+		StoryBeatData "OBJECTIVE - Chapter 3 - Sub 2" < uid=9FD9E8185AAC5BCB00001DACA7F077DE > = Act4.Objective.Chapter3.Sub2
+		StoryBeatData "Save Point" < uid=1EE141815AE32E6A00001D8B59FA4AC3 > : "Save Point"
+		{
+		}
+		StoryBeatData "Wait for Upgrade" < uid=9FD9E818596E797C0000007DCF3F9FD2 > = Act4_SEQ4_WaitForStarlinkUpgrade
+		StoryBeatData "Save Point" < uid=9FD9E8185ACB8F1C00001ED813FFE988 > : "Save Point"
+		{
+		}
+		StoryBeatData "Wait For Player Close Menu" < uid=1EE141815AECAB5600001D770E1049FF > = Act4_SEQ4_PlayerOutOfMenu
+		StoryBeatData "Fade Out" < uid=1EE141815AECA7BB00001D75722BDEFF >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_AddFadeRequest "Fade Out"
+				{
+					myFadeRequestType Fade_Out
+					myFadeTime 2.0
+				}
+				StoryDataAction_WallClockWait Wait
+				{
+					mySecondsToWait 2.0
+				}
+			}
+		}
+		StoryBeatData Cinematic < uid=9FD9E8185970D44E000001876DF80558 > = Act4_SEQ4_Cinematic4B
+		StoryBeatData "Save Point" < uid=9FD9E8185ACE22D000001DE444922E6F > : "Save Point"
+		{
+		}
+		StoryBeatData "OBJECTIVE - Chapter 4 - Header" < uid=9FD9E8185AAC5BE000001DAD285DB178 > = Act4.Objective.Chapter4.Header
+		StoryBeatData "OBJECTIVE - Chapter 4 - Sub 1" < uid=9FD9E8185AAC5BF900001DAE4027FFF7 > = Act4.Objective.Chapter4.Sub1
+		StoryBeatData "Save Point" < uid=1EE141815AE32E6A00001D8C517C469A > : "Save Point"
+		{
+		}
+		StoryBeatData "Confirmation Window" < uid=9FD9E8185984BAD000000083BCA36649 > = Act4_SEQ5_AskForConfirmationAfterUpgrade
+		StoryBeatData "Fade In" < uid=1EE141815AECABE100001D787A858CF0 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_AddFadeRequest "Fade In"
+				{
+					myFadeTime 0.0
+				}
+			}
+		}
+	}
+}
+
+StoryBeatSequence "SEQUENCE 5 - Travel" < uid=9FD9E8185A9481F600001B931BB0D0FE >
+{
+	myStoryBeats
+	{
+		StoryBeatData "Set Target and Objective" < uid=9FD9E8185989D08F0000011053F8464A > = Act4_SEQ5_SetObjectiveForTravel
+		StoryBeatData "Travel To Act 5" < uid=9FD9E8185984BABF000000825EE08F4F > = Act4_SEQ5_WaitForTravelConfirmation
+		StoryBeatData "Fade Out" < uid=1EE141815AECAD6500001D7AC86AF494 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_AddFadeRequest "Fade Out"
+				{
+					myFadeRequestType Fade_Out
+					myFadeColor 0xffffffff
+					myFadeTime 2.0
+				}
+				StoryDataAction_UIDeferErrorMessages "Stop Defer All Error Messages"
+				{
+					myEnabled FALSE
+				}
+			}
+		}
+		StoryBeatData "Post Travel Unset All" < uid=9FD9E81859DFB8DB000001B5E31F9177 > = Act4_SEQ5_PostTravelUnsetAll
+	}
+}
+
+StoryBeatSequence "Act Four Sequence" < uid=9FD9E8185A9481F600001B94C0AD9B84 >
+{
+	myStoryBeats
+	{
+		StoryBeatSequence "SEQUENCE 1 - Setup" < uid=9FD9E8185A9481F600001B9618832D45 > = "SEQUENCE 1 - Setup"
+		StoryBeatSequence "SEQUENCE 2 - First Tower" < uid=9FD9E8185A9481F600001B978529398B > = "SEQUENCE 2 - First Tower"
+		StoryBeatSequence "SEQUENCE 4 - Upgrade" < uid=9FD9E8185A9481F600001B9829F4E311 > = "SEQUENCE 4 - Upgrade Starlink"
+		StoryBeatSequence "SEQUENCE 5 - Travel" < uid=9FD9E8185A9481F600001B994BF0B873 > = "SEQUENCE 5 - Travel"
+	}
+}
+

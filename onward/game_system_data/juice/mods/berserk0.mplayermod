@@ -1,0 +1,58 @@
+include ./template_pilot.mplayermod
+
+float Damage = Berserk_Ability_Mult
+
+PlayerMod Berserk0 < uid=C91BB55157E3F858000002785641BB91 > : template_pilot
+{
+	myAttributeMods
+	{
+		AttributeMod Heat
+		{
+			myType DMG_Heat
+			myPercentageValue = Damage
+		}
+		AttributeMod Cold
+		{
+			myType DMG_Cold
+			myPercentageValue = Damage
+		}
+		AttributeMod Float
+		{
+			myType DMG_Float
+			myPercentageValue = Damage
+		}
+		AttributeMod Crush
+		{
+			myType DMG_Crush
+			myPercentageValue = Damage
+		}
+		AttributeMod Kinetic
+		{
+			myType DMG_Kinetic
+			myPercentageValue = Damage
+		}
+		AttributeMod "Area Cold"
+		{
+			myPercentageValue = Damage
+		}
+		AttributeMod "Area Heat"
+		{
+			myType DMG_Area_Heat
+			myPercentageValue = Damage
+		}
+		AttributeMod "Area Kinetic"
+		{
+			myType DMG_Area_Kinetic
+			myPercentageValue = Damage
+		}
+	}
+	myIsAgentMod TRUE
+	myPartTypes
+	{
+		PartType Pod Pod
+		PartType Pilot Pilot
+		PartType Hull Hull
+		PartType Wing Wing
+	}
+}
+

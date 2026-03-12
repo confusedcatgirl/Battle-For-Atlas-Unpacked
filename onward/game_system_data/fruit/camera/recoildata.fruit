@@ -1,0 +1,61 @@
+
+//-------------------------------------------------------------------------------------------------
+// Recoil recovery settings
+//-------------------------------------------------------------------------------------------------
+class RecoilRecoverySettings
+{
+    bool    myIsRecoveryEnabled true  < tooltip="Globally enable/disable recoil recovery" >
+	float	myPostShotRecoveryDisableTime	1.0   < tooltip="Recoil recovery is disabled for this many seconds after firing a shot" >
+	string	myPostShotRecoveryRateOverTimeCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 1, isRefinedSampling = true, keys2 = { inTangents = { 0 0, -0.5 -0.0, }, outTangents = { 0.5 0, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }" < bhv=inputgraph tooltip="Recoil recovery rate is sampled from this recovery curve during recovery. In degrees per second" >
+	
+	float   myPostEnterADSRecoveryDisableTime 0.0 < tooltip="Recoil recovery is disabled for this many seconds after entering aim-down-sights" >
+	float	myPostExitADSRecoveryDisableTime 0.0 < tooltip="Recoil recovery is disabled for this many seconds after exiting aim-down-sights" >
+}
+
+//-------------------------------------------------------------------------------------------------
+// Recoil limit settings
+//-------------------------------------------------------------------------------------------------
+class RecoilLimitSettings
+{
+	float					myAltitudeOffsetMax 89.0				< min=0.0 max=89.0 tooltip="Max recoil pitch offset above/below horizontal (in degrees)" >
+	float					myAzimuthOffsetMax 	 180				< min=0.0 max=180.0 tooltip="Max recoil yaw offset(in degrees)" >
+}
+
+//-------------------------------------------------------------------------------------------------
+// Recoil modifier settings
+//-------------------------------------------------------------------------------------------------
+class RecoilModifierSettings
+{
+	float				myAimDownSightsRecoveryRateModifier 1.0 < bhv=percent tooltip="Controls how recovery rate is modified when aim-down-sights is active" >	
+	float				myAimDownSightsPerShotRecoilModifier 1.0 < bhv=percent tooltip="Modifies the amount of per-shot recoil applied when aiming down sights" >
+	
+	float				myFlightRecoveryRateModifier 1.0 < bhv=percent tooltip="Controls how recovery rate is modified when in flight mode" >
+	float				myFlightPerShotRecoilModifier 1.0 < bhv=percent tooltip="Modifies the amount of per-shot recoil applied when in flight mode" >
+
+	float				mySpaceRecoveryRateModifier 1.0 < bhv=percent tooltip="Controls how recovery rate is modified when in space mode" >
+	float				mySpacePerShotRecoilModifier 1.0 < bhv=percent tooltip="Modifies the amount of per-shot recoil applied when in space mode" >
+}
+
+//-------------------------------------------------------------------------------------------------
+// Global recoil settings that apply regardless of weapon
+//-------------------------------------------------------------------------------------------------
+class RecoilGlobalSettings
+{
+	RecoilRecoverySettings	myRecoverySettings
+	RecoilLimitSettings		myLimitSettings
+}
+
+//-------------------------------------------------------------------------------------------------
+// Recoil for weapons
+//-------------------------------------------------------------------------------------------------
+class RecoilData < uid=auto >
+{
+	float	myBlendInTime					0.0 < min=0.0 max=1.0 tooltip="How long does the recoil take to blend in? Use this to create a less juddery effect" >
+
+	float	myAzimuthPerShotMin 0.0
+	float	myAzimuthPerShotMax 0.0
+	float	myAltitudePerShotMin 0.0
+	float	myAltitudePerShotMax 0.0	
+	
+	RecoilModifierSettings myModifierSettings
+}

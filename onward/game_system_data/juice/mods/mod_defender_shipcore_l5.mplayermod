@@ -1,0 +1,26 @@
+include ./template_shipcore.mplayermod
+include ./tuning/mod_tuning_master.juice
+
+PlayerMod mod_defender_shipcore_l5 < uid=C91BB551597F4C10007FB5500CC44866 > : template_shipcore
+{
+	myAttributeMods
+	{
+		AttributeMod "Ability Charge"
+		{
+			myType Ability_XPRegenRate
+			myAddValue 0.0
+			myPercentageValue = Defender_Core_l5_AbilityCharge
+		}
+		AttributeMod Recoil
+		{
+			myType Player_RecoilReduction
+			myAddValue = Defender_Core_l5_Recoil
+		}
+		AttributeMod ParryHeal
+		{
+			myType Player_ParryHeal
+			myAddValue = Defender_Core_l5_ParryHeal
+		}
+	}
+}
+

@@ -1,0 +1,23 @@
+enum FindSettingsCategory
+{
+	Small
+	Medium
+	Large
+	Enormous
+}
+
+class FindSettings
+{
+	FindSettingsCategory myCategory < tooltip="category describing this group of find settings" >
+	float myMinSimUnitRadius 0 < min=0 tooltip="min radius from sim asset" >
+	float myMaxSimUnitRadius 1000 < min=0 tooltip="max radius from sim asset" >
+	float myFindRadius 100 < min=0 tooltip="max size of find-zone radius for this range of SimUnitRadii" >
+	float myFindDistance 100 < min=0 tooltip="length of valid find-area extending from player's position" >
+	float myFoundDistance 50 < min=0 tooltip="distance between player and edge of SimUnit before unit is declared found" >
+	float myFoundArc 30 < bhv="degree_angle" min=0 max=360 tooltip="angle in degrees of player's forward vector versus extent of SimUnit before unit is declared found" >
+}
+
+list FindSettingsList
+{
+	FindSettings
+}

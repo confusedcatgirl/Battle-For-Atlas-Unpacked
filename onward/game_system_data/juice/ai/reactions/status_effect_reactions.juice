@@ -1,0 +1,593 @@
+include "onward/game system data/fruit/statuseffects/statuseffects.fruit"
+
+StatusEffectReaction Base_Sunder < uid=C91BB55157FFDE4F00000099CEE301F1 >
+{
+	myDuration 4.0
+	mySkillScript onward/skillscripts/npc_reaction_sundered.mskillscriptjuice
+	myCombos
+	{
+		StatusEffectCombo "Quench from Chill"
+		{
+			myType Chill
+			mySkillScript onward/skillscripts/npc_reaction_quench.mskillscriptjuice
+		}
+		StatusEffectCombo "Quench from Freeze"
+		{
+			myType Freeze
+			mySkillScript onward/skillscripts/npc_reaction_quench.mskillscriptjuice
+		}
+	}
+}
+
+StatusEffectReaction Base_Fire < uid=C91BB55157FFD7440000004B1BB282DA >
+{
+	myStatusEffectType Fire
+	myDuration 7.0
+	mySkillScript onward/skillscripts/npc_reaction_onfire.mskillscriptjuice
+	myCombos
+	{
+		StatusEffectCombo "Quench From Chill"
+		{
+			myType Chill
+			mySkillScript onward/skillscripts/npc_reaction_quench.mskillscriptjuice
+		}
+		StatusEffectCombo "Quench From Freeze"
+		{
+			myType Freeze
+			mySkillScript onward/skillscripts/npc_reaction_quench.mskillscriptjuice
+		}
+	}
+}
+
+StatusEffectReaction Base_Chill < uid=C91BB55157FFD7960000004EB0093102 >
+{
+	myStatusEffectType Chill
+	myDuration 10.0
+	mySkillScript onward/skillscripts/npc_reaction_chilled.mskillscriptjuice
+	myCombos
+	{
+		StatusEffectCombo "ThermalShock From Sunder"
+		{
+			mySkillScript onward/skillscripts/npc_reaction_thermalshock.mskillscriptjuice
+		}
+		StatusEffectCombo "ThermalShock From Fire"
+		{
+			myType Fire
+			mySkillScript onward/skillscripts/npc_reaction_thermalshock.mskillscriptjuice
+		}
+	}
+}
+
+StatusEffectReaction Base_Freeze < uid=C91BB55157FFD7960000004D1428E08A >
+{
+	myStatusEffectType Freeze
+	myDuration 10.0
+	mySkillScript onward/skillscripts/npc_reaction_frozen.mskillscriptjuice
+	myCombos
+	{
+		StatusEffectCombo "ThermalShock from Fire"
+		{
+			myType Fire
+			mySkillScript onward/skillscripts/npc_reaction_thermalshock.mskillscriptjuice
+		}
+		StatusEffectCombo "ThermalShock from Sunder"
+		{
+			mySkillScript onward/skillscripts/npc_reaction_thermalshock.mskillscriptjuice
+		}
+	}
+}
+
+StatusEffectReaction Base_Stasis < uid=C91BB55157FFD7960000004F3F22D18B >
+{
+	myStatusEffectType Stasis
+	myDuration 10.0
+	mySkillScript onward/skillscripts/npc_reaction_stasis.mskillscriptjuice
+	myCombos
+	{
+		StatusEffectCombo "FireBurst from Sunder"
+		{
+			myType Sunder
+			myRange 35.0
+			mySkillScript onward/skillscripts/npc_reaction_fireBurst.mskillscriptjuice
+		}
+		StatusEffectCombo "FireBurst from Fire"
+		{
+			myType Fire
+			myRange 35.0
+			mySkillScript onward/skillscripts/npc_reaction_fireBurst.mskillscriptjuice
+		}
+		StatusEffectCombo "FreezeBurst from Chill"
+		{
+			myType Chill
+			myRange 35.0
+			mySkillScript onward/skillscripts/npc_reaction_freezeBurst.mskillscriptjuice
+		}
+		StatusEffectCombo "FreezeBurst from Freeze"
+		{
+			myType Freeze
+			myRange 35.0
+			mySkillScript onward/skillscripts/npc_reaction_freezeburst.mskillscriptjuice
+		}
+		StatusEffectCombo "Gravity Burst"
+		{
+			myType Gravity
+			myRange 35.0
+			mySkillScript onward/skillscripts/npc_reaction_gravityburst.mskillscriptjuice
+		}
+	}
+}
+
+StatusEffectReaction Base_StasisOverload < uid=C91BB55157FFD79600000050C9F2C52D >
+{
+	myStatusEffectType StasisOverload
+	myDuration 0.0
+	myRange 35.0
+	mySkillScript onward/skillscripts/npc_reaction_stasisoverload.mskillscriptjuice
+}
+
+StatusEffectReaction Base_Gravity < uid=C91BB55157FFD796000000519A8D4029 >
+{
+	myStatusEffectType Gravity
+	myDuration 10.0
+	myRange 20.0
+	mySkillScript onward/skillscripts/npc_reaction_gravityfield.mskillscriptjuice
+	myCombos
+	{
+	}
+}
+
+StatusEffectReaction Base_Entangle < uid=C91BB551583468EC000002A3C1A667A4 >
+{
+	myStatusEffectType Entangle
+	myDuration 30.0
+	mySkillScript onward/skillscripts/npc_reaction_entangled.mskillscriptjuice
+}
+
+StatusEffectReaction Space_Fire < uid=C308E4DB5907423F0000C34E4BB85CE6 >
+{
+	myStatusEffectType Fire
+	myDuration 7.0
+	myUninterruptibleDurationOnActivation 0.0
+	myInvincibilityDurationOnDeactivation 0.4
+	mySkillScript onward/skillscripts/npc_reaction_onfire.mskillscriptjuice
+	myCombos
+	{
+		StatusEffectCombo FireBurst
+		{
+			myType Stasis
+			myRange 25.0
+			mySkillScript onward/skillscripts/npc_reaction_fireBurst.mskillscriptjuice
+		}
+		StatusEffectCombo "Quench From Chill"
+		{
+			myType Chill
+			mySkillScript onward/skillscripts/npc_reaction_quench.mskillscriptjuice
+		}
+		StatusEffectCombo "Quench From Freeze"
+		{
+			myType Freeze
+			mySkillScript onward/skillscripts/npc_reaction_quench.mskillscriptjuice
+		}
+	}
+}
+
+StatusEffectReaction Affinity_Stub < uid=4A8282B95818DB6D008A886AF554E45D >
+{
+	myDescription Affinity
+	myActivationValue 99.0
+	mySkillScript onward/skillscripts/npc_reaction_affinity.mskillscriptjuice
+}
+
+StatusEffectReaction Affinity_Sunder < uid=C91BB55157FFD93F00000070370EC64F > : Affinity_Stub
+{
+}
+
+StatusEffectReaction Affinity_Fire < uid=C91BB55157FFD93F0000007114B66FF1 > : Affinity_Stub
+{
+	myStatusEffectType Fire
+}
+
+StatusEffectReaction Affinity_Chill < uid=4A8282B95818DB6D008A886B7729E1BD > : Affinity_Stub
+{
+	myStatusEffectType Chill
+}
+
+StatusEffectReaction Affinity_Freeze < uid=4A8282B95818DB6D008A886C952C9812 > : Affinity_Stub
+{
+	myStatusEffectType Freeze
+}
+
+StatusEffectReaction Affinity_Gravity < uid=4A8282B95818DC00008A886FA6E1B09F > : Affinity_Stub
+{
+	myStatusEffectType Gravity
+}
+
+StatusEffectReaction Affinity_BlackHole < uid=4A8282B95818DC00008A886FA6E1B09F > : Affinity_Stub
+{
+	myStatusEffectType BlackHole
+}
+
+StatusEffectReaction Cold_Cyclops_Sunder < uid=4A8282B958F8DABB000001EA5B97C483 > : Base_Sunder
+{
+	myActivationValue 200.0
+	myCombos
+	{
+		StatusEffectCombo "Reset From Chill"
+		{
+			myType Chill
+			mySkillScript onward/skillscripts/npc_Reaction_ResetStatusEffect.mskillscriptjuice
+		}
+		StatusEffectCombo "Reset From Freeze"
+		{
+			myType Freeze
+			mySkillScript onward/skillscripts/npc_Reaction_ResetStatusEffect.mskillscriptjuice
+		}
+	}
+}
+
+StatusEffectReaction Cold_Cyclops_Fire < uid=4A8282B958F8DABB000001EB2C4D22C1 > : Base_Fire
+{
+	myActivationValue 200.0
+	myCombos
+	{
+		StatusEffectCombo "Reset From Chill"
+		{
+			myType Chill
+			mySkillScript onward/skillscripts/npc_Reaction_ResetStatusEffect.mskillscriptjuice
+		}
+		StatusEffectCombo "Reset From Freeze"
+		{
+			myType Freeze
+			mySkillScript onward/skillscripts/npc_Reaction_ResetStatusEffect.mskillscriptjuice
+		}
+	}
+}
+
+StatusEffectReaction Cold_Cyclops_Stasis < uid=C91BB55157FFDDC40000008548C24245 > : Base_Stasis
+{
+	myActivationValue 200.0
+	mySkillScript onward/skillscripts/npc_reaction_stasis_stub.mskillscriptjuice
+	myCombos
+	{
+		StatusEffectCombo "FireBurst from Sunder"
+		{
+			myType Sunder
+			myRange 25.0
+			mySkillScript onward/skillscripts/npc_reaction_fireBurst.mskillscriptjuice
+		}
+		StatusEffectCombo "FireBurst from Fire"
+		{
+			myType Fire
+			myRange 25.0
+			mySkillScript onward/skillscripts/npc_reaction_fireBurst.mskillscriptjuice
+		}
+		StatusEffectCombo "Gravity Burst"
+		{
+			myType Gravity
+			mySkillScript onward/skillscripts/npc_reaction_gravityburst.mskillscriptjuice
+		}
+	}
+}
+
+StatusEffectReaction Cold_Cyclops_StasisOverload < uid=C91BB55157FFDEA4000000A5E47F7EEF > : Base_StasisOverload
+{
+	myActivationValue 200.0
+}
+
+StatusEffectReaction Crush_Cyclops_Stasis < uid=C92F4D3F5A57B12F00DA2FE404B84E0F > : Base_Stasis
+{
+	mySkillScript onward/skillscripts/npc_reaction_stasis_stub.mskillscriptjuice
+}
+
+StatusEffectReaction Crush_Cyclops_StasisOverload < uid=C92F4D3F5A57B12F00DA2FE502AAC11D > : Base_StasisOverload
+{
+}
+
+StatusEffectReaction Crush_Cyclops_Freeze < uid=C92F4D3F5C3F51F00000038E154B63E9 > : Base_Freeze
+{
+	myIsHiddenFromUI TRUE
+	mySkillScript onward/skillscripts/npc_reaction_frozen_stub.mskillscriptjuice
+}
+
+StatusEffectReaction Heat_Cyclops_Chill < uid=939A354159B992F90003CC4242B14F78 > : Base_Chill
+{
+	myActivationValue 300.0
+	myDuration 4.0
+	myCombos
+	{
+		StatusEffectCombo "Reset From Sunder"
+		{
+			mySkillScript onward/skillscripts/npc_Reaction_ResetStatusEffect.mskillscriptjuice
+		}
+		StatusEffectCombo "Reset From Fire"
+		{
+			myType Fire
+			mySkillScript onward/skillscripts/npc_Reaction_ResetStatusEffect.mskillscriptjuice
+		}
+	}
+}
+
+StatusEffectReaction Heat_Cyclops_Freeze < uid=4A8282B95994C0CF0092A44FC797B6BC > : Base_Freeze
+{
+	myDescription ""
+	myStatusEffectType Freeze
+	myActivationValue 300.0
+	myDuration 4.0
+	myIsHiddenFromUI TRUE
+	mySkillScript onward/skillscripts/npc_reaction_frozen_stub.mskillscriptjuice
+	myCombos
+	{
+		StatusEffectCombo "Reset From Fire"
+		{
+			myType Fire
+			mySkillScript onward/skillscripts/npc_Reaction_ResetStatusEffect.mskillscriptjuice
+		}
+		StatusEffectCombo "Reset From Sunder"
+		{
+			mySkillScript onward/skillscripts/npc_Reaction_ResetStatusEffect.mskillscriptjuice
+		}
+	}
+}
+
+StatusEffectReaction Heat_Cyclops_Stasis < uid=C91BB55157FFDD7A00000076AD325FB7 > : Base_Stasis
+{
+	myStatusEffectType Stasis
+	myActivationValue 200.0
+	mySkillScript onward/skillscripts/npc_reaction_stasis_stub.mskillscriptjuice
+	myCombos
+	{
+		StatusEffectCombo "FreezeBurst from Chill"
+		{
+			myType Chill
+			myRange 25.0
+			mySkillScript onward/skillscripts/npc_reaction_freezeBurst.mskillscriptjuice
+		}
+		StatusEffectCombo "FreezeBurst from Freeze"
+		{
+			myType Freeze
+			myRange 25.0
+			mySkillScript onward/skillscripts/npc_reaction_freezeburst.mskillscriptjuice
+		}
+		StatusEffectCombo "Gravity Burst"
+		{
+			myType Gravity
+			myRange 25.0
+			mySkillScript onward/skillscripts/npc_reaction_gravityburst.mskillscriptjuice
+		}
+	}
+}
+
+StatusEffectReaction Heat_Cyclops_StasisOverload < uid=C91BB55157FFDEA4000000A4C7F90C33 > : Base_StasisOverload
+{
+	myActivationValue 200.0
+}
+
+StatusEffectReaction Heat_Infused_Cyclops_Fire < uid=4A8282B9588256D40022C5572B95AF6D > : Base_Fire
+{
+	myDuration 0.5
+	mySkillScript onward/skillscripts/npc_reaction_cyclops_heat_infused_onfire.mskillscriptjuice
+	myCombos
+	{
+		StatusEffectCombo "Reset From Chill"
+		{
+			myType Chill
+			mySkillScript onward/skillscripts/npc_Reaction_ResetStatusEffect.mskillscriptjuice
+		}
+		StatusEffectCombo "Reset From Freeze"
+		{
+			myType Freeze
+			mySkillScript onward/skillscripts/npc_Reaction_ResetStatusEffect.mskillscriptjuice
+		}
+	}
+}
+
+StatusEffectReaction Heat_Infused_Cyclops_Sunder < uid=4A8282B9588256D40022C5560A765D26 > : Base_Sunder
+{
+	myDuration 0.5
+	mySkillScript onward/skillscripts/npc_reaction_cyclops_heat_infused_sundered.mskillscriptjuice
+	myCombos
+	{
+		StatusEffectCombo "Reset From Chill"
+		{
+			myType Chill
+			mySkillScript onward/skillscripts/npc_Reaction_ResetStatusEffect.mskillscriptjuice
+		}
+		StatusEffectCombo "Reset From Freeze"
+		{
+			myType Freeze
+			mySkillScript onward/skillscripts/npc_Reaction_ResetStatusEffect.mskillscriptjuice
+		}
+	}
+}
+
+StatusEffectReaction Heat_Infused_Cyclops_Chill < uid=939A35415A834DFD0005B047D55B063C > : Base_Chill
+{
+	myCombos
+	{
+		StatusEffectCombo "Reset From Sunder"
+		{
+			mySkillScript onward/skillscripts/npc_Reaction_ResetStatusEffect.mskillscriptjuice
+		}
+		StatusEffectCombo "Reset From Fire"
+		{
+			myType Fire
+			mySkillScript onward/skillscripts/npc_Reaction_ResetStatusEffect.mskillscriptjuice
+		}
+	}
+}
+
+StatusEffectReaction Heat_Infused_Cyclops_Freeze < uid=939A35415A834DFD0005B048D0C5574D > : Base_Freeze
+{
+	myCombos
+	{
+		StatusEffectCombo "Reset From Fire"
+		{
+			myType Fire
+			mySkillScript onward/skillscripts/npc_Reaction_ResetStatusEffect.mskillscriptjuice
+		}
+		StatusEffectCombo "Reset From Sunder"
+		{
+			mySkillScript onward/skillscripts/npc_Reaction_ResetStatusEffect.mskillscriptjuice
+		}
+	}
+}
+
+StatusEffectReaction Cold_Infused_Cyclops_Fire < uid=939A35415A83473400001B5F76991BEF > : Base_Fire
+{
+	myCombos
+	{
+		StatusEffectCombo "Reset From Chill"
+		{
+			myType Chill
+			mySkillScript onward/skillscripts/npc_Reaction_ResetStatusEffect.mskillscriptjuice
+		}
+		StatusEffectCombo "Reset From Freeze"
+		{
+			myType Freeze
+			mySkillScript onward/skillscripts/npc_Reaction_ResetStatusEffect.mskillscriptjuice
+		}
+	}
+}
+
+StatusEffectReaction Cold_Infused_Cyclops_Sunder < uid=939A35415A83473400001B602CDB8635 > : Base_Sunder
+{
+	myCombos
+	{
+		StatusEffectCombo "Reset From Chill"
+		{
+			myType Chill
+			mySkillScript onward/skillscripts/npc_Reaction_ResetStatusEffect.mskillscriptjuice
+		}
+		StatusEffectCombo "Reset From Freeze"
+		{
+			myType Freeze
+			mySkillScript onward/skillscripts/npc_Reaction_ResetStatusEffect.mskillscriptjuice
+		}
+	}
+}
+
+StatusEffectReaction Cold_Infused_Cyclops_Chill < uid=4A8282B958825B2000100AFFF0921295 > : Base_Chill
+{
+	myActivationValue 100.0
+	myDuration 0.5
+	mySkillScript onward/skillscripts/npc_reaction_cyclops_cold_infused_chilled.mskillscriptjuice
+	myCombos
+	{
+		StatusEffectCombo "Reset From Sunder"
+		{
+			mySkillScript onward/skillscripts/npc_Reaction_ResetStatusEffect.mskillscriptjuice
+		}
+		StatusEffectCombo "Reset From Fire"
+		{
+			myType Fire
+			mySkillScript onward/skillscripts/npc_Reaction_ResetStatusEffect.mskillscriptjuice
+		}
+	}
+}
+
+StatusEffectReaction Cold_Infused_Cyclops_Freeze < uid=939A354159BA8591000048D4FD19EACD > : Base_Freeze
+{
+	myDuration 0.5
+	myIsHiddenFromUI TRUE
+	mySkillScript onward/skillscripts/npc_reaction_frozen_stub.mskillscriptjuice
+	myCombos
+	{
+		StatusEffectCombo "Reset From Fire"
+		{
+			myType Fire
+			mySkillScript onward/skillscripts/npc_Reaction_ResetStatusEffect.mskillscriptjuice
+		}
+		StatusEffectCombo "Reset From Sunder"
+		{
+			mySkillScript onward/skillscripts/npc_Reaction_ResetStatusEffect.mskillscriptjuice
+		}
+	}
+}
+
+StatusEffectReaction Crush_Infused_Cyclops_Gravity < uid=939A35415A847DC8000D4B7840599534 > : Base_Gravity
+{
+	myDuration 0.5
+}
+
+StatusEffectReaction Imp_Fire < uid=C92F4D3F591C5A76000001D0AAC988EF > : Base_Fire
+{
+	mySkillScript onward/skillscripts/npc_reaction_imp_onfire.mskillscriptjuice
+}
+
+StatusEffectReaction Grax_Cyclops_Stasis < uid=4A8282B959CA86BB00131EECCCA27CDD > : Base_Stasis
+{
+	mySkillScript onward/skillscripts/npc_reaction_stasis_stub.mskillscriptjuice
+}
+
+StatusEffectReaction Grax_Cyclops_Freeze < uid=4A8282B959CA86BB00131EED65732DAE > : Base_Freeze
+{
+	myIsHiddenFromUI TRUE
+	mySkillScript onward/skillscripts/npc_reaction_frozen_stub.mskillscriptjuice
+}
+
+StatusEffectReaction Space_Chill < uid=6D25F4C65BB2764D00027532CEC83943 > : Base_Chill
+{
+	myUninterruptibleDurationOnActivation 0.0
+	myInvincibilityDurationOnDeactivation 0.0
+}
+
+StatusEffectReaction Space_Freeze < uid=6D25F4C65BB28F6700046D0350050728 > : Base_Freeze
+{
+	myUninterruptibleDurationOnActivation 0.0
+}
+
+StatusEffectReaction Space_Sunder < uid=6D25F4C65BB28FCC00046D0457107927 > : Base_Sunder
+{
+	myUninterruptibleDurationOnActivation 0.0
+}
+
+StatusEffectReaction Space_Sunder_Race < uid=5BF54C035C61AD16000006284D0C65B2 > : Space_Sunder
+{
+	myDuration 0.1
+}
+
+StatusEffectReaction Space_Fire_Race < uid=5BF54C035C61AD3C0000062906B70430 > : Space_Fire
+{
+	myDuration 0.1
+}
+
+StatusEffectReaction Space_Chill_Race < uid=5BF54C035C61AD600000062A7F2F2932 > : Space_Chill
+{
+	myDuration 0.1
+}
+
+StatusEffectReaction Space_Freeze_Race < uid=5BF54C035C61AD850000062B5B21FD68 > : Space_Freeze
+{
+	myDuration 0.1
+}
+
+StatusEffectReaction Base_Stasis_Race < uid=5BF54C035C61ADA70000062C752E224B > : Base_Stasis
+{
+	myDuration 0.1
+}
+
+StatusEffectReaction Base_StasisOverload_Race < uid=5BF54C035C61ADC70000062DCB063E5A > : Base_StasisOverload
+{
+}
+
+StatusEffectReaction Base_Gravity_Race < uid=5BF54C035C61ADEF0000062ECD66F8B1 > : Base_Gravity
+{
+	myDuration 0.1
+}
+
+StatusEffectReaction Base_Entangle_Race < uid=5BF54C035C61AE150000062F99F896C8 > : Base_Entangle
+{
+	myDuration 0.1
+}
+
+StatusEffectReaction Battlemech_Chill < uid=88843A575C6DCB2500A673C54078637C > : Base_Chill
+{
+	myDescription "Battlemech Specific Chill Reactions"
+	myActivationValue 100.0
+	myDuration 0.0
+	mySkillScript onward/skillscripts/npc_reaction_battlemech_chill.mskillscriptjuice
+	myCombos
+	{
+	}
+}
+

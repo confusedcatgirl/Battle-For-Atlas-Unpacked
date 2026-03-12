@@ -1,0 +1,1284 @@
+include "onward/game system data/fruit/sim/wareffort.fruit"
+include "onward/game system data/juice/mods/planetary benefit 25.mmod"
+include "onward/game system data/juice/mods/planetary benefit 50.mmod"
+include "onward/game system data/juice/mods/planetary benefit 75.mmod"
+include ./harvester_prime.msimunit
+include ./creep_shed.msimunit
+include "onward/game system data/juice/mods/miningcenter_alliance_electrum.mmod"
+include "onward/game system data/juice/mods/miningcenter_levelup_electrum.mmod"
+include "onward/game system data/juice/mods/researchbase_alliance_enhancements.mmod"
+include "onward/game system data/juice/mods/planetary benefit 100 planet_01.mmod"
+include "onward/game system data/juice/mods/planetary benefit 100 planet_03.mmod"
+include "onward/game system data/juice/mods/planetary benefit 100 planet_04.mmod"
+include "onward/game system data/juice/mods/planetary benefit 100 planet_05.mmod"
+include "onward/game system data/juice/mods/planetary benefit 100 planet_07.mmod"
+include "onward/game system data/juice/mods/planetary benefit 100 planet_08.mmod"
+include "onward/game system data/juice/mods/planetary benefit 100 planet_15.mmod"
+include "onward/game system data/juice/mods/researchbase_levelup_enhancements.mmod"
+include "onward/game system data/juice/progression/generated_cost_data.juice"
+include "onward/game system data/juice/mods/planetary benefit 100 legion planet_01.mmod"
+include "onward/game system data/juice/mods/planetary benefit 100 legion planet_03.mmod"
+include "onward/game system data/juice/mods/planetary benefit 100 legion planet_04.mmod"
+include "onward/game system data/juice/mods/planetary benefit 100 legion planet_05.mmod"
+include "onward/game system data/juice/mods/planetary benefit 100 legion planet_07.mmod"
+include "onward/game system data/juice/mods/planetary benefit 100 legion planet_08.mmod"
+include "onward/game system data/juice/mods/planetary benefit 100 legion planet_15.mmod"
+include ./starlink_tower.msimunit
+include "onward/game system data/juice/mods/enhancements/alliance_structure.juice"
+include ./act_1_observation_deck.msimunit
+include ./act_2_sonatus_observatory.msimunit
+include ./act_2_haven_mining_center.msimunit
+include ./act_3_vylus_observatory.msimunit
+include ./act_4_tundria_defense_base.msimunit
+include ./harvester_extractor_variant_armored.msimunit
+include ./harvester_extractor_variant_pluck.msimunit
+include ./harvester_extractor_variant_testofstrength.msimunit
+include ./harvester_extractor_variant_trap.msimunit
+include ./act2_extractor_a.msimunit
+include ./act2_extractor_b.msimunit
+include ./act2_extractor_c.msimunit
+include ./act2_extractor_d.msimunit
+include ./act2_extractor_e.msimunit
+include ./goldrush_vault.msimunit
+include ./goldrush_sattelite.msimunit
+include ./goldrush_refueling_station.msimunit
+include ./goldrush_hackable_antenna.msimunit
+include ./goldrush_hackable_chest.msimunit
+include ./goldrush_prison.msimunit
+include ./goldrush_refinery.msimunit
+include "onward/game system data/juice/mods/goldrushstructure_alliance_electrum.mmod"
+
+WarEffortPointConfigs PointConfigs
+{
+	WarEffortPointConfig Prime
+	{
+		myPointType Prime
+		mySimUnitAsset < uid=9543058059AECD14000000350B14FC2B > = harvester_prime
+		myPoints 12
+		myLevelUpPoints 0
+	}
+	WarEffortPointConfig Extractor
+	{
+		myPointType Extractor
+		mySimUnitAsset < uid=9543058059AECDD000000036B14B6595 > = harvester_extractor
+		myPoints 8
+		myLevelUpPoints 0
+	}
+	WarEffortPointConfig Nest
+	{
+		myPointType Nest
+		mySimUnitAsset < uid=9543058059AECDD000000037720A583B > = creep_shed
+		myPoints 0
+	}
+	WarEffortPointConfig "Act 1 Observation Deck"
+	{
+		myPointType AlliedOutpost
+		mySimUnitAsset < uid=954305805A2ECDC60000222F34762E47 > = act_1_observation_deck
+		myPoints 5
+		myLevelUpPoints 2
+	}
+	WarEffortPointConfig "Act 2 Observatory"
+	{
+		myPointType AlliedOutpost
+		mySimUnitAsset < uid=954305805A2ECE1D00002230F87C7D99 > = act_2_sonatus_observatory
+		myPoints 15
+		myLevelUpPoints 5
+		myMod < uid=BEFFEE115AD78ACD000E2C7956C3646E > = researchbase_alliance_enhancements
+		myLevelUpMod < uid=BEFFEE115AD78ACD000E2C7A3D9E407D > = researchbase_levelup_enhancements
+	}
+	WarEffortPointConfig "Observation Deck"
+	{
+		myPointType AlliedOutpost
+		mySimUnitAsset < uid=9543058059AECDD000000038CC80A1AB > = expedition_observation_deck
+		myPoints 5
+		myLevelUpPoints 2
+	}
+	WarEffortPointConfig "Research Base"
+	{
+		myPointType AlliedOutpost
+		mySimUnitAsset < uid=9543058059AECDD00000003960D9E9B4 > = expedition_research_base
+		myPoints 15
+		myLevelUpPoints 5
+		myMod < uid=9543058059B03910000000357DB0EC02 > = researchbase_alliance_enhancements
+		myLevelUpMod < uid=9543058059D50CFD000000369BA987AC > = researchbase_levelup_enhancements
+	}
+	WarEffortPointConfig "Mining Center"
+	{
+		myPointType AlliedOutpost
+		mySimUnitAsset < uid=9543058059AECE0B0000003A8A544FF7 > = prospector_mining_center
+		myPoints 10
+		myLevelUpPoints 2
+		myMod < uid=9543058059AEE61C00000037543C1BA1 > = MiningCenter_Alliance_Electrum
+		myLevelUpMod < uid=9543058059AEE61C00000038128FC716 > = miningcenter_levelup_electrum
+	}
+	WarEffortPointConfig "Act 2 Mining Center"
+	{
+		myPointType AlliedOutpost
+		mySimUnitAsset < uid=954305805A2ECE3C000022318294DF48 > = act_2_haven_mining_center
+		myPoints 10
+		myLevelUpPoints 2
+		myMod < uid=954305805AD0C71100015F57DEF629C3 > = MiningCenter_Alliance_Electrum
+		myLevelUpMod < uid=954305805AD0C71100015F582579770A > = miningcenter_levelup_electrum
+	}
+	WarEffortPointConfig "Defense Base"
+	{
+		myPointType AlliedOutpost
+		mySimUnitAsset < uid=9543058059AECE0B0000003BAABF1506 > = prospector_defense_base
+		myPoints 20
+		myLevelUpPoints 5
+	}
+	WarEffortPointConfig "Alliance Structure"
+	{
+		mySimUnitAsset < uid=C91BB55159F74A1C00001D05F2F423B1 > = starlink_tower
+		myPoints 50
+		myPlanetaryEnhancements
+		{
+			Enhancement pilot_ability_regen_x10 < uid=C91BB55159F74A1C00001D061894A2D9 > = alliance_structure
+		}
+	}
+	WarEffortPointConfig "Act 3 Vylus Observatory"
+	{
+		myPointType AlliedOutpost
+		mySimUnitAsset < uid=954305805A2ECE5900002232DA7DE3E3 > = act_3_vylus_observatory
+		myPoints 20
+		myLevelUpPoints 5
+	}
+	WarEffortPointConfig "Act 4 Tundria Defense Base"
+	{
+		myPointType AlliedOutpost
+		mySimUnitAsset < uid=954305805A2ECEA5000022335FFCEAFD > = act_4_tundria_defense_base
+		myPoints 20
+		myLevelUpPoints 5
+	}
+	WarEffortPointConfig "Extractor Variant Armored"
+	{
+		myPointType Extractor
+		mySimUnitAsset < uid=954305805AA992F30015E004808C20CF > = harvester_extractor_variant_armored
+		myPoints 9
+		myLevelUpPoints 1
+	}
+	WarEffortPointConfig "Extractor Variant Pluck"
+	{
+		myPointType Extractor
+		mySimUnitAsset < uid=954305805AA991F0000C0EA37C7A18DC > = harvester_extractor_variant_pluck
+		myPoints 9
+		myLevelUpPoints 1
+	}
+	WarEffortPointConfig "Extractor Variant Test of Strength"
+	{
+		myPointType Extractor
+		mySimUnitAsset < uid=954305805AA99214000D6A87CE1C5976 > = harvester_extractor_variant_testofstrength
+		myPoints 9
+		myLevelUpPoints 1
+	}
+	WarEffortPointConfig "Extractor Variant"
+	{
+		myPointType Extractor
+		mySimUnitAsset < uid=954305805AA99232000E9099E38AA214 > = harvester_extractor_variant_trap
+		myPoints 9
+		myLevelUpPoints 1
+	}
+	WarEffortPointConfig "Act 2 Extractor A"
+	{
+		myPointType Extractor
+		mySimUnitAsset < uid=954305805AA992DA0014EFC0EE9827A3 > = act2_extractor_a
+		myPoints 9
+		myLevelUpPoints 1
+	}
+	WarEffortPointConfig "Act 2 Extractor B"
+	{
+		myPointType Extractor
+		mySimUnitAsset < uid=954305805AA992DA0014EFC1C26304EF > = act2_extractor_b
+		myPoints 9
+		myLevelUpPoints 1
+	}
+	WarEffortPointConfig "Act 2 Extractor C"
+	{
+		myPointType Extractor
+		mySimUnitAsset < uid=954305805AA992DA0014EFC2744F84B5 > = act2_extractor_c
+		myPoints 9
+		myLevelUpPoints 1
+	}
+	WarEffortPointConfig "Act 2 Extractor D"
+	{
+		myPointType Extractor
+		mySimUnitAsset < uid=954305805AA992DA0014EFC375988731 > = act2_extractor_d
+		myPoints 9
+		myLevelUpPoints 1
+	}
+	WarEffortPointConfig "Act 2 Extractor E"
+	{
+		myPointType Extractor
+		mySimUnitAsset < uid=954305805AA992DA0014EFC45A12131E > = act2_extractor_e
+		myPoints 9
+		myLevelUpPoints 1
+	}
+	WarEffortPointConfig "Gold Rush Vault"
+	{
+		myPointType AlliedOutpost
+		mySimUnitAsset < uid=954305805AF5D50B00001D714666E356 > = goldrush_vault
+		myPoints 2
+		myAllowLegionContribution FALSE
+		myMod < uid=954305805BAE4B5C0005AE51CC4A034C > = GoldRushStructure_Alliance_Electrum
+	}
+	WarEffortPointConfig "Gold Rush Satellite"
+	{
+		myPointType AlliedOutpost
+		mySimUnitAsset < uid=954305805AF5D50B00001D729F35D5D6 > = goldrush_sattelite
+		myPoints 2
+		myAllowLegionContribution FALSE
+		myMod < uid=954305805BAE4B5C0005AE526E07CA62 > = GoldRushStructure_Alliance_Electrum
+	}
+	WarEffortPointConfig "Gold Rush Prison"
+	{
+		myPointType AlliedOutpost
+		mySimUnitAsset < uid=518C297A5B21389A000019F45F96322A > = goldrush_prison
+		myPoints 2
+		myAllowLegionContribution FALSE
+		myMod < uid=954305805BAE4B5C0005AE53285C8568 > = GoldRushStructure_Alliance_Electrum
+	}
+	WarEffortPointConfig "Gold Rush Re-fueling Station"
+	{
+		myPointType AlliedOutpost
+		mySimUnitAsset < uid=954305805AF5D50B00001D73082EFB75 > = goldrush_refueling_station
+		myPoints 2
+		myAllowLegionContribution FALSE
+		myMod < uid=954305805BAE4B5C0005AE54FC268761 > = GoldRushStructure_Alliance_Electrum
+	}
+	WarEffortPointConfig "Gold Rush Refinery"
+	{
+		myPointType AlliedOutpost
+		mySimUnitAsset < uid=954305805AF5D50B00001D74321A915A > = goldrush_refinery
+		myPoints 2
+		myAllowLegionContribution FALSE
+		myMod < uid=954305805BAE4B5C0005AE5560EAABCA > = GoldRushStructure_Alliance_Electrum
+	}
+	WarEffortPointConfig "Gold Rush Chest"
+	{
+		myPointType AlliedOutpost
+		mySimUnitAsset < uid=954305805AF5D50B00001D754317B81C > = goldrush_hackable_chest
+		myAllowLegionContribution FALSE
+	}
+}
+
+WarEffortThresholdConfigs ThresholdConfigs
+{
+	WarEffortThresholdConfig "Threshold 0%"
+	{
+		myThreshold Threshold_0
+		myPointsRequired 0
+	}
+	WarEffortThresholdConfig "Threshold 25%"
+	{
+		myThreshold Threshold_25
+		myPointsRequired 25
+	}
+	WarEffortThresholdConfig "Threshold 50%"
+	{
+		myThreshold Threshold_50
+		myPointsRequired 50
+	}
+	WarEffortThresholdConfig "Threshold 75%"
+	{
+		myThreshold Threshold_75
+		myPointsRequired 75
+	}
+	WarEffortThresholdConfig "Threshold 90%"
+	{
+		myThreshold Threshold_90
+		myPointsRequired 90
+	}
+	WarEffortThresholdConfig "Threshold 100%"
+	{
+		myThreshold Threshold_100
+		myPointsRequired 100
+	}
+}
+
+WarEffortBenefitConfigs BenefitConfigs
+{
+	WarEffortBenefitConfig "Planet_01 - A0"
+	{
+		myBenefitType Alliance
+		myThreshold Threshold_0
+		myMod < uid=9543058059B0531700046FE2BDEC2EB4 > = NULLREFERENCE
+		myPlanetUID 2B55C72B560154A200000053621E3961
+		myLocalizedDescription "contextComment = \"War effort meter label for first Alliance milestone on Kirite (at least one allied outpost on planet - allies gain a level)\", description = \"war-effort-benefit-alliance-0-planet-01\", enabled = true, guid = #14284B5AA5A746BDBAD39238A84F0B19, lineVersion = 0, maxLength = 20, text = \"Ally Level +1\""
+	}
+	WarEffortBenefitConfig "Planet_01 - A25"
+	{
+		myBenefitType Alliance
+		myThreshold Threshold_25
+		myPlanetUID 2B55C72B560154A200000053621E3961
+		myLocalizedDescription "contextComment = \"War effort meter label for second Alliance milestone on Kirite (25% of possible outposts allied - allies gain another level)\", description = \"war-effort-benefit-alliance-25-planet-01\", enabled = true, guid = #7A6A935BA88047FD9C32987732D0A095, lineVersion = 0, maxLength = 20, text = \"Ally Level +1\""
+	}
+	WarEffortBenefitConfig "Planet_01 - A50"
+	{
+		myBenefitType Alliance
+		myThreshold Threshold_50
+		myPlanetUID 2B55C72B560154A200000053621E3961
+		myLocalizedDescription "contextComment = \"War effort meter label for third Alliance milestone on Kirite (50% of possible outposts allied - allies gain another level)\", description = \"war-effort-benefit-alliance-50-planet-01\", enabled = true, guid = #1F83CC48CE3B4E06956DDABF7E1FF194, lineVersion = 0, maxLength = 20, text = \"Ally Level +1\""
+	}
+	WarEffortBenefitConfig "Planet_01 - A75"
+	{
+		myBenefitType Alliance
+		myThreshold Threshold_75
+		myPlanetUID 2B55C72B560154A200000053621E3961
+		myLocalizedDescription "contextComment = \"War effort meter label for fourth Alliance milestone on Kirite (75% of possible outposts allied - allies gain another level)\", description = \"war-effort-benefit-alliance-75-planet-01\", enabled = true, guid = #C3B06298DBC3430CBA05C0AAA1B70E5D, lineVersion = 0, maxLength = 20, text = \"Ally Level +1\""
+	}
+	WarEffortBenefitConfig "Planet_01 - A100"
+	{
+		myBenefitType Alliance
+		myThreshold Threshold_100
+		myThresholdReachedChallenge Progression_FullyAllyWithPlanet01
+		myMod < uid=9543058059B053AE00051B42ACFE7CFA > = "planetary benefit 100 planet_08"
+		myPlanetUID 2B55C72B560154A200000053621E3961
+		myLocalizedDescription "contextComment = \"War effort meter label for final Alliance milestone on Kirite (whole planet allied - allies gain another level)\", description = \"war-effort-benefit-alliance-100-planet-08\", enabled = true, guid = #1ABBD50B59399D4B00017BD4B699ED56, lineVersion = 3, maxLength = 100, text = \"Legion Vision\""
+		mySendAllianceSimAlert TRUE
+	}
+	WarEffortBenefitConfig "Planet_03 - A0"
+	{
+		myBenefitType Alliance
+		myThreshold Threshold_0
+		myMod < uid=9543058059A8A33400018E213EC5A708 > = NULLREFERENCE
+		myPlanetUID 2B55C72B560BF25A00000071749BE491
+		myLocalizedDescription "contextComment = \"War effort meter label for first Alliance milestone on Haven (at least one allied outpost on planet - allies gain a level)\", description = \"war-effort-benefit-alliance-0-planet-03\", enabled = true, guid = #8F46E09E2B7F43678D277FDCCEE0E4DA, lineVersion = 0, maxLength = 20, text = \"Ally Level +1\""
+	}
+	WarEffortBenefitConfig "Planet_03 - A25"
+	{
+		myBenefitType Alliance
+		myThreshold Threshold_25
+		myPlanetUID 2B55C72B560BF25A00000071749BE491
+		myLocalizedDescription "contextComment = \"War effort meter label for second Alliance milestone on Haven (25% of possible outposts allied - allies gain another level)\", description = \"war-effort-benefit-alliance-25-planet-03\", enabled = true, guid = #F160B317D3E040E09ABF5BF60D7C5FC8, lineVersion = 0, maxLength = 20, text = \"Ally Level +1\""
+	}
+	WarEffortBenefitConfig "Planet_03 - A50"
+	{
+		myBenefitType Alliance
+		myThreshold Threshold_50
+		myPlanetUID 2B55C72B560BF25A00000071749BE491
+		myLocalizedDescription "contextComment = \"War effort meter label for third Alliance milestone on Haven (50% of possible outposts allied - allies gain another level)\", description = \"war-effort-benefit-alliance-50-planet-03\", enabled = true, guid = #BBEC5619B6FA4315A140830F6C300899, lineVersion = 0, maxLength = 20, text = \"Ally Level +1\""
+	}
+	WarEffortBenefitConfig "Planet_03 - A75"
+	{
+		myBenefitType Alliance
+		myThreshold Threshold_75
+		myPlanetUID 2B55C72B560BF25A00000071749BE491
+		myLocalizedDescription "contextComment = \"War effort meter label for fourth Alliance milestone on Haven (75% of possible outposts allied - allies gain another level)\", description = \"war-effort-benefit-alliance-75-planet-03\", enabled = true, guid = #4D3AE042239C4185A320B39BC30D4DE4, lineVersion = 0, maxLength = 20, text = \"Ally Level +1\""
+	}
+	WarEffortBenefitConfig "Planet_03 - A100"
+	{
+		myBenefitType Alliance
+		myThreshold Threshold_100
+		myThresholdReachedChallenge Progression_FullyAllyWithPlanet03
+		myMod < uid=9543058059B053AE00051B321AC13837 > = "planetary benefit 100 planet_03"
+		myPlanetUID 2B55C72B560BF25A00000071749BE491
+		myLocalizedDescription "contextComment = \"War effort meter label for final Alliance milestone on Haven (whole planet allied - allies gain another level)\", description = \"war-effort-benefit-alliance-100-planet-03\", enabled = true, guid = #A08A88CF59565961000108F35919560E, lineVersion = 2, maxLength = 100, text = \"Can build workshops with 0% alliance.\""
+		mySendAllianceSimAlert TRUE
+	}
+	WarEffortBenefitConfig "Planet_04 - A0"
+	{
+		myBenefitType Alliance
+		myThreshold Threshold_0
+		myPlanetUID CC9485AB560BFF1000000066C27E74E9
+		myLocalizedDescription "contextComment = \"War effort meter label for first Alliance milestone on Necrom (at least one allied outpost on planet - allies gain a level)\", description = \"war-effort-benefit-alliance-0-planet-04\", enabled = true, guid = #7C88575A49864565AE157C522B1F859F, lineVersion = 0, maxLength = 20, text = \"Ally Level +1\""
+	}
+	WarEffortBenefitConfig "Planet_04 - A25"
+	{
+		myBenefitType Alliance
+		myThreshold Threshold_25
+		myPlanetUID CC9485AB560BFF1000000066C27E74E9
+		myLocalizedDescription "contextComment = \"War effort meter label for second Alliance milestone on Necrom (25% of possible outposts allied - allies gain another level)\", description = \"war-effort-benefit-alliance-25-planet-04\", enabled = true, guid = #5E13008A83FA4FC683B3C9572B7A0374, lineVersion = 0, maxLength = 20, text = \"Ally Level +1\""
+	}
+	WarEffortBenefitConfig "Planet_04 - A50"
+	{
+		myBenefitType Alliance
+		myThreshold Threshold_50
+		myPlanetUID CC9485AB560BFF1000000066C27E74E9
+		myLocalizedDescription "contextComment = \"War effort meter label for third Alliance milestone on Necrom (50% of possible outposts allied - allies gain another level)\", description = \"war-effort-benefit-alliance-50-planet-04\", enabled = true, guid = #D6422BF8988C4405968E9AC214824AAE, lineVersion = 0, maxLength = 20, text = \"Ally Level +1\""
+	}
+	WarEffortBenefitConfig "Planet_04 - A75"
+	{
+		myBenefitType Alliance
+		myThreshold Threshold_75
+		myPlanetUID CC9485AB560BFF1000000066C27E74E9
+		myLocalizedDescription "contextComment = \"War effort meter label for fourth Alliance milestone on Necrom (75% of possible outposts allied - allies gain another level)\", description = \"war-effort-benefit-alliance-75-planet-04\", enabled = true, guid = #CD0BF56C63AF4EDBB3D74864D7C917BD, lineVersion = 0, maxLength = 20, text = \"Ally Level +1\""
+	}
+	WarEffortBenefitConfig "Planet_04 - A100"
+	{
+		myBenefitType Alliance
+		myThreshold Threshold_100
+		myThresholdReachedChallenge Progression_FullyAllyWithPlanet04
+		myMod < uid=9543058059B053AE00051B36BDD0CF93 > = "planetary benefit 100 planet_04"
+		myPlanetUID CC9485AB560BFF1000000066C27E74E9
+		myLocalizedDescription "contextComment = \"War effort meter label for final Alliance milestone on Necrom (whole planet allied - allies gain another level)\", description = \"war-effort-benefit-alliance-100-planet-04\", enabled = true, guid = #1ABBD50B59399D4F00017BDAB00BD97F, lineVersion = 1, maxLength = 100, text = \"2x Mod Research Rate in Atlas\""
+		mySendAllianceSimAlert TRUE
+	}
+	WarEffortBenefitConfig "Planet_05 - A0"
+	{
+		myBenefitType Alliance
+		myThreshold Threshold_0
+		myPlanetUID CC9485AB560D322B0000007B1A4D3320
+		myLocalizedDescription "contextComment = \"War effort meter label for first Alliance milestone on Tundria (at least one allied outpost on planet - allies gain a level)\", description = \"war-effort-benefit-alliance-0-planet-05\", enabled = true, guid = #0EC19B0BCF87481E9C6D49403AFC88BE, lineVersion = 0, maxLength = 20, text = \"Ally Level +1\""
+	}
+	WarEffortBenefitConfig "Planet_05 - A25"
+	{
+		myBenefitType Alliance
+		myThreshold Threshold_25
+		myPlanetUID CC9485AB560D322B0000007B1A4D3320
+		myLocalizedDescription "contextComment = \"War effort meter label for second Alliance milestone on Tundria (25% of possible outposts allied - allies gain another level)\", description = \"war-effort-benefit-alliance-25-planet-05\", enabled = true, guid = #66D499D23F7A4E5F8F84F218E9D89086, lineVersion = 0, maxLength = 20, text = \"Ally Level +1\""
+	}
+	WarEffortBenefitConfig "Planet_05 - A50"
+	{
+		myBenefitType Alliance
+		myThreshold Threshold_50
+		myPlanetUID CC9485AB560D322B0000007B1A4D3320
+		myLocalizedDescription "contextComment = \"War effort meter label for third Alliance milestone on Tundria (50% of possible outposts allied - allies gain another level)\", description = \"war-effort-benefit-alliance-50-planet-05\", enabled = true, guid = #BA8A8A1DF5664528B575C4E737B96FD9, lineVersion = 0, maxLength = 20, text = \"Ally Level +1\""
+	}
+	WarEffortBenefitConfig "Planet_05 - A75"
+	{
+		myBenefitType Alliance
+		myThreshold Threshold_75
+		myPlanetUID CC9485AB560D322B0000007B1A4D3320
+		myLocalizedDescription "contextComment = \"War effort meter label for fourth Alliance milestone on Tundria (75% of possible outposts allied - allies gain another level)\", description = \"war-effort-benefit-alliance-75-planet-05\", enabled = true, guid = #4A2C0D8231324EA7B5355EF02D031706, lineVersion = 0, maxLength = 20, text = \"Ally Level +1\""
+	}
+	WarEffortBenefitConfig "Planet_05 - A100"
+	{
+		myBenefitType Alliance
+		myThreshold Threshold_100
+		myThresholdReachedChallenge Progression_FullyAllyWithPlanet05
+		myMod < uid=9543058059B0531700046FE604C27620 > = "planetary benefit 100 planet_01"
+		myPlanetUID CC9485AB560D322B0000007B1A4D3320
+		myLocalizedDescription "contextComment = \"\", description = \"\", enabled = true, guid = #AC30EC1D5B476E5D00000001A4D8380E, lineVersion = 0, maxLength = 1, text = \"|empty|\""
+		mySendAllianceSimAlert TRUE
+	}
+	WarEffortBenefitConfig "Planet_07 - A0"
+	{
+		myBenefitType Alliance
+		myThreshold Threshold_0
+		myPlanetUID CC9485AB560D7F0A00000059C377EB67
+		myLocalizedDescription "contextComment = \"War effort meter label for first Alliance milestone on Sonatus (at least one allied outpost on planet - allies gain a level)\", description = \"war-effort-benefit-alliance-0-planet-07\", enabled = true, guid = #170B397AD69541C988057350219F2EEC, lineVersion = 0, maxLength = 20, text = \"Ally Level +1\""
+	}
+	WarEffortBenefitConfig "Planet_07 - A25"
+	{
+		myBenefitType Alliance
+		myThreshold Threshold_25
+		myPlanetUID CC9485AB560D7F0A00000059C377EB67
+		myLocalizedDescription "contextComment = \"War effort meter label for second Alliance milestone on Sonatus (25% of possible outposts allied - allies gain another level)\", description = \"war-effort-benefit-alliance-25-planet-07\", enabled = true, guid = #06CEFDB00934487A9243746C1EE61E30, lineVersion = 0, maxLength = 20, text = \"Ally Level +1\""
+	}
+	WarEffortBenefitConfig "Planet_07 - A50"
+	{
+		myBenefitType Alliance
+		myThreshold Threshold_50
+		myPlanetUID CC9485AB560D7F0A00000059C377EB67
+		myLocalizedDescription "contextComment = \"War effort meter label for third Alliance milestone on Sonatus (50% of possible outposts allied - allies gain another level)\", description = \"war-effort-benefit-alliance-50-planet-07\", enabled = true, guid = #FAE54E55BF1C451A8AC8D8553CE61F5A, lineVersion = 0, maxLength = 20, text = \"Ally Level +1\""
+	}
+	WarEffortBenefitConfig "Planet_07 - A75"
+	{
+		myBenefitType Alliance
+		myThreshold Threshold_75
+		myPlanetUID CC9485AB560D7F0A00000059C377EB67
+		myLocalizedDescription "contextComment = \"War effort meter label for fourth Alliance milestone on Sonatus (75% of possible outposts allied - allies gain another level)\", description = \"war-effort-benefit-alliance-75-planet-07\", enabled = true, guid = #73A82EE42F6F44C99E36B7CF2ACC80B8, lineVersion = 0, maxLength = 20, text = \"Ally Level +1\""
+	}
+	WarEffortBenefitConfig "Planet_07 - A100"
+	{
+		myBenefitType Alliance
+		myThreshold Threshold_100
+		myThresholdReachedChallenge Progression_FullyAllyWithPlanet07
+		myMod < uid=9543058059B053AE00051B3E4F518663 > = "planetary benefit 100 planet_07"
+		myPlanetUID CC9485AB560D7F0A00000059C377EB67
+		myLocalizedDescription "contextComment = \"War effort meter label for final Alliance milestone on Sonatus (whole planet allied - allies gain another level)\", description = \"war-effort-benefit-alliance-100-planet-07\", enabled = true, guid = #1ABBD50B59399D4D00017BD63DE42C36, lineVersion = 1, maxLength = 100, text = \"0.5x Outpost Cost in Atlas\""
+		mySendAllianceSimAlert TRUE
+	}
+	WarEffortBenefitConfig "Planet_08 - A0"
+	{
+		myBenefitType Alliance
+		myThreshold Threshold_0
+		myPlanetUID CC9485AB560D8193000001B70208D164
+		myLocalizedDescription "contextComment = \"War effort meter label for first Alliance milestone on Vylus (at least one allied outpost on planet - allies gain a level)\", description = \"war-effort-benefit-alliance-0-planet-08\", enabled = true, guid = #1DB2FCAB1E3647B9A1E5F968F58772AC, lineVersion = 0, maxLength = 20, text = \"Ally Level +1\""
+	}
+	WarEffortBenefitConfig "Planet_08 - A25"
+	{
+		myBenefitType Alliance
+		myThreshold Threshold_25
+		myPlanetUID CC9485AB560D8193000001B70208D164
+		myLocalizedDescription "contextComment = \"War effort meter label for second Alliance milestone on Vylus (25% of possible outposts allied - allies gain another level)\", description = \"war-effort-benefit-alliance-25-planet-08\", enabled = true, guid = #C7BAE4B3B89548A2A9D8D9F675678193, lineVersion = 0, maxLength = 20, text = \"Ally Level +1\""
+	}
+	WarEffortBenefitConfig "Planet_08 - A50"
+	{
+		myBenefitType Alliance
+		myThreshold Threshold_50
+		myPlanetUID CC9485AB560D8193000001B70208D164
+		myLocalizedDescription "contextComment = \"War effort meter label for third Alliance milestone on Vylus (50% of possible outposts allied - allies gain another level)\", description = \"war-effort-benefit-alliance-50-planet-08\", enabled = true, guid = #A5931AF1883044B2A12BF952A47706A9, lineVersion = 0, maxLength = 20, text = \"Ally Level +1\""
+	}
+	WarEffortBenefitConfig "Planet_08 - A75"
+	{
+		myBenefitType Alliance
+		myThreshold Threshold_75
+		myPlanetUID CC9485AB560D8193000001B70208D164
+		myLocalizedDescription "contextComment = \"War effort meter label for fourth Alliance milestone on Vylus (75% of possible outposts allied - allies gain another level)\", description = \"war-effort-benefit-alliance-75-planet-08\", enabled = true, guid = #A7B4ACD3287F42B6A9DF0EA8C4D9A306, lineVersion = 0, maxLength = 20, text = \"Ally Level +1\""
+	}
+	WarEffortBenefitConfig "Planet_08 - A100"
+	{
+		myBenefitType Alliance
+		myThreshold Threshold_100
+		myThresholdReachedChallenge Progression_FullyAllyWithPlanet08
+		myMod < uid=9543058059B053AE00051B3AAE80C040 > = "planetary benefit 100 planet_05"
+		myPlanetUID CC9485AB560D8193000001B70208D164
+		myLocalizedDescription "contextComment = \"War effort meter label for final Alliance milestone on Vylus (whole planet allied - allies gain another level)\", description = \"war-effort-benefit-alliance-100-planet-05\", enabled = true, guid = #1ABBD50B59399D4D00017BD8D495CEDE, lineVersion = 2, maxLength = 100, text = \"Defense bases can be built with 0% Alliance\""
+		mySendAllianceSimAlert TRUE
+	}
+	WarEffortBenefitConfig "Planet_15 - A0"
+	{
+		myBenefitType Alliance
+		myThreshold Threshold_0
+		myPlanetUID CC9485AB560DABE6000000B1513C7CDA
+		myLocalizedDescription "contextComment = \"War effort meter label for first Alliance milestone on Ashar (at least one allied outpost on planet - allies gain a level)\", description = \"war-effort-benefit-alliance-0-planet-15\", enabled = true, guid = #1C15D752D0C5494AA259CF13D6DE11E0, lineVersion = 0, maxLength = 20, text = \"Ally Level +1\""
+	}
+	WarEffortBenefitConfig "Planet_15 - A25"
+	{
+		myBenefitType Alliance
+		myThreshold Threshold_25
+		myPlanetUID CC9485AB560DABE6000000B1513C7CDA
+		myLocalizedDescription "contextComment = \"War effort meter label for second Alliance milestone on Ashar (25% of possible outposts allied - allies gain another level)\", description = \"war-effort-benefit-alliance-25-planet-15\", enabled = true, guid = #883FC118CE6145E88AD6FDF2379029F2, lineVersion = 0, maxLength = 20, text = \"Ally Level +1\""
+	}
+	WarEffortBenefitConfig "Planet_15 - A50"
+	{
+		myBenefitType Alliance
+		myThreshold Threshold_50
+		myPlanetUID CC9485AB560DABE6000000B1513C7CDA
+		myLocalizedDescription "contextComment = \"War effort meter label for third Alliance milestone on Ashar (50% of possible outposts allied - allies gain another level)\", description = \"war-effort-benefit-alliance-50-planet-15\", enabled = true, guid = #0403512AB5D74446868A0E5B96F7F6AF, lineVersion = 0, maxLength = 20, text = \"Ally Level +1\""
+	}
+	WarEffortBenefitConfig "Planet_15 - A75"
+	{
+		myBenefitType Alliance
+		myThreshold Threshold_75
+		myPlanetUID CC9485AB560DABE6000000B1513C7CDA
+		myLocalizedDescription "contextComment = \"War effort meter label for fourth Alliance milestone on Ashar (75% of possible outposts allied - allies gain another level)\", description = \"war-effort-benefit-alliance-75-planet-15\", enabled = true, guid = #A37F57D5FFB24A0A870C72C23AFDA6AF, lineVersion = 0, maxLength = 20, text = \"Ally Level +1\""
+	}
+	WarEffortBenefitConfig "Planet_15 - A100"
+	{
+		myBenefitType Alliance
+		myThreshold Threshold_100
+		myThresholdReachedChallenge Progression_FullyAllyWithPlanet15
+		myMod < uid=9543058059B053AE00051B46067A6D42 > = "planetary benefit 100 planet_15"
+		myPlanetUID CC9485AB560DABE6000000B1513C7CDA
+		myLocalizedDescription "contextComment = \"War effort meter label for final Alliance milestone on Ashar (whole planet allied - allies gain another level)\", description = \"war-effort-benefit-alliance-100-planet-15\", enabled = true, guid = #1ABBD50B59399D4A00017BD2E698B268, lineVersion = 3, maxLength = 100, text = \"2x Mining Rate in Atlas\""
+		mySendAllianceSimAlert TRUE
+	}
+	WarEffortBenefitConfig "End Planet - Placeholder"
+	{
+		myBenefitType Alliance
+		myThreshold Threshold_100
+		myPlanetUID E21E96E3587CD21C0000011EB3CD3304
+		myLocalizedDescription "contextComment = \"War effort meter label for final Alliance milestone on Ashar (whole planet allied - allies gain another level)\", description = \"war-effort-benefit-alliance-100-planet-15\", enabled = false, guid = #5563C39434984E71BC6292D30769D620, lineVersion = 0, maxLength = 100, text = \"\""
+	}
+	WarEffortBenefitConfig "Planet_01 - L0"
+	{
+		myBenefitType Legion
+		myThreshold Threshold_0
+		myPlanetUID 2B55C72B560154A200000053621E3961
+		myLocalizedDescription "contextComment = \"War effort meter label for first Legion infection milestone on Kirite (Prime active on planet)\", description = \"war-effort-benefit-Legion-0-planet-01\", enabled = true, guid = #68019AB380314657B679000D06A9F7A1, lineVersion = 0, maxLength = 20, text = \"Prime Active\""
+	}
+	WarEffortBenefitConfig "Planet_01 - L25"
+	{
+		myBenefitType Legion
+		myThreshold Threshold_25
+		myPlanetUID 2B55C72B560154A200000053621E3961
+		myLocalizedDescription "contextComment = \"War effort meter label for second Legion infection milestone on Kirite (all Legion gain a level)\", description = \"war-effort-benefit-Legion-25-planet-01\", enabled = true, guid = #BB6701FFA6DE4BA691E877CD964B307A, lineVersion = 0, maxLength = 20, text = \"Legion Level +1\""
+	}
+	WarEffortBenefitConfig "Planet_01 - L50"
+	{
+		myBenefitType Legion
+		myThreshold Threshold_50
+		myPlanetUID 2B55C72B560154A200000053621E3961
+		myLocalizedDescription "contextComment = \"War effort meter label for third Legion infection milestone on Kirite (all Legion gain another level)\", description = \"war-effort-benefit-Legion-50-planet-01\", enabled = true, guid = #A4B5017D13C942B29660019ECEAD4156, lineVersion = 0, maxLength = 20, text = \"Legion Level +1\""
+	}
+	WarEffortBenefitConfig "Planet_01 - L75"
+	{
+		myBenefitType Legion
+		myThreshold Threshold_75
+		myPlanetUID 2B55C72B560154A200000053621E3961
+		myLocalizedDescription "contextComment = \"War effort meter label for fourth Legion infection milestone on Kirite (all Legion gain aanother level)\", description = \"war-effort-benefit-Legion-75-planet-01\", enabled = true, guid = #4027C5D3AE62413BBE2FA942241CF5CF, lineVersion = 0, maxLength = 20, text = \"Legion Level +1\""
+		mySendLegionSimAlert TRUE
+	}
+	WarEffortBenefitConfig "Planet_01 - L90"
+	{
+		myBenefitType Legion
+		myThreshold Threshold_90
+		myMod < uid=F2C5C69259F744A400001C7329C3CF85 > = "planetary benefit 100 LEGION planet_01"
+		myPlanetUID 2B55C72B560154A200000053621E3961
+		myLocalizedDescription "contextComment = \"War effort meter label for the last Legion infection milestone on Kirite (planet is 100% infected)\", description = \"war-effort-benefit-Legion-100-planet-01\", enabled = true, guid = #9E6AFEDA59EFB17700000089B027BAE4, lineVersion = 1, maxLength = 100, text = \"Overrun\""
+	}
+	WarEffortBenefitConfig "Planet_03 - L0"
+	{
+		myBenefitType Legion
+		myThreshold Threshold_0
+		myPlanetUID 2B55C72B560BF25A00000071749BE491
+		myLocalizedDescription "contextComment = \"War effort meter label for first Legion infection milestone on Haven (Prime active on planet)\", description = \"war-effort-benefit-Legion-0-planet-03\", enabled = true, guid = #DC42AB28338248299B608531AA852D23, lineVersion = 0, maxLength = 20, text = \"Prime Active\""
+	}
+	WarEffortBenefitConfig "Planet_03 - L25"
+	{
+		myBenefitType Legion
+		myThreshold Threshold_25
+		myPlanetUID 2B55C72B560BF25A00000071749BE491
+		myLocalizedDescription "contextComment = \"War effort meter label for second Legion infection milestone on Haven (all Legion gain a level)\", description = \"war-effort-benefit-Legion-25-planet-03\", enabled = true, guid = #75FCA68835DA47E8BECD64640B29ECE2, lineVersion = 0, maxLength = 20, text = \"Legion Level +1\""
+	}
+	WarEffortBenefitConfig "Planet_03 - L50"
+	{
+		myBenefitType Legion
+		myThreshold Threshold_50
+		myPlanetUID 2B55C72B560BF25A00000071749BE491
+		myLocalizedDescription "contextComment = \"War effort meter label for third Legion infection milestone on Haven (all Legion gain another level)\", description = \"war-effort-benefit-Legion-50-planet-03\", enabled = true, guid = #34F37825185942D0BB107D35C99ED80A, lineVersion = 0, maxLength = 20, text = \"Legion Level +1\""
+	}
+	WarEffortBenefitConfig "Planet_03 - L75"
+	{
+		myBenefitType Legion
+		myThreshold Threshold_75
+		myPlanetUID 2B55C72B560BF25A00000071749BE491
+		myLocalizedDescription "contextComment = \"War effort meter label for fourth Legion infection milestone on Haven (all Legion gain aanother level)\", description = \"war-effort-benefit-Legion-75-planet-03\", enabled = true, guid = #FC505392CA6941C292F8BFD035E4D867, lineVersion = 0, maxLength = 20, text = \"Legion Level +1\""
+		mySendLegionSimAlert TRUE
+	}
+	WarEffortBenefitConfig "Planet_03 - L90"
+	{
+		myBenefitType Legion
+		myThreshold Threshold_90
+		myMod < uid=F2C5C69259F744EC00001C74EBFB61F0 > = "planetary benefit 100 LEGION planet_03"
+		myPlanetUID 2B55C72B560BF25A00000071749BE491
+		myLocalizedDescription "contextComment = \"War effort meter label for the last Legion infection milestone on Haven (planet is 100% infected)\", description = \"war-effort-benefit-Legion-100-planet-03\", enabled = true, guid = #9E6AFEDA59EFB206000000A759749B6E, lineVersion = 1, maxLength = 100, text = \"Overrun\""
+	}
+	WarEffortBenefitConfig "Planet_04 - L0"
+	{
+		myBenefitType Legion
+		myThreshold Threshold_0
+		myPlanetUID CC9485AB560BFF1000000066C27E74E9
+		myLocalizedDescription "contextComment = \"War effort meter label for first Legion infection milestone on Necrom (Prime active on planet)\", description = \"war-effort-benefit-Legion-0-planet-04\", enabled = true, guid = #9613CCB8D29D45028611F83222867B50, lineVersion = 0, maxLength = 20, text = \"Prime Active\""
+	}
+	WarEffortBenefitConfig "Planet_04 - L25"
+	{
+		myBenefitType Legion
+		myThreshold Threshold_25
+		myPlanetUID CC9485AB560BFF1000000066C27E74E9
+		myLocalizedDescription "contextComment = \"War effort meter label for second Legion infection milestone on Necrom (all Legion gain a level)\", description = \"war-effort-benefit-Legion-25-planet-04\", enabled = true, guid = #073363884CF741108B0C1874FBAFE501, lineVersion = 0, maxLength = 20, text = \"Legion Level +1\""
+	}
+	WarEffortBenefitConfig "Planet_04 - L50"
+	{
+		myBenefitType Legion
+		myThreshold Threshold_50
+		myPlanetUID CC9485AB560BFF1000000066C27E74E9
+		myLocalizedDescription "contextComment = \"War effort meter label for third Legion infection milestone on Necrom (all Legion gain another level)\", description = \"war-effort-benefit-Legion-50-planet-04\", enabled = true, guid = #B6ABCE0A57DD4643883A57C8FD0E2459, lineVersion = 0, maxLength = 20, text = \"Legion Level +1\""
+	}
+	WarEffortBenefitConfig "Planet_04 - L75"
+	{
+		myBenefitType Legion
+		myThreshold Threshold_75
+		myPlanetUID CC9485AB560BFF1000000066C27E74E9
+		myLocalizedDescription "contextComment = \"War effort meter label for fourth Legion infection milestone on Necrom (all Legion gain aanother level)\", description = \"war-effort-benefit-Legion-75-planet-04\", enabled = true, guid = #4B62C9DF250C491CBB617DF728DC2EC8, lineVersion = 0, maxLength = 20, text = \"Legion Level +1\""
+		mySendLegionSimAlert TRUE
+	}
+	WarEffortBenefitConfig "Planet_04 - L90"
+	{
+		myBenefitType Legion
+		myThreshold Threshold_90
+		myMod < uid=F2C5C69259F744EC00001C758EF53D63 > = "planetary benefit 100 LEGION planet_04"
+		myPlanetUID CC9485AB560BFF1000000066C27E74E9
+		myLocalizedDescription "contextComment = \"War effort meter label for the last Legion infection milestone on Necrom (planet is 100% infected)\", description = \"war-effort-benefit-Legion-100-planet-04\", enabled = true, guid = #9E6AFEDA59EFB1FA000000A6E518D333, lineVersion = 1, maxLength = 100, text = \"Overrun\""
+	}
+	WarEffortBenefitConfig "Planet_05 - L0"
+	{
+		myBenefitType Legion
+		myThreshold Threshold_0
+		myPlanetUID CC9485AB560D322B0000007B1A4D3320
+		myLocalizedDescription "contextComment = \"War effort meter label for first Legion infection milestone on Tundria (Prime active on planet)\", description = \"war-effort-benefit-Legion-0-planet-05\", enabled = true, guid = #CB141BEA0F9F4142AE4756FC762683E4, lineVersion = 0, maxLength = 20, text = \"Prime Active\""
+	}
+	WarEffortBenefitConfig "Planet_05 - L25"
+	{
+		myBenefitType Legion
+		myThreshold Threshold_25
+		myPlanetUID CC9485AB560D322B0000007B1A4D3320
+		myLocalizedDescription "contextComment = \"War effort meter label for second Legion infection milestone on Tundria (all Legion gain a level)\", description = \"war-effort-benefit-Legion-25-planet-05\", enabled = true, guid = #4D441D33629048DD82117FFEA6DB24A7, lineVersion = 0, maxLength = 20, text = \"Legion Level +1\""
+	}
+	WarEffortBenefitConfig "Planet_05 - L50"
+	{
+		myBenefitType Legion
+		myThreshold Threshold_50
+		myPlanetUID CC9485AB560D322B0000007B1A4D3320
+		myLocalizedDescription "contextComment = \"War effort meter label for third Legion infection milestone on Tundria (all Legion gain another level)\", description = \"war-effort-benefit-Legion-50-planet-05\", enabled = true, guid = #8E6FE3EC29814504BFC3360138BBDE47, lineVersion = 0, maxLength = 20, text = \"Legion Level +1\""
+	}
+	WarEffortBenefitConfig "Planet_05 - L75"
+	{
+		myBenefitType Legion
+		myThreshold Threshold_75
+		myPlanetUID CC9485AB560D322B0000007B1A4D3320
+		myLocalizedDescription "contextComment = \"War effort meter label for fourth Legion infection milestone on Tundria (all Legion gain aanother level)\", description = \"war-effort-benefit-Legion-75-planet-05\", enabled = true, guid = #A07553BC618C42B6A276A1B19E2C73D8, lineVersion = 0, maxLength = 20, text = \"Legion Level +1\""
+		mySendLegionSimAlert TRUE
+	}
+	WarEffortBenefitConfig "Planet_05 - L90"
+	{
+		myBenefitType Legion
+		myThreshold Threshold_90
+		myMod < uid=F2C5C69259F744EC00001C765AD7654F > = "planetary benefit 100 legion planet_05"
+		myPlanetUID CC9485AB560D322B0000007B1A4D3320
+		myLocalizedDescription "contextComment = \"War effort meter label for the last Legion infection milestone on Tundria (planet is 100% infected)\", description = \"war-effort-benefit-Legion-100-planet-05\", enabled = true, guid = #9E6AFEDA59EFB1EF000000A545CB7E0F, lineVersion = 1, maxLength = 100, text = \"Overrun\""
+	}
+	WarEffortBenefitConfig "Planet_07 - L0"
+	{
+		myBenefitType Legion
+		myThreshold Threshold_0
+		myPlanetUID CC9485AB560D7F0A00000059C377EB67
+		myLocalizedDescription "contextComment = \"War effort meter label for first Legion infection milestone on Sonatus (Prime active on planet)\", description = \"war-effort-benefit-Legion-0-planet-07\", enabled = true, guid = #8655EF83B3C6428B99990744ADEDEAAF, lineVersion = 0, maxLength = 20, text = \"Prime Active\""
+	}
+	WarEffortBenefitConfig "Planet_07 - L25"
+	{
+		myBenefitType Legion
+		myThreshold Threshold_25
+		myPlanetUID CC9485AB560D7F0A00000059C377EB67
+		myLocalizedDescription "contextComment = \"War effort meter label for second Legion infection milestone on Sonatus (all Legion gain a level)\", description = \"war-effort-benefit-Legion-25-planet-07\", enabled = true, guid = #6D111AAE90BA4A6FBE8F3D7FC0418F40, lineVersion = 0, maxLength = 20, text = \"Legion Level +1\""
+	}
+	WarEffortBenefitConfig "Planet_07 - L50"
+	{
+		myBenefitType Legion
+		myThreshold Threshold_50
+		myPlanetUID CC9485AB560D7F0A00000059C377EB67
+		myLocalizedDescription "contextComment = \"War effort meter label for third Legion infection milestone on Sonatus (all Legion gain another level)\", description = \"war-effort-benefit-Legion-50-planet-07\", enabled = true, guid = #6FD47FDEAF374B75AB04686419681050, lineVersion = 0, maxLength = 20, text = \"Legion Level +1\""
+	}
+	WarEffortBenefitConfig "Planet_07 - L75"
+	{
+		myBenefitType Legion
+		myThreshold Threshold_75
+		myPlanetUID CC9485AB560D7F0A00000059C377EB67
+		myLocalizedDescription "contextComment = \"War effort meter label for fourth Legion infection milestone on Sonatus (all Legion gain aanother level)\", description = \"war-effort-benefit-Legion-75-planet-07\", enabled = true, guid = #DCF287F7A2A44FFE82E028EBFD71D5CF, lineVersion = 0, maxLength = 20, text = \"Legion Level +1\""
+		mySendLegionSimAlert TRUE
+	}
+	WarEffortBenefitConfig "Planet_07 - L90"
+	{
+		myBenefitType Legion
+		myThreshold Threshold_90
+		myMod < uid=F2C5C69259F744EC00001C776D5F3677 > = "planetary benefit 100 legion planet_07"
+		myPlanetUID CC9485AB560D7F0A00000059C377EB67
+		myLocalizedDescription "contextComment = \"War effort meter label for the last Legion infection milestone on Sonatus (planet is 100% infected)\", description = \"war-effort-benefit-Legion-100-planet-07\", enabled = true, guid = #9E6AFEDA59EFB1E4000000A4509DB701, lineVersion = 1, maxLength = 100, text = \"Overrun\""
+	}
+	WarEffortBenefitConfig "Planet_08 - L0"
+	{
+		myBenefitType Legion
+		myThreshold Threshold_0
+		myPlanetUID CC9485AB560D8193000001B70208D164
+		myLocalizedDescription "contextComment = \"War effort meter label for first Legion infection milestone on Vylus (Prime active on planet)\", description = \"war-effort-benefit-Legion-0-planet-08\", enabled = true, guid = #68B834CFACDF4122919E2B61E1F45613, lineVersion = 0, maxLength = 20, text = \"Prime Active\""
+	}
+	WarEffortBenefitConfig "Planet_08 - L25"
+	{
+		myBenefitType Legion
+		myThreshold Threshold_25
+		myPlanetUID CC9485AB560D8193000001B70208D164
+		myLocalizedDescription "contextComment = \"War effort meter label for second Legion infection milestone on Vylus (all Legion gain a level)\", description = \"war-effort-benefit-Legion-25-planet-08\", enabled = true, guid = #2F46C05F201C4763A50911C09BDDFE83, lineVersion = 0, maxLength = 20, text = \"Legion Level +1\""
+	}
+	WarEffortBenefitConfig "Planet_08 - L50"
+	{
+		myBenefitType Legion
+		myThreshold Threshold_50
+		myPlanetUID CC9485AB560D8193000001B70208D164
+		myLocalizedDescription "contextComment = \"War effort meter label for third Legion infection milestone on Vylus (all Legion gain another level)\", description = \"war-effort-benefit-Legion-50-planet-08\", enabled = true, guid = #BF377ECFBE2E4612BF0C2422ACB56AD5, lineVersion = 0, maxLength = 20, text = \"Legion Level +1\""
+	}
+	WarEffortBenefitConfig "Planet_08 - L75"
+	{
+		myBenefitType Legion
+		myThreshold Threshold_75
+		myPlanetUID CC9485AB560D8193000001B70208D164
+		myLocalizedDescription "contextComment = \"War effort meter label for fourth Legion infection milestone on Vylus (all Legion gain aanother level)\", description = \"war-effort-benefit-Legion-75-planet-08\", enabled = true, guid = #0CEC41CC3A2C4134988419AC4B21AB1F, lineVersion = 0, maxLength = 20, text = \"Legion Level +1\""
+		mySendLegionSimAlert TRUE
+	}
+	WarEffortBenefitConfig "Planet_08 - L90"
+	{
+		myBenefitType Legion
+		myThreshold Threshold_90
+		myMod < uid=F2C5C69259F744EC00001C785D9B2ECD > = "planetary benefit 100 legion planet_08"
+		myPlanetUID CC9485AB560D8193000001B70208D164
+		myLocalizedDescription "contextComment = \"War effort meter label for the last Legion infection milestone on Vylus (planet is 100% infected)\", description = \"war-effort-benefit-Legion-100-planet-08\", enabled = true, guid = #9E6AFEDA59EFB1D8000000A32673547A, lineVersion = 1, maxLength = 100, text = \"Overrun\""
+	}
+	WarEffortBenefitConfig "Planet_15 - L0"
+	{
+		myBenefitType Legion
+		myThreshold Threshold_0
+		myPlanetUID CC9485AB560DABE6000000B1513C7CDA
+		myLocalizedDescription "contextComment = \"War effort meter label for first Legion infection milestone on Ashar (Prime active on planet)\", description = \"war-effort-benefit-Legion-0-planet-15\", enabled = true, guid = #ACFDEE7304AF45D0B7A70F51EE328726, lineVersion = 0, maxLength = 20, text = \"Prime Active\""
+	}
+	WarEffortBenefitConfig "Planet_15 - L25"
+	{
+		myBenefitType Legion
+		myThreshold Threshold_25
+		myPlanetUID CC9485AB560DABE6000000B1513C7CDA
+		myLocalizedDescription "contextComment = \"War effort meter label for second Legion infection milestone on Ashar (all Legion gain a level)\", description = \"war-effort-benefit-Legion-25-planet-15\", enabled = true, guid = #70A65C803DF24AD8ACC027F2C863C48D, lineVersion = 0, maxLength = 20, text = \"Legion Level +1\""
+	}
+	WarEffortBenefitConfig "Planet_15 - L50"
+	{
+		myBenefitType Legion
+		myThreshold Threshold_50
+		myPlanetUID CC9485AB560DABE6000000B1513C7CDA
+		myLocalizedDescription "contextComment = \"War effort meter label for third Legion infection milestone on Ashar (all Legion gain another level)\", description = \"war-effort-benefit-Legion-50-planet-15\", enabled = true, guid = #B081F2D2D958450CA35C76969D429A04, lineVersion = 0, maxLength = 20, text = \"Legion Level +1\""
+	}
+	WarEffortBenefitConfig "Planet_15 - L75"
+	{
+		myBenefitType Legion
+		myThreshold Threshold_75
+		myPlanetUID CC9485AB560DABE6000000B1513C7CDA
+		myLocalizedDescription "contextComment = \"War effort meter label for fourth Legion infection milestone on Ashar (all Legion gain aanother level)\", description = \"war-effort-benefit-Legion-75-planet-15\", enabled = true, guid = #912C94CFA6DB447AB7AD1F3F37F72FFE, lineVersion = 0, maxLength = 20, text = \"Legion Level +1\""
+		mySendLegionSimAlert TRUE
+	}
+	WarEffortBenefitConfig "Planet_15 - L90"
+	{
+		myBenefitType Legion
+		myThreshold Threshold_90
+		myMod < uid=F2C5C69259F744EC00001C797AA21E38 > = "planetary benefit 100 legion planet_15"
+		myPlanetUID CC9485AB560DABE6000000B1513C7CDA
+		myLocalizedDescription "contextComment = \"War effort meter label for the last Legion infection milestone on Ashar (planet is 100% infected)\", description = \"war-effort-benefit-Legion-100-planet-15\", enabled = true, guid = #9E6AFEDA59EFB1D1000000A2AA014E53, lineVersion = 1, maxLength = 100, text = \"Overrun\""
+	}
+	WarEffortBenefitConfig "Moon 01 - Placeholder"
+	{
+		myBenefitType Alliance
+		myThreshold Threshold_100
+		myPlanetUID E21E96E35BA14B9F000026E1E67096F8
+	}
+}
+
+ShipmentList ShipmentsConfig
+{
+	Shipment_Points Electrum
+	{
+		myUIName "contextComment = \"The name of the Electrum shipment type\", description = \"shipment-electrum\", enabled = true, guid = #1ABBD50B59C02352000000387784F84B, lineVersion = 0, maxLength = 57, text = \"Mining shipment: X Electrum in {0:.2}:{1:.2}\""
+		myShipmentTimer 900.0
+		myTimerAttribute Shipment_Timer_Electrum
+		myAttributeType Shipment_Electrum
+	}
+	Shipment_Points Nova
+	{
+		myUIName "contextComment = \"The name of the Nova shipment type\", description = \"shipment-nova\", enabled = true, guid = #1ABBD50B59C023700000003C658E7783, lineVersion = 0, maxLength = 55, text = \"Alliance shipment: X Nova in {0:.2}:{1:.2}\""
+		myShipmentTimer 5000.0
+		myTimerAttribute Shipment_Timer_Nova
+		myAttributeType Shipment_Nova
+		myPointType Nova
+	}
+	Shipment_LootTable Enhancements
+	{
+		myUIName "contextComment = \"The name of the Enhancement shipment type\", description = \"shipment-enhancements\", enabled = true, guid = #1ABBD50B59C0237200000040AA8B8405, lineVersion = 0, maxLength = 55, text = \"Research shipment: X Mods in {0:.2}:{1:.2}\""
+		myShipmentTimer 3540.0
+		myTimerAttribute Shipment_Timer_Enhancements
+		myLootTables
+		{
+			LootTableAttribute "Level 1"
+			{
+				myLootTable Alliance_Shipment_Expedition_1
+				myAttributeType Shipment_Enhancements_Lvl1
+			}
+			LootTableAttribute "Level 2"
+			{
+				myLootTable Alliance_Shipment_Expedition_2
+				myAttributeType Shipment_Enhancements_Lvl2
+			}
+			LootTableAttribute "Level 3"
+			{
+				myLootTable Alliance_Shipment_Expedition_3
+				myAttributeType Shipment_Enhancements_Lvl3
+			}
+		}
+	}
+}
+
+Attributes AttributesConfig
+{
+	Attribute Electrum
+	{
+		myType Shipment_Electrum
+	}
+	Attribute Enhancements_Lvl1
+	{
+		myType Shipment_Enhancements_Lvl1
+	}
+	Attribute Enhancements_Lvl2
+	{
+		myType Shipment_Enhancements_Lvl2
+	}
+	Attribute Enhancements_Lvl3
+	{
+		myType Shipment_Enhancements_Lvl3
+	}
+	Attribute Nova
+	{
+		myType Shipment_Nova
+	}
+	Attribute Timer_Electrum
+	{
+		myType Shipment_Timer_Electrum
+		myValue 900.0
+	}
+	Attribute Timer_Enhancements
+	{
+		myType Shipment_Timer_Enhancements
+		myValue 3540.0
+	}
+	Attribute Timer_Nova
+	{
+		myType Shipment_Timer_Nova
+		myValue 5000.0
+	}
+	Attribute "Outpost Cost Observation Deck Electrum"
+	{
+		myType OutpostCost_ObservationDeck_Electrum
+		myValue = GEN_Base_Observation_E1
+	}
+	Attribute "Outpost Cost Observation Deck Nova"
+	{
+		myType OutpostCost_ObservationDeck_Nova
+		myValue = GEN_Base_Observation_N1
+	}
+	Attribute "Outpost Cost Observation Deck Alliance"
+	{
+		myType OutpostCost_ObservationDeck_Alliance
+	}
+	Attribute "Outpost Cost Research Base Electrum"
+	{
+		myType OutpostCost_ResearchBase_Electrum
+		myValue = GEN_Base_Research_E1
+	}
+	Attribute "Outpost Cost Research Base Nova"
+	{
+		myType OutpostCost_ResearchBase_Nova
+		myValue = GEN_Base_Research_N1
+	}
+	Attribute "Outpost Cost Research Base Alliance"
+	{
+		myType OutpostCost_ResearchBase_Alliance
+		myValue 15.0
+	}
+	Attribute "Outpost Cost Mining Center Electrum"
+	{
+		myType OutpostCost_MiningCenter_Electrum
+		myValue = GEN_Base_Mining_E1
+	}
+	Attribute "Outpost Cost Mining Center Nova"
+	{
+		myType OutpostCost_MiningCenter_Nova
+		myValue = GEN_Base_Mining_N1
+	}
+	Attribute "Outpost Cost Mining Center Alliance"
+	{
+		myType OutpostCost_MiningCenter_Alliance
+		myValue 0.0
+	}
+	Attribute "Outpost Cost Defense Base Electrum"
+	{
+		myType OutpostCost_DefenseBase_Electrum
+		myValue = GEN_Base_Defense_E1
+	}
+	Attribute "Outpost Cost Defense Base Nova"
+	{
+		myType OutpostCost_DefenseBase_Nova
+		myValue = GEN_Base_Defense_N1
+	}
+	Attribute "Outpost Cost Defense Base Alliance"
+	{
+		myType OutpostCost_DefenseBase_Alliance
+		myValue 25.0
+	}
+	Attribute "Outpost Removal - Observation Deck Electrum"
+	{
+		myType OutpostRemoval_ObservationDeck_Electrum
+		myValue = GEN_Refund_Observation_E1
+	}
+	Attribute "Outpost Removal - Observation Deck Nova"
+	{
+		myType OutpostRemoval_ObservationDeck_Nova
+		myValue = GEN_Refund_Observation_N1
+	}
+	Attribute "Outpost Removal - Observation Deck Electrum - L2"
+	{
+		myType OutpostRemoval_ObservationDeck_Electrum_L2
+		myValue = GEN_Refund_Observation_E2
+	}
+	Attribute "Outpost Removal - Observation Deck Nova - L2"
+	{
+		myType OutpostRemoval_ObservationDeck_Nova_L2
+		myValue = GEN_Refund_Observation_N2
+	}
+	Attribute "Outpost Removal - Observation Deck Electrum - L3"
+	{
+		myType OutpostRemoval_ObservationDeck_Electrum_L3
+		myValue = GEN_Refund_Observation_E3
+	}
+	Attribute "Outpost Removal - Observation Deck Nova - L3"
+	{
+		myType OutpostRemoval_ObservationDeck_Nova_L3
+		myValue = GEN_Refund_Observation_N3
+	}
+	Attribute "Outpost Removal - Research Base Electrum"
+	{
+		myType OutpostRemoval_ResearchBase_Electrum
+		myValue = GEN_Refund_Research_E1
+	}
+	Attribute "Outpost Removal - Research Base Nova"
+	{
+		myType OutpostRemoval_ResearchBase_Nova
+		myValue = GEN_Refund_Research_N1
+	}
+	Attribute "Outpost Removal - Research Base Electrum - L2"
+	{
+		myType OutpostRemoval_ResearchBase_Electrum_L2
+		myValue = GEN_Refund_Research_E2
+	}
+	Attribute "Outpost Removal - Research Base Nova - L2"
+	{
+		myType OutpostRemoval_ResearchBase_Nova_L2
+		myValue = GEN_Refund_Research_N2
+	}
+	Attribute "Outpost Removal - Research Base Electrum - L3"
+	{
+		myType OutpostRemoval_ResearchBase_Electrum_L3
+		myValue = GEN_Refund_Research_E3
+	}
+	Attribute "Outpost Removal - Research Base Nova - L3"
+	{
+		myType OutpostRemoval_ResearchBase_Nova_L3
+		myValue = GEN_Refund_Research_N3
+	}
+	Attribute "Outpost Removal - Mining Center Electrum"
+	{
+		myType OutpostRemoval_MiningCenter_Electrum
+		myValue = GEN_Refund_Mining_E1
+	}
+	Attribute "Outpost Removal - Mining Center Nova"
+	{
+		myType OutpostRemoval_MiningCenter_Nova
+		myValue = GEN_Refund_Mining_N1
+	}
+	Attribute "Outpost Removal - Mining Center Electrum - L2"
+	{
+		myType OutpostRemoval_MiningCenter_Electrum_L2
+		myValue = GEN_Refund_Mining_E2
+	}
+	Attribute "Outpost Removal - Mining Center Nova - L2"
+	{
+		myType OutpostRemoval_MiningCenter_Nova_L2
+		myValue = GEN_Refund_Mining_N2
+	}
+	Attribute "Outpost Removal - Mining Center Electrum - L3"
+	{
+		myType OutpostRemoval_MiningCenter_Electrum_L3
+		myValue = GEN_Refund_Mining_E3
+	}
+	Attribute "Outpost Removal - Mining Center Nova - L3"
+	{
+		myType OutpostRemoval_MiningCenter_Nova_L3
+		myValue = GEN_Refund_Mining_N3
+	}
+	Attribute "Outpost Removal - Defense Base Electrum"
+	{
+		myType OutpostRemoval_DefenseBase_Electrum
+		myValue = GEN_Refund_Defense_E1
+	}
+	Attribute "Outpost Removal - Defense Base Nova"
+	{
+		myType OutpostRemoval_DefenseBase_Nova
+		myValue = GEN_Refund_Defense_N1
+	}
+	Attribute "Outpost Removal - Defense Base Electrum - L2"
+	{
+		myType OutpostRemoval_DefenseBase_Electrum_L2
+		myValue = GEN_Refund_Defense_E2
+	}
+	Attribute "Outpost Removal - Defense Base Nova - L2"
+	{
+		myType OutpostRemoval_DefenseBase_Nova_L2
+		myValue = GEN_Refund_Defense_N2
+	}
+	Attribute "Outpost Removal - Defense Base Electrum - L3"
+	{
+		myType OutpostRemoval_DefenseBase_Electrum_L3
+		myValue = GEN_Refund_Defense_E3
+	}
+	Attribute "Outpost Removal - Defense Base Nova - L3"
+	{
+		myType OutpostRemoval_DefenseBase_Nova_L3
+		myValue = GEN_Refund_Defense_N3
+	}
+	Attribute "Outpost Modification - Observation Deck Electrum - L1"
+	{
+		myType OutpostModification_ObservationDeckElectrum_L1
+		myValue = GEN_Base_Observation_E1
+	}
+	Attribute "Outpost Modification - Observation Deck Electrum - L2"
+	{
+		myType OutpostModification_ObservationDeckElectrum_L2
+		myValue = GEN_Base_Observation_E2
+	}
+	Attribute "Outpost Modification - Observation Deck Electrum - L3"
+	{
+		myType OutpostModification_ObservationDeckElectrum_L3
+		myValue = GEN_Base_Observation_E3
+	}
+	Attribute "Outpost Modification - Research Base Electrum - L1"
+	{
+		myType OutpostModification_ResearchBaseElectrum_L1
+		myValue = GEN_Base_Research_E1
+	}
+	Attribute "Outpost Modification - Research Base Electrum - L2"
+	{
+		myType OutpostModification_ResearchBaseElectrum_L2
+		myValue = GEN_Base_Research_E2
+	}
+	Attribute "Outpost Modification - Research Base Electrum - L3"
+	{
+		myType OutpostModification_ResearchBaseElectrum_L3
+		myValue = GEN_Base_Research_E3
+	}
+	Attribute "Outpost Modification - Mining Center Electrum - L1"
+	{
+		myType OutpostModification_MiningCenterElectrum_L1
+		myValue = GEN_Base_Mining_E1
+	}
+	Attribute "Outpost Modification - Mining Center Electrum - L2"
+	{
+		myType OutpostModification_MiningCenterElectrum_L2
+		myValue = GEN_Base_Mining_E2
+	}
+	Attribute "Outpost Modification - Mining Center Electrum - L3"
+	{
+		myType OutpostModification_MiningCenterElectrum_L3
+		myValue = GEN_Base_Mining_E3
+	}
+	Attribute "Outpost Modification - Defense Base Electrum - L1"
+	{
+		myType OutpostModification_DefenseBaseElectrum_L1
+		myValue = GEN_Base_Defense_E1
+	}
+	Attribute "Outpost Modification - Defense Base Electrum - L2"
+	{
+		myType OutpostModification_DefenseBaseElectrum_L2
+		myValue = GEN_Base_Defense_E2
+	}
+	Attribute "Outpost Modification - Defense Base Electrum - L3"
+	{
+		myType OutpostModification_DefenseBaseElectrum_L3
+		myValue = GEN_Base_Defense_E3
+	}
+	Attribute "Outpost Modification - Observation Deck Nova - L1"
+	{
+		myType OutpostModification_ObservationDeckNova_L1
+		myValue = GEN_Base_Observation_N1
+	}
+	Attribute "Outpost Modification - Observation Deck Nova - L2"
+	{
+		myType OutpostModification_ObservationDeckNova_L2
+		myValue = GEN_Base_Observation_N2
+	}
+	Attribute "Outpost Modification - Observation Deck Nova - L3"
+	{
+		myType OutpostModification_ObservationDeckNova_L3
+		myValue = GEN_Base_Observation_N3
+	}
+	Attribute "Outpost Modification - Research Base Nova - L1"
+	{
+		myType OutpostModification_ResearchBaseNova_L1
+		myValue = GEN_Base_Research_N1
+	}
+	Attribute "Outpost Modification - Research Base Nova - L2"
+	{
+		myType OutpostModification_ResearchBaseNova_L2
+		myValue = GEN_Base_Research_N2
+	}
+	Attribute "Outpost Modification - Research Base Nova - L3"
+	{
+		myType OutpostModification_ResearchBaseNova_L3
+		myValue = GEN_Base_Research_N3
+	}
+	Attribute "Outpost Modification - Mining Center Nova - L1"
+	{
+		myType OutpostModification_MiningCenterNova_L1
+		myValue = GEN_Base_Mining_N1
+	}
+	Attribute "Outpost Modification - Mining Center Nova - L2"
+	{
+		myType OutpostModification_MiningCenterNova_L2
+		myValue = GEN_Base_Mining_N2
+	}
+	Attribute "Outpost Modification - Mining Center Nova - L3"
+	{
+		myType OutpostModification_MiningCenterNova_L3
+		myValue = GEN_Base_Mining_N3
+	}
+	Attribute "Outpost Modification - Defense Base Nova - L1"
+	{
+		myType OutpostModification_DefenseBaseNova_L1
+		myValue = GEN_Base_Defense_N1
+	}
+	Attribute "Outpost Modification - Defense Base Nova - L2"
+	{
+		myType OutpostModification_DefenseBaseNova_L2
+		myValue = GEN_Base_Defense_N2
+	}
+	Attribute "Outpost Modification - Defense Base Nova - L3"
+	{
+		myType OutpostModification_DefenseBaseNova_L3
+		myValue = GEN_Base_Defense_N3
+	}
+	Attribute "Legion Vision"
+	{
+		myType PlanetaryBonus_LegionVision
+	}
+	Attribute "Outpost Cost Alliance Structure Electrum"
+	{
+		myType OutpostCost_AllianceStructure_Electrum
+		myValue = GEN_Base_Alliance_E1
+	}
+	Attribute "Outpost Cost Alliance Structure Nova"
+	{
+		myType OutpostCost_AllianceStructure_Nova
+		myValue = GEN_Base_Alliance_N1
+	}
+	Attribute "Outpost Cost Alliance Structure Alliance"
+	{
+		myType OutpostCost_AllianceStructure_Alliance
+		myValue 50.0
+	}
+	Attribute "Outpost Removal Alliance Structure Electrum"
+	{
+		myType OutpostRemoval_AllianceStructure_Electrum
+	}
+	Attribute "Outpost Removal Alliance Structure Nova"
+	{
+		myType OutpostRemoval_AllianceStructure_Nova
+	}
+	Attribute "Creep Coverage Is Full - Planet 01"
+	{
+		myType PlanetaryBonus_FullCreepCoverage_Planet01
+	}
+	Attribute "Creep Coverage Is Full - Planet 03"
+	{
+		myType PlanetaryBonus_FullCreepCoverage_Planet03
+	}
+	Attribute "Creep Coverage Is Full - Planet 04"
+	{
+		myType PlanetaryBonus_FullCreepCoverage_Planet04
+	}
+	Attribute "Creep Coverage Is Full - Planet 05"
+	{
+		myType PlanetaryBonus_FullCreepCoverage_Planet05
+	}
+	Attribute "Creep Coverage Is Full - Planet 07"
+	{
+		myType PlanetaryBonus_FullCreepCoverage_Planet07
+	}
+	Attribute "Creep Coverage Is Full - Planet 08"
+	{
+		myType PlanetaryBonus_FullCreepCoverage_Planet08
+	}
+	Attribute "Creep Coverage Is Full - Planet 15"
+	{
+		myType PlanetaryBonus_FullCreepCoverage_Planet15
+	}
+	Attribute "Allied Bonus Levels"
+	{
+		myType PlanetaryBonus_AlliedBonusLevels
+		myHasMin TRUE
+		myComment "Skill Levels to give to Allies"
+	}
+}
+
+bool myVisibleUsePercentage TRUE

@@ -1,0 +1,59 @@
+include "onward/game system data/juice/ai/npcincludes.juice"
+include onward/skillscripts/harvester_dreadnought_eye_logic.mskillscriptjuice
+include onward/skillscripts/harvester_dreadnought_eye_open_state_management.mskillscriptjuice
+include onward/skillscripts/npc_ability_harvester_dreadnought_eye_laser.mskillscriptjuice
+include onward/skillscripts/npc_ability_outlaw_dreadnought_eye_laser.mskillscriptjuice
+
+NPC outlaw_dreadnought_eye < uid=DDDD6F5D5C3CE45400021A584AEC4F68 >
+{
+	myUIName "contextComment = \"[DUPLICATE: 52833] Name of an eye weakpoint on the Outlaw Dreadnought the Arboretum, which players must destroy by shooting.\", description = \"uiname-outlaw-dreadnought-eye-redux\", enabled = true, guid = #2290993C5C74195E0000003D8FCB2B7C, lineVersion = 0, maxLength = 14, text = \"Dread Eye\""
+	myUIName_NonLocalized "Corrupted Eye"
+	myGraphObjectFile "onward/graph objects/character/harvester_dreadnought_eye.mgraphobject"
+	myBehavior "onward/game system data/juice/ai/behavior/harvester_dreadnought_eye.mbehavior"
+	myHealthConfig < uid=DDDD6F5D5C3CE45400021A59152D7C38 > = "outlaw_dreadnought_eye Health"
+	myOnlyAllowDamageFromBodyParts TRUE
+	myAbilityDefinitions
+	{
+		NPCAbilityDefinition Laser
+		{
+			myGameAction NPC_Ability1
+			mySkillScript < uid=DDDD6F5D5C3CE45400021A5AA6C47D8D > = npc_ability_outlaw_dreadnought_eye_laser
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_outlaw_dreadnought_eye_laser.juice"
+		}
+	}
+	myPersistentScripts
+	{
+		SkillScript "Test Distance Rendering" < uid=DDDD6F5D5C3CE45400021A5B9F2963AA > = harvester_dreadnought_eye_logic
+		SkillScript "Open/Close State Management" < uid=DDDD6F5D5C3CE45400021A5CB796E828 > = harvester_dreadnought_eye_open_state_management
+	}
+	myAttributeSettings "onward/game system data/juice/ai/attributes/outlaw_dreadnought_eye.juice"
+	myCrowdControlAttributeSettings "onward/game system data/juice/ai/attributes/crowd control tiers/npc_cc_tier6.juice"
+	myAwarenessDistance 2000.0
+	myPhysicsSnapToGround FALSE
+	myIsCollisionEnabled FALSE
+	myIsAffectedByGravity FALSE
+	myIsMobile FALSE
+	myNeedsGroundToSteer FALSE
+	myNeedsGroundToMove FALSE
+	myUseNavMeshForMovement FALSE
+	myNPCFaction Outlaw
+	myNPCType Harvester_DreadnoughtPart
+	myBaseThreatProfile
+	{
+		myDeAggroRange 2000.0
+		myPlayerBaseThreat 1000.0
+		myHarvesterBaseThreat 0.0
+		myCloseRange 250.0
+		myMediumRange 600.0
+		myLongRange 1500.0
+		myExtremeRange 2000.0
+		myCurrentTargetThreatMultiplier 1.25
+		myMediumRangeBaseThreat 600.0
+		myLongRangeBaseThreat 300.0
+	}
+	myAIVisionConeTypeName CorruptedEyeVisionCone
+	myIsScannable FALSE
+	myDefaultNavigationType Newtonian
+}
+

@@ -1,0 +1,137 @@
+include "onward/skillscripts/skillscript.fruit"
+
+enum StatusEffectType
+{
+	Sunder
+	Fire
+	Chill
+	Freeze
+	Stasis
+	StasisOverload
+	Gravity
+	Entangle
+	Corrosion
+	BlackHole
+}
+
+enum UIStatusEffectType
+{
+	Kinetic
+	Sunder
+	Fire
+	Chill
+	Freeze
+	Stasis
+	StasisOverload
+	Gravity
+	BlackHole
+}
+
+class PlanetStatusEffectProperties
+{
+	StatusEffectType myType
+	float myDurationMult 1.0f
+	float myApplicationMult 1.0f
+	float myRangeMult 1.0f
+}
+
+list PlanetStatusEffectPropertiesList
+{
+	PlanetStatusEffectProperties
+}
+
+class PlanetSEProperties
+{
+	float myBlastRangeMult 1.0f
+	float myEquilibrium
+	PlanetStatusEffectPropertiesList myPropertiesList
+}
+
+class StatusEffectCombo
+{
+	StatusEffectType	myType
+	float				myRange 0.0
+	float				myUninterruptibleDurationOnActivation 1.0
+	file				mySkillScript  "" < bhv=asset assettype="Skill Script" tooltip="Skill Script that will spawn when the status effect action value is within the min-max range" >
+}
+
+list StatusEffectComboList
+{
+	StatusEffectCombo
+}
+
+class StatusEffectReaction < uid=auto >
+{
+	string					myDescription ""
+	StatusEffectType		myStatusEffectType
+
+	bool					myRequiresStatusEffectReaction FALSE
+	StatusEffectType		myRequiredStatusEffectReactionType
+
+	float					myActivationValue 100.0
+	float					myDuration 5.0
+	float					myRange 0.0
+	float					myUninterruptibleDurationOnActivation 1.0
+	float					myInvincibilityDurationOnDeactivation 1.0
+
+	bool					myInheritParentReaction TRUE
+	bool					myIsHiddenFromUI FALSE
+	
+	file					mySkillScript "" < bhv=asset assettype="Skill Script" tooltip="Skill Script that will spawn when the status effect action value is within the min-max range" >
+	StatusEffectComboList	myCombos
+}
+
+list StatusEffectReactionList
+{
+	StatusEffectReaction
+}
+
+class TAGEffects
+{
+	float myBonusTAGPercent 0.1 < tooltip="Bonus percentage of incoming elemental value when planet bolsters this element" >
+	float myOpposedTAGPercent 0.1 < min=0 max=1 tooltip="(0-1) Removed percentage of incoming elemental value when planet opposes this element" >
+	float myMaxOpposedTAGPercent 0.75 < min=0 max=1 tooltip="(0-1) The max percent an elemental value could achieve on an opposing TAG planet" >
+	
+	float myBonusDecayPercent 0 < tooltip="Extra percentage of decay that occurs when planet encourages bleed-off. Eg. Value 2.0 is a 200 percent extra bleedoff." >
+	float myOpposedDecayPercent 0 < min=0 max=1 tooltip="(0-1) how much of the decay rate is shaved off when planet opposes bleed-off. Eg. Value 1.0 is 100 percent reduction in bleedoff.">
+}
+
+list StatusEffectTypeList
+{
+	StatusEffectType
+}
+
+class StatusEffectAdditive
+{
+	StatusEffectType		myType
+	float					myMultiplier 1.0f
+}
+
+list StatusEffectAdditiveList
+{
+	StatusEffectAdditive
+}
+
+class StatusEffect < uid=auto >
+{
+	StatusEffectType				myType
+	float							myResetTime 15.0
+	StatusEffectAdditiveList		myAdditives < tooltip="Types in this list mirror changes." >
+	StatusEffectTypeList			myResetTypes < tooltip="Types in this list will be reset." >
+	
+	StatusEffectReaction			myWorldReaction
+	file							myWorldReactionTemplate < bhv=asset assettype="Entity Template" >
+}
+
+// Start - Status Effect Resistances for Entity Component Variant maps //
+class StatusResistance
+{
+	file							myStatusType "" < assettype="Status Effect" >
+	float							myResistanceValue 0.0 < min=-1 max=1 tooltip="Any negative value means full resistance to the negative realization of this Status Effect.  Any Positive value means full resistance to the positive realization." >
+}
+
+list StatusResistanceList
+{
+	StatusResistance
+}
+// End - Status Effect Resistances for Entity Component Variant maps //

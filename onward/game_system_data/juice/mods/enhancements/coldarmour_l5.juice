@@ -1,0 +1,21 @@
+include ./templates/template_l5.juice
+include "onward/game system data/juice/mods/mod_cold_armour_l5.mplayermod"
+include "onward/game system data/juice/buffs/buff_cold_armour_l5.mbuff"
+include ./impactaffectors/impact_affectors.juice
+
+Enhancement coldarmour_l5 < uid=C91BB551597F73A0005048F9DBE01AF1 > : "Level 5"
+{
+	myLocalizedName "contextComment = \"[Placeholder - do not translate]\nName for level 5 version of a Ship Armor that protects against Cold damage and gives the player bonuses in cold status effects (chill / freeze)\", description = \"\", enabled = true, guid = #C91BB551597F73A0005048F8FFEBBA20, lineVersion = 1, maxLength = 30, text = \"Cold Armor V\""
+	myLocalizedDescription "contextComment = \"[Placeholder - do not translate]\nDescription for level 5 version of a Ship Armor that protects against Cold damage and gives the player bonuses in cold status effects (chill / freeze)\", description = \"enhancement-description-cold-armour-5\", enabled = true, guid = #736B5FF8E4D842AB99B3457FA789603F, lineVersion = 2, maxLength = 188, text = \"+100 Defense\n+100% Cold DMG Resist | -20% Heat DMG Resist\nMore Durable while Chilled or Frozen\nChance to Chill on Impact\nUse weapons while Frozen\""
+	myIconSprite "mySpriteId = 1502898816, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-mods-ship-armour.spritesheet\""
+	myIsHullEnhancement TRUE
+	myMod < uid=C91BB551597F73A0005048FA17BA18A2 > = mod_cold_armour_l5
+	myBuff < uid=C91BB551597F73A0005048FB8CCAB90B > = buff_cold_armour_l5
+	myEnhancementType Armour
+	myEnhancementTrackType ColdArmour
+	myImpactAffectors
+	{
+		ImpactAffector_StatusEffect "Chill on Impact" = "Chill on Impact"
+	}
+}
+

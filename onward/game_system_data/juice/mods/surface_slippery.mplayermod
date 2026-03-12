@@ -1,0 +1,31 @@
+include ./template_pilot.mplayermod
+
+PlayerMod surface_slippery < uid=E22BA6D757E187DD0000181689D34832 > : template_pilot
+{
+	myAttributeMods
+	{
+		AttributeMod Drag
+		{
+			myType Player_Drag
+			myMultValue 0.2
+		}
+		AttributeMod VelocityTransfer
+		{
+			myType Player_VelocityTransfer
+		}
+		AttributeMod NoSlideAngleLow
+		{
+			myType Player_NoSlideAngleLow
+			myMultValue 1.0
+			myAddValue -42.0
+		}
+		AttributeMod NoSlideAngleHigh
+		{
+			myType Player_NoSlideAngleHigh
+			myMultValue 1.0
+			myAddValue -80.0
+		}
+	}
+	myIcon onward/baked/textures/ui/pilot_skills/ui_pilotskills_icon_locked7.dds
+}
+

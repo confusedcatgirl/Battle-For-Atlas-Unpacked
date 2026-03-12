@@ -1,0 +1,481 @@
+include "onward/game system data/fruit/player/player.fruit"
+
+VisualImpactSettings BaseImpactSettings
+{
+	myMinValue 2.0
+	myMaxValue 40.0
+	myImpactLinearLerpIn 4.0
+	myImpactAngularLerpIn 4.0
+	myImpactLinearLerpOut 3.0
+	myImpactAngularLerpOut 5.0
+	myLinearStrengthMin 0.0
+	myLinearStrengthMax 0.0
+	myAngularStrengthMin 0.0
+	myAngularStrengthMax 1.0
+	myImpactMaxDistance 0.0
+	myImpactMaxYaw 179.0
+	myImpactMaxPitch 179.0
+	myImpactMaxRoll 179.0
+	myPostImpactReductionTime 0.3
+	myPostImpactReductionMin 0.0
+	myPostImpactIgnoreTime 0.1
+	myUseFixedMass TRUE
+	myFixedMass 20000.0
+	myUseAlignMethod TRUE
+	myAllowNegativeAlign TRUE
+}
+
+VisualImpactSettings BaseLightSettings : BaseImpactSettings
+{
+}
+
+VisualImpactSettings BaseVeryLightSettings : BaseImpactSettings
+{
+}
+
+VisualImpactSettings BaseMediumSettings : BaseImpactSettings
+{
+}
+
+VisualImpactSettings BaseHeavySettings : BaseImpactSettings
+{
+}
+
+VisualImpactSettings BaseVeryHeavySettings : BaseImpactSettings
+{
+}
+
+ShipImpactMassConfig "Ship Weight Config"
+{
+	myVeryLight
+	{
+		myImpactSettings
+		{
+			myMinValue 20.0
+			myMaxValue 50.0
+			myImpactLinearLerpIn 4.0
+			myImpactAngularLerpIn 5.0
+			myImpactLinearLerpOut 3.0
+			myImpactAngularLerpOut 4.0
+			myAngularStrengthMin 5.0
+			myAngularStrengthMax 20.0
+			myImpactMaxYaw 70.0
+			myImpactMaxPitch 35.0
+			myImpactMaxRoll 50.0
+			myUseFixedMass TRUE
+			myFixedMass 20000.0
+		}
+		myGroundImpactSettings : BaseVeryLightSettings
+		{
+			myImpactMaxYaw 70.0
+			myImpactMaxPitch 20.0
+			myImpactMaxRoll 30.0
+			myAllowNegativeAlign FALSE
+		}
+		myFlightImpactSettings : BaseVeryLightSettings
+		{
+		}
+		mySpaceImpactSettings : BaseVeryLightSettings
+		{
+		}
+		myDamageConfig
+		{
+			myStumbleConfig
+			{
+				myDamage 25.0
+			}
+			myRagdollConfig
+			{
+				myDamage 200.0
+			}
+		}
+		myFlinchConfig
+		{
+			myMinImpactCategory ExtraSmall
+			myMinVelocityChange 3.0
+			myMinVelocityChangeFlight 3.0
+			myMinVelocityChangeSpace 5.0
+			myCooldown 0.5
+			myUseFixedMass FALSE
+			myFixedMass 20000.0
+		}
+		myStumbleConfig
+		{
+			myMinImpactCategory Small
+			myMinVelocityChange 29.0
+			myMinVelocityChangeFlight 44.0
+			myMinVelocityChangeSpace 59.0
+			myCooldown 1.0
+			myLinearForce 0.1
+			myLinearForceFlight 0.1
+			myAngularForce 100.0
+			myAngularForceFlight 100.0
+			myUseFixedMass FALSE
+			myFixedMass 20000.0
+			myDetachNPCs TRUE
+		}
+		myRagdollConfig
+		{
+			myMinImpactCategory Medium
+			myMinVelocityChange 54.0
+			myMinVelocityChangeFlight 64.0
+			myMinVelocityChangeSpace 79.0
+			myCooldown 5.0
+			myLinearForce 0.5
+			myLinearForceFlight 0.5
+			myLinearForceSpace 0.0
+			myAngularForce 200.0
+			myAngularForceFlight 200.0
+			myAngularForceSpace 0.0
+			myUseFixedMass FALSE
+			myFixedMass 20000.0
+			myDetachPickups FALSE
+			myDetachNPCs TRUE
+		}
+	}
+	myLight
+	{
+		myImpactSettings
+		{
+			myMinValue 20.0
+			myMaxValue 50.0
+			myImpactLinearLerpIn 4.0
+			myImpactAngularLerpIn 5.0
+			myImpactLinearLerpOut 3.0
+			myImpactAngularLerpOut 4.0
+			myAngularStrengthMin 5.0
+			myAngularStrengthMax 20.0
+			myImpactMaxYaw 70.0
+			myImpactMaxPitch 35.0
+			myImpactMaxRoll 50.0
+			myUseFixedMass TRUE
+			myFixedMass 20000.0
+		}
+		myGroundImpactSettings : BaseLightSettings
+		{
+			myImpactMaxYaw 70.0
+			myImpactMaxPitch 20.0
+			myImpactMaxRoll 30.0
+			myAllowNegativeAlign FALSE
+		}
+		myFlightImpactSettings : BaseLightSettings
+		{
+		}
+		mySpaceImpactSettings : BaseLightSettings
+		{
+		}
+		myDamageConfig
+		{
+			myStumbleConfig
+			{
+				myDamage 50.0
+			}
+			myRagdollConfig
+			{
+				myDamage 300.0
+			}
+		}
+		myFlinchConfig
+		{
+			myMinImpactCategory ExtraSmall
+			myMinVelocityChange 3.0
+			myMinVelocityChangeFlight 3.0
+			myMinVelocityChangeSpace 5.0
+			myCooldown 0.5
+			myUseFixedMass FALSE
+			myFixedMass 20000.0
+		}
+		myStumbleConfig
+		{
+			myMinImpactCategory Small
+			myMinVelocityChange 30.0
+			myMinVelocityChangeFlight 45.0
+			myMinVelocityChangeSpace 60.0
+			myCooldown 1.0
+			myLinearForce 0.1
+			myLinearForceFlight 0.1
+			myAngularForce 100.0
+			myAngularForceFlight 100.0
+			myUseFixedMass FALSE
+			myFixedMass 20000.0
+			myDetachNPCs TRUE
+		}
+		myRagdollConfig
+		{
+			myMinImpactCategory Large
+			myMinVelocityChange 55.0
+			myMinVelocityChangeFlight 65.0
+			myMinVelocityChangeSpace 80.0
+			myCooldown 5.0
+			myLinearForce 0.5
+			myLinearForceFlight 0.5
+			myLinearForceSpace 0.0
+			myAngularForce 200.0
+			myAngularForceFlight 200.0
+			myAngularForceSpace 0.0
+			myUseFixedMass FALSE
+			myFixedMass 20000.0
+			myDetachPickups FALSE
+			myDetachNPCs TRUE
+		}
+	}
+	myMedium
+	{
+		myImpactSettings
+		{
+			myMinValue 20.0
+			myMaxValue 50.0
+			myImpactLinearLerpIn 4.0
+			myImpactAngularLerpIn 5.0
+			myImpactLinearLerpOut 3.0
+			myImpactAngularLerpOut 4.0
+			myAngularStrengthMin 5.0
+			myAngularStrengthMax 20.0
+			myImpactMaxYaw 70.0
+			myImpactMaxPitch 35.0
+			myImpactMaxRoll 50.0
+			myUseFixedMass TRUE
+			myFixedMass 20000.0
+		}
+		myGroundImpactSettings : BaseMediumSettings
+		{
+			myImpactMaxYaw 70.0
+			myImpactMaxPitch 20.0
+			myImpactMaxRoll 30.0
+			myAllowNegativeAlign FALSE
+		}
+		myFlightImpactSettings : BaseMediumSettings
+		{
+		}
+		mySpaceImpactSettings : BaseMediumSettings
+		{
+		}
+		myDamageConfig
+		{
+			myStumbleConfig
+			{
+				myDamage 75.0
+			}
+			myRagdollConfig
+			{
+				myDamage 400.0
+			}
+		}
+		myFlinchConfig
+		{
+			myMinImpactCategory ExtraSmall
+			myMinVelocityChange 3.0
+			myMinVelocityChangeFlight 3.0
+			myMinVelocityChangeSpace 5.0
+			myCooldown 0.5
+			myUseFixedMass FALSE
+			myFixedMass 20000.0
+		}
+		myStumbleConfig
+		{
+			myMinImpactCategory Medium
+			myMinVelocityChange 31.0
+			myMinVelocityChangeFlight 46.0
+			myMinVelocityChangeSpace 61.0
+			myCooldown 1.0
+			myLinearForce 0.1
+			myLinearForceFlight 0.1
+			myAngularForce 100.0
+			myAngularForceFlight 100.0
+			myUseFixedMass FALSE
+			myFixedMass 20000.0
+			myDetachNPCs TRUE
+		}
+		myRagdollConfig
+		{
+			myMinImpactCategory Large
+			myMinVelocityChange 56.0
+			myMinVelocityChangeFlight 66.0
+			myMinVelocityChangeSpace 81.0
+			myCooldown 5.0
+			myLinearForce 0.5
+			myLinearForceFlight 0.5
+			myLinearForceSpace 0.0
+			myAngularForce 200.0
+			myAngularForceFlight 200.0
+			myAngularForceSpace 0.0
+			myUseFixedMass FALSE
+			myFixedMass 20000.0
+			myDetachPickups FALSE
+			myDetachNPCs TRUE
+		}
+	}
+	myHeavy
+	{
+		myImpactSettings
+		{
+			myMinValue 20.0
+			myMaxValue 50.0
+			myImpactLinearLerpIn 4.0
+			myImpactAngularLerpIn 5.0
+			myImpactLinearLerpOut 3.0
+			myImpactAngularLerpOut 4.0
+			myAngularStrengthMin 5.0
+			myAngularStrengthMax 20.0
+			myImpactMaxYaw 70.0
+			myImpactMaxPitch 35.0
+			myImpactMaxRoll 50.0
+			myUseFixedMass TRUE
+			myFixedMass 20000.0
+		}
+		myGroundImpactSettings : BaseHeavySettings
+		{
+			myImpactMaxYaw 70.0
+			myImpactMaxPitch 20.0
+			myImpactMaxRoll 30.0
+			myAllowNegativeAlign FALSE
+		}
+		myFlightImpactSettings : BaseHeavySettings
+		{
+		}
+		mySpaceImpactSettings : BaseHeavySettings
+		{
+		}
+		myDamageConfig
+		{
+			myStumbleConfig
+			{
+				myDamage 100.0
+			}
+			myRagdollConfig
+			{
+				myDamage 600.0
+			}
+		}
+		myFlinchConfig
+		{
+			myMinImpactCategory ExtraSmall
+			myMinVelocityChange 3.0
+			myMinVelocityChangeFlight 3.0
+			myMinVelocityChangeSpace 5.0
+			myCooldown 0.5
+			myUseFixedMass FALSE
+			myFixedMass 20000.0
+		}
+		myStumbleConfig
+		{
+			myMinImpactCategory Medium
+			myMinVelocityChange 32.0
+			myMinVelocityChangeFlight 47.0
+			myMinVelocityChangeSpace 62.0
+			myCooldown 1.0
+			myLinearForce 0.1
+			myLinearForceFlight 0.1
+			myAngularForce 100.0
+			myAngularForceFlight 100.0
+			myUseFixedMass FALSE
+			myFixedMass 20000.0
+			myDetachNPCs TRUE
+		}
+		myRagdollConfig
+		{
+			myMinImpactCategory ExtraLarge
+			myMinVelocityChange 57.0
+			myMinVelocityChangeFlight 67.0
+			myMinVelocityChangeSpace 82.0
+			myCooldown 5.0
+			myLinearForce 0.5
+			myLinearForceFlight 0.5
+			myLinearForceSpace 0.0
+			myAngularForce 200.0
+			myAngularForceFlight 200.0
+			myAngularForceSpace 0.0
+			myUseFixedMass FALSE
+			myFixedMass 20000.0
+			myDetachPickups FALSE
+			myDetachNPCs TRUE
+		}
+	}
+	myVeryHeavy
+	{
+		myImpactSettings
+		{
+			myMinValue 20.0
+			myMaxValue 50.0
+			myImpactLinearLerpIn 4.0
+			myImpactAngularLerpIn 5.0
+			myImpactLinearLerpOut 3.0
+			myImpactAngularLerpOut 4.0
+			myAngularStrengthMin 5.0
+			myAngularStrengthMax 20.0
+			myImpactMaxYaw 70.0
+			myImpactMaxPitch 35.0
+			myImpactMaxRoll 50.0
+			myUseFixedMass TRUE
+			myFixedMass 20000.0
+		}
+		myGroundImpactSettings : BaseVeryHeavySettings
+		{
+			myImpactMaxYaw 70.0
+			myImpactMaxPitch 20.0
+			myImpactMaxRoll 30.0
+			myAllowNegativeAlign FALSE
+		}
+		myFlightImpactSettings : BaseVeryHeavySettings
+		{
+		}
+		mySpaceImpactSettings : BaseVeryHeavySettings
+		{
+		}
+		myDamageConfig
+		{
+			myStumbleConfig
+			{
+				myDamage 200.0
+			}
+			myRagdollConfig
+			{
+				myDamage 800.0
+			}
+		}
+		myFlinchConfig
+		{
+			myMinImpactCategory ExtraSmall
+			myMinVelocityChange 20.0
+			myMinVelocityChangeFlight 30.0
+			myMinVelocityChangeSpace 5.0
+			myCooldown 0.5
+			myUseFixedMass FALSE
+			myFixedMass 20000.0
+		}
+		myStumbleConfig
+		{
+			myMinImpactCategory Large
+			myMinVelocityChange 33.0
+			myMinVelocityChangeFlight 48.0
+			myMinVelocityChangeSpace 63.0
+			myCooldown 1.0
+			myLinearForce 0.1
+			myLinearForceFlight 0.1
+			myAngularForce 100.0
+			myAngularForceFlight 100.0
+			myUseFixedMass FALSE
+			myFixedMass 20000.0
+			myDetachNPCs TRUE
+		}
+		myRagdollConfig
+		{
+			myMinImpactCategory ExtraLarge
+			myMinVelocityChange 58.0
+			myMinVelocityChangeFlight 68.0
+			myMinVelocityChangeSpace 83.0
+			myCooldown 5.0
+			myLinearForce 0.5
+			myLinearForceFlight 0.5
+			myLinearForceSpace 0.0
+			myAngularForce 200.0
+			myAngularForceFlight 200.0
+			myAngularForceSpace 0.0
+			myUseFixedMass FALSE
+			myFixedMass 20000.0
+			myDetachPickups FALSE
+			myDetachNPCs TRUE
+		}
+	}
+}
+

@@ -1,0 +1,1065 @@
+include "onward/game system data/fruit/input/gameinput.fruit"
+include "onward/game system data/fruit/ai/npc.fruit"
+include "onward/game system data/fruit/entity/faction.fruit"
+include "onward/game system data/fruit/tutorials/tutorial.fruit"
+include "onward/game system data/fruit/ui/uifeatures.fruit"
+include "onward/game system data/fruit/interact/interact.fruit"
+include "onward/game system data/fruit/progression/challenge_types.fruit"
+include "onward/game system data/fruit/progression/points.fruit"
+include "onward/game system data/fruit/camera/camera.fruit"
+include "onward/game system data/fruit/ui/uifade.fruit"
+include "onward/game system data/fruit/ui/uimenus.fruit"
+include "onward/game system data/fruit/sim/simunit.fruit"
+include "onward/game system data/fruit/story/storyevent.fruit"
+include "onward/game system data/fruit/story/objective.fruit"
+include "onward/game system data/fruit/ui/encounterstrategyoverlay/encounterstrategyoverlay.fruit"
+include "onward/game system data/fruit/ui/Collection/databasesubcategory.fruit"
+include "onward/game system data/fruit/player/player_features.fruit"
+include "onward/game system data/fruit/rulesystem/rulepayload_opportunity.fruit"
+include "onward/game system data/fruit/rulesystem/fact.fruit"
+include "onward/game system data/fruit/core/common_types.fruit"
+include "onward/game system data/fruit/interact/interact.fruit"
+include "onward/game system data/fruit/story/storyforcecompleteoptions.fruit"
+
+enum StorySection
+{
+	NONE
+	Act_01_Intro_Space_Battle
+	Act_01_Crash_Landing
+	Act_01_Onboarding
+	Act_01_Pre_Shed_Attack_Imp_Activity
+	Act_01_Post_Shed_Attack_Imp_Activity
+	Act_01_Post_Shed_Attack_Shed_Activity
+	Act_01_Extractor
+	Act_02_Pilot_Upgrades
+	Act_02_Travel_To_Haven
+	Act_02_Hack_The_Drake
+	Act_02_Ally_With_Eli
+	Act_02_Find_Warden_Totem
+	Act_02_Attack_FireGiant
+	Act_02_Mining_Alliance
+	Act_02_Mining_Alliance_Accepted
+	Act_02_Refinery_Chest_Opened
+	Act_02_Electrum_Vein
+	Act_02_GatherElectrum_GameLoop
+	Act_02_Upgrade_Sensors
+	Act_02_Travel_To_Sonatus
+	Act_02_Destroy_Prime
+	Act_02_Deliver_Prime_Core
+	Act_03_Build_Observatory
+	Act_03_BuildAlliance_GameLoop
+	Act_03_Destroy_Dreadnought
+	Act_04_Build_Armory
+	Act_04_StarlinkTowers
+	Act_04_Alliance_GameLoop
+	Act_04_AfterFirstTowerBuilt
+	Act_04_Upgrade_Starlink
+	Act_04_Travel_To_AtlasB
+	Act_05
+	Act_05_Gauntlet
+	Act_05_Drake_Battle
+	Act_05_Blockade
+	Act_05_StationApproach
+	Act_05_Grax_Planet_Battle
+	Act_05_Grax_Drake_Battle
+	Act_06
+	Met_Kharl
+	Met_Eli
+	Met_Rancor
+	Enable_MissionType_Survival
+	FirstContact_CreepZone
+	Enable_WardenPuzzles
+	Enable_WorkshopMissions
+	Enable_RefineryMissions
+	Enable_ObservatoryMissions
+	Enable_ArmoryMissions
+	Enable_EnterRangeActivities_Kharl
+	Enable_EnterRangeActivities_Eli
+	Enable_EnterRangeActivities_Fern
+	Enable_EnterRangeActivities_Galla
+	sidestory01_sequence01
+	sidestory01_sequence02
+	sidestory01_sequence03
+	sidestory01_sequence04
+	sidestory01_sequence05
+	sidestory01_sequence06
+	sidestory01_sequence07
+	Ally_Kharl
+	Ally_Eli
+	Ally_Fern
+	Ally_Galla
+	DisableGallaOutpostMissions
+	Gemtwo_Mission1
+	Gemtwo_Mission2
+	Gemtwo_Mission3
+	Gemtwo_Mission4
+	Gemtwo_Mission5
+	Gemtwo_Mission6
+	ProspectorSideStory_1
+	ProspectorSideStory_2
+	ProspectorSideStory_3
+	ProspectorSideStory_4
+	ProspectorSideStory_5
+	ProspectorSideStory_6
+	ProspectorSideStory_7
+	ProspectorSideStory_8
+	ProspectorSideStory_9
+	ExpeditionSideStory_1
+	ExpeditionSideStory_2
+	ExpeditionSideStory_3
+	ExpeditionSideStory_4
+	ExpeditionSideStory_5
+	OutlawSideStory_1
+	OutlawSideStory_2
+	OutlawSideStory_3
+	OutlawSideStory_4
+	OutlawSideStory_5
+	MoonIntro_Bink
+	MoonIntro_1
+}
+
+list StorySectionList
+{
+	StorySection
+}
+
+enum StorySectionTransitionType
+{
+	NONE
+	Enter
+	Exit
+}
+
+enum StoryDataActionSetType
+{
+	AND
+	OR
+}
+
+enum StoryDataActionState
+{
+	Inactive
+	Active
+	Complete
+}
+
+class StoryDataActionBase < abstract = 1 >
+{
+	ObjectiveData* myObjectiveUID
+	bool myObjectiveAutoRemoves < default=true >
+	bool myIsOptional FALSE
+	bool myIgnoreReset FALSE
+	bool myAllowCompleteFromLoad TRUE
+	StoryBeatData_ForceCompleteOptions myForceCompleteOptions
+}
+
+list StoryDataActionList
+{
+	StoryDataActionBase
+}
+
+class StoryDataActionSet
+{
+	StoryDataActionSetType myStoryDataActionSetType
+	StoryDataActionList myStoryDataActions
+}
+
+list StoryDataActionSetList
+{
+	StoryDataActionSet
+}
+
+class StoryDataAction_Dialog : StoryDataActionBase
+{
+	bool myIgnoreReset TRUE < tooltip="Only set to false if you want the dialogue to be killed" >
+	bool myCompleteImmediately
+	int myLineNumberToStartAt < default = 0 tooltip="This changes which line to start at, only modify it if you are completely confident in what you are doing." >
+	int myDialogSequenceID
+	int myDialogStoryFlowID
+	bool myPauseInOutpostMenu < default=true >
+	bool myPauseWhenNotSelectedStoryFlow
+	bool myOverrideUniqueNPC FALSE < tooltip="If true, the speaker will not need a SimProxy that exists." >
+}
+
+class StoryDataAction_WaitForNoDialog : StoryDataActionBase
+{
+}
+
+class StoryDataAction_KillNonStoryDialog : StoryDataActionBase
+{
+}
+
+class SetGameAction
+{
+	GameAction myGameAction
+	bool myEnabled
+}
+
+list SetGameActionList
+{
+	SetGameAction
+}
+
+class StoryDataAction_SetGameAction : StoryDataActionBase
+{
+	SetGameActionList mySetGameActionList
+}
+
+
+class StoryDataAction_WaitForGameToStoryEvent : StoryDataActionBase
+{
+	GameToStoryEvent myGameToStoryStoryEvent
+	int myNumToWaitFor < default = 1 >
+}
+
+class StoryDataAction_SetTarget : StoryDataActionBase
+{
+	file mySimUnitAssetTarget "" < types=*.msimunit >
+	float myTargetKnowledge < default = 100.0 >
+	uid myTargetPlanet < bhv = asset assettype = level >
+	bool myShowWaypoint < default=true >
+	OnItActivityType myActivityType
+	string myCustomWaypointSprite < bhv="sprite" >
+}
+
+class StoryDataAction_Wait : StoryDataActionBase
+{
+	float mySecondsToWait
+}
+
+class StoryDataAction_WallClockWait : StoryDataActionBase
+{
+	float mySecondsToWait
+}
+
+class StoryDataAction_Cinematic : StoryDataActionBase
+{
+	int myNumBlackFramesOnCompletion 0
+	file myCinematicFile "" < types=*.bk2 >
+}
+
+class StoryDataAction_WaitForTargetDeath : StoryDataActionBase
+{
+	SimUnit* mySimUnitAsset
+	uid myPlanet < bhv = asset assettype = level >
+	bool myCompleteIfNoTargetFound
+	bool myCompleteIfNoTargetFound_CheckPerFrame
+}
+
+class StoryDataAction_WaitForTargetDamage : StoryDataActionBase
+{
+}
+
+class StoryDataAction_WaitForArriveAtTarget : StoryDataActionBase
+{
+	float myDistance < default = 100 >
+	bool myRequireInFOV < default=true >
+	SimUnit* mySimUnitAsset
+	uid myPlanet < bhv = asset assettype = level >
+}
+
+class StoryDataAction_WaitForPlayerKillNPC : StoryDataActionBase
+{
+	NPCType myNPCType Invalid
+	int myNumToKill < default = 1 >
+}
+
+class StoryDataAction_SendStoryToGameEvent : StoryDataActionBase
+{
+	StoryToGameEvent myStoryToGameEvent
+}
+
+class StoryDataAction_ShowTutorial : StoryDataActionBase
+{
+	Tutorial myTutorial
+	bool myIsBlocking < default = false >
+	bool myIsDocked < default = false >
+	float myTutorialDuration < default = -1.0f >
+	float myDockedDuration < default = -1.0f >
+}
+
+class StoryDataAction_DismissTutorial : StoryDataActionBase
+{
+	Tutorial myTutorial
+}
+
+class StoryDataAction_DockTutorial : StoryDataActionBase
+{
+	Tutorial myTutorial
+	bool myIsDocked < default = true >
+	float myDockedDuration < default = -1.0f >
+}
+
+class StoryDataAction_DismissAllTutorials : StoryDataActionBase
+{
+}
+
+class StoryDataAction_WaitForTutorial : StoryDataActionBase
+{
+	Tutorial myTutorial
+}
+
+class StoryDataAction_WaitForGameAction : StoryDataActionBase
+{
+	GameAction myGameAction
+	bool myPreventActivationWhenDowned FALSE
+	int myPlayerID < min=0 max=1 >
+}
+
+class StoryDataAction_WaitForGameActionStates : StoryDataActionBase
+{
+	GameActionStateList myGameActionStates
+	int myPlayerID < min=0 max=1 >
+	bool myNotCondition
+}
+
+class StoryDataAction_SetObjective : StoryDataActionBase
+{
+	varmap myObjective < bhv = "localization" >
+	bool myIsSubObjective
+	ObjectiveData* myObjectiveUID < hidden = 1 >
+	bool myObjectiveAutoRemoves < hidden = 1 >
+	ObjectiveData* myObjectiveData
+	ObjectiveState myObjectiveState
+	int myProgressAmount -1 < tooltip="Must be greater than or equal to 0 to be used" >
+	int myProgressTarget -1 < tooltip="Must be greater than or equal to 0 to be used" >
+}
+
+class StoryDataAction_CompleteStoryEvent : StoryDataActionBase
+{
+	StoryEvent myStoryEvent
+}
+
+class StoryDataAction_SetNumPrimes : StoryDataActionBase
+{
+	int myNumPrimes < default = 0 >
+}
+
+class StoryDataAction_SetMaxPrimeLevel : StoryDataActionBase
+{
+	int myMaxPrimeLevel < default = 0 >
+}
+
+class StoryDataAction_SetPrimeTimeBetweenExtractors : StoryDataActionBase
+{
+	float myPrimeTimeBetweenExtractors < default = 600.0 tooltip="Prime time between extractors in seconds" >
+}
+
+class StoryDataAction_SetNumExtractors : StoryDataActionBase
+{
+	int myNumExtractors < default = 0 >
+}
+
+class StoryDataAction_SetMaxExtractorLevel : StoryDataActionBase
+{
+	int myMaxExtractorLevel < default = 0 >
+}
+
+class StoryDataAction_AllyWithTarget : StoryDataActionBase
+{
+
+}
+
+class StoryDataAction_SetGameplayBounds : StoryDataActionBase
+{
+	vec3f myBoundsCenter 0.0;0.0;0.0
+	float myBoundsRadius 0.0
+    bool myUseTargetAsCenter FALSE
+}
+
+class StoryDataAction_DialogLine : StoryDataActionBase
+{
+	int myDialogStoryFlowID
+	int myDialogSequenceID
+	int myDialogLineID
+	bool myOverrideUniqueNPC FALSE < tooltip="If true, the speaker will not need a SimProxy that exists." >
+}
+
+class StoryDataAction_SetPlayerInvincible : StoryDataActionBase
+{
+	bool mySetInvincible
+}
+
+class StoryDataAction_SetPlayerAttackable : StoryDataActionBase
+{
+	bool mySetAttackable
+}
+
+class StoryDataAction_StartDialogueCamera : StoryDataActionBase
+{
+	bool myIsTargetFirstSpeaker TRUE
+	bool myTriggerOnPipInteraction TRUE
+	CameraMode myPlayerPreset
+	CameraMode myTargetPreset
+    bool myTeleportPlayers FALSE
+    vec3f myTeleportLocalOffsetFromTarget 0.0;0.0;0.0
+    bool myIsFullScreen FALSE
+    bool myReviveDeadPlayers FALSE
+    bool myAllowPIP FALSE
+    bool myUseSimUnitOnly FALSE
+    bool myDisablePlayerAlignmentToTarget FALSE
+    bool myPrepareCameraForCutOnEnd FALSE
+}
+
+class StoryDataAction_StopDialogueCamera : StoryDataActionBase
+{
+}
+
+class StoryDataAction_ChangeDialogueCameraPreset : StoryDataActionBase
+{
+	CameraMode myCameraPreset
+}
+
+class StoryDataAction_WaitForDialogueCameraEnd : StoryDataActionBase
+{
+	float myTimeout
+}
+
+class StoryDataAction_WaitForTargetInteraction : StoryDataActionBase
+{
+	InteractionType myInteractionType
+}
+
+class StoryDataAction_WaitForPlayerOutOfCombat : StoryDataActionBase
+{
+}
+
+class StoryDataAction_SetUIFeature : StoryDataActionBase
+{
+	UIFeatures myUIFeature
+	bool myIsSet
+}
+
+class StoryDataAction_SetPlayerFeature : StoryDataActionBase
+{
+	PlayerFeature myPlayerFeature
+	bool myIsSet
+}
+
+class StoryDataAction_HealPlayerShips : StoryDataActionBase
+{
+}
+
+class StoryDataAction_AwardLoot : StoryDataActionBase
+{
+	string myLootDropName
+}
+
+class StoryDataAction_TeleportPlayerTarget
+{
+	file mySimUnitAssetPath "" < types=*.msimunit >
+    vec3f myTeleportOffset 0.0;0.0;0.0
+    vec3f myTeleportRotation 0.0;0.0;0.0
+    bool myIsOffsetInLocalSpace FALSE
+}
+
+class StoryDataAction_TeleportPlayer : StoryDataActionBase
+{
+	StoryDataAction_TeleportPlayerTarget myPlayer1Teleport
+    StoryDataAction_TeleportPlayerTarget myPlayer2Teleport
+	uid myTargetPlanet < bhv = asset assettype = level >
+    bool myShouldBeFlipped FALSE
+    bool mySnapToGround FALSE
+	bool myResetShip FALSE
+    float mySnapToGroundHeight 3.0
+}
+
+class StoryDataAction_SoundEvent : StoryDataActionBase
+{
+	AudioEvent myAudioEvent
+	bool myCompleteImmediately
+}
+
+class StoryDataAction_DeliverInfo
+{
+	SimUnit* mySimUnitAsset
+	float myKnowledge < default = 100.0 >
+	uid myPlanet < bhv = asset assettype = level >
+	uid myObjectiveUID < bhv = "localization" >
+}
+
+class StoryDataAction_Deliver : StoryDataActionBase
+{
+	StoryDataAction_DeliverInfo myPickupInfo
+	StoryDataAction_DeliverInfo myDestinationInfo
+	float myEmergencyTimer 30.0
+	bool myAllowEmergencyProcedures TRUE
+	bool myAttemptRespawnAtPlayer TRUE
+	bool myInventoryDelivery FALSE
+	bool myShouldEmergencyRespawn TRUE
+	SimUnit* myEmergencyRespawnSlot
+	bool myCompleteOnTargetSolved FALSE
+}
+
+class StoryDataAction_WaitForPlayerEnteredCombat : StoryDataActionBase
+{
+}
+
+class StoryDataAction_TriggerGameAction : StoryDataActionBase
+{
+	GameAction myGameAction
+}
+
+class StoryDataAction_CompleteChallenge : StoryDataActionBase
+{
+	ChallengeType myChallengeToComplete
+}
+
+class StoryDataAction_WaitForProgressionPointsAmount : StoryDataActionBase
+{
+	int myPointsNeeded
+	ProgressionPointType myPointType
+	
+	varmap myNeedPointsObjective < bhv = "localization" >
+	varmap myHasEnoughPointsObjective < bhv = "localization" >
+}
+
+class StoryDataAction_WaitForPlanetExplored : StoryDataActionBase
+{
+	uid myPlanetUID < bhv = asset assettype = level >
+	float myExplorationNeeded  < bhv=percent min=0 max=1 >
+}
+
+class StoryDataAction_SetSpawnAssetBlockedOnPlanet : StoryDataActionBase
+{
+	bool myShouldBlock
+	uid myPlanetUID < bhv = asset assettype = level >
+	file mySimUnitAssetTargetPath "" < types=*.msimunit >
+}
+
+class StoryDataAction_SuppressOpportunities : StoryDataActionBase
+{
+	ObjectiveData* myObjectiveUID < hidden = 1 >
+	bool myObjectiveAutoRemoves < hidden = 1 >
+	bool myShouldSuppress
+}
+
+class StoryDataAction_SuppressPips : StoryDataActionBase
+{
+	ObjectiveData* myObjectiveUID < hidden = 1 >
+	bool myObjectiveAutoRemoves < hidden = 1 >
+	bool myShouldSuppress
+}
+
+class StoryDataAction_SuppressNonStoryPips : StoryDataActionBase
+{
+	ObjectiveData* myObjectiveUID < hidden = 1 >
+	bool myObjectiveAutoRemoves < hidden = 1 >
+	bool myShouldSuppress
+}
+
+class StoryDataAction_EnableSimUnitProgression : StoryDataActionBase
+{
+	ObjectiveData* myObjectiveUID < hidden = 1 >
+	bool myObjectiveAutoRemoves < hidden = 1 >
+	bool myIsEnabled
+	FactionType myFaction
+}
+
+class StoryDataAction_WaitForPlanetArrival : StoryDataActionBase
+{
+	uid myPlanetUID < bhv = asset assettype = level >
+}
+
+class StoryDataAction_WaitForHullAttached : StoryDataActionBase
+{
+}
+
+class StoryDataAction_AddFadeRequest : StoryDataActionBase
+{
+	ObjectiveData* myObjectiveUID < hidden = 1 >
+	bool myObjectiveAutoRemoves < hidden = 1 >
+	UIFadeRequestType myFadeRequestType
+	color myFadeColor 0xff000000
+	float myFadeTime
+}
+
+class StoryDataAction_DestroyAttachedSimUnit : StoryDataActionBase
+{
+}
+
+class StoryDataAction_SpawnSimUnitNearPlayer : StoryDataActionBase
+{
+	ObjectiveData* myObjectiveUID < hidden = 1 >
+	bool myObjectiveAutoRemoves < hidden = 1 >
+	SimUnit* mySimUnitAsset
+	float myDistance
+	float myLookAheadTime
+}
+
+class StoryDataAction_SpawnSimUnitNearTarget : StoryDataActionBase
+{
+	ObjectiveData* myObjectiveUID < hidden = 1 >
+	bool myObjectiveAutoRemoves < hidden = 1 >
+	SimUnit* mySimUnitAsset
+	float myDistance
+}
+
+class StoryDataAction_SpawnSimUnitNearSimUnit : StoryDataActionBase
+{
+	ObjectiveData* myObjectiveUID < hidden = 1 >
+	bool myObjectiveAutoRemoves < hidden = 1 >
+	SimUnit* mySimUnitAsset
+	float myDistance
+	uid myTargetUID
+}
+
+class StoryDataAction_SpawnSimUnitNearSimUnitAsset : StoryDataActionBase
+{
+	SimUnit* mySimUnitAsset
+	float myDistance
+	uid myPlanetUID < bhv = asset assettype = level >
+	SimUnit* myTargetAsset
+}
+
+class StoryDataAction_SpawnSimUnitAtSlotUnit : StoryDataActionBase
+{
+	SimUnit* mySimUnitAsset
+	uid myTargetUID
+	bool myOccupySlot false < tooltip = "Should the spawned unit occupy the slot?  Spawning may fail if slot is already occupied." >
+}
+
+class StoryDataAction_PreventPlayerDeath : StoryDataActionBase
+{
+}
+
+class StoryDataAction_SetGameLoopOpportunities : StoryDataActionBase
+{
+	ObjectiveData* myObjectiveUID < hidden = 1 >
+	bool myObjectiveAutoRemoves < hidden = 1 >
+	bool mySetGameLoopOpportunities
+}
+
+class StoryDataAction_AllowPlayerDeath : StoryDataActionBase
+{
+}
+
+class StoryDataAction_SetPlayerCarvesFogOfWar : StoryDataActionBase
+{
+	ObjectiveData* myObjectiveUID < hidden = 1 >
+	bool myObjectiveAutoRemoves < hidden = 1 >
+	bool myPlayerCarvesFOWFlag
+}
+
+class StoryDataAction_QueueUIMessage : StoryDataActionBase
+{
+	string myEventInfoName
+}
+
+class StoryDataAction_WaitForTargetSolved : StoryDataActionBase
+{
+	SimUnit* mySimUnitAsset
+	uid myPlanet < bhv = asset assettype = level >
+}
+
+class StoryDataAction_WaitForTargetUnSolved : StoryDataActionBase
+{
+	SimUnit* mySimUnitAsset
+	uid myPlanet < bhv = asset assettype = level >
+}
+
+class StoryDataAction_TransitionStorySection : StoryDataActionBase
+{
+	ObjectiveData* myObjectiveUID < hidden = 1 >
+	bool myObjectiveAutoRemoves < hidden = 1 >
+	StorySectionTransitionType myTransitionType
+	StorySection myStorySection
+}
+
+enum StoryOpportunityEvent
+{
+	Set
+	Completed
+	Presented
+}
+
+class StoryDataAction_WaitForOpportunityEvent : StoryDataActionBase
+{
+	StoryOpportunityEvent myOpportunityEventType
+}
+
+class StoryDataAction_SetWaypointVisible : StoryDataActionBase
+{
+	ObjectiveData* myObjectiveUID < hidden = 1 >
+	bool myObjectiveAutoRemoves < hidden = 1 >
+	bool myShowWaypoint
+	OnItActivityType myActivityType
+}
+
+class StoryDataAction_WaitForChallengeComplete : StoryDataActionBase
+{
+	ChallengeType myChallenge
+	int myChallengeCount 1 < tooltip="How many times this challenge has to be completed" >
+	bool myWaitForNewChallenges FALSE < tooltip="Whether or not previous challenge completions are looked at" >
+	bool myTrackProgress FALSE < tooltip="If true, will try to show a X/Y display using the provided objective and it's tags" >
+}
+
+class StoryDataAction_RunScriptOnPlayer : StoryDataActionBase
+{
+	bool myCompleteWhenScriptFinishes
+	int myPlayerID < min=0 max=1 >
+	file mySkillScriptFile "" < types=*.mskillscriptgraph tooltip="Skillscript to run on the player" >
+}
+
+class StoryDataAction_SetRespawnCheckpoint : StoryDataActionBase
+{
+    bool myLockCheckpoint FALSE
+}
+
+class StoryDataAction_ResetRespawnCheckpoint : StoryDataActionBase
+{
+}
+
+class StoryDataAction_SetEnhancementDropsEnabled : StoryDataActionBase
+{
+	bool myEnhancementDropsEnabled
+}
+
+class StoryDataAction_SetHailableTypeEnabled : StoryDataActionBase
+{
+	HailableType myHailableType
+	bool myEnabled
+}
+
+class StoryDataAction_WaitForAllianceLevel : StoryDataActionBase
+{
+	int myAllianceLevel
+	uid myPlanet < bhv = asset assettype = level >
+}
+
+class StoryDataAction_ForceGameLoopEvent : StoryDataActionBase
+{
+	bool myKeepTryingUntilSuccess
+}
+
+class StoryDataAction_SetEncounterTimersEnabled : StoryDataActionBase
+{
+	bool myEnabled
+}
+
+enum DialogConditionCheck
+{
+	Equal
+	NotEqual
+	GreaterThan
+	LessThan
+	GreaterThanOrEqualTo
+	LessThanOrEqualTo
+}
+
+class StoryDataAction_ConditionalDialog : StoryDataAction_Dialog
+{
+	SimUnitCategory mySimUnitCategory
+  	uid myPlanetUID < bhv = asset assettype = level >
+    int myFailConditionSequenceID
+    int myConditionNumber
+    DialogConditionCheck myConditionCheck
+}
+
+
+enum StarMapViewType
+{
+	Galaxy
+	Planet
+	Details
+	TargetDefault
+	PlayerDefault
+}
+
+class StoryDataAction_UIStarMapOpen : StoryDataActionBase
+{
+	StarMapViewType myViewType PlayerDefault
+	uid myTargetPlanet < bhv = asset assettype = level >
+	file myTargetSimUnitAssetPath "" < types=*.msimunit >
+	bool myDeferErrorsAndInput < default = false >
+}
+
+class StoryDataAction_UIStarMapClose : StoryDataActionBase
+{
+}
+
+class StoryDataAction_UIStarMapFocusOnPlanet : StoryDataActionBase
+{
+	StarMapViewType myViewType Galaxy
+	uid myTargetPlanet < bhv = asset assettype = level >
+	bool myDeferErrorsAndInput < default = false >
+}
+
+class StoryDataAction_UIStarMapFocusOnSimUnit : StoryDataActionBase
+{
+	StarMapViewType myViewType TargetDefault
+	file myTargetSimUnitAssetPath "" < types=*.msimunit >
+	bool myDeferErrorsAndInput < default = false >
+}
+
+enum OGame_UIStarmap_AlertType
+{
+	Default
+	Alliance
+	Prime
+	Dreadnaught
+}
+
+class StoryDataAction_UIStarMapAddAlertOnPlanet : StoryDataActionBase
+{
+	uid myTargetPlanet < bhv = asset assettype = level >
+	OGame_UIStarmap_AlertType myAlertType
+}
+
+class StoryDataAction_UIStarMapAddAlertOnSimUnit : StoryDataActionBase
+{
+	file myTargetSimUnitAssetPath "" < types=*.msimunit >
+	OGame_UIStarmap_AlertType myAlertType
+}
+
+class StoryDataAction_UIStarMapRemoveAlertOnPlanet : StoryDataActionBase
+{
+	uid myTargetPlanet < bhv = asset assettype = level >
+}
+
+class StoryDataAction_UIStarMapRemoveAlertOnSimUnit : StoryDataActionBase
+{
+	file myTargetSimUnitAssetPath "" < types=*.msimunit >
+}
+
+class StoryDataAction_UIOpenFinalFightConfirmationDialog : StoryDataActionBase
+{
+}
+
+enum OGame_UIStory_ConfirmationType
+{
+	None
+	Construct_Outposts
+	Introduce_LegionHierarchy
+	Introduce_WarEffort
+	Introduce_ObjectiveSelect
+	Introduce_PaintJobs
+	Introduce_Capture
+	Reminder_WingWeapons
+	FinalFight
+	Act6Intro
+}
+
+class StoryDataAction_UIOpenConfirmationDialog : StoryDataActionBase
+{
+	OGame_UIStory_ConfirmationType myConfirmationType
+}
+
+class StoryDataAction_UIShowCredits : StoryDataActionBase
+{
+}
+
+class StoryDataAction_UIOpenGenericMenu : StoryDataActionBase
+{
+	UIMenu myMenuToOpen
+}
+
+class StoryDataAction_UIOpenDatabaseMenu : StoryDataActionBase
+{
+	BaseDatabaseEntry* myCollectionItemToOpen
+}
+
+class StoryDataAction_UIDisplayStarlinkTitleBanner : StoryDataActionBase
+{
+}
+
+class StoryDataAction_UIOutpostEnableConversationMode : StoryDataActionBase
+{
+	file myTargetSimUnitAssetPath "" < types=*.msimunit >
+}
+
+class StoryDataAction_UIOutpostDisableConversationMode : StoryDataActionBase
+{
+	file myTargetSimUnitAssetPath "" < types=*.msimunit >
+}
+
+class StoryDataAction_UIEncounterStrategyOverlayOpen : StoryDataActionBase
+{
+	GameAction myGameAction
+	int myPlayerID < min=0 max=1 >
+	EncounterStrategyEnemyType myEnemyType
+	EncounterStrategyWeaponType myWeaponType1
+	EncounterStrategyWeaponType myWeaponType2
+	EncounterStrategyWeaponType myWeaponType3
+}
+
+class StoryDataAction_UIDeferErrorMessages : StoryDataActionBase
+{
+	bool myEnabled
+}
+
+class StoryDataAction_WaitForPartAttached : StoryDataActionBase
+{
+	int myPartID < tooltip = "This should be the PartID from Juice\Parts\PartData.juice" >
+}
+
+class StoryDataAction_WaitForPartOwned : StoryDataActionBase
+{
+	int myPartID < tooltip = "This should be the PartID that needs to be owned from Juice\Parts\PartData.juice" >
+}
+
+class StoryDataAction_SetObjectiveBlockEnabled : StoryDataActionBase
+{
+	bool myEnable < tooltip = "Causes the Objectives for this Story to be hidden/shown" >
+}
+
+class StoryDataAction_FillAbilityMeter : StoryDataActionBase
+{
+}
+
+class StoryDataAction_WaitForTargetLevel : StoryDataActionBase
+{
+	ObjectiveData* myObjectiveUID < hidden = 1 >
+	bool myObjectiveAutoRemoves < hidden = 1 >
+	int myLevelToWaitFor
+}
+
+class StoryDataAction_PopulatePlanetExtractors : StoryDataActionBase
+{
+	ObjectiveData* myObjectiveUID < hidden = 1 >
+	bool myObjectiveAutoRemoves < hidden = 1 >
+	uid myPlanet < bhv = asset assettype = level >
+	int myNumRequired
+	float myReattemptTimer < default = 5.0 >
+}
+
+class StoryDataAction_SetCoopLeashBreakEnabled : StoryDataActionBase
+{
+    bool myEnabled TRUE
+}
+
+class StoryDataAction_ClearPlayerWaypoint : StoryDataActionBase
+{
+}
+
+class StoryDataAction_SuppressOutpostOfferHelp : StoryDataActionBase
+{
+	bool mySuppressed
+}
+
+class StoryDataAction_WaitForUIOnTopOfStack : StoryDataActionBase
+{
+	UIMenu myMenu
+}
+
+class StoryDataAction_ShowUIBanner : StoryDataActionBase
+{
+	ObjectiveData* myObjectiveUID < hidden = 1 >
+	bool myObjectiveAutoRemoves < hidden = 1 >
+	varmap myBannerText < bhv = "localization" >
+}
+
+class StoryDataAction_WaitForStoryFlowSelected : StoryDataActionBase
+{
+	float mySecondsToWait < default = 3.0 >
+}
+
+class StoryDataAction_MakeOwnerStoryFlowSelected : StoryDataActionBase
+{
+}
+
+class StoryDataAction_ConditionalAction : StoryDataActionBase
+{
+	StoryDataActionSetType myCompleteType
+	StoryDataActionList myConditionalActions
+	StoryDataActionList myOutcomeActions
+	bool myBlockUpdateWhenComplete FALSE
+}
+
+class StoryDataAction_WaitForStoryEvent : StoryDataActionBase
+{
+	ObjectiveData* myObjectiveUID < hidden = 1 >
+	bool myObjectiveAutoRemoves < hidden = 1 >
+	StoryEvent myStoryEvent
+	bool myCheckNotExists FALSE < tooltip="If true, will complete when that story event hasn't been completed" >
+}
+
+class StoryDataAction_SetObjectiveHeader : StoryDataActionBase
+{
+	ObjectiveData* myObjectiveUID < hidden = 1 >
+	bool myObjectiveAutoRemoves < hidden = 1 >
+	varmap myObjectiveHeader < bhv = "localization" >
+}
+
+class StoryDataAction_SetCustomStoryFaction : StoryDataActionBase
+{
+	ObjectiveData* myObjectiveUID < hidden = 1 >
+	bool myObjectiveAutoRemoves < hidden = 1 >
+	FactionType myCustomStoryFaction
+}
+
+class StoryDataAction_SetCustomStoryWaypoint : StoryDataActionBase
+{
+	ObjectiveData* myObjectiveUID < hidden = 1 >
+	bool myObjectiveAutoRemoves < hidden = 1 >
+	string myCustomWaypointSprite < bhv="sprite" >
+}
+
+class StoryDataAction_PreloadNPC : StoryDataActionBase
+{
+	file myNPCAssetPath "" < types=*.mnpc >
+}
+
+class StoryDataAction_SafetyRemovePreloadedNPC : StoryDataActionBase
+{
+	file myNPCAssetPath "" < types=*.mnpc >
+}
+
+class StoryDataAction_WaitForPlayerInventoryState : StoryDataActionBase
+{
+	TowableCategory myTowableCategory
+	BasicCompareType myCompareType
+	int myCountToCheck < tooltip="This is the 'right hand side' in the comparison">
+}
+
+class StoryDataAction_BreakTargetPluck : StoryDataActionBase
+{
+	bool myCompleteIfNoTarget TRUE < tooltip="If true, will complete if their is no story target" >
+	bool myCompleteIfNoEntity TRUE < tooltip="If true, will complete if the target is not realized (not in the world)" >
+	bool myCompleteIfNoInteraction TRUE < tooltip="If true, will complete if the target it not currently being plucked" >
+}
+
+class StoryDataAction_SelectObjectiveBlock : StoryDataActionBase
+{
+	bool mySelectMainStory FALSE < tooltip="If true, will select the main story flow" >
+	string myPartStorySelection < tooltip="Name of the part story flow to select. Name matches what is found in the part stories folder (IE 'sidestory_prospector')" >
+}
+
+class StoryDataAction_WaitForShieldDown : StoryDataActionBase
+{
+	bool myCompleteIfNoTarget FALSE
+}
+
+class StoryDataAction_WaitForAssetInteraction : StoryDataActionBase
+{
+	InteractionType myInteractionType
+	SimUnit* mySimUnitAsset	
+}
+
+class StoryDataAction_SetGlobalIntFact : StoryDataActionBase
+{
+	IntFactLabel myLabel Undefined
+	int myValue 0
+}
+
+class StoryDataAction_SetGlobalStringFact : StoryDataActionBase
+{
+	StringFactLabel myLabel Undefined
+	string myValue ""
+}
+
+class StoryDataAction_SetGlobalFloatFact : StoryDataActionBase
+{
+	FloatFactLabel myLabel Undefined
+	float myValue 0
+}
+
+class StoryDataAction_ConstantSuppressNonStoryPips : StoryDataActionBase
+{
+	bool myShouldSuppress < tooltip="If true, there must be another action to set it to false at some point" >
+}
+
+class StoryDataAction_WaitForAssetTowed : StoryDataActionBase
+{
+	SimUnit* mySimUnitAsset	
+}

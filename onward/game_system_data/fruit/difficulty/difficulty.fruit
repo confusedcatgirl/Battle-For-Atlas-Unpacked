@@ -1,0 +1,51 @@
+class PrimeDifficultyData
+{
+	float	mySimMovementSpeedModifier 1.0
+	float	myPlayerOnPlanetSpeedMultiplier 1.0 < tooltip="A modifier applied the Prime's sim movement speed if on the same planet a the player" >
+	float	myPlayerOffPlanetSpeedMultiplier 0.75 < tooltip="A modifier applied the Prime's sim movement speed if not on the same planet a the player" >
+}
+
+class DifficultyData
+{
+	float	myDamageToPlayerMultiplier 1.0
+	float	myDamageFromPlayerMultiplier 1.0
+	float	myStatusEffectToPlayerMultiplier 1.0
+	float	myNumPlayerAttackersMultiplier 1.0
+	float	myNumPlayerThreatsMultiplier 1.0
+	float	myLegendaryModDropChanceMultiplier 1.0
+	float	myAimAssistanceMultiplier 1.0
+	float	myViewFrictionMultiplier 1.0
+    float   myInputMagnetMultiplier 1.0
+	float	myExperienceMultiplier 1.0
+	float	mySeigeMultiplier 3.0
+	float	myHomingLockBreakDistance 10.0
+	float	myStunnedDamageMultiplier 1.5
+	float   myEnemyShieldRegenRateMultiplier 1.0
+	float   myEnemyShieldRegenDelayMultiplier 1.0
+	float   myPluckOscillationRateMultiplier 1.0
+	float	myPlayerShieldBreakDamagePercentage -0.5
+	float   myExtractorSpeedModifier 1.0
+	float   myExtractorWindupModifier 1.0
+	PrimeDifficultyData myPrimeData
+}
+
+class DifficultySettings
+{
+	DifficultyData	myEasySettings
+	DifficultyData	myNormalSettings
+	DifficultyData	myHardSettings
+	DifficultyData	myVeryHardSettings
+}
+
+class DifficultyGameModeSettings
+{
+	DifficultySettings	mySinglePlayerSettings
+	DifficultySettings	myCoopSettings
+}
+
+class PilotTrialDifficultyData
+{
+	float myAbovePar 1.2		< default = 1.2 tooltip = "[0.0 - 2.0] Percentage of the top speed of this level for the AI, in relation with the Player" >
+	float myPar	1.0				< default = 1.0 tooltip = "[0.0 - 2.0] Percentage of the top speed of this level for the AI, in relation with the Player" >
+	float myBelowPar 0.8		< default = 0.8 tooltip = "[0.0 - 2.0] Percentage of the top speed of this level for the AI, in relation with the Player" >
+}

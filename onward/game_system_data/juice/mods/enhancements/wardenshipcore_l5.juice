@@ -1,0 +1,32 @@
+include ./templates/template_l5.juice
+include "onward/game system data/juice/mods/mod_warden_shipcore_l5.mplayermod"
+include "onward/game system data/juice/buffs/buff_warden_shipcore_l5.mbuff"
+include ./impactaffectors/impact_affectors.juice
+
+Enhancement wardenshipcore_l5 < uid=C91BB551597F63A8000000B0E555BFE7 > : "Level 5"
+{
+	myLocalizedName "contextComment = \"[Placeholder - do not translate]\nName for level 5 version of a Ship Core from the ancient Wardens who created the Legion, which can interfere with Legion units (stunning or, at max level, turning them to your side)\", description = \"\", enabled = true, guid = #C91BB551597F63A8000000AFECBE3879, lineVersion = 1, maxLength = 30, text = \"Warden Core V\""
+	myLocalizedDescription "contextComment = \"[Placeholder - do not translate]\nDescription for level 5 version of a Ship Core from the ancient Wardens who created the Legion, which can interfere with Legion units (stunning or, at max level, turning them to your side)\", description = \"enhancement-description-warden-ship-core-5\", enabled = true, guid = #82F496E979C246ECAD94DCE6A3390C41, lineVersion = 1, maxLength = 138, text = \"+100 Energy\n+50% Damage for 5s after Elemental Combo\n+50% Damage while near Electrum\n+ Hack Imps on Impact\""
+	myIconSprite "mySpriteId = 830671703, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-mods-ship-core.spritesheet\""
+	myIsHullEnhancement TRUE
+	myMod < uid=C91BB551597F63A8000000B170958C44 > = mod_warden_shipcore_l5
+	myEnhancementType ShipCore
+	myEnhancementTrackType WardenShipCore
+	myDamageAffectors
+	{
+		DamageAffector_RecentCombo "Combo Damage"
+		{
+			myDamageMultiplier = Warden_Core_l5_ComboDamage
+			myDamageBoostTime 5.0
+		}
+		DamageAffector_DamageBoostNearElectrumVein "Damage boost near electrum"
+		{
+			myDamageMultiplier = Warden_Core_l5_StrongDamage
+		}
+	}
+	myImpactAffectors
+	{
+		ImpactAffector_ChangeFaction "Hack On Impact" = "Hack on Impact 50"
+	}
+}
+

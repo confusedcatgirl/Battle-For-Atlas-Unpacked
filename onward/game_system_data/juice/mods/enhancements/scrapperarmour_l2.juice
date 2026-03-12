@@ -1,0 +1,20 @@
+include ./templates/template_l2.juice
+include "onward/game system data/juice/mods/mod_scrapper_armour_l2.mplayermod"
+include ./impactaffectors/impact_affectors.juice
+
+Enhancement scrapperarmour_l2 < uid=C91BB551597F9C69001647C2D3187B2B > : "Level 2"
+{
+	myLocalizedName "contextComment = \"[Placeholder - do not translate]\nName for level 2 version of a Ship Armor that favours aggressive/scrappy fighting by boosting ramming damage and improving kinetic/physical damage resistance & HP regeneration\", description = \"\", enabled = true, guid = #C91BB551597F9C69001647C135A10723, lineVersion = 1, maxLength = 30, text = \"Scrapper Armor II\""
+	myLocalizedDescription "contextComment = \"[Placeholder - do not translate]\nDescription for level 2 version of a Ship Armor that favours aggressive/scrappy fighting by boosting ramming damage and improving kinetic/physical damage resistance & HP regeneration\", description = \"enhancement-description-scrapper-armour-2\", enabled = true, guid = #7829DCE1002E4DD6BC81FAD253BE0F62, lineVersion = 1, maxLength = 69, text = \"+15% Kinetic Resist\n+15 Defense\n+100 Damage on Impact\""
+	myIconSprite "mySpriteId = -798553130, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-mods-ship-armour.spritesheet\""
+	myIsHullEnhancement TRUE
+	myMod < uid=C91BB551597F9C69001647C3666A4C9B > = mod_scrapper_armour_l2
+	myBuff < uid=C91BB551597F9C69001647C4CD2E1D15 > = NULLREFERENCE
+	myEnhancementType Armour
+	myEnhancementTrackType ScrapperArmour
+	myImpactAffectors
+	{
+		ImpactAffector_Damage "Damage on Impact 100" = "Damage on Impact 100"
+	}
+}
+

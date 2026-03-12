@@ -1,0 +1,159 @@
+include "onward/game system data/fruit/ai/motion/motioncommon.fruit"
+include "onward/game system data/fruit/ai/ai.fruit"
+// include "onward/game system data/fruit/weapon/weapon.fruit"
+
+class BaseMotionState < abstract=1 >
+{
+	bool myEnabled true
+	
+	int myPriority 0
+	
+	string myStateName
+	
+	float myTotalDuration 0.f
+	float myDistance 0.f < tooltip="Fill in the maximum distance in case the animation is meant to be interrupted before it plays out completely (Drop, Climb..)" >
+	float myAnimationDuration -1.f < tooltip="Strict duration of the animation, automatic" >
+	float myAnimationDistance -1.f < tooltip="Strict distance of the animation, automatic" >
+	float myHorizontalDistance -1.f   // -1 so the code can detect and warn when it's missing
+	float myVerticalDisplacement 0.f
+	
+	AngleRange myAngleRange < tooltip="Supported range of turn angles." >
+	
+	bool myPreventDamageAnim FALSE < tooltip="Prevent stagger, knockdown, etc during the state if true" >
+	string myAnimsOut < hidden=1 > // String list. Could be poses, state-to-state, state-to-transition
+	
+	//file myServerAnimFile ""
+	
+	int myVariationId 0;
+}
+
+class OneshotMotionState < uid=auto > : BaseMotionState
+{	
+	string myAnimCommand ""
+	float myDisplacementAngle 0.f
+	DisplacementRotationPolicy myDisplacementRotationPolicy Automatic
+	// bool myIsLyingDown false < tooltip="Will add a safety distance so we don't end up with a head inside an obstacle" >
+	// MotionStateDamageHint myDamageHint Anything
+	MotionAnimPlayability myPlayability AnyTime
+	// MotionAnimCoverPlayability myCoverPlayability AnyTime
+	// MotionAnimCoverStancePlayability myCoverStancePlayability AnyTime
+	// WeaponGroups myWeapon NotSet
+}
+
+class AnchoredMotionState : OneshotMotionState
+{
+	vec3f myAnchorOffset
+}
+
+class TransitionMotionState : OneshotMotionState
+{
+	float myRotationAngle 0.f
+	bool myIsGlobalTransition false
+	int myGlobalTransitionPriority 0
+}
+
+class OneshotMotionStateWithModes : OneshotMotionState
+{
+	string myAnimModes // String list
+}
+
+class LayerMotionState
+{
+	string myLayerName ""
+	
+	float myTotalDuration 0.f
+	bool myIsLoop false
+	
+	string mySupportedStatesAndPoses // String list
+	string myAnimModes // String list
+}
+
+class BasePathMotionState < abstract=1 > : BaseMotionState
+{	
+	PathMotionStateType myType Invalid
+	MoveStyle myStyle Invalid < tooltip="Leave invalid if to be used with all styles" >
+	string myTag < tooltip="For example, tag a StartRun animation as ReactToGrenade to play this specific start run. Tags are chosen at runtime by behaviors (via motion patterns)" >
+			
+	float myAdjustDistance 0
+	
+	float myEntrySpeed 1 < tooltip="Speed the character should be at when entering the animation state" > 
+	float myExitSpeed 1 < tooltip="Speed the character should be at when exiting the animation state" >
+
+	// WeaponGroups myWeapon NotSet < tooltip="To filter by weapon type" >
+}
+
+class PathMotionState : BasePathMotionState
+{
+}
+
+class AirPathMotionState : PathMotionState
+{
+	float myMinAngleWithY 0 < bhv=degree_angle min=0 max=180 >
+	float myMaxAngleWithY 180 < bhv=degree_angle min=0 max=180 >
+	float myMinDistance 0
+	float myMaxDistance 1000
+}
+
+class JumpMotionState : BasePathMotionState < abstract=1 >
+{	
+	float myMinElevationDiff -1000
+	float myMaxElevationDiff 1000
+}
+
+class DropMotionState : JumpMotionState
+{	
+	bool myDrop false
+	bool myFall false
+	bool myLand false
+}
+
+class ClimbMotionState : JumpMotionState
+{
+	bool myEntry false
+	bool myExit false
+}
+
+class LadderMotionState : JumpMotionState
+{
+	bool myEntry false
+	bool myLoop false
+	bool myExit false
+}
+
+class LeapMotionState : JumpMotionState
+{	
+	float myMinObstacleDepth 0.1
+	float myMaxObstacleDepth 2.05
+	
+	float myMinObstacleHeight 0.9
+	float myMaxObstacleHeight 1.2
+	float myMaxExitObstacleHeight 0.0
+	
+	bool myLeap false
+	bool myFall false
+	bool myLand false
+}
+
+class HighVaultMotionState : LeapMotionState
+{
+}
+
+//////////////////////////////////////////////////////
+list MetricsList
+{
+	float
+}
+
+class MotionStateMetricsSpecialization
+{
+	string myStateOrLayerName
+	// NPCGender myGender None
+	AnimSpecialization mySpecialization None
+	
+	MetricsList myMetrics
+}
+
+list SpecializationList
+{
+	MotionStateMetricsSpecialization
+}

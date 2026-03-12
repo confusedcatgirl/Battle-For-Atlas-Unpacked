@@ -1,0 +1,1923 @@
+include ./../../fruit/player/player.fruit
+
+GroundSettings Ground
+{
+	fallingHeight 20.0
+	takeOffSpeedThreshold 30.0
+	wingCollisionSlowDownFactor 0.75
+	highSpeedShakeThreshold 90.0
+	myStallEngineStrength 0.6
+	myFallTimeToZeroThrottle 30.0
+	myNoseDiveAngleThreshold 26.0
+	myNoseDiveRecoveryAngleThreshold 78.0
+	myReverseBrakeTime 0.25
+	myEngineBrakeTime 2.0
+	myObstacleForceMaxHeight 5.0
+	myObstacleForceUpSpeedNormal 2.0
+	myObstacleForceUpSpeedBoost 15.0
+}
+
+ForwardThrustSettings GroundForwardThrust
+{
+	topSpeed 65.0
+	secondsToTopSpeed 4.0
+	accelerationCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.0137211 -0.0113487, -0.329836 -0.0701789, }, outTangents = { 0.00216138 0.228252, 0.12349 0.102138, 0 0, }, properties = { 275, 2323, 1299, }, values = { 0 0, 0.1 0.310509, 1 1, }, }, numKeys = 3, }"
+	secondsToMinThrottle 10.0
+}
+
+ForwardThrustSettings GroundForwardThrustFast
+{
+	topSpeed 65.0
+	secondsToTopSpeed 1.0
+	accelerationCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.0137211 -0.0113487, -0.329836 -0.0701789, }, outTangents = { 0.00216138 0.228252, 0.12349 0.102138, 0 0, }, properties = { 275, 2323, 1299, }, values = { 0 0, 0.1 0.310509, 1 1, }, }, numKeys = 3, }"
+	secondsToMinThrottle 3.0
+}
+
+StrafeSettings GroundStrafeThrustLateral
+{
+	topSpeed 40.0
+	secondsToTopSpeed 3.5
+	accelerationCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { 0 0, -0.785888 -0.232599, }, outTangents = { 0 1.08494, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+	lateralOnly TRUE
+	lateralTopSpeed 40.0
+	reverseTopSpeed 40.0
+	visualYaw 0.0
+	visualPitch 0.0
+	visualRoll 60.0
+	myInputCeiling 0.6
+}
+
+StrafeSettings GroundStrafeIdle
+{
+	topSpeed 30.0
+	secondsToTopSpeed 3.5
+	accelerationCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { 0 0, -0.785888 -0.232599, }, outTangents = { 0 1.08494, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+	lateralOnly FALSE
+	lateralTopSpeed 25.0
+	reverseTopSpeed 18.0
+	visualYaw 10.0
+	visualPitch -5.0
+	visualRoll 40.0
+}
+
+CameraPivotSettings GroundPivotIdle
+{
+	myOffsetXDistanceWithoutInput 1.2
+	myOffsetXDistanceWithInput 1.0
+	myOffsetXMinSpeed 0.0
+	myOffsetXMaxSpeed 20.0
+	myOffsetXDamping 3.0
+	myOffsetYDistanceWithoutInput 0.0
+	myOffsetYDistanceWithInput 0.0
+	myOffsetYMinSpeed 0.0
+	myOffsetYMaxSpeed 2.0
+	myOffsetYDamping 1.0
+	myOffsetZ 0.7
+	myOffsetZMinSpeed 0.0
+	myOffsetZMaxSpeed 20.0
+	myOffsetZDamping 5.0
+}
+
+CameraPivotSettings GroundPivotThrust
+{
+	myOffsetZ 0.7
+	myOffsetZMinSpeed 0.0
+	myOffsetZMaxSpeed 20.0
+	myOffsetZDamping 5.0
+	myStrafeOffset -2.0;0.0;-3.0
+	myStrafeOffsetTension 8.0
+	myStrafeOffsetDamping 0.6
+	myLookLeftRightOffsetX 4.0
+	myLookLeftRightOffsetY 0.0
+	myLookLeftRightOffsetDamping 2.75
+}
+
+AlignToCameraSettings GroundAlignToCameraThrust
+{
+	myAlignDampingWithoutInput 15.0
+	myAlignDampingWithInput 15.0
+	myUseCarrot TRUE
+	myCarrotZDistanceWithoutInput 150.0
+	myCarrotZDistanceWithInput 150.0
+	myCarrotZDamping 5.0
+	myCarrotXDistance 10.0
+	myCarrotXDampingUpNormal 2.5
+	myCarrotXDampingUpThrottle 2.5
+	myCarrotXDampingDown 3.0
+	myCarrotYDistance 0.0
+	myCarrotYDampingUp 3.0
+	myCarrotYDampingDown 2.0
+	visualYaw 15.0
+	visualRoll 45.0
+	visualPitch 0.0
+}
+
+AlignToCameraSettings GroundAlignToCameraDriftOver : GroundAlignToCameraThrust
+{
+}
+
+AlignToCameraSettings GroundAlignToCameraDriftUnder : GroundAlignToCameraThrust
+{
+}
+
+AlignToCameraSettings GroundAlignToCameraIdle
+{
+	myAlignPitch FALSE
+	myAlignDampingWithoutInput 5.0
+	myAlignDampingWithInput 5.0
+	myUseCarrot FALSE
+	myCarrotZDistanceWithoutInput 10.0
+	myCarrotZDistanceWithInput 100.0
+	myCarrotZDamping 5.0
+	myCarrotXDistance 10.0
+	myCarrotXDampingUpNormal 1.0
+	myCarrotXDampingUpThrottle 5.0
+	myCarrotXDampingDown 1.0
+	visualYaw 10.0
+	visualRoll 20.0
+	visualPitch 0.0
+}
+
+AlignToCameraSettings GroundAlignToCameraIdleFrozen
+{
+	myAlignPitch FALSE
+	myAlignDampingWithoutInput 5.0
+	myAlignDampingWithInput 5.0
+	myUseCarrot FALSE
+	myCarrotZDistanceWithoutInput 10.0
+	myCarrotZDistanceWithInput 100.0
+	myCarrotZDamping 5.0
+	myCarrotXDistance 10.0
+	myCarrotXDampingUpNormal 1.0
+	myCarrotXDampingUpThrottle 5.0
+	myCarrotXDampingDown 1.0
+	visualYaw 0.0
+	visualRoll 0.0
+	visualPitch 0.0
+}
+
+AlignToVelocitySettings FallAlignToVelocity
+{
+	myAlignDamping 2.0
+}
+
+LiftForceSettings FallLift
+{
+	myLiftForce 3.0
+	myForwardAcceleration 50.0
+	myVisualPitch 8.0
+}
+
+VelocityTransferSettings GroundVelocityTransfer
+{
+	myTransferSpeed 0.0
+}
+
+VelocityTransferSettings GroundVelocityTransferSlope
+{
+	myTransferSpeed 100.0
+}
+
+VelocityTransferSettings GroundVelocityTransferDrift
+{
+	myTransferSpeed 0.0
+}
+
+CameraPivotSettings FlightPivotThrust
+{
+	myOffsetYDistanceWithoutInput 0.0
+	myOffsetYDistanceWithInput 0.0
+	myOffsetYMinSpeed 2.0
+	myOffsetYMaxSpeed 15.0
+	myOffsetYDamping 1.0
+	myStrafeOffset 1.0;0.0;-0.0
+	myStrafeOffsetTension 14.0
+	myStrafeOffsetDamping 0.45
+	myLookLeftRightOffsetX 6.0
+	myLookLeftRightOffsetY -2.5
+	myLookLeftRightOffsetDamping 3.0
+	myLookDownOffsetY 8.5
+	myLookDownOffsetDamping 2.0
+}
+
+CameraPivotSettings FlightPivotThrustStrafe
+{
+	myOffsetYDistanceWithoutInput 0.0
+	myOffsetYDistanceWithInput 0.0
+	myOffsetYMinSpeed 2.0
+	myOffsetYMaxSpeed 15.0
+	myOffsetYDamping 1.0
+	myStrafeOffset -2.0;0.0;-0.0
+	myStrafeOffsetTension 14.0
+	myStrafeOffsetDamping 0.45
+	myLookLeftRightOffsetX 6.0
+	myLookLeftRightOffsetY -2.5
+	myLookLeftRightOffsetDamping 3.0
+	myLookDownOffsetY 8.5
+	myLookDownOffsetDamping 2.0
+}
+
+CameraPivotSettings FlightPivotStrafe
+{
+	myOffsetYDistanceWithoutInput 3.0
+	myOffsetYDistanceWithInput 3.0
+	myOffsetYMinSpeed 2.0
+	myOffsetYMaxSpeed 15.0
+	myOffsetYDamping 1.0
+	myStrafeOffset -2.0;0.0;-0.0
+	myStrafeOffsetTension 14.0
+	myStrafeOffsetDamping 0.45
+	myLookLeftRightOffsetX 6.0
+	myLookLeftRightOffsetY -2.5
+	myLookLeftRightOffsetDamping 3.0
+	myLookDownOffsetY 2.5
+	myLookDownOffsetDamping 2.0
+}
+
+AlignToCameraSettings FlightAlignToCameraThrust
+{
+	myAlignDampingWithoutInput 15.0
+	myAlignDampingWithInput 15.0
+	myUseCarrot TRUE
+	myCarrotZDistanceWithoutInput 150.0
+	myCarrotZDistanceWithInput 150.0
+	myCarrotZDamping 5.0
+	myCarrotXDistance 30.0
+	myCarrotXDampingUpNormal 2.5
+	myCarrotXDampingUpThrottle 2.5
+	myCarrotXDampingDown 3.0
+	myCarrotYDistance 50.0
+	myCarrotYDampingUp 3.0
+	myCarrotYDampingDown 2.0
+	visualYaw -0.0
+	visualRoll 60.0
+	visualPitch -10.0
+}
+
+AlignToCameraSettings FlightAlignToCameraStrafe
+{
+	myAlignDampingWithoutInput 15.0
+	myAlignDampingWithInput 15.0
+	myUseCarrot TRUE
+	myCarrotZDistanceWithoutInput 150.0
+	myCarrotZDistanceWithInput 150.0
+	myCarrotZDamping 5.0
+	myCarrotXDistance 30.0
+	myCarrotXDampingUpNormal 2.5
+	myCarrotXDampingUpThrottle 2.5
+	myCarrotXDampingDown 3.0
+	myCarrotYDistance 50.0
+	myCarrotYDampingUp 3.0
+	myCarrotYDampingDown 2.0
+	visualYaw -0.0
+	visualRoll 60.0
+	visualPitch -15.0
+}
+
+AlignToCameraSettings FlightAlignToCameraLaunch : FlightAlignToCameraStrafe
+{
+	myAlignPitch FALSE
+}
+
+StrafeSettings FlightStrafeThrust
+{
+	topSpeed 0.1
+	secondsToTopSpeed 2.0
+	accelerationCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { 0 0, -0.785888 -0.232599, }, outTangents = { 0 1.08494, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+	lateralOnly TRUE
+	upDown FALSE
+	lateralTopSpeed 40.0
+	reverseTopSpeed 0.1
+	visualYaw 0.0
+	visualPitch 0.0
+	visualRoll 45.0
+}
+
+StrafeSettings FlightStrafe
+{
+	topSpeed 20.0
+	secondsToTopSpeed 2.0
+	accelerationCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { 0 0, -0.785888 -0.232599, }, outTangents = { 0 1.08494, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+	lateralOnly TRUE
+	upDown FALSE
+	lateralTopSpeed 20.0
+	reverseTopSpeed 20.0
+	visualYaw 0.0
+	visualPitch 0.0
+	visualRoll 45.0
+}
+
+VelocityTransferSettings FlightVelocityTransfer
+{
+	myTransferSpeed 25.0
+}
+
+SpaceMovementSettings Space
+{
+	mySlowDownDistanceMin 1000.0
+	mySlowDownDistanceMax 3000.0
+	mySlowDownFromDistanceMin 0.1
+	mySlowDownFromDistanceMax 1.0
+	mySlowDownAngleMinAtMinDistance 120.0
+	mySlowDownAngleMaxAtMinDistance 145.0
+	mySlowDownAngleMinAtMaxDistance 90.0
+	mySlowDownAngleMaxAtMaxDistance 120.0
+	mySlowDownFromAngleMin 0.1
+	mySlowDownFromAngleMax 1.0
+}
+
+ForwardThrustSettings SpaceForwardThrustHyperDrive
+{
+	topSpeed 500.0
+	secondsToTopSpeed 3.0
+	accelerationCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.860996 -0.00903143, }, outTangents = { 0.389975 0.309041, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+	myIgnoreAttributes TRUE
+	secondsToMinThrottle 1.0
+	minThrottle 1.0
+}
+
+ForwardThrustSettings SpaceForwardThrust
+{
+	topSpeed 100.0
+	secondsToTopSpeed 3.0
+	accelerationCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { 0 0, -0.744385 -0.0667961, }, outTangents = { 0 0.965636, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+	secondsToMinThrottle 5.0
+	minThrottle 0.8
+}
+
+StrafeSettings SpaceStrafe
+{
+	topSpeed 50.0
+	secondsToTopSpeed 10.0
+	accelerationCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { 0 0, -0.785888 -0.232599, }, outTangents = { 0 1.08494, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+	lateralOnly FALSE
+	upDown FALSE
+	lateralTopSpeed 40.0
+	reverseTopSpeed 50.0
+	visualYaw 0.0
+	visualPitch 0.0
+	visualRoll 35.0
+	updateSmallThrustersDirection TRUE
+}
+
+StrafeSettings SpaceStrafeThrust
+{
+	topSpeed 80.0
+	secondsToTopSpeed 10.0
+	accelerationCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { 0 0, -0.785888 -0.232599, }, outTangents = { 0 1.08494, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+	lateralOnly TRUE
+	lateralTopSpeed 80.0
+	reverseTopSpeed 80.0
+	visualYaw 0.0
+	visualPitch 0.0
+	visualRoll 50.0
+	myInputCeiling 0.6
+}
+
+StrafeSettings SpaceStrafeHyperDrive
+{
+	topSpeed 250.0
+	secondsToTopSpeed 10.0
+	accelerationCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { 0 0, -0.785888 -0.232599, }, outTangents = { 0 1.08494, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+	lateralOnly TRUE
+	lateralTopSpeed 250.0
+	reverseTopSpeed 250.0
+	visualYaw 0.0
+	visualPitch 0.0
+	visualRoll 30.0
+	myInputCeiling 0.6
+}
+
+AlignToCameraSettings SpaceAlignToCameraThrust
+{
+	myAlignDampingWithoutInput 15.0
+	myAlignDampingWithInput 15.0
+	myUseCarrot TRUE
+	myCarrotZDistanceWithoutInput 150.0
+	myCarrotZDistanceWithInput 150.0
+	myCarrotZDamping 5.0
+	myCarrotXDistance 30.0
+	myCarrotXDampingUpNormal 2.5
+	myCarrotXDampingUpThrottle 2.5
+	myCarrotXDampingDown 3.0
+	myCarrotYDistance 50.0
+	myCarrotYDampingUp 3.0
+	myCarrotYDampingDown 2.0
+	visualYaw -0.0
+	visualRoll 60.0
+	visualPitch -10.0
+}
+
+AlignToCameraSettings SpaceAlignToCameraThrustStrafe
+{
+	myAlignDampingWithoutInput 15.0
+	myAlignDampingWithInput 15.0
+	myUseCarrot TRUE
+	myCarrotZDistanceWithoutInput 150.0
+	myCarrotZDistanceWithInput 150.0
+	myCarrotZDamping 5.0
+	myCarrotXDistance 30.0
+	myCarrotXDampingUpNormal 2.5
+	myCarrotXDampingUpThrottle 2.5
+	myCarrotXDampingDown 3.0
+	myCarrotYDistance 50.0
+	myCarrotYDampingUp 3.0
+	myCarrotYDampingDown 2.0
+	visualYaw -0.0
+	visualRoll 50.0
+	visualPitch -10.0
+}
+
+AlignToCameraSettings SpaceAlignToCameraHyperDrive
+{
+	myAlignDampingWithoutInput 15.0
+	myAlignDampingWithInput 15.0
+	myUseCarrot TRUE
+	myCarrotZDistanceWithoutInput 150.0
+	myCarrotZDistanceWithInput 150.0
+	myCarrotZDamping 5.0
+	myCarrotXDistance 30.0
+	myCarrotXDampingUpNormal 2.5
+	myCarrotXDampingUpThrottle 2.5
+	myCarrotXDampingDown 3.0
+	myCarrotYDistance 50.0
+	myCarrotYDampingUp 3.0
+	myCarrotYDampingDown 2.0
+	visualYaw -0.0
+	visualRoll 40.0
+	visualPitch -10.0
+}
+
+AlignToCameraSettings SpaceAlignToCameraHyperDriveStrafe
+{
+	myAlignDampingWithoutInput 15.0
+	myAlignDampingWithInput 15.0
+	myUseCarrot TRUE
+	myCarrotZDistanceWithoutInput 150.0
+	myCarrotZDistanceWithInput 150.0
+	myCarrotZDamping 5.0
+	myCarrotXDistance 30.0
+	myCarrotXDampingUpNormal 2.5
+	myCarrotXDampingUpThrottle 2.5
+	myCarrotXDampingDown 3.0
+	myCarrotYDistance 50.0
+	myCarrotYDampingUp 3.0
+	myCarrotYDampingDown 2.0
+	visualYaw -0.0
+	visualRoll 50.0
+	visualPitch -10.0
+}
+
+AlignToCameraSettings SpaceAlignToCameraStrafe
+{
+	myAlignDampingWithoutInput 15.0
+	myAlignDampingWithInput 15.0
+	myUseCarrot TRUE
+	myCarrotZDistanceWithoutInput 150.0
+	myCarrotZDistanceWithInput 150.0
+	myCarrotZDamping 5.0
+	myCarrotXDistance 30.0
+	myCarrotXDampingUpNormal 2.5
+	myCarrotXDampingUpThrottle 2.5
+	myCarrotXDampingDown 3.0
+	myCarrotYDistance 0.0
+	myCarrotYDampingUp 3.0
+	myCarrotYDampingDown 2.0
+	visualYaw -0.0
+	visualRoll 50.0
+	visualPitch -20.0
+}
+
+CameraPivotSettings SpacePivotStrafe
+{
+	myOffsetYDistanceWithoutInput 0.0
+	myOffsetYDistanceWithInput 0.0
+	myOffsetYMinSpeed 2.0
+	myOffsetYMaxSpeed 15.0
+	myOffsetYDamping 1.0
+	myStrafeOffset -2.0;0.0;-3.0
+	myStrafeOffsetTension 14.0
+	myStrafeOffsetDamping 0.45
+	myLookLeftRightOffsetX 6.0
+	myLookLeftRightOffsetY -2.5
+	myLookLeftRightOffsetDamping 3.0
+	myLookDownOffsetY 2.0
+	myLookDownOffsetDamping 4.0
+}
+
+CameraPivotSettings SpacePivotTunnel
+{
+	myStrafeOffset 2.0;0.0;-3.0
+	myStrafeOffsetTension 14.0
+	myStrafeOffsetDamping 0.45
+	myLookLeftRightOffsetX 3.0
+	myLookLeftRightOffsetY -1.5
+	myLookLeftRightOffsetDamping 3.0
+	myLookDownOffsetY 2.0
+	myLookDownOffsetDamping 3.0
+}
+
+CameraPivotSettings SpacePivotThrust
+{
+	myOffsetYDistanceWithoutInput 0.0
+	myOffsetYDistanceWithInput 0.0
+	myOffsetYMinSpeed 2.0
+	myOffsetYMaxSpeed 15.0
+	myOffsetYDamping 1.0
+	myStrafeOffset 1.0;0.0;-0.0
+	myStrafeOffsetTension 14.0
+	myStrafeOffsetDamping 0.45
+	myLookLeftRightOffsetX 6.0
+	myLookLeftRightOffsetY -2.5
+	myLookLeftRightOffsetDamping 3.0
+	myLookDownOffsetY 8.5
+	myLookDownOffsetDamping 2.0
+}
+
+CameraPivotSettings SpacePivotThrustStrafe
+{
+	myOffsetYDistanceWithoutInput 0.0
+	myOffsetYDistanceWithInput 0.0
+	myOffsetYMinSpeed 2.0
+	myOffsetYMaxSpeed 15.0
+	myOffsetYDamping 1.0
+	myStrafeOffset -2.0;0.0;-0.0
+	myStrafeOffsetTension 14.0
+	myStrafeOffsetDamping 0.45
+	myLookLeftRightOffsetX 6.0
+	myLookLeftRightOffsetY -2.5
+	myLookLeftRightOffsetDamping 3.0
+	myLookDownOffsetY 8.5
+	myLookDownOffsetDamping 2.0
+}
+
+CameraPivotSettings SpacePivotHyperDrive
+{
+	myOffsetYDistanceWithoutInput 0.0
+	myOffsetYDistanceWithInput 0.0
+	myOffsetYMinSpeed 2.0
+	myOffsetYMaxSpeed 15.0
+	myOffsetYDamping 1.0
+	myStrafeOffset 1.0;0.0;-0.0
+	myStrafeOffsetTension 14.0
+	myStrafeOffsetDamping 0.45
+	myLookLeftRightOffsetX 5.0
+	myLookLeftRightOffsetY -2.5
+	myLookLeftRightOffsetDamping 1.0
+	myLookDownOffsetY 1.5
+	myLookDownOffsetDamping 1.0
+}
+
+CameraPivotSettings SpacePivotHyperDriveStrafe
+{
+	myOffsetYDistanceWithoutInput 0.0
+	myOffsetYDistanceWithInput 0.0
+	myOffsetYMinSpeed 2.0
+	myOffsetYMaxSpeed 15.0
+	myOffsetYDamping 1.0
+	myStrafeOffset -2.0;0.0;-0.0
+	myStrafeOffsetTension 10.0
+	myStrafeOffsetDamping 0.45
+	myLookLeftRightOffsetX 5.0
+	myLookLeftRightOffsetY -2.5
+	myLookLeftRightOffsetDamping 1.0
+	myLookDownOffsetY 1.5
+	myLookDownOffsetDamping 1.0
+}
+
+VelocityTransferSettings SpaceVelocityTransfer
+{
+	myTransferSpeed 0.0
+}
+
+FlightSettings Flight
+{
+	safeLaunchDuration 5.0
+	landingHeight 10.0
+	myAutoLandDuration 0.0
+	myAutoLandAngleThreshold 57.0
+	alignBlendInDuration 3.0
+	enablePitchTime 2.5
+	enablePitchCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { 0 0, -0.152392 0.000767887, -0.166667 0, }, outTangents = { 0.000194676 0.000173256, 0.152188 -0.000766858, 0 0, }, properties = { 1299, 2323, 3, }, values = { 0 0, 0.5 9.31323e-10, 1 1, }, }, numKeys = 3, }"
+	myTakeOffTiltSpeedThreshold 5.0
+	myTakeOffLevelDamping 0.1
+	myTakeOffDuration 4.0
+	myTakeOffTiltStartTime 0.5
+	myTakeOffTiltDuration 1.2
+	myTakeOffTiltCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { 0 0, -0.849424 -0.0118875, }, outTangents = { 0.283463 0.0031004, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+	myTakeOffGasStartTime 0.5
+	myTakeOffGasDuration 2.5
+	myTakeOffGasCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { 0 0, -0.0428838 -0.00150274, -0.330692 -0.634582, }, outTangents = { 0.0660048 -0.00135741, 0.322287 0.0112936, 0 0, }, properties = { 275, 2323, 1299, }, values = { 0 0, 0.0979825 0.243421, 1 1, }, }, numKeys = 3, }"
+	myTakeOffDisableManeuversDuration 1.8
+	myRestartDuration 2.0
+	myRestartTiltStartTime 0.3
+	myRestartTiltDuration 0.35
+	myRestartTiltCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 0, -0.475985 -0.00530788, }, outTangents = { 0.363434 -0.00347853, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+	myRestartGasStartTime 0.0
+	myRestartGasDuration 1.0
+	myRestartGasCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { 0 0, -0.00432277 -0.575372, }, outTangents = { 0.497599 0.00530788, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+	myRestartDisableManeuversDuration 1.0
+}
+
+GroundAutoAlignSettings FlightAlignLaunch
+{
+	myDampingFast 1.0
+	myDampingSlow 1.0
+	myAlignToPlanet TRUE
+	myPitchOffset -69.0
+}
+
+BoostSettings GroundBoost
+{
+	myInitialSpeedBoost 0.0
+	myForwardSettings
+	{
+		topSpeed 80.0
+		secondsToTopSpeed 3.0
+		accelerationCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { 0 0, -0.785888 -0.232599, }, outTangents = { 0 1.08494, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+	}
+	myLateralSettings
+	{
+		topSpeed 45.0
+		secondsToTopSpeed 3.0
+		accelerationCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { 0 0, -0.785888 -0.232599, }, outTangents = { 0 1.08494, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+	}
+	mySteeringMaxInput 0.25
+	mySteeringDamping 5.0
+	myHomingMaxDistance 200.0
+	myHomingMaxAngle 20.0
+	myHomingForwardPreference 0.018
+	myHomingBreakingDistance 10
+	myHomingBreakingAngle 45.0
+	myHomingTopSpeedBonus 30.0
+	myHomingSecondsToTopSpeedMultiplier 0.5
+	myHomingTargetLockBlendInDuration 2.0
+	myHomingTargetLockMinDistance 20.0
+	myHomingTargetLockMaxDistance 40.0
+}
+
+BoostSettings FlightBoost
+{
+	myInitialSpeedBoost 70.0
+	myForwardSettings
+	{
+		topSpeed 110.0
+		secondsToTopSpeed 3.0
+		accelerationCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { 0 0, -0.785888 -0.232599, }, outTangents = { 0 1.08494, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+	}
+	myLateralSettings
+	{
+		topSpeed 80.0
+		secondsToTopSpeed 3.0
+		accelerationCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { 0 0, -0.785888 -0.232599, }, outTangents = { 0 1.08494, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+	}
+	mySteeringMaxInput 0.25
+	mySteeringDamping 5.0
+	mySteeringMaxInput 0.25
+	mySteeringDamping 5.0
+	myHomingMaxDistance 200.0
+	myHomingMaxAngle 20.0
+	myHomingForwardPreference 0.018
+	myHomingBreakingDistance 10
+	myHomingBreakingAngle 45.0
+	myHomingTopSpeedBonus 30.0
+	myHomingSecondsToTopSpeedMultiplier 0.5
+	myHomingTargetLockBlendInDuration 2.0
+	myHomingTargetLockMinDistance 20.0
+	myHomingTargetLockMaxDistance 40.0
+}
+
+BoostSettings SpaceBoost
+{
+	myInitialSpeedBoost 70.0
+	myForwardSettings
+	{
+		topSpeed 150.0
+		secondsToTopSpeed 3.0
+		accelerationCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { 0 0, -0.785888 -0.232599, }, outTangents = { 0 1.08494, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+	}
+	myLateralSettings
+	{
+		topSpeed 80.0
+		secondsToTopSpeed 3.0
+		accelerationCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { 0 0, -0.785888 -0.232599, }, outTangents = { 0 1.08494, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+	}
+	mySteeringMaxInput 0.25
+	mySteeringDamping 5.0
+	mySteeringMaxInput 0.25
+	mySteeringDamping 5.0
+	myHomingMaxDistance 500.0
+	myHomingMaxAngle 30.0
+	myHomingForwardPreference 0.018
+	myHomingBreakingDistance 20.0
+	myHomingBreakingAngle 40.0
+	myHomingTopSpeedBonus 50.0
+	myHomingSecondsToTopSpeedMultiplier 0.1
+	myHomingTargetLockBlendInDuration 1.5
+	myHomingTargetLockMinDistance 40.0
+	myHomingTargetLockMaxDistance 80.0
+}
+
+DragSettings GroundDrag
+{
+	drag 2.0
+}
+
+DragSettings GroundDragDrift
+{
+	drag 2.0
+}
+
+DragSettings FallDrag
+{
+	drag 0.1
+}
+
+DragSettings RagdollDrag
+{
+	drag 0.1
+}
+
+DragSettings StasisDrag
+{
+	drag 1.0
+}
+
+RepulsorSettings RepulsorImprovedGrip
+{
+	repulsorHeight 1.0
+	turnHeightModifier 0.3
+	forceRepulsorHeight TRUE
+}
+
+RepulsorSettings Repulsor
+{
+	repulsorHeight 2.0
+	turnHeightModifier 0.3
+	repulsorSpringStiffness 50.0
+	repulsorVelocityDamping 4.0
+	noSlideAngleLow 45.0
+	noSlideAngleHigh 90.0
+	gravityModifier 4.0
+}
+
+RepulsorSettings RepulsorSlope
+{
+	repulsorHeight 2.0
+	turnHeightModifier 0.3
+	repulsorSpringStiffness 60.0
+	repulsorVelocityDamping 7.0
+	noSlideAngleLow 45.0
+	noSlideAngleHigh 90.0
+	gravityModifier 2.2
+}
+
+RepulsorSettings RepulsorStalled
+{
+	repulsorHeight 0.0
+	turnHeightModifier 0.0
+	repulsorSpringStiffness 40.0
+	repulsorVelocityDamping 5.0
+	noSlideAngleLow 45.0
+	noSlideAngleHigh 90.0
+	gravityModifier 2.2
+}
+
+RepulsorSettings RepulsorNoInput
+{
+	repulsorHeight 1.0
+	turnHeightModifier 0.0
+	repulsorSpringStiffness 40.0
+	repulsorVelocityDamping 5.0
+	noSlideAngleLow 45.0
+	noSlideAngleHigh 90.0
+	gravityModifier 2.2
+}
+
+GroundAutoAlignSettings GroundAutoAlign
+{
+	myDampingFast 10.0
+	myDampingSlow 2.0
+}
+
+GroundAutoAlignSettings GroundAutoAlignSlope
+{
+	myDampingFast 20.0
+	myDampingSlow 5.0
+}
+
+GroundAutoAlignSettings GroundAutoAlignImprovedGrip
+{
+	myDampingFast 20.0
+	myDampingSlow 6.0
+}
+
+VisualRotationSettings VisualRotation
+{
+	rotationDamping 5.0
+}
+
+VisualRotationSettings FlightVisualRotation
+{
+	myUseSpringDamping TRUE
+	myPitchTension 25.0
+	myPitchDamping 0.5
+	myYawTension 25.0
+	myYawDamping 0.5
+	myRollTension 25.0
+	myRollDamping 0.5
+}
+
+VisualRotationSettings SpaceVisualRotation
+{
+	myUseSpringDamping TRUE
+	myPitchTension 25.0
+	myPitchDamping 0.5
+	myYawTension 25.0
+	myYawDamping 0.5
+	myRollTension 25.0
+	myRollDamping 0.5
+}
+
+VisualRotationSettings SpaceVisualRotationHyperDrive
+{
+	myUseSpringDamping TRUE
+	myPitchTension 25.0
+	myPitchDamping 0.5
+	myYawTension 25.0
+	myYawDamping 0.5
+	myRollTension 5.0
+	myRollDamping 0.5
+}
+
+ForwardThrustSettings FlightForwardThrustMin
+{
+	topSpeed 10.0
+	secondsToTopSpeed 2.0
+	accelerationCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { 0 0, -0.785888 -0.232599, }, outTangents = { 0 1.08494, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+	isReverse FALSE
+	secondsToMinThrottle 1.0
+	minThrottle 1.0
+}
+
+ForwardThrustSettings FlightForwardThrustNeutral
+{
+	topSpeed 30.0
+	secondsToTopSpeed 10.0
+	accelerationCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { 0 0, -0.744385 -0.0667961, }, outTangents = { 0 0.965636, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+	secondsToMinThrottle 1.0
+	minThrottle 1.0
+}
+
+ForwardThrustSettings FlightForwardThrustMax
+{
+	topSpeed 80.0
+	secondsToTopSpeed 5.0
+	accelerationCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { 0 0, -0.785888 -0.232599, }, outTangents = { 0 1.08494, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+	secondsToMinThrottle 1.0
+	minThrottle 1.0
+}
+
+ForwardThrustSettings FlightForwardPlanetEntry
+{
+	topSpeed 30.0
+	secondsToTopSpeed 3.0
+	accelerationCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { 0 0, -0.744385 -0.0667961, }, outTangents = { 0 0.965636, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+	secondsToMinThrottle 1.0
+	minThrottle 1.0
+}
+
+ForwardThrustSettings FlightForwardPlanetExit
+{
+	topSpeed 110.0
+	secondsToTopSpeed 3.0
+	accelerationCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { 0 0, -0.744385 -0.0667961, }, outTangents = { 0 0.965636, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+	secondsToMinThrottle 1.0
+	minThrottle 1.0
+}
+
+ForwardThrustSettings FlightForwardThrustLaunch
+{
+	topSpeed 110.0
+	secondsToTopSpeed 1.0
+	accelerationCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { 0 0, -0.785888 -0.232599, }, outTangents = { 0 1.08494, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+	secondsToMinThrottle 1.0
+	minThrottle 0.0
+}
+
+DragSettings FlightDrag
+{
+	drag 2.0
+}
+
+DragSettings FlightDragPlanetEntry
+{
+	drag 20.0
+}
+
+DragSettings SpaceDragStrafe
+{
+	drag 0.75
+}
+
+DragSettings SpaceDragThrust
+{
+	drag 10.0
+}
+
+DragSettings SpaceDragThrustStrafe
+{
+	drag 1.0
+}
+
+AutoRollSettings AutoRoll
+{
+	myMaxRollSpeed 4.0
+	rollDamping 3.0
+	myCorrectionAmountDampingUp 3.0
+	myCorrectionAmountDampingDown 1.5
+	myUpDownAngleThresholdMin 14.0
+	myUpDownAngleThresholdMax 37.0
+	myUpsideDownAngleThresholdOut 143.0
+	myUpsideDownAngleThresholdInMax 57.0
+	myUpsideDownAngleThresholdInMin 29.0
+	myBlockInputUpsideDown TRUE
+}
+
+AutoRollSettings AutoRollPlanetExit
+{
+	myMaxRollSpeed 10.0
+	rollDamping 0.75
+	myCorrectionAmountDampingUp 3.0
+	myCorrectionAmountDampingDown 1.5
+	myUpDownAngleThresholdMin 8.0
+	myUpDownAngleThresholdMax 14.0
+	myUpsideDownAngleThresholdOut 143.0
+	myUpsideDownAngleThresholdInMax 57.0
+	myUpsideDownAngleThresholdInMin 29.0
+	myAlignProportionalToInput FALSE
+}
+
+AutoRollSettings SpaceAutoRoll
+{
+	myMaxRollSpeed 3.0
+	rollDamping 1.0
+	myCorrectionAmountDampingUp 3.0
+	myCorrectionAmountDampingDown 1.0
+	myUpDownAngleThresholdMin 14.0
+	myUpDownAngleThresholdMax 45.0
+	myUpsideDownAngleThresholdOut 143.0
+	myUpsideDownAngleThresholdInMax 57.0
+	myUpsideDownAngleThresholdInMin 29.0
+}
+
+ForwardThrustSettings HyperSpaceForwardThrust
+{
+	topSpeed 500.0
+	secondsToTopSpeed 3.0
+	accelerationCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.043888 -0.0243441, -0.609123 -0.0482369, }, outTangents = { 0.0306779 0.127067, 0.394992 0.219097, 0 0, }, properties = { 275, 2323, 1299, }, values = { 0 0, 0.1 0.393312, 1 1, }, }, numKeys = 3, }"
+	myIgnoreAttributes TRUE
+	secondsToMinThrottle 0.0
+	minThrottle 0.0
+}
+
+AlignToCameraSettings HyperSpaceAlignToCamera
+{
+	myAlignDampingWithoutInput 10.0
+	myAlignDampingWithInput 10.0
+	myUseCarrot FALSE
+	myCarrotZDistanceWithoutInput 30.0
+	myCarrotZDistanceWithInput 30.0
+	myCarrotZDamping 5.0
+	myCarrotXDistance 45.0
+	myCarrotXDampingUpNormal 1.0
+	myCarrotXDampingUpThrottle 1.0
+	myCarrotXDampingDown 3.0
+	visualYaw 10.0
+	visualRoll 40.0
+	visualPitch -20.0
+}
+
+DragSettings HyperSpaceDrag
+{
+	drag 2.0
+}
+
+DragSettings HyperSpaceExitDrag
+{
+	drag 2.0
+}
+
+CameraPivotSettings HyperSpacePivot
+{
+	myOffsetXDistanceWithoutInput 1.5
+	myOffsetXDistanceWithInput 1.5
+	myOffsetXMinSpeed 10.0
+	myOffsetXMaxSpeed 100.0
+	myOffsetXDamping 2.0
+	myOffsetYDistanceWithoutInput 0.0
+	myOffsetYDistanceWithInput 0.0
+	myOffsetYMinSpeed 0.0
+	myOffsetYMaxSpeed 10.0
+	myOffsetYDamping 2.0
+	myOffsetZ 1.0
+	myOffsetZMinSpeed 0.0
+	myOffsetZMaxSpeed 20.0
+	myOffsetZDamping 5.0
+}
+
+CameraPivotSettings SpaceRecoveryPivot
+{
+	myOffsetXDistanceWithoutInput 8.0
+	myOffsetXDistanceWithInput 8.0
+	myOffsetXMinSpeed 10.0
+	myOffsetXMaxSpeed 30.0
+	myOffsetXDamping 2.0
+	myOffsetYDistanceWithoutInput 3.0
+	myOffsetYDistanceWithInput 3.0
+	myOffsetYMinSpeed 10.0
+	myOffsetYMaxSpeed 30.0
+	myOffsetYDamping 2.0
+	myOffsetZ 1.0
+	myOffsetZMinSpeed 10.0
+	myOffsetZMaxSpeed 50.0
+	myOffsetZDamping 5.0
+}
+
+AvoidanceSettings Avoidance
+{
+	sideDistance 1.0
+	loSpeedCheckDistance 5.0
+	hiSpeedCheckDistance 10.0
+	closeAcceleration 20.0
+	farAcceleration 20.0
+	backAcceleration 5.0
+	throttleCurving 0.6
+	visualRoll 15.0
+}
+
+BobSettings Bob
+{
+	periodX 1.0
+	periodY 2.0
+	offsetX 0.05
+	offsetY 0.025
+}
+
+BobSettings StasisBob
+{
+	periodX 0.5
+	periodY 1.0
+	offsetX 0.5
+	offsetY 0.5
+}
+
+LateralDashSettings DashLeft
+{
+	dashDirection -1.0;0.0;0.0
+	dashDuration 0.4
+	anticipationDuration 0.0
+	visualRoll 0.0
+	isImpulseOnStartOnly FALSE
+	myUseInitialSpeed FALSE
+	dashVelocityImpulse 7.5
+	forwardVelocityImpulse 7.5
+	dashCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { 0 0, -0.309824 0.00604007, }, outTangents = { 0 0, 0 -0, }, properties = { 275, 1299, }, values = { 0 0.978454, 1 0, }, }, numKeys = 2, }"
+	cameraModifier DashLeft
+	playerShake PlayerShake_GroundDodge_L
+	anticipationPlayerShake PlayerShake_GroundDodge_Anticipate_L
+	dashInterruptionTime 0.45
+	dashRestartTime 0.35
+	cameraModifierInterruptionTime 0.3
+	isDashingEndTime 1.0
+	isInvulnerableEndTime 0.2
+	myDisableJetEngine FALSE
+	myStaminaCost 250.0
+	myApplyDashModifiers TRUE
+}
+
+LateralDashSettings DashRight
+{
+	dashDirection 1.0;0.0;0.0
+	dashDuration 0.4
+	anticipationDuration 0.0
+	visualRoll 0.0
+	isImpulseOnStartOnly FALSE
+	myUseInitialSpeed FALSE
+	dashVelocityImpulse 7.5
+	forwardVelocityImpulse 7.5
+	dashCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { 0 0, -0.309824 0.00604007, }, outTangents = { 0 0, 0 -0, }, properties = { 275, 1299, }, values = { 0 0.978454, 1 0, }, }, numKeys = 2, }"
+	cameraModifier DashRight
+	playerShake PlayerShake_GroundDodge_R
+	anticipationPlayerShake PlayerShake_GroundDodge_Anticipate_R
+	dashInterruptionTime 0.45
+	dashRestartTime 0.35
+	cameraModifierInterruptionTime 0.3
+	isDashingEndTime 1.0
+	isInvulnerableEndTime 0.2
+	myDisableJetEngine FALSE
+	myStaminaCost 250.0
+	myApplyDashModifiers TRUE
+}
+
+LateralDashSettings DashForward
+{
+	dashDirection 0.0;0.0;1.0
+	dashDuration 0.1
+	visualRoll 0.0
+	isImpulseOnStartOnly FALSE
+	myUseInitialSpeed FALSE
+	dashVelocityImpulse 50.0
+	forwardVelocityImpulse 50.0
+	dashCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { 0 0, -0.309824 0.00604007, }, outTangents = { 0 0, 0 -0, }, properties = { 275, 1299, }, values = { 0 0.978454, 1 0, }, }, numKeys = 2, }"
+	cameraModifier DashForward
+	dashInterruptionTime 0.0
+	dashRestartTime 0.0
+	cameraModifierInterruptionTime 0.4
+	isDashingEndTime 1.0
+	isInvulnerableEndTime 0.1
+	myDisableJetEngine FALSE
+	myUpwardsDetachImpulseMagnitude 50.0
+	myStaminaCost 250.0
+}
+
+LateralDashSettings DashBackward
+{
+	dashDirection 0.0;0.0;-1.0
+	dashDuration 0.4
+	visualRoll 0.0
+	isImpulseOnStartOnly TRUE
+	dashVelocityImpulse 7.5
+	forwardVelocityImpulse 7.5
+	dashCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { 0 0, -0.309824 0.00604007, }, outTangents = { 0 0, 0 -0, }, properties = { 275, 1299, }, values = { 0 0.978454, 1 0, }, }, numKeys = 2, }"
+	cameraModifier DashBackward
+	playerShake PlayerShake_GroundDodge_B
+	dashInterruptionTime 0.0
+	dashRestartTime 0.0
+	cameraModifierInterruptionTime 0.4
+	isDashingEndTime 1.0
+	isInvulnerableEndTime 0.2
+	myDisableJetEngine FALSE
+	myStaminaCost 250.0
+	myApplyDashModifiers TRUE
+}
+
+LateralDashSettings ShakeOffLeft
+{
+	dashDirection -1.0;0.0;0.0
+	dashDuration 1.0
+	anticipationDuration 0.0
+	visualRoll 0.0
+	dashVelocityImpulse 0.0
+	forwardVelocityImpulse 0.0
+	dashCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { 0 0, -0.309824 0.00604007, }, outTangents = { 0 0, 0 -0, }, properties = { 275, 1299, }, values = { 0 0.978454, 1 0, }, }, numKeys = 2, }"
+	myUseCameraModifier FALSE
+	myUsePlayerShakeDuration TRUE
+	playerShake PlayerShake_ShakeOff_L
+	dashInterruptionTime 0.0
+	dashRestartTime 0.0
+	cameraModifierInterruptionTime 0.0
+	isDashingStartTime 0.2
+	isDashingEndTime 1.0
+	isInvulnerableEndTime 0.2
+	myDisableJetEngine FALSE
+	myDirectionalDetachImpulseMagnitude 15.0
+	myUpwardsDetachImpulseMagnitude 15.0
+	myUseRenderingShaker TRUE
+}
+
+LateralDashSettings ShakeOffRight
+{
+	dashDirection 1.0;0.0;0.0
+	dashDuration 1.0
+	anticipationDuration 0.0
+	visualRoll 0.0
+	dashVelocityImpulse 0.0
+	forwardVelocityImpulse 0.0
+	dashCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { 0 0, -0.309824 0.00604007, }, outTangents = { 0 0, 0 -0, }, properties = { 275, 1299, }, values = { 0 0.978454, 1 0, }, }, numKeys = 2, }"
+	myUseCameraModifier FALSE
+	myUsePlayerShakeDuration TRUE
+	playerShake PlayerShake_ShakeOff_R
+	dashInterruptionTime 0.0
+	dashRestartTime 0.0
+	cameraModifierInterruptionTime 0.0
+	isDashingStartTime 0.2
+	isDashingEndTime 1.0
+	isInvulnerableEndTime 0.2
+	myDisableJetEngine FALSE
+	myDirectionalDetachImpulseMagnitude 15.0
+	myUpwardsDetachImpulseMagnitude 15.0
+	myUseRenderingShaker TRUE
+}
+
+LateralDashSettings ShakeOffFront
+{
+	dashDirection 0.0;0.0;1.0
+	dashDuration 1.0
+	anticipationDuration 0.0
+	visualRoll 0.0
+	dashVelocityImpulse 0.0
+	forwardVelocityImpulse 0.0
+	dashCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { 0 0, -0.309824 0.00604007, }, outTangents = { 0 0, 0 -0, }, properties = { 275, 1299, }, values = { 0 0.978454, 1 0, }, }, numKeys = 2, }"
+	myUseCameraModifier FALSE
+	myUsePlayerShakeDuration TRUE
+	playerShake PlayerShake_ShakeOff_F
+	dashInterruptionTime 0.0
+	dashRestartTime 0.0
+	cameraModifierInterruptionTime 0.0
+	isDashingStartTime 0.4
+	isDashingEndTime 1.0
+	isInvulnerableEndTime 0.2
+	myDisableJetEngine FALSE
+	myDirectionalDetachImpulseMagnitude 30.0
+	myUpwardsDetachImpulseMagnitude 10.0
+	myUseRenderingShaker TRUE
+}
+
+LateralDashSettings ShakeOffBack
+{
+	dashDirection 0.0;0.0;1.0
+	dashDuration 1.0
+	anticipationDuration 0.0
+	visualRoll 0.0
+	dashVelocityImpulse 0.0
+	forwardVelocityImpulse 0.0
+	dashCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { 0 0, -0.309824 0.00604007, }, outTangents = { 0 0, 0 -0, }, properties = { 275, 1299, }, values = { 0 0.978454, 1 0, }, }, numKeys = 2, }"
+	myUseCameraModifier FALSE
+	myUsePlayerShakeDuration TRUE
+	playerShake PlayerShake_ShakeOff_B
+	dashInterruptionTime 0.0
+	dashRestartTime 0.0
+	cameraModifierInterruptionTime 0.0
+	isDashingStartTime 0.4
+	isDashingEndTime 1.0
+	isInvulnerableEndTime 0.2
+	myDisableJetEngine FALSE
+	myDirectionalDetachImpulseMagnitude 30.0
+	myUpwardsDetachImpulseMagnitude 20.0
+	myUseRenderingShaker TRUE
+}
+
+LateralDashSettings Hop
+{
+	dashDirection 0.0;1.0;0.0
+	dashDuration 0.3
+	anticipationDuration 0.0
+	visualRoll 0.0
+	isImpulseOnStartOnly TRUE
+	dashVelocityImpulse 0.0
+	dashCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { 0 0, -0.0333333 -0, -0.268363 0.552084, }, outTangents = { 0 0.872513, 0.3 0, 0 -0, }, properties = { 275, 3075, 1299, }, values = { 0 0, 0.1 1, 1 0, }, }, numKeys = 3, }"
+	cameraModifier Hop
+	playerShake PlayerShake_Jump
+	dashInterruptionTime 0.6
+	cameraModifierInterruptionTime 0.4
+	isDashingEndTime 0.3
+	isInvulnerableEndTime 0.1
+	myDisableJetEngine FALSE
+	myDirectionalDetachImpulseMagnitude 0.0
+	myUpwardsDetachImpulseMagnitude 10.0
+	myUseCurrentVelocityOnDetach FALSE
+	myStaminaCost 1.0
+	myCancelOppositeVelocity TRUE
+	myApplyJumpModifiers TRUE
+}
+
+LateralDashSettings DoubleHop
+{
+	dashDirection 0.0;1.0;0.0
+	dashDuration 0.3
+	anticipationDuration 0.0
+	visualRoll 0.0
+	isImpulseOnStartOnly TRUE
+	dashVelocityImpulse 50.0
+	dashCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { 0 0, -0.0333333 -0, -0.268363 0.552084, }, outTangents = { 0 0.872513, 0.3 0, 0 -0, }, properties = { 275, 3075, 1299, }, values = { 0 0, 0.1 1, 1 0, }, }, numKeys = 3, }"
+	cameraModifier Hop
+	dashInterruptionTime 0.6
+	cameraModifierInterruptionTime 0.4
+	isDashingEndTime 0.3
+	isInvulnerableEndTime 0.1
+	myDisableJetEngine FALSE
+	myDirectionalDetachImpulseMagnitude 0.0
+	myUpwardsDetachImpulseMagnitude 10.0
+	myUseCurrentVelocityOnDetach FALSE
+	myStaminaCost 50.0
+	myApplyJumpModifiers TRUE
+}
+
+LateralDashSettings BarrelRollLeft
+{
+	dashDirection -1.0;0.0;0.0
+	dashDuration 0.5
+	visualRoll 0.0
+	isImpulseOnStartOnly TRUE
+	dashVelocityImpulse 10.0
+	dashCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 0, -0.412851 -0.00395514, }, outTangents = { 0.00802022 -0.603003, 0 0, }, properties = { 275, 1299, }, values = { 0 1, 1 0, }, }, numKeys = 2, }"
+	cameraModifier BarrelRollLeft
+	playerShake PlayerShake_AirDodge_L
+	dashInterruptionTime 0.0
+	dashRestartTime 0.0
+	cameraModifierInterruptionTime 0.4
+	isDashingEndTime 0.5
+	isInvulnerableEndTime 0.5
+	myStaminaCost 250.0
+	myApplyDashModifiers TRUE
+}
+
+LateralDashSettings BarrelRollRight
+{
+	dashDirection 1.0;0.0;0.0
+	dashDuration 0.5
+	visualRoll 0.0
+	isImpulseOnStartOnly TRUE
+	dashVelocityImpulse 10.0
+	dashCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 0, -0.412851 -0.00395514, }, outTangents = { 0.00802022 -0.603003, 0 0, }, properties = { 275, 1299, }, values = { 0 1, 1 0, }, }, numKeys = 2, }"
+	cameraModifier BarrelRollRight
+	playerShake PlayerShake_AirDodge_R
+	dashInterruptionTime 0.0
+	dashRestartTime 0.0
+	cameraModifierInterruptionTime 0.4
+	isDashingEndTime 0.5
+	isInvulnerableEndTime 0.5
+	myStaminaCost 250.0
+	myApplyDashModifiers TRUE
+}
+
+LateralDashSettings FlipNeutral
+{
+	dashDirection 0.0;0.0;0.0
+	dashDuration 0.0
+	visualRoll 0.0
+	isImpulseOnStartOnly TRUE
+	dashVelocityImpulse 0.0
+	forwardVelocityImpulse 0.0
+	dashCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { 0 0, -0.0333333 -0, -0.268363 0.552084, }, outTangents = { 0 0.872513, 0.3 0, 0 -0, }, properties = { 275, 3075, 1299, }, values = { 0 0, 0.1 1, 1 0, }, }, numKeys = 3, }"
+	myUseCameraModifier FALSE
+	myUsePlayerShakeDuration FALSE
+	playerShake TrickNeutral
+	dashInterruptionTime 0.0
+	myStaminaCost 250.0
+}
+
+LateralDashSettings FlipForward
+{
+	dashDirection 0.0;0.0;1.0
+	dashDuration 1.0
+	visualRoll 0.0
+	isImpulseOnStartOnly TRUE
+	dashVelocityImpulse 30.0
+	forwardVelocityImpulse 50.0
+	dashCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.281562 -0.0771382, }, outTangents = { 0.129411 0.828361, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+	myUsePlayerShakeDuration TRUE
+	cameraModifier FlipForward
+	playerShake FlipBackward
+	dashInterruptionTime 0.8
+	dashRestartTime 0.9
+	cameraModifierInterruptionTime 0.4
+	isDashingEndTime 1.0
+	isInvulnerableEndTime 1.0
+	myStaminaCost 250.0
+}
+
+ImmelmannTurnSettings Immelmann
+{
+	pitchDuration 0.8
+	rollDuration 0.35
+	pitchCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.401962 -0.163127, }, outTangents = { 0.278684 0.111799, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+	interruptionTime 0.5
+	accelerationCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { 0 0, -0.744385 -0.0667961, }, outTangents = { 0 0.965636, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+	totalPitch -3.1415
+	totalRoll 3.1415
+	pitchDelay 0.05
+	rollDelay 0.5
+	myStaminaCost 250.0
+}
+
+ImmelmannTurnSettings InverseImmelmann
+{
+	pitchDuration 0.9
+	rollDuration 0.55
+	pitchCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.401962 -0.163127, }, outTangents = { 0.278684 0.111799, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+	interruptionTime 0.5
+	accelerationCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { 0 0, -0.744385 -0.0667961, }, outTangents = { 0 0.965636, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+	totalPitch 3.1415
+	totalRoll 3.1415
+	pitchDelay 0.35
+	rollDelay 0.0
+	myStaminaCost 250.0
+}
+
+DragSettings ImmelmannDrag
+{
+	drag 10.0
+}
+
+AutoRollSettings ImmelmannAutoRoll
+{
+	rollDamping 8.0
+	disableOnPitchInput FALSE
+}
+
+DownedSettings Downed
+{
+	groundHeightTreshold 5.0
+}
+
+DragSettings DownedFallDrag
+{
+	drag 0.1
+}
+
+DragSettings DownedGroundDrag
+{
+	drag 1.0
+}
+
+RepulsorSettings DownedRepulsor
+{
+	repulsorHeight 0.1
+	repulsorSpringStiffness 10.0
+	repulsorVelocityDamping 1.001
+	noSlideAngleLow 45.0
+	noSlideAngleHigh 65.0
+	gravityModifier 3.0
+}
+
+RepulsorSettings StasisRepulsor
+{
+	repulsorHeight 8.0
+	turnHeightModifier 0.5
+	repulsorSpringStiffness 2.0
+	repulsorVelocityDamping 2.0
+	noSlideAngleLow 45.0
+	noSlideAngleHigh 90.0
+	gravityModifier 2.2
+	myUseHeightAttribute FALSE
+}
+
+LateralDashSettings TrickLeft
+{
+	dashDirection -1.0;0.0;0.0
+	dashDuration 1.0
+	visualRoll 0.0
+	isImpulseOnStartOnly TRUE
+	dashCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { 0 0, -0.0333333 -0, -0.268363 0.552084, }, outTangents = { 0 0.872513, 0.3 0, 0 -0, }, properties = { 275, 3075, 1299, }, values = { 0 0, 0.1 1, 1 0, }, }, numKeys = 3, }"
+	myUseCameraModifier FALSE
+	myUsePlayerShakeDuration TRUE
+	playerShake TrickLeft
+	dashInterruptionTime 0.5
+	dashRestartTime 0.5
+	isDashingEndTime 1.0
+	isInvulnerableEndTime 1.0
+	crashSusceptibleEndTime 0.6
+	disableRepulsorDuration 0.6
+}
+
+LateralDashSettings TrickRight
+{
+	dashDirection 1.0;0.0;0.0
+	dashDuration 1.0
+	visualRoll 0.0
+	isImpulseOnStartOnly TRUE
+	dashCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { 0 0, -0.0333333 -0, -0.268363 0.552084, }, outTangents = { 0 0.872513, 0.3 0, 0 -0, }, properties = { 275, 3075, 1299, }, values = { 0 0, 0.1 1, 1 0, }, }, numKeys = 3, }"
+	myUseCameraModifier FALSE
+	myUsePlayerShakeDuration TRUE
+	playerShake TrickRight
+	dashInterruptionTime 0.5
+	dashRestartTime 0.5
+	isDashingEndTime 1.0
+	isInvulnerableEndTime 0.2
+	crashSusceptibleEndTime 0.6
+	disableRepulsorDuration 0.6
+}
+
+LateralDashSettings TrickForward
+{
+	dashDirection -1.0;0.0;0.0
+	dashDuration 1.0
+	visualRoll 0.0
+	isImpulseOnStartOnly TRUE
+	dashCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { 0 0, -0.0333333 -0, -0.268363 0.552084, }, outTangents = { 0 0.872513, 0.3 0, 0 -0, }, properties = { 275, 3075, 1299, }, values = { 0 0, 0.1 1, 1 0, }, }, numKeys = 3, }"
+	myUseCameraModifier FALSE
+	myUsePlayerShakeDuration TRUE
+	playerShake TrickForward
+	dashInterruptionTime 0.5
+	dashRestartTime 0.5
+	isDashingEndTime 1.0
+	isInvulnerableEndTime 0.2
+	disableRepulsorDuration 1.0
+}
+
+LateralDashSettings TrickBackward
+{
+	dashDirection -1.0;0.0;0.0
+	dashDuration 1.0
+	visualRoll 0.0
+	isImpulseOnStartOnly TRUE
+	dashCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { 0 0, -0.0333333 -0, -0.268363 0.552084, }, outTangents = { 0 0.872513, 0.3 0, 0 -0, }, properties = { 275, 3075, 1299, }, values = { 0 0, 0.1 1, 1 0, }, }, numKeys = 3, }"
+	myUseCameraModifier FALSE
+	myUsePlayerShakeDuration TRUE
+	playerShake TrickBackward
+	dashInterruptionTime 0.5
+	dashRestartTime 0.5
+	isDashingEndTime 1.0
+	isInvulnerableEndTime 0.2
+	crashSusceptibleEndTime 0.7
+	disableRepulsorDuration 0.7
+}
+
+LateralDashSettings GroundSlam
+{
+    anticipationDuration 0.5
+    anticipationPlayerShake PlayerShake_Ram_Charge
+	dashDirection 0.0;-1.0;0.0
+	dashDuration 0.7
+	visualRoll 0.0
+	isImpulseOnStartOnly FALSE
+	dashVelocityImpulse 20.0
+    forwardVelocityImpulse 20.0
+	dashCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { 0 0, -0.0333333 -0, -0.268363 0.552084, }, outTangents = { 0 0.872513, 0.3 0, 0 -0, }, properties = { 275, 3075, 1299, }, values = { 0 0, 0.1 1, 1 0, }, }, numKeys = 3, }"
+	myUseCameraModifier FALSE
+	myUsePlayerShakeDuration TRUE
+	dashInterruptionTime 0.5
+	dashRestartTime 0.5
+	isDashingEndTime 1.0
+	isInvulnerableEndTime 0.2
+	crashSusceptibleEndTime 0.0
+	disableRepulsorDuration 0.0
+    myUseInitialSpeed FALSE
+}
+
+LateralDashSettings TrickNeutral
+{
+	dashDirection 0.0;0.0;0.0
+	dashDuration 1.0
+	visualRoll 0.0
+	isImpulseOnStartOnly TRUE
+	dashCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { 0 0, -0.0333333 -0, -0.268363 0.552084, }, outTangents = { 0 0.872513, 0.3 0, 0 -0, }, properties = { 275, 3075, 1299, }, values = { 0 0, 0.1 1, 1 0, }, }, numKeys = 3, }"
+	myUseCameraModifier FALSE
+	myUsePlayerShakeDuration TRUE
+	playerShake TrickNeutral
+	isDashingEndTime 1.0
+	isInvulnerableEndTime 0.2
+	disableRepulsorDuration 1.0
+}
+
+InitialThrustEffectSettings GroundInitialThrustEffect
+{
+	myFOVModifier 5.0
+	myFOVCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { 0 0, -0.218881 0, -0.410276 0.00271814, }, outTangents = { 0 0.592357, 0.2 0, 0 -0, }, properties = { 275, 2323, 1299, }, values = { 0 0, 0.4 1, 1 0, }, }, numKeys = 3, }"
+	myZDistance 0.25
+	myZDistanceCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { 0 0, -0.218881 0, -0.410276 0.00271814, }, outTangents = { 0 0.592357, 0.2 0, 0 -0, }, properties = { 275, 2323, 1299, }, values = { 0 0, 0.4 1, 1 0, }, }, numKeys = 3, }"
+	myDuration 3.0
+	myTriggerSpeed 20.0
+}
+
+InitialThrustEffectSettings FlightInitialThrustEffect
+{
+	myFOVModifier 5.0
+	myFOVCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.166667 -0, -0.202783 -0.000466534, }, outTangents = { 0.0408486 0.784236, 0.166667 0, 0 0, }, properties = { 275, 2051, 1299, }, values = { 0 0, 0.5 1, 1 0, }, }, numKeys = 3, }"
+	myZDistance 5.0
+	myZDistanceCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.18828 0.00955473, -0.226945 0.0632289, }, outTangents = { 0.10654 0.511162, 0.18828 -0.00955473, 0 0, }, properties = { 275, 2323, 1299, }, values = { 0 0, 0.35 1, 1 0, }, }, numKeys = 3, }"
+	myDuration 2.0
+	myTriggerSpeed 200.0
+}
+
+InitialThrustEffectSettings SpaceInitialThrustEffect
+{
+	myFOVModifier 0.0
+	myFOVCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.166667 -0, -0.202783 -0.000466534, }, outTangents = { 0.0408486 0.784236, 0.166667 0, 0 0, }, properties = { 275, 2051, 1299, }, values = { 0 0, 0.5 1, 1 0, }, }, numKeys = 3, }"
+	myZDistance 0.0
+	myZDistanceCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.18828 0.00955473, -0.226945 0.0632289, }, outTangents = { 0.10654 0.511162, 0.18828 -0.00955473, 0 0, }, properties = { 275, 2323, 1299, }, values = { 0 0, 0.35 1, 1 0, }, }, numKeys = 3, }"
+	myDuration 0.0
+	myTriggerSpeed 200.0
+}
+
+CameraInputSettings GroundCameraInputIdleLow
+{
+	myDampingUp 10.0
+	myDampingDown 50.0
+	myMaxPitch 0.3
+	myMaxYaw 1.0
+	myPlateauYaw 0.3
+	myTimeBeforeRampUp 0.75
+	myRampUpDuration 1.5
+}
+
+CameraInputSettings GroundCameraInputIdleMed
+{
+	myDampingUp 9.0
+	myDampingDown 50.0
+	myMaxPitch 0.5
+	myMaxYaw 1.0
+	myPlateauYaw 0.5
+	myTimeBeforeRampUp 0.5
+	myRampUpDuration 0.8
+}
+
+CameraInputSettings GroundCameraInputIdleHigh
+{
+	myDampingUp 8.0
+	myDampingDown 50.0
+	myMaxPitch 1.0
+	myMaxYaw 1.0
+	myPlateauYaw 1.0
+	myTimeBeforeRampUp 0.5
+	myRampUpDuration 0.6
+}
+
+CameraInputSettings GroundCameraInputThrust
+{
+	myDampingUp 2.0
+	myDampingDown 6.0
+	myMaxPitch 0.4
+	myMaxYaw 0.6
+}
+
+CameraInputSettings GroundCameraInputDriftOver : GroundCameraInputThrust
+{
+}
+
+CameraInputSettings GroundCameraInputDriftUnder : GroundCameraInputThrust
+{
+}
+
+CameraInputSettings FlightCameraInputNeutral
+{
+	myDampingUp 3.0
+	myDampingDown 5.0
+	myMaxPitch 0.83
+	myMaxYaw 0.83
+}
+
+CameraInputSettings FlightCameraInputStrafeForward
+{
+	myDampingUp 1.5
+	myDampingDown 4.0
+	myMaxPitch 0.83
+	myMaxYaw 0.83
+}
+
+CameraInputSettings FlightCameraInputNeutralLow
+{
+	myDampingUp 3.0
+	myDampingDown 5.0
+	myMaxPitch 0.66
+	myMaxYaw 0.66
+}
+
+CameraInputSettings FlightCameraInputNeutralHigh
+{
+	myDampingUp 3.0
+	myDampingDown 5.0
+	myMaxPitch 1.0
+	myMaxYaw 1.0
+}
+
+CameraInputSettings FlightCameraInputStrafeForwardLow
+{
+	myDampingUp 1.5
+	myDampingDown 4.0
+	myMaxPitch 0.66
+	myMaxYaw 0.66
+}
+
+CameraInputSettings FlightCameraInputStrafeForwardHigh
+{
+	myDampingUp 1.5
+	myDampingDown 4.0
+	myMaxPitch 1.0
+	myMaxYaw 1.0
+}
+
+CameraInputSettings SpaceCameraInputNeutral
+{
+	myDampingUp 3.5
+	myDampingDown 15.0
+	myMaxPitch 0.83
+	myMaxYaw 0.83
+}
+
+CameraInputSettings SpaceCameraInputNeutralLow
+{
+	myDampingUp 3.5
+	myDampingDown 15.0
+	myMaxPitch 0.66
+	myMaxYaw 0.66
+}
+
+CameraInputSettings SpaceCameraInputNeutralHigh
+{
+	myDampingUp 3.5
+	myDampingDown 15.0
+	myMaxPitch 1.0
+	myMaxYaw 1.0
+}
+
+CameraInputSettings SpaceCameraInputStrafeForward
+{
+	myDampingUp 2.5
+	myDampingDown 4.0
+	myMaxPitch 0.83
+	myMaxYaw 0.83
+}
+
+CameraInputSettings SpaceCameraInputStrafeForwardLow
+{
+	myDampingUp 2.5
+	myDampingDown 4.0
+	myMaxPitch 0.66
+	myMaxYaw 0.66
+}
+
+CameraInputSettings SpaceCameraInputStrafeForwardHigh
+{
+	myDampingUp 2.5
+	myDampingDown 4.0
+	myMaxPitch 1.0
+	myMaxYaw 1.0
+}
+
+CameraInputSettings SpaceCameraInputHyperDrive
+{
+	myDampingUp 1.0
+	myDampingDown 2.0
+	myMaxPitch 1.25
+	myMaxYaw 1.25
+}
+
+CameraInputSettings HyperSpaceCameraInput
+{
+	myDampingUp 2.0
+	myDampingDown 4.0
+	myMaxPitch 1.0
+	myMaxYaw 1.0
+}
+
+AlignToCameraSettings DeactivatedAlignToCamera
+{
+	myAlignPitch FALSE
+	myAlignDampingWithoutInput 5.0
+	myAlignDampingWithInput 5.0
+	visualYaw 0.0
+	visualRoll 15.0
+	visualPitch 0.0
+}
+
+JetEngineSettings GroundJet
+{
+	myVelocity 50.0
+	myPitch 10.0
+	myGroundDistanceThreshold 5.0
+	myMaxDuration 0.0
+	myIgnoreGroundDistanceDuration 2.0
+}
+
+JetEngineSettings FlightJet
+{
+	myVelocity 40.0
+	myPitch 10.0
+}
+
+JetEngineSettings SpaceJet
+{
+	myVelocity 40.0
+	myPitch 10.0
+}
+
+FollowSettings Follow
+{
+	myVisualYaw 0.45
+	myVisualRoll 0.9
+	myVisualRotationDamping 5.0
+	myBreakDistance 15.0
+	myFollowDistance 10.0
+	myMaxSpeed 200.0
+	myCatchDuration 0.45
+	myAlignDamping 5.0
+}
+
+FollowSettings FollowHyperDrive
+{
+	myVisualYaw 0.45
+	myVisualRoll 0.9
+	myVisualRotationDamping 5.0
+	myBreakDistance 15.0
+	myFollowDistance 8.0
+	myMaxSpeed 500.0
+	myCatchDuration 0.2
+	myAlignDamping 5.0
+}
+
+FlippedOverSettings FlippedOver
+{
+	myRollSpeedCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { 0 0, -0.204207 0.0132411, -0.00281403 0.0062202, -0.172932 3.70843, -0.0895423 -1.10293, -0.015 0.118421, -0.0198306 -0.0609482, -0.025575 0.149323, -0.0981021 0.0133758, }, outTangents = { 0.0225466 3.75867, 0.0184062 -0.00119348, 0.956768 -2.11486, 0.0661209 -1.41793, 0.0219647 0.270548, 0.0166667 -0.131579, 0.0269974 0.0829747, 0.034425 -0.200995, 0 0, }, properties = { 4371, 6419, 2323, 3347, 8467, 9219, 7443, 10243, 1299, }, values = { 0 -8, 0.229 -0.0509548, 0.23 7.94905, 0.58 -5, 0.725 1.75, 0.77 -1.20047, 0.82 1, 0.896725 -0.35, 1 -0.0509548, }, }, numKeys = 9, }"
+	myRecoverDuration 2.0
+	myAlignToCameraStartTime 0.6
+	myRemoveRollStartTime 1.2
+	mySecondImpulseTime 0.5
+	myFirstImpulseForce 25.0
+	mySecondImpulseForce 50.0
+}
+
+ShipStaminaSettings Stamina
+{
+	myPoints 0.0
+	myRechargeRate 0.0
+	myRechargeCooldown 0.75
+	myAvailabilityThresholdAfterDepletion 0.0
+}
+
+RollingBallSettings RollingBall
+{
+	myRadius 3.2
+	myForwardAngularAccel 20.0
+	mySideAngularAccel 20.0
+	myMaxAngularSpeed 7.0
+	myLinearSpeedSettings
+	{
+		topSpeed 100.0
+		secondsToTopSpeed 1.5
+		accelerationCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.329836 -0.0701789, }, outTangents = { 0.0475504 0.215513, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+		myIgnoreAttributes TRUE
+	}
+	myDashSpeedSettings
+	{
+		topSpeed 200.0
+		secondsToTopSpeed 1.0
+		accelerationCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.0137211 -0.0113487, -0.329836 -0.0701789, }, outTangents = { 0.00216138 0.228252, 0.12349 0.102138, 0 0, }, properties = { 275, 2323, 1299, }, values = { 0 0, 0.1 0.310509, 1 1, }, }, numKeys = 3, }"
+		myIgnoreAttributes TRUE
+	}
+	myDashDuration 0.5
+	myJumpImpulse 50.0
+	myGravityModifier 3.0
+}
+
+RollingBallSettings RollingBallSpace
+{
+	myRadius 3.2
+	myForwardAngularAccel 20.0
+	mySideAngularAccel 20.0
+	myMaxAngularSpeed 7.0
+	myLinearSpeedSettings
+	{
+		topSpeed 100.0
+		secondsToTopSpeed 1.0
+		accelerationCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.0137211 -0.0113487, -0.329836 -0.0701789, }, outTangents = { 0.00216138 0.228252, 0.12349 0.102138, 0 0, }, properties = { 275, 2323, 1299, }, values = { 0 0, 0.1 0.310509, 1 1, }, }, numKeys = 3, }"
+		myIgnoreAttributes TRUE
+	}
+	myDashSpeedSettings
+	{
+		topSpeed 200.0
+		secondsToTopSpeed 0.5
+		accelerationCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.0137211 -0.0113487, -0.329836 -0.0701789, }, outTangents = { 0.00216138 0.228252, 0.12349 0.102138, 0 0, }, properties = { 275, 2323, 1299, }, values = { 0 0, 0.1 0.310509, 1 1, }, }, numKeys = 3, }"
+		myIgnoreAttributes TRUE
+	}
+	myDashDuration 2.0
+	myJumpImpulse 50.0
+	myGravityModifier 3.0
+}
+
+CameraInputSettings RollingBallCameraInput
+{
+	myDampingUp 9.0
+	myDampingDown 50.0
+	myMaxPitch 0.33
+	myMaxYaw 1.0
+	myPlateauYaw 0.5
+	myTimeBeforeRampUp 0.4
+	myRampUpDuration 0.6
+}
+
+StrafeSettings SplineStrafe
+{
+	topSpeed 50.0
+	secondsToTopSpeed 10.0
+	accelerationCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { 0 0, -0.785888 -0.232599, }, outTangents = { 0 1.08494, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+	lateralOnly FALSE
+	upDown TRUE
+	lateralTopSpeed 40.0
+	reverseTopSpeed 50.0
+	visualYaw 0.0
+	visualPitch -15.0
+	visualRoll 35.0
+	updateSmallThrustersDirection TRUE
+}
+
+DragSettings SplineDrag
+{
+	drag 0.75
+}
+
+DragSettings SplineDragLow
+{
+	drag 1.0
+}
+
+DragSettings SplineDragHigh
+{
+	drag 6.0
+}
+
+DriftSettings Drift
+{
+}

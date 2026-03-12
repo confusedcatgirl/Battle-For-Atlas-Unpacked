@@ -1,0 +1,1644 @@
+include ./../../fruit/ai/npcsound.fruit
+
+StateResponse DefaultFauna < uid=93869D5359AEE22A004187CC740BF4CC >
+{
+	myNPCType Fauna_Generic
+	myResponseBankList
+	{
+		ResponseBank "Version 01"
+		{
+			myResponseList
+			{
+				AIEventResponse Idle < uid=93869D5359AEE2A20051F22598E389D9 >
+				{
+					myAudioStateEntered Idle
+					myAudioStateExited None
+					myAudioEvent
+					{
+						myGuid 4A985F035D66F6EFEB5C3505BB09F5B9
+					}
+				}
+				AIEventResponse Combat < uid=172C28C659B82E60000C461F3B640EA9 >
+				{
+					myAudioStateEntered Combat
+					myAudioEvent
+					{
+						myGuid 46F1D67AEB79A44E0F5BB1734E20DD9A
+					}
+				}
+				AIEventResponse Flee < uid=172C28C659B82E60000C46200629F94B >
+				{
+					myAudioStateEntered Flee
+					myAudioEvent
+					{
+						myGuid 48991F5ED9F538F9FF3E8BE2D32A69AC
+					}
+				}
+				AIEventResponse Feed < uid=172C28C659B82E60000C4621AB20DBDC >
+				{
+					myAudioStateEntered Feed
+					myAudioEvent
+					{
+						myGuid 4A985F035D66F6EFEB5C3505BB09F5B9
+					}
+				}
+			}
+		}
+	}
+}
+
+StateResponse DefaultAlly < uid=93869D535AC2880400001DF321BAE8C5 >
+{
+	myResponseBankList
+	{
+		ResponseBank Version01
+		{
+			myResponseList
+			{
+				AIEventResponse Combat < uid=C935D539599EE08700000083F2FA1417 >
+				{
+					myAudioStateEntered Combat
+					myAudioEvent
+					{
+						myGuid 4C22FC923CD8A92E326D12AD7DD55A8A
+					}
+				}
+				AIEventResponse NonCombat < uid=C935D539599EE08700000084CCD96BE7 >
+				{
+					myAudioStateEntered Idle
+					myAudioEvent
+					{
+						myGuid 477F2AD6A455D96CD3334683837ED3B0
+					}
+				}
+				AIEventResponse FaceU < uid=C935D539599EE08700000085D8E13399 >
+				{
+					myAudioStateEntered Converse
+					myAudioEvent
+					{
+						myGuid 4E42F3398366262F20C9A877C6353E8E
+					}
+				}
+				AIEventResponse "Hit Stumble" < uid=D71208F95AC259F900024D05740FE324 >
+				{
+					myStateEntered None
+					myHitReaction Stumble
+					myAudioStateEntered None
+					myAudioEvent
+					{
+						myGuid 449D65A397540AC027F8440F19CB59B1
+					}
+				}
+				AIEventResponse "Hit Ragdoll" < uid=172C28C65AC3884C000268F1C8D2B0F2 >
+				{
+					myHitReaction Ragdoll
+					myAudioEvent
+					{
+						myGuid 449D65A397540AC027F8440F19CB59B1
+					}
+				}
+			}
+		}
+	}
+}
+
+StateResponse DefaultCyclops < uid=93869D5359AEFA0D005782C9F3BB2494 >
+{
+	myNPCType Harvester_Cyclops
+	myResponseBankList
+	{
+		ResponseBank "Version 01"
+		{
+			myIndex 0
+			myResponseList
+			{
+				AIEventResponse "Enters Combat" < uid=93869D5357A8F0300000003483B42CBE >
+				{
+					myStateEntered None
+					myHitReaction None
+					myAudioStateEntered Combat
+					myAudioStateExited Idle
+					myAudioEvent
+					{
+						myGuid 45E77F21294BB912E5BC8A872CF199A8
+					}
+				}
+				AIEventResponse Idle < uid=955D256857AE1CC000000CDCCB0AC8B9 >
+				{
+					myStateEntered None
+					myAudioStateEntered Idle
+					myAudioEvent
+					{
+						myGuid 499C41BF659E238AC68A065356743384
+					}
+				}
+				AIEventResponse Dormant < uid=93869D535B4DFFEF000022172ED9BBA3 >
+				{
+					myStateEntered Disabled
+					myAudioEvent
+					{
+						myGuid 4FAAEFE94A84BD69A72D8348EE08D7A0
+					}
+				}
+			}
+		}
+	}
+}
+
+StateResponse DefaultImp < uid=172C28C659B82717000C37167668395B >
+{
+	myNPCType Harvester_Imp
+	myResponseBankList
+	{
+		ResponseBank "Version 01"
+		{
+			myResponseList
+			{
+				AIEventResponse "Player Detected" < uid=172C28C659B82717000C37178539189D >
+				{
+					myAudioStateEntered Combat
+					myAudioEvent
+					{
+						myGuid 00000000000000000000000000000000
+					}
+				}
+				AIEventResponse Idle < uid=172C28C659B82717000C3718423B0FE4 >
+				{
+					myAudioStateEntered Idle
+					myAudioEvent
+					{
+						myGuid 4B1D6B92BEEE11E9A31424EFCAD41F8F
+					}
+				}
+				AIEventResponse "Combat Run" < uid=172C28C659B82717000C371AC50CE2E2 >
+				{
+					myAudioStateEntered Chase
+					myAudioEvent
+					{
+						myGuid 420CB07965BE3D29B4B82A9E92EBAFBF
+					}
+				}
+				AIEventResponse Wander < uid=172C28C659B82717000C371B88BCF72E >
+				{
+					myAudioStateEntered Wander
+					myAudioEvent
+					{
+						myGuid 4B1D6B92BEEE11E9A31424EFCAD41F8F
+					}
+				}
+				AIEventResponse "Dash Attack" < uid=172C28C659B82717000C371C12628DF2 >
+				{
+					myAudioStateEntered DashAttack
+					myAudioEvent
+					{
+						myGuid 00000000000000000000000000000000
+					}
+				}
+				AIEventResponse Taunt < uid=172C28C659B82717000C371D2D3C0952 >
+				{
+					myAudioStateEntered Taunt
+					myAudioEvent
+					{
+						myGuid 4FAAEFE94A84BD69A72D8348EE08D7A0
+					}
+				}
+				AIEventResponse "Attach Attack" < uid=172C28C659B82717000C371E8F85E5E5 >
+				{
+					myAudioStateEntered Attach
+				}
+				AIEventResponse "Hit Reaction Flinch" < uid=172C28C659B82717000C3720E6E47A4E >
+				{
+					myAudioStateEntered HitReactionFlinch
+					myAudioEvent
+					{
+						myGuid 00000000000000000000000000000000
+					}
+				}
+				AIEventResponse "Hit Reaction Ragdoll" < uid=172C28C659B82717000C37212B5F8959 >
+				{
+					myAudioStateEntered HitReactionRagdoll
+					myAudioEvent
+					{
+						myGuid 00000000000000000000000000000000
+					}
+				}
+				AIEventResponse UnAttach < uid=172C28C659B82717000C37228B55EB1A >
+				{
+					myAudioStateEntered None
+					myAudioStateExited Attach
+					myAudioEvent
+					{
+						myGuid 00000000000000000000000000000000
+					}
+				}
+				AIEventResponse Dormant < uid=93869D535B4DFFEF000022184BDFEDC5 >
+				{
+					myStateEntered Disabled
+					myAudioEvent
+					{
+						myGuid 4FAAEFE94A84BD69A72D8348EE08D7A0
+					}
+				}
+			}
+		}
+	}
+}
+
+NPCVoiceData theNPCVoiceData
+{
+	myNPCList
+	{
+		StateResponse "Cyclop Base" < uid=93869D5357A8BF71000000373C41B336 > : DefaultCyclops
+		{
+			myNPCType Harvester_Cyclops
+		}
+		StateResponse "Cyclop Cold Infused" < uid=172C28C659B8302F000C46222BD40BDF > : DefaultCyclops
+		{
+			myNPCType Harvester_Cyclops_Infused_Cold
+		}
+		StateResponse "Cyclop Heat Infused" < uid=172C28C659B8302F000C462330DE594A > : DefaultCyclops
+		{
+			myNPCType Harvester_Cyclops_Infused_Heat
+		}
+		StateResponse "Cyclop Crush Infused" < uid=172C28C659B8302F000C462479741DBB > : DefaultCyclops
+		{
+			myNPCType Harvester_Cyclops_Infused_Crush
+		}
+		StateResponse "Cyclop Shielded" < uid=172C28C659B83087000C4625D427D772 > : DefaultCyclops
+		{
+			myNPCType Harvester_Cyclops_Shielded
+		}
+		StateResponse "Cyclop Ice" < uid=955D256857B20AF200005A9954DF9205 > : DefaultCyclops
+		{
+			myNPCType Harvester_Cyclops_Cold
+			myResponseBankList
+			{
+				ResponseBank "Version 01"
+				{
+					myIndex 0
+					myResponseList
+					{
+						AIEventResponse "Enters Combat" < uid=93869D5359AEFECF010060AAFCE50304 >
+						{
+							myStateEntered None
+							myHitReaction None
+							myAudioStateEntered Combat
+							myAudioEvent
+							{
+								myGuid 45837FECB19939CFD3822E7BEEADDE9F
+							}
+						}
+						AIEventResponse Idle < uid=93869D5359AEFECF010060ABB3C37F09 >
+						{
+							myStateEntered None
+							myAudioStateEntered Idle
+							myAudioEvent
+							{
+								myGuid 488B389EFBB991A23540F3FD444C6880
+							}
+						}
+						AIEventResponse "Small Hit Reaction" < uid=93869D5359AEFECF010060AC0C07D2C3 >
+						{
+							myHitReaction Flinch
+							myAudioEvent
+							{
+								myGuid 475497149CC25B02F83517CFE99B60AB
+							}
+						}
+						AIEventResponse "Medium Hit Reaction" < uid=93869D5359AEFECF010060ADA8DF1665 >
+						{
+							myHitReaction Stumble
+							myAudioEvent
+							{
+								myGuid 434714D26BEF50B6B644BEFBEE39B5BB
+							}
+						}
+						AIEventResponse "Ragdoll Hit Reaction" < uid=93869D5359AEFECF010060AE7CF6DD59 >
+						{
+							myStateEntered None
+							myHitReaction Ragdoll
+							myAudioEvent
+							{
+								myGuid 434714D26BEF50B6B644BEFBEE39B5BB
+							}
+						}
+					}
+				}
+			}
+		}
+		StateResponse "Cyclop Heat" < uid=955D256857B6FB6F00016E0CBB1BAA7F > : DefaultCyclops
+		{
+			myNPCType Harvester_Cyclops_Heat
+			myResponseBankList
+			{
+				ResponseBank "Version 01"
+				{
+					myResponseList
+					{
+						AIEventResponse Idle < uid=955D256857B6FB6F00016E0DD5F1DED4 >
+						{
+							myAudioStateEntered Idle
+							myAudioEvent
+							{
+								myGuid 470D755258B9ACC97D2EAF0C8658DBAC
+							}
+						}
+						AIEventResponse Combat < uid=955D256857B6FB6F00016E0E8621AA28 >
+						{
+							myAudioStateEntered Combat
+							myAudioStateExited None
+							myAudioEvent
+							{
+								myGuid 474F3B50E6D65FDC32F196B10D189E89
+							}
+						}
+						AIEventResponse "Medium Hit Reaction" < uid=955D256857B6FB6F00016E0F533BE387 >
+						{
+							myHitReaction Stumble
+							myAudioEvent
+							{
+								myGuid 4A2346BA6A116C385626E006A2C760BD
+							}
+						}
+						AIEventResponse "Small Hit Reaction" < uid=955D256857B714B6000073432F2BA093 >
+						{
+							myHitReaction Flinch
+							myAudioEvent
+							{
+								myGuid 4893E3C4D650FEDE8863F06DACB7E5B6
+							}
+						}
+						AIEventResponse Divebomb < uid=172C28C65AB2ADBF0002E8C09A988F21 >
+						{
+							myAudioStateEntered Chase
+							myAudioStateExited Flight
+							myAudioEvent
+							{
+								myGuid 4AFA5867E53F9E7FAABC125BBC879DA1
+							}
+						}
+					}
+				}
+			}
+		}
+		StateResponse "Cyclop Crush" < uid=172C28C65983529B0004787A1E02A733 > : DefaultCyclops
+		{
+			myNPCType Harvester_Cyclops_Crush
+			myResponseBankList
+			{
+				ResponseBank "Version 01"
+				{
+					myResponseList
+					{
+						AIEventResponse Idle < uid=172C28C65A833BF30002DB9458975362 >
+						{
+							myAudioStateEntered Idle
+							myAudioEvent
+							{
+								myGuid 4ABB3A5E390A55F041515876DE4CBBA8
+							}
+						}
+						AIEventResponse Combat < uid=172C28C65A943B220002DBE00541B7D2 >
+						{
+							myStateEntered Combat
+							myAudioStateEntered Combat
+							myAudioEvent
+							{
+								myGuid 4DBB56B54D02B0E148CF3D8D79406990
+							}
+						}
+					}
+				}
+			}
+		}
+		StateResponse Prime < uid=172C28C6583C2AC100011E77C03B45DB >
+		{
+			myNPCType Harvester_Prime
+			myResponseBankList
+			{
+				ResponseBank Version_01
+				{
+					myResponseList
+					{
+						AIEventResponse "Player Detected" < uid=172C28C6583C2AC100011E78F849729D >
+						{
+							myAudioStateEntered Combat
+							myAudioEvent
+							{
+								myGuid 4BCC5FFFA8E1E7181C23B7096889C49E
+							}
+						}
+						AIEventResponse Idle < uid=172C28C658DBBD720000022B8198C660 >
+						{
+							myAudioStateEntered Idle
+							myAudioEvent
+							{
+								myGuid 00000000000000000000000000000000
+							}
+						}
+						AIEventResponse "Hit Reactions Low" < uid=172C28C65A56707C0006CFBAB14F0BDF >
+						{
+							myHitReaction Flinch
+							myAudioEvent
+							{
+								myGuid 4BCC5FFFA8E1E7181C23B7096889C49E
+							}
+						}
+						AIEventResponse "Hit Reaction High" < uid=172C28C65A56707C0006CFBBBFD93835 >
+						{
+							myHitReaction Stumble
+							myAudioEvent
+							{
+								myGuid 4BCC5FFFA8E1E7181C23B7096889C49E
+							}
+						}
+					}
+				}
+			}
+		}
+		StateResponse Probe < uid=172C28C658B72AA900023C775A08A9DC >
+		{
+			myNPCType Harvester_Probe
+			myResponseBankList
+			{
+				ResponseBank "Version 01"
+				{
+					myResponseList
+					{
+						AIEventResponse Idle < uid=172C28C658B72AA900023C78A67AF26F >
+						{
+							myAudioStateEntered Idle
+							myAudioEvent
+							{
+								myGuid 46E5F665592AFFB82BABE35D69C201A6
+							}
+						}
+						AIEventResponse "Player Detected" < uid=172C28C659BFE3F4000B96B51ED3DABB >
+						{
+							myStateEntered None
+							myAudioStateEntered Combat
+							myAudioEvent
+							{
+								myGuid 405D147867F630E232AAD2B5B9BA1783
+							}
+						}
+						AIEventResponse "Hit Reaction Ragdoll" < uid=172C28C659EE02F700000256437BB6DF >
+						{
+							myHitReaction Stumble
+							myAudioStateEntered None
+							myAudioEvent
+							{
+								myGuid 4EE431C1C9B0C61114609D4714621EB8
+							}
+						}
+					}
+				}
+			}
+		}
+		StateResponse Exp_Defender < uid=C935D539599EE08700000082075407DF > : DefaultAlly
+		{
+			myNPCType Expedition_Defender
+		}
+		StateResponse Exp_Worker < uid=C935D539599EE33600021548578BC195 > : DefaultAlly
+		{
+			myNPCType Expedition_Worker
+		}
+		StateResponse Pros_Defender < uid=C935D539599EE3360002154C5A40C0EC > : DefaultAlly
+		{
+			myNPCType Prospector_Defender
+			myResponseBankList
+			{
+				ResponseBank Version01
+				{
+					myResponseList
+					{
+						AIEventResponse Combat < uid=C935D539599EE3360002154D8F292E95 >
+						{
+							myAudioStateEntered Combat
+							myAudioEvent
+							{
+								myGuid 4750B494769F55EBE9B1549EE0D5DB8F
+							}
+						}
+						AIEventResponse NonCombat < uid=C935D539599EE3360002154E28795FF7 >
+						{
+							myAudioStateEntered Idle
+							myAudioEvent
+							{
+								myGuid 4D1D90E3ADA9B0BB33D07E74F6359B8B
+							}
+						}
+						AIEventResponse FaceU < uid=C935D539599EE3360002154F0AB6DBFD >
+						{
+							myAudioStateEntered Converse
+							myAudioEvent
+							{
+								myGuid 44AFF8C1199A93B24D2CECBA48AD188D
+							}
+						}
+						AIEventResponse "Hit Stumble" < uid=623359295AD69C9C0000254177E2A818 >
+						{
+							myHitReaction Stumble
+							myAudioEvent
+							{
+								myGuid 449D65A397540AC027F8440F19CB59B1
+							}
+						}
+						AIEventResponse "Hit Ragdoll" < uid=623359295AD69C9C0000254285F2441E >
+						{
+							myHitReaction Ragdoll
+							myAudioEvent
+							{
+								myGuid 449D65A397540AC027F8440F19CB59B1
+							}
+						}
+					}
+				}
+			}
+		}
+		StateResponse Pros_Worker < uid=C935D539599EE3360002155056AD3DE7 > : DefaultAlly
+		{
+			myNPCType Prospector_Worker
+			myResponseBankList
+			{
+				ResponseBank Version01
+				{
+					myResponseList
+					{
+						AIEventResponse Combat < uid=C935D539599EE336000215519036EC21 >
+						{
+							myAudioStateEntered Combat
+							myAudioEvent
+							{
+								myGuid 4750B494769F55EBE9B1549EE0D5DB8F
+							}
+						}
+						AIEventResponse NonCombat < uid=C935D539599EE3360002155272529F37 >
+						{
+							myAudioStateEntered Idle
+							myAudioEvent
+							{
+								myGuid 4D1D90E3ADA9B0BB33D07E74F6359B8B
+							}
+						}
+						AIEventResponse FaceU < uid=C935D539599EE33600021553CE87CBB3 >
+						{
+							myAudioStateEntered Converse
+							myAudioEvent
+							{
+								myGuid 44AFF8C1199A93B24D2CECBA48AD188D
+							}
+						}
+						AIEventResponse "Hit Stumble" < uid=623359295AD69C9C000025435C380182 >
+						{
+							myHitReaction Stumble
+							myAudioEvent
+							{
+								myGuid 449D65A397540AC027F8440F19CB59B1
+							}
+						}
+						AIEventResponse "Hit Reaction" < uid=623359295AD69C9C0000254465441E9D >
+						{
+							myHitReaction Ragdoll
+							myAudioEvent
+							{
+								myGuid 449D65A397540AC027F8440F19CB59B1
+							}
+						}
+					}
+				}
+			}
+		}
+		StateResponse Outlaw_Ground < uid=93869D535AC289E200001DF460C02A0B > : DefaultAlly
+		{
+			myNPCType Outlaw_Defender
+		}
+		StateResponse "Imp Cold" < uid=172C28C659B82ABB000C373927993DA8 > : DefaultImp
+		{
+			myNPCType Harvester_Imp_Cold
+		}
+		StateResponse "Imp Heat" < uid=172C28C659B82ABB000C373AA8D34F2C > : DefaultImp
+		{
+			myNPCType Harvester_Imp_Heat
+		}
+		StateResponse "Imp Crush" < uid=172C28C659B82ABB000C373B3BF97DB4 > : DefaultImp
+		{
+			myNPCType Harvester_Imp_Crush
+		}
+		StateResponse "Imp Base" < uid=172C28C659B82ACD000C373C2F0EA2FD > : DefaultImp
+		{
+		}
+		StateResponse Fauna_01 < uid=93869D5359AEE2A20051F229176D289D > : DefaultFauna
+		{
+			myNPCType Fauna_01
+			myResponseBankList
+			{
+				ResponseBank "Version 01"
+				{
+					myResponseList
+					{
+						AIEventResponse Idle < uid=623359295A53CDBF000024DF264AC5C4 >
+						{
+							myAudioStateEntered Idle
+							myAudioStateExited None
+							myAudioEvent
+							{
+								myGuid 4CDEDF72395EBC256C8228D8AEB944AE
+							}
+						}
+						AIEventResponse Combat < uid=623359295A53CDBF000024E03E5B5075 >
+						{
+							myAudioStateEntered Combat
+							myAudioEvent
+							{
+								myGuid 4737FBBBF3803B241A23B00DF8210888
+							}
+						}
+						AIEventResponse Flee < uid=623359295A53CDBF000024E1DF0D0132 >
+						{
+							myAudioStateEntered Flee
+							myAudioEvent
+							{
+								myGuid 4737FBBBF3803B241A23B00DF8210888
+							}
+						}
+						AIEventResponse Feed < uid=623359295A53CDBF000024E2FFB865C2 >
+						{
+							myAudioStateEntered Feed
+							myAudioEvent
+							{
+								myGuid 4CDEDF72395EBC256C8228D8AEB944AE
+							}
+						}
+					}
+				}
+			}
+		}
+		StateResponse Fauna_02 < uid=6233592959C91754000000822BAFB5FF > : DefaultFauna
+		{
+			myNPCType Fauna_02
+			myResponseBankList
+			{
+				ResponseBank "Version 01"
+				{
+					myResponseList
+					{
+						AIEventResponse Idle < uid=623359295A9EFADB00001C35B4A68791 >
+						{
+							myAudioStateEntered Idle
+							myAudioStateExited None
+							myAudioEvent
+							{
+								myGuid 488A7E306D7A8DE612512FA196059EB1
+							}
+						}
+						AIEventResponse Combat < uid=623359295A9EFADB00001C36CC8C9881 >
+						{
+							myAudioStateEntered Combat
+							myAudioEvent
+							{
+								myGuid 459643842DCF0C7B6A1B19CC80354480
+							}
+						}
+						AIEventResponse Flee < uid=623359295A9EFADB00001C37862020E6 >
+						{
+							myAudioStateEntered Flee
+							myAudioEvent
+							{
+								myGuid 459643842DCF0C7B6A1B19CC80354480
+							}
+						}
+						AIEventResponse Feed < uid=623359295A9EFADB00001C3847B12553 >
+						{
+							myAudioStateEntered Feed
+							myAudioEvent
+							{
+								myGuid 488A7E306D7A8DE612512FA196059EB1
+							}
+						}
+					}
+				}
+			}
+		}
+		StateResponse Fauna_03 < uid=172C28C658C99E7A000001F8DB5CEC96 > : DefaultFauna
+		{
+			myNPCType Fauna_03
+			myResponseBankList
+			{
+				ResponseBank "Version 01"
+				{
+					myResponseList
+					{
+						AIEventResponse Idle < uid=172C28C658CA999F002333DD574B95AC >
+						{
+							myAudioStateEntered Idle
+							myAudioEvent
+							{
+								myGuid 4A985F035D66F6EFEB5C3505BB09F5B9
+							}
+						}
+						AIEventResponse Flee < uid=172C28C658CA9F650024BE3EE9CCBBA2 >
+						{
+							myAudioStateEntered Flee
+							myAudioEvent
+							{
+								myGuid 48991F5ED9F538F9FF3E8BE2D32A69AC
+							}
+						}
+						AIEventResponse Combat < uid=623359295A53DEFA000043B76F75891A >
+						{
+							myAudioStateEntered Combat
+							myAudioEvent
+							{
+								myGuid 46F1D67AEB79A44E0F5BB1734E20DD9A
+							}
+						}
+						AIEventResponse Feed < uid=623359295A53DEFA000043B80E406C5C >
+						{
+							myAudioStateEntered Feed
+							myAudioEvent
+							{
+								myGuid 4A985F035D66F6EFEB5C3505BB09F5B9
+							}
+						}
+					}
+				}
+			}
+		}
+		StateResponse Fauna_04 < uid=6233592959C9175400000083AD1B8E83 > : DefaultFauna
+		{
+			myNPCType Fauna_04
+			myResponseBankList
+			{
+				ResponseBank "Version 01"
+				{
+					myResponseList
+					{
+						AIEventResponse Idle < uid=172C28C659FCB49700017EAE62BBA03C >
+						{
+							myAudioStateEntered Idle
+							myAudioStateExited None
+							myAudioEvent
+							{
+								myGuid 00000000000000000000000000000000
+							}
+						}
+						AIEventResponse Combat < uid=172C28C659FCB49700017EAFBF3910D1 >
+						{
+							myAudioStateEntered Combat
+							myAudioEvent
+							{
+								myGuid 425FCD5DBAB6BA15613D599D706E1BA6
+							}
+						}
+						AIEventResponse Flee < uid=172C28C659FCB49700017EB0AD14425B >
+						{
+							myAudioStateEntered Flee
+							myAudioEvent
+							{
+								myGuid 425FCD5DBAB6BA15613D599D706E1BA6
+							}
+						}
+						AIEventResponse Feed < uid=172C28C659FCB49700017EB121B10E87 >
+						{
+							myAudioStateEntered Feed
+							myAudioEvent
+							{
+								myGuid 4A985F035D66F6EFEB5C3505BB09F5B9
+							}
+						}
+						AIEventResponse "Hit Reaction Low" < uid=172C28C65A4E6CF2000882BC5EF1F148 >
+						{
+							myHitReaction Flinch
+							myAudioStateEntered None
+							myAudioEvent
+							{
+								myGuid 4285A43BA7DCB7EBCA94813AD9792C97
+							}
+						}
+						AIEventResponse "Hit Reaction Medium" < uid=172C28C65A4E6CF2000882BD8606D43E >
+						{
+							myHitReaction Stumble
+							myAudioStateEntered None
+							myAudioEvent
+							{
+								myGuid 4285A43BA7DCB7EBCA94813AD9792C97
+							}
+						}
+						AIEventResponse Charge < uid=172C28C65B097BAF00087780C9CEF6A4 >
+						{
+							myAudioStateEntered Chase
+							myAudioEvent
+							{
+								myGuid 425FCD5DBAB6BA15613D599D706E1BA6
+							}
+						}
+					}
+				}
+			}
+		}
+		StateResponse Fauna_05 < uid=6233592959C917540000008408ACC836 > : DefaultFauna
+		{
+			myNPCType Fauna_05
+			myResponseBankList
+			{
+				ResponseBank "Version 01"
+				{
+					myResponseList
+					{
+						AIEventResponse Idle < uid=6233592959DE5FF1000001B60D32315B >
+						{
+							myAudioStateEntered Idle
+							myAudioStateExited None
+							myAudioEvent
+							{
+								myGuid 4AD9AF9D8B98C3013B16DA06EE062DBD
+							}
+						}
+						AIEventResponse Combat < uid=6233592959DE5FF1000001B788F3ECA6 >
+						{
+							myAudioStateEntered Combat
+							myAudioEvent
+							{
+								myGuid 46F1D67AEB79A44E0F5BB1734E20DD9A
+							}
+						}
+						AIEventResponse Flee < uid=6233592959DE5FF1000001B828720F23 >
+						{
+							myAudioStateEntered Flee
+							myAudioEvent
+							{
+								myGuid 4E6264A150A36D1A82B3C7F0DC231A8B
+							}
+						}
+						AIEventResponse Feed < uid=6233592959DE5FF1000001B91ADAFCC2 >
+						{
+							myAudioStateEntered Feed
+							myAudioEvent
+							{
+								myGuid 4AD9AF9D8B98C3013B16DA06EE062DBD
+							}
+						}
+					}
+				}
+			}
+		}
+		StateResponse Fauna_06 < uid=6233592959C422D4000009BE68ED70FD > : DefaultFauna
+		{
+			myNPCType Fauna_06
+			myResponseBankList
+			{
+				ResponseBank "Version 01"
+				{
+					myResponseList
+					{
+						AIEventResponse Idle < uid=6233592959C422D4000009BF86F1F38C >
+						{
+							myAudioStateEntered Idle
+							myAudioStateExited None
+							myAudioEvent
+							{
+								myGuid 4CCC9C8340EAF3055CCCC32CD8257BAF
+							}
+						}
+						AIEventResponse Combat < uid=6233592959C422D4000009C0DB36F263 >
+						{
+							myAudioStateEntered Combat
+							myAudioEvent
+							{
+								myGuid 4C55D8602F7D2A738945B0079B9DF387
+							}
+						}
+						AIEventResponse Flee < uid=6233592959C422D4000009C1A22C317B >
+						{
+							myAudioStateEntered Flee
+							myAudioEvent
+							{
+								myGuid 4C55D8602F7D2A738945B0079B9DF387
+							}
+						}
+						AIEventResponse Feed < uid=6233592959C422D4000009C2A145D75B >
+						{
+							myAudioStateEntered Feed
+							myAudioEvent
+							{
+								myGuid 00000000000000000000000000000000
+							}
+						}
+					}
+				}
+			}
+		}
+		StateResponse Fauna_07 < uid=6233592959C917540000008566C8F284 > : DefaultFauna
+		{
+			myNPCType Fauna_07
+			myResponseBankList
+			{
+				ResponseBank "Version 01"
+				{
+					myResponseList
+					{
+						AIEventResponse Idle < uid=172C28C659D52262000001B409FCAB8D >
+						{
+							myAudioStateEntered Idle
+							myAudioStateExited None
+							myAudioEvent
+							{
+								myGuid 4727B2E56B82DD03A89EFD702C752794
+							}
+						}
+						AIEventResponse Combat < uid=172C28C659D52262000001B52E6B78D7 >
+						{
+							myAudioStateEntered Combat
+							myAudioEvent
+							{
+								myGuid 4BC066EFCCBD9EB1A11FB6E4FF7F6CAD
+							}
+						}
+						AIEventResponse Flee < uid=172C28C659D52262000001B6B805B6A5 >
+						{
+							myAudioStateEntered Flee
+							myAudioEvent
+							{
+								myGuid 4BC066EFCCBD9EB1A11FB6E4FF7F6CAD
+							}
+						}
+						AIEventResponse Feed < uid=172C28C659D52262000001B704C52583 >
+						{
+							myAudioStateEntered Feed
+							myAudioEvent
+							{
+								myGuid 00000000000000000000000000000000
+							}
+						}
+					}
+				}
+			}
+		}
+		StateResponse Fauna_08 < uid=6233592959C9175400000086309EB3EF > : DefaultFauna
+		{
+			myNPCType Fauna_08
+			myResponseBankList
+			{
+				ResponseBank "Version 01"
+				{
+					myResponseList
+					{
+						AIEventResponse Idle < uid=172C28C65A00BED200001E01E641E479 >
+						{
+							myAudioStateEntered Idle
+							myAudioStateExited None
+							myAudioEvent
+							{
+								myGuid 4A1BA7B1213495D40A23E81538D8B8A5
+							}
+						}
+						AIEventResponse Combat < uid=172C28C65A00BED200001E02B70E52FC >
+						{
+							myAudioStateEntered Combat
+							myAudioEvent
+							{
+								myGuid 00000000000000000000000000000000
+							}
+						}
+						AIEventResponse Flee < uid=172C28C65A00BED200001E035779C96B >
+						{
+							myAudioStateEntered Flee
+							myAudioEvent
+							{
+								myGuid 00000000000000000000000000000000
+							}
+						}
+						AIEventResponse Feed < uid=172C28C65A00BED200001E048ED895A7 >
+						{
+							myAudioStateEntered Feed
+							myAudioEvent
+							{
+								myGuid 00000000000000000000000000000000
+							}
+						}
+					}
+				}
+			}
+		}
+		StateResponse Fauna_09 < uid=172C28C659A83C59000001AA163E3393 > : DefaultFauna
+		{
+			myNPCType Fauna_09
+			myResponseBankList
+			{
+				ResponseBank "Version 01"
+				{
+					myResponseList
+					{
+						AIEventResponse Idle < uid=172C28C659A83C59000001AB8DDFC9B4 >
+						{
+							myAudioStateEntered Idle
+							myAudioEvent
+							{
+								myGuid 429E7936153B225FD5590CFB3D7CCB91
+							}
+						}
+						AIEventResponse Combat < uid=93869D5359AEE1DB0038DB907B63FF5F >
+						{
+							myAudioStateEntered Combat
+							myAudioEvent
+							{
+								myGuid 45B4D25C35A78C0CE3FA397E375ECA92
+							}
+						}
+						AIEventResponse Flee < uid=93869D5359AEE1DB0038DB91F72F1F7D >
+						{
+							myAudioStateEntered Flee
+							myAudioEvent
+							{
+								myGuid 45B4D25C35A78C0CE3FA397E375ECA92
+							}
+						}
+						AIEventResponse Charge < uid=172C28C65B09791C0001592E63203112 >
+						{
+							myAudioStateEntered Chase
+							myAudioEvent
+							{
+								myGuid 45B4D25C35A78C0CE3FA397E375ECA92
+							}
+						}
+					}
+				}
+			}
+		}
+		StateResponse Fauna_10 < uid=172C28C658CABA990003E5D496A3422A > : DefaultFauna
+		{
+			myNPCType Fauna_10
+			myResponseBankList
+			{
+				ResponseBank "Version 01"
+				{
+					myResponseList
+					{
+						AIEventResponse Idle < uid=172C28C659D6617C00052D4D09A6F5C1 >
+						{
+							myAudioStateEntered Idle
+							myAudioStateExited None
+							myAudioEvent
+							{
+								myGuid 4D2357E8431227285C09D7D0181A52BE
+							}
+						}
+						AIEventResponse Combat < uid=172C28C659D6617C00052D4E3E952EE5 >
+						{
+							myAudioStateEntered Combat
+							myAudioEvent
+							{
+								myGuid 4B7F73A5A47E5B9E823F4A77AE6260AA
+							}
+						}
+						AIEventResponse Flee < uid=172C28C659D6617C00052D4F08B26AD5 >
+						{
+							myAudioStateEntered Flee
+							myAudioEvent
+							{
+								myGuid 4B7F73A5A47E5B9E823F4A77AE6260AA
+							}
+						}
+						AIEventResponse Feed < uid=172C28C659D6617C00052D50CA057998 >
+						{
+							myAudioStateEntered Feed
+							myAudioEvent
+							{
+								myGuid 00000000000000000000000000000000
+							}
+						}
+					}
+				}
+			}
+		}
+		StateResponse Fauna_11 < uid=6233592959C917540000008741804CE9 > : DefaultFauna
+		{
+			myNPCType Fauna_11
+			myResponseBankList
+			{
+				ResponseBank "Version 01"
+				{
+					myResponseList
+					{
+						AIEventResponse Idle < uid=623359295AA04C7500001C02C4E05C9C >
+						{
+							myAudioStateEntered Idle
+							myAudioStateExited None
+							myAudioEvent
+							{
+								myGuid 41F6496EB7A5124F0D26A5351EE05382
+							}
+						}
+						AIEventResponse Combat < uid=623359295AA04C7500001C0393AA496D >
+						{
+							myAudioStateEntered Combat
+							myAudioEvent
+							{
+								myGuid 4074903E3CA5F3ABB6427B103318E689
+							}
+						}
+						AIEventResponse Flee < uid=623359295AA04C7500001C04A22D07E3 >
+						{
+							myAudioStateEntered Flee
+							myAudioEvent
+							{
+								myGuid 4074903E3CA5F3ABB6427B103318E689
+							}
+						}
+						AIEventResponse Feed < uid=623359295AA04C7500001C059B72B69A >
+						{
+							myAudioStateEntered Feed
+							myAudioEvent
+							{
+								myGuid 41F6496EB7A5124F0D26A5351EE05382
+							}
+						}
+					}
+				}
+			}
+		}
+		StateResponse Fauna_12 < uid=6233592959C91754000000882F03D197 > : DefaultFauna
+		{
+			myNPCType Fauna_12
+			myResponseBankList
+			{
+				ResponseBank "Version 01"
+				{
+					myResponseList
+					{
+						AIEventResponse Idle < uid=623359295AA7F22000001CE636A793D9 >
+						{
+							myAudioStateEntered Idle
+							myAudioStateExited None
+							myAudioEvent
+							{
+								myGuid 40B9F3B2CDD1F27599F5F5AA6DC0238B
+							}
+						}
+						AIEventResponse Combat < uid=623359295AA7F22000001CE74070FFC4 >
+						{
+							myAudioStateEntered Combat
+							myAudioEvent
+							{
+								myGuid 4FAA9E4C050C3543DC73EDB1FF7F08AE
+							}
+						}
+						AIEventResponse Flee < uid=623359295AA7F22000001CE8B8F9729A >
+						{
+							myAudioStateEntered Flee
+							myAudioEvent
+							{
+								myGuid 4FAA9E4C050C3543DC73EDB1FF7F08AE
+							}
+						}
+						AIEventResponse Feed < uid=623359295AA7F22000001CE954C4390B >
+						{
+							myAudioStateEntered Feed
+							myAudioEvent
+							{
+								myGuid 40B9F3B2CDD1F27599F5F5AA6DC0238B
+							}
+						}
+					}
+				}
+			}
+		}
+		StateResponse Fauna_13 < uid=6233592959C91754000000890E7E5A21 > : DefaultFauna
+		{
+			myNPCType Fauna_13
+			myResponseBankList
+			{
+				ResponseBank "Version 01"
+				{
+					myResponseList
+					{
+						AIEventResponse Idle < uid=172C28C659F8D5C40002EDFB5C45E3E4 >
+						{
+							myAudioStateEntered Idle
+							myAudioStateExited None
+							myAudioEvent
+							{
+								myGuid 48035136200CA1D121BDD4AC8FB699AD
+							}
+						}
+						AIEventResponse Combat < uid=172C28C659F8D5C40002EDFC8BB8253A >
+						{
+							myAudioStateEntered Combat
+							myAudioEvent
+							{
+								myGuid 46F1D67AEB79A44E0F5BB1734E20DD9A
+							}
+						}
+						AIEventResponse Flee < uid=172C28C659F8D5C40002EDFD6B13644C >
+						{
+							myAudioStateEntered Flee
+							myAudioEvent
+							{
+								myGuid 44B00350DDCF2199C7973C550FFD4DAF
+							}
+						}
+						AIEventResponse Feed < uid=172C28C659F8D5C40002EDFE2B4CE0C7 >
+						{
+							myAudioStateEntered Feed
+							myAudioEvent
+							{
+								myGuid 4A985F035D66F6EFEB5C3505BB09F5B9
+							}
+						}
+					}
+				}
+			}
+		}
+		StateResponse Fauna_14 < uid=6233592959136AE400009CB3844B949D > : DefaultFauna
+		{
+			myNPCType Fauna_14
+			myResponseBankList
+			{
+				ResponseBank "Version 01"
+				{
+					myResponseList
+					{
+						AIEventResponse Idle < uid=6233592959136AE400009CB4EAE2AB04 >
+						{
+							myAudioStateEntered Idle
+							myAudioEvent
+							{
+								myGuid 425C28E5F0A5F378F9B3165A7C07EA81
+							}
+						}
+						AIEventResponse Flee < uid=62335929591373A100015FCEAB27150C >
+						{
+							myAudioStateEntered Flee
+							myAudioEvent
+							{
+								myGuid 46C6BE2E8197EBFFEFF2C87FC1E21386
+							}
+						}
+					}
+				}
+			}
+		}
+		StateResponse Fauna_15 < uid=6233592959C917540000008ACBBA91CA > : DefaultFauna
+		{
+			myNPCType Fauna_15
+			myResponseBankList
+			{
+				ResponseBank "Version 01"
+				{
+					myResponseList
+					{
+						AIEventResponse Idle < uid=623359295AA1923400001C188E281EE8 >
+						{
+							myAudioStateEntered Idle
+							myAudioStateExited None
+							myAudioEvent
+							{
+								myGuid 49B547B88C86F48D3E7EB2E176931AAA
+							}
+						}
+						AIEventResponse Combat < uid=623359295AA1923400001C192273D632 >
+						{
+							myAudioStateEntered Combat
+							myAudioEvent
+							{
+								myGuid 41326AF01C924EE6B1F74B80A15B12B1
+							}
+						}
+						AIEventResponse Flee < uid=623359295AA1923400001C1A879BF15E >
+						{
+							myAudioStateEntered Flee
+							myAudioEvent
+							{
+								myGuid 4753CE72325EB707CFA0265686458587
+							}
+						}
+						AIEventResponse Feed < uid=623359295AA1923400001C1B61E2EC9B >
+						{
+							myAudioStateEntered Feed
+							myAudioEvent
+							{
+								myGuid 49B547B88C86F48D3E7EB2E176931AAA
+							}
+						}
+						AIEventResponse Charge < uid=623359295B0EC5C600007911CCFA5766 >
+						{
+							myStateEntered None
+							myAudioStateEntered Chase
+							myAudioEvent
+							{
+								myGuid 41BCB8FA919C6BF02207AD5BC58C5CBC
+							}
+						}
+					}
+				}
+			}
+		}
+		StateResponse Fauna_16 < uid=6233592959C917540000008B881E6B50 > : DefaultFauna
+		{
+			myNPCType Fauna_16
+			myResponseBankList
+			{
+				ResponseBank "Version 01"
+				{
+					myResponseList
+					{
+						AIEventResponse Idle < uid=623359295A1847A50000216EDF8C3D9E >
+						{
+							myAudioStateEntered Idle
+							myAudioStateExited None
+							myAudioEvent
+							{
+								myGuid 44F75543A4246FB8E138A0DCBCA928B0
+							}
+						}
+						AIEventResponse Combat < uid=623359295A1847A50000216F68409F67 >
+						{
+							myAudioStateEntered Combat
+							myAudioEvent
+							{
+								myGuid 49F1DF6E5634F6D04C46D74E27A2728F
+							}
+						}
+						AIEventResponse Flee < uid=623359295A1847A500002170277F672F >
+						{
+							myAudioStateEntered Flee
+							myAudioEvent
+							{
+								myGuid 406EB7C6520605EA8AC17F3F068AFFB0
+							}
+						}
+						AIEventResponse Feed < uid=623359295A1847A500002171BA7ADE0C >
+						{
+							myAudioStateEntered Feed
+							myAudioEvent
+							{
+								myGuid 44F75543A4246FB8E138A0DCBCA928B0
+							}
+						}
+					}
+				}
+			}
+		}
+		StateResponse Fauna_17 < uid=6233592959C917540000008CB9A09CAD > : DefaultFauna
+		{
+			myNPCType Fauna_17
+			myResponseBankList
+			{
+				ResponseBank "Version 01"
+				{
+					myResponseList
+					{
+						AIEventResponse Idle < uid=623359295A7B676E00001B1E2012093A >
+						{
+							myAudioStateEntered Idle
+							myAudioStateExited None
+							myAudioEvent
+							{
+								myGuid 4875A22B68363B69F2E0099ADDA6A7B5
+							}
+						}
+						AIEventResponse Combat < uid=623359295A7B676E00001B1F6211F72F >
+						{
+							myAudioStateEntered Combat
+							myAudioEvent
+							{
+								myGuid 46F1D67AEB79A44E0F5BB1734E20DD9A
+							}
+						}
+						AIEventResponse Flee < uid=623359295A7B676E00001B202FD3D3D2 >
+						{
+							myAudioStateEntered Flee
+							myAudioEvent
+							{
+								myGuid 4AD1B15C2996D8AB6464D9BB1F8080AF
+							}
+						}
+						AIEventResponse Feed < uid=623359295A7B676E00001B211355D351 >
+						{
+							myAudioStateEntered Feed
+							myAudioEvent
+							{
+								myGuid 4A985F035D66F6EFEB5C3505BB09F5B9
+							}
+						}
+					}
+				}
+			}
+		}
+		StateResponse Fauna_18 < uid=6233592959C917540000008D45F376EA > : DefaultFauna
+		{
+			myNPCType Fauna_18
+			myResponseBankList
+			{
+				ResponseBank "Version 01"
+				{
+					myResponseList
+					{
+						AIEventResponse Idle < uid=623359295A15E4DA00002147F0F1D37D >
+						{
+							myAudioStateEntered Idle
+							myAudioStateExited None
+							myAudioEvent
+							{
+								myGuid 495DF85B42DB6C81441A613322A0C69D
+							}
+						}
+						AIEventResponse Combat < uid=623359295A15E4DA0000214820A4689C >
+						{
+							myAudioStateEntered Combat
+							myAudioEvent
+							{
+								myGuid 4635BFF29DB964927FB44B0C78A98CBC
+							}
+						}
+						AIEventResponse Flee < uid=623359295A15E4DA00002149552CCFBA >
+						{
+							myAudioStateEntered Flee
+							myAudioEvent
+							{
+								myGuid 4635BFF29DB964927FB44B0C78A98CBC
+							}
+						}
+						AIEventResponse Feed < uid=623359295A15E4DA0000214AF8B37A75 >
+						{
+							myAudioStateEntered Feed
+							myAudioEvent
+							{
+								myGuid 495DF85B42DB6C81441A613322A0C69D
+							}
+						}
+					}
+				}
+			}
+		}
+		StateResponse Fauna_19 < uid=6233592959C917540000008E5AD88B5F > : DefaultFauna
+		{
+			myNPCType Fauna_19
+			myResponseBankList
+			{
+				ResponseBank "Version 01"
+				{
+					myResponseList
+					{
+						AIEventResponse Idle < uid=623359295A7A304B0000220778AE0CEB >
+						{
+							myAudioStateEntered Idle
+							myAudioStateExited None
+							myAudioEvent
+							{
+								myGuid 4C020C9A564AC6CD86CECF54406F0488
+							}
+						}
+						AIEventResponse Combat < uid=623359295A7A304B00002208A2E268DB >
+						{
+							myAudioStateEntered Combat
+							myAudioEvent
+							{
+								myGuid 4716A1EC8753F930A9230EA838EC3DBD
+							}
+						}
+						AIEventResponse Flee < uid=623359295A7A304B00002209A3A2089D >
+						{
+							myAudioStateEntered Flee
+							myAudioEvent
+							{
+								myGuid 4A3F7238EFC66B7D3528445043CCF3BE
+							}
+						}
+						AIEventResponse Feed < uid=623359295A7A304B0000220ADB08BDDB >
+						{
+							myAudioStateEntered Feed
+							myAudioEvent
+							{
+								myGuid 4A985F035D66F6EFEB5C3505BB09F5B9
+							}
+						}
+					}
+				}
+			}
+		}
+		StateResponse Fauna_20 < uid=6233592959C917540000008F21E72FBF > : DefaultFauna
+		{
+			myNPCType Fauna_20
+			myResponseBankList
+			{
+				ResponseBank "Version 01"
+				{
+					myResponseList
+					{
+						AIEventResponse Idle < uid=623359295A847F3A00001D096CC7E252 >
+						{
+							myAudioStateEntered Idle
+							myAudioStateExited None
+							myAudioEvent
+							{
+								myGuid 4E995DE327FE50C004178B6BDB16E2A4
+							}
+						}
+						AIEventResponse Combat < uid=623359295A847F3A00001D0A9144C733 >
+						{
+							myAudioStateEntered Combat
+							myAudioEvent
+							{
+								myGuid 46BF3810AAA1D3011B82E2D56F260193
+							}
+						}
+						AIEventResponse Flee < uid=623359295A847F3A00001D0BE1C612C1 >
+						{
+							myAudioStateEntered Flee
+							myAudioEvent
+							{
+								myGuid 46BF3810AAA1D3011B82E2D56F260193
+							}
+						}
+						AIEventResponse Feed < uid=623359295A847F3A00001D0CFE6F6241 >
+						{
+							myAudioStateEntered Feed
+							myAudioEvent
+							{
+								myGuid 4E995DE327FE50C004178B6BDB16E2A4
+							}
+						}
+					}
+				}
+			}
+		}
+		StateResponse Fauna_21 < uid=6233592959C91754000000909C1F9ADA > : DefaultFauna
+		{
+			myNPCType Fauna_21
+			myResponseBankList
+			{
+				ResponseBank "Version 01"
+				{
+					myResponseList
+					{
+						AIEventResponse Idle < uid=623359295A14D0B1000020C8D3EE7716 >
+						{
+							myAudioStateEntered Idle
+							myAudioStateExited None
+							myAudioEvent
+							{
+								myGuid 4503285816B5116B7D52241CCEABF6AF
+							}
+						}
+						AIEventResponse Combat < uid=623359295A14D0B1000020C9D2E89DE2 >
+						{
+							myAudioStateEntered Combat
+							myAudioEvent
+							{
+								myGuid 42FE5933D31AEA24E0459308A1C4B5A1
+							}
+						}
+						AIEventResponse Flee < uid=623359295A14D0B1000020CA0A3E8058 >
+						{
+							myAudioStateEntered Flee
+							myAudioEvent
+							{
+								myGuid 42FE5933D31AEA24E0459308A1C4B5A1
+							}
+						}
+						AIEventResponse Feed < uid=623359295A14D0B1000020CB7DDD3272 >
+						{
+							myAudioStateEntered Feed
+							myAudioEvent
+							{
+								myGuid 4503285816B5116B7D52241CCEABF6AF
+							}
+						}
+					}
+				}
+			}
+		}
+		StateResponse "Mini Enemy 09" < uid=C92F4D3F5BC8E69F000002DE53C38D55 >
+		{
+			myNPCType Mini_Enemy_09
+			myResponseBankList
+			{
+				ResponseBank Version01
+				{
+					myResponseList
+					{
+						AIEventResponse Idle < uid=C92F4D3F5BC8E69F000002DF2894C05A >
+						{
+							myAudioStateEntered Idle
+							myAudioEvent
+							{
+								myGuid 46C208BCAFB737CF5E373289E88D7D91
+							}
+						}
+						AIEventResponse Flee < uid=C92F4D3F5BC8E69F000002E090653ADD >
+						{
+							myAudioStateEntered Flee
+							myAudioEvent
+							{
+								myGuid 439A384AF1BB4FE789AF06BF935579B4
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+

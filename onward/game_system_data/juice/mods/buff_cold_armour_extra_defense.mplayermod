@@ -1,0 +1,35 @@
+include ./template_pilot.mplayermod
+include ./tuning/mod_tuning_master.juice
+
+PlayerMod buff_cold_armour_extra_defense < uid=C91BB551597F7332005048E10137ED11 > : template_pilot
+{
+	myAttributeMods
+	{
+		AttributeMod "Resist Cold Damage"
+		{
+			myType DMG_Resist_Cold
+			myMultValue = Cold_Armor_l1_ChillDef
+		}
+		AttributeMod "Resist Heat Damage"
+		{
+			myType DMG_Resist_Heat
+			myMultValue = Cold_Armor_l1_ChillDef
+		}
+		AttributeMod "Resist Float Damage"
+		{
+			myType DMG_Resist_Float
+			myMultValue = Cold_Armor_l1_ChillDef
+		}
+		AttributeMod "Resist Gravity Damage"
+		{
+			myType DMG_Resist_Crush
+			myMultValue = Cold_Armor_l1_ChillDef
+		}
+		AttributeMod "Resist Kinetic Damage"
+		{
+			myType DMG_Resist_Kinetic
+			myMultValue = Cold_Armor_l1_ChillDef
+		}
+	}
+}
+

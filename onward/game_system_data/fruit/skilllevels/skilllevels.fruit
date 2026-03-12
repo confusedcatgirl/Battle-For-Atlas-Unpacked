@@ -1,0 +1,65 @@
+enum SkillLevelActorType
+{
+	Player
+	NonPlayer
+}
+
+enum SkillSector
+{
+	None
+	A
+	B
+	C
+}
+
+class SkillLevelDelta
+{
+	int myLevelDelta 0
+	float myDamageModifier 1.0
+	float myXPModifier 1.0
+	int myImpactCategoryModifier 0
+}
+
+list SkillLevelDeltas
+{
+	SkillLevelDelta
+}
+
+list Planets
+{
+	uid < bhv = asset assettype = level >
+}
+
+class SkillLevelDeltaData
+{
+	int myMinStoryAct 0
+	int myMaxStoryAct 9999
+	SkillLevelActorType myDamager
+	SkillLevelActorType myDamagee
+	SkillLevelDeltas myDeltas
+}
+
+class SkillLevelPlanetMapping
+{
+	uid myTargetPlanet < bhv = asset assettype = level >
+	int myBaseSkillLevel 1 < tooltip="Base skill level for units on this planet." >
+	int mySpaceSkillLevel 1 < tooltip="Base skill level for units in space to which this planet is nearest." >
+	int myDreadnoughtSkillLevel 1 < tooltip="Base skill level for dreadnoughts to which this planet is nearest." >
+}
+
+list SkillLevelPlanetMappingList
+{
+	SkillLevelPlanetMapping
+}
+
+class SkillLevelActMapping
+{
+	int myAct 1
+	SkillLevelPlanetMappingList myBaseSkillLevelsByPlanet
+}
+
+class SkillSectorPlanetMapping
+{
+	SkillSector mySkillSector
+	Planets myPlanets
+}

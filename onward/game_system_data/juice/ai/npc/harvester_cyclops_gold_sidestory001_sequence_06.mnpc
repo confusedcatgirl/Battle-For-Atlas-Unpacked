@@ -1,0 +1,37 @@
+include ./harvester_cyclops_gold.mnpc
+include onward/skillscripts/npc_controller_context_harvester_cyclops_gold_swarm_dead.mskillscriptjuice
+
+NPC harvester_cyclops_gold_sidestory001_sequence_06 < uid=0A13A8F05B327498000020F0FFA2C394 > : harvester_cyclops_gold
+{
+	myGraphObjectFile "onward/graph objects/character/harvester_golden_cyclops_swarm_shielded.mgraphobject"
+	myControllerContextDefinitions
+	{
+		ControllerContextDefinition Dash
+		{
+			myContextType Dash
+			mySkillScript < uid=93869D535C3775E0000003C4CA228D1A > = npc_controller_context_harvester_cyclops_generic_dash
+		}
+		ControllerContextDefinition Leap
+		{
+			myContextType SuperJump
+			mySkillScript < uid=93869D535C3775E0000003C59A4F6AEF > = npc_controller_context_harvester_cyclops_generic_jump
+		}
+		ControllerContextDefinition Stumble
+		{
+			myContextType Stumble
+			mySkillScript < uid=93869D535C3775E0000003C6448F0A55 > = npc_controller_context_harvester_cyclops_generic_stumble
+		}
+		ControllerContextDefinition "World Entry"
+		{
+			myContextType WorldEntry
+			mySkillScript < uid=93869D535C3775E0000003C783D9E9A2 > = npc_controller_context_harvester_cyclops_world_entry
+		}
+		ControllerContextDefinition Dead
+		{
+			myContextType Dead
+			mySkillScript < uid=93869D535C3775E0000003C85D4DEE9E > = npc_controller_context_harvester_cyclops_gold_swarm_dead
+		}
+	}
+	myConstructionDuration 0.0
+}
+

@@ -1,0 +1,52 @@
+include ./base_npc.mnpc
+include onward/skillscripts/npc_ability_generic_turret_gatling.mskillscriptjuice
+
+NPC base_turret < uid=4A8282B9576AFD490000008878EDB8C2 > : base_npc
+{
+	myUIName_NonLocalized "Generic Turret"
+	myGraphObjectFile "onward/graph objects/character/generic_turret.mgraphobject"
+	myBehavior "onward/game system data/juice/ai/behavior/generic_npc_turret.mbehavior"
+	myExitWorldAffector "onward/entity templates/harvester_turret_death.mentitytemplate"
+	myHealthConfig < uid=4A8282B959F8985F00001DDA608D35E3 > = "base_turret Health"
+	myDeathSettings
+	{
+		myDeathCullTime 0.0
+		myEventDeathCullTime 0.0
+	}
+	myAbilityDefinitions
+	{
+		NPCAbilityDefinition Gatling
+		{
+			myGameAction NPC_Ability1
+			mySkillScript < uid=4A8282B95937042C000001C21C6D356E > = npc_ability_generic_turret_gatling
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_base_turret_gatling.juice"
+		}
+	}
+	myAttributeSettings "onward/game system data/juice/ai/attributes/base_turret.juice"
+	myDropTableOnDeath Default_Drop_Table
+	myAwarenessDistance 300.0
+	myPhysicsCapsuleHeight 0.1
+	myPhysicsSupportHeight 0.0
+	myPhysicsCapsuleRadius 0.1
+	myPhysicsSnapToGround FALSE
+	myIsCollisionEnabled FALSE
+	myIsAffectedByGravity FALSE
+	myIsMobile FALSE
+	myPatternProfile < uid=4A8282B9576AFD490000008993A63611 > = NULLREFERENCE
+	myDefaultMotionPattern < uid=4A8282B9576AFD490000008ABDE3F20D > = "Generic Immobile"
+	myAvoidanceRadius 0.1
+	myNPCFaction Unaligned
+	myNPCType Generic_Turret
+	myAnimSystemType None
+	myThreatLevel 7.0
+	myIsInteractProxy TRUE
+	myIsTargetable TRUE
+	myIsScannable FALSE
+	myLeftFootstepEffectFile ""
+	myRightFootstepEffectFile ""
+	myFrontLeftFootstepEffectFile ""
+	myFrontRightFootstepEffectFile ""
+	myDefaultNavigationType Invalid
+}
+

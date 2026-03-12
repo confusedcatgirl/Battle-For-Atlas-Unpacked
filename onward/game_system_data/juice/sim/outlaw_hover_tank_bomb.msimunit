@@ -1,0 +1,36 @@
+include "onward/game system data/fruit/sim/simunit.fruit"
+
+SimUnit outlaw_hover_tank_bomb < uid=DFE837425C18113700009F99EB4CF083 >
+{
+	myUIName "contextComment = \"The name of the hover tank's homing mine\", description = \"simunit-homing-mine\", enabled = true, guid = #0CFE9C255C33B6D300000086A702C1D1, lineVersion = 0, maxLength = 17, text = \"[Homing Mine]\"}"
+	myBehavior onward/simworld/behavior/generic_reinforcement.msimunitbtgraph
+	myFaction Outlaw
+	myCategory NPC
+	mySubCategory MiniEnemy
+	mySubCategoryVariant 8
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo outlaw_hover_tank_bomb < uid=DFE837425C18113700009F9A88FA74F2 >
+		{
+			myCountMin 1
+			myCountMax 1
+			myElementSpawnInfo
+			{
+				SimUnitElementSpawnInfo mini_enemy_08
+				{
+					myEntityFile "onward/entity templates/outlaw_tank_bomb.mentitytemplate"
+				}
+			}
+		}
+	}
+	mySaveable FALSE
+	myPreserveSpawnInfo FALSE
+	mySkillLevelCoefficients
+	{
+		myPlanetActMultiplier 0
+		myParentLevelMultiplier 0
+		myParentSkillLevelMultiplier 1
+		myUnitLevelMultiplier 0
+	}
+}
+

@@ -1,0 +1,64 @@
+include ./fauna_aggressive.mnpc
+include onward/skillscripts/npc_ability_fauna_charge.mskillscriptjuice
+include onward/skillscripts/npc_ability_fauna_knockback.mskillscriptjuice
+include onward/skillscripts/npc_ability_fauna_shatter.mskillscriptjuice
+include onward/skillscripts/npc_ability_fauna_gatling.mskillscriptjuice
+
+NPC fauna_04 < uid=4A8282B956DE05A100000057D794CB6A > : fauna_aggressive
+{
+	myUIName_NonLocalized Direhorn
+	myGraphObjectFile "onward/graph objects/character/fauna_04.mgraphobject"
+	myBehavior "onward/game system data/juice/ai/behavior/fauna_02.mbehavior"
+	myAbilityDefinitions
+	{
+		NPCAbilityDefinition Shoot
+		{
+			myGameAction NPC_Ability1
+			mySkillScript < uid=93869D535AF476E800019C042B491D22 > = npc_ability_fauna_gatling
+			myInputType Hold_New
+			myEnabled FALSE
+		}
+		NPCAbilityDefinition Shatter
+		{
+			myGameAction NPC_Ability2
+			mySkillScript < uid=93869D535AF476E800019C05AF5CA00D > = npc_ability_fauna_shatter
+			myInputType Hold_New
+			myEnabled FALSE
+		}
+		NPCAbilityDefinition Charge
+		{
+			myGameAction NPC_Ability3
+			mySkillScript < uid=93869D535A7A1373005885E9FDD3808C > = npc_ability_fauna_charge
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_fauna_04_charge.juice"
+		}
+		NPCAbilityDefinition Knockback
+		{
+			myGameAction NPC_Ability4
+			mySkillScript < uid=93869D535AF476E800019C06924F69ED > = npc_ability_fauna_knockback
+			myInputType Hold_New
+			myEnabled FALSE
+		}
+	}
+	myPhysicsCapsuleHeight 3.0
+	myPhysicsSupportHeight -4.0
+	myPhysicsCapsuleRadius 2.0
+	myPhysicsPusherCapsuleRadius 5.0
+	myPhysicsCapsuleOriented FALSE
+	myPhysicsPusherCapsule TRUE
+	myPhysicsCapsuleStart 0.0;12.0;8.0
+	myPhysicsCapsuleEnd 0.0;8.0;-1.0
+	myHitReactionConstants "onward/game system data/juice/combat/hitreactionsconstants_fauna_small.juice"
+	myPatternProfile < uid=4A8282B957BC74A000348E1911520620 > = "Fauna 04"
+	myDefaultMotionPattern < uid=4A8282B957BC74A000348E1A6073BCE2 > = "Fauna 04 Default"
+	myAvoidanceRadius 6.0
+	myNPCType Fauna_04
+	myAnimSystemType Fauna_04
+	myLeggedness Quadruped
+	mySteeringParameters "onward/game system data/juice/ai/steering/fauna_04.juice"
+	myDefaultFootstepEvent 4B8129AAE0E07C5C20015714B37BC9A5
+	myOnDeathChallenge Death_Fauna04
+	myOnDiscoveredChallenge Discover_Fauna04
+	myFullyScannedChallenge FullyScan_Fauna04
+}
+

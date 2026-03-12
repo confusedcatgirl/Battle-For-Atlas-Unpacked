@@ -1,0 +1,36 @@
+include ./fauna_02.mnpc
+include ./fauna_04.mnpc
+
+NPC fauna_21 < uid=D1E9B2CB58334972000000DCCCB9EDB9 > : fauna_base
+{
+	myUIName_NonLocalized Bileburp
+	myGraphObjectFile "onward/graph objects/character/fauna_21.mgraphobject"
+	myBehavior "onward/game system data/juice/ai/behavior/fauna_skittish.mbehavior"
+	myAbilityDefinitions
+	{
+		NPCAbilityDefinition Knockback
+		{
+			myGameAction NPC_Ability4
+			mySkillScript < uid=93869D535A9EB95E00001CDAAFC2EEE2 > = npc_ability_fauna_knockback
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_fauna_21_knockback.juice"
+		}
+	}
+	myAttributeSettings "onward/game system data/juice/ai/attributes/fauna_aggressive.juice"
+	myPhysicsPusherCapsuleRadius 4.5
+	myPhysicsPusherCapsule TRUE
+	myPhysicsCapsuleStart 0.0;9.0;6.0
+	myPhysicsCapsuleEnd 0.0;7.5;-3.0
+	myHitReactionConstants "onward/game system data/juice/combat/hitreactionsconstants_fauna_small.juice"
+	myPatternProfile < uid=4A8282B957BC74A000348E1911520620 > = "Fauna 21"
+	myDefaultMotionPattern < uid=4A8282B957BC74A000348E1A6073BCE2 > = "Fauna 21 Default"
+	myAvoidanceRadius 7.0
+	myNPCType Fauna_21
+	myAnimSystemType Fauna_21
+	myLeggedness Quadruped
+	myDefaultFootstepEvent 4F309C4299E06E10962325841D376F85
+	myOnDeathChallenge Death_Fauna21
+	myOnDiscoveredChallenge Discover_Fauna21
+	myFullyScannedChallenge FullyScan_Fauna21
+}
+

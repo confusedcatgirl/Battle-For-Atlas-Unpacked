@@ -1,0 +1,19 @@
+include ./templates/template_l3.juice
+include "onward/game system data/juice/mods/mod_templar_armour_l3.mplayermod"
+include ./damageaffectors/damage_affectors.juice
+
+Enhancement templararmour_l3 < uid=C91BB55159808A21000F22835E8BA234 > : "Level 3"
+{
+	myLocalizedName "contextComment = \"[Placeholder - do not translate]\nName for level 3 version of a Ship Armor that makes the ship much more durable.\", description = \"\", enabled = true, guid = #C91BB55159808A21000F2282CE42CEFA, lineVersion = 2, maxLength = 25, text = \"Commander Armor III\""
+	myLocalizedDescription "contextComment = \"[Placeholder - do not translate]\nDescription for level 3 version of a Ship Armor that makes the ship much more durable.\", description = \"enhancement-description-templar-armour-3\", enabled = true, guid = #43966E58B13546E1863968D9085DCBC3, lineVersion = 2, maxLength = 130, text = \"+60 Defense\n+25% Damage Resistance near Allies\nMore Durable while Low Health\nIncreases ship's weight\"}"
+	myIconSprite "mySpriteId = 2112311198, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-mods-ship-armour.spritesheet\""
+	myIsHullEnhancement TRUE
+	myMod < uid=C91BB55159808A21000F22843FAEB347 > = mod_templar_armour_l3
+	myEnhancementType Armour
+	myEnhancementTrackType TemplarArmour
+	myDamageAffectors
+	{
+		DamageAffector_DamageResistanceAroundAllies "Resistance Near Allies" = CommanderArmor_ResistanceNearAllies_l3
+	}
+}
+

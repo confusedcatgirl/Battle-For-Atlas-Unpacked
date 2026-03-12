@@ -1,0 +1,27 @@
+include ./damageaffectors/damage_affectors.juice
+include "onward/game system data/juice/mods/mod_assault_weaponcore_l5.mplayermod"
+include ./templates/template_l5.juice
+
+Enhancement assaultweaponcore_l5 < uid=C91BB551596FB7BD0000006C8A46EE08 > : "Level 5"
+{
+	myLocalizedName "contextComment = \"[Placeholder - do not translate]\nName for the level 5 version of the Assault Weapon Core, which improves damage & range\", description = \"\", enabled = true, guid = #C91BB551596FC147005B612806F8BB98, lineVersion = 2, maxLength = 16, text = \"Power Ammo V\""
+	myLocalizedDescription "contextComment = \"[Placeholder - do not translate]\nDescription of the gameplay effects of the Assault Weapon Core level 5\", description = \"enhancement-description-assault-weapon-core-5\", enabled = true, guid = #9E6AFEDA59CD85800001893990E956BE, lineVersion = 2, maxLength = 125, text = \"+55% Damage\n+50% Damage for 5s after a kill\n+10% Weapon Range\n+25% Damage to targets Below 50%HP\""
+	myIconSprite "mySpriteId = 417723662, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-mods-weapon-core.spritesheet\""
+	myMod < uid=C91BB551596FB9340000009D8891A434 > = mod_assault_weaponcore_l5
+	myEnhancementType WeaponCore
+	myEnhancementTrackType AssaultWeaponCore
+	myDamageAffectors
+	{
+		DamageAffector_PlayerDamageBoostOnKill "Boost on Kill"
+		{
+			myDamageMultiplier = Assault_WeaponCore_l5_KillDmg
+			myDamageBoostTime 5.0
+		}
+		DamageAffector_LowHealth "Damage To Low Health"
+		{
+			myDamageMultiplier = Assault_WeaponCore_l5_LowHPDamage
+			myLowHealthPercent 0.5
+		}
+	}
+}
+

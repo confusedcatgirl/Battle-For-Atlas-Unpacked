@@ -1,0 +1,31 @@
+include "onward/game system data/fruit/sim/simunit.fruit"
+
+SimUnit pickup_fauna_sample_base < uid=2B55C72B59C1671D000000AD94EC0EEC >
+{
+	myUIName "contextComment = \"\", description = \"\", enabled = false, guid = #2B55C72B59C1671D000000AC8C01B427, lineVersion = 0, maxLength = 1, text = \"|empty|\""
+	myBehavior ""
+	myControlGraph onward/simworld/control/fauna_sample.msimunitcontrolgraph
+	myFaction Fauna
+	myCategory Pickup
+	mySubCategory FaunaSample
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo Pickup < uid=2B55C72B59C1674A000000AEE6E790F7 >
+		{
+			myCountMin 1
+			myCountMax 1
+			myEntityFile "onward/entity templates/pickup_fauna_sample_base.mentitytemplate"
+		}
+	}
+	mySaveable FALSE
+	myInterestSettings
+	{
+		myIsEnabled FALSE
+		myShouldLockValidTarget TRUE
+	}
+	mySkillLevelCoefficients
+	{
+		myPlanetActMultiplier 1
+	}
+}
+

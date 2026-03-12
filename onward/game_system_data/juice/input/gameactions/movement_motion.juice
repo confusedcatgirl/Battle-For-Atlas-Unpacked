@@ -1,0 +1,870 @@
+include "onward/game system data/juice/input/inputactions.juice"
+include "onward/game system data/fruit/input/gameinput.fruit"
+
+TriggerGameAction "[Movement] Can Maneuver"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameActionState IsFlippedOver
+		{
+			myNegate TRUE
+			myGameActionState IsFlippedOver
+		}
+		ConditionalGameActionState IsHoldingHeavyObject
+		{
+			myNegate TRUE
+			myGameActionState IsHoldingHeavyObject
+		}
+	}
+	myGameAction PlayerQuery_CanManeuver
+}
+
+TriggerGameAction "[Movement] Can Dash"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameActionState IsFlippedOver
+		{
+			myNegate TRUE
+			myGameActionState IsFlippedOver
+		}
+		ConditionalGameActionState IsHoldingHeavyObject
+		{
+			myNegate TRUE
+			myGameActionState IsHoldingHeavyObject
+		}
+		ConditionalGameActionState IsFalling
+		{
+			myNegate TRUE
+			myGameActionState IsFalling
+		}
+		ConditionalGameActionState InHopWindow
+		{
+			myGameActionState InHopWindow
+		}
+		ConditionalGameActionState InStasis
+		{
+			myNegate TRUE
+			myGameActionState InStasis
+		}
+	}
+	myGameAction PlayerQuery_CanDash
+}
+
+TriggerGameAction "[Movement] Move Forward"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction "Rotated Left Stick Up Analog"
+		{
+			myInputActionType Analog
+			myInputAction = LEFT_STICK_UP
+		}
+	}
+	myGameAction MoveForward
+}
+
+TriggerGameAction "[Movement] Move Backward"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction "Rotated Left Stick Down Analog"
+		{
+			myInputActionType Analog
+			myInputAction = LEFT_STICK_DOWN
+		}
+	}
+	myGameAction MoveBackward
+}
+
+TriggerGameAction "[Movement] Push Forward"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction "Rotated Left Stick Up Analog"
+		{
+			myInputActionType HoldDown
+			myInputAction = LEFT_STICK_UP
+		}
+	}
+	myGameAction PushForward
+}
+
+TriggerGameAction "[Movement] Push Backward"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction "Rotated Left Stick Down Analog"
+		{
+			myInputActionType HoldDown
+			myInputAction = LEFT_STICK_DOWN
+		}
+	}
+	myGameAction PushBackward
+}
+
+TriggerGameAction "[Movement] Move Left Motion"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction "Rotated Left Stick Left Analog"
+		{
+			myInputActionType Analog
+			myInputAction = ROLL_LEFT
+		}
+	}
+	myGameAction MoveLeft
+}
+
+TriggerGameAction "[Movement] Move Right Motion"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction "Rotated Left Stick Right Analog"
+		{
+			myInputActionType Analog
+			myInputAction = ROLL_RIGHT
+		}
+	}
+	myGameAction MoveRight
+}
+
+TriggerGameAction "[Movement] Move Forward Motion"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction "Rotated Left Stick Up Analog"
+		{
+			myInputActionType Analog
+			myInputAction = PITCH_DOWN
+		}
+	}
+	myGameAction MoveForward
+}
+
+TriggerGameAction "[Movement] Move Backward Motion"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction "Rotated Left Stick Down Analog"
+		{
+			myInputActionType Analog
+			myInputAction = PITCH_UP
+		}
+	}
+	myGameAction MoveBackward
+}
+
+TriggerGameAction "[Movement] Push Left Motion"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction "Rotated Left Stick Left Analog"
+		{
+			myInputActionType HoldDown
+			myInputAction = ROLL_LEFT
+		}
+	}
+	myGameAction PushLeft
+}
+
+TriggerGameAction "[Movement] Push Right Motion"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction "Rotated Left Stick Right Analog"
+		{
+			myInputActionType HoldDown
+			myInputAction = ROLL_RIGHT
+		}
+	}
+	myGameAction PushRight
+}
+
+TriggerGameAction "[Movement] Push Forward Motion"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction "Rotated Left Stick Up Analog"
+		{
+			myInputActionType HoldDown
+			myInputAction = PITCH_DOWN
+		}
+	}
+	myGameAction PushForward
+}
+
+TriggerGameAction "[Movement] Push Backward Motion"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction "Rotated Left Stick Down Analog"
+		{
+			myInputActionType HoldDown
+			myInputAction = PITCH_UP
+		}
+	}
+	myGameAction PushBackward
+}
+
+TriggerGameAction "[Movement] Throttle"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction "Left Trigger"
+		{
+			myInputActionType HoldDown
+			myInputAction = LEFT_STICK_UP
+		}
+	}
+	myGameAction Throttle
+}
+
+TriggerGameAction "[Movement] Can Start Flight Engines"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameActionState IsFlippedOver
+		{
+			myNegate TRUE
+			myGameActionState IsFlippedOver
+		}
+		ConditionalGameActionState IsRagdoll
+		{
+			myNegate TRUE
+			myGameActionState IsRagdoll
+		}
+		ConditionalGameActionState IsHoldingHeavyObject
+		{
+			myNegate TRUE
+			myGameActionState IsHoldingHeavyObject
+		}
+	}
+	myGameAction PlayerQuery_CanStartFlightEngines
+}
+
+TriggerGameAction "[Movement] Can Stop Flight Engines"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameActionState IsFlying
+		{
+			myGameActionState IsFlying
+		}
+		ConditionalGameActionState IsLaunching
+		{
+			myGameActionState IsLaunching
+			myNegate TRUE
+		}
+	}
+	myGameAction PlayerQuery_CanStopFlightEngines
+}
+
+TriggerGameAction "[Movement] Can Start Hyper Drive"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameActionState IsRagdoll
+		{
+			myNegate TRUE
+			myGameActionState IsRagdoll
+		}
+	}
+	myGameAction PlayerQuery_CanStartHyperDrive
+}
+
+TriggerGameAction "[Movement] Can Stop Hyper Drive"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameActionState IsInHyperDrive
+		{
+			myGameActionState InHyperspace
+		}
+		ConditionalGameActionState IsStartingHyperDrive
+		{
+			myNegate TRUE
+			myGameActionState IsStartingHyperDrive
+		}
+	}
+	myGameAction PlayerQuery_CanStopHyperDrive
+}
+
+TriggerGameAction "[Movement] Flight Engine Start"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction LB
+		{
+			myInputActionType HoldDownBeforeTime
+			myTimer 550
+			myInputAction = LEFT_BUMPER_L1
+		}
+		ConditionalGameAction PlayerQuery_CanStartFlightEngines
+		{
+			myGameAction PlayerQuery_CanStartFlightEngines
+			myRequireNewInput TRUE
+		}
+	}
+	myGameAction FlightEngineStart
+}
+
+TriggerGameAction "[Movement] Flight Engine Stop"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction LB
+		{
+			myInputAction = LEFT_BUMPER_L1
+		}
+		ConditionalGameAction PlayerQuery_CanStopFlightEngines
+		{
+			myGameAction PlayerQuery_CanStopFlightEngines
+		}
+	}
+	myGameAction FlightEngineStop
+}
+
+TriggerGameAction "[Movement] Hyper Drive Start"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction LB
+		{
+			myInputActionType HoldDownBeforeTime
+			myTimer 550
+			myInputAction = LEFT_BUMPER_L1
+		}
+		ConditionalGameAction PlayerQuery_CanStartHyperDrive
+		{
+			myGameAction PlayerQuery_CanStartHyperDrive
+			myRequireNewInput TRUE
+		}
+	}
+	myGameAction StartHyperDrive
+}
+
+TriggerGameAction "[Movement] Hyper Drive Stop"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction LB
+		{
+			myInputAction = LEFT_BUMPER_L1
+		}
+		ConditionalGameAction PlayerQuery_CanStopHyperDrive
+		{
+			myGameAction PlayerQuery_CanStopHyperDrive
+		}
+	}
+	myGameAction StopHyperDrive
+}
+
+TriggerGameAction "[Movement] Reset Controller Orientation"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction "Left Stick Click"
+		{
+			myInputAction = LEFT_STICK_BUTTON
+		}
+	}
+	myGameAction ResetOrientation
+}
+
+TriggerGameAction "[Movement] Toggle Motion Controls"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Right Stick Click and D-Pad Down"
+		{
+			myOperator And
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Dpad Down Down"
+				{
+					myInputActionType HoldDown
+					myToggle FALSE
+					myInputAction = D_PAD_DOWN
+				}
+				ConditionalInputAction "RS Click"
+				{
+					myInputAction = RIGHT_STICK_BUTTON
+				}
+			}
+		}
+	}
+	myGameAction ToggleMotion
+}
+
+TriggerGameAction "[Movement] Toggle Ghost"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "LS Click + RS Click"
+		{
+			myOperator And
+			myConditionalInputActions
+			{
+				ConditionalInputAction "LS Click"
+				{
+					myInputActionType Pressed
+					myInputAction = LEFT_STICK_BUTTON
+				}
+				ConditionalInputAction "RS Click"
+				{
+					myInputActionType HoldDown
+					myInputAction = RIGHT_STICK_BUTTON
+				}
+			}
+		}
+	}
+	myGameAction ToggleGhost
+}
+
+TriggerGameAction "[Movement] Toggle Ghost2"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "LS Click + RS Click"
+		{
+			myOperator And
+			myConditionalInputActions
+			{
+				ConditionalInputAction "LS Click"
+				{
+					myInputActionType HoldDown
+					myInputAction = LEFT_STICK_BUTTON
+				}
+				ConditionalInputAction "RS Click"
+				{
+					myInputActionType Pressed
+					myInputAction = RIGHT_STICK_BUTTON
+				}
+			}
+		}
+	}
+	myGameAction ToggleGhost
+}
+
+TriggerGameAction "[Movement] Switch Action Scheme"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction "DPad Up"
+		{
+			myInputAction = D_PAD_UP
+		}
+	}
+	myGameAction SwitchActionScheme
+}
+
+TriggerGameAction "[Movement] Maneuver Start"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction A_Cross
+		{
+			myInputActionType Pressed
+			myTimer 0
+			myValidForTimer 250
+			myInputAction = B_CRICLE
+		}
+		ConditionalGameAction PlayerQuery_CanManeuver
+		{
+			myGameAction PlayerQuery_CanManeuver
+		}
+	}
+	myGameAction ManeuverStart
+}
+
+TriggerGameAction "[Movement] Dash Start"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction A_Cross
+		{
+			myInputActionType Pressed
+			myTimer 0
+			myValidForTimer 250
+			myInputAction = B_CRICLE
+		}
+		ConditionalGameAction PlayerQuery_CanDash
+		{
+			myGameAction PlayerQuery_CanDash
+		}
+	}
+	myGameAction DashStart
+}
+
+TriggerGameAction "[Movement] ManeuverBack"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction "LS Down"
+		{
+			myInputActionType HoldDown
+			myValidForTimer 250
+			myInputAction = PITCH_UP
+		}
+		ConditionalInputAction "Not LS Up"
+		{
+			myInputActionType HoldDown
+			myNegate TRUE
+			myInputAction = PITCH_DOWN
+		}
+		ConditionalInputAction "Not LS Left"
+		{
+			myInputActionType HoldDown
+			myNegate TRUE
+			myInputAction = ROLL_LEFT
+		}
+		ConditionalInputAction "Not LS Right"
+		{
+			myInputActionType HoldDown
+			myNegate TRUE
+			myInputAction = ROLL_RIGHT
+		}
+		ConditionalGameAction "Maneuver Start"
+		{
+			myGameAction ManeuverStart
+		}
+	}
+	myGameAction ManeuverBack
+}
+
+TriggerGameAction "[Movement] Maneuver Front"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction "LS Up"
+		{
+			myInputActionType HoldDown
+			myValidForTimer 250
+			myInputAction = PITCH_DOWN
+		}
+		ConditionalGameAction "Maneuver Start"
+		{
+			myGameAction ManeuverStart
+		}
+	}
+	myGameAction ManeuverFront
+}
+
+TriggerGameAction "[Movement] Maneuver Left"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction "LS Down"
+		{
+			myInputActionType HoldDown
+			myValidForTimer 250
+			myInputAction = ROLL_LEFT
+		}
+		ConditionalGameAction "Maneuver Start"
+		{
+			myGameAction ManeuverStart
+		}
+	}
+	myGameAction ManeuverLeft
+}
+
+TriggerGameAction "[Movement] Maneuver Right"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction "LS Down"
+		{
+			myInputActionType HoldDown
+			myInputAction = ROLL_RIGHT
+		}
+		ConditionalGameAction "Maneuver Start"
+		{
+			myGameAction ManeuverStart
+		}
+	}
+	myGameAction ManeuverRight
+}
+
+TriggerGameAction "[Movement] Maneuver Neutral"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameAction "Maneuver Start"
+		{
+			myGameAction ManeuverStart
+		}
+		ConditionalGameActionState IsFalling
+		{
+			myNegate TRUE
+			myGameActionState IsFalling
+		}
+		ConditionalGameActionState InStasis
+		{
+			myNegate TRUE
+			myGameActionState InStasis
+		}
+	}
+	myGameAction ManeuverNeutral
+}
+
+TriggerGameAction "[Movement] Dash Back"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction "LS Down"
+		{
+			myInputActionType HoldDown
+			myValidForTimer 250
+			myInputAction = PITCH_UP
+		}
+		ConditionalGameAction "Dash Start"
+		{
+			myGameAction DashStart
+		}
+	}
+	myGameAction DashBack
+}
+
+TriggerGameAction "[Movement] Dash Front"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameAction "Dash Start"
+		{
+			myGameAction DashStart
+		}
+	}
+	myGameAction DashFront
+}
+
+TriggerGameAction "[Movement] Dash Left"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction "LS Down"
+		{
+			myInputActionType HoldDown
+			myValidForTimer 250
+			myInputAction = ROLL_LEFT
+		}
+		ConditionalGameAction "Dash Start"
+		{
+			myGameAction DashStart
+		}
+	}
+	myGameAction DashLeft
+}
+
+TriggerGameAction "[Movement] Dash Right"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction "LS Down"
+		{
+			myInputActionType HoldDown
+			myValidForTimer 250
+			myInputAction = ROLL_RIGHT
+		}
+		ConditionalGameAction "Dash Start"
+		{
+			myGameAction DashStart
+		}
+	}
+	myGameAction DashRight
+}
+
+TriggerGameAction "[Movement] Trick Neutral"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameActionState IsFlying
+		{
+			myGameActionState IsFlying
+		}
+		ConditionalInputAction "Press RB"
+		{
+			myInputActionType Pressed
+			myInputAction = B_CRICLE
+		}
+	}
+	myGameAction TrickNeutral
+}
+
+TriggerGameAction "[Movement] Trick Left"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup Group
+		{
+			myOperator And
+			myConditionalInputActions
+			{
+				ConditionalGameActionState InAirTrickWindow
+				{
+					myGameActionState InAirTrickWindow
+				}
+				ConditionalInputAction "Rotated Left Stick Left Analog"
+				{
+					myInputActionType HoldDown
+					myValidForTimer 200
+					myInputAction = ROLL_LEFT
+				}
+				ConditionalGameAction ManeuverStart
+				{
+					myGameAction ManeuverStart
+				}
+			}
+		}
+	}
+	myGameAction TrickLeft
+}
+
+TriggerGameAction "[Movement] Trick Right"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup Group
+		{
+			myOperator And
+			myConditionalInputActions
+			{
+				ConditionalGameActionState InAirTrickWindow
+				{
+					myGameActionState InAirTrickWindow
+				}
+				ConditionalInputAction "Rotated Left Stick Right Analog"
+				{
+					myInputActionType HoldDown
+					myValidForTimer 200
+					myInputAction = ROLL_RIGHT
+				}
+				ConditionalGameAction ManeuverStart
+				{
+					myGameAction ManeuverStart
+				}
+			}
+		}
+	}
+	myGameAction TrickRight
+}
+
+TriggerGameAction "[Movement] Trick Forward"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup Group
+		{
+			myOperator And
+			myConditionalInputActions
+			{
+				ConditionalGameActionState InAirTrickWindow
+				{
+					myGameActionState InAirTrickWindow
+				}
+				ConditionalInputAction "Rotated Left Stick Up Analog"
+				{
+					myInputActionType HoldDown
+					myValidForTimer 200
+					myInputAction = PITCH_DOWN
+				}
+				ConditionalGameAction ManeuverStart
+				{
+					myGameAction ManeuverStart
+				}
+			}
+		}
+	}
+	myGameAction TrickForward
+}
+
+TriggerGameAction "[Movement] Trick Backward"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup Group
+		{
+			myOperator And
+			myConditionalInputActions
+			{
+				ConditionalGameActionState InAirTrickWindow
+				{
+					myGameActionState InAirTrickWindow
+				}
+				ConditionalInputAction "Rotated Left Stick Down Analog"
+				{
+					myInputActionType HoldDown
+					myValidForTimer 200
+					myInputAction = PITCH_UP
+				}
+				ConditionalGameAction ManeuverStart
+				{
+					myGameAction ManeuverStart
+				}
+			}
+		}
+	}
+	myGameAction TrickBackward
+}
+
+TriggerGameAction "[Movement] Hop"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction "Press RB"
+		{
+			myInputActionType Pressed
+			myInputAction = RIGHT_BUMPER_R1
+		}
+		ConditionalGameActionState InHopWindow
+		{
+			myGameActionState InHopWindow
+		}
+		ConditionalGameActionState IsFalling
+		{
+			myNegate TRUE
+			myGameActionState IsFalling
+		}
+		ConditionalGameActionState InStasis
+		{
+			myNegate TRUE
+			myGameActionState InStasis
+		}
+		ConditionalGameAction PlayerQuery_CanManeuver
+		{
+			myGameAction PlayerQuery_CanManeuver
+		}
+	}
+	myGameAction Hop
+}
+
+TriggerGameAction "[Movement] Flipped Over Recover"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction R1
+		{
+			myInputActionType Pressed
+			myInputAction = RIGHT_BUMPER_R1
+		}
+	}
+	myGameAction FlippedOverRecover
+}
+
+TriggerGameAction "[Movement] Jet Engine"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction "Hold R1"
+		{
+			myInputActionType HoldDown
+			myInputAction = RIGHT_BUMPER_R1
+		}
+	}
+	ConditionalGameActionState IsManeuvering
+	{
+		myNegate TRUE
+		myGameActionState IsManeuvering
+	}
+	myGameAction JetEngine
+}

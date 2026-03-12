@@ -1,0 +1,22 @@
+include ./templates/template_l3.juice
+include ./damageaffectors/damage_affectors.juice
+include "onward/game system data/juice/mods/mod_revenant_weaponcore_l3.mplayermod"
+
+Enhancement revenantweaponcore_l3 < uid=C91BB5515981ECC30020F70DC1BA6F46 > : "Level 3"
+{
+	myLocalizedName "contextComment = \"[Placeholder - do not translate]\nName for level 3 version of Revenant Weapon Core, which leeches off damaged enemies to heal/recharge the player\", description = \"\", enabled = true, guid = #C91BB5515981ECC30020F70CF0899881, lineVersion = 2, maxLength = 23, text = \"Commander Ammo III\""
+	myLocalizedDescription "contextComment = \"Placeholder - do not translate]\nDescription for level 3 version of Revenant Weapon Core, which leeches off damaged enemies to heal/recharge the player\", description = \"enhancement-description-revenant-weapon-core-3\", enabled = true, guid = #9E6AFEDA59D8066B000000ADCC4A0653, lineVersion = 2, maxLength = 70, text = \"+35% Damage\n+50 Fire Rate\nDamage charges weapon energy\""
+	myIconSprite "mySpriteId = -1172704357, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-mods-weapon-core.spritesheet\""
+	myMod < uid=C91BB5515981ECC30020F70E157E36E6 > = mod_revenant_weaponcore_l3
+	myBuff < uid=C91BB5515981ECC30020F70FF5F33368 > = NULLREFERENCE
+	myEnhancementType WeaponCore
+	myEnhancementTrackType RevenantWeaponCore
+	myDamageAffectors
+	{
+		DamageAffector_DamageToEnergy "Damage to Energy"
+		{
+			myDamageToEnergyRatio = Revenant_WeaponCore_l3_DmgToEnergy
+		}
+	}
+}
+

@@ -1,0 +1,31 @@
+include "onward/game system data/fruit/rulesystem/criterion.fruit"
+
+list PlaceholderCriteriaList
+{
+	Placeholder_Criterion
+}
+
+list IntCriteriaList
+{
+	Int_Criterion
+}
+
+list FloatCriteriaList
+{
+	Float_Criterion
+}
+
+list StringCriteriaList
+{
+	String_Criterion
+}
+
+class CriteriaBank < uid = auto >
+{
+	string myDescription				< tooltip="Short comment to describe this criteriaBank" >
+	int myOasisAIElementTypeID			< default = 0 hidden = 1 tooltip="Do **NOT** alter this manually. It should be assigned from Oasis only" >
+	IntCriteriaList			myIntCriteria
+	FloatCriteriaList		myFloatCriteria
+	StringCriteriaList		myStringCriteria
+	PlaceholderCriteriaList	myPlaceholderCriteria		< hidden = 1 tooltip = "Criteria downloaded from Oasis that need to be turned into real Criteria." >
+}

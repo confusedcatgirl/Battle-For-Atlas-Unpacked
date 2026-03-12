@@ -1,0 +1,31 @@
+include ./statuseffects_includes.juice
+
+StatusEffect freeze < uid=F2C5C6925799026100000037CA595BE3 >
+{
+	myType Freeze
+	myAdditives
+	{
+		StatusEffectAdditive Chill
+		{
+			myType Chill
+			myMultiplier 2.0
+		}
+	}
+	myResetTypes
+	{
+		StatusEffectType Sunder Sunder
+		StatusEffectType Fire Fire
+		StatusEffectType Gravity Gravity
+		StatusEffectType Lift Stasis
+		StatusEffectType Overload StasisOverload
+	}
+	myWorldReaction < uid=383282CB57D6D03D0000045E94979D9E >
+	{
+		myDescription "Base World Freeze Reaction"
+		myStatusEffectType Freeze
+		myDuration 10.0
+		mySkillScript onward/skillscripts/world_reaction_freeze.mskillscriptjuice
+	}
+	myWorldReactionTemplate "onward/entity templates/manifestation_template.mentitytemplate"
+}
+

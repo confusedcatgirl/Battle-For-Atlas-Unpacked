@@ -1,0 +1,60 @@
+include ./fauna_base.msimunit
+
+SimUnit fauna_03 < uid=C92F4D3F5730AF9E00000091B224EBC0 > : fauna_base
+{
+	myUIName "contextComment = \"The UI name for Fauna 03\", description = \"uiname-fauna-03\", enabled = true, guid = #1ABBD50B58B48A1A000557A59AE1A3B4, lineVersion = 0, maxLength = 14, text = \"Blub-Blub\""
+	myBehavior onward/simworld/behavior/simworld_fauna_default.msimunitbtgraph
+	mySubCategory Fauna_03
+	mySubCategoryVariant 3
+	myRadius 20.0
+	mySpeed 7.0
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo "Level 0" < uid=93869D5359BAC2EF005120C5EEC3F13A >
+		{
+			myCountMin 1
+			myCountMax 1
+			myEntitySize 3.0
+			myEntityFile ""
+			myElementSpawnInfo
+			{
+				SimUnitElementSpawnInfo Herd
+				{
+					myEntityFile "onward/game system data/juice/ai/npc/fauna_03.mnpc"
+					myLevelMin 0
+					myLevelMax 1
+				}
+			}
+		}
+		SimUnitEntitySpawnInfo "Level 1" < uid=93869D535AFB138B00C63F60DE09AB1B >
+		{
+			myCountMin 1
+			myCountMax 2
+			myElementSpawnInfo
+			{
+				SimUnitElementSpawnInfo "New SimUnitElementSpawnInfo (0)"
+				{
+					myEntityFile "onward/game system data/juice/ai/npc/fauna_03.mnpc"
+					myLevelMin 2
+					myLevelMax 2
+				}
+			}
+		}
+		SimUnitEntitySpawnInfo "Level 2" < uid=93869D535AFB138B00C63F61688BFFA6 >
+		{
+			myCountMin 1
+			myCountMax 4
+			myEntitySize 3.0
+			myElementSpawnInfo
+			{
+				SimUnitElementSpawnInfo Herd
+				{
+					myEntityFile "onward/game system data/juice/ai/npc/fauna_03.mnpc"
+					myLevelMin 3
+					myLevelMax 3
+				}
+			}
+		}
+	}
+}
+

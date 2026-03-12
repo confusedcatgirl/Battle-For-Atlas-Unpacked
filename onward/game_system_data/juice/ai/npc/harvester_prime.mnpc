@@ -1,0 +1,161 @@
+include "onward/game system data/juice/ai/npcincludes.juice"
+include onward/skillscripts/npc_ability_harvester_prime_beam.mskillscriptjuice
+include onward/skillscripts/npc_ability_harvester_prime_airphase.mskillscriptjuice
+include onward/skillscripts/npc_ability_harvester_prime_omega_beam.mskillscriptjuice
+include onward/skillscripts/npc_ability_harvester_prime_earthshatter.mskillscriptjuice
+include onward/skillscripts/npc_ability_harvester_prime_aerial_takedown.mskillscriptjuice
+include onward/skillscripts/harvester_prime_worldentry.mskillscriptjuice
+include onward/skillscripts/harvester_prime_init.mskillscriptjuice
+include onward/skillscripts/harvester_prime_manage_cores.mskillscriptjuice
+include onward/skillscripts/harvester_prime_footstep_handler.mskillscriptjuice
+include onward/skillscripts/npc_controller_context_harvester_prime_dead.mskillscriptjuice
+include onward/skillscripts/npc_ability_harvester_prime_minor_corruption_volley.mskillscriptjuice
+include onward/skillscripts/npc_ability_harvester_prime_tail_cannon.mskillscriptjuice
+include onward/skillscripts/harvester_prime_player_damage_response.mskillscriptjuice
+include onward/skillscripts/harvester_prime_visual_transition_controls.mskillscriptjuice
+include onward/skillscripts/harvester_prime_nova_infusion_handler.mskillscriptjuice
+include onward/skillscripts/harvester_prime_destroy_towers_underfoot.mskillscriptjuice
+include onward/skillscripts/harvester_prime_chase_handler.mskillscriptjuice
+
+NPC harvester_prime < uid=C92F4D3F55DCAEF500000047B7106B68 >
+{
+	myUIName "contextComment = \"The UI Name for the Prime\", description = \"uiname-harvester-prime\", enabled = true, guid = #1ABBD50B58B86B9D000148A19F289EBA, lineVersion = 0, maxLength = 8, text = \"Prime\""
+	myUIName_NonLocalized Prime
+	myGraphObjectFile "onward/graph objects/character/harvester_02_level_04.mgraphobject"
+	myBehavior "onward/game system data/juice/ai/behavior/harvester_prime.mbehavior"
+	myIsInitiallyAggressive FALSE
+	myExitWorldAffector ""
+	myHealthConfig < uid=4A8282B959F8E9A500001DFBA07F7007 > = "harvester_prime Health"
+	myIsInvulnerable FALSE
+	myOnlyAllowDamageFromBodyParts TRUE
+	myDeathSettings
+	{
+		myDeathCullTime 31536000.0
+		myEventDeathCullTime 31536000.0
+		myWaitForEvent TRUE
+	}
+	myAbilityDefinitions
+	{
+		NPCAbilityDefinition "Air Phase"
+		{
+			myGameAction NPC_Ability1
+			mySkillScript < uid=4A8282B957D6F12200552EDFAF88AD9D > = npc_ability_harvester_prime_airphase
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_harvester_prime_airphase_ground_aoe.juice"
+		}
+		NPCAbilityDefinition "Nova Beam"
+		{
+			myGameAction NPC_Ability2
+			mySkillScript < uid=4A8282B957D72692042E8075A5CDF57D > = npc_ability_harvester_prime_beam
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_harvester_prime_ground_beam.juice"
+		}
+		NPCAbilityDefinition "Minor Corruption Volley"
+		{
+			myGameAction NPC_Ability3
+			mySkillScript < uid=4A8282B95A38299901241DB114DFEB22 > = npc_ability_harvester_prime_minor_corruption_volley
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_harvester_prime_minor_corruption_volley.juice"
+		}
+		NPCAbilityDefinition Earthshatter
+		{
+			myGameAction NPC_Ability4
+			mySkillScript < uid=4A8282B957E2D19E00B3176D458282B7 > = npc_ability_harvester_prime_earthshatter
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_harvester_prime_earthshatter.juice"
+		}
+		NPCAbilityDefinition "Omega Beam (Nova Infusion)"
+		{
+			myGameAction NPC_Ability5
+			mySkillScript < uid=4A8282B957E41CA0000002C5A387598C > = npc_ability_harvester_prime_omega_beam
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_harvester_prime_omega_beam.juice"
+		}
+		NPCAbilityDefinition "Dreadnaught Strike"
+		{
+			myGameAction NPC_Ability6
+			mySkillScript < uid=4A8282B95858068716D727CA8AF4DDE8 > = npc_ability_harvester_prime_aerial_takedown
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_harvester_prime_aerial_takedown.juice"
+		}
+		NPCAbilityDefinition "Omega Beam"
+		{
+			myGameAction NPC_Ability7
+			mySkillScript < uid=4A8282B95A38299901241DB2034ABE96 > = npc_ability_harvester_prime_tail_cannon
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_harvester_prime_omega_beam.juice"
+		}
+	}
+	myControllerContextDefinitions
+	{
+		ControllerContextDefinition Dead
+		{
+			myContextType Dead
+			mySkillScript < uid=4A8282B95851C724007CC963F0551982 > = npc_controller_context_harvester_prime_dead
+		}
+		ControllerContextDefinition "World Entry"
+		{
+			myContextType WorldEntry
+			mySkillScript < uid=4A8282B958867482000005D79D6E1B3B > = harvester_prime_worldentry
+		}
+	}
+	myPersistentScripts
+	{
+		SkillScript Init < uid=4A8282B958E535A6001C69F5C472BEEF > = harvester_prime_init
+		SkillScript Footsteps < uid=4A8282B95952C519000001AC2788254C > = harvester_prime_footstep_handler
+		SkillScript "Core Management" < uid=4A8282B95A05DFAB0000207EA76EA64A > = harvester_prime_manage_cores
+		SkillScript "Player Damage Response" < uid=4A8282B95A70B578002D7813D5600011 > = harvester_prime_player_damage_response
+		SkillScript "Transition Controls" < uid=4A8282B95ACD118E00002101FA69B68B > = harvester_prime_visual_transition_controls
+		SkillScript "Nova Infusion Handler" < uid=4A8282B95AD5057C00001EB54A8847B3 > = harvester_prime_nova_infusion_handler
+		SkillScript "Destroy Towers Underfoot" < uid=4A8282B95AE373FA00001EB3C33FF546 > = harvester_prime_destroy_towers_underfoot
+		SkillScript "Chase Handler" < uid=4A8282B95AF1C16B00002198F9CD6B3F > = harvester_prime_chase_handler
+	}
+	myResistanceSettings "onward/game system data/juice/ai/resistance/prime_resistance.juice"
+	myCrowdControlAttributeSettings "onward/game system data/juice/ai/attributes/crowd control tiers/npc_cc_tier6.juice"
+	myDropTableOnDeath Kill_Prime_Drop_Table
+	myDropTableOnAffinityWeaknessDeathId Kill_Prime_Drop_Table
+	myAwarenessDistance 400.0
+	myMass 1800.0
+	myLinearInertiaThreshold 5.0
+	myMaxLinearForce 450000.0
+	myPhysicsCapsuleHeight 8.0
+	myPhysicsSupportHeight -14.0
+	myPhysicsCapsuleRadius 8.0
+	myPhysicsSnapToGround TRUE
+	myHasSkinnedCollision TRUE
+	myIsMobile TRUE
+	myPatternProfile < uid=4A8282B956CB970E00C0DDBD88BC6527 > = "Harvester Prime"
+	myDefaultMotionPattern < uid=4A8282B956CB970E00C0DDBED9F48C66 > = "Harvester Prime Default"
+	myAvoidanceRadius 50.0
+	myNPCFaction Harvester
+	myNPCType Harvester_Prime
+	myAnimSystemType Harvester_Prime
+	myLeggedness Quadruped
+	myThreatLevel 4.0
+	myBaseThreatProfile
+	{
+		myDeAggroRange 600.0
+		myPlayerBaseThreat 400.0
+		myCloseRange 20.0
+		myMediumRange 80.0
+		myLongRange 180.0
+		myExtremeRange 300.0
+		myCloseRangeBaseThreat 500.0
+		myLongRangeBaseThreat -200.0
+		myExtremeRangeBaseThreat -400.0
+	}
+	myIsSquadLeader TRUE
+	mySteeringParameters "onward/game system data/juice/ai/steering/harvester_prime.juice"
+	myAgentController DefaultAgentController
+	myAIVisionConeTypeName PrimeVisionCone
+	myIsTargetable TRUE
+	myLeftFootstepEffectFile "onward/graph objects/effect/effect_npc_prime_foot_step_impact.mgraphobject"
+	myRightFootstepEffectFile "onward/graph objects/effect/effect_npc_prime_foot_step_impact.mgraphobject"
+	myFrontLeftFootstepEffectFile "onward/graph objects/effect/effect_npc_prime_foot_step_impact.mgraphobject"
+	myFrontRightFootstepEffectFile "onward/graph objects/effect/effect_npc_prime_foot_step_impact.mgraphobject"
+	myDefaultFootstepEvent 45B3261D5E8D4FE1930DA78303C70689
+	myFootstepRealizationEventType PrimeFootstep
+	myHitReactionRules "onward/game system data/juice/ai/reactions/reaction_rules_npc_prime.juice"
+	myConstructionDuration 2.0
+	myDefaultNavigationType Prime
+	myOnDeathChallenge None
+	myOnDiscoveredChallenge Discover_Prime
+	myAttachSimProxyToBoneCategory TRUE
+	mySimProxyAttachmentBoneCategory TowablePoints
+}
+

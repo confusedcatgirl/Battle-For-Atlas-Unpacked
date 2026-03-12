@@ -1,0 +1,60 @@
+include ./fauna_aggressive.mnpc
+include onward/skillscripts/npc_ability_fauna_charge.mskillscriptjuice
+include onward/skillscripts/npc_ability_fauna_knockback.mskillscriptjuice
+include onward/skillscripts/npc_ability_fauna_shatter.mskillscriptjuice
+include onward/skillscripts/npc_ability_fauna_gatling.mskillscriptjuice
+
+NPC fauna_15 < uid=D1E9B2CB58331ACE00009E359290CF98 > : fauna_aggressive
+{
+	myUIName_NonLocalized Golgoth
+	myGraphObjectFile "onward/graph objects/character/fauna_15.mgraphobject"
+	myBehavior "onward/game system data/juice/ai/behavior/fauna_02.mbehavior"
+	myAbilityDefinitions
+	{
+		NPCAbilityDefinition Shoot
+		{
+			myGameAction NPC_Ability1
+			mySkillScript < uid=93869D535AF476E800019C042B491D22 > = npc_ability_fauna_gatling
+			myInputType Hold_New
+			myEnabled FALSE
+		}
+		NPCAbilityDefinition Shatter
+		{
+			myGameAction NPC_Ability2
+			mySkillScript < uid=93869D535AF476E800019C05AF5CA00D > = npc_ability_fauna_shatter
+			myInputType Hold_New
+			myEnabled FALSE
+		}
+		NPCAbilityDefinition Charge
+		{
+			myGameAction NPC_Ability3
+			mySkillScript < uid=93869D535A7A136C0057DBF615AD9705 > = npc_ability_fauna_charge
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_fauna_15_charge.juice"
+		}
+		NPCAbilityDefinition Knockback
+		{
+			myGameAction NPC_Ability4
+			mySkillScript < uid=93869D535AF476E800019C06924F69ED > = npc_ability_fauna_knockback
+			myInputType Hold_New
+			myEnabled FALSE
+		}
+	}
+	myPhysicsPusherCapsuleRadius 6.0
+	myPhysicsCapsuleOriented FALSE
+	myPhysicsPusherCapsule TRUE
+	myPhysicsCapsuleStart 0.0;12.0;8.0
+	myPhysicsCapsuleEnd 0.0;8.5;-6.0
+	myHitReactionConstants "onward/game system data/juice/combat/hitreactionsconstants_fauna_medium.juice"
+	myPatternProfile < uid=4A8282B957BC74A000348E1911520620 > = "Fauna 15"
+	myDefaultMotionPattern < uid=4A8282B957BC74A000348E1A6073BCE2 > = "Fauna 15 Default"
+	myAvoidanceRadius 6.0
+	myNPCType Fauna_15
+	myAnimSystemType Fauna_15
+	myLeggedness Quadruped
+	myDefaultFootstepEvent 468EFB9676F65310B0783EE201D6CC94
+	myOnDeathChallenge Death_Fauna15
+	myOnDiscoveredChallenge Discover_Fauna15
+	myFullyScannedChallenge FullyScan_Fauna15
+}
+

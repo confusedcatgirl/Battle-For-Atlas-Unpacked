@@ -1,0 +1,27 @@
+include ./fauna_02.mnpc
+
+NPC fauna_14 < uid=4A8282B956DE05DB0000006028234FBE > : fauna_base
+{
+	myUIName_NonLocalized Scrabblebeak
+	myGraphObjectFile "onward/graph objects/character/fauna_14.mgraphobject"
+	myPhysicsCapsuleHeight 3.5
+	myPhysicsCapsuleRadius 3.0
+	myPhysicsPusherCapsuleRadius 4.0
+	myPhysicsCapsuleOriented FALSE
+	myPhysicsPusherCapsule TRUE
+	myPhysicsCapsuleStart 0.0;13.5;10.0
+	myPhysicsCapsuleEnd 0.0;7.5;-3.5
+	myHitReactionConstants "onward/game system data/juice/combat/hitreactionsconstants_fauna_14.juice"
+	myPatternProfile < uid=4A8282B957BB265B000000B05863A5B8 > = "Fauna 14"
+	myDefaultMotionPattern < uid=4A8282B957BB265B000000B11D2E91BA > = "Fauna 14 Default"
+	myAvoidanceRadius 6.0
+	myNPCType Fauna_14
+	myAnimSystemType Fauna_14
+	myLeggedness Quadruped
+	mySteeringParameters "onward/game system data/juice/ai/steering/fauna_14.juice"
+	myDefaultFootstepEvent 415DE993C2D8167E19B58A8F6CCAEFA5
+	myOnDeathChallenge Death_Fauna14
+	myOnDiscoveredChallenge Discover_Fauna14
+	myFullyScannedChallenge FullyScan_Fauna14
+}
+

@@ -1,0 +1,175 @@
+include "onward/game system data/fruit/progression/points.fruit"
+include "onward/game system data/fruit/progression/challenge_types.fruit"
+include "onward/game system data/fruit/buffs/buff.fruit"
+include "onward/game system data/fruit/mods/mod.fruit"
+include "onward/game system data/fruit/attributes/attributes.fruit"
+include "onward/game system data/fruit/loot/rewarddescriptiondata.fruit"
+
+enum LootAttributePayloadType
+{
+	None
+	Health
+	Energy
+	AbilityCharge
+}
+
+enum LootAttributeType
+{
+	Chance
+	Repeat
+}
+
+enum LootAttributeSource
+{
+	Player
+	Pilot
+}
+
+class LootPayload < abstract=1 >
+{
+	
+}
+
+class LootPayloadEntityTemplate : LootPayload < abstract=1 >
+{
+	file						myEntityTemplate		< types=*.mentitytemplate >
+	float						myMinInitialSpeed 10
+	float						myMaxInitialSpeed 15
+	float						myMinAngle 70
+	float						myMaxAngle 110
+	float						myMinSpaceRadius 1
+	float						myMaxSpaceRadius 1
+	float						myVerticalOffset 2
+	bool						myTowardsPlayer FALSE
+}
+
+list LootPayloadList
+{
+	LootPayload
+}
+
+class LootModPayload : LootPayloadEntityTemplate < uid=auto >
+{
+	file						myMod					< types=*.mplayermod >
+}
+
+class LootEnhancementPayload : LootPayloadEntityTemplate < uid=auto >
+{
+	Enhancement*				myEnhancement
+}
+
+class LootPointPayload  : LootPayloadEntityTemplate < uid=auto >
+{
+	ProgressionPointType		myPointType
+	int							myAmount
+}
+
+class LootHealthPayload  : LootPayloadEntityTemplate < uid=auto >
+{
+	float						myAmount
+}
+
+class LootEnergyPayload  : LootPayloadEntityTemplate < uid=auto >
+{
+	float					myAmount
+}
+
+class LootAbilityChargePayload  : LootPayloadEntityTemplate < uid=auto >
+{
+	float					myAmount
+	int						myPilotID -1
+}
+
+class LootAttributePayload  : LootPayloadEntityTemplate < uid=auto >
+{
+	AttributeType				myAttribute
+	LootAttributeSource			myAttributeSource Player
+	LootAttributePayloadType		myAttributePayloadType
+}
+
+class LootSimUnitAssetPayload : LootPayload <uid=auto >
+{
+	file						myName					< types=*.msimunit >
+	string						myDropTable
+}
+
+class LootMultiplePayload : LootPayloadEntityTemplate <uid=auto >
+{
+	LootPayloadList				myPayloads
+}
+
+class LootRandomPayload : LootPayloadEntityTemplate <uid=auto >
+{
+	LootPayloadList				myPayloads
+}
+
+class LootBuffPayload : LootPayloadEntityTemplate <uid=auto >
+{
+	Buff*						myBuff
+}
+
+class LootChallengePayload : LootPayloadEntityTemplate <uid=auto >
+{
+	ChallengeType				myChallengeType
+}
+
+class LootTowablePayload : LootPayloadEntityTemplate <uid=auto >
+{
+	file myAsset < types=*.msimunit >
+}
+
+class LootDropEntry
+{
+	LootPayload					myPayload
+	int							myWeight 1
+}
+
+class LootDropBonusEntry
+{
+	LootPayload					myPayload
+	LootAttributeType		myBonusType
+	LootAttributeSource	myBonusSource Player
+	AttributeType				myAttribute	
+}
+
+list LootDropTableList
+{
+	LootDropEntry
+}
+
+list LootDropBonusList
+{
+	LootDropBonusEntry
+}
+
+class LootDropTableBase
+{
+}
+
+class LootDropTable : LootDropTableBase
+{
+	int							myExperiencePoints
+	ExperiencePointType			myExperiencePointType
+	LootPayload					myBonusPayload
+	LootDropTableList			myEntries
+	LootDropBonusList			myBonuses
+	
+	varmap						myLocalizedDescription			< bhv = "localization" >
+	RewardDescriptionData		myRewardDescriptionData
+}
+
+class LootDropTableLevelEntry
+{
+	LootDropTable*						myDropTable
+	int							myMaxLevel
+}
+
+list LootDropTableLevelEntryList
+{
+	LootDropTableLevelEntry
+}
+
+class LootDropTableProxy : LootDropTableBase
+{
+	LootDropTableLevelEntryList		myEntries
+}

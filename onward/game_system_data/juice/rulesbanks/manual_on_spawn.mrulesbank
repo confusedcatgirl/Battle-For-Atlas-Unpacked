@@ -1,0 +1,23 @@
+include "onward/game system data/juice/rulesystem/rulesbank.juice"
+
+RulesBank manual_ON_SPAWN < uid=600A30F35BC77DB60000004758ADFC08 >
+{
+	myRules
+	{
+		Rule Spawned_GiantWorm_Ashworm < uid=600A30F35BC77EB700000049ACE12B17 >
+		{
+			myRuleConcept ON_SPAWN
+			myCriteriaList
+			{
+				uid "Instigator Faction Is Player" F2C5C6925767FAEB0000000520B9FAB2
+				uid "Target SubCategory Is GiantWorm" 600A30F35BBE38450000003C49E6A639
+				uid "Global Planet Is Ashar" F2C5C69257E0585F00000115DBBC8F7B
+			}
+			myPayloads
+			{
+				uid OnRange_Ashworm 600A30F35BC77A720000004246479CAA
+			}
+		}
+	}
+}
+

@@ -1,0 +1,45 @@
+include ./expedition_defender.mnpc
+
+NPC expedition_defender_elite < uid=93869D535AB50F8600001D27D04AC771 > : expedition_defender
+{
+	myUIName_NonLocalized "Expedition Defender"
+	myGraphObjectFile "onward/graph objects/character/expedition_defender_elite.mgraphobject"
+	myBehavior "onward/game system data/juice/ai/behavior/expedition_defender.mbehavior"
+	myHealthConfig < uid=93869D535AB50F8600001D285CFA65C9 > = "expedition_defender Health"
+	myAbilityDefinitions
+	{
+		NPCAbilityDefinition "Primary Attack - Gatling"
+		{
+			myGameAction NPC_Ability1
+			mySkillScript < uid=93869D535AB50F8600001D29443D0020 > = npc_ability_expedition_defender_gatling
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_expedition_defender_gatling.juice"
+		}
+		NPCAbilityDefinition "Secondary Attack - Missile Volley"
+		{
+			myGameAction NPC_Ability2
+			mySkillScript < uid=93869D535AB50F8600001D2A9FEAA4CE > = npc_ability_expedition_missile_volley
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_expedition_defender_missile_volley.juice"
+		}
+	}
+	myPersistentScripts
+	{
+		SkillScript "Nav Wash" < uid=93869D535AB50F8600001D2B191D890D > = npc_generic_nav_wash
+		SkillScript "Shield Effects" < uid=93869D535AB50F8600001D2C964673CA > = harvester_probe_maintain_shield
+		SkillScript "Child Repair Listener" < uid=93869D535AB50F8600001D2D3AD65D22 > = npc_child_repair_listener
+	}
+	myDropTableOnDeath Defender_Drop_Table
+	myPhysicsCapsuleRadius 1.5
+	myPhysicsCapsuleStart 0.0;0.5;-1.0
+	myPhysicsCapsuleEnd 0.0;0.5;0.5
+	myPatternProfile < uid=93869D535AB50F8600001D2EF0D04262 > = "Expedition Defender"
+	myDefaultMotionPattern < uid=93869D535AB50F8600001D2F0570E894 > = "Expedition Defender Default"
+	myNPCFaction Expedition
+	myNPCType Expedition_Defender
+	myAnimSystemType Expedition_Defender
+	myThreatLevel 2.0
+	myOnDeathChallenge Death_ExpeditionDefender
+	myOnDiscoveredChallenge Discover_ExpeditionDefender
+}
+

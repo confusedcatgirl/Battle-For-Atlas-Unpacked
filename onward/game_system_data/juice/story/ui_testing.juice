@@ -1,0 +1,125 @@
+include ./ui_testing_storybeats.juice
+include "onward/game system data/fruit/ai/ai.fruit"
+include "onward/game system data/juice/sim/harvester_dreadnought.msimunit"
+include "onward/game system data/fruit/entity/faction.fruit"
+include ./act01.juice
+
+StoryBeatSequence "Open/Close Starmap"
+{
+	myStoryBeats
+	{
+		StoryBeatData UI_Begin < uid=63C8917A59E8E4A30000003809E2E084 >
+		{
+			myActStartFlag TRUE
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_Wait "New StoryDataAction_Wait (1)"
+				{
+					mySecondsToWait 1.0
+				}
+			}
+		}
+		StoryBeatData Open < uid=63C8917A59E8E4A30000003909BEEBD1 >
+		{
+			myStoryDataActions
+			{
+				StoryDataAction_UIStarMapOpen "Open StarMap"
+				{
+					myViewType Galaxy
+					myTargetPlanet CC9485AB560D8193000001B70208D164
+				}
+				StoryDataAction_WallClockWait "New StoryDataAction_WallClockWait (1)"
+				{
+					mySecondsToWait 5.0
+				}
+			}
+		}
+		StoryBeatData "Change Planets" < uid=63C8917A5A04D64F0001EE1810C37891 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_UIStarMapFocusOnPlanet "Focus on Planet 05"
+				{
+					myTargetPlanet 2B55C72B560154A200000053621E3961
+				}
+				StoryDataAction_WallClockWait "New StoryDataAction_WallClockWait (1)"
+				{
+					mySecondsToWait 5.0
+				}
+			}
+			myStoryDataActionSets
+			{
+			}
+		}
+		StoryBeatData "Focus On Tundria Base" < uid=63C8917A5A04D64F0001EE19E1D696C7 >
+		{
+			myStoryDataActions
+			{
+				StoryDataAction_UIStarMapFocusOnSimUnit "Focus on Tundria Base"
+				{
+					myTargetSimUnitAssetPath "onward/game system data/juice/sim/act_4_tundria_defense_base.msimunit"
+				}
+				StoryDataAction_WallClockWait "New StoryDataAction_WallClockWait (1)"
+				{
+					mySecondsToWait 5.0
+				}
+			}
+		}
+		StoryBeatData Close < uid=63C8917A59E8E4CA0000003B4D6ACDB6 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_UIStarMapClose "Close StarMap"
+				{
+				}
+			}
+		}
+		StoryBeatData "Wait for Outpost Menu" < uid=63C8917A59E91D7D004DF84F76210515 >
+		{
+			myStoryDataActions
+			{
+				StoryDataAction_WaitForGameToStoryEvent "New StoryDataAction_WaitForGameToStoryEvent (0)"
+				{
+					myGameToStoryStoryEvent UI_OutpostMenuOpened
+				}
+			}
+		}
+		StoryBeatData "Wait on Outpost Menu" < uid=63C8917A59E91D7D004DF85070B5C0D2 >
+		{
+			myStoryDataActions
+			{
+				StoryDataAction_Wait "New StoryDataAction_Wait (0)"
+				{
+					mySecondsToWait 5.0
+				}
+			}
+		}
+		StoryBeatData "New StoryBeatData (6)" < uid=63C8917A59E91D7D004DF85117F42732 >
+		{
+			myStoryDataActions
+			{
+				StoryDataAction_SendStoryToGameEvent "New StoryDataAction_SendStoryToGameEvent (0)"
+				{
+					myStoryToGameEvent UI_CloseOutpostMenu
+				}
+			}
+		}
+		StoryBeatData "Wait Forever" < uid=63C8917A59E91D7D004DF852C01F8756 >
+		{
+			myStoryDataActions
+			{
+				StoryDataAction_Wait "New StoryDataAction_Wait (0)"
+				{
+					mySecondsToWait 50000000.0
+				}
+			}
+		}
+		StoryBeatData "New Game" < uid=63C8917A59EA0F8E0000003666EF0E7E >
+		{
+		}
+	}
+}
+

@@ -1,0 +1,46 @@
+include "onward/game system data/fruit/sim/simunit.fruit"
+
+SimUnit outlaw_outpost_wreck < uid=6D25F4C65A58181309C12B542200437D >
+{
+	myUIName "contextComment = \"\", description = \"\", enabled = true, guid = #6D25F4C65A58181309C12B53EA25F51D, lineVersion = 0, maxLength = 18, text = \"Outlaw Outpost\""
+	myControlGraph onward/simworld/control/space_outlaw_outpost_wreck.msimunitcontrolgraph
+	myFaction Outlaw
+	myCategory Outpost
+	mySubCategory OutlawBase
+	myRadius 2000.0
+	mySpeed 0.0
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo "space_outlaw_outpost_base entity" < uid=6D25F4C65A58181309C12B55FDAA5FC7 >
+		{
+			myCountMin 1
+			myCountMax 1
+			myEntitySize 0.0
+			mySpawnOutsideZone TRUE
+			myIsSpaceLandmark TRUE
+			myEntityFile ""
+			myElementSpawnInfo
+			{
+				SimUnitElementSpawnInfo "space_outlaw_outpost_base entity"
+				{
+					myEntityFile "onward/entity templates/space_outlaw_outpost_base.mentitytemplate"
+				}
+			}
+			myRealizedMinHealthPctWhenDownInSim 1.0
+			myRealizedMaxHealthPctWhenDownInSim 1.0
+		}
+	}
+	mySaveable TRUE
+	mySpawnOutsideZone FALSE
+	myNapTime 0.1
+	myUnlockedChallengeType Discover_OutlawBase
+	myUnkillable FALSE
+	myUnkillableType Killable
+	myIsValidPickupTarget FALSE
+	mySkillLevelCoefficients
+	{
+		myPlanetActMultiplier 1
+		myBaseLevel 2
+	}
+}
+

@@ -1,0 +1,959 @@
+include "onward/game system data/fruit/story/partstory.fruit"
+include ./objectives/tu5_outlaw_objectives.juice
+include "onward/game system data/juice/sim/sidestory001_sequence04_key.msimunit"
+include "onward/game system data/juice/sim/sidestory001_sequence04_missiongiver.msimunit"
+include "onward/game system data/juice/sim/sidestory001_sequence05_key.msimunit"
+include "onward/game system data/juice/sim/sidestory001_sequence05_destination.msimunit"
+include "onward/game system data/juice/sim/sidestory001_sequence05_keyhole.msimunit"
+include "onward/game system data/juice/sim/sidestory001_sequence02_key01.msimunit"
+include "onward/game system data/juice/sim/sidestory001_sequence02_outlaw_guards.msimunit"
+include "onward/game system data/juice/sim/sidestory001_sequence04_outlaw_guards.msimunit"
+include "onward/game system data/juice/sim/sidestory001_sequence02_destination.msimunit"
+include "onward/game system data/juice/sim/sidestory001_sequence06_outlaw_guards.msimunit"
+include "onward/game system data/juice/sim/sidestory001_sequence06_destination.msimunit"
+include "onward/game system data/juice/sim/sidestory001_sequence06_prime_core.msimunit"
+include "onward/game system data/juice/sim/sidestory001_sequence06_prime_core_siphon.msimunit"
+include "onward/game system data/juice/sim/sidestory001_sequence06_goldencyclops_guards.msimunit"
+include "onward/game system data/juice/sim/sidestory001_sequence06_missiongiver.msimunit"
+include "onward/game system data/juice/sim/sidestory001_sequence01_keyhole_a.msimunit"
+include "onward/game system data/juice/sim/sidestory001_sequence02_keyhole01_a.msimunit"
+include "onward/game system data/juice/sim/sidestory001_sequence02_keyhole02.msimunit"
+include "onward/game system data/juice/sim/sidestory001_sequence02_keyhole01_b.msimunit"
+include "onward/game system data/juice/sim/sidestory001_sequence06_keyhole_c.msimunit"
+include "onward/game system data/juice/sim/sidestory01_pilotdossier01.msimunit"
+include "onward/game system data/juice/sim/sidestory01_pilotdossier02.msimunit"
+include "onward/game system data/juice/sim/sidestory01_pilotdossier03.msimunit"
+include "onward/game system data/juice/sim/sidestory01_pilotdossier04.msimunit"
+include "onward/game system data/juice/sim/sidestory01_pilotdossier05.msimunit"
+include "onward/game system data/juice/sim/sidestory01_pilotdossier06.msimunit"
+include "onward/game system data/juice/sim/sidestory001_sequence01_keyhole_c.msimunit"
+include "onward/game system data/juice/sim/sidestory001_sequence04_pluck01.msimunit"
+include "onward/game system data/juice/sim/sidestory001_sequence04_pluck02.msimunit"
+include "onward/game system data/juice/sim/sidestory001_sequence04_pluck03.msimunit"
+include "onward/game system data/juice/sim/sidestory001_sequence01_area_rooftop.msimunit"
+include "onward/game system data/juice/sim/sidestory001_sequence05_area_ramp.msimunit"
+include "onward/game system data/juice/sim/sidestory001_sequence05_area_vinedrock.msimunit"
+include "onward/game system data/juice/sim/sidestory001_sequence06_area_impaledprime.msimunit"
+include "onward/game system data/juice/sim/sidestory001_sequence06_keyhole_b.msimunit"
+include "onward/game system data/juice/sim/sidestory001_sequence06_keyhole_d.msimunit"
+include "onward/game system data/juice/sim/sidestory001_sequence06_keyhole_a.msimunit"
+include "onward/game system data/juice/sim/sidestory001_sequence06_ prime_head_blocker.msimunit"
+include "onward/game system data/juice/sim/sidestory001_sequence05_corruptednova.msimunit"
+include "onward/game system data/juice/sim/sidestory001_sequence05_area_lockedpillar.msimunit"
+include "onward/game system data/juice/sim/sidestory001_sequence02_key01_slot.msimunit"
+include ./actions_library.juice
+include "onward/game system data/juice/sim/sidestory001_sequence06_goldencyclops_02.msimunit"
+include "onward/game system data/juice/sim/sidestory001_sequence06_goldencyclops_03.msimunit"
+include "onward/game system data/juice/sim/onward_equinox_planet.msimunit"
+include "onward/game system data/juice/sim/sidestory001_sequence01_keyhole_b.msimunit"
+include "onward/game system data/juice/sim/sidestory001_sequence02_savestate_cinematickeydropped.msimunit"
+include "onward/game system data/juice/sim/sidestory001_sequence02_key02.msimunit"
+include "onward/game system data/juice/sim/sidestory001_sequence02_vaultdoor02.msimunit"
+include "onward/game system data/juice/sim/outlaw_defender_shattered_planet.msimunit"
+include "onward/game system data/juice/sim/outlaw_defender_space_reinforcement.msimunit"
+include "onward/game system data/juice/sim/act_4_kirite_destination.msimunit"
+include "onward/game system data/juice/sim/space_landmark_02.msimunit"
+include "onward/game system data/juice/sim/outlaw_defender.msimunit"
+include "onward/game system data/juice/sim/onward_equinox_space.msimunit"
+include "onward/game system data/juice/sim/moon01_pilot_trial_flag_02.msimunit"
+include "onward/game system data/juice/sim/waypoint_spline_racer.msimunit"
+include "onward/game system data/juice/sim/pilot_trial_npc_racer.msimunit"
+include "onward/game system data/juice/sim/space_landmark_05.msimunit"
+include "onward/game system data/juice/sim/space_landmark_07.msimunit"
+include "onward/game system data/juice/sim/space_landmark_06.msimunit"
+include "onward/game system data/juice/sim/space_landmark_04.msimunit"
+include "onward/game system data/juice/sim/space_landmark_03.msimunit"
+include "onward/game system data/juice/sim/space_landmark_01.msimunit"
+include "onward/game system data/juice/sim/outlaw_rogue_elite_leader.msimunit"
+include "onward/game system data/juice/sim/space_outlaw_leader_spawn_slot.msimunit"
+include "onward/game system data/juice/sim/outlaw_leader_shattered_planet.msimunit"
+include "onward/game system data/juice/sim/space_ship_wreck_outlaw_squad.msimunit"
+include "onward/game system data/juice/sim/outlaw_defender_collaborator.msimunit"
+include "onward/game system data/juice/sim/outlaw_leader.msimunit"
+include "onward/game system data/fruit/entity/faction.fruit"
+include "onward/game system data/fruit/sim/simunitcategories.fruit"
+include "onward/game system data/fruit/ai/affinitytype.fruit"
+include "onward/game system data/fruit/fogofwar/findsettings.fruit"
+include "onward/game system data/fruit/unitprogression/unitxppayloadtype.fruit"
+include "onward/game system data/fruit/progression/challenge_types.fruit"
+include "onward/game system data/fruit/story/storyevent.fruit"
+include "onward/game system data/juice/sim/arena_npc_battlemech.msimunit"
+
+StoryBeatSequence SIDESTORY_OUTLAW < uid=D701B5085BEDE003000000DD72A53838 >
+{
+	myStoryBeats
+	{
+		StoryBeatData "Gate Story Access" < uid=D701B5085C0996070000003A6D1350D5 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_SetObjectiveBlockEnabled "Disable Block"
+				{
+				}
+				StoryDataAction_WaitForGameToStoryEvent "Wait for game to story event"
+				{
+					myObjectiveAutoRemoves FALSE
+					myGameToStoryStoryEvent TU5_Enable_Outlaw_SideStory
+				}
+			}
+		}
+		StoryBeatData "Quest Block Initialization" < uid=D701B5085BEDE003000000DE389AE883 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_SetObjectiveBlockEnabled "Enable Block"
+				{
+					myEnable TRUE
+				}
+				StoryDataAction_MakeOwnerStoryFlowSelected "Set as Active Quest"
+				{
+					myObjectiveAutoRemoves FALSE
+				}
+				StoryDataAction_SetObjectiveHeader "Set Objective Header"
+				{
+					myObjectiveHeader "contextComment = \"The header for the outlaw sidestory (the outlaw arena)\", description = \"\", enabled = true, guid = #CC9485AB5C673726000003C84B2B93A9, lineVersion = 0, maxLength = 23, text = \"[SideStory_Outlaw]\""
+				}
+				StoryDataAction_SetCustomStoryFaction "Set Faction"
+				{
+					myCustomStoryFaction Outlaw
+				}
+				StoryDataAction_CompleteStoryEvent "Complete Story Event: Started Outlaw Sidestory"
+				{
+					myStoryEvent TU5_Started_Outlaw_Sidestory
+				}
+			}
+		}
+		StoryBeatData "Manual Save" < uid=D701B5085BEDE003000000DFEFB8C5DE > : "Save Point"
+		{
+		}
+	}
+}
+
+StoryBeatSequence "MISSION 1" < uid=D701B5085BEDE003000000E0511C6C38 >
+{
+	myStoryBeats
+	{
+		StoryBeatData "Open Mission" < uid=D701B5085BEDE003000000E10A23FADB >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_TransitionStorySection "Enter Section 01"
+				{
+					myTransitionType Enter
+					myStorySection OutlawSideStory_1
+				}
+			}
+		}
+		StoryBeatData "Welcome & Sign Up for Brawl" < uid=D701B5085C37A8AF000000465F6DACB5 >
+		{
+			myIsCheckpoint FALSE
+			myForceCompleteOptions
+			{
+				myEnabled TRUE
+				myCompleteOnGameToStoryEvent TU5_BrawlArena_Started
+			}
+			myStoryDataActions
+			{
+				StoryDataAction_SetObjective "Set Objective: Welcome to the Arena"
+				{
+					myObjectiveData < uid=D701B5085C37A8AF000000472E4DA6BF > = OutlawStory.m1
+					myObjectiveState Active
+				}
+				StoryDataAction_SetObjective "Set SubObjective: Sign Up"
+				{
+					myIsSubObjective TRUE
+					myObjectiveData < uid=D701B5085C37A8AF00000048133262EF > = OutlawStory.m1.sub1
+					myObjectiveState Active
+				}
+				StoryDataAction_SetTarget "Set Target & Waypoint: Arena Vendor"
+				{
+					myObjectiveAutoRemoves FALSE
+					mySimUnitAssetTarget "onward/game system data/juice/sim/outlaw_games_entry.msimunit"
+					myActivityType Interact
+				}
+				StoryDataAction_Dialog "Dialogue: Start a Party"
+				{
+					myObjectiveAutoRemoves FALSE
+					myDialogSequenceID 5
+					myDialogStoryFlowID 4
+					myPauseInOutpostMenu TRUE
+				}
+				StoryDataAction_CompleteChallenge "Complete Database Challange (Start)"
+				{
+					myObjectiveAutoRemoves FALSE
+					myChallengeToComplete BloodMoon_Outlaw_Start
+				}
+				StoryDataAction_SetUIFeature "Set UI Feature: Highlight Brawl"
+				{
+					myUIFeature Outpost_Arena_HighlightBrawl
+					myIsSet TRUE
+				}
+			}
+		}
+		StoryBeatData "Manual Save" < uid=CC9485AB5C586AB0000000881C6FA47A > : "Save Point"
+		{
+		}
+		StoryBeatSequence "Brawl (Resetting Sequence)" < uid=600A30F35C803E900002959AE96C1E82 >
+		{
+			myIsResettingSequence TRUE
+			myResetSkillScript onward/skillscripts/story_arena_exit_resetter.mskillscriptjuice
+			myStoryBeats
+			{
+				StoryBeatData "Wait for Brawl Started" < uid=600A30F35C803E900002959B546AE0FF >
+				{
+					myIsCheckpoint FALSE
+					myStoryDataActions
+					{
+						StoryDataAction_WaitForGameToStoryEvent "Wait For: Brawl Started"
+						{
+							myObjectiveAutoRemoves FALSE
+							myGameToStoryStoryEvent TU5_BrawlArena_Started
+						}
+					}
+				}
+				StoryBeatData Brawl < uid=600A30F35C803E900002959C8ACB1162 >
+				{
+					myIsCheckpoint FALSE
+					myStoryDataActions
+					{
+						StoryDataAction_SetTarget "Clear Waypoint"
+						{
+							myObjectiveAutoRemoves FALSE
+							myShowWaypoint FALSE
+						}
+						StoryDataAction_SetObjective "Clear SubObjective"
+						{
+							myIsSubObjective TRUE
+							myObjectiveData < uid=600A30F35C803E900002959DEC248816 > = OutlawStory.m1.sub1
+							myObjectiveState Remove
+						}
+						StoryDataAction_SetObjective "Set SubObjective: Complete the Brawl Arena"
+						{
+							myIsSubObjective TRUE
+							myObjectiveData < uid=600A30F35C803E900002959E6535031E > = OutlawStory.m1.sub2
+							myObjectiveState Active
+						}
+						StoryDataAction_SetGlobalIntFact "Set Fact: OutlawStory_In_Arena_Brawl"
+						{
+							myLabel OutlawStory_In_Arena_Brawl
+							myValue 1
+						}
+						StoryDataAction_Dialog "Dialogue: The War of Atlas"
+						{
+							myObjectiveAutoRemoves FALSE
+							myIgnoreReset FALSE
+							myDialogSequenceID 15
+							myDialogStoryFlowID 4
+							myPauseInOutpostMenu FALSE
+						}
+						StoryDataAction_ConditionalAction "ConAct: Brawl Won"
+						{
+							myObjectiveAutoRemoves FALSE
+							myConditionalActions
+							{
+								StoryDataAction_WaitForGameToStoryEvent "Wait For: Brawl Won"
+								{
+									myObjectiveAutoRemoves FALSE
+									myGameToStoryStoryEvent TU5_BrawlArena_Won
+								}
+							}
+							myOutcomeActions
+							{
+								StoryDataAction_Dialog "Dialogue: What a Surprise!"
+								{
+									myObjectiveAutoRemoves FALSE
+									myCompleteImmediately TRUE
+									myDialogSequenceID 35
+									myDialogStoryFlowID 4
+									myPauseInOutpostMenu FALSE
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		StoryBeatData "Manual Save" < uid=CC9485AB5C586AB00000008ADD1AE095 > : "Save Point"
+		{
+		}
+		StoryBeatData "Wait for Arena Event Not Active" < uid=B3DC843C5C58A40A0076E019F2B5B104 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_WaitForGameActionStates "Wait for Arena Event Not Active"
+				{
+					myGameActionStates
+					{
+						GameActionState IsArenaEventActive IsArenaEventActive
+					}
+					myNotCondition TRUE
+				}
+			}
+		}
+		StoryBeatData "Mission 2 Segue" < uid=D701B5085C38B4CF000000A6F8E05F15 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_SetObjective "Clear Objective"
+				{
+					myObjectiveData < uid=D701B5085C38B4CF000000A720A556A0 > = OutlawStory.m1
+					myObjectiveState Remove
+				}
+				StoryDataAction_SetObjective "Clear SubObjective"
+				{
+					myIsSubObjective TRUE
+					myObjectiveData < uid=D701B5085C38B4CF000000A8325C8A30 > = OutlawStory.m1.sub2
+					myObjectiveState Remove
+				}
+				StoryDataAction_SetGlobalIntFact "Clear Fact: OutlawStory_In_Arena_Brawl"
+				{
+					myLabel OutlawStory_In_Arena_Brawl
+				}
+			}
+		}
+		StoryBeatData "Close Mission" < uid=D701B5085C37A78E0000003822226A98 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_TransitionStorySection "Exit Section 01"
+				{
+					myTransitionType Exit
+					myStorySection OutlawSideStory_1
+				}
+				StoryDataAction_SetUIFeature "Unset UI Feature: Highlight Brawl"
+				{
+					myUIFeature Outpost_Arena_HighlightBrawl
+					myIsSet FALSE
+				}
+			}
+		}
+	}
+}
+
+StoryBeatSequence "MISSION 2" < uid=D701B5085C37AB6200000049500842A5 >
+{
+	myStoryBeats
+	{
+		StoryBeatData "Open Mission" < uid=D701B5085C37AB620000004A62324415 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_TransitionStorySection "Enter Section 02"
+				{
+					myTransitionType Enter
+					myStorySection OutlawSideStory_2
+				}
+			}
+		}
+		StoryBeatData "Manual Save" < uid=CC9485AB5C586AB00000008BE2B09E36 > : "Save Point"
+		{
+		}
+		StoryBeatData "Sign Up for Laserdrome" < uid=CC9485AB5C586AB00000008C839DBA6E >
+		{
+			myIsCheckpoint FALSE
+			myForceCompleteOptions
+			{
+				myEnabled TRUE
+				myCompleteOnGameToStoryEvent TU5_LaserdromeArena_Started
+			}
+			myStoryDataActions
+			{
+				StoryDataAction_SetObjective "Set Objective: The Laserdrome"
+				{
+					myIsSubObjective FALSE
+					myObjectiveData < uid=CC9485AB5C586AB00000008D512A0499 > = OutlawStory.m2
+					myObjectiveState Active
+				}
+				StoryDataAction_SetObjective "Set SubObjective: Sign Up for the Laserdrome Arena"
+				{
+					myIsSubObjective FALSE
+					myObjectiveData < uid=CC9485AB5C586AB00000008E5B3E5861 > = OutlawStory.m2.sub1
+					myObjectiveState Active
+				}
+				StoryDataAction_SetTarget "Set Target & Waypoint: Arena Vendor"
+				{
+					myObjectiveAutoRemoves FALSE
+					mySimUnitAssetTarget "onward/game system data/juice/sim/outlaw_games_entry.msimunit"
+					myActivityType Interact
+				}
+				StoryDataAction_UIOutpostEnableConversationMode "Enable Conversation Mode"
+				{
+					myTargetSimUnitAssetPath "onward/game system data/juice/sim/outlaw_games_entry.msimunit"
+				}
+				StoryDataAction_SetUIFeature "Set UI Feature: Highlight Laserdrome"
+				{
+					myUIFeature Outpost_Arena_HighlightLaserdrome
+					myIsSet TRUE
+				}
+				StoryDataAction_ConditionalAction "ConAct: Dialogue: Yeah! I'm feelin' it now!"
+				{
+					myConditionalActions
+					{
+						StoryDataAction_Wait "Wait 1s"
+						{
+							mySecondsToWait 1.0
+						}
+					}
+					myOutcomeActions
+					{
+						StoryDataAction_ConditionalAction "ConAct: Dialogue OR Arena Interact"
+						{
+							myCompleteType OR
+							myConditionalActions
+							{
+								StoryDataAction_Dialog "Dialogue: Yeah! I'm feelin' it now!"
+								{
+									myObjectiveAutoRemoves FALSE
+									myDialogSequenceID 5
+									myDialogStoryFlowID 4
+									myPauseInOutpostMenu TRUE
+								}
+								StoryDataAction_WaitForTargetInteraction "Wait for Arena Interact"
+								{
+									myInteractionType InteractionHail
+								}
+							}
+							myOutcomeActions
+							{
+								StoryDataAction_Dialog "Dialogue: SQ1: You're back"
+								{
+									myDialogSequenceID 1
+									myDialogStoryFlowID 4
+									myPauseInOutpostMenu FALSE
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		StoryBeatData "Manual Save" < uid=CC9485AB5C586AB00000008F3D193C1E > : "Save Point"
+		{
+		}
+		StoryBeatSequence "Laserdome (Resetting Sequence)" < uid=600A30F35C814FA20000003820D8DB0C >
+		{
+			myIsResettingSequence TRUE
+			myResetSkillScript onward/skillscripts/story_arena_exit_resetter.mskillscriptjuice
+			myStoryBeats
+			{
+				StoryBeatData "Wait for Laserdrome Started" < uid=600A30F35C814FA2000000399EC0CB5E >
+				{
+					myIsCheckpoint FALSE
+					myStoryDataActions
+					{
+						StoryDataAction_UIOutpostDisableConversationMode "Disable Conversation Mode"
+						{
+							myTargetSimUnitAssetPath "onward/game system data/juice/sim/outlaw_games_entry.msimunit"
+						}
+						StoryDataAction_WaitForGameToStoryEvent "Wait for Laserdrome Started"
+						{
+							myGameToStoryStoryEvent TU5_LaserdromeArena_Started
+						}
+					}
+				}
+				StoryBeatData Laserdrome < uid=600A30F35C814FA20000003A5B7E3ECF >
+				{
+					myIsCheckpoint FALSE
+					myStoryDataActions
+					{
+						StoryDataAction_SetTarget "Clear Waypoint"
+						{
+							myObjectiveAutoRemoves FALSE
+							myShowWaypoint FALSE
+						}
+						StoryDataAction_SetObjective "Clear SubObjective"
+						{
+							myIsSubObjective TRUE
+							myObjectiveData < uid=600A30F35C814FA20000003B60FEEAB9 > = OutlawStory.m2.sub1
+							myObjectiveState Remove
+						}
+						StoryDataAction_SetObjective "Set SubObjective: Complete the Laserdrome Arena"
+						{
+							myIsSubObjective TRUE
+							myObjectiveData < uid=600A30F35C814FA20000003C86185D11 > = OutlawStory.m2.sub2
+							myObjectiveState Active
+						}
+						StoryDataAction_SetGlobalIntFact "Set Fact: OutlawStory_In_Arena_Laserdome"
+						{
+							myLabel OutlawStory_In_Arena_Laserdome
+							myValue 1
+						}
+						StoryDataAction_Dialog "Dialogue: My Fellow Aliens"
+						{
+							myObjectiveAutoRemoves FALSE
+							myIgnoreReset FALSE
+							myDialogSequenceID 15
+							myDialogStoryFlowID 4
+							myPauseInOutpostMenu FALSE
+						}
+						StoryDataAction_ConditionalAction "ConAct: Laserdrome Won"
+						{
+							myObjectiveAutoRemoves FALSE
+							myConditionalActions
+							{
+								StoryDataAction_WaitForGameToStoryEvent "Wait for Laserdrome Won"
+								{
+									myObjectiveAutoRemoves FALSE
+									myGameToStoryStoryEvent TU5_LaserdromeArena_Won
+								}
+							}
+							myOutcomeActions
+							{
+								StoryDataAction_Dialog "Dialogue: Another Victory"
+								{
+									myObjectiveAutoRemoves FALSE
+									myCompleteImmediately TRUE
+									myDialogSequenceID 35
+									myDialogStoryFlowID 4
+									myPauseInOutpostMenu FALSE
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		StoryBeatData "Manual Save" < uid=CC9485AB5C586AB00000009491304D61 > : "Save Point"
+		{
+		}
+		StoryBeatData "Wait for Arena Event Not Active" < uid=B3DC843C5C58B1640017E2D22CFB9509 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_WaitForGameActionStates "Wait for Arena Event Not Active"
+				{
+					myGameActionStates
+					{
+						GameActionState IsArenaEventActive IsArenaEventActive
+					}
+					myNotCondition TRUE
+				}
+			}
+		}
+		StoryBeatData "Mission 3 Segue" < uid=D701B5085C38C562000000AE03C2E3BE >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_SetObjective "Clear Objective"
+				{
+					myObjectiveData < uid=D701B5085C3E0E870000004C023C31EF > = OutlawStory.m2
+					myObjectiveState Remove
+				}
+				StoryDataAction_SetObjective "Clear SubObjective"
+				{
+					myIsSubObjective TRUE
+					myObjectiveData < uid=D701B5085C38DDEC000000CD58219723 > = OutlawStory.m2.sub2
+					myObjectiveState Remove
+				}
+				StoryDataAction_SetGlobalIntFact "Clear Fact: OutlawStory_In_Arena_Laserdome"
+				{
+					myLabel OutlawStory_In_Arena_Laserdome
+				}
+			}
+		}
+		StoryBeatData "Close Mission" < uid=D701B5085C37AB620000004B21096EB2 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_TransitionStorySection "Exit Section 02"
+				{
+					myTransitionType Exit
+					myStorySection OutlawSideStory_2
+				}
+				StoryDataAction_SetUIFeature "Unset UI Feature: Highlight Laserdrome"
+				{
+					myUIFeature Outpost_Arena_HighlightLaserdrome
+					myIsSet FALSE
+				}
+			}
+		}
+	}
+}
+
+StoryBeatSequence "MISSION 3" < uid=D701B5085C37AB620000004CA1AC5566 >
+{
+	myStoryBeats
+	{
+		StoryBeatData "Open Mission" < uid=D701B5085C37AB620000004DB3A3369C >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_TransitionStorySection "Enter Section 03"
+				{
+					myTransitionType Enter
+					myStorySection OutlawSideStory_3
+				}
+			}
+		}
+		StoryBeatData "Sign Up for Champion Battle" < uid=D701B5085C38E009000000DE834BC0AF >
+		{
+			myIsCheckpoint FALSE
+			myForceCompleteOptions
+			{
+				myEnabled TRUE
+				myCompleteOnGameToStoryEvent TU5_ChampionArena_Started
+			}
+			myStoryDataActions
+			{
+				StoryDataAction_SetObjective "Set Objective: Final Showdown"
+				{
+					myIsSubObjective FALSE
+					myObjectiveData < uid=B3DC843C5C425A9F00019309F3BBC385 > = OutlawStory.m3
+					myObjectiveState Active
+				}
+				StoryDataAction_SetObjective "Set SubObjective: Sign Up for the Champion Battle"
+				{
+					myIsSubObjective TRUE
+					myObjectiveData < uid=B3DC843C5C425A9F0001930A4FA0482E > = OutlawStory.m3.sub1
+					myObjectiveState Active
+				}
+				StoryDataAction_SetTarget "Set Target & Waypoint: Arena Vendor"
+				{
+					myObjectiveAutoRemoves FALSE
+					mySimUnitAssetTarget "onward/game system data/juice/sim/outlaw_games_entry.msimunit"
+					myActivityType Interact
+				}
+				StoryDataAction_UIOutpostEnableConversationMode "Enable Conversation Mode"
+				{
+					myTargetSimUnitAssetPath "onward/game system data/juice/sim/outlaw_games_entry.msimunit"
+				}
+				StoryDataAction_SetUIFeature "Set UI Feature: Highlight Champion Battle"
+				{
+					myUIFeature Outpost_Arena_HighlightChampionBattle
+					myIsSet TRUE
+				}
+				StoryDataAction_ConditionalAction "ConAct: Dialogue: He's Too Happy"
+				{
+					myConditionalActions
+					{
+						StoryDataAction_Wait "Wait 1s"
+						{
+							mySecondsToWait 1.0
+						}
+					}
+					myOutcomeActions
+					{
+						StoryDataAction_ConditionalAction "ConAct: Dialogue OR Arena Interact"
+						{
+							myCompleteType OR
+							myConditionalActions
+							{
+								StoryDataAction_Dialog "Dialogue: He's too Happy..."
+								{
+									myObjectiveAutoRemoves FALSE
+									myDialogSequenceID 5
+									myDialogStoryFlowID 4
+									myPauseInOutpostMenu TRUE
+								}
+								StoryDataAction_WaitForTargetInteraction "Wait for Arena Interact"
+								{
+									myInteractionType InteractionHail
+								}
+							}
+							myOutcomeActions
+							{
+								StoryDataAction_Dialog "Dialogue: My favorite competitors"
+								{
+									myDialogSequenceID 3
+									myDialogStoryFlowID 4
+									myPauseInOutpostMenu FALSE
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		StoryBeatData "Manual Save" < uid=CC9485AB5C586AB000000095705EFF43 > : "Save Point"
+		{
+		}
+		StoryBeatSequence "Champion Battle (Resetting Sequence)" < uid=600A30F35C81515C0000003D1E1AECB7 >
+		{
+			myIsResettingSequence TRUE
+			myResetSkillScript onward/skillscripts/story_arena_exit_resetter.mskillscriptjuice
+			myStoryBeats
+			{
+				StoryBeatData "Wait for Champion Battle Started" < uid=600A30F35C81515C0000003EB43821FD >
+				{
+					myIsCheckpoint FALSE
+					myStoryDataActions
+					{
+						StoryDataAction_UIOutpostDisableConversationMode "Disable Conversation Mode"
+						{
+							myTargetSimUnitAssetPath "onward/game system data/juice/sim/outlaw_games_entry.msimunit"
+						}
+						StoryDataAction_WaitForGameToStoryEvent "Wait For: Champion Started"
+						{
+							myObjectiveAutoRemoves FALSE
+							myGameToStoryStoryEvent TU5_ChampionArena_Started
+						}
+					}
+				}
+				StoryBeatData "Champion Battle" < uid=600A30F35C81515C0000003F2304BEE1 >
+				{
+					myIsCheckpoint FALSE
+					myForceCompleteOptions
+					{
+						myEnabled FALSE
+						myCompleteOnGameToStoryEvent TU5_ChampionArena_Won
+					}
+					myStoryDataActions
+					{
+						StoryDataAction_SetObjective "Clear SubObjective"
+						{
+							myIsSubObjective TRUE
+							myObjectiveData < uid=600A30F35C81515C0000004067B09F45 > = OutlawStory.m3.sub1
+							myObjectiveState Remove
+						}
+						StoryDataAction_SetObjective "Set SubObjective: Complete the Champion Battle"
+						{
+							myIsSubObjective TRUE
+							myObjectiveData < uid=600A30F35C81515C00000041AE06B850 > = OutlawStory.m3.sub2
+							myObjectiveState Active
+						}
+						StoryDataAction_SetTarget "Set Target: Arena Champion"
+						{
+							myObjectiveAutoRemoves FALSE
+							mySimUnitAssetTarget "onward/game system data/juice/sim/arena_npc_battlemech.msimunit"
+							myShowWaypoint FALSE
+						}
+						StoryDataAction_SetGlobalIntFact "Set Fact: OutlawStory_In_Arena_Champion"
+						{
+							myLabel OutlawStory_In_Arena_Champion
+							myValue 1
+						}
+						StoryDataAction_Dialog "Dialogue: Welcome One and All"
+						{
+							myObjectiveAutoRemoves FALSE
+							myIgnoreReset FALSE
+							myDialogSequenceID 15
+							myDialogStoryFlowID 4
+							myPauseInOutpostMenu FALSE
+						}
+						StoryDataAction_Dialog "Dialogue: You Messed Up"
+						{
+							myObjectiveAutoRemoves FALSE
+							myIgnoreReset FALSE
+							myDialogSequenceID 30
+							myDialogStoryFlowID 4
+							myPauseInOutpostMenu FALSE
+						}
+						StoryDataAction_ConditionalAction "ConAct: Champion Battle Won"
+						{
+							myObjectiveAutoRemoves FALSE
+							myConditionalActions
+							{
+								StoryDataAction_WaitForGameToStoryEvent "Wait for Champion Battle Won"
+								{
+									myObjectiveAutoRemoves FALSE
+									myGameToStoryStoryEvent TU5_ChampionArena_Won
+								}
+							}
+							myOutcomeActions
+							{
+								StoryDataAction_Dialog "Dialogue: What a Show!"
+								{
+									myObjectiveAutoRemoves FALSE
+									myCompleteImmediately TRUE
+									myDialogSequenceID 35
+									myDialogStoryFlowID 4
+									myPauseInOutpostMenu FALSE
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		StoryBeatData "Manual Save" < uid=CC9485AB5C586AB000000097ED9B6086 > : "Save Point"
+		{
+		}
+		StoryBeatData "Wait for Arena Event Not Active" < uid=B3DC843C5C58B3D5001892F001B9DB9F >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_WaitForGameActionStates "Wait for Arena Event Not Active"
+				{
+					myGameActionStates
+					{
+						GameActionState IsArenaEventActive IsArenaEventActive
+					}
+					myNotCondition TRUE
+				}
+			}
+		}
+		StoryBeatData "Mission 4 Segue" < uid=D701B5085C38E894000000F1AE793195 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_SetObjective "Clear Objective"
+				{
+					myObjectiveData < uid=D701B5085C38E894000000F28A2B1FBE > = OutlawStory.m3
+					myObjectiveState Remove
+				}
+				StoryDataAction_SetObjective "Clear SubObjective"
+				{
+					myIsSubObjective TRUE
+					myObjectiveData < uid=D701B5085C38E894000000F39168A786 > = OutlawStory.m3.sub2
+					myObjectiveState Remove
+				}
+				StoryDataAction_SetObjective "Set Objective: King of the Ring"
+				{
+					myObjectiveData < uid=D701B5085C38E894000000F451EB39D5 > = OutlawStory.m4
+					myObjectiveState Active
+				}
+				StoryDataAction_SetGlobalIntFact "Clear Fact: OutlawStory_In_Arena_Champion"
+				{
+					myLabel OutlawStory_In_Arena_Champion
+				}
+				StoryDataAction_ConditionalAction "ConAct: Dialogue: Starless Clan"
+				{
+					myConditionalActions
+					{
+						StoryDataAction_Wait "Wait 1s"
+						{
+							mySecondsToWait 1.0
+						}
+					}
+					myOutcomeActions
+					{
+						StoryDataAction_Dialog "Dialogue: Starless Clan"
+						{
+							myObjectiveAutoRemoves FALSE
+							myCompleteImmediately FALSE
+							myDialogSequenceID 45
+							myDialogStoryFlowID 4
+							myPauseInOutpostMenu FALSE
+						}
+					}
+				}
+				StoryDataAction_SetUIFeature "Unset UI Feature: Highlight Champion Battle"
+				{
+					myUIFeature Outpost_Arena_HighlightChampionBattle
+					myIsSet FALSE
+				}
+			}
+		}
+		StoryBeatData "Close Mission" < uid=D701B5085C37AB620000004E4341DE11 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_TransitionStorySection "Exit Section 03"
+				{
+					myTransitionType Exit
+					myStorySection OutlawSideStory_3
+				}
+			}
+		}
+	}
+}
+
+StoryBeatSequence "MISSION 4" < uid=D701B5085C37AB620000004F29575435 >
+{
+	myStoryBeats
+	{
+		StoryBeatData "Open Mission" < uid=D701B5085C37AB6200000050EA93331C >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_TransitionStorySection "Enter Section 04"
+				{
+					myTransitionType Enter
+					myStorySection OutlawSideStory_4
+				}
+			}
+		}
+		StoryBeatData "Manual Save" < uid=CC9485AB5C586AB000000098FED36311 > : "Save Point"
+		{
+		}
+		StoryBeatData "Award Paintjob + Trophy" < uid=CC9485AB5C586AB00000009979F03F6F >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_ShowUIBanner "Completion Banner"
+				{
+					myBannerText "contextComment = \"\", description = \"opportunity-banner-complete-generic\", enabled = true, guid = #954305805B0D6F0500001DD29546FA90, lineVersion = 0, maxLength = 26, text = \"[Mission Successful]\""
+				}
+				StoryDataAction_SoundEvent "Banner Sound"
+				{
+					myAudioEvent
+					{
+						myGuid 4CAFECF02AFBFE551BAAFC289FD6CDA2
+					}
+					myCompleteImmediately TRUE
+				}
+				StoryDataAction_AwardLoot "Award Trophy"
+				{
+					myObjectiveAutoRemoves FALSE
+					myLootDropName MissionDrop_trophy_campaign_outlaw
+				}
+				StoryDataAction_AwardLoot "Award Epic Paint Job"
+				{
+					myObjectiveAutoRemoves FALSE
+					myLootDropName OutlawStory_Legendary_Paintjob_1_Drop_Table
+				}
+				StoryDataAction_CompleteStoryEvent "Complete Story Event - Finished Outlaw SideStory"
+				{
+					myStoryEvent TU5_Finished_Outlaw_SideStory
+				}
+				StoryDataAction_CompleteChallenge "Complete Database Challange (End)"
+				{
+					myObjectiveAutoRemoves FALSE
+					myChallengeToComplete BloodMoon_Outlaw_End
+				}
+				StoryDataAction_SetObjectiveBlockEnabled "Disable Objective Block"
+				{
+				}
+				StoryDataAction_SelectObjectiveBlock "Select Main Story"
+				{
+					myObjectiveAutoRemoves FALSE
+					mySelectMainStory TRUE
+				}
+			}
+		}
+		StoryBeatData "Manual Save" < uid=CC9485AB5C586AB00000009A7DAE6B74 > : "Save Point"
+		{
+		}
+		StoryBeatData "Close Mission" < uid=D701B5085C37AB6200000051402EEF04 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_TransitionStorySection "Exit Section 04"
+				{
+					myTransitionType Exit
+					myStorySection OutlawSideStory_4
+				}
+			}
+		}
+	}
+}
+
+StoryBeatData "END - WAIT FOREVER" < uid=CC9485AB5C5870130000009B4B07AB17 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_WaitForGameToStoryEvent "Wait Forever"
+		{
+			myGameToStoryStoryEvent Act_06_WaitForever
+		}
+	}
+}
+

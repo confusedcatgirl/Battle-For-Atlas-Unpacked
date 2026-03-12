@@ -1,0 +1,30 @@
+include "onward/game system data/fruit/sim/simunit.fruit"
+
+SimUnit goldrush_hackable_antenna < uid=CC9485AB5A0481C000001F1C49F1515A >
+{
+	myUIName "contextComment = \"[PLACEHOLDER - do not translate].\", description = \"ui-name-datacore\", enabled = true, guid = #CC9485AB5A0481C000001F1B4E4D9960, lineVersion = 0, maxLength = 21, text = \"Goldrush Antenna\""
+	myControlGraph onward/simworld/control/goldrush_hackable_antenna.msimunitcontrolgraph
+	myFaction Unaligned
+	myCategory Radar
+	mySubCategory GoldrushRuin
+	mySubCategoryVariant 10
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo InteractablePickup < uid=CC9485AB5A0481C000001F1D1ABDAA71 >
+		{
+			myCountMin 1
+			myCountMax 1
+			myIgnoreNavMesh TRUE
+			myIgnoreTerrain TRUE
+			myEntityFile "onward/entity templates/goldrush_hackable_antenna.mentitytemplate"
+		}
+	}
+	mySaveable FALSE
+	myNapTime 10.0
+	mySkillLevelCoefficients
+	{
+		myPlanetActMultiplier 0
+		myBaseLevel 0
+	}
+}
+

@@ -1,0 +1,517 @@
+include "onward/game system data/fruit/animation/animsys.fruit"
+
+SpecializationList mySpecializations
+{
+}
+
+FileList mySubsystems
+{
+}
+
+MotionPose "Ready (Idle OOC)"
+{
+	myStateName Ready
+	myAnimModes Speed_Idle;JetpackState_Off;WorldEntryMethod_Ground;WorldEntryMethod_Space;MoveStyle_Default;MoveStyle_Polluted;
+	myAnimsOut "GTR_To Dash;GTR_To Die;GTR_To Dormant;GTR_ToExitAffinity;GTR_ToRagdoll;"
+}
+
+MotionPose "Ready (Walk Run OOC)"
+{
+	myStateName Ready
+	myAnimModes Speed_Walk;Speed_Run;JetpackState_Off;WorldEntryMethod_Ground;WorldEntryMethod_Space;MoveStyle_Default;MoveStyle_Polluted;
+	myAnimsOut "GTR_To Dash;GTR_To Die;GTR_To Dormant;GTR_ToExitAffinity;GTR_ToRagdoll;"
+}
+
+MotionPose "Ready (Walk IC)"
+{
+	myStateName Ready
+	myAnimModes Speed_Walk;JetpackState_Off;WorldEntryMethod_Ground;WorldEntryMethod_Space;MoveStyle_InCombat;MoveStyle_Polluted;
+	myAnimsOut "GTR_To Dash;GTR_To Die;GTR_To Dormant;GTR_ToExitAffinity;GTR_ToRagdoll;"
+}
+
+MotionPose "Ready (Idle IC)"
+{
+	myStateName Ready
+	myAnimModes Speed_Idle;JetpackState_Off;WorldEntryMethod_Ground;WorldEntryMethod_Space;MoveStyle_InCombat;MoveStyle_Polluted;
+	myAnimsOut "GTR_To Dash;GTR_To Die;GTR_To Dormant;GTR_ToExitAffinity;GTR_ToRagdoll;"
+}
+
+OneshotMotionStateWithModes Stumble < uid=C92F4D3F57A3C7F6000000CF489D1377 >
+{
+	myEnabled TRUE
+	myStateName Stumble
+	myTotalDuration 2.813334
+	myDistance 22.229147
+	myAnimationDuration 3.133333
+	myAnimationDistance 22.229147
+	myHorizontalDistance 22.229147
+	myVerticalDisplacement 0.0
+	myAnimsOut "GTR_To Dash;GTR_To Die;GTR_To Dormant;GTR_ToExitAffinity;GTR_ToRagdoll;"
+	myAnimCommand Stumble
+	myDisplacementAngle 179.984879
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;JetpackState_Off;JetpackState_On;WorldEntryMethod_Ground;WorldEntryMethod_Space;MoveStyle_Default;MoveStyle_InCombat;MoveStyle_Polluted;
+}
+
+OneshotMotionStateWithModes Die < uid=C92F4D3F57A3C7F6000000D238012D3A >
+{
+	myEnabled TRUE
+	myStateName Die
+	myTotalDuration 7.346666
+	myDistance 20.371332
+	myAnimationDuration 7.666667
+	myAnimationDistance 20.371332
+	myHorizontalDistance 2.338183
+	myVerticalDisplacement 20.236702
+	myAnimsOut "GTR_To Dash;GTR_To Die;GTR_To Dormant;GTR_ToExitAffinity;GTR_ToRagdoll;"
+	myAnimCommand Die
+	myDisplacementAngle 75.391472
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;JetpackState_Off;WorldEntryMethod_Ground;WorldEntryMethod_Space;MoveStyle_Default;MoveStyle_InCombat;MoveStyle_Polluted;
+}
+
+LayerMotionState UpperBody_Reload
+{
+	myLayerName UpperBody_Reload
+	myTotalDuration 1.946667
+	myIsLoop FALSE
+}
+
+OneshotMotionState KnockBack < uid=C92F4D3F57A4C039000000BC7DACCABF >
+{
+	myStateName KnockBack
+	myTotalDuration 2.946667
+	myAnimationDuration 3.266667
+	myAnimsOut "GTR_To Dash;GTR_To Die;GTR_To Dormant;GTR_ToExitAffinity;GTR_ToRagdoll;"
+}
+
+OneshotMotionStateWithModes "Ground TurnOnSpot" < uid=C92F4D3F57A4C039000000BEA65091DD >
+{
+	myStateName "Ground TurnOnSpot"
+	myTotalDuration 7.646667
+	myDistance 0.0
+	myAnimationDuration 7.966667
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.0
+	myAnimsOut "GTR_To Dash;GTR_To Die;GTR_To Dormant;GTR_ToExitAffinity;GTR_ToRagdoll;"
+	myAnimCommand StaticTurn
+	myDisplacementAngle 0.0
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;JetpackState_Off;WorldEntryMethod_Ground;WorldEntryMethod_Space;MoveStyle_Default;MoveStyle_InCombat;MoveStyle_Polluted;
+}
+
+OneshotMotionStateWithModes "Air TurnOnSpot" < uid=C92F4D3F57A4C067000000C5546F38E2 >
+{
+	myStateName "Air TurnOnSpot"
+	myTotalDuration 3.013333
+	myDistance 0.0
+	myAnimationDuration 3.333333
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.0
+	myAnimsOut "GTR_To Dash;GTR_To Die;GTR_To Dormant;GTR_ToExitAffinity;GTR_ToRagdoll;"
+	myAnimCommand StaticTurn
+	myDisplacementAngle -90.0
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;JetpackState_On;WorldEntryMethod_Ground;WorldEntryMethod_Space;MoveStyle_Default;MoveStyle_InCombat;MoveStyle_Polluted;
+}
+
+TransitionMotionState "GTR_To Die" < uid=4A8282B9581B94FE00000338FBA01786 >
+{
+	myEnabled FALSE
+	myTotalDuration 0.0
+	myDistance 0.0
+	myAnimationDuration 0.0
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.0
+	myAnimsOut "Die;Die (Jetpack);"
+	myDisplacementAngle 0.0
+	myRotationAngle 0.0
+	myIsGlobalTransition TRUE
+	myGlobalTransitionPriority 0
+}
+
+TransitionMotionState "GTR_To Dormant" < uid=4A8282B9581B94FE0000033A919B9BB9 >
+{
+	myEnabled TRUE
+	myTotalDuration 2.18
+	myDistance 0.0
+	myAnimationDuration 2.5
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.0
+	myAnimsOut Dormant;
+	myDisplacementAngle 0.0
+	myRotationAngle 0.0
+	myIsGlobalTransition TRUE
+	myGlobalTransitionPriority 0
+}
+
+TransitionMotionState "GTR_From Dormant" < uid=4A8282B9581B94FE0000033B3E7EB54D >
+{
+	myEnabled TRUE
+	myTotalDuration 2.246667
+	myDistance 0.0
+	myAnimationDuration 2.566667
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.0
+	myAnimsOut "Dash;Die;Die (Jetpack);Die (Jetpack (No Mode));Ready (Idle OOC);Ready (Walk Run OOC);Ready (Walk IC);Ready (Idle IC);Ready (Jetpack);Ready (Run IC);Ground TurnOnSpot;Ragdoll_Recover;Stumble;KnockBack;Air TurnOnSpot;Stunned;Stunned (Jetpack);EnterWorld (Space);EnterAffinity;ExitAffinity;PreEnterWorld (Space);Jetpack_Land;Jetpack_TakeOff;Jetpack_Divebomb;SuperJump_Pose;SuperJump_TakingOff;SuperJump_Settle;"
+	myDisplacementAngle 0.0
+	myRotationAngle 0.0
+	myIsGlobalTransition TRUE
+	myGlobalTransitionPriority 0
+}
+
+MotionPose Dormant
+{
+	myStateName Dormant
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;JetpackState_Off;JetpackState_On;WorldEntryMethod_Ground;WorldEntryMethod_Space;MoveStyle_Default;MoveStyle_InCombat;MoveStyle_Polluted;
+	myAnimsOut "GTR_To Dash;GTR_From Dormant;GTR_To Die;GTR_ToRagdoll;GTR_ToExitAffinity;"
+}
+
+MotionPose Stunned
+{
+	myStateName Stunned
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;JetpackState_Off;WorldEntryMethod_Ground;WorldEntryMethod_Space;MoveStyle_Default;MoveStyle_InCombat;MoveStyle_Polluted;
+	myAnimsOut "GTR_To Dash;GTR_To Die;GTR_To Dormant;GTR_ToExitAffinity;GTR_ToRagdoll;"
+}
+
+OneshotMotionStateWithModes "EnterWorld (Space)" < uid=C92F4D3F583C79260000034D243B26BA >
+{
+	myEnabled TRUE
+	myStateName EnterWorld
+	myTotalDuration 3.68
+	myDistance 0.0
+	myAnimationDuration 4.0
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.0
+	myAnimsOut "GTR_To Dash;GTR_To Die;GTR_To Dormant;GTR_ToExitAffinity;GTR_ToRagdoll;"
+	myAnimCommand EnterWorld
+	myDisplacementAngle 0.0
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;JetpackState_Off;JetpackState_On;WorldEntryMethod_Ground;WorldEntryMethod_Space;MoveStyle_Default;MoveStyle_InCombat;MoveStyle_Polluted;
+}
+
+OneshotMotionStateWithModes EnterAffinity < uid=4A8282B95877FBA60009CD09758F99E2 >
+{
+	myEnabled TRUE
+	myStateName EnterAffinity
+	myTotalDuration 3.48
+	myDistance 0.0
+	myAnimationDuration 3.8
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.0
+	myAnimsOut "GTR_To Dash;GTR_To Die;GTR_To Dormant;GTR_ToExitAffinity;GTR_ToRagdoll;"
+	myAnimCommand EnterAffinity
+	myDisplacementAngle 0.0
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;JetpackState_Off;WorldEntryMethod_Ground;WorldEntryMethod_Space;MoveStyle_Default;MoveStyle_InCombat;MoveStyle_Polluted;
+}
+
+TransitionMotionState GTR_ToExitAffinity < uid=C92F4D3F58CAF9F7003D13E4256E8797 >
+{
+	myEnabled TRUE
+	myTotalDuration 1.346667
+	myDistance 0.001374
+	myAnimationDuration 1.666667
+	myAnimationDistance 0.001374
+	myHorizontalDistance 0.001374
+	myVerticalDisplacement 0.0
+	myAnimsOut ExitAffinity;
+	myDisplacementAngle -151.738434
+	myRotationAngle 0.0
+	myIsGlobalTransition TRUE
+	myGlobalTransitionPriority 0
+}
+
+TransitionMotionState GTR_FromExitAffinity < uid=C92F4D3F58CAF9F7003D13E51DC422EB >
+{
+	myEnabled TRUE
+	myTotalDuration 2.146667
+	myDistance 0.0
+	myAnimationDuration 2.466667
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.0
+	myAnimsOut "Dash;Die;Die (Jetpack);Die (Jetpack (No Mode));Dormant;Ready (Idle OOC);Ready (Walk Run OOC);Ready (Walk IC);Ready (Idle IC);Ready (Jetpack);Ready (Run IC);Ground TurnOnSpot;Ragdoll_Recover;Stumble;KnockBack;Air TurnOnSpot;Stunned;Stunned (Jetpack);EnterWorld (Space);EnterAffinity;PreEnterWorld (Space);Jetpack_Land;Jetpack_TakeOff;Jetpack_Divebomb;SuperJump_Pose;SuperJump_TakingOff;SuperJump_Settle;"
+	myDisplacementAngle 0.0
+	myRotationAngle 0.0
+	myIsGlobalTransition TRUE
+	myGlobalTransitionPriority 0
+}
+
+MotionPose ExitAffinity
+{
+	myStateName ExitAffinity
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;JetpackState_Off;WorldEntryMethod_Ground;WorldEntryMethod_Space;MoveStyle_Default;MoveStyle_InCombat;MoveStyle_Polluted;
+	myAnimsOut "GTR_To Dash;GTR_FromExitAffinity;GTR_To Die;GTR_To Dormant;GTR_ToRagdoll;TR_ExitAffinityToEnterAffinity;"
+}
+
+MotionPose "Ready (Jetpack)"
+{
+	myStateName Ready
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;JetpackState_On;WorldEntryMethod_Ground;WorldEntryMethod_Space;MoveStyle_Default;MoveStyle_InCombat;MoveStyle_Polluted;
+	myAnimsOut "GTR_To Dash;GTR_To Die;GTR_To Dormant;GTR_ToExitAffinity;GTR_ToRagdoll;"
+}
+
+MotionPose Dash
+{
+	myStateName Dash
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;JetpackState_Off;WorldEntryMethod_Ground;WorldEntryMethod_Space;MoveStyle_Default;MoveStyle_InCombat;MoveStyle_Polluted;
+	myAnimsOut "GTR_From Dash;GTR_ToRagdoll;TR_FromDash;GTR_To Die;GTR_To Dormant;GTR_ToExitAffinity;"
+}
+
+TransitionMotionState "GTR_To Dash" < uid=4A8282B958D42C8F000003060B831417 >
+{
+	myEnabled TRUE
+	myTotalDuration 0.646667
+	myDistance 24.920752
+	myAnimationDuration 0.966667
+	myAnimationDistance 24.920752
+	myHorizontalDistance 23.408943
+	myVerticalDisplacement 8.688998
+	myAnimsOut Dash;
+	myDisplacementAngle 180.0
+	myRotationAngle 0.0
+	myIsGlobalTransition TRUE
+	myGlobalTransitionPriority 0
+}
+
+TransitionMotionState "GTR_From Dash" < uid=4A8282B958D42C8F00000307CF9B4DF8 >
+{
+	myEnabled TRUE
+	myTotalDuration 1.18
+	myDistance 61.659454
+	myAnimationDuration 1.5
+	myAnimationDistance 61.659454
+	myHorizontalDistance 53.012836
+	myVerticalDisplacement -39.410179
+	myAnimsOut "Ready (Idle OOC);Ready (Walk Run OOC);Ready (Walk IC);Ready (Idle IC);Ready (Jetpack);Ready (Run IC);Ground TurnOnSpot;Ragdoll_Recover;Stumble;KnockBack;Die;Die (Jetpack);Die (Jetpack (No Mode));Air TurnOnSpot;Dormant;Stunned;Stunned (Jetpack);EnterWorld (Space);EnterAffinity;ExitAffinity;PreEnterWorld (Space);Jetpack_Land;Jetpack_TakeOff;Jetpack_Divebomb;SuperJump_Pose;SuperJump_TakingOff;SuperJump_Settle;"
+	myDisplacementAngle 91.303078
+	myRotationAngle 0.0
+	myIsGlobalTransition TRUE
+	myGlobalTransitionPriority 0
+}
+
+OneshotMotionStateWithModes Ragdoll_Recover < uid=4A8282B958D583E4003F40B9B06AD7F6 >
+{
+	myEnabled TRUE
+	myStateName Ragdoll_Recover
+	myTotalDuration 7.346666
+	myDistance 4.891253
+	myAnimationDuration 7.666667
+	myAnimationDistance 4.891253
+	myHorizontalDistance 4.891253
+	myVerticalDisplacement 0.0
+	myAnimsOut "GTR_To Dash;GTR_FromRagdoll;GTR_To Die;GTR_To Dormant;GTR_ToExitAffinity;"
+	myAnimCommand Ragdoll_Recover
+	myDisplacementAngle -140.022003
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;JetpackState_Off;JetpackState_On;WorldEntryMethod_Ground;WorldEntryMethod_Space;MoveStyle_Default;MoveStyle_InCombat;MoveStyle_Polluted;
+}
+
+MotionPose "PreEnterWorld (Space)"
+{
+	myStateName PreEnterWorld
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;JetpackState_Off;JetpackState_On;WorldEntryMethod_Ground;WorldEntryMethod_Space;MoveStyle_Default;MoveStyle_InCombat;MoveStyle_Polluted;
+	myAnimsOut "GTR_To Dash;GTR_To Die;GTR_To Dormant;GTR_ToExitAffinity;GTR_ToRagdoll;"
+}
+
+TransitionMotionState TR_ExitAffinityToEnterAffinity < uid=C92F4D3F592442E9000002F81B31BA06 >
+{
+	myEnabled FALSE
+	myTotalDuration 0.0
+	myDistance 0.0
+	myAnimationDuration 0.0
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.0
+	myAnimsOut EnterAffinity;
+	myDisplacementAngle 0.0
+	myRotationAngle 0.0
+	myIsGlobalTransition FALSE
+	myGlobalTransitionPriority 0
+}
+
+LayerMotionState FlameBlast
+{
+	myLayerName FlameBlast
+	myTotalDuration 0.0
+	myIsLoop TRUE
+}
+
+OneshotMotionState Jetpack_Land < uid=4A8282B9597A1F6E235267E250E2909F >
+{
+	myEnabled TRUE
+	myStateName Jetpack_Land
+	myTotalDuration 1.813334
+	myDistance 49.111206
+	myAnimationDuration 2.133333
+	myAnimationDistance 49.111206
+	myHorizontalDistance 0.009658
+	myVerticalDisplacement -49.111206
+	myAnimsOut "Die (Jetpack (No Mode));GTR_To Dash;GTR_To Die;GTR_To Dormant;GTR_ToExitAffinity;GTR_ToRagdoll;"
+	myAnimCommand Jetpack_Land
+	myDisplacementAngle 173.377411
+}
+
+OneshotMotionState Jetpack_TakeOff < uid=4A8282B9597A1F6E235267E34D83806F >
+{
+	myEnabled TRUE
+	myStateName Jetpack_TakeOff
+	myTotalDuration 1.68
+	myDistance 48.187927
+	myAnimationDuration 2.0
+	myAnimationDistance 48.187927
+	myHorizontalDistance 0.163254
+	myVerticalDisplacement 48.187649
+	myAnimsOut "GTR_To Dash;GTR_To Die;GTR_To Dormant;GTR_ToExitAffinity;GTR_ToRagdoll;"
+	myAnimCommand Jetpack_TakeOff
+	myDisplacementAngle 177.023956
+}
+
+MotionPose "Ready (Run IC)"
+{
+	myStateName Ready
+	myAnimModes Speed_Run;JetpackState_Off;WorldEntryMethod_Ground;WorldEntryMethod_Space;MoveStyle_InCombat;MoveStyle_Polluted;
+	myAnimsOut "GTR_To Dash;GTR_To Die;GTR_To Dormant;GTR_ToExitAffinity;GTR_ToRagdoll;"
+}
+
+MotionPose Jetpack_Divebomb
+{
+	myStateName Jetpack_Divebomb
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;JetpackState_On;WorldEntryMethod_Ground;WorldEntryMethod_Space;MoveStyle_Default;MoveStyle_InCombat;MoveStyle_Polluted;
+	myAnimsOut "GTR_To Dash;GTR_To Die;GTR_To Dormant;GTR_ToExitAffinity;GTR_ToRagdoll;"
+}
+
+LayerMotionState DragonCharge_Fire
+{
+	myLayerName DragonCharge_Fire
+	myTotalDuration 0.0
+	myIsLoop TRUE
+}
+
+TransitionMotionState GTR_FromRagdoll < uid=4A8282B95992263000000229E696A4D5 >
+{
+	myEnabled FALSE
+	myTotalDuration 0.0
+	myDistance 0.0
+	myAnimationDuration 0.0
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.0
+	myAnimsOut "Dash;Die;Die (Jetpack);Die (Jetpack (No Mode));Dormant;ExitAffinity;Ready (Idle OOC);Ready (Walk Run OOC);Ready (Walk IC);Ready (Idle IC);Ready (Jetpack);Ready (Run IC);Ground TurnOnSpot;Stumble;KnockBack;Air TurnOnSpot;Stunned;Stunned (Jetpack);EnterWorld (Space);EnterAffinity;PreEnterWorld (Space);Jetpack_Land;Jetpack_TakeOff;Jetpack_Divebomb;SuperJump_Pose;SuperJump_TakingOff;SuperJump_Settle;"
+	myDisplacementAngle 0.0
+	myRotationAngle 0.0
+	myIsGlobalTransition TRUE
+	myGlobalTransitionPriority 0
+}
+
+TransitionMotionState GTR_ToRagdoll < uid=4A8282B9599226300000022AD188A043 >
+{
+	myEnabled FALSE
+	myTotalDuration 0.0
+	myDistance 0.0
+	myAnimationDuration 0.0
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.0
+	myAnimsOut Ragdoll_Recover;
+	myDisplacementAngle 0.0
+	myRotationAngle 0.0
+	myIsGlobalTransition TRUE
+	myGlobalTransitionPriority 0
+}
+
+MotionPose SuperJump_Pose
+{
+	myStateName SuperJump_Pose
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;JetpackState_Off;WorldEntryMethod_Ground;WorldEntryMethod_Space;MoveStyle_Default;MoveStyle_InCombat;MoveStyle_Polluted;
+	myAnimsOut "SuperJump_Settle;GTR_To Dash;GTR_To Die;GTR_To Dormant;GTR_ToExitAffinity;GTR_ToRagdoll;"
+}
+
+OneshotMotionStateWithModes SuperJump_TakingOff < uid=4A8282B9599329E801E1E35CD10DA72A >
+{
+	myEnabled TRUE
+	myStateName SuperJump_TakingOff
+	myTotalDuration 0.88
+	myDistance 0.913697
+	myAnimationDuration 1.2
+	myAnimationDistance 0.913697
+	myHorizontalDistance 0.716797
+	myVerticalDisplacement 0.566608
+	myAnimsOut "SuperJump_Pose;SuperJump_Settle;GTR_To Dash;GTR_To Die;GTR_To Dormant;GTR_ToExitAffinity;GTR_ToRagdoll;"
+	myAnimCommand SuperJump_TakingOff
+	myDisplacementAngle 1.180063
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;JetpackState_Off;WorldEntryMethod_Ground;WorldEntryMethod_Space;MoveStyle_Default;MoveStyle_InCombat;MoveStyle_Polluted;
+}
+
+OneshotMotionStateWithModes SuperJump_Settle < uid=4A8282B9599329E801E1E35D1887128B >
+{
+	myEnabled TRUE
+	myStateName SuperJump_Settle
+	myTotalDuration 0.98
+	myDistance 27.999941
+	myAnimationDuration 1.3
+	myAnimationDistance 27.999941
+	myHorizontalDistance 21.516195
+	myVerticalDisplacement -17.917871
+	myAnimsOut "GTR_To Dash;GTR_To Die;GTR_To Dormant;GTR_ToExitAffinity;GTR_ToRagdoll;"
+	myAnimCommand SuperJump_Settle
+	myDisplacementAngle -0.20521
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;JetpackState_Off;WorldEntryMethod_Ground;WorldEntryMethod_Space;MoveStyle_Default;MoveStyle_InCombat;MoveStyle_Polluted;
+}
+
+OneshotMotionStateWithModes "Die (Jetpack)" < uid=4A8282B959F0FA69000002A794FBBD99 >
+{
+	myEnabled TRUE
+	myStateName Die
+	myTotalDuration 7.28
+	myDistance 15.63814
+	myAnimationDuration 7.6
+	myAnimationDistance 15.63814
+	myHorizontalDistance 3.016566
+	myVerticalDisplacement -15.344437
+	myAnimsOut "GTR_To Dash;GTR_To Die;GTR_To Dormant;GTR_ToExitAffinity;GTR_ToRagdoll;"
+	myAnimCommand Die
+	myDisplacementAngle 122.677383
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;JetpackState_On;WorldEntryMethod_Ground;WorldEntryMethod_Space;MoveStyle_Default;MoveStyle_InCombat;MoveStyle_Polluted;
+}
+
+OneshotMotionStateWithModes "Die (Jetpack (No Mode))" < uid=4A8282B959F20318000C1BE1FAA844AE >
+{
+	myEnabled TRUE
+	myStateName Die
+	myTotalDuration 7.28
+	myDistance 15.63814
+	myAnimationDuration 7.6
+	myAnimationDistance 15.63814
+	myHorizontalDistance 3.016566
+	myVerticalDisplacement -15.344437
+	myAnimsOut "GTR_To Dash;GTR_To Die;GTR_To Dormant;GTR_ToExitAffinity;GTR_ToRagdoll;"
+	myAnimCommand Die
+	myDisplacementAngle 122.677383
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;JetpackState_Off;WorldEntryMethod_Ground;WorldEntryMethod_Space;MoveStyle_Default;MoveStyle_InCombat;MoveStyle_Polluted;
+}
+
+MotionPose "Stunned (Jetpack)"
+{
+	myStateName Stunned
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;JetpackState_On;WorldEntryMethod_Ground;WorldEntryMethod_Space;MoveStyle_Default;MoveStyle_InCombat;MoveStyle_Polluted;
+	myAnimsOut "GTR_To Dash;GTR_To Die;GTR_To Dormant;GTR_ToExitAffinity;GTR_ToRagdoll;"
+}
+
+TransitionMotionState TR_FromDash < uid=C92F4D3F5BD872FF003B1C25E46F8192 >
+{
+	myEnabled FALSE
+	myTotalDuration 0.0
+	myDistance 0.0
+	myAnimationDuration 0.0
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.0
+	myAnimsOut Ragdoll_Recover;
+	myDisplacementAngle 0.0
+	myRotationAngle 0.0
+	myIsGlobalTransition FALSE
+	myGlobalTransitionPriority 0
+}
+

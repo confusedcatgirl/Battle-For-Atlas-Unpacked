@@ -1,0 +1,407 @@
+include "onward/game system data/juice/rulesystem/rulesbank.juice"
+
+RulesBank outlaw_hovertank_bark_rulebank < uid=DFE837425C1BFAC600005A3B2AF31A86 >
+{
+	myRules
+	{
+		Rule "(Tank) Enter Combat - Outlaw" < uid=DFE837425C1BFAC600005A3C6D33010B >
+		{
+			myRuleConcept ON_OUTLAWHOVERTANK_ENTERED_COMBAT
+			myCriteriaList
+			{
+				uid "Instigator is Hover Tank" DFF203395C49EBEC00000089CE6EBD76
+				uid "Planet Is Not Blood Moon" DFE837425C351A5E0003873DC130246C
+				uid "Instigator Faction is Outlaw" D1E9B2CB5755C3ED000000890F3A4580
+			}
+			myPayloads
+			{
+				uid "combat start bark" DFE837425C1BCDFE00005A2C9E345B01
+			}
+		}
+		Rule "Fire Cannon - Outlaw" < uid=DFE837425C35238200038A50FE5172A1 >
+		{
+			myRuleConcept ON_OUTLAWHOVERTANK_CANNON
+			myCriteriaList
+			{
+				uid "Planet Is Not Blood Moon" DFE837425C351A5E0003873DC130246C
+				uid "Instigator Faction is Outlaw" D1E9B2CB5755C3ED000000890F3A4580
+			}
+			myPayloads
+			{
+				uid "Fire Cannon" DFE837425C1BCDFE00005A263406A8EE
+			}
+		}
+		Rule "Fire Mine - Outlaw" < uid=DFE837425C364BE70001F1255E053F38 >
+		{
+			myRuleConcept ON_OUTLAWHOVERTANK_MINES
+			myCriteriaList
+			{
+				uid "Planet Is Not Blood Moon" DFE837425C351A5E0003873DC130246C
+				uid "Instigator Faction is Outlaw" D1E9B2CB5755C3ED000000890F3A4580
+			}
+			myPayloads
+			{
+				uid "Mines VO" DFE837425C1BF96700005A2F12DEAEA0
+			}
+		}
+		Rule "Knockback - Outlaw" < uid=DFE837425C364CDD0001F12AEC782ACC >
+		{
+			myRuleConcept ON_AGENT_ABILITY_USED
+			myCriteriaList
+			{
+				uid "Instigator Ability is Shield" C92F4D3F5B520819000024676357D991
+				uid "Instigator is Hover Tank" DFF203395C49EBEC00000089CE6EBD76
+				uid "Planet Is Not Blood Moon" DFE837425C351A5E0003873DC130246C
+				uid "Instigator Faction is Outlaw" D1E9B2CB5755C3ED000000890F3A4580
+			}
+			myPayloads
+			{
+				uid "Knockback VO" DFE837425C1BF96700005A336E9B546C
+			}
+		}
+		Rule "Flak - Outlaw" < uid=DFE837425C3527FC000071087F3D21B2 >
+		{
+			myRuleConcept ON_OUTLAWHOVERTANK_FLAK
+			myCriteriaList
+			{
+				uid "Planet Is Not Blood Moon" DFE837425C351A5E0003873DC130246C
+				uid "Instigator Faction is Outlaw" D1E9B2CB5755C3ED000000890F3A4580
+			}
+			myPayloads
+			{
+				uid Flak DFE837425C1BF96700005A311BE02A75
+			}
+		}
+		Rule "Health 60 - Outlaw" < uid=DFE837425C361E0700011A34C2996B84 >
+		{
+			myRuleConcept ON_OUTLAWHOVERTANK_PONE_HEALTH
+			myCriteriaList
+			{
+				uid "Planet Is Not Blood Moon" DFE837425C351A5E0003873DC130246C
+				uid "Instigator Faction is Outlaw" D1E9B2CB5755C3ED000000890F3A4580
+			}
+			myPayloads
+			{
+				uid "Health 60 VO" DFE837425C1BF96700005A39FED020E5
+			}
+		}
+		Rule "Health 30 - Outlaw" < uid=DFE837425C3626310000A37DB6154A74 >
+		{
+			myRuleConcept ON_OUTLAWHOVERTANK_PTWO_HEALTH
+			myCriteriaList
+			{
+				uid "New uid (0)" DFE837425C351A5E0003873DC130246C
+				uid "Instigator Faction is Outlaw" D1E9B2CB5755C3ED000000890F3A4580
+			}
+			myPayloads
+			{
+				uid "Health 30 VO" DFE837425C1BF96700005A352AFFA6B0
+			}
+		}
+		Rule "Death - Outlaw" < uid=DFE837425C3645FF0000039037AEABC8 >
+		{
+			myRuleConcept ON_DEATH
+			myCriteriaList
+			{
+				uid "Target is Hover Tank" DFF203395C49EBEC0000008A06C84545
+				uid "Planet Is Not Blood Moon" DFE837425C351A5E0003873DC130246C
+				uid "Target is Outlaw" D1E9B2CB5755C3ED0000008AC7F39169
+			}
+			myPayloads
+			{
+				uid "Death VO" DFE837425C1BCDFE00005A2939F66598
+			}
+		}
+		Rule "Begin Phase Two - Outlaw" < uid=DFE837425C365908000000380CDF41B4 >
+		{
+			myRuleConcept ON_OUTLAWHOVERTANK_PHASETWO
+			myCriteriaList
+			{
+				uid "Planet Is Not Blood Moon" DFE837425C351A5E0003873DC130246C
+				uid "Instigator Faction is Outlaw" D1E9B2CB5755C3ED000000890F3A4580
+			}
+			myPayloads
+			{
+				uid "Phase Two VO" DFE837425C1BF96700005A37AD95F94C
+			}
+		}
+		Rule "(Tank) Enter Combat - Champ" < uid=DFE837425C36717100028CE08BFD375A >
+		{
+			myRuleConcept ON_OUTLAWHOVERTANK_ENTERED_COMBAT
+			myCriteriaList
+			{
+				uid "Instigator is Hover Tank" DFF203395C49EBEC00000089CE6EBD76
+				uid "Planet Is Blood Moon" DFE837425C351A5E0003873CB9C4BC97
+				uid "Instigator Faction is outlaw" D1E9B2CB5755C3ED000000890F3A4580
+			}
+			myPayloads
+			{
+				uid "combat start bark" DFE837425C3396DD0000003E5AB47D1E
+			}
+		}
+		Rule "Fire Cannon - Champ" < uid=DFE837425C36717100028CE187BBD172 >
+		{
+			myRuleConcept ON_OUTLAWHOVERTANK_CANNON
+			myCriteriaList
+			{
+				uid "Planet Is Blood Moon" DFE837425C351A5E0003873CB9C4BC97
+				uid "Instigator Faction is Outlaw" D1E9B2CB5755C3ED000000890F3A4580
+			}
+			myPayloads
+			{
+				uid "Fire Cannon" DFE837425C3396DD00000040778908C0
+			}
+		}
+		Rule "Fire Mine - Champ" < uid=DFE837425C36717100028CE22B1E62D4 >
+		{
+			myRuleConcept ON_OUTLAWHOVERTANK_MINES
+			myCriteriaList
+			{
+				uid "Planet Is Blood Moon" DFE837425C351A5E0003873CB9C4BC97
+				uid "Instigator Faction is Outlaw" D1E9B2CB5755C3ED000000890F3A4580
+			}
+			myPayloads
+			{
+				uid "Mines VO" DFE837425C3396DD0000004267B9424B
+			}
+		}
+		Rule "Knockback - Champ" < uid=DFE837425C36717100028CE3D5CEF72B >
+		{
+			myRuleConcept ON_AGENT_ABILITY_USED
+			myCriteriaList
+			{
+				uid "Instigator Ability is Shield" C92F4D3F5B520819000024676357D991
+				uid "Instigator is Hover Tank" DFF203395C49EBEC00000089CE6EBD76
+				uid "Planet Is Blood Moon" DFE837425C351A5E0003873CB9C4BC97
+				uid "Instigator Faction is Outlaw" D1E9B2CB5755C3ED000000890F3A4580
+			}
+			myPayloads
+			{
+				uid "Knockback VO" DFE837425C3396DD000000460D3A7B0B
+			}
+		}
+		Rule "Flak - Champ" < uid=DFE837425C36717100028CE4B7EB4D2F >
+		{
+			myRuleConcept ON_OUTLAWHOVERTANK_FLAK
+			myCriteriaList
+			{
+				uid "Planet Is Blood Moon" DFE837425C351A5E0003873CB9C4BC97
+				uid "Instigator Faction is Outlaw" D1E9B2CB5755C3ED000000890F3A4580
+			}
+			myPayloads
+			{
+				uid Flak DFE837425C3396DD00000044DA5A8155
+			}
+		}
+		Rule "Health 60 - Champ" < uid=DFE837425C36717100028CE5EE822AE1 >
+		{
+			myRuleConcept ON_OUTLAWHOVERTANK_PONE_HEALTH
+			myCriteriaList
+			{
+				uid "Planet Is Blood Moon" DFE837425C351A5E0003873CB9C4BC97
+				uid "Instigator Faction is Outlaw" D1E9B2CB5755C3ED000000890F3A4580
+			}
+			myPayloads
+			{
+				uid "Health 60 VO" DFE837425C3396DD0000004CD1CE1436
+			}
+		}
+		Rule "Health 30 - Champ" < uid=DFE837425C36717100028CE63652FD27 >
+		{
+			myRuleConcept ON_OUTLAWHOVERTANK_PTWO_HEALTH
+			myCriteriaList
+			{
+				uid "Planet Is Blood Moon" DFE837425C351A5E0003873CB9C4BC97
+				uid "Instigator Faction is Outlaw" D1E9B2CB5755C3ED000000890F3A4580
+			}
+			myPayloads
+			{
+				uid "Health 30 VO" DFE837425C3396DD00000048B4A875BC
+			}
+		}
+		Rule "Death - Champ" < uid=DFE837425C36717100028CE794872369 >
+		{
+			myRuleConcept ON_DEATH
+			myCriteriaList
+			{
+				uid "Target is Hover Tank" DFF203395C49EBEC0000008A06C84545
+				uid "Planet Is Blood Moon" DFE837425C351A5E0003873CB9C4BC97
+				uid "Target Faction is Outlaw" D1E9B2CB5755C3ED0000008AC7F39169
+			}
+			myPayloads
+			{
+				uid "Death VO" DFE837425C3396DD0000004EE9317224
+			}
+		}
+		Rule "Begin Phase Two - Champ" < uid=DFE837425C36717100028CE879E886E3 >
+		{
+			myRuleConcept ON_OUTLAWHOVERTANK_PHASETWO
+			myCriteriaList
+			{
+				uid "Planet Is Blood Moon" DFE837425C351A5E0003873CB9C4BC97
+				uid "Instigator Faction is Outlaw" D1E9B2CB5755C3ED000000890F3A4580
+			}
+			myPayloads
+			{
+				uid "Phase Two VO" DFE837425C3396DD0000004A2C1C442E
+			}
+		}
+		Rule "Attack Phase One Weakpoint Assist" < uid=DFE837425C379D9800009371C591CE0D >
+		{
+			myRuleConcept ON_OUTLAWHOVERTANK_WEAKPOINTHINT
+			myCriteriaList
+			{
+				uid "Global Pilot isn't Rancor" DFE837425C3CCBCD0002C129DA6C0E09
+				uid "Instigator Faction is Outlaw" D1E9B2CB5755C3ED000000890F3A4580
+			}
+			myPayloads
+			{
+				uid "Attack weakpoint" DFE837425C33B9CB0000005B1AC4B76F
+			}
+		}
+		Rule "Attack Phase One Weakpoint Assist - Global" < uid=DFE837425C3CC7C20001E436872A8332 >
+		{
+			myRuleConcept ON_OUTLAWHOVERTANK_WEAKPOINTHINT
+			myCriteriaList
+			{
+				uid "Global Pilot is Rancor" 3BC8B70A57F2D0F00000005F8A0BEFB1
+				uid "Instigator Faction is Outlaw" D1E9B2CB5755C3ED000000890F3A4580
+			}
+			myPayloads
+			{
+				uid "Attack weakpoint" DFE837425C3CC4920001E43005EA2EA4
+			}
+		}
+		Rule "Shield Ram Armor Plate Assist" < uid=DFE837425C379D980000937215A8B77A >
+		{
+			myRuleConcept ON_OUTLAWHOVERTANK_RAMARMOR
+			myCriteriaList
+			{
+				uid "Global Pilot isn't Rancor" DFE837425C3CCBCD0002C129DA6C0E09
+				uid "Instigator Faction is Outlaw" D1E9B2CB5755C3ED000000890F3A4580
+			}
+			myPayloads
+			{
+				uid "Ram armor" DFE837425C33B637000000579E2C8039
+			}
+		}
+		Rule "Shield Ram Armor Plate Assist - Global" < uid=DFE837425C3CCC7A0002C12ACCE20533 >
+		{
+			myRuleConcept ON_OUTLAWHOVERTANK_RAMARMOR
+			myCriteriaList
+			{
+				uid ran 3BC8B70A57F2D0F00000005F8A0BEFB1
+				uid "Instigator Faction is Outlaw" D1E9B2CB5755C3ED000000890F3A4580
+			}
+			myPayloads
+			{
+				uid "Ram armor" DFE837425C3CB5690000E2648AC099F7
+			}
+		}
+		Rule "Phase One Weakpoint Destroyed" < uid=DFE837425C38C263000003CA67C73FD1 >
+		{
+			myRuleConcept ON_OUTLAWHOVERTANK_PONE_WEAKPOINT_DESTROYED
+			myCriteriaList
+			{
+				uid "Global Pilot isn't Startail" DFF203395C37677700000087965B3472
+				uid "Instigator Faction is Outlaw" D1E9B2CB5755C3ED000000890F3A4580
+			}
+			myPayloads
+			{
+				uid "Phase One Weakpoint Destroyed" DFE837425C33B7740000005950364497
+			}
+		}
+		Rule "Phase One Weakpoint Destroyed - Global" < uid=DFE837425C3CC9650001E4378FD4B264 >
+		{
+			myRuleConcept ON_OUTLAWHOVERTANK_PONE_WEAKPOINT_DESTROYED
+			myCriteriaList
+			{
+				uid "Global Pilot is Startail" 3BC8B70A57F2D16A0000006370DF6973
+				uid "Instigator Faction is Outlaw" D1E9B2CB5755C3ED000000890F3A4580
+			}
+			myPayloads
+			{
+				uid "Phase One Weakpoint Destroyed" DFE837425C3CC40B0001E42E357DAA5C
+			}
+		}
+		Rule "Phase Two Weakpoint Revealed" < uid=DFE837425C38C263000003CB74509275 >
+		{
+			myRuleConcept ON_OUTLAWHOVERTANK_PTWO_WEAKPOINT_SHOW
+			myCriteriaList
+			{
+				uid "Global Pilot isn't Startail" DFF203395C37677700000087965B3472
+				uid "Instigator Faction is Outlaw" D1E9B2CB5755C3ED000000890F3A4580
+			}
+			myPayloads
+			{
+				uid "Phase Two Weakpoint Revealed" DFE837425C33C1790000005D4FDC3FD7
+			}
+		}
+		Rule "Phase Two Weakpoint Revealed - Global" < uid=DFE837425C3CCD880002C12BEB862941 >
+		{
+			myRuleConcept ON_OUTLAWHOVERTANK_PTWO_WEAKPOINT_SHOW
+			myCriteriaList
+			{
+				uid "Global Pilot is Startail" 3BC8B70A57F2D16A0000006370DF6973
+				uid "Instigator Faction is Outlaw" D1E9B2CB5755C3ED000000890F3A4580
+			}
+			myPayloads
+			{
+				uid "Phase Two Weakpoint Revealed" DFE837425C3CC5840001E4328B919ED4
+			}
+		}
+		Rule "Phase Two Weakpoint Hidden" < uid=DFE837425C38C263000003CC6E97743D >
+		{
+			myRuleConcept ON_OUTLAWHOVERTANK_PTWO_WEAKPOINT_HIDE
+			myCriteriaList
+			{
+				uid "Global Pilot isn't Rancor" DFE837425C3CCBCD0002C129DA6C0E09
+				uid "Instigator Faction is Outlaw" D1E9B2CB5755C3ED000000890F3A4580
+			}
+			myPayloads
+			{
+				uid "Phase Two Weakpoint Hidden" DFE837425C33C1790000005F0E81CD86
+			}
+		}
+		Rule "Phase Two Weakpoint Hidden - Global" < uid=DFE837425C3CCD880002C12CFBCA7AA6 >
+		{
+			myRuleConcept ON_OUTLAWHOVERTANK_PTWO_WEAKPOINT_HIDE
+			myCriteriaList
+			{
+				uid "Global Pilot is Rancor" 3BC8B70A57F2D0F00000005F8A0BEFB1
+				uid "Instigator Faction is Outlaw" D1E9B2CB5755C3ED000000890F3A4580
+			}
+			myPayloads
+			{
+				uid "Phase Two Weakpoint Hidden" DFE837425C3CC5DE0001E434E4C5BC66
+			}
+		}
+		Rule "Throw Mine Assist" < uid=DFE837425C40C9AC0000C885BE1F9C9A >
+		{
+			myRuleConcept ON_OUTLAWHOVERTANK_THROWMINE
+			myCriteriaList
+			{
+				uid "Global Pilot isn't Startail" DFF203395C37677700000087965B3472
+				uid "Instigator Faction is Outlaw" D1E9B2CB5755C3ED000000890F3A4580
+			}
+			myPayloads
+			{
+				uid "throw mine" DFE837425C33B3CB00000053BFCBE7C9
+			}
+		}
+		Rule "Throw Mine Assist - Global" < uid=DFE837425C40C9AC0000C88644F0ADFA >
+		{
+			myRuleConcept ON_OUTLAWHOVERTANK_THROWMINE
+			myCriteriaList
+			{
+				uid "Global Pilot is Startail" 3BC8B70A57F2D16A0000006370DF6973
+				uid "Instigator Faction is Outlaw" D1E9B2CB5755C3ED000000890F3A4580
+			}
+			myPayloads
+			{
+				uid "throw mine" DFE837425C3CB5690000E262C84A5EEF
+			}
+		}
+	}
+}
+

@@ -1,0 +1,33 @@
+include ./template_pod.mplayermod
+include "onward/game system data/fruit/attributes/attributes.fruit"
+
+float "Weapon Damage" = Kinetic_Weapon_Mod_l4_Damage
+
+PlayerMod mod_kinetic_weaponmod_l4 < uid=C91BB55159836967000002EAEAF8F8C2 > : template_pod
+{
+	myAttributeMods
+	{
+		AttributeMod Kinetic
+		{
+			myType DMG_Kinetic
+			myMultValue 1.0
+			myPercentageValue = "Weapon Damage"
+		}
+		AttributeMod UI_Weapon_Damage
+		{
+			myType UI_Weapon_Damage
+			myPercentageValue = "Weapon Damage"
+		}
+		AttributeMod "Max DMG"
+		{
+			myType DMG_Max
+			myPercentageValue = "Weapon Damage"
+		}
+		AttributeMod "Area Kinetic"
+		{
+			myType DMG_Area_Kinetic
+			myPercentageValue = "Weapon Damage"
+		}
+	}
+}
+

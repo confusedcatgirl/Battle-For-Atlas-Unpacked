@@ -1,0 +1,60 @@
+class SimUnitPayloadItem
+{
+	file myAsset < bhv="asset" assettype="Sim Unit" >
+	int myCount 1
+}
+
+list SimUnitPayloadItemList
+{
+	SimUnitPayloadItem
+}
+
+class SimUnitPayload
+{
+	SimUnitPayloadItemList myItems
+}
+
+class SimUnitLevelPayload
+{
+	int myMinLevel 0 < tooltip="Min parent level for this payload to be considered, inclusive." >
+	int myMaxLevel 9999 < tooltip="Max parent level for this payload to be considered, inclusive." >
+	SimUnitPayload myPayload
+}
+
+list SimUnitLevelPayloadList
+{
+	SimUnitLevelPayload
+}
+
+class SimUnitActPayload
+{
+	int myMinAct 0 < tooltip="Min act for this payload to be considered, inclusive." >
+	int myMaxAct 9999 < tooltip="Max act for this payload to be considered, inclusive." >
+	SimUnitLevelPayloadList myPayloads
+}
+
+list SimUnitActPayloadList
+{
+	SimUnitActPayload
+}
+
+list StringList
+{
+	string
+}
+
+class SimUnitPlanetPayload
+{
+	StringList myPlanets
+	SimUnitActPayloadList myPayloads
+}
+
+list SimUnitPlanetPayloadList
+{
+	SimUnitPlanetPayload
+}
+
+class SimUnitPayloadConfig < uid=auto >
+{
+	SimUnitPlanetPayloadList myPayloads
+}

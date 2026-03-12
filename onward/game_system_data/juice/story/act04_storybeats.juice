@@ -1,0 +1,1573 @@
+include "onward/game system data/fruit/input/gameinput.fruit"
+include ./actions_library.juice
+include "onward/game system data/juice/sim/act_5_portal_01.msimunit"
+include "onward/game system data/juice/sim/onward_equinox_space.msimunit"
+include "onward/game system data/juice/sim/act_5_portal_02.msimunit"
+include ./objectives/objectives.juice
+
+StoryBeatData Act4_SEQ1_CompleteAct4Event < uid=9FD9E8185B43C1CD00002415D925AFA4 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_CompleteStoryEvent "Complete Event"
+		{
+			myStoryEvent Act04
+		}
+		StoryDataAction_SetUIFeature "Set UI Feature - Disable Dreadnought Alerts"
+		{
+			myUIFeature SimAlert_DreadnoughtSpawned
+			myIsSet FALSE
+		}
+		StoryDataAction_SetUIFeature "Set UI Feature - Disable Crit Infect Threshold"
+		{
+			myUIFeature SimAlert_CriticalInfectionThreshold
+			myIsSet FALSE
+		}
+		StoryDataAction_SetUIFeature "Set UI Feature - Disable Prime Sim Alerts"
+		{
+			myUIFeature SimAlert_PrimeLanded
+		}
+	}
+}
+
+StoryBeatData Act4_SEQ1_Cinematic < uid=2B55C72B5910CCE50000004C593FCA70 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_AddFadeRequest "Clear Fade"
+		{
+			myFadeRequestType Fade_Out
+		}
+		StoryDataAction_SuppressNonStoryPips "Disable Non-Story Pips"
+		{
+			myShouldSuppress TRUE
+		}
+		StoryDataAction_SetEncounterTimersEnabled "Disable Encounters"
+		{
+		}
+		StoryDataAction_SetNumExtractors "Set Max Extractors"
+		{
+			myNumExtractors 24
+		}
+		StoryDataAction_SetMaxExtractorLevel "Set Extractor Level"
+		{
+			myMaxExtractorLevel 4
+		}
+		StoryDataAction_SetNumPrimes "Set Primes to 1"
+		{
+			myNumPrimes 1
+		}
+		StoryDataAction_SetPrimeTimeBetweenExtractors "Set Prime Time Between Extractors"
+		{
+			myPrimeTimeBetweenExtractors 900.0
+		}
+		StoryDataAction_TeleportPlayer "Teleport To Equinox"
+		{
+			myPlayer1Teleport
+			{
+				mySimUnitAssetPath "onward/game system data/juice/sim/onward_equinox_space.msimunit"
+				myTeleportOffset -500.0;0.0;0.0
+				myTeleportRotation 0.0;0.0;0.0
+				myIsOffsetInLocalSpace FALSE
+			}
+			myPlayer2Teleport
+			{
+				mySimUnitAssetPath "onward/game system data/juice/sim/onward_equinox_space.msimunit"
+				myTeleportOffset -600.0;0.0;0.0
+				myTeleportRotation 0.0;0.0;0.0
+				myIsOffsetInLocalSpace FALSE
+			}
+		}
+	}
+	myStoryDataActionSets
+	{
+		StoryDataActionSet Cinematic
+		{
+			myStoryDataActions
+			{
+				StoryDataAction_Cinematic "Play Cinematic"
+				{
+					myCinematicFile onward/baked/videos/CIN_ACT4.bk2
+				}
+			}
+		}
+		StoryDataActionSet HealUp
+		{
+			myStoryDataActions
+			{
+				StoryDataAction_HealPlayerShips HealUp
+				{
+				}
+			}
+		}
+	}
+}
+
+StoryBeatData Act4_SEQ1_InitialObjectiveAndSetup < uid=2B55C72B5910CCE50000004D7B798BBA >
+{
+	myIsDebugStartingBeat FALSE
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_SetTarget "Clear Target"
+		{
+		}
+		StoryDataAction_SetGameAction "Enable Game Actions" = "Enable All Actions"
+		StoryDataAction_Wait "Padding Wait"
+		{
+			mySecondsToWait 1.0
+		}
+		StoryDataAction_SetGameplayBounds "Set Gameplay Bounds - Galaxy"
+		{
+			myBoundsRadius 125000.0
+		}
+		StoryDataAction_SetGameAction "Disable Fast Travel"
+		{
+			mySetGameActionList
+			{
+				SetGameAction "Disable Fast Travel"
+				{
+					myGameAction PlayerQuery_CanFastTravel
+				}
+			}
+		}
+	}
+	myStoryDataActionSets
+	{
+		StoryDataActionSet "Enable All UI" = "Enable All Screen UI Set Act IV"
+	}
+}
+
+StoryBeatData Act4_SEQ1_DisableFastTravel < uid=9FD9E8185AA0361B00001C2E899751D5 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_SetGameAction "Disable Fast Travel Game Action - SM"
+		{
+			mySetGameActionList
+			{
+				SetGameAction "Fast Travel"
+				{
+					myGameAction UIStarmap_FastTravel
+				}
+				SetGameAction "Disable PlayerQuery_CanFastTravel"
+				{
+					myGameAction PlayerQuery_CanFastTravel
+				}
+			}
+		}
+		StoryDataAction_SetUIFeature "Disable Fast Travel UI - SM"
+		{
+			myUIFeature Starmap_FastTravelEnabled
+		}
+	}
+}
+
+StoryBeatData Act4_SEQ1_FadeIn < uid=9FD9E8185A94839A00001B9A4A185D4D >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_AddFadeRequest "Fade In"
+		{
+			myFadeTime 2.0
+		}
+	}
+}
+
+StoryBeatData Act4_SEQ1_SpawnNearEquinox < uid=9FD9E818596E73BD0000007DC925207D >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+	}
+	myStoryDataActionSets
+	{
+		StoryDataActionSet "Target and Spawn"
+		{
+			myStoryDataActions
+			{
+			}
+		}
+	}
+}
+
+StoryBeatData Act4_SEQ1_Debrief < uid=9FD9E8185A380BED00001DE2E550A09F >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_Dialog "Dialogue - SQ01 - Debrief"
+		{
+			myDialogSequenceID 1
+			myPauseInOutpostMenu FALSE
+		}
+		StoryDataAction_TransitionStorySection "Enter Story Section - Act 5 Gameloop"
+		{
+			myTransitionType Enter
+			myStorySection Act_04_Alliance_GameLoop
+		}
+		StoryDataAction_CompleteStoryEvent "Allow Dreadnoughts to Spawn"
+		{
+			myStoryEvent Act04_SpawnDreadnoughts
+		}
+		StoryDataAction_PopulatePlanetExtractors "Spawn Extractor in Kirite"
+		{
+			myPlanet 2B55C72B560154A200000053621E3961
+			myNumRequired 11
+		}
+		StoryDataAction_PopulatePlanetExtractors "Spawn Extractors in Haven"
+		{
+			myPlanet 2B55C72B560BF25A00000071749BE491
+			myNumRequired 8
+		}
+	}
+}
+
+StoryBeatData Act4_SEQ1_FadeToBlack < uid=9FD9E8185A94841400001B9DC6AE5501 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_AddFadeRequest "Fade to Black"
+		{
+			myFadeRequestType Fade_Out
+			myFadeTime 1.0
+		}
+		StoryDataAction_Wait Wait
+		{
+			mySecondsToWait 1.0
+		}
+	}
+}
+
+StoryBeatSequence Act4_SEQ2_DialogueOverStarmap < uid=9FD9E8185A8F0C0D00001B98213F2E5F >
+{
+	myStoryBeats
+	{
+		StoryBeatData "Open Starmap" < uid=9FD9E8185A39815600001D7E5ED37A37 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_UIStarMapOpen "Open Starmap"
+				{
+				}
+				StoryDataAction_UIDeferErrorMessages "Defer All Error Messages"
+				{
+					myEnabled TRUE
+				}
+				StoryDataAction_SetUIFeature "Disable UI Input"
+				{
+					myUIFeature EnableUIActions
+				}
+			}
+		}
+		StoryBeatData "Lock Input" < uid=1EE141815A8DCBC800001B67790F3D17 > = "Starmap Player Control Lock"
+		StoryBeatData "Wait 1" < uid=1EE141815A902AED00001B49B4CA2041 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_WallClockWait "Wait 1"
+				{
+					mySecondsToWait 1.0
+				}
+			}
+		}
+		StoryBeatData "Dialogue - 1" < uid=9FD9E81859E4D20D000002592DDF00F5 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+			}
+			myStoryDataActionSets
+			{
+				StoryDataActionSet "Dialogue Plays OR Timer (0.1)"
+				{
+					myStoryDataActionSetType OR
+					myStoryDataActions
+					{
+						StoryDataAction_SoundEvent "Dialogue - 1"
+						{
+							myAudioEvent
+							{
+								myGuid AA5A64085A7220930000000B56C4EB06
+							}
+						}
+						StoryDataAction_WallClockWait "Wait 2"
+						{
+							mySecondsToWait 1.0
+						}
+					}
+				}
+			}
+		}
+		StoryBeatData "Focus on Dreadnought A" < uid=9FD9E8185A8F0CC500001B9D58BBE19B >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_UIStarMapFocusOnSimUnit "Focus on Dreadnought C"
+				{
+					myTargetSimUnitAssetPath "onward/game system data/juice/sim/act_4_dreadnought_c.msimunit"
+				}
+				StoryDataAction_WallClockWait "Wait 1.2"
+				{
+					mySecondsToWait 1.2
+				}
+			}
+		}
+		StoryBeatData "Focus on Dreadnought B" < uid=9FD9E8185A81C5CB00001BAA78004AAB >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_UIStarMapFocusOnSimUnit "Focus on Dreadnought"
+				{
+					myViewType TargetDefault
+					myTargetSimUnitAssetPath "onward/game system data/juice/sim/act_4_dreadnought_a.msimunit"
+				}
+				StoryDataAction_WallClockWait "Wait 1.2"
+				{
+					mySecondsToWait 1.2
+				}
+			}
+		}
+		StoryBeatData "Focus on Dreadnought C" < uid=9FD9E8185A8F0C0D00001B99F8260B12 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_UIStarMapFocusOnSimUnit "Focus on Dreadnought"
+				{
+					myTargetSimUnitAssetPath "onward/game system data/juice/sim/act_4_dreadnought_b.msimunit"
+				}
+				StoryDataAction_WallClockWait "Wait 1.2"
+				{
+					mySecondsToWait 1.2
+				}
+			}
+		}
+		StoryBeatData "Focus on Player" < uid=9FD9E8185A81C63600001BACB73B0A89 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_UIStarMapFocusOnSimUnit "Focus on Player"
+				{
+					myViewType PlayerDefault
+					myTargetSimUnitAssetPath "onward/game system data/juice/sim/player.msimunit"
+				}
+				StoryDataAction_WallClockWait "Wait 1.2"
+				{
+					mySecondsToWait 1.2
+				}
+			}
+		}
+		StoryBeatData "Unlock Input" < uid=1EE141815A8DCBC800001B68548A6A24 > = "Starmap Player Control Unlock"
+		StoryBeatData "Close Starmap" < uid=1EE141815A90298B00001B48315C3C89 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_UIStarMapClose "Close Starmap"
+				{
+				}
+			}
+		}
+	}
+}
+
+StoryBeatData Act4_SEQ2_FadeIn < uid=9FD9E818596E8594000001DE9B90612B >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_AddFadeRequest "Fade In"
+		{
+			myFadeTime 2.0
+		}
+		StoryDataAction_Wait Wait
+		{
+			mySecondsToWait 2.0
+		}
+	}
+	myStoryDataActionSets
+	{
+		StoryDataActionSet "Wait (either) 2.0"
+		{
+			myStoryDataActionSetType OR
+			myStoryDataActions
+			{
+				StoryDataAction_Wait "Wait While Fade 2.0"
+				{
+					mySecondsToWait 2.0
+				}
+				StoryDataAction_WallClockWait "WallClock Wait While Fade 2.0"
+				{
+					mySecondsToWait 2.0
+				}
+			}
+		}
+	}
+}
+
+StoryBeatData Act4_SEQ2_HeadToKirite < uid=9FD9E8185A9484B200001B9E4ED48AAC >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_SetTarget "Set Target - Kirite"
+		{
+			mySimUnitAssetTarget "onward/game system data/juice/sim/act_4_kirite_destination.msimunit"
+			myTargetPlanet 2B55C72B560154A200000053621E3961
+			myActivityType Find
+		}
+		StoryDataAction_CompleteStoryEvent "Complete Story Event - Spawn Act 4 Extractors"
+		{
+			myStoryEvent Act04_SpawnExtractors
+		}
+		StoryDataAction_CompleteChallenge "Complete Challenge - Unlock Quantum Network"
+		{
+			myChallengeToComplete Unlock_QuantumNetwork
+		}
+	}
+}
+
+StoryBeatData Act4_SEQ2_HeadToKiriteDialogue < uid=9FD9E8185A81E62900001D0ADFB25DBD >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_SuppressNonStoryPips "Suppress Non-Story Pips"
+		{
+			myShouldSuppress TRUE
+		}
+		StoryDataAction_SetEncounterTimersEnabled "Disable Encounters"
+		{
+		}
+		StoryDataAction_Dialog "Dialogue - SQ05 - Starlink"
+		{
+			myDialogSequenceID 5
+			myPauseInOutpostMenu FALSE
+		}
+	}
+	myStoryDataActionSets
+	{
+		StoryDataActionSet "Distance Or Timer (Suppression Fallback)"
+		{
+			myStoryDataActionSetType OR
+			myStoryDataActions
+			{
+				StoryDataAction_WaitForArriveAtTarget "Wait For Kirite Proximity 19k"
+				{
+					myDistance 19000.0
+					myRequireInFOV FALSE
+				}
+				StoryDataAction_Wait "Wait 60"
+				{
+					mySecondsToWait 60.0
+				}
+			}
+		}
+	}
+}
+
+StoryBeatData Act4_SEQ2_UnSuppressForFreeRoam < uid=9FD9E8185AB56CC600001C250C207AB5 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_SuppressNonStoryPips "UnSuppress Pips for Free Roam"
+		{
+		}
+		StoryDataAction_SetEncounterTimersEnabled "Enable Encounters for Free Roam"
+		{
+			myEnabled TRUE
+		}
+		StoryDataAction_SetGameAction "Enable Fast Travel"
+		{
+			mySetGameActionList
+			{
+				SetGameAction "Enable Fast Travel"
+				{
+					myGameAction PlayerQuery_CanFastTravel
+					myEnabled TRUE
+				}
+			}
+		}
+		StoryDataAction_SetUIFeature "Enable Dreadnought Alerts"
+		{
+			myUIFeature SimAlert_DreadnoughtSpawned
+			myIsSet TRUE
+		}
+		StoryDataAction_SetUIFeature "Enable Prime Alerts"
+		{
+			myUIFeature SimAlert_PrimeLanded
+			myIsSet TRUE
+		}
+		StoryDataAction_SetUIFeature "Enable Prime Alert - Starmap"
+		{
+			myUIFeature Starmap_PrimeAlerts
+			myIsSet TRUE
+		}
+		StoryDataAction_SetUIFeature "Enable Critical Infection"
+		{
+			myIsSet TRUE
+		}
+	}
+	myStoryDataActionSets
+	{
+		StoryDataActionSet "Wait 5 Seconds OR distance"
+		{
+			myStoryDataActionSetType OR
+			myStoryDataActions
+			{
+				StoryDataAction_Wait "Wait for 5 Second For Dreadnouth"
+				{
+					mySecondsToWait 5.0
+				}
+				StoryDataAction_WaitForArriveAtTarget "Distance to Kirite 19K"
+				{
+					myDistance 19000.0
+					myRequireInFOV FALSE
+				}
+			}
+		}
+	}
+}
+
+StoryBeatData Act4_SEQ2_SpawnDreadnoughts < uid=9FD9E8185AA0097800001BA0F33A5586 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+	}
+}
+
+StoryBeatData Act4_SEQ2_RevealDialogue < uid=9FD9E8185AA0097800001B9F0548C83C >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_SuppressNonStoryPips "Suppress Non-Story Pips"
+		{
+			myShouldSuppress TRUE
+		}
+		StoryDataAction_SetEncounterTimersEnabled "Disable Encounters"
+		{
+			myEnabled FALSE
+		}
+		StoryDataAction_Dialog "Dialogue - SQ13 - Kirite Reveal"
+		{
+			myDialogSequenceID 13
+			myPauseInOutpostMenu FALSE
+		}
+	}
+	myStoryDataActionSets
+	{
+	}
+}
+
+StoryBeatData Act4_SEQ2_LegionThreatPopUp < uid=2B55C72B5B56333F00002218101314F1 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_UIOpenConfirmationDialog "Legion Threat Pop Up"
+		{
+			myConfirmationType Introduce_WarEffort
+		}
+	}
+}
+
+StoryBeatData Act4_SEQ2_WaitForKiriteArrival < uid=2B55C72B5B560F57000022130DD1DCE4 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_WaitForArriveAtTarget "Wait for 18k"
+		{
+			myDistance 18000.0
+			myRequireInFOV FALSE
+		}
+		StoryDataAction_SetEncounterTimersEnabled "Enable Encounters"
+		{
+			myEnabled TRUE
+		}
+	}
+}
+
+StoryBeatData Act4_SEQ2_AfterRevealDialogue < uid=9FD9E8185ABAD3B300001C4DCEA383DD >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_SetEncounterTimersEnabled "Disable Encounters"
+		{
+		}
+		StoryDataAction_SuppressNonStoryPips "Supress Non-Story Pips for Dialogue"
+		{
+			myShouldSuppress TRUE
+		}
+		StoryDataAction_Dialog "Dialogue - SQ15 - Nearing Kirite"
+		{
+			myDialogSequenceID 15
+		}
+	}
+}
+
+StoryBeatData Act4_SEQ2_UnSuppressUntilArrival < uid=9FD9E8185AB574EB00001C2C6B3AFA6E >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_SuppressNonStoryPips "Un Suppress Non-Story Pips"
+		{
+		}
+		StoryDataAction_WaitForPlanetArrival "Wait for Arrival - Kirite"
+		{
+			myPlanetUID 2B55C72B560154A200000053621E3961
+		}
+		StoryDataAction_SetEncounterTimersEnabled "Enable Encounters"
+		{
+			myEnabled TRUE
+		}
+	}
+}
+
+StoryBeatData Act4_SEQ2_ArriveAtKirite < uid=9FD9E8185A94878200001BA1602362BE >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_SuppressNonStoryPips "Disable Non-Story Pip"
+		{
+			myShouldSuppress TRUE
+		}
+		StoryDataAction_SetTarget "Clear Target"
+		{
+		}
+		StoryDataAction_SetObjective "Complete Chapter 1 - Sub 1"
+		{
+			myObjectiveData < uid=9FD9E8185ABD7AEA00001C6FB1CDA5CD > = Act4.Chapter1.Sub1
+			myObjectiveState Remove
+		}
+	}
+}
+
+StoryBeatData Act4_SEQ2_KiriteArrivalDialogue < uid=2B55C72B5B5635690000221A6127909B >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_Dialog "Dialogue - SQ16 - Reach 50%"
+		{
+			myDialogSequenceID 16
+		}
+	}
+}
+
+StoryBeatData Act4_SEQ2_WarEffortPopUp < uid=2B55C72B5B5639AC00002214B0648F65 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_UIOpenConfirmationDialog "Legion Threat PopUp"
+		{
+			myConfirmationType Introduce_WarEffort
+		}
+	}
+}
+
+StoryBeatData Act4_SEQ2_AllianceCheck1 < uid=9FD9E8185A9487D100001BA39A198002 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_SuppressNonStoryPips "Un Suppress Non-Story Pips"
+		{
+		}
+	}
+	myStoryDataActionSets
+	{
+		StoryDataActionSet "Alliance 15% Skips, Present X/50"
+		{
+			myStoryDataActionSetType OR
+			myStoryDataActions
+			{
+				StoryDataAction_WaitForAllianceLevel "Wait for Alliance - 50% - Kirite"
+				{
+					myObjectiveUID < uid=9FD9E8185ABD79B400001C4C92C6E6D5 > = Act4.Chapter1A.Sub1
+					myObjectiveAutoRemoves TRUE
+					myAllianceLevel 50
+					myPlanet 2B55C72B560154A200000053621E3961
+				}
+				StoryDataAction_WaitForAllianceLevel "Wait for Alliance - 15% - Kirite"
+				{
+					myObjectiveAutoRemoves TRUE
+					myAllianceLevel 15
+					myPlanet 2B55C72B560154A200000053621E3961
+				}
+				StoryDataAction_WaitForPlayerKillNPC "Wait For NPC Death"
+				{
+					myNPCType Harvester_Extractor
+				}
+				StoryDataAction_WaitForPlayerKillNPC "Wait for NPC Death"
+				{
+					myNPCType Harvester_Prime
+				}
+			}
+		}
+	}
+}
+
+StoryBeatData Act4_SEQ2_AllianceCheck2 < uid=9FD9E8185ABAD53300001C4F5F920853 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_Dialog "Dialogue - SQ17"
+		{
+			myDialogSequenceID 17
+		}
+	}
+	myStoryDataActionSets
+	{
+		StoryDataActionSet "Alliance 15% Skips, Present X/50"
+		{
+			myStoryDataActionSetType OR
+			myStoryDataActions
+			{
+				StoryDataAction_WaitForAllianceLevel "Wait for Alliance 50%"
+				{
+					myObjectiveUID < uid=9FD9E8185ABD79B400001C4DB5D826F9 > = Act4.Chapter1A.Sub1
+					myAllianceLevel 50
+					myPlanet 2B55C72B560154A200000053621E3961
+				}
+				StoryDataAction_WaitForAllianceLevel "Wait for Alliance 30%"
+				{
+					myAllianceLevel 30
+					myPlanet 2B55C72B560154A200000053621E3961
+				}
+				StoryDataAction_WaitForPlayerKillNPC "Wait for Extractor"
+				{
+					myNPCType Harvester_Extractor
+				}
+				StoryDataAction_WaitForPlayerKillNPC "Wait for Prime"
+				{
+					myNPCType Harvester_Prime
+				}
+			}
+		}
+	}
+}
+
+StoryBeatData Act4_SEQ2_AllianceCheck3 < uid=9FD9E8185ABAD53300001C50BD69A121 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_WaitForAllianceLevel "Wait for Alliance 50%"
+		{
+			myObjectiveUID < uid=9FD9E8185ABD79B400001C4E990002CE > = Act4.Chapter1A.Sub1
+			myObjectiveAutoRemoves TRUE
+			myAllianceLevel 50
+			myPlanet 2B55C72B560154A200000053621E3961
+		}
+		StoryDataAction_Dialog "Dialogue - SQ18 - More Info"
+		{
+			myDialogSequenceID 18
+		}
+	}
+}
+
+StoryBeatData Act4_SEQ2_KiriteAllianceCheckResources < uid=9FD9E8185A94892600001BA4C7CEBA92 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_Dialog "Dialogue SQ20 - Resources"
+		{
+			myDialogSequenceID 20
+		}
+	}
+}
+
+StoryBeatData Act4_SEQ2_WaitForResources < uid=9FD9E8185A948BBD00001BA720611499 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+	}
+	myStoryDataActionSets
+	{
+		StoryDataActionSet "Electrum Skips Dialogue"
+		{
+			myStoryDataActionSetType OR
+			myStoryDataActions
+			{
+				StoryDataAction_WaitForProgressionPointsAmount "Wait for Electrum - 200,000"
+				{
+					myObjectiveUID < uid=9FD9E8185ABD79B400001C505E592A1E > = Act4.Chapter1A.Sub2
+					myObjectiveAutoRemoves TRUE
+					myPointsNeeded 200000
+				}
+				StoryDataAction_Dialog "Dialogue - SQ22 -"
+				{
+					myCompleteImmediately TRUE
+					myDialogSequenceID 22
+					myPauseInOutpostMenu FALSE
+				}
+			}
+		}
+	}
+}
+
+StoryBeatData Act4_SEQ2_ElectrumGate < uid=9FD9E8185ABD7D9F00001C822FA11A4E >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_WaitForProgressionPointsAmount "Electrum Gate"
+		{
+			myObjectiveUID < uid=9FD9E8185ABD7E0300001C8E8D3D56AE > = Act4.Chapter1A.Sub2
+			myObjectiveAutoRemoves TRUE
+			myPointsNeeded 200000
+		}
+	}
+}
+
+StoryBeatData Act4_SEQ2_NovaSkipsDialogue < uid=9FD9E8185ABD3F9000001C46F38FC5A8 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActionSets
+	{
+		StoryDataActionSet "Nova Skips SQ23"
+		{
+			myStoryDataActionSetType OR
+			myStoryDataActions
+			{
+				StoryDataAction_WaitForProgressionPointsAmount "Nova Check"
+				{
+					myObjectiveUID < uid=9FD9E8185ABD79B400001C4FFB0C8BE4 > = Act4.Chapter1A.Sub3
+					myObjectiveAutoRemoves TRUE
+					myPointsNeeded 10
+					myPointType Nova
+				}
+				StoryDataAction_Dialog "Dialogue - SQ23 - Nova Requirement"
+				{
+					myCompleteImmediately TRUE
+					myDialogSequenceID 23
+				}
+			}
+		}
+	}
+}
+
+StoryBeatData Act4_SEQ2_NovaGate < uid=9FD9E8185ABD7D9F00001C83F2FEE261 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_WaitForProgressionPointsAmount "Nova Gate"
+		{
+			myObjectiveUID < uid=9FD9E8185ABD7E0300001C8FAF2D0384 > = Act4.Chapter1A.Sub3
+			myObjectiveAutoRemoves TRUE
+			myPointsNeeded 10
+			myPointType Nova
+		}
+	}
+}
+
+StoryBeatData Act4_SEQ2_ResourcesAquired < uid=9FD9E8185A948FC100001BBE2C412F11 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_Dialog "Dialogue - SQ30 - Resources Aquired"
+		{
+			myDialogSequenceID 30
+		}
+	}
+}
+
+StoryBeatData Act4_SEQ4_UniteAtlasObjective < uid=9FD9E81859A6AEE1000138BFB0744770 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_CompleteChallenge "Complete Challenge - Reveal Starlink Upgrade"
+		{
+			myChallengeToComplete Act4_RevealActEquinoxUpgrade
+		}
+		StoryDataAction_Dialog "Dialogue - SQ32 - Next Steps"
+		{
+			myDialogSequenceID 32
+			myPauseInOutpostMenu FALSE
+		}
+	}
+}
+
+StoryBeatData Act4_SEQ4_PreObjectiveA < uid=9FD9E8185A3AD46400001B9A04921600 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_Dialog "Dialogue - SQ31 - Pre Objective A"
+		{
+			myDialogSequenceID 31
+			myPauseInOutpostMenu FALSE
+		}
+	}
+}
+
+StoryBeatData Act4_SEQ4_PreObjectiveC < uid=9FD9E8185A3AD46400001B9CA6C2CB10 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_Dialog "Dialogue - SQ33 - Pre Objective C"
+		{
+			myDialogSequenceID 33
+			myPauseInOutpostMenu FALSE
+		}
+	}
+}
+
+StoryBeatData Act4_SEQ4_SetSubObjectiveC < uid=9FD9E81859E7C5BF0000003827EFCC0E >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+	}
+}
+
+StoryBeatData Act4_SEQ5_SetObjectiveForTravel < uid=9FD9E8185989D0610000010F74FF257E >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_SetTarget "Set Portal Target"
+		{
+			mySimUnitAssetTarget "onward/game system data/juice/sim/act_5_portal_01.msimunit"
+			myActivityType Find
+		}
+	}
+}
+
+StoryBeatData Act4_SEQ5_PostTravelUnsetAll < uid=9FD9E81859DFB8F8000001B6A6B90975 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_SetTarget "Clear Target"
+		{
+		}
+		StoryDataAction_TransitionStorySection "Exit Story Section - Travel_To_AtlasB"
+		{
+			myTransitionType Exit
+			myStorySection Act_04_Travel_To_AtlasB
+		}
+		StoryDataAction_CompleteChallenge "Complete Challenge - Act 4 Complete"
+		{
+			myChallengeToComplete Act4Complete
+		}
+		StoryDataAction_SetObjective "Complete Chapter 4 - Sub 1"
+		{
+			myObjectiveData < uid=9FD9E8185AAC5C4000001DB1749EAE61 > = Act4.Chapter4.Sub1
+			myObjectiveState Remove
+		}
+		StoryDataAction_UIStarMapRemoveAlertOnSimUnit "Remove Systemic Objective Marker on Equinox"
+		{
+			myTargetSimUnitAssetPath "onward/game system data/juice/sim/onward_equinox_space.msimunit"
+		}
+	}
+}
+
+StoryBeatData Act4_SEQ4_WaitForTowerBuilt_1 < uid=9FD9E8185A381B0D00001E3ACACF043F >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_CompleteChallenge "Complete Challenge - Unlock Towers"
+		{
+			myChallengeToComplete AllianceTowerUnlocked
+		}
+		StoryDataAction_WaitForChallengeComplete "Wait for Tower Built Event - SecA"
+		{
+			myChallenge StarlinkTowerBuiltInSectorA
+		}
+		StoryDataAction_SetUIFeature "Highlight Starlink Tower Build Option - Enable"
+		{
+			myUIFeature Outpost_HighlightAllianceTower
+			myIsSet TRUE
+		}
+		StoryDataAction_TransitionStorySection "Enter Story Section - Starlink Towers"
+		{
+			myTransitionType Enter
+			myStorySection Act_04_StarlinkTowers
+		}
+	}
+	myStoryDataActionSets
+	{
+	}
+}
+
+StoryBeatData Act4_SEQ4_AfterTower_1 < uid=9FD9E8185A381B0D00001E3B03E32754 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_Dialog "Dialogue - SQ40 - Built First Tower"
+		{
+			myDialogSequenceID 40
+		}
+		StoryDataAction_CompleteStoryEvent "Complete - Act04_FirstTowerComplete"
+		{
+			myStoryEvent Act04_FirstTowerComplete
+		}
+		StoryDataAction_SetObjective "Complete Chapter 2 - Sub 1"
+		{
+			myObjectiveData < uid=9FD9E8185AAC621800001DD1CF7FFE8E > = Act4.Chapter2.Sub1
+			myObjectiveState Remove
+		}
+		StoryDataAction_TransitionStorySection "Enter - First Tower Built Story Section"
+		{
+			myTransitionType Enter
+			myStorySection Act_04_AfterFirstTowerBuilt
+		}
+	}
+}
+
+StoryBeatData Act4_SEQ4_WaitForTowerBuilt_2 < uid=9FD9E8185A381B0D00001E3C7251EEAF >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_CompleteChallenge "Complete Challenge - Unlock Warden Station"
+		{
+			myChallengeToComplete Unlock_WardenStation
+		}
+	}
+	myStoryDataActionSets
+	{
+		StoryDataActionSet "Wait for Tower Built Event - Sec B/C"
+		{
+			myStoryDataActionSetType OR
+			myStoryDataActions
+			{
+				StoryDataAction_WaitForGameToStoryEvent "G2SEvent - Tower 2 - B"
+				{
+					myObjectiveUID < uid=9FD9E8185AAC5D7500001DCB123B5FE7 > = Act4.Chapter2.Sub2
+					myObjectiveAutoRemoves FALSE
+					myGameToStoryStoryEvent Build_AllianceTower_SectorB
+				}
+				StoryDataAction_WaitForGameToStoryEvent "G2SEvent - Tower 2 - C"
+				{
+					myObjectiveUID < uid=9FD9E8185AAC5D7500001DCC0CA8463D > = Act4.Chapter2.Sub3
+					myObjectiveAutoRemoves FALSE
+					myGameToStoryStoryEvent Build_AllianceTower_SectorC
+				}
+			}
+		}
+	}
+}
+
+StoryBeatData Act4_SEQ4_AfterTower_2 < uid=9FD9E8185A381B0D00001E3D07EEC5BC >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+	}
+}
+
+StoryBeatData Act4_SEQ4_WaitforTowerBuilt_3 < uid=9FD9E8185A381B0D00001E3EB5B2D782 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_Dialog "Dialogue - SQ50 - Built Second Tower"
+		{
+			myDialogSequenceID 50
+			myPauseInOutpostMenu FALSE
+		}
+	}
+	myStoryDataActionSets
+	{
+		StoryDataActionSet "All 3 Towers Built"
+		{
+			myStoryDataActions
+			{
+				StoryDataAction_WaitForChallengeComplete "Sector A Tower"
+				{
+					myObjectiveAutoRemoves FALSE
+					myChallenge StarlinkTowerBuiltInSectorA
+				}
+				StoryDataAction_WaitForChallengeComplete "Sector B Tower"
+				{
+					myObjectiveUID < uid=9FD9E8185AAC5DA600001DCDF8E9F097 > = Act4.Chapter2.Sub2
+					myObjectiveAutoRemoves FALSE
+					myChallenge StarlinkTowerBuiltInSectorB
+				}
+				StoryDataAction_WaitForChallengeComplete "Sector C Tower"
+				{
+					myObjectiveUID < uid=9FD9E8185AAC5DA600001DCEFE7E5957 > = Act4.Chapter2.Sub3
+					myObjectiveAutoRemoves FALSE
+					myChallenge StarlinkTowerBuiltInSectorC
+				}
+			}
+		}
+	}
+}
+
+StoryBeatData Act4_SEQ4_AfterTower_3 < uid=9FD9E8185A381B0D00001E3FAF719FE7 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+	}
+}
+
+StoryBeatData Act4_SEQ4_ReturnToEquinox < uid=9FD9E8185A3824F500001E51CF09D625 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_SetTarget "Set Ghost Target - Equinox"
+		{
+			mySimUnitAssetTarget "onward/game system data/juice/sim/onward_equinox_space.msimunit"
+			myShowWaypoint FALSE
+		}
+		StoryDataAction_WaitForArriveAtTarget "Wait for Return to Equinox"
+		{
+			myDistance 500.0
+			myRequireInFOV FALSE
+		}
+		StoryDataAction_ConditionalAction "ConAct: Disable blood moon intro 05 if player is near Equinox"
+		{
+			myIsOptional TRUE
+			myConditionalActions
+			{
+				StoryDataAction_WaitForArriveAtTarget "Wait for arrival at Equnox"
+				{
+					myIsOptional TRUE
+					myDistance 500.0
+					myRequireInFOV FALSE
+				}
+			}
+			myOutcomeActions
+			{
+				StoryDataAction_CompleteStoryEvent "Complete story Event: Disable Blood Moon Intro 04"
+				{
+					myIsOptional TRUE
+					myStoryEvent TU5_Disable_MoonIntro_05
+				}
+			}
+		}
+		StoryDataAction_UIStarMapAddAlertOnSimUnit "Systemic Objective Marker on Equinox"
+		{
+			myTargetSimUnitAssetPath "onward/game system data/juice/sim/onward_equinox_space.msimunit"
+			myAlertType Alliance
+		}
+		StoryDataAction_Dialog "Dialogue - SQ60 - Built Third Tower"
+		{
+			myDialogSequenceID 60
+			myPauseInOutpostMenu FALSE
+		}
+		StoryDataAction_SetUIFeature "Highlight Starlink Tower Build Option - Disable"
+		{
+			myUIFeature Outpost_HighlightAllianceTower
+		}
+		StoryDataAction_TransitionStorySection "Exit After First Tower Built Story Section"
+		{
+			myTransitionType Exit
+			myStorySection Act_04_AfterFirstTowerBuilt
+		}
+		StoryDataAction_TransitionStorySection "Exit Story Section - Starlink Towers"
+		{
+			myTransitionType Exit
+			myStorySection Act_04_StarlinkTowers
+		}
+	}
+}
+
+StoryBeatData Act4_SEQ4_ObjectiveUpgradeStarlink < uid=9FD9E818596E78610000008776A1C76E >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_SetTarget "Clear Target"
+		{
+			myShowWaypoint FALSE
+		}
+		StoryDataAction_SetObjective "Complete Chapter 3 - Sub 1"
+		{
+			myObjectiveData < uid=9FD9E8185AAC6C4E00001DF044A28EA4 > = Act4.Chapter3.Sub1
+			myObjectiveState Remove
+		}
+	}
+}
+
+StoryBeatData Act4_SEQ4_Cinematic4B < uid=9FD9E8185970D2BF00000C1002B6FA07 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_TransitionStorySection "Exit Story Section - Upgrade_Starlink"
+		{
+			myTransitionType Exit
+			myStorySection Act_04_Upgrade_Starlink
+		}
+		StoryDataAction_TransitionStorySection "Enter Story Section - Travel_To_AtlasB"
+		{
+			myTransitionType Enter
+			myStorySection Act_04_Travel_To_AtlasB
+		}
+		StoryDataAction_SetUIFeature "Set UI Feature - Disable Highlight Upgrade"
+		{
+			myUIFeature Equinox_HighlightThirdStoryUpgrade
+			myIsSet FALSE
+		}
+	}
+	myStoryDataActionSets
+	{
+		StoryDataActionSet "Cinematic and Event"
+		{
+			myStoryDataActions
+			{
+				StoryDataAction_CompleteStoryEvent "Complete Event"
+				{
+					myStoryEvent Act04b
+				}
+				StoryDataAction_Cinematic Cinematic
+				{
+					myCinematicFile onward/baked/videos/CIN_ACT5.bk2
+				}
+			}
+		}
+	}
+}
+
+StoryBeatData Act4_SEQ4_WaitForStarlinkUpgrade < uid=C92F4D3F596907CE00109D6F1AF40D8C >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_TransitionStorySection "Enter 'Upgrade Starlink'"
+		{
+			myTransitionType Enter
+			myStorySection Act_04_Upgrade_Starlink
+		}
+		StoryDataAction_CompleteChallenge "Complete Challenge - Starlink Upgrade"
+		{
+			myChallengeToComplete AtlasAllianceGained
+		}
+		StoryDataAction_Dialog "Dialogue - SQ80 - Act 5"
+		{
+			myDialogSequenceID 80
+			myPauseInOutpostMenu FALSE
+		}
+		StoryDataAction_SetUIFeature "Set UI Feature - Highlight Upgrade"
+		{
+			myUIFeature Equinox_HighlightThirdStoryUpgrade
+			myIsSet TRUE
+		}
+		StoryDataAction_ConditionalAction "ConAct: Optional Wait to Enable Blood Moon Intro"
+		{
+			myIsOptional TRUE
+			myConditionalActions
+			{
+				StoryDataAction_Wait "Wait 30"
+				{
+					myIsOptional FALSE
+					mySecondsToWait 30.0
+				}
+			}
+			myOutcomeActions
+			{
+				StoryDataAction_CompleteStoryEvent "Complete Story Event: Enable_MoonIntro_05"
+				{
+					myStoryEvent TU5_Enable_MoonIntro_05
+				}
+			}
+		}
+	}
+	myStoryDataActionSets
+	{
+		StoryDataActionSet "Challenge Or Event"
+		{
+			myStoryDataActionSetType OR
+			myStoryDataActions
+			{
+				StoryDataAction_WaitForGameToStoryEvent "Wait For Equinox Upgrade"
+				{
+					myGameToStoryStoryEvent Act_4_UpgradeStarlink
+				}
+				StoryDataAction_WaitForChallengeComplete "Equinox Act 4 Challenge"
+				{
+					myChallenge Act4_StarlinkRecalibrationPurchased
+				}
+			}
+		}
+	}
+}
+
+StoryBeatData Act4_SEQ4_PlayerOutOfMenu < uid=1EE141815AECAB2400001D761FF02E25 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_WaitForGameAction "Wait For Player Close Menu"
+		{
+			myGameAction PlayerQuery_CanMove
+		}
+		StoryDataAction_WaitForGameActionStates "Wait for Not in Arena"
+		{
+			myGameActionStates
+			{
+				GameActionState Arena IsArenaEventActive
+			}
+			myNotCondition TRUE
+		}
+	}
+}
+
+StoryBeatData Act4_SEQ5_AskForConfirmationAfterUpgrade < uid=9FD9E8185984B8800000008203A6B5D3 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_UIOpenConfirmationDialog "Travel Confirmation"
+		{
+			myConfirmationType FinalFight
+		}
+	}
+}
+
+StoryBeatData Act4_SEQ5_WaitForTravelConfirmation < uid=9FD9E8185984B88000000083A0FF3400 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_WaitForGameToStoryEvent "Wait for Game to Story Event"
+		{
+			myGameToStoryStoryEvent TravelToAct5
+		}
+		StoryDataAction_ConditionalAction "ConAct: Optional Wait for Moon Intro Enable"
+		{
+			myIsOptional TRUE
+			myConditionalActions
+			{
+				StoryDataAction_Wait "Wait 4"
+				{
+					mySecondsToWait 4.0
+				}
+			}
+			myOutcomeActions
+			{
+				StoryDataAction_CompleteStoryEvent "Complate Story Event: Moon intro Enable 05"
+				{
+					myStoryEvent TU5_Enable_MoonIntro_05
+				}
+			}
+		}
+	}
+}
+
+StoryBeatData Act4.Objective.Chapter1.Header < uid=9FD9E8185AAC533C00001D6C420F4213 >
+{
+	myActStartFlag TRUE
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_SetObjective Objective
+		{
+			myObjectiveData < uid=9FD9E8185ABD7B6000001C7A6DD35911 > = Act4.Chapter1.Header
+			myObjectiveState Active
+		}
+	}
+}
+
+StoryBeatData Act4.Objective.Chapter1.Sub1 < uid=9FD9E8185AAC533C00001D6D21FF94CD >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_SetObjective Objective
+		{
+			myObjectiveData < uid=9FD9E8185ABD7B6000001C7B10A9B34D > = Act4.Chapter1.Sub1
+			myObjectiveState Active
+		}
+	}
+}
+
+StoryBeatData Act4.Objective.Chapter1A.Header < uid=9FD9E8185ABD731F00001C291BF7C018 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_SetObjective "Close Chapter 1"
+		{
+			myObjectiveData < uid=9FD9E8185ABD7AB800001C63FDB4ADBC > = Act4.Chapter1.Header
+			myObjectiveState Remove
+		}
+		StoryDataAction_SetObjective Objective
+		{
+			myObjectiveData < uid=9FD9E8185ABD7AB800001C6488D3A6F1 > = Act4.Chapter1A.Header
+			myObjectiveState Active
+		}
+	}
+}
+
+StoryBeatData Act4.Objective.Chapter1A.Sub1 < uid=9FD9E8185ABD731F00001C2A5F12CEB0 >
+{
+	myIsCheckpoint FALSE
+}
+
+StoryBeatData Act4.Objective.Chapter1A.Sub2 < uid=9FD9E8185ABD731F00001C2B0D78DFA4 >
+{
+	myIsCheckpoint FALSE
+}
+
+StoryBeatData Act4.Objective.Chapter1A.Sub3 < uid=9FD9E8185ABD731F00001C2CA822124C >
+{
+	myIsCheckpoint FALSE
+}
+
+StoryBeatData Act4.Objective.Chapter2.Header < uid=9FD9E8185AAC533C00001D707B0589E7 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_SetObjective "Close Chapter 1A"
+		{
+			myObjectiveData < uid=9FD9E8185ABD7B9000001C7E7A11B870 > = Act4.Chapter1A.Header
+			myObjectiveState Remove
+		}
+		StoryDataAction_SetObjective Objective
+		{
+			myObjectiveData < uid=9FD9E8185AAC558600001D99B8ED8853 > = Act4.Chapter2.Header
+			myObjectiveState Active
+		}
+	}
+}
+
+StoryBeatData Act4.Objective.Chapter2.Sub1 < uid=9FD9E8185AAC533C00001D71A68123B6 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_SetObjective Objective
+		{
+			myObjectiveData < uid=9FD9E8185AAC558600001D9A551BCECB > = Act4.Chapter2.Sub1
+			myObjectiveState Active
+		}
+	}
+}
+
+StoryBeatData Act4.Objective.Chapter2.Sub2 < uid=9FD9E8185AAC533C00001D725C90A03D >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_SetObjective Objective
+		{
+			myObjectiveData < uid=9FD9E8185AAC558600001D9BE17002DA > = Act4.Chapter2.Sub2
+			myObjectiveState Active
+		}
+	}
+}
+
+StoryBeatData Act4.Objective.Chapter2.Sub3 < uid=9FD9E8185AAC533C00001D730DC1BFF1 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_SetObjective Objective
+		{
+			myObjectiveData < uid=9FD9E8185AAC558600001D9C3CC035AC > = Act4.Chapter2.Sub3
+			myObjectiveState Active
+		}
+	}
+}
+
+StoryBeatData Act4.Objective.Chapter3.Header < uid=9FD9E8185AAC533C00001D745ADC451F >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_SetObjective "Close Chapter 2"
+		{
+			myObjectiveData < uid=9FD9E8185AAC5C7700001DB63A93DBBE > = Act4.Chapter2.Header
+			myObjectiveState Remove
+		}
+		StoryDataAction_SetObjective Objective
+		{
+			myObjectiveData < uid=9FD9E8185AAC558600001D9DE8BB8D77 > = Act4.Chapter3.Header
+			myObjectiveState Active
+		}
+	}
+}
+
+StoryBeatData Act4.Objective.Chapter3.Sub1 < uid=9FD9E8185AAC533C00001D75F5EF4161 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_SetObjective Objective
+		{
+			myObjectiveData < uid=9FD9E8185AAC558600001D9E635D6B3D > = Act4.Chapter3.Sub1
+			myObjectiveState Active
+		}
+	}
+}
+
+StoryBeatData Act4.Objective.Chapter3.Sub2 < uid=9FD9E8185AAC533C00001D762CA786A9 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_SetObjective Objective
+		{
+			myObjectiveData < uid=9FD9E8185AAC558600001D9F025AD35E > = Act4.Chapter3.Sub2
+			myObjectiveState Active
+		}
+	}
+}
+
+StoryBeatData Act4.Objective.Chapter4.Header < uid=9FD9E8185AAC533C00001D772C998AFB >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_SetObjective "Close Chapter 3"
+		{
+			myObjectiveData < uid=9FD9E8185AAC5D3700001DCA712EF7FA > = Act4.Chapter3.Header
+			myObjectiveState Remove
+		}
+		StoryDataAction_SetObjective Objective
+		{
+			myObjectiveData < uid=9FD9E8185AAC558600001DA03F0AEBEC > = Act4.Chapter4.Header
+			myObjectiveState Active
+		}
+	}
+}
+
+StoryBeatData Act4.Objective.Chapter4.Sub1 < uid=9FD9E8185AAC533C00001D7894D5C6CA >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_SetObjective Objective
+		{
+			myObjectiveData < uid=9FD9E8185AAC558600001DA10BEE094F > = Act4.Chapter4.Sub1
+			myObjectiveState Active
+		}
+	}
+}
+

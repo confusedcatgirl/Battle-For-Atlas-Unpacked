@@ -1,0 +1,36 @@
+include "onward/game system data/fruit/sim/simunit.fruit"
+
+SimUnit creep_squad < uid=93869D5358139989019469464753410E >
+{
+	myUIName "contextComment = \"\", description = \"uiname-creep_squad\", enabled = true, guid = #954305805A4E54B300001B7BA4957E83, lineVersion = 1, maxLength = 14, text = \"Imp Squad\""
+	myBehavior onward/simworld/behavior/creep_squad.msimunitbtgraph
+	myFaction Harvester
+	myCategory NPC
+	mySubCategory CreepSquad
+	myRadius 8.0
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo Imp < uid=8A9CA286598B7ACC000000391C1CC593 >
+		{
+			myCountMin 2
+			myCountMax 6
+			myEntitySize 2.0
+			myEntityFile ""
+			myElementSpawnInfo
+			{
+				SimUnitElementSpawnInfo "level 0 imps"
+				{
+					myEntityFile "onward/game system data/juice/ai/npc/harvester_imp_base.mnpc"
+				}
+			}
+		}
+	}
+	mySkillLevelCoefficients
+	{
+		myPlanetActMultiplier 0
+		myParentLevelMultiplier 0
+		myParentSkillLevelMultiplier 1
+		myBaseLevel 0
+	}
+}
+

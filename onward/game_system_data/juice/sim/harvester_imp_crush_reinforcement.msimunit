@@ -1,0 +1,37 @@
+include "onward/game system data/fruit/sim/simunit.fruit"
+
+SimUnit harvester_imp_crush_reinforcement < uid=93869D5358D172990000004D487ED88F >
+{
+	myBehavior onward/simworld/behavior/generic_reinforcement_volatile.msimunitbtgraph
+	myFaction Harvester
+	myCategory NPC
+	mySubCategory LegionReinforcement
+	myAffinityType Crush
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo imp_crush < uid=93869D535970E9E5034ABA6A43E0215D >
+		{
+			myCountMin 1
+			myCountMax 1
+			myElementSpawnInfo
+			{
+				SimUnitElementSpawnInfo imp_crush
+				{
+					myEntityFile "onward/game system data/juice/ai/npc/harvester_imp_crush.mnpc"
+				}
+			}
+		}
+	}
+	mySaveable FALSE
+	myPreserveSpawnInfo TRUE
+	myIsValidPickupTarget FALSE
+	mySelfDestructAfterUnrealized TRUE
+	mySkillLevelCoefficients
+	{
+		myPlanetActMultiplier 0
+		myParentLevelMultiplier 0
+		myParentSkillLevelMultiplier 1
+		myUnitLevelMultiplier 0
+	}
+}
+

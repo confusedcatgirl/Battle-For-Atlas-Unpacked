@@ -1,0 +1,760 @@
+enum ChallengeType < useCategories=1 >
+{
+	None
+	
+	PlanetVisitation
+	Planet_Exit
+	Trick_Forward
+	Trick_Backward
+	Trick_Left
+	Trick_Right
+	Drift
+	NoseDiveRecovery
+	Act0
+	Act1
+	Act4
+	StarlinkUpgraded
+	LegionKill
+	WardenPuzzleSolved
+	GoldRushRuinLoot
+
+	< startCategory="StoryProgression" >
+	StoryProgression_FirstMission
+
+	< startCategory="GameCompletion" >
+	OnboardingStarted
+	OnboardingCylcopsSpawned
+	OnboardingCylcopsKilled
+	OnboardingComplete
+	Act1FirstContactBanner
+	Act1NovaAcquired
+	Act1UnlockEquinoxUpgrade
+	Act1EquinoxUpgraded
+	Act1Complete
+	Act2Complete
+	Act2_UpgradedElisRefinery
+	Act2_WardenArtifactRecieved
+	Act2_GoldrushAquired
+	Act2_EquinoxComputersUnlocked
+	Act2_EquinoxComputersRestored
+	Act2_DrakeHacked
+	Act3_DreadnoughtWeakened
+	Act3_DeadnoughtNormal
+	Act3_DreadnoughtEmpowered
+	Act3_DeadnoughtExited
+	Act3Complete
+	Act4Complete
+	Act4_RevealActEquinoxUpgrade
+	Act4_StarlinkRecalibrationPurchased
+	Act5_DreadnoughtEntered
+	Act5_DreadnoughtDestroyed
+	Act5_DreadnoughtExited
+	Act5_GraxCylcopsEncounterReady
+	Act5Complete
+	DefeatGrax
+	ApproachDreadnought
+	DefeatDreadnought
+	WardenMod01Aquired
+	WardenMod02Aquired
+	AtlasAllianceGained
+	AllianceTowerUnlocked
+	Grax_Database_Unlocked
+	StarlinkTowerBuiltInSectorA
+	StarlinkTowerBuiltInSectorB
+	StarlinkTowerBuiltInSectorC
+	Discover_VylusEncounter
+	Sidestory01_Sequence01_Complete
+	Sidestory01_Sequence02_Complete
+	Sidestory01_Sequence03_Complete
+	Sidestory01_Sequence04_Complete
+	Sidestory01_Sequence05_Complete
+	Sidestory01_Sequence06_Complete
+	Sidestory01_Sequence07_Complete
+	Unlock_ForgottenLegion
+	Unlock_Grax
+	Unlock_TheWardens
+	Unlock_WardenSpire
+	Unlock_WardenArtifacts
+	Unlock_QuantumNetwork
+	Unlock_WardenStation
+	PilotStory_Canister01_Razor
+	PilotStory_Canister02_Hunter
+	PilotStory_Canister03_Chase
+	PilotStory_Canister04_Levi
+	PilotStory_Canister05_Shaide
+	PilotStory_Canister06_Judge
+	PilotStory_Canister07_Mason
+	Expedition_Sidestory_Anvil_Activated
+	Expedition_Sidestory_Anvil_Destroyed
+	
+	< startCategory="Collections-BloodMoonStories" >
+	BloodMoon_Main_Start
+	BloodMoon_Outlaw_Start
+	BloodMoon_Outlaw_End
+	BloodMoon_Prospector_Start
+	BloodMoon_Prospector_End
+	BloodMoon_Expedition_Start
+	BloodMoon_Expedition_End
+	BloodMoon_Main_End
+		
+	< startCategory="Collections-Pods" >
+	Attach_Meteor
+	Attach_MeteorMk2
+	Attach_Levitator
+	Attach_LevitatorMk2
+	Attach_Shockwave
+	Attach_FrostMine
+	Attach_FlameThrower
+	Attach_HailStorm
+	Attach_Volcano
+	Attach_VolcanoMk2
+	Attach_ChargeFreezeRay
+	Attach_ChargeFreezeRayMk2
+	Attach_Crusher
+	Attach_IceMissile
+	Attach_Shredder
+	Attach_ShredderMk2
+	Attach_IronFist
+	Attach_Nullifier
+	Attach_NullifierMk2
+	Attach_TidalWave
+	Attach_Jaunt
+	Attach_Imploder
+	Attach_ImploderMk2
+	Attach_Fireball
+	Attach_GaussGun
+	Attach_GaussGunMk2
+
+	< startCategory="Collections-Ships" >
+	Attach_Red1
+	Attach_Gravcraft
+	Attach_Zenith
+	Attach_Starblade
+	Attach_Nomad
+	Attach_Gauntlet
+	Attach_Nadir
+	Attach_Marauder
+	Attach_Cerberus
+	Attach_Scramble
+	
+	< startCategory="Collections-Ships" >
+	Attach_Red1_Left
+	Attach_Red1_Right
+	Attach_Gravcraft_Left
+	Attach_Gravcraft_Right
+	Attach_Zenith_Left
+	Attach_Zenith_Right
+	Attach_Starblade_Left
+	Attach_Starblade_Right
+	Attach_Nomad_Left
+	Attach_Nomad_Right
+	Attach_Gauntlet_Left
+	Attach_Gauntlet_Right
+	Attach_Nadir_Left
+	Attach_Nadir_Right
+	Attach_Marauder_Left
+	Attach_Marauder_Right
+	Attach_Cerberus_Left
+	Attach_Cerberus_Right
+	Attach_Scramble_Left
+	Attach_Scramble_Right
+	
+	< startCategory="Collections-Pilots" >
+	Attach_Chase
+	Attach_Judge
+	Attach_Mason
+	Attach_Levi
+	Attach_Shaide
+	Attach_Fern
+	Attach_Hunter
+	Attach_Kharl
+	Attach_Eli
+	Attach_Startail
+	Attach_Rancor
+	Attach_Razor
+	Attach_Galla
+	Attach_Cash
+	Attach_Sorren
+	Attach_Haywire
+	Attach_PilotFTC002
+	Attach_PilotFTC003
+	Attach_PilotFTC004
+
+	< startCategory="Collections-NPC-Discover" >
+	Discover_CyclopsGeneric
+	Discover_CyclopsGenericHeat
+	Discover_CyclopsGenericCold
+	Discover_CyclopsGenericCrush
+	Discover_CyclopsGenericShielded
+	Discover_CyclopsHeat
+	Discover_CyclopsCold
+	Discover_CyclopsCrush
+	Discover_CyclopsGolden
+	Discover_ExpeditionObservationDeck
+	Discover_ExpeditionResearchBase
+	Discover_ExpeditionWorker
+	Discover_ExpeditionDefender
+	Discover_Extractor
+	Discover_Dreadnought
+	Discover_DreadnoughtSuper
+	Discover_Drake
+	Discover_DrakeElite
+	Discover_ImpShed
+	Discover_ImpGeneric
+	Discover_ImpHeat
+	Discover_ImpCold
+	Discover_ImpCrush
+	Discover_ImpFlawless
+	Discover_Obelisk
+	Discover_OutlawWorker
+	Discover_OutlawDefender
+	Discover_OutlawElite
+	Discover_OutlawLeader
+	Discover_OutlawBase
+	Discover_OutlawMine
+	Discover_OutlawDreadnaught
+	Discover_OutlawTank
+	Discover_OutlawMech
+	Discover_OutlawImp
+	Discover_Prime
+	Discover_Probe
+	Discover_ProspectorDefenseBase
+	Discover_ProspectorMiningCenter
+	Discover_ProspectorWatchtower
+	Discover_ProspectorWorker
+	Discover_ProspectorDefender
+	Discover_Sentinel
+	Discover_WyvernBase
+	Discover_WyvernLieutenant
+	Discover_WyvernSpace
+	Discover_Prospector
+	Discover_Expedition
+	Discover_Legion
+	Discover_Outlaws
+	Discover_Wardens
+	Discover_WardenSpires
+	Discover_xHole
+
+	Discover_Fauna01
+	Discover_Fauna02
+	Discover_Fauna03
+	Discover_Fauna04
+	Discover_Fauna05
+	Discover_Fauna06
+	Discover_Fauna07
+	Discover_Fauna08
+	Discover_Fauna09
+	Discover_Fauna10
+	Discover_Fauna11
+	Discover_Fauna12
+	Discover_Fauna13
+	Discover_Fauna14
+	Discover_Fauna15
+	Discover_Fauna16
+	Discover_Fauna17
+	Discover_Fauna18
+	Discover_Fauna19
+	Discover_Fauna20
+	Discover_Fauna21
+
+	< startCategory="Collections-NPC-Death" >
+	Death_CyclopsGeneric
+	Death_CyclopsGenericHeat
+	Death_CyclopsGenericCold
+	Death_CyclopsGenericCrush
+	Death_CyclopsGenericShielded
+	Death_CyclopsHeat
+	Death_CyclopsCold
+	Death_CyclopsCrush
+	Death_CyclopsGolden
+	Death_ExpeditionWorker
+	Death_ExpeditionDefender
+	Death_Extractor
+	Death_Dreadnought
+	Death_DreadnoughtSuper
+	Death_Drake
+	Death_DrakeElite
+	Death_ImpShed
+	Death_ImpGeneric
+	Death_ImpHeat
+	Death_ImpCold
+	Death_ImpCrush
+	Death_ImpFlawless
+	Death_Obelisk
+	Death_OutlawWorker
+	Death_OutlawDefender
+	Death_OutlawElite
+	Death_OutlawLeader
+	Death_OutlawGroundLeader
+	Death_OutlawSpaceLeader
+	Death_OutlawMine
+	Death_OutlawBase
+	Death_OutlawStronghold
+	Death_OutlawDreadnaught
+	Death_OutlawTank
+	Death_OutlawMech
+	Death_OutlawImp
+	Death_Prime
+	Death_Probe
+	Death_ProspectorWorker
+	Death_ProspectorDefender
+	Death_Sentinel
+	Death_WyvernBase
+	Death_WyvernLieutenant
+	Death_WyvernSpace
+	Death_xHole
+	Death_OutlawGroundTurret
+	Death_ElectrumSpirit
+
+	Death_Fauna01
+	Death_Fauna02
+	Death_Fauna03
+	Death_Fauna04
+	Death_Fauna05
+	Death_Fauna06
+	Death_Fauna07
+	Death_Fauna08
+	Death_Fauna09
+	Death_Fauna10
+	Death_Fauna11
+	Death_Fauna12
+	Death_Fauna13
+	Death_Fauna14
+	Death_Fauna15
+	Death_Fauna16
+	Death_Fauna17
+	Death_Fauna18
+	Death_Fauna19
+	Death_Fauna20
+	Death_Fauna21
+	
+	< startCategory="Collections-Generalized-Unlocks" >
+	Unlock_LegionDataCore
+	Unlock_Hyperdrive
+	Unlock_Sparks
+	Unlock_Cradle
+	Unlock_CelestialAnvil
+	Unlock_Prisons
+
+	< startCategory="Collections-Planets" >
+	Unlock_Planet01
+	Discover_Planet01
+	Discover_Planet01_Worm
+	Discover_Planet01_WormScale
+	Discover_Planet03
+	Discover_Planet03_Anchor
+	Discover_Planet04
+	Discover_Planet04_Bomb
+	Discover_Planet05
+	Discover_Planet05_Anchor
+	Discover_Planet07
+	Discover_Planet08
+	Discover_Planet08_Bomb
+	Discover_Planet15
+	Discover_Planet15_Worm
+	Discover_Planet15_WormScale
+	Discover_Moon01
+	Visit_Planet01
+	Visit_Planet03
+	Visit_Planet04
+	Visit_Planet05
+	Visit_Planet07
+	Visit_Planet08
+	Visit_Planet15
+	
+	< startCategory="Collections-Space" >
+	Discover_ElectrumSpirit
+	Discover_ElectrumAsteroid
+
+	< startCategory="Collections-Named-Areas" >
+	Discover_Planet01_NamedAreaA
+	Discover_Planet01_NamedAreaB
+	Discover_Planet01_NamedAreaC
+	Discover_Planet03_NamedAreaA
+	Discover_Planet03_NamedAreaB
+	Discover_Planet03_NamedAreaC
+	Discover_Planet04_NamedAreaA
+	Discover_Planet04_NamedAreaB
+	Discover_Planet04_NamedAreaC
+	Discover_Planet05_NamedAreaA
+	Discover_Planet05_NamedAreaB
+	Discover_Planet05_NamedAreaC
+	Discover_Planet07_NamedAreaA
+	Discover_Planet07_NamedAreaB
+	Discover_Planet07_NamedAreaC
+	Discover_Planet08_NamedAreaA
+	Discover_Planet08_NamedAreaB
+	Discover_Planet08_NamedAreaC
+	Discover_Planet15_NamedAreaA
+	Discover_Planet15_NamedAreaB
+	Discover_Planet15_NamedAreaC
+	Discover_Moon01_Biome01
+	Discover_Moon01_Biome02
+	Discover_Moon01_Biome03
+	Discover_Moon01_Biome04
+	
+	< startCategory="Collections-Biological-Samples" >
+	Discover_FloraSample01
+	Discover_FloraSample02
+	Discover_FloraSample03
+	Discover_FloraSample04
+	Discover_FloraSample05
+	Discover_FloraSample06
+	Discover_FloraSample07
+	Discover_FloraSample08
+	Discover_FloraSample09
+	Discover_FloraSample10
+	Discover_FloraSample11
+	Discover_FloraSample12
+	Discover_FloraSample13
+	Discover_FloraSample14
+	Discover_FloraSample15
+	Discover_FloraSample16
+	Discover_FloraSample17
+	Discover_FloraSample18
+	Discover_FloraSample19
+	Discover_FloraSample20
+	Discover_FloraSample21
+	
+	Discover_FaunaSample01
+	Discover_FaunaSample06
+	Discover_FaunaSample08
+	Discover_FaunaSample09
+	Discover_FaunaSample12
+	Discover_FaunaSample16
+	Discover_FaunaSample19
+	
+	< startCategory="Collections-FullScan-Fauna" >
+	FullyScan_Fauna01
+	FullyScan_Fauna02
+	FullyScan_Fauna03
+	FullyScan_Fauna04
+	FullyScan_Fauna05
+	FullyScan_Fauna06
+	FullyScan_Fauna07
+	FullyScan_Fauna08
+	FullyScan_Fauna09
+	FullyScan_Fauna10
+	FullyScan_Fauna11
+	FullyScan_Fauna12
+	FullyScan_Fauna13
+	FullyScan_Fauna14
+	FullyScan_Fauna15
+	FullyScan_Fauna16
+	FullyScan_Fauna17
+	FullyScan_Fauna18
+	FullyScan_Fauna19
+	FullyScan_Fauna20
+	FullyScan_Fauna21	
+
+	< startCategory="Collections-Cores" >
+	Discover_CorruptNova
+	Discover_ExtractorCore
+	Discover_PrimeCore
+	Discover_ProspectorSalvage
+	Discover_ExpeditionSalvage
+
+	< startCategory="Collections-Wreckages" >
+	Discover_Planet01_Wreckage
+	Discover_Planet03_Wreckage
+	Discover_Planet04_Wreckage
+	Discover_Planet05_Wreckage
+	Discover_Planet07_Wreckage
+	Discover_Planet08_Wreckage
+	Discover_Planet15_Wreckage
+	
+	< startCategory="Collections-XFactors" >
+	Discover_Planet01_XFactor
+	Discover_Planet03_XFactor
+	Discover_Planet04_XFactor
+	Discover_Planet05_XFactor
+	Discover_Planet07_XFactor
+	Discover_Planet08_XFactor
+	Discover_Planet15_XFactor
+
+	< startCategory="AllCollectibles" >
+	Discover_Planet01_AllCollectibles
+	Discover_Planet03_AllCollectibles
+	Discover_Planet04_AllCollectibles
+	Discover_Planet05_AllCollectibles
+	Discover_Planet07_AllCollectibles
+	Discover_Planet08_AllCollectibles
+	Discover_Planet15_AllCollectibles
+	Discover_Moon01_AllCollectibles
+	
+	< startCategory="Collections-Landmarks" >
+	Discover_SpaceLandmark_01
+	Discover_SpaceLandmark_02
+	Discover_SpaceLandmark_03
+	Discover_SpaceLandmark_04
+	Discover_SpaceLandmark_05
+	Discover_SpaceLandmark_06
+	Discover_SpaceLandmark_07
+
+	< startCategory="Collections-Allies" >
+	Ally_ExpeditionObservationDeck
+	Ally_ExpeditionResearchBase
+	Ally_ProspectorDefenseBase
+	Ally_ProspectorMiningCenter
+	Ally_ProspectorWatchtower
+	
+	< startCategory="Collections-WardenRelics" >
+	WardenRelic_Ship_01_Acquired
+	WardenRelic_Ship_02_Acquired
+	WardenRelic_Ship_03_Acquired
+	WardenRelic_Ship_04_Acquired
+	WardenRelic_Weapon_01_Acquired
+	WardenRelic_Weapon_02_Acquired
+	WardenRelic_Weapon_03_Acquired
+	WardenRelic_Weapon_04_Acquired
+
+	< startCategory="Collections-Build" >
+	Build_ExpeditionObservationDeck
+	Build_ExpeditionResearchBase
+	Build_ProspectorDefenseBase
+	Build_ProspectorMiningCenter
+	Build_AllianceTower
+	
+	< startCategory="Contextual-Support" >
+	Imp_Attached
+	Status_Effect_Sunder
+	Status_Effect_Fire
+	Status_Effect_Chill
+	Status_Effect_Freeze
+	Status_Effect_Stasis
+	Status_Effect_StasisOverload
+	Status_Effect_Gravity
+	Status_Effect_FiveTargets_FloatBlast
+	Status_Effect_ThreeTargets_BlackHole
+	Status_Effect_FiveTargets_BlackHole
+	Status_Effect_ThermalShock
+	Status_Effect_Shatter
+	Status_Effect_HeatVortex
+	Status_Effect_ColdVortex
+	Status_Effect_StasisField
+	Status_Effect_HeatBlast
+	Status_Effect_ColdBlast
+	Status_Effect_GravityBlast
+	
+	< startCategory="Combat" >
+	Combat_HeadShot
+	Combat_Outlaw_HeadShot
+	Combat_Parry
+	Combat_HeatDeath_IceGiant
+	Combat_ColdDeath_FireGiant
+	Combat_AffinityActiveDeath_IceGiant
+	Combat_AffinityActiveDeath_FireGiant
+	Combat_AffinityActiveDeath_CrushGiant
+	Combat_Outlaw_PilotAbility
+	
+	< startCategory="Coop" >
+	Coop_Repair	
+	
+	< startCategory="Player-Progression" >
+	Progression_EquipPilotSkill
+	Progression_EquipKeystonePilotSkill
+	Progression_EquipPartEnhancement
+	Progression_EquipPartEnhancementOnScreen
+	Progression_EquipEightPartEnhancementsAtOnce
+	Progression_EquipEightRarePartEnhancementsAtOnce
+	Progression_EquipLegendaryEnhancementsAllShipSlots
+	Progression_EquipEpicEnhancementsAllShipSlots
+	Progression_AcquirePartEnhancement
+	Progression_FusePartEnhancement
+	Progression_UpgradeEquinox
+	Progression_CompletelyUpgradeEquinox_DriveReactor
+	Progression_CompletelyUpgradeEquinox_Part_Upgrades
+	Progression_CompletelyUpgradeEquinox_Mod_Upgrades
+	Progression_CompletelyUpgradeEquinox_Towing_Upgrades
+	Progression_CompletelyUpgradeEquinox_Warden_Upgrades
+	Progression_CompletelyUpgradeEquinox_Expedition_Upgrades
+	Progression_CompletelyUpgradeEquinox_Prospector_Upgrades
+	Progression_CompletelyUpgradeEquinox_Outlaw_Upgrades
+	Progression_CompletelyUpgradeEquinox_Alliance_Upgrades
+	Progression_FullyExplorePlanet
+	Progression_FullyAllyWithPlanet01
+	Progression_FullyAllyWithPlanet03
+	Progression_FullyAllyWithPlanet04
+	Progression_FullyAllyWithPlanet05
+	Progression_FullyAllyWithPlanet07
+	Progression_FullyAllyWithPlanet08
+	Progression_FullyAllyWithPlanet15
+
+	Progression_AcquirePartEnhancementCommon
+	Progression_AcquirePartEnhancementUncommon
+	Progression_AcquirePartEnhancementRare
+	Progression_AcquirePartEnhancementEpic
+	Progression_AcquirePartEnhancementLegendary
+	Progression_AcquirePartEnhancementWarden
+	Progression_AcquirePartEnhancementPaintJob
+	Progression_AcquirePartEnhancementCapstone
+
+	Progression_FullyUpgradeExpeditionOutpost
+	Progression_FullyUpgradeProspectorOutpost
+
+	Progression_FullSystemAlliance
+
+	Progression_CompleteGame
+
+	< startCategory="Player-Action" >
+	Loot_DelerictSpaceship
+	Loot_OutlawOutpost	
+
+	< startCategory="Player-Action" >
+	Navigation_EnterSpaceFromPlanet
+	Navigation_EnterPlanetFromSpace
+	ReminderSeen_WingWeapon
+	IntroductionSeen_PaintJobs
+	IntroductionSeen_Capture
+	
+	< startCategory="Outlaw-Activities" >
+	Unlock_OutlawHub_FastTravel
+	Unlock_OutlawArena_FastTravel
+	Unlock_Races
+	Unlock_Races_Overdrive
+	Unlock_Races_Countdown
+	Unlock_Races_Track1
+	Unlock_Races_Track2
+	Unlock_Races_Track3
+	Unlock_Races_Track4
+	Unlock_Races_Track5
+	Unlock_Races_Track6
+	Unlock_Races_Track7
+	Unlock_Races_Track8
+	Unlock_Arena
+	Unlock_Arena_Gauntlet
+	Unlock_Arena_Brawl
+	Unlock_Arena_Laserdrome
+	Unlock_Arena_ChampionBattle
+	Unlock_OutlawShop_Tier1
+	Unlock_OutlawShop_Tier2
+	Unlock_OutlawShop_Tier3
+	Unlock_OutlawShop_Tier4
+	Unlock_OutlawShop_Tier5
+	
+	< startCategory="Outlaw-Races" >
+	Race_Win
+	Race_Trick
+	Race_SpeedBooster
+	Race_01_Win
+	Race_02_Win
+	Race_03_Win
+	Race_04_Win
+	
+	< startCategory="Outlaw-Arena" >
+	Complete_Arena_Survival_Tier1
+	Complete_Arena_Survival_Tier2
+	Complete_Arena_Survival_Tier3
+	Complete_Arena_Elements_Tier1
+	Complete_Arena_Elements_Tier2
+	Complete_Arena_Elements_Tier3
+	Complete_Arena_Swarm_Tier1
+	Complete_Arena_Swarm_Tier2
+	Complete_Arena_Swarm_Tier3
+	Complete_Arena_Agility_Tier1
+	Complete_Arena_Agility_Tier2
+	Complete_Arena_Agility_Tier3
+	Complete_Arena_Boss_Tier1
+	Complete_Arena_Gauntlet_Tier1
+	
+	< startCategory="Outlaws" >
+	Unlock_Clans
+	Unlock_OutlawHub
+	Unlock_Fortune
+	Unlock_ArenaChampion
+	Unlock_WantedOutlaws
+	Unlock_LazyDake
+	Unlock_Perrel
+	Unlock_Thicket
+	Unlock_KingRydra
+	Unlock_ReedArborwood
+	Deliver_Bounty
+	Unlock_OutlawCurrency
+		
+	< startCategory="Acquired-Trophies" >
+	Earn_Trophy_Race_1
+	Earn_Trophy_Race_2
+	Earn_Trophy_Race_3
+	Earn_Trophy_Race_4
+	Earn_Trophy_Arena_Gauntlet
+	Earn_Trophy_Arena_Brawl
+	Earn_Trophy_Arena_Laserdrome
+	Earn_Trophy_Arena_ChampionBattle
+	Earn_Trophy_Bounty_LazyKyp
+	Earn_Trophy_Bounty_Perrel
+	Earn_Trophy_Bounty_Thicket
+	Earn_Trophy_Bounty_KingRydra
+	Earn_Trophy_Bounty_ReedArborwood
+	Earn_Trophy_Bounty_Bounties
+	Earn_Trophy_Bounty_OutlawLeaders
+	Earn_Trophy_Bounty_EliteOutlaws
+	Earn_Trophy_Bounty_EliteDrakes
+	Earn_Trophy_Story_Outlaw
+	Earn_Trophy_Story_Prospector
+	Earn_Trophy_Story_Expedition
+	Earn_Trophy_Story_GEMINI
+	
+	< startCategory="Player-Pluck" >
+	Pluck_Planet01_Worm
+	Pluck_Planet15_Worm
+
+	< startCategory="Player-Destroy" >
+	Destroy_ElectrumAsteroid
+
+	< startCategory="Player-Bloodmoon" >
+	Unlock_BloodMoon_PlanetEntry
+	Unlock_BloodMoon_StarmapRender
+
+	< startCategory="DEBUG_TEMPORARY" >
+	Unlock_AllAudioLogs
+}
+
+enum ChallengeAwardType
+{
+	Drift
+	NoseDiveRecovery
+	Trick_Forward
+	Trick_Backward
+	Trick_Left
+	Trick_Right
+	NewFrontiers
+	Astronomer
+	TeamBuilder
+	DiscoverFauna
+	RediscoverFauna
+    DiscoveryAnything
+	Attach_Chase
+	Attach_Judge
+	Attach_Mason
+	Attach_Levi
+	Attach_Shaide
+	Attach_Fern
+	Attach_Hunter
+	Attach_Kharl
+	Attach_Eli
+	Attach_Startail
+	Attach_Rancor
+	Attach_Razor
+	Attach_Galla
+	Attach_Sorren
+	Attach_Haywire
+	Act1Complete
+	Act2Complete
+	Act3Complete
+	Act4Complete
+	Act5Complete
+	Progression_EquipPilotSkill
+	Navigation_EnterSpaceFromPlanet
+	Navigation_EnterPlanetFromSpace
+}
+
+enum ChallengeAwardConditionType
+{
+	RepeatThreshold
+	ScoreThreshold
+}
+
+list ChallengeTypes
+{
+	ChallengeType
+}

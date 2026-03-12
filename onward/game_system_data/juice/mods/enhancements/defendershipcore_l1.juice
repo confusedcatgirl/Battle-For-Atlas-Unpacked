@@ -1,0 +1,23 @@
+include ./templates/template_l1.juice
+include "onward/game system data/juice/mods/mod_defender_shipcore_l1.mplayermod"
+
+Enhancement defendershipcore_l1 < uid=C91BB551597F4CA6007FB56C89E219F4 > : "Level 1"
+{
+	myLocalizedName "contextComment = \"[Placeholder - do not translate]\nName for level 1 version of a Ship Core that (ultimately) boosts the ship's weapon energy, reduces weapon recoil, makes it easier to target enemies, and provides damage reduction to nearby foes.\", description = \"\", enabled = true, guid = #C91BB551597F4CA6007FB56BEE06CF64, lineVersion = 2, maxLength = 14, text = \"Tank Core I\"}"
+	myLocalizedDescription "contextComment = \"[Placeholder - do not translate]\nDescription for level 1 version of a Ship Core that (ultimately) boosts the ship's weapon energy, reduces weapon recoil, makes it easier to target enemies, and provides damage reduction to nearby foes.\", description = \"enhancement-description-defender-ship-core-1\", enabled = true, guid = #79DEB27D3A924C238390C2E82250FCD7, lineVersion = 1, maxLength = 123, text = \"+20% Pilot Ability charge speed\n+100 health on successful Parry\n+5% Resistance to nearby allies\"}"
+	myIconSprite "mySpriteId = -1271352873, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-mods-ship-core.spritesheet\""
+	myIsHullEnhancement TRUE
+	myMod < uid=C91BB551597F4CA6007FB56DDC08516E > = mod_defender_shipcore_l1
+	myBuff < uid=C91BB551597F4CA6007FB56E9ED3391C > = NULLREFERENCE
+	myEnhancementType ShipCore
+	myEnhancementTrackType DefenderShipCore
+	myDamageAffectors
+	{
+		DamageAffector_FriendlyDamageResistance "Allies Resistance"
+		{
+			myDamageMultiplier = Defender_Core_l1_AllyResist
+			myDistanceThreshold 500.0
+		}
+	}
+}
+

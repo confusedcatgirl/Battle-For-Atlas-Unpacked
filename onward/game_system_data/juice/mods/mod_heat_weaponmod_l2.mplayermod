@@ -1,0 +1,28 @@
+include ./template_pod.mplayermod
+include "onward/game system data/fruit/attributes/attributes.fruit"
+
+float "Weapon Damage" = Heat_Weapon_Mod_l2_Damage
+
+PlayerMod mod_heat_weaponmod_l2 < uid=C91BB55159836632000001321A36254A > : template_pod
+{
+	myAttributeMods
+	{
+		AttributeMod Heat
+		{
+			myType DMG_Heat
+			myMultValue 1.0
+			myPercentageValue = "Weapon Damage"
+		}
+		AttributeMod UI_Weapon_Damage
+		{
+			myType UI_Weapon_Damage
+			myPercentageValue = "Weapon Damage"
+		}
+		AttributeMod "Area Heat"
+		{
+			myType DMG_Area_Heat
+			myPercentageValue = "Weapon Damage"
+		}
+	}
+}
+

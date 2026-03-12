@@ -1,0 +1,21 @@
+include ./template_pod.mplayermod
+
+float "Energy Reduction" = Energy_Weapon_Mod_l1_EnergyCost
+
+PlayerMod mod_energy_weaponmod_l1 < uid=C91BB55159836A220000035E12881F63 > : template_pod
+{
+	myAttributeMods
+	{
+		AttributeMod Energy
+		{
+			myType Ability_Energy
+			myMultValue = "Energy Reduction"
+		}
+		AttributeMod UI_Weapon_Energy
+		{
+			myType UI_Weapon_Energy
+			myMultValue = "Energy Reduction"
+		}
+	}
+}
+

@@ -1,0 +1,26 @@
+include "onward/game system data/juice/mods/mod_assault_weaponcore_l4.mplayermod"
+include ./templates/template_l4.juice
+
+Enhancement assaultweaponcore_l4 < uid=C91BB551596FB62F000000367FD57D2F > : "Level 4"
+{
+	myLocalizedName "contextComment = \"[Placeholder - do not translate]\nName for the level 4 version of the Assault Weapon Core, which improves damage & range\", description = \"\", enabled = true, guid = #C91BB551596FC141005B611C6D1CFAC1, lineVersion = 2, maxLength = 17, text = \"Power Ammo IV\""
+	myLocalizedDescription "contextComment = \"[Placeholder - do not translate]\nDescription of the gameplay effects of the Assault Weapon Core level 4\", description = \"enhancement-description-assault-weapon-core-4\", enabled = true, guid = #9E6AFEDA59CD87EC0001896DC4094CAA, lineVersion = 2, maxLength = 125, text = \"+40% Damage\n+25% Damage for 5s after a kill\n+10% Weapon Range\n+25% Damage to targets Below 50%HP\""
+	myIconSprite "mySpriteId = 417723662, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-mods-weapon-core.spritesheet\""
+	myMod < uid=C91BB551596FB9230000008967C86F23 > = mod_assault_weaponcore_l4
+	myEnhancementType WeaponCore
+	myEnhancementTrackType AssaultWeaponCore
+	myDamageAffectors
+	{
+		DamageAffector_PlayerDamageBoostOnKill "Boost on Kill"
+		{
+			myDamageMultiplier = Assault_WeaponCore_l4_KillDmg
+			myDamageBoostTime 5.0
+		}
+		DamageAffector_LowHealth "Damage To Low Health"
+		{
+			myDamageMultiplier = Assault_WeaponCore_l4_LowHPDamage
+			myLowHealthPercent 0.5
+		}
+	}
+}
+

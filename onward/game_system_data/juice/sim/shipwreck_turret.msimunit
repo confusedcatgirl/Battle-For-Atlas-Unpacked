@@ -1,0 +1,46 @@
+include ./tower_base.msimunit
+
+SimUnit shipwreck_turret < uid=93869D535BC8DDB000057B718CFF8FE4 > : tower_base
+{
+	myUIName "contextComment = \"[Placeholder - do not translate] HUD name shown when aiming at a Prospector defensive sentry tower\", description = \"ui-target-tower-watchtower\", enabled = true, guid = #93869D535BC9F18F01505B36701DB943, lineVersion = 1, maxLength = 10, text = \"Turret\""
+	myBehavior ""
+	myControlGraph onward/simworld/control/shipwreck_turret.msimunitcontrolgraph
+	myFaction Outlaw
+	myCategory Shipwreck
+	mySubCategory Fortifications
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo turret < uid=93869D535BC8DE3E0017394A26CBF628 >
+		{
+			myCountMin 1
+			myCountMax 1
+			myEntitySize 4.0
+			myIgnoreNavMesh TRUE
+			myIgnoreTerrain FALSE
+			myEntityFile ""
+			myElementSpawnInfo
+			{
+				SimUnitElementSpawnInfo turret
+				{
+					myEntityFile "onward/game system data/juice/ai/npc/shipwreck_turret.mnpc"
+				}
+			}
+		}
+	}
+	myUnlockedChallengeType None
+	myUnkillable TRUE
+	myUnkillableType UnkillableGameSide
+	myPreserveSpawnInfo TRUE
+	myInterestSettings
+	{
+		myIsEnabled TRUE
+	}
+	mySkillLevelCoefficients
+	{
+		myPlanetActMultiplier 1
+		myParentSkillLevelMultiplier 0
+	}
+	myIconSprite "mySpriteId = 460254896, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-outpost-inventory-faction-towers.spritesheet\""
+	myMissionTargetTexture onward/baked/textures/UI/icons/outpost_targets/outpost_target_sim_unit/ui-icon-outpost-target-watchtower.dds
+}
+

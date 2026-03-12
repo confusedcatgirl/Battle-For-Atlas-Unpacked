@@ -1,0 +1,15 @@
+include "onward/game system data/juice/mods/heat_armour_l2.mplayermod"
+include "onward/game system data/juice/buffs/heat_armour_l2_l3.mbuff"
+include ./templates/template_l2.juice
+
+Enhancement heatarmour_l2 < uid=C91BB551596E6350000000C4942966ED > : "Level 2"
+{
+	myLocalizedName "contextComment = \"[Placeholder - do not translate]\nName for level 2 version of a Ship Armor that protects against Heat damage and gives the player bonuses in hot status effects (fire / sunder)\", description = \"\", enabled = true, guid = #C91BB551596FC16A005B6146D2404098, lineVersion = 1, maxLength = 30, text = \"Heat Armor II\""
+	myLocalizedDescription "contextComment = \"[Placeholder - do not translate]\nDescription for level 2 version of a Ship Armor that protects against Heat damage and gives the player bonuses in hot status effects (fire / sunder), but is weak to Cold damage\", description = \"enhancement-description-heat-armour-2\", enabled = true, guid = #CF9077A985E14F45ABE14FF27621F0B9, lineVersion = 2, maxLength = 95, text = \"+20 Defense\n+40% Resistance to Heat damage\n-20% Resistance to Cold damage\""
+	myIconSprite "mySpriteId = -778107496, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-mods-ship-armour.spritesheet\""
+	myIsHullEnhancement TRUE
+	myMod < uid=C91BB551596E6350000000C57D0DEE1A > = HeatArmour_L2
+	myEnhancementType Armour
+	myEnhancementTrackType HeatArmour
+}
+

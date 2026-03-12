@@ -1,0 +1,33 @@
+include "onward/game system data/fruit/sim/simunit.fruit"
+
+SimUnit harvester_cyclops_grax < uid=4A8282B959CA9F31004C46298F8E5301 >
+{
+	myUIName "contextComment = \"UI name for the humanoid robot Grax uses to attack the player in the final boss battle\", description = \"uiname-grax-cyclops\", enabled = true, guid = #9E6AFEDA5AB115F500001BD06DC21FEE, lineVersion = 0, maxLength = 30, text = \"[Grax]\""
+	myFaction Harvester
+	myCategory GraxCyclops
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo SpawnInfo < uid=4A8282B959CA9F31004C462AAFB87279 >
+		{
+			myCountMin 1
+			myCountMax 1
+			myEntitySize 6.0
+			mySpawnOutsideZone TRUE
+			myElementSpawnInfo
+			{
+				SimUnitElementSpawnInfo SimUnitElementSpawnInfo
+				{
+					myEntityFile "onward/game system data/juice/ai/npc/harvester_cyclops_grax.mnpc"
+				}
+			}
+		}
+	}
+	mySaveable FALSE
+	mySkillLevelCoefficients
+	{
+		myUseTargetRelativeLevel TRUE
+		myTargetRelativeOffset 2
+		myBaseLevel 15
+	}
+}
+

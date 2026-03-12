@@ -1,0 +1,54 @@
+include "onward/game system data/fruit/interact/interact.fruit"
+include "onward/game system data/juice/ai/race/rubberbanding.juice"
+include "onward/game system data/juice/leaderboard/leaderboardinfo.juice"
+include "onward/game system data/fruit/progression/challenge_types.fruit"
+
+PilotTrialInteract PilotTrialFlag
+{
+	myInteractRange 171.0
+	myPilotTrialType Overdrive
+	myUIClubhouseRaceName "contextComment = \"The name of the Wardens Pilgramage race.\", description = \"ui-menu-race-name-wardenspilgramage\", enabled = true, guid = #A08A88CF5C48B1A80000ED605EC2066C, lineVersion = 0, maxLength = 25, text = \"Warden's Pilgramage\"}"
+	myUIClubhouseRaceDescription "contextComment = \"A description of the warden's pilgramage, as seen on the clubhouse menu.\", description = \"ui-menu-race-description-wardenspilgramage\", enabled = true, guid = #A08A88CF5C48B1A40000EBBD05F88EE6, lineVersion = 0, maxLength = 46, text = \"[Warden's Pilgramage - Description]\""
+	myFlythroughBinkPath onward/baked/videos/pilot_trials/flythroughs/pilot_trial_flythrough_overdrive_race_03.bk2
+	myLeaderboard < uid=F2ADB0475C3E167D000000468406064E > = "Overdrive - Wardens Pilgrimage"
+	myNumberOfLaps 3
+	myNumberOfAIOpponents 3
+	myAssociatedUID F5D3075CAE0263C088716AF675173CAA
+	myStuckTestEnabled TRUE
+	myStuckTestRespawnTimer 3.0
+	myWrongCheckpointTestEnabled FALSE
+	myMissedCheckpointTestEnabled TRUE
+	myWrongWayTestEnabled TRUE
+	myWrongWayTestTimer 5.0
+	myOffRaceTrackTestEnabled TRUE
+	myOffRaceTrackTestTimer 5.0
+	myOffRaceTrackTestDistance 85.0
+	myEnableAIPhysics TRUE
+	myDifficultyLevelOnePlayer AI_1_AbovePar_1_Par_1_BelowPar
+	myDifficultyLevelTwoPlayers AI_Par
+	myRubberBandingAbovePar < uid=5BF54C035C51D2D800A5E5F4B12D0B6F > = "Relic AbovePar Rubber Banding"
+	myRubberBandingPar < uid=5BF54C035C51D2D800A5E5F57FB8DC88 > = "Relic Par Rubber Banding"
+	myRubberBandingBelowPar < uid=5BF54C035C51D2D800A5E5F64DD6E1A7 > = "Relic BelowPar Rubber Banding"
+	myRubberBandingDerealized < uid=5BF54C035C59A5650000063B872D91C7 > = "Relic Derealized Rubber Banding"
+	myBark_HitXBoost_TimePerBoost 2.0
+	myUnlockCondition
+	{
+		PilotTrialInteract_UnlockOptions "Race 2 Won"
+		{
+			ChallengeType "Race 2 Win" Race_02_Win
+		}
+		PilotTrialInteract_UnlockOptions "Races Unlocked"
+		{
+			ChallengeType "Races Enabled" Unlock_Races
+		}
+	}
+	myUnlockFactLabel Race_Unlocked_Overlords
+	myRaceChallengeToAward Race_03_Win
+	myMiniMapTransform 1046.005005;-1063.275024;-974.9104;0.0;-0.808492;-0.397202;-0.434247;0.0;86.641159;1445.161987;-1483.188965;0.0;-2829.7229;-1390.208008;-1519.864014;1.0
+	myMiniMapTexture onward/baked/world_machine/stamps/race_03_track.dds
+	myCompletionDropTable Award_Race_Completion_Reward
+	myWinnerDropTable MissionDrop_Race_03
+	myMiniMapBounds 0.064;0.166;1.0;0.994
+	myMiniMapUpVector 0.0;1.0
+}
+

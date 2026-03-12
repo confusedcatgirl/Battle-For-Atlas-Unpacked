@@ -1,0 +1,26 @@
+include ./template_shipcore.mplayermod
+include ./tuning/mod_tuning_master.juice
+
+PlayerMod mod_nova_shipcore_l4 < uid=939A35415AB16F6D00001C2F18DBC352 > : template_shipcore
+{
+	myAttributeMods
+	{
+		AttributeMod Energy
+		{
+			myType PartStat_Energy
+			myAddValue = Nova_Core_l4_Energy
+		}
+		AttributeMod "Stasis parry"
+		{
+			myType Player_ParryStasis
+			myAddValue = Nova_Core_l4_StasisParry
+		}
+		AttributeMod "Combo Stamina"
+		{
+			myType Player_StaminaOnCombo
+			myAddValue = Nova_Core_l4_ComboStamina
+		}
+	}
+	myIsSelfMod TRUE
+}
+

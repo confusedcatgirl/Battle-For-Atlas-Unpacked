@@ -1,0 +1,1347 @@
+include ./interestdefinitions.juice
+include "onward/game system data/juice/sim/player.msimunit"
+
+InterestSet "Player Interest" < uid=95430580592DA6E100000050448FDC9D >
+{
+	mySimUnit < uid=95430580592DA6E10000005123089750 > = player
+	myInterestList
+	{
+		InterestPriorityBucket "Level 3 Outposts" < uid=4A79E0E45A98616B00001B5C65FA7671 >
+		{
+			myShuffleEqualWeights TRUE
+			myInterestList
+			{
+				InterestPriorityDynamic "Research Base - Level 3" < uid=4A79E0E45A98616B00001B5DC764E0E0 > : "Allied Research Base"
+				{
+					myInterestComponents
+					{
+						InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+						{
+							myAllianceRequirement Allied
+						}
+						InterestPriorityComponentCategory Category
+						{
+							myCategory Outpost
+						}
+						InterestPriorityComponentCreepLevel "Creep Level"
+						{
+							myMinCreepLevel 0.0
+							myMaxCreepLevel 1.0
+						}
+						InterestPriorityComponentFactionList "Faction List"
+						{
+							myFactions
+							{
+								FactionType Prospector ExpeditionAllied
+							}
+						}
+						InterestPriorityComponentStoryAct "Story Act"
+						{
+							myMinAct 2
+						}
+						InterestPriorityComponentStorySection "Story Section"
+						{
+							myStorySections
+							{
+								StorySection "Open Refinery Chest" Act_02_Refinery_Chest_Opened
+								StorySection "Act 03 BuildAlliance GameLoop" Act_03_BuildAlliance_GameLoop
+								StorySection "Act 04 Alliance GameLoop" Act_04_Alliance_GameLoop
+							}
+						}
+						InterestPriorityComponentSubCategory SubCategory
+						{
+							mySubCategory ResearchBase
+						}
+						InterestPriorityComponentLevel Level
+						{
+							myMinimumLevel 3
+							myMaximumLevel 3
+						}
+						InterestPriorityComponentUnitUnderAttack "Unit Under Attack"
+						{
+						}
+					}
+					myMinDistance Close
+					myMaxDistance PlanetWide
+					myNeverSkip TRUE
+				}
+				InterestPriorityDynamic "Obseration Deck - Level 3" < uid=4A79E0E45A98616B00001B5EEE824A64 > : "Allied Observation Deck"
+				{
+					myInterestComponents
+					{
+						InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+						{
+							myAllianceRequirement Allied
+						}
+						InterestPriorityComponentCategory Category
+						{
+							myCategory Outpost
+						}
+						InterestPriorityComponentCreepLevel "Creep Level"
+						{
+							myMinCreepLevel 0.0
+							myMaxCreepLevel 1.0
+						}
+						InterestPriorityComponentFactionList "Faction List"
+						{
+							myFactions
+							{
+								FactionType Prospector ExpeditionAllied
+							}
+						}
+						InterestPriorityComponentStoryAct "Story Act"
+						{
+							myMinAct 2
+						}
+						InterestPriorityComponentStorySection "Story Section"
+						{
+							myStorySections
+							{
+								StorySection "Open Refinery Chest" Act_02_Refinery_Chest_Opened
+								StorySection "Act 03 BuildAlliance GameLoop" Act_03_BuildAlliance_GameLoop
+								StorySection "Act 04 Alliance GameLoop" Act_04_Alliance_GameLoop
+							}
+						}
+						InterestPriorityComponentSubCategory SubCategory
+						{
+							mySubCategory ObservationDeck
+						}
+						InterestPriorityComponentLevel Level
+						{
+							myMinimumLevel 3
+							myMaximumLevel 3
+						}
+						InterestPriorityComponentUnitUnderAttack "Unit Under Attack"
+						{
+						}
+					}
+					myMinDistance Close
+					myMaxDistance PlanetWide
+					myNeverSkip TRUE
+				}
+				InterestPriorityDynamic "Mining Centre - Level 3" < uid=4A79E0E45A98616B00001B5F8D9E6C72 > : "Allied Mining Center"
+				{
+					myInterestComponents
+					{
+						InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+						{
+							myAllianceRequirement Allied
+						}
+						InterestPriorityComponentCategory Category
+						{
+							myCategory Outpost
+						}
+						InterestPriorityComponentCreepLevel "Creep Level"
+						{
+							myMinCreepLevel 0.0
+							myMaxCreepLevel 1.0
+						}
+						InterestPriorityComponentFactionList "Faction List"
+						{
+							myFactions
+							{
+								FactionType Prospector ProspectorAllied
+							}
+						}
+						InterestPriorityComponentStoryAct "Story Act"
+						{
+							myMinAct 2
+						}
+						InterestPriorityComponentStorySection "Story Section"
+						{
+							myStorySections
+							{
+								StorySection "Open Refinery Chest" Act_02_Refinery_Chest_Opened
+								StorySection "Act 03 BuildAlliance GameLoop" Act_03_BuildAlliance_GameLoop
+								StorySection "Act 04 Alliance GameLoop" Act_04_Alliance_GameLoop
+							}
+						}
+						InterestPriorityComponentSubCategory SubCategory
+						{
+							mySubCategory MiningCenter
+						}
+						InterestPriorityComponentLevel Level
+						{
+							myMinimumLevel 3
+							myMaximumLevel 3
+						}
+						InterestPriorityComponentUnitUnderAttack "Unit Under Attack"
+						{
+						}
+					}
+					myMinDistance Close
+					myMaxDistance PlanetWide
+				}
+			}
+		}
+		InterestPriorityBucket "StorySection_GatherElectrum - Close" < uid=9FD9E81859B84E3400000082D854C01F >
+		{
+			myInterestList
+			{
+				InterestPriorityDynamic "Unallied Outpost" < uid=9FD9E81859B84E3400000084AF6EC63F > : "Unallied Outpost (GameLoop)"
+				{
+					myInterestComponents
+					{
+						InterestPriorityComponentCategory Category
+						{
+							myCategory Outpost
+						}
+						InterestPriorityComponentFactionList "Faction List"
+						{
+							myFactions
+							{
+								FactionType Prospector Prospector
+								FactionType Expedition Expedition
+							}
+						}
+						InterestPriorityComponentStoryAct "Story Act"
+						{
+							myMinAct 2
+						}
+						InterestPriorityComponentStorySection "Story Section"
+						{
+							myStorySections
+							{
+								StorySection "Upgrade Sensors" Act_02_GatherElectrum_GameLoop
+							}
+						}
+					}
+					myMinDistance Close
+					myMaxDistance Far
+					myWeight 10
+				}
+				InterestPriorityDynamic "Allied Outpost - Level 1" < uid=9FD9E81859B84E3400000083D2940604 > : "Allied Outpost"
+				{
+					myInterestComponents
+					{
+						InterestPriorityComponentCategory Category
+						{
+							myCategory Outpost
+						}
+						InterestPriorityComponentCreepLevel "Creep Level"
+						{
+							myMinCreepLevel 0.0
+							myMaxCreepLevel 1.0
+						}
+						InterestPriorityComponentFactionList "Faction List"
+						{
+							myFactions
+							{
+								FactionType Prospector ProspectorAllied
+								FactionType Expedition ExpeditionAllied
+							}
+						}
+						InterestPriorityComponentStoryAct "Story Act"
+						{
+							myMinAct 2
+						}
+						InterestPriorityComponentStorySection "Story Section"
+						{
+							myStorySections
+							{
+								StorySection "Open Refinery Chest" Act_02_GatherElectrum_GameLoop
+							}
+						}
+						InterestPriorityComponentLevel Level
+						{
+							myMaximumLevel 1
+						}
+					}
+					myMinDistance Close
+					myMaxDistance Far
+					myWeight 10
+				}
+				InterestPriorityDynamic "Electrum Vein" < uid=9FD9E81859B84EC100000086087A43F3 > : "Electrum Vein"
+				{
+					myInterestComponents
+					{
+						InterestPriorityComponentCategory Category
+						{
+							myCategory Resource
+						}
+						InterestPriorityComponentSubCategory SubCategory
+						{
+							mySubCategory ElectrumVein
+						}
+						InterestPriorityComponentStorySection StorySection
+						{
+							myStorySections
+							{
+								StorySection "Act II Gather Electrum Game Loop" Act_02_GatherElectrum_GameLoop
+							}
+						}
+					}
+					myMinDistance Close
+					myMaxDistance Far
+					myWeight 10
+				}
+			}
+		}
+		InterestPriorityBucket "SAVE  - Medium" < uid=4A79E0E459A589B30000003ACA25B22A >
+		{
+			myInterestList
+			{
+				InterestPriorityDynamic "Legion Prime" < uid=4A79E0E459D5426900000050E8B82B4B > : "Legion Prime (GameLoop)"
+				{
+					myMinDistance Close
+					myMaxDistance Far
+					myWeight 20
+				}
+				InterestPriorityDynamic "Allied Outpost Under Attack" < uid=4A79E0E459A58C520000003D8EB8028C > : "Outpost Under Attack - Allied (GameLoop)"
+				{
+					myMinDistance Close
+					myMaxDistance Far
+					myWeight 15
+				}
+				InterestPriorityDynamic "Unallied Outpost Under Attack" < uid=4A79E0E459A58C520000003E69EB4593 > : "Outpost Under Attack  - Unallied (GameLoop)"
+				{
+					myMinDistance Close
+					myMaxDistance Far
+					myWeight 12
+				}
+				InterestPriorityDynamic "Destroy Extractor" < uid=4A79E0E459A58C5200000041970CEA12 > : "Extractor (GameLoop)"
+				{
+					myMinDistance Close
+					myMaxDistance Far
+					myWeight 15
+				}
+				InterestPriorityDynamic "Destroy Extractor (Dormant)" < uid=1E68E5355A68B7860054A11B81A304BE > : "Extractor - Dormant (GameLoop)"
+				{
+					myMinDistance Close
+					myMaxDistance Far
+					myWeight 15
+				}
+			}
+		}
+		InterestPriorityBucket "ALLY - Medium" < uid=4A79E0E459D29066000001ABA5F15660 >
+		{
+			myInterestList
+			{
+				InterestPriorityDynamic "Unallied Outpost" < uid=4A79E0E459D29066000001AC48AA233D > : "Unallied Outpost (GameLoop)"
+				{
+					myMinDistance Close
+					myMaxDistance Far
+					myWeight 10
+				}
+				InterestPriorityDynamic "Build Outpost" < uid=4A79E0E459D29066000001AE290F9252 > : "Outpost Slot (GameLoop)"
+				{
+					myMinDistance Close
+					myMaxDistance Far
+					myWeight 10
+				}
+				InterestPriorityDynamic "Allied Outpost - Level 1" < uid=1E68E5355B2C0FA80032350A5A8A5E51 > : "Allied Defense Base"
+				{
+					myEnabled TRUE
+					myInterestComponents
+					{
+						InterestPriorityComponentCategory Category
+						{
+							myCategory Outpost
+						}
+						InterestPriorityComponentFactionList "Faction List"
+						{
+							myFactions
+							{
+								FactionType Expedition ExpeditionAllied
+								FactionType Prospector ProspectorAllied
+							}
+						}
+						InterestPriorityComponentStoryAct "Story Act"
+						{
+							myMinAct 4
+						}
+						InterestPriorityComponentStorySection "Story Section"
+						{
+							myStorySections
+							{
+								StorySection "Act 04 Alliance GameLoop" Act_04_Alliance_GameLoop
+							}
+						}
+						InterestPriorityComponentLevel Level
+						{
+							myMaximumLevel 1
+						}
+					}
+					myMinDistance Close
+					myMaxDistance Far
+					myWeight 8
+				}
+			}
+		}
+		InterestPriorityBucket "EXPLORE - Medium" < uid=4A79E0E459D298F7000001BE47753FD9 >
+		{
+			myInterestList
+			{
+				InterestPriorityDynamic "Goldrush Chest" < uid=4A79E0E459D298F7000001BFE3BD6386 > : "Goldrush Chest"
+				{
+					myEnabled TRUE
+					myInterestComponents
+					{
+						InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+						{
+							myAllianceRequirement Either
+						}
+						InterestPriorityComponentCategory Category
+						{
+							myCategory Chest
+						}
+						InterestPriorityComponentSubCategory SubCategory
+						{
+							mySubCategory ChestGoldrush
+						}
+						InterestPriorityComponentStoryAct "Story Act"
+						{
+							myMinAct 2
+						}
+						InterestPriorityComponentStorySection "Story Section"
+						{
+							myStorySections
+							{
+								StorySection "Open Refinery Chest" Act_02_GatherElectrum_GameLoop
+								StorySection "Act 02 Travel To Sonatus" Act_02_Travel_To_Sonatus
+								StorySection "Enable Enter Range Activities Fern" Enable_EnterRangeActivities_Fern
+								StorySection "Alliance Gameloop" Act_04_Alliance_GameLoop
+							}
+						}
+						InterestPriorityComponentSolvedState Unsolved
+						{
+						}
+					}
+					myMinDistance Close
+					myMaxDistance Medium
+					myWeight 10
+				}
+				InterestPriorityDynamic "Legion Data Core" < uid=4A79E0E459D298F7000001C0BE949A85 > : "Legion Data Core"
+				{
+					myMinDistance Close
+					myMaxDistance Medium
+					myWeight 2
+				}
+				InterestPriorityDynamic "Warden Puzzle (Unsolved)" < uid=4A79E0E459D298F7000001C15E30750A > : "Warden Puzzle (Unsolved)"
+				{
+					myMinDistance Close
+					myMaxDistance Medium
+					myWeight 10
+				}
+				InterestPriorityDynamic "Goldrush Satellite Array" < uid=4A79E0E45A96DDDF00001B59795302F7 > : "Goldrush Satellite Array"
+				{
+					myInterestComponents
+					{
+						InterestPriorityComponentCategory Category
+						{
+							myCategory Radar
+						}
+						InterestPriorityComponentSubCategory SubCategory
+						{
+							mySubCategory GoldrushRuin
+						}
+						InterestPriorityComponentSubCategoryVariant "SubCategory Variant"
+						{
+							myVariant 10
+						}
+						InterestPriorityComponentStoryAct "Story Act"
+						{
+							myMinAct 4
+						}
+						InterestPriorityComponentSolvedState "Solved State"
+						{
+						}
+					}
+					myMinDistance Close
+					myMaxDistance Medium
+					myWeight 10
+				}
+			}
+		}
+		InterestPriorityBucket "Prime - Current Sector" < uid=4A79E0E45A70976800001AEA13D2628D >
+		{
+			myInterestList
+			{
+				InterestPriorityDynamic "Legion Prime - Level 2" < uid=4A79E0E45A70976800001AEB9239A0B9 > : "Legion Prime (Sector)"
+				{
+					myInterestComponents
+					{
+						InterestPriorityComponentCategory Category
+						{
+							myCategory Prime
+						}
+						InterestPriorityComponentFaction Faction
+						{
+							myFaction Harvester
+						}
+						InterestPriorityComponentStoryAct "Story Act"
+						{
+							myMinAct 4
+						}
+						InterestPriorityComponentWarEffort "War Effort"
+						{
+							myEffortType Alliance
+							myMinThreshold Threshold_25
+						}
+						InterestPriorityComponentUnitInSector "Unit In Sector"
+						{
+						}
+						InterestPriorityComponentLevel Level
+						{
+							myMinimumLevel 2
+							myMaximumLevel 2
+						}
+					}
+					myMaxDistance SolarSystem
+					myNeverSkip TRUE
+				}
+				InterestPriorityDynamic "Legion Prime - Level 3" < uid=4A79E0E45A70976800001AECEC17F8AA > : "Legion Prime (Sector)"
+				{
+					myInterestComponents
+					{
+						InterestPriorityComponentCategory Category
+						{
+							myCategory Prime
+						}
+						InterestPriorityComponentFaction Faction
+						{
+							myFaction Harvester
+						}
+						InterestPriorityComponentStoryAct "Story Act"
+						{
+							myMinAct 4
+						}
+						InterestPriorityComponentWarEffort "War Effort"
+						{
+							myEffortType Alliance
+							myMinThreshold Threshold_25
+						}
+						InterestPriorityComponentUnitInSector "Unit In Sector"
+						{
+						}
+						InterestPriorityComponentLevel Level
+						{
+							myMinimumLevel 3
+							myMaximumLevel 3
+						}
+					}
+					myMaxDistance SolarSystem
+					myNeverSkip TRUE
+				}
+				InterestPriorityDynamic "Legion Prime - Level 1" < uid=4A79E0E45A70976800001AED8DC6D0AD > : "Legion Prime (Sector)"
+				{
+					myInterestComponents
+					{
+						InterestPriorityComponentCategory Category
+						{
+							myCategory Prime
+						}
+						InterestPriorityComponentFaction Faction
+						{
+							myFaction Harvester
+						}
+						InterestPriorityComponentStoryAct "Story Act"
+						{
+							myMinAct 4
+						}
+						InterestPriorityComponentWarEffort "War Effort"
+						{
+							myEffortType Alliance
+							myMinThreshold Threshold_25
+						}
+						InterestPriorityComponentUnitInSector "Unit In Sector"
+						{
+						}
+						InterestPriorityComponentLevel Level
+						{
+							myMaximumLevel 1
+						}
+					}
+					myMaxDistance SolarSystem
+					myNeverSkip TRUE
+				}
+				InterestPriorityDynamic "Legion Prime - Level 4" < uid=4A79E0E45A70976800001AEE0D800D92 > : "Legion Prime (Sector)"
+				{
+					myInterestComponents
+					{
+						InterestPriorityComponentCategory Category
+						{
+							myCategory Prime
+						}
+						InterestPriorityComponentFaction Faction
+						{
+							myFaction Harvester
+						}
+						InterestPriorityComponentStoryAct "Story Act"
+						{
+							myMinAct 4
+						}
+						InterestPriorityComponentWarEffort "War Effort"
+						{
+							myEffortType Alliance
+							myMinThreshold Threshold_25
+						}
+						InterestPriorityComponentUnitInSector "Unit In Sector"
+						{
+						}
+						InterestPriorityComponentLevel Level
+						{
+							myMinimumLevel 4
+						}
+					}
+					myMaxDistance SolarSystem
+					myNeverSkip TRUE
+				}
+			}
+		}
+		InterestPriorityBucket "SAVE  - Far" < uid=4A79E0E459A589B30000003BE3ABAB49 >
+		{
+			myInterestList
+			{
+				InterestPriorityDynamic "Legion Prime" < uid=4A79E0E459D542690000005143F80F32 > : "Legion Prime (GameLoop)"
+				{
+					myMinDistance Far
+					myWeight 20
+					myNeverSkip TRUE
+				}
+				InterestPriorityDynamic "Allied Outpost Under Attack" < uid=4A79E0E459A58C7A00000042A4F8E2BD > : "Outpost Under Attack - Allied (GameLoop)"
+				{
+					myMinDistance Far
+					myMaxDistance PlanetWide
+					myWeight 15
+					myNeverSkip TRUE
+				}
+				InterestPriorityDynamic "Unallied Outpost Under Attack" < uid=4A79E0E459A58C7A000000435179F85C > : "Outpost Under Attack  - Unallied (GameLoop)"
+				{
+					myMinDistance Far
+					myMaxDistance PlanetWide
+					myWeight 12
+					myNeverSkip TRUE
+				}
+				InterestPriorityDynamic "Destroy Extractor" < uid=4A79E0E459A58C7A000000466AE30A4F > : "Extractor (GameLoop)"
+				{
+					myMinDistance Far
+					myMaxDistance PlanetWide
+					myWeight 15
+					myNeverSkip TRUE
+				}
+				InterestPriorityDynamic "Destroy Extractor (Dormant)" < uid=1E68E5355A68B7860054A11CB0043062 > : "Extractor - Dormant (GameLoop)"
+				{
+					myMinDistance Far
+					myWeight 15
+					myNeverSkip TRUE
+				}
+			}
+		}
+		InterestPriorityBucket "ALLY - Far" < uid=4A79E0E459D29066000001AF06628345 >
+		{
+			myInterestList
+			{
+				InterestPriorityDynamic "Unallied Outpost" < uid=4A79E0E459D29066000001B01FC8FB7F > : "Unallied Outpost (GameLoop)"
+				{
+					myMinDistance Far
+					myMaxDistance PlanetWide
+					myWeight 10
+					myNeverSkip TRUE
+				}
+				InterestPriorityDynamic "Build Outpost" < uid=4A79E0E459D29066000001B2C7B25088 > : "Outpost Slot (GameLoop)"
+				{
+					myMinDistance Far
+					myMaxDistance PlanetWide
+					myWeight 10
+					myNeverSkip TRUE
+				}
+				InterestPriorityDynamic "Electrum Vein" < uid=4A79E0E459D7A02E00000038391B2998 > : "Electrum Vein (GameLoop)"
+				{
+					myMinDistance Far
+					myWeight 5
+				}
+				InterestPriorityDynamic "Allied Outpost - Level 1" < uid=1E68E5355B2C10A60040176306F6C1F3 > : "Allied Defense Base"
+				{
+					myEnabled TRUE
+					myInterestComponents
+					{
+						InterestPriorityComponentCategory Category
+						{
+							myCategory Outpost
+						}
+						InterestPriorityComponentFactionList "Faction List"
+						{
+							myFactions
+							{
+								FactionType Expedition ExpeditionAllied
+								FactionType Prospector ProspectorAllied
+							}
+						}
+						InterestPriorityComponentStoryAct "Story Act"
+						{
+							myMinAct 4
+						}
+						InterestPriorityComponentStorySection "Story Section"
+						{
+							myStorySections
+							{
+								StorySection "Act 04 Alliance GameLoop" Act_04_Alliance_GameLoop
+							}
+						}
+						InterestPriorityComponentLevel Level
+						{
+							myMaximumLevel 1
+						}
+					}
+					myMinDistance Far
+					myMaxDistance PlanetWide
+					myWeight 8
+				}
+			}
+		}
+		InterestPriority "Dreadnought - Current Sector" < uid=4A79E0E45963D4DA00000078F03029ED > : "Legion Dreadnought (Sector)"
+		{
+			myMaxDistance SolarSystem
+		}
+		InterestPriorityBucket "Prime - High Infection" < uid=4A79E0E45AC78AF700001D36191C4AEB >
+		{
+			myInterestList
+			{
+				InterestPriorityDynamic "Prime - Level 3/4 - Sector A" < uid=4A79E0E45AC78AF700001D38C1A3F0A9 > : "Legion Prime (Sector)"
+				{
+					myInterestComponents
+					{
+						InterestPriorityComponentCategory Category
+						{
+							myCategory Prime
+						}
+						InterestPriorityComponentFaction Faction
+						{
+							myFaction Harvester
+						}
+						InterestPriorityComponentStoryAct "Story Act"
+						{
+							myMinAct 4
+						}
+						InterestPriorityComponentWarEffort "War Effort"
+						{
+							myEffortType Alliance
+							myMinThreshold Threshold_25
+						}
+						InterestPriorityComponentUnitInSector "Unit In Sector"
+						{
+							mySkillSector A
+						}
+						InterestPriorityComponentLevel Level
+						{
+							myMinimumLevel 3
+							myMaximumLevel 4
+						}
+					}
+					myWeight 10
+				}
+				InterestPriorityDynamic "Prime - Level 3/4 - Sector B" < uid=4A79E0E45AC78AF700001D37A55EB4E0 > : "Legion Prime (Sector)"
+				{
+					myInterestComponents
+					{
+						InterestPriorityComponentCategory Category
+						{
+							myCategory Prime
+						}
+						InterestPriorityComponentFaction Faction
+						{
+							myFaction Harvester
+						}
+						InterestPriorityComponentStoryAct "Story Act"
+						{
+							myMinAct 4
+						}
+						InterestPriorityComponentWarEffort "War Effort"
+						{
+							myEffortType Alliance
+							myMinThreshold Threshold_25
+						}
+						InterestPriorityComponentUnitInSector "Unit In Sector"
+						{
+							mySkillSector B
+						}
+						InterestPriorityComponentLevel Level
+						{
+							myMinimumLevel 3
+							myMaximumLevel 4
+						}
+					}
+					myWeight 10
+				}
+				InterestPriorityDynamic "Prime - Level 3/4 - Sector C" < uid=4A79E0E45AC78AF700001D3990FBCCF9 > : "Legion Prime (Sector)"
+				{
+					myInterestComponents
+					{
+						InterestPriorityComponentCategory Category
+						{
+							myCategory Prime
+						}
+						InterestPriorityComponentFaction Faction
+						{
+							myFaction Harvester
+						}
+						InterestPriorityComponentStoryAct "Story Act"
+						{
+							myMinAct 4
+						}
+						InterestPriorityComponentWarEffort "War Effort"
+						{
+							myEffortType Alliance
+							myMinThreshold Threshold_25
+						}
+						InterestPriorityComponentUnitInSector "Unit In Sector"
+						{
+							mySkillSector C
+						}
+						InterestPriorityComponentLevel Level
+						{
+							myMinimumLevel 3
+							myMaximumLevel 4
+						}
+					}
+					myWeight 10
+				}
+			}
+		}
+		InterestPriorityBucket "EXPLORE - Far" < uid=4A79E0E459D298F7000001C2B05502E2 >
+		{
+			myInterestList
+			{
+				InterestPriorityDynamic "Goldrush Chest" < uid=4A79E0E459D298F7000001C3B8FCE63D > : "Goldrush Chest"
+				{
+					myEnabled TRUE
+					myInterestComponents
+					{
+						InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+						{
+							myAllianceRequirement Either
+						}
+						InterestPriorityComponentCategory Category
+						{
+							myCategory Chest
+						}
+						InterestPriorityComponentSubCategory SubCategory
+						{
+							mySubCategory ChestGoldrush
+						}
+						InterestPriorityComponentStoryAct "Story Act"
+						{
+							myMinAct 2
+						}
+						InterestPriorityComponentStorySection "Story Section"
+						{
+							myStorySections
+							{
+								StorySection "Open Refinery Chest" Act_02_GatherElectrum_GameLoop
+								StorySection "Act 02 Travel To Sonatus" Act_02_Travel_To_Sonatus
+								StorySection "Enable Enter Range Activities Fern" Enable_EnterRangeActivities_Fern
+								StorySection "Alliance Gameloop" Act_04_Alliance_GameLoop
+							}
+						}
+						InterestPriorityComponentSolvedState Unsolved
+						{
+						}
+					}
+					myMinDistance Medium
+					myMaxDistance Far
+					myWeight 10
+				}
+				InterestPriorityDynamic "Legion Data Core" < uid=4A79E0E459D298F7000001C4A2A60315 > : "Legion Data Core"
+				{
+					myMinDistance Medium
+					myMaxDistance Far
+					myWeight 2
+				}
+				InterestPriorityDynamic "Warden Puzzle (Unsolved)" < uid=4A79E0E459D298F7000001C57FE3AA6E > : "Warden Puzzle (Unsolved)"
+				{
+					myMinDistance Medium
+					myMaxDistance Far
+					myWeight 10
+				}
+				InterestPriorityDynamic "Goldrush Satellite Array" < uid=4A79E0E45A96DE0E00001B5A61253619 > : "Goldrush Satellite Array"
+				{
+					myInterestComponents
+					{
+						InterestPriorityComponentCategory Category
+						{
+							myCategory Radar
+						}
+						InterestPriorityComponentSubCategory SubCategory
+						{
+							mySubCategory GoldrushRuin
+						}
+						InterestPriorityComponentSubCategoryVariant "SubCategory Variant"
+						{
+							myVariant 10
+						}
+						InterestPriorityComponentStoryAct "Story Act"
+						{
+							myMinAct 4
+						}
+						InterestPriorityComponentSolvedState "Solved State"
+						{
+						}
+					}
+					myMinDistance Medium
+					myMaxDistance Far
+					myWeight 10
+				}
+				InterestPriorityDynamic "Space Chest - Outlaw" < uid=4A79E0E45A99A7F700001B684F210A93 > : "Space Chest - Outlaw"
+				{
+					myEnabled FALSE
+					myInterestComponents
+					{
+						InterestPriorityComponentCategory Category
+						{
+							myCategory Chest
+						}
+						InterestPriorityComponentSubCategory SubCategory
+						{
+							mySubCategory OutlawBase
+						}
+						InterestPriorityComponentStoryAct "Story Act"
+						{
+							myMinAct 4
+						}
+						InterestPriorityComponentStorySection "Story Section"
+						{
+							myStorySections
+							{
+								StorySection "Act 04 Alliance GameLoop" Act_04_Alliance_GameLoop
+							}
+						}
+						InterestPriorityComponentKnowledge Knowledge
+						{
+							myCompareType EqualTo
+							myCompareValue 100.0
+						}
+						InterestPriorityComponentSolvedState "Solved State"
+						{
+						}
+						InterestPriorityComponentUnitInSector "Unit In Sector"
+						{
+						}
+					}
+				}
+				InterestPriorityDynamic "Space Chest - TAG" < uid=4A79E0E45A99A7F700001B69D37A5099 > : "Space Chest - TAG"
+				{
+					myEnabled FALSE
+					myInterestComponents
+					{
+						InterestPriorityComponentCategory Category
+						{
+							myCategory Puzzle
+						}
+						InterestPriorityComponentSubCategory SubCategory
+						{
+							mySubCategory ChestMod
+						}
+						InterestPriorityComponentStoryAct "Story Act"
+						{
+							myMinAct 4
+						}
+						InterestPriorityComponentStorySection "Story Section"
+						{
+							myStorySections
+							{
+								StorySection "Act 04 Alliance GameLoop" Act_04_Alliance_GameLoop
+							}
+						}
+						InterestPriorityComponentKnowledge Knowledge
+						{
+							myCompareType EqualTo
+							myCompareValue 100.0
+						}
+						InterestPriorityComponentSolvedState "Solved State"
+						{
+						}
+						InterestPriorityComponentUnitInSector "Unit In Sector"
+						{
+						}
+					}
+				}
+			}
+		}
+		InterestPriorityBucket "Legion - Sector A" < uid=4A79E0E45AC6676900001CAFB4534838 >
+		{
+			myInterestList
+			{
+				InterestPriorityDynamic "Prime - Level 2" < uid=4A79E0E45AC667D100001CB13D75C7B3 > : "Legion Prime (Sector)"
+				{
+					myInterestComponents
+					{
+						InterestPriorityComponentCategory Category
+						{
+							myCategory Prime
+						}
+						InterestPriorityComponentFaction Faction
+						{
+							myFaction Harvester
+						}
+						InterestPriorityComponentStoryAct "Story Act"
+						{
+							myMinAct 4
+						}
+						InterestPriorityComponentWarEffort "War Effort"
+						{
+							myEffortType Alliance
+							myMinThreshold Threshold_25
+						}
+						InterestPriorityComponentUnitInSector "Unit In Sector"
+						{
+							mySkillSector A
+						}
+						InterestPriorityComponentLevel Level
+						{
+							myMinimumLevel 2
+							myMaximumLevel 2
+						}
+					}
+				}
+				InterestPriorityDynamic "Prime - Level 1" < uid=4A79E0E45AC667FA00001CB383FABE9A > : "Legion Prime (Sector)"
+				{
+					myInterestComponents
+					{
+						InterestPriorityComponentCategory Category
+						{
+							myCategory Prime
+						}
+						InterestPriorityComponentFaction Faction
+						{
+							myFaction Harvester
+						}
+						InterestPriorityComponentStoryAct "Story Act"
+						{
+							myMinAct 4
+						}
+						InterestPriorityComponentWarEffort "War Effort"
+						{
+							myEffortType Alliance
+							myMinThreshold Threshold_25
+						}
+						InterestPriorityComponentUnitInSector "Unit In Sector"
+						{
+							mySkillSector A
+						}
+						InterestPriorityComponentLevel Level
+						{
+							myMinimumLevel 1
+							myMaximumLevel 1
+						}
+					}
+				}
+				InterestPriorityDynamic Dreadnought < uid=4A79E0E45AC6681B00001CB5E4562C97 > : "Legion Dreadnought (Sector)"
+				{
+					myInterestComponents
+					{
+						InterestPriorityComponentCategory Category
+						{
+							myCategory Dreadnought
+						}
+						InterestPriorityComponentFaction Faction
+						{
+							myFaction Harvester
+						}
+						InterestPriorityComponentStoryAct "Story Act"
+						{
+							myMinAct 3
+						}
+						InterestPriorityComponentUnitInSector "Unit In Sector"
+						{
+							mySkillSector A
+						}
+						InterestPriorityComponentSolvedState Unsolved
+						{
+						}
+					}
+				}
+			}
+		}
+		InterestPriorityBucket "Legion - Sector B" < uid=4A79E0E45AC6684A00001CB67880DB2E >
+		{
+			myInterestList
+			{
+				InterestPriorityDynamic "Prime - Level 2" < uid=4A79E0E45AC6684A00001CB72ED8B4CA > : "Legion Prime (Sector)"
+				{
+					myInterestComponents
+					{
+						InterestPriorityComponentCategory Category
+						{
+							myCategory Prime
+						}
+						InterestPriorityComponentFaction Faction
+						{
+							myFaction Harvester
+						}
+						InterestPriorityComponentStoryAct "Story Act"
+						{
+							myMinAct 4
+						}
+						InterestPriorityComponentWarEffort "War Effort"
+						{
+							myEffortType Alliance
+							myMinThreshold Threshold_25
+						}
+						InterestPriorityComponentUnitInSector "Unit In Sector"
+						{
+							mySkillSector B
+						}
+						InterestPriorityComponentLevel Level
+						{
+							myMinimumLevel 2
+							myMaximumLevel 2
+						}
+					}
+				}
+				InterestPriorityDynamic "Prime - Level 1" < uid=4A79E0E45AC6684A00001CB9658055E1 > : "Legion Prime (Sector)"
+				{
+					myInterestComponents
+					{
+						InterestPriorityComponentCategory Category
+						{
+							myCategory Prime
+						}
+						InterestPriorityComponentFaction Faction
+						{
+							myFaction Harvester
+						}
+						InterestPriorityComponentStoryAct "Story Act"
+						{
+							myMinAct 4
+						}
+						InterestPriorityComponentWarEffort "War Effort"
+						{
+							myEffortType Alliance
+							myMinThreshold Threshold_25
+						}
+						InterestPriorityComponentUnitInSector "Unit In Sector"
+						{
+							mySkillSector B
+						}
+						InterestPriorityComponentLevel Level
+						{
+							myMinimumLevel 1
+							myMaximumLevel 1
+						}
+					}
+				}
+				InterestPriorityDynamic Dreadnought < uid=4A79E0E45AC6684A00001CBBF032328E > : "Legion Dreadnought (Sector)"
+				{
+					myInterestComponents
+					{
+						InterestPriorityComponentCategory Category
+						{
+							myCategory Dreadnought
+						}
+						InterestPriorityComponentFaction Faction
+						{
+							myFaction Harvester
+						}
+						InterestPriorityComponentStoryAct "Story Act"
+						{
+							myMinAct 3
+						}
+						InterestPriorityComponentUnitInSector "Unit In Sector"
+						{
+							mySkillSector B
+						}
+						InterestPriorityComponentSolvedState Unsolved
+						{
+						}
+					}
+				}
+			}
+		}
+		InterestPriorityBucket "Legion - Sector C" < uid=4A79E0E45AC6688100001CBCFF756173 >
+		{
+			myInterestList
+			{
+				InterestPriorityDynamic "Prime - Level 2" < uid=4A79E0E45AC6688100001CBD983D0C21 > : "Legion Prime (Sector)"
+				{
+					myInterestComponents
+					{
+						InterestPriorityComponentCategory Category
+						{
+							myCategory Prime
+						}
+						InterestPriorityComponentFaction Faction
+						{
+							myFaction Harvester
+						}
+						InterestPriorityComponentStoryAct "Story Act"
+						{
+							myMinAct 4
+						}
+						InterestPriorityComponentWarEffort "War Effort"
+						{
+							myEffortType Alliance
+							myMinThreshold Threshold_25
+						}
+						InterestPriorityComponentUnitInSector "Unit In Sector"
+						{
+							mySkillSector C
+						}
+						InterestPriorityComponentLevel Level
+						{
+							myMinimumLevel 2
+							myMaximumLevel 2
+						}
+					}
+				}
+				InterestPriorityDynamic "Prime - Level 1" < uid=4A79E0E45AC6688100001CBFDF251EE9 > : "Legion Prime (Sector)"
+				{
+					myInterestComponents
+					{
+						InterestPriorityComponentCategory Category
+						{
+							myCategory Prime
+						}
+						InterestPriorityComponentFaction Faction
+						{
+							myFaction Harvester
+						}
+						InterestPriorityComponentStoryAct "Story Act"
+						{
+							myMinAct 4
+						}
+						InterestPriorityComponentWarEffort "War Effort"
+						{
+							myEffortType Alliance
+							myMinThreshold Threshold_25
+						}
+						InterestPriorityComponentUnitInSector "Unit In Sector"
+						{
+							mySkillSector C
+						}
+						InterestPriorityComponentLevel Level
+						{
+							myMinimumLevel 1
+							myMaximumLevel 1
+						}
+					}
+				}
+				InterestPriorityDynamic Dreadnought < uid=4A79E0E45AC6688100001CC1FB23CBC3 > : "Legion Dreadnought (Sector)"
+				{
+					myInterestComponents
+					{
+						InterestPriorityComponentCategory Category
+						{
+							myCategory Dreadnought
+						}
+						InterestPriorityComponentFaction Faction
+						{
+							myFaction Harvester
+						}
+						InterestPriorityComponentStoryAct "Story Act"
+						{
+							myMinAct 3
+						}
+						InterestPriorityComponentUnitInSector "Unit In Sector"
+						{
+							mySkillSector C
+						}
+						InterestPriorityComponentSolvedState Unsolved
+						{
+						}
+					}
+				}
+			}
+		}
+		InterestPriorityBucket "Explore - Planetwide" < uid=4A79E0E45AC789F100001D2F270760A0 >
+		{
+			myInterestList
+			{
+				InterestPriorityDynamic "Goldrush Chest" < uid=4A79E0E45AC789F100001D3039CBF34F > : "Goldrush Chest"
+				{
+					myEnabled TRUE
+					myInterestComponents
+					{
+						InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+						{
+							myAllianceRequirement Either
+						}
+						InterestPriorityComponentCategory Category
+						{
+							myCategory Chest
+						}
+						InterestPriorityComponentSubCategory SubCategory
+						{
+							mySubCategory ChestGoldrush
+						}
+						InterestPriorityComponentStoryAct "Story Act"
+						{
+							myMinAct 2
+						}
+						InterestPriorityComponentStorySection "Story Section"
+						{
+							myStorySections
+							{
+								StorySection "Open Refinery Chest" Act_02_GatherElectrum_GameLoop
+								StorySection "Act 02 Travel To Sonatus" Act_02_Travel_To_Sonatus
+								StorySection "Enable Enter Range Activities Fern" Enable_EnterRangeActivities_Fern
+								StorySection "Alliance Gameloop" Act_04_Alliance_GameLoop
+							}
+						}
+						InterestPriorityComponentSolvedState Unsolved
+						{
+						}
+					}
+					myMinDistance VeryFar
+					myMaxDistance PlanetWide
+					myWeight 10
+					myNeverSkip TRUE
+				}
+				InterestPriorityDynamic "Legion Data Core" < uid=4A79E0E45AC789F100001D312551F911 > : "Legion Data Core"
+				{
+					myMinDistance VeryFar
+					myMaxDistance PlanetWide
+					myWeight 2
+					myNeverSkip TRUE
+				}
+				InterestPriorityDynamic "Warden Puzzle (Unsolved)" < uid=4A79E0E45AC789F100001D329A392AAC > : "Warden Puzzle (Unsolved)"
+				{
+					myMinDistance VeryFar
+					myMaxDistance PlanetWide
+					myWeight 10
+					myNeverSkip TRUE
+				}
+				InterestPriorityDynamic "Goldrush Satellite Array" < uid=4A79E0E45AC789F100001D3386275B2B > : "Goldrush Satellite Array"
+				{
+					myInterestComponents
+					{
+						InterestPriorityComponentCategory Category
+						{
+							myCategory Radar
+						}
+						InterestPriorityComponentSubCategory SubCategory
+						{
+							mySubCategory GoldrushRuin
+						}
+						InterestPriorityComponentSubCategoryVariant "SubCategory Variant"
+						{
+							myVariant 10
+						}
+						InterestPriorityComponentStoryAct "Story Act"
+						{
+							myMinAct 4
+						}
+						InterestPriorityComponentSolvedState "Solved State"
+						{
+						}
+					}
+					myMinDistance VeryFar
+					myMaxDistance PlanetWide
+					myWeight 10
+					myNeverSkip TRUE
+				}
+				InterestPriorityDynamic "Space Chest - Outlaw" < uid=4A79E0E45AC789F100001D34E010912B > : "Space Chest - Outlaw"
+				{
+					myEnabled FALSE
+					myNeverSkip TRUE
+				}
+				InterestPriorityDynamic "Space Chest - TAG" < uid=4A79E0E45AC789F100001D354A236549 > : "Space Chest - TAG"
+				{
+					myEnabled FALSE
+					myNeverSkip TRUE
+				}
+			}
+		}
+	}
+}
+

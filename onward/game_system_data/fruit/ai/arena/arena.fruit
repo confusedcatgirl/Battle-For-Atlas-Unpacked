@@ -1,0 +1,178 @@
+include "onward/game system data/fruit/camera/camera.fruit"
+include "onward/game system data/fruit/story/storyevent.fruit"
+include "onward/game system data/fruit/progression/challenge_types.fruit"
+include "onward/game system data/fruit/Leaderboard/LeaderboardInfo.fruit"
+
+enum OGame_ArenaEventType
+{
+	Undefined
+	Survival
+	Gauntlet
+	Agility_Trial
+	Boss
+}
+
+list IntList
+{
+	int
+}
+
+class ArenaPayload
+{
+	file mySimUnit < bhv=asset assettype="sim unit" >
+	int myCount 1 < tooltip = "[WAVE] Total number of units to spawn.\n[TIMED] Number of units to upkeep at once." >
+	int myMaxSimultaneousActive 999 < tooltip = "[WAVE] Maximum number of units to have active at a time.  If the wave defines additional units, they will be spawned as previous units are killed." >
+	float myRespawnDuration 2.0 < tooltip = "[WAVE] If myCount > myMaxSimultaneousActive, new units will be spawned this many seconds after an old one is killed." >
+	IntList mySpawnLocationIds < tooltip = "Spawn Location IDs to spawn at.  Will be selected from randomly." >
+	bool myMustUseAllLocationsOnce TRUE < tooltip = "If true, all Spawn Location IDs must be used once before any may be re-used." >
+	int mySkillLevelDelta 0 < tooltip="Units will act as if they have this skill level delta as an attacker for damage/impact calculations (added onto the Tier's delta)." >
+}
+
+list ArenaPayloadList
+{
+	ArenaPayload
+}
+
+list ArenaEventTierRefList
+{
+	ArenaEventTier*
+}
+
+class ArenaUnlockRequirements
+{
+	ArenaEventTierRefList myRequiredTierCompletions
+	StoryEvent myRequiredStoryEvent NewGame
+}
+
+class ArenaScoringBonus
+{
+	int myMaxBonusValue							< tooltip="Maximum bonus value we can receive for this bonus" default=0 >
+	float myBonusDeductionPerPenalty			< tooltip="Multiplier applied to "penalty value" when a penalty is applied to the bonus. e.g. for the damage bonus, incoming damage points are multiplied by this value and deducted from the bonus" default=1.0 >
+}
+
+class ArenaEventScoringRules
+{
+	float myXPScoringMultiplier					< tooltip="Globally multiply all XP gains by this value to get scoring points" default=1.0 >
+	float myBonusPenaltyMultiplier				< tooltip=" Multiply all bonus penalties by this value" default=1.0 >
+
+	ArenaScoringBonus myDamageBonus		    	< tooltip="Damage taken bonus. Damage points taken subtract from this bonus" >
+	ArenaScoringBonus myShipUsageBonus			< tooltip="Ship usage bonus. Every ship swap reduces this bonus" >
+	ArenaScoringBonus myTimerBonus				< tooltip="Timer bonus. Every second played reduces this bonus" >
+	int	mySoloBonus								< tooltip="Solo bonus. Playing in coop reduces this bonus" default=2500 >
+}
+
+class ArenaReward
+{
+	string myCompletionDropTable < tooltip="Name of the loot drop table that will be rewarded when the player completes the tier (regardless of score)" >
+	int myScoreThreshold 0 < tooltip="Required score threshold to reward the ScoreReached loot drop" >
+	string myScoreReachedDropTable < tooltip="Name of the loot drop table that will be rewarded when the player completes the tier with a score above the defined threshold" >
+	string myLootDropTableName < tooltip="[DEPRECATED]" >
+}
+
+class ArenaReinforcement
+{
+	float myHealthPercent 0.0 < tooltip="Percent health [0-1] that this reinforcement payload is triggered." >
+	ArenaPayloadList myPayloads
+}
+
+list ArenaReinforcementList
+{
+	ArenaReinforcement
+}
+
+class ArenaEventTier < uid=auto >
+{
+	OGame_ArenaEventType myEventType		< default = Undefined >
+	ArenaPayloadList myHazards
+	ArenaUnlockRequirements myUnlockRequirements
+	ArenaReward myReward
+	ChallengeType myCompletionChallenge
+	ChallengeType myScoreReachedChallenge
+	LeaderboardInfo* myLeaderboard
+	GameToStoryEvent myBeginStoryEvent NONE < tooltip="G2S event fired when event is started" >
+	GameToStoryEvent myWonStoryEvent NONE < tooltip="G2S event fired when event is completed/won" >
+	GameToStoryEvent myEndStoryEvent NONE < tooltip="G2S event fired when the tier ends" >
+	CameraMode myOutroCameraMode ArenaOutro
+	float myIntroFadeOutDurationSeconds 1.0 < tooltip="Duration of fade-out before teleporting to waiting room" >
+	float myIntroFadeInDurationSeconds 1.0 < tooltip="Duration of fade-in after teleporting to waiting room" >
+	float myPreEventPaddingSeconds 1.5 < tooltip="Padding after teleport/fade in at the start of an event before the announcer kicks in" >
+	float myWaitingRoomMinWaitSeconds 12.5 < tooltip="Minimum duration inside the waiting room before the doors open to the arena.  NOTE: This can be tuned around announcer VO duration but the doors also will not open until hazard loading is complete." >
+	float myOutroCameraDuration 5.0
+	float myPostEventPaddingSeconds 5.0 < tooltip="Padding after an event is complete before the outro camera / celebration begins." >
+	int mySkillLevelDelta 0 < tooltip="Units will act as if they have this skill level delta as an attacker for damage/impact calculations (added onto the individual Payload's delta)." >
+	ArenaEventScoringRules myScoringRules
+	string myTrophySprite < default = "mySpriteId = -455779427, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-placeholder.spritesheet\"" bhv="sprite" >
+}
+
+class ArenaGauntletRound
+{
+	float myCameraDuration 0.0 < tooltip="Duration of round begin camera, in seconds" >
+	float myPostRoundPadding 0.0 < tooltip="Time after this round ends (in seconds) before next round begins" >
+	CameraMode myCameraType Default < tooltip="Camera to trigger on round begin.  No camera is triggered if set to 'Default'." >
+	vec3f myCameraTeleportLocalOffset 0.0;0.0;0.0 < tooltip="Local offset (of arena controller) to which players are teleported during round begin camera.  No teleport will happen if this is 0." >
+	ArenaEventTier* myEvent
+}
+
+list ArenaGauntletRoundList
+{
+	ArenaGauntletRound
+}
+
+class ArenaWave
+{
+	float mySpawnDuration 3.0 < tooltip="Units will spawn over this duration" >
+	ArenaPayloadList myPayloads
+}
+
+list ArenaWaveList
+{
+	ArenaWave
+}
+
+class WaveEventTier : ArenaEventTier
+{
+	float mySecondsBetweenWaves 10.0
+	ArenaWaveList myWaves
+}
+
+class ArenaTimeBracket
+{
+	float myMinTimeSeconds 0.0
+	float myMaxTimeSeconds 0.0
+	float mySpawnFrequencySeconds 5.0 < tooltip="Units may only spawn this often" >
+	float myRespawnDuration 5.0 < tooltip="A unit that is killed will respawn after this duration" >
+	ArenaPayloadList myPayloads
+}
+
+list ArenaTimeBracketList
+{
+	ArenaTimeBracket
+}
+
+class TimedEventTier : ArenaEventTier
+{
+	float myDurationSeconds 300.0
+	ArenaTimeBracketList myTimeBrackets
+}
+
+class BossEventTier : ArenaEventTier
+{
+	ArenaPayload myPayload
+	ArenaReinforcementList myReinforcements
+}
+
+class GauntletEventTier : ArenaEventTier
+{
+	float mySecondsBetweenEvents 10.0 < tooltip="[DEPRECATED]">
+	ArenaEventTierRefList myEvents < tooltip="[DEPRECATED]">
+	ArenaGauntletRoundList myRounds
+}
+
+class ArenaEvent < uid=auto >
+{
+	ArenaEventTierRefList myTiers
+	varmap myLocalizedName < bhv="localization" >
+	varmap myLocalizedDescription < bhv="localization" >
+	string mySprite < default = "mySpriteId = -455779427, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-placeholder.spritesheet\"" bhv="sprite" >
+	OGame_ArenaEventType myEventType			< default Undefined >
+}

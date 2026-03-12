@@ -1,0 +1,23 @@
+include "onward/game system data/fruit/sim/simunit.fruit"
+
+SimUnit Sidestory001_Sequence05_HoopBoundCorruptedNova < uid=0A13A8F05B0DAA670198AB17BAC5D0D7 >
+{
+	myUIName "contextComment = '[Placeholder - do not translate] Name shown when targeting a \"corrupted Nova\" crystal formation of the heat type. It can be broken with cold weapons to produce a heat corrupted nova pickup the player can tow.', description = \"pickup-base-infused-heat\", enabled = true, guid = #CC9485AB5B452BC1000024FBC4B322C2, lineVersion = 0, maxLength = 25, text = \"Heat Corrupted Nova\""
+	myFaction Unaligned
+	myCategory StoryTarget
+	mySubCategoryVariant 100504
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo "New SimUnitEntitySpawnInfo (0)" < uid=0A13A8F05B0DAA670198AB182263BE5C >
+		{
+			myCountMin 1
+			myCountMax 1
+			myIgnoreNavMesh TRUE
+			myIgnoreTerrain TRUE
+			myEntityFile "onward/entity templates/pickup_electrum_infused_base_heat.mentitytemplate"
+		}
+	}
+	myUnkillableUntilEvent NewGame
+	myUnRealizableUntilEvent SideStory001_Seq05_PuzzleInit
+}
+

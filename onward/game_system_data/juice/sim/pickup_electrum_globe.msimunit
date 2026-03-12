@@ -1,0 +1,27 @@
+include ./pickup_base.msimunit
+
+SimUnit pickup_electrum_globe < uid=D1E9B2CB58DAB555000003716827190D > : pickup_base
+{
+	myUIName "contextComment = \"[Placeholder - do not translate] HUD name shown when aiming at an Electrum Globe\", description = \"ui-target-pickup-electrum-globe\", enabled = true, guid = #C92F4D3F5980C3F2003500E3509F16C9, lineVersion = 0, maxLength = 18, text = \"Electrum Globe\""
+	myControlGraph ""
+	mySubCategory ElectrumGlobe
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo "Electrum Globe" < uid=C92F4D3F5980C2200000017BD1017D19 >
+		{
+			myCountMin 1
+			myCountMax 1
+			myIgnoreHealth FALSE
+			myIgnoreNavMesh TRUE
+			myIgnoreTerrain TRUE
+			myEntityFile "onward/entity templates/pickup_electrum_globe.mentitytemplate"
+		}
+	}
+	mySaveable FALSE
+	mySkillLevelCoefficients
+	{
+		myPlanetActMultiplier 0
+		myParentSkillLevelMultiplier 1
+	}
+}
+

@@ -1,0 +1,279 @@
+include "onward/game system data/fruit/attributes/attributes.fruit"
+include "onward/entity templates/definitions/ShipPart.fruit"
+include "onward/game system data/fruit/progression/reward.fruit"
+include "onward/game system data/fruit/buffs/buff.fruit"
+include "onward/game system data/fruit/health/DamageModifiers.fruit"
+include "onward/game system data/fruit/health/DamageAffectors.fruit"
+include "onward/game system data/fruit/physics/ImpactAffectors.fruit"
+include "onward/game system data/fruit/progression/challenges.fruit"
+include "onward/game system data/fruit/entity/faction.fruit"
+include "onward/game system data/fruit/mods/paintjob.fruit"
+
+list PartTypes
+{
+	PartType
+}
+
+list PartFlavorTypes
+{
+	PartFlavorType
+}
+
+list DeploymentTypes
+{
+	DeploymentType
+}
+
+enum ModActivationType
+{
+	OnEquip
+	OnCold
+	OnHeat
+	OnShieldDown
+}
+
+list ModActivationTypes
+{
+	ModActivationType
+}
+
+enum ModRarityType
+{
+	Common
+	Uncommon
+	Rare
+	Epic
+	Legendary
+	Warden
+	UbiClub
+}
+
+class ModFusionCost
+{
+	int myLevel 1
+	int myCost 0
+}
+
+class Mod < uid=auto >
+{
+	AttributeMods myAttributeMods
+}
+
+class NPCMod : Mod
+{
+}
+
+class PlayerMod : Mod
+{
+	bool myIsSelfMod false < tooltip="Whether the mod only applies to the part it's equipped on" >
+	bool myIsAgentMod false < tooltip="Whether the mod applies to the player's attributes eg. for health" >
+	PartTypes myPartTypes
+	PartFlavorTypes myPartFlavors
+	DeploymentTypes myDeployments
+	PartTypes myEquipPartTypes
+	PartFlavorTypes myEquipPartFlavors
+	DeploymentTypes myEquipDeployments
+	AttributeMods myAttributeMods
+}
+
+enum ModTrackType
+{
+	Flight
+	Energy
+	Defense
+	HeatArmour
+	ColdArmour
+	DimensionalArmour
+	ExperienceBoosterShip
+	Damage
+	AttackSpeed
+	HeatBooster
+	ColdBooster
+	GravityBooster
+	StasisBooster
+	ExperienceBoosterPod
+	ShipWardenTrackOne
+	ShipWardenTrackTwo
+	ShipWardenTrackThree
+	ShipWardenTrackFour
+	ShipUbiClubTrackOne
+	ShipUbiClubTrackTwo
+	ShipUbiClubTrackThree
+	PodWardenTrackOne
+	PodWardenTrackTwo
+	PodWardenTrackThree
+	PodWardenTrackFour
+	PodUbiClubTrackOne
+	PodUbiClubTrackTwo
+	PodUbiClubTrackThree
+	PaintJob
+}
+
+enum EnhancementTrackType
+{
+	// Armour
+	HeatArmour
+	ColdArmour
+	GravityArmour
+	StasisArmour
+	DeflectionArmour
+	ScrapperArmour
+	ExplorerArmour
+	TemplarArmour
+	OutlawArmour
+	ExpeditionArmour
+	ProspectorArmour
+	AllianceArmour
+	WardenArmour
+	// Ship Core
+	RacerShipCore
+	StuntShipCore
+	DefenderShipCore
+	FighterShipCore
+	CommanderShipCore
+	AllianceShipCore
+	WardenShipCore
+	ElementalShipCore
+	NovaShipCore
+	DreadnoughtShipCore
+	// Weapon Core
+	AssaultWeaponCore
+	OperatorWeaponCore
+	SniperWeaponCore
+	GunnerWeaponCore
+	RevenantWeaponCore
+	FireWeaponCore
+	IceWeaponCore
+	GravityWeaponCore
+	StasisWeaponCore
+	AllianceWeaponCore
+	WardenWeaponCore
+	// Boosters
+	AllianceShipMod
+	AllianceWeaponMod
+	ColdResistShipMod
+	ColdSEResistShipMod
+	ColdWeaponMod
+	DefenseShipMod
+	EnergyRegenShipMod
+	EnergyShipMod
+	EnergyWeaponMod
+	ExperienceShipMod
+	ExperienceWeaponMod
+	GravityResistShipMod
+	GravitySEResistShipMod
+	GravityWeaponMod
+	HandlingShipMod
+	HealthDropWeaponMod
+	HealthRegenShipMod
+	HeatResistShipMod
+	HeatSEResistShipMod
+	HeatWeaponMod
+	HoverShipMod
+	ImpactShipMod
+	ImpactWeaponMod
+	KineticResistShipMod
+	KineticWeaponMod
+	LastStandShipMod
+	PilotAbilityShipMod
+	RangeWeaponMod
+	RateOfFireWeaponMod
+	RecoilWeaponMod
+	SpeedShipMod
+	StasisWeaponMod
+	WardenShipRelic
+	WardenWeaponRelic
+	WardenWeaponMod
+	WardenShipMod
+	//Paint Jobs
+	ShipPaintJobMod
+	Unknown
+}
+
+list TrackModList
+{
+	PlayerMod*
+}
+
+class ModTrack
+{
+	ModTrackType myTrackType
+	TrackModList myTrackMods
+}
+
+enum EnhancementType
+{
+	WeaponCore
+	ShipCore
+	Armour
+	Mod
+	PaintJob
+	Unknown
+}
+
+
+class Enhancement < uid=auto >
+{
+	varmap myLocalizedName < bhv = "localization" >
+	varmap myLocalizedDescription < bhv = "localization" >
+	string myIconSprite < bhv="sprite" >
+	varmap mySpecialNotes < bhv = "localization" >
+	color mySpecialNotesColor
+	bool myIsUbiClub
+	bool myIsHullEnhancement
+	ModRarityType myRarity
+	int myLevel
+	ChallengeType myOnAcquiredChallenge
+
+	PartFlavorType myPartFlavor Unknown
+	FactionType myFactionType Unaligned
+	PlayerMod* myMod
+	Buff* myBuff
+	PaintJob* myPaintJob
+	EnhancementType myEnhancementType Unknown
+	EnhancementTrackType myEnhancementTrackType Unknown
+	DamageAffectorList myDamageAffectors
+	ImpactAffectorList myImpactAffectors
+	ProgressionRewardList myRewardsOnAcquisition
+}
+
+class EnhancementLevelBase
+{
+	int myLevel
+	PlayerMod* myMod
+}
+
+list EnhancementLevelBaseList
+{
+	EnhancementLevelBase
+}
+
+class EnhancementTypeBase
+{
+	EnhancementType myType
+	EnhancementLevelBaseList myLevels
+}
+
+class EnhancementTrackBase
+{
+	EnhancementTrackType myTrackType
+	PlayerMod* myMod
+}
+
+class EnhancementCloningCost
+{
+	ModRarityType myRarity
+	int myElectrumCost
+	int myNovaCost
+}
+
+class EnhancementFusionCost
+{
+	int myElectrumCost
+	int myNovaCost
+}
+
+list EnhancementList
+{
+	Enhancement*
+}

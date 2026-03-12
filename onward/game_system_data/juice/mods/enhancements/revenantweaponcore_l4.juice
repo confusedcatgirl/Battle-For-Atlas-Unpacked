@@ -1,0 +1,26 @@
+include ./templates/template_l4.juice
+include ./damageaffectors/damage_affectors.juice
+include "onward/game system data/juice/mods/mod_revenant_weaponcore_l4.mplayermod"
+
+Enhancement revenantweaponcore_l4 < uid=C91BB5515981ECC90020F7115BD066FE > : "Level 4"
+{
+	myLocalizedName "contextComment = \"[Placeholder - do not translate]\nName for level 4 version of Revenant Weapon Core, which leeches off damaged enemies to heal/recharge the player\", description = \"\", enabled = true, guid = #C91BB5515981ECC90020F7104902F0C7, lineVersion = 2, maxLength = 22, text = \"Commander Ammo IV\""
+	myLocalizedDescription "contextComment = \"[Placeholder - do not translate]\nDescription for level 4 version of Revenant Weapon Core, which leeches off damaged enemies to heal/recharge the player\", description = \"enhancement-description-revenant-weapon-core-4\", enabled = true, guid = #9E6AFEDA59D80670000000B3F66F4B74, lineVersion = 2, maxLength = 101, text = \"+40% Damage\n+50 Fire Rate\n+25% Damage near Allies\nDamage charges weapon energy\""
+	myIconSprite "mySpriteId = -1172704357, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-mods-weapon-core.spritesheet\""
+	myMod < uid=C91BB5515981ECC90020F712BFFDA264 > = mod_revenant_weaponcore_l4
+	myBuff < uid=C91BB5515981ECC90020F713D3F9AE80 > = NULLREFERENCE
+	myEnhancementType WeaponCore
+	myEnhancementTrackType RevenantWeaponCore
+	myDamageAffectors
+	{
+		DamageAffector_DamageToEnergy "Damage to Energy"
+		{
+			myDamageToEnergyRatio = Revenant_WeaponCore_l4_DmgToEnergy
+		}
+		DamageAffector_DamageBoostAroundAllies "Damage boost around Allies"
+		{
+			myDamageMultiplier = Revenant_WeaponCore_l4_ExtraDamage
+		}
+	}
+}
+

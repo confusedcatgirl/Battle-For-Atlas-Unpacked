@@ -1,0 +1,30 @@
+include ./template_shipcore.mplayermod
+include ./tuning/mod_tuning_master.juice
+
+PlayerMod mod_deflection_armour_l5 < uid=C91BB551597F9BC500164775E0C2DE5E > : template_shipcore
+{
+	myAttributeMods
+	{
+		AttributeMod "Deflect Projectiles Chance"
+		{
+			myType DeflectProjectiles_Chance
+			myAddValue = Deflection_Armor_l5_DeflectionChance
+		}
+		AttributeMod Defense
+		{
+			myType PartStat_Defense
+			myAddValue = Deflection_Armor_l5_Defense
+		}
+		AttributeMod "Collision Protection"
+		{
+			myType Player_CollisionProtection
+			myAddValue = Deflection_Armor_l5_ImpactProtection
+		}
+		AttributeMod ParryDamage
+		{
+			myType Player_ParryDamage
+			myAddValue = Deflection_Armor_l5_DeflectionDmg
+		}
+	}
+}
+

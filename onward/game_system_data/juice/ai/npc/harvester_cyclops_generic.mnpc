@@ -1,0 +1,87 @@
+include ./harvester_cyclops_base.mnpc
+include onward/skillscripts/npc_controller_context_harvester_cyclops_generic_dash.mskillscriptjuice
+include onward/skillscripts/npc_controller_context_harvester_cyclops_generic_jump.mskillscriptjuice
+include onward/skillscripts/harvester_cyclops_generic_gatling.mskillscriptjuice
+include onward/skillscripts/npc_controller_context_harvester_cyclops_generic_stumble.mskillscriptjuice
+include onward/skillscripts/npc_controller_context_harvester_cyclops_world_entry.mskillscriptjuice
+include onward/skillscripts/npc_controller_context_dormant.mskillscriptjuice
+
+NPC harvester_cyclops_generic < uid=C92F4D3F56CDF6D000000074F67F8699 > : harvester_cyclops_base
+{
+	myUIName "contextComment = \"The UI Name for the Cyclops\", description = \"uiname-harvester-cyclops-generic\", enabled = true, guid = #93869D535AB14FD500001D1079641A42, lineVersion = 0, maxLength = 11, text = \"Cyclops\""
+	myGibSettings
+	{
+		myLifetime 15.0
+		myInitialSpeed 30.0
+		myGibTemplates
+		{
+			file "New file (0)" "onward/entity templates/harvester_cyclops_forearm_GIBS.mentitytemplate"
+			file "New file (2)" "onward/entity templates/harvester_cyclops_hand_GIBS.mentitytemplate"
+			file "New file (3)" "onward/entity templates/harvester_cyclops_head_GIBS.mentitytemplate"
+			file "New file (0)" "onward/entity templates/harvester_cyclops_leftleg_GIBS.mentitytemplate"
+			file "New file (1)" "onward/entity templates/harvester_cyclops_shin_right_GIBS.mentitytemplate"
+			file "New file (2)" "onward/entity templates/harvester_cyclops_thigh_right_GIBS.mentitytemplate"
+			file "New file (3)" "onward/entity templates/harvester_cyclops_torso_GIBS.mentitytemplate"
+			file "New file (7)" "onward/entity templates/harvester_01_gun_gibs.mentitytemplate"
+			file "New file (8)" "onward/entity templates/harvester_01_headplate_gibs.mentitytemplate"
+		}
+	}
+	myHealthConfig < uid=4A8282B959F8E73500001DBAB684796E > = "harvester_cyclops_generic Health"
+	myAbilityDefinitions
+	{
+		NPCAbilityDefinition "Primary Attack - Gatling"
+		{
+			myGameAction NPC_Ability1
+			mySkillScript < uid=C92F4D3F578CF19A016256EC8B2CF055 > = harvester_cyclops_generic_gatling
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_harvester_cyclops_generic_gatling.juice"
+		}
+	}
+	myControllerContextDefinitions
+	{
+		ControllerContextDefinition Dash
+		{
+			myContextType Dash
+			mySkillScript < uid=C92F4D3F57911B880000009F97C2F17D > = npc_controller_context_harvester_cyclops_generic_dash
+		}
+		ControllerContextDefinition Leap
+		{
+			myContextType SuperJump
+			mySkillScript < uid=C92F4D3F5792232D0000008717AC47F8 > = npc_controller_context_harvester_cyclops_generic_jump
+		}
+		ControllerContextDefinition Stumble
+		{
+			myContextType Stumble
+			mySkillScript < uid=C92F4D3F57AE04D2000000A41C2E4779 > = npc_controller_context_harvester_cyclops_generic_stumble
+		}
+		ControllerContextDefinition "World Entry"
+		{
+			myContextType WorldEntry
+			mySkillScript < uid=C92F4D3F58249A5400045D710263726D > = npc_controller_context_harvester_cyclops_world_entry
+		}
+		ControllerContextDefinition Dead
+		{
+			myContextType Dead
+			mySkillScript < uid=4A8282B95AB3FD2C00277D53298E8608 > = npc_controller_context_harvester_cyclops_generic_dead
+		}
+		ControllerContextDefinition Dormant
+		{
+			myContextType Dormant
+			mySkillScript < uid=C92F4D3F5B295A8200002253E5AFCDCB > = npc_controller_context_dormant
+		}
+	}
+	myResistanceSettings "onward/game system data/juice/ai/resistance/generic_affinity_resistance.juice"
+	myAttributeSettings "onward/game system data/juice/ai/attributes/harvester_cyclops.juice"
+	myDropTableOnDamage ""
+	myDamageDropInterval 1.0
+	myDamageDropOnWeakness TRUE
+	myBreakElectrumOnWeakness TRUE
+	mySquadSettings "onward/game system data/juice/ai/squad/cyclops_squad_with_imps.juice"
+	myDefaultFootstepEvent 453207700794BDAE48E921B672B3A79D
+	myDamageReactionSettings "onward/game system data/juice/ai/reactions/damage_reactions_harvester_cyclops_generic.juice"
+	myOnDeathChallenge Death_CyclopsGeneric
+	myOnDiscoveredChallenge Discover_CyclopsGeneric
+	myHackLevel 1
+	mySkillLevelOffset -1
+}
+

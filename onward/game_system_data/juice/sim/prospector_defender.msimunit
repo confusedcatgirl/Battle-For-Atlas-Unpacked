@@ -1,0 +1,30 @@
+include ./faction_unit_base.msimunit
+
+SimUnit "Prospector Defender" < uid=C92F4D3F5730AD1A00000087ACD6B439 > : faction_unit_base
+{
+	myUIName "contextComment = \"The UI name for the Prospector Defender\", description = \"uiname-prospector-defender\", enabled = true, guid = #1ABBD50B58B479D9000307212CF76CE8, lineVersion = 0, maxLength = 25, text = \"Prospector Defender\""
+	myBehavior onward/simworld/behavior/prospector_defender.msimunitbtgraph
+	myControlGraph ""
+	myFaction Prospector
+	myCategory NPC
+	mySubCategory Defender
+	myMaxHealth 200.0
+	myRadius 6.0
+	mySpeed 25.0
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo Defender < uid=1E68E535599C7F6B000216B54988AC0C >
+		{
+			myCountMin 1
+			myCountMax 1
+			myEntityFile "onward/game system data/juice/ai/npc/prospector_defender.mnpc"
+		}
+	}
+	myUnlockedChallengeType Discover_ProspectorDefender
+	myInterestSettings
+	{
+		myIsEnabled TRUE
+	}
+	myMissionTargetTexture onward/baked/textures/UI/icons/outpost_targets/outpost_target_sim_unit/ui-icon-outpost-target-defend-worker-defense-base.dds
+}
+

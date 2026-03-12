@@ -1,0 +1,23 @@
+include ./templates/template_l3.juice
+include "onward/game system data/juice/mods/mod_stasis_weaponcore_l3.mplayermod"
+include ./damageaffectors/damage_affectors.juice
+
+Enhancement stasisweaponcore_l3 < uid=C91BB55159822B9F0008849833AAB191 > : "Level 3"
+{
+	myLocalizedName "contextComment = \"[Placeholder - do not translate]\nName for level 3 version of a weapon core that boosts Stasis-type (anti-gravity) weapons\", description = \"\", enabled = true, guid = #C91BB55159822B9F0008849725D66FBB, lineVersion = 2, maxLength = 20, text = \"Stasis Ammo III\""
+	myLocalizedDescription "contextComment = \"[Placeholder - do not translate]\nDescription for level 3 version of a weapon core that boosts Stasis-type (anti-gravity) weapons\", description = \"enhancement-description-stasis-weapon-core-3\", enabled = true, guid = #9E6AFEDA59D80BEC000001334E05D812, lineVersion = 2, maxLength = 116, text = \"+60% Damage\n+35% Damage against Lifted targets\n+10% Weapon Range\nEquip on a Stasis Weapon\""
+	myIconSprite "mySpriteId = 255112521, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-mods-weapon-core.spritesheet\""
+	myPartFlavor Lift
+	myMod < uid=C91BB55159822B9F0008849905D378F8 > = mod_stasis_weaponcore_l3
+	myEnhancementType WeaponCore
+	myEnhancementTrackType StasisWeaponCore
+	myDamageAffectors
+	{
+		DamageAffector_StatusEffect "Extra Damage against Stasis"
+		{
+			myDamageMultiplier = Stasis_WeaponCore_l3_ExtraDamage
+			myStatusEffectType Stasis
+		}
+	}
+}
+

@@ -1,0 +1,32 @@
+include ./template_pod.mplayermod
+
+PlayerMod harvester_imp_generic_increase_mass < uid=4A8282B9579A702F000000C560A0C32C > : template_pod
+{
+	myIcon "onward/baked/textures/ui/pilot_skills/ui_pilotskills_icon_locked7.dds"
+	myIsSelfMod TRUE
+	myPartTypes
+	{
+		PartType Hull Hull
+		PartType Wing Wing
+		PartType Pod Pod
+	}
+	myEquipPartTypes
+	{
+		PartType Hull Hull
+		PartType Wing Wing
+		PartType Pod Pod
+	}
+	myAttributeMods
+	{
+		AttributeMod Mass
+		{
+			myType PartStat_Mass
+			myAddValue 1500.0
+		}
+	}
+	myActivationTypes
+	{
+		ModActivationType OnEquip OnEquip
+	}
+}
+

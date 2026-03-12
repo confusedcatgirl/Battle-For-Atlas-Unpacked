@@ -1,0 +1,33 @@
+include ./templates/template_l5.juice
+include "onward/game system data/juice/mods/mod_alliance_shipcore.mplayermod"
+include ./damageaffectors/damage_affectors.juice
+
+Enhancement allianceshipcore < uid=C91BB551597F6E3400504844B9656ADD > : "Level 5"
+{
+	myLocalizedName "contextComment = \"[Placeholder - do not translate]\nName for unique Ship Core the player receives for building up a large alliance across Atlas\", description = \"\", enabled = true, guid = #C91BB551597F6E3400504843370DD7BD, lineVersion = 1, maxLength = 30, text = \"Alliance Ship Core\""
+	myLocalizedDescription "contextComment = \"[Placeholder - do not translate]\nDescription for unique Ship Core the player receives for building up a large alliance across Atlas\", description = \"enhancement-description-alliance-ship-core\", enabled = true, guid = #9E6AFEDA59DCE5C30006ADC8C59F2AA7, lineVersion = 3, maxLength = 155, text = \"+125% Pilot Ability recharge speed\n+75% Damage near Allies\n+100% Damage to neabry Allies\n+75% Damage for 5s after Parry\""
+	myIconSprite "mySpriteId = -1255559407, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-mods-ship-core.spritesheet\""
+	myIsHullEnhancement TRUE
+	myMod < uid=C91BB551597F6E3400504845208CE7BF > = mod_alliance_shipcore
+	myBuff < uid=C91BB551597F6E34005048464CD898B6 > = NULLREFERENCE
+	myEnhancementType ShipCore
+	myEnhancementTrackType AllianceShipCore
+	myDamageAffectors
+	{
+		DamageAffector_DamageBoostAroundAllies "Dmg Boost Near ALlies"
+		{
+			myDamageMultiplier = Alliance_Core_l5_DmgAllies
+		}
+		DamageAffector_FriendlyDamageBoost "Dmg Boost for Allies"
+		{
+			myDamageMultiplier = Alliance_Core_l5_DmgToAllies
+			myDistanceThreshold 500.0
+		}
+		DamageAffector_PlayerDamageBoostOnParry "Damage Boost on Parry"
+		{
+			myDamageMultiplier = Alliance_Core_l5_ParryDamage
+			myDamageBoostTime 5.0
+		}
+	}
+}
+

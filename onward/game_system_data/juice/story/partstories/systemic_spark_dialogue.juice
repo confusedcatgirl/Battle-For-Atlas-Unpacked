@@ -1,0 +1,587 @@
+include "onward/game system data/fruit/story/storydataactions.fruit"
+include "onward/game system data/fruit/ui/uifeatures.fruit"
+include "onward/game system data/fruit/input/gameinput.fruit"
+include "onward/game system data/fruit/story/storydata.fruit"
+include "onward/game system data/juice/sim/expedition_spark_landmark_systemic_01.msimunit"
+include "onward/game system data/juice/sim/rse_expedition_rift_overload_spark001.msimunit"
+include "onward/game system data/juice/sim/rse_expedition_rift_overload_spark002.msimunit"
+include "onward/game system data/juice/sim/rse_expedition_rift_overload_spark003.msimunit"
+include "onward/game system data/juice/sim/rse_expedition_rift_overload_spark004.msimunit"
+include "onward/game system data/juice/sim/rse_expedition_rift_overload_spark005.msimunit"
+include "onward/game system data/juice/sim/rse_expedition_rift_overload_spark006.msimunit"
+include "onward/game system data/juice/sim/rse_expedition_rift_overload_spark007.msimunit"
+include "onward/game system data/juice/sim/rse_expedition_rift_overload_spark009.msimunit"
+include "onward/game system data/juice/sim/rse_expedition_rift_overload_spark010.msimunit"
+include "onward/game system data/juice/sim/rse_expedition_rift_overload_spark011.msimunit"
+include "onward/game system data/juice/sim/rse_expedition_rift_overload_spark012.msimunit"
+include "onward/game system data/juice/sim/rse_expedition_rift_overload_spark013.msimunit"
+include "onward/game system data/juice/sim/rse_expedition_rift_overload_spark014.msimunit"
+include "onward/game system data/juice/sim/rse_expedition_rift_overload_spark015.msimunit"
+include "onward/game system data/juice/sim/rse_expedition_rift_overload_spark016.msimunit"
+include "onward/game system data/juice/sim/rse_expedition_rift_overload_spark017.msimunit"
+include "onward/game system data/juice/sim/rse_expedition_rift_overload_spark018.msimunit"
+include "onward/game system data/juice/sim/rse_expedition_rift_overload_spark019.msimunit"
+include "onward/game system data/juice/sim/rse_expedition_rift_overload_spark020.msimunit"
+
+StoryBeatSequence "Systemic Spark Dialogues" < uid=9FD9E8185C097DF8000000858614B2E6 >
+{
+	myStoryBeats
+	{
+		StoryBeatData "Empty Checkpoint Beat" < uid=600A30F35C65C47C0000003AE6EBB9B0 >
+		{
+		}
+		StoryBeatData "Starting Beat" < uid=9FD9E8185C097DF800000086026C0C80 >
+		{
+			myIsCheckpoint TRUE
+			myStoryDataActions
+			{
+				StoryDataAction_SetObjectiveBlockEnabled "Disable Objective Block"
+				{
+				}
+			}
+		}
+		StoryBeatData Dialogues < uid=9FD9E8185C097E1B0000008796FFBFC8 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_ConditionalAction "Dialogue Sequence 1"
+				{
+					myForceCompleteOptions
+					{
+						myEnabled TRUE
+						myEvaluateOnce TRUE
+						myCompleteOnSolveSimAsset < uid=CC9485AB5C648E2D000003C58DC214B2 > = RSE_expedition_rift_overload_Spark001
+					}
+					myConditionalActions
+					{
+						StoryDataAction_WaitForTargetSolved "Systemic Spark 1 Solved"
+						{
+							myObjectiveAutoRemoves FALSE
+							mySimUnitAsset < uid=CC9485AB5C648584000003C4B7511752 > = RSE_expedition_rift_overload_Spark001
+						}
+					}
+					myOutcomeActions
+					{
+						StoryDataAction_Dialog "Dialogue Payload"
+						{
+							myDialogSequenceID 1
+							myDialogStoryFlowID 97
+						}
+					}
+					myBlockUpdateWhenComplete TRUE
+				}
+				StoryDataAction_ConditionalAction "Dialogue Sequence 2"
+				{
+					myForceCompleteOptions
+					{
+						myEnabled TRUE
+						myEvaluateOnce TRUE
+						myCompleteOnSolveSimAsset < uid=CC9485AB5C648E2D000003C691B412A2 > = RSE_expedition_rift_overload_Spark002
+					}
+					myConditionalActions
+					{
+						StoryDataAction_WaitForTargetSolved "Systemic Spark 2 Solved"
+						{
+							myObjectiveAutoRemoves FALSE
+							mySimUnitAsset < uid=CC9485AB5C648584000003C4B7511752 > = RSE_expedition_rift_overload_Spark002
+						}
+					}
+					myOutcomeActions
+					{
+						StoryDataAction_Dialog "Dialogue Payload"
+						{
+							myDialogSequenceID 2
+							myDialogStoryFlowID 97
+						}
+					}
+					myBlockUpdateWhenComplete TRUE
+				}
+				StoryDataAction_ConditionalAction "Dialogue Sequence 3"
+				{
+					myForceCompleteOptions
+					{
+						myEnabled TRUE
+						myEvaluateOnce TRUE
+						myCompleteOnSolveSimAsset < uid=CC9485AB5C648E2D000003C76963F8E1 > = RSE_expedition_rift_overload_Spark003
+					}
+					myConditionalActions
+					{
+						StoryDataAction_WaitForTargetSolved "Systemic Spark 3 Solved"
+						{
+							myObjectiveAutoRemoves FALSE
+							mySimUnitAsset < uid=CC9485AB5C648584000003C4B7511752 > = RSE_expedition_rift_overload_Spark003
+						}
+					}
+					myOutcomeActions
+					{
+						StoryDataAction_Dialog "Dialogue Payload"
+						{
+							myDialogSequenceID 3
+							myDialogStoryFlowID 97
+						}
+					}
+					myBlockUpdateWhenComplete TRUE
+				}
+				StoryDataAction_ConditionalAction "Dialogue Sequence 4"
+				{
+					myForceCompleteOptions
+					{
+						myEnabled TRUE
+						myEvaluateOnce TRUE
+						myCompleteOnSolveSimAsset < uid=CC9485AB5C648E2D000003C856B79918 > = RSE_expedition_rift_overload_Spark004
+					}
+					myConditionalActions
+					{
+						StoryDataAction_WaitForTargetSolved "Systemic Spark 4 Solved"
+						{
+							myObjectiveAutoRemoves FALSE
+							mySimUnitAsset < uid=CC9485AB5C648584000003C4B7511752 > = RSE_expedition_rift_overload_Spark004
+						}
+					}
+					myOutcomeActions
+					{
+						StoryDataAction_Dialog "Dialogue Payload"
+						{
+							myDialogSequenceID 4
+							myDialogStoryFlowID 97
+						}
+					}
+					myBlockUpdateWhenComplete TRUE
+				}
+				StoryDataAction_ConditionalAction "Dialogue Sequence 5"
+				{
+					myForceCompleteOptions
+					{
+						myEnabled TRUE
+						myEvaluateOnce TRUE
+						myCompleteOnSolveSimAsset < uid=CC9485AB5C648E2D000003C9CB4D70F8 > = RSE_expedition_rift_overload_Spark005
+					}
+					myConditionalActions
+					{
+						StoryDataAction_WaitForTargetSolved "Systemic Spark 5 Solved"
+						{
+							myObjectiveAutoRemoves FALSE
+							mySimUnitAsset < uid=CC9485AB5C648584000003C4B7511752 > = RSE_expedition_rift_overload_Spark005
+						}
+					}
+					myOutcomeActions
+					{
+						StoryDataAction_Dialog "Dialogue Payload"
+						{
+							myDialogSequenceID 5
+							myDialogStoryFlowID 97
+						}
+					}
+					myBlockUpdateWhenComplete TRUE
+				}
+				StoryDataAction_ConditionalAction "Dialogue Sequence 6"
+				{
+					myForceCompleteOptions
+					{
+						myEnabled TRUE
+						myEvaluateOnce TRUE
+						myCompleteOnSolveSimAsset < uid=CC9485AB5C648E2D000003CAFA5D4A31 > = RSE_expedition_rift_overload_Spark006
+					}
+					myConditionalActions
+					{
+						StoryDataAction_WaitForTargetSolved "Systemic Spark 6 Solved"
+						{
+							myObjectiveAutoRemoves FALSE
+							mySimUnitAsset < uid=CC9485AB5C648584000003C4B7511752 > = RSE_expedition_rift_overload_Spark006
+						}
+					}
+					myOutcomeActions
+					{
+						StoryDataAction_Dialog "Dialogue Payload"
+						{
+							myDialogSequenceID 6
+							myDialogStoryFlowID 97
+						}
+					}
+					myBlockUpdateWhenComplete TRUE
+				}
+				StoryDataAction_ConditionalAction "Dialogue Sequence 7"
+				{
+					myForceCompleteOptions
+					{
+						myEnabled TRUE
+						myEvaluateOnce TRUE
+						myCompleteOnSolveSimAsset < uid=CC9485AB5C648E2D000003CB8C8F016B > = RSE_expedition_rift_overload_Spark007
+					}
+					myConditionalActions
+					{
+						StoryDataAction_WaitForTargetSolved "Systemic Spark 7 Solved"
+						{
+							myObjectiveAutoRemoves FALSE
+							mySimUnitAsset < uid=CC9485AB5C648584000003C4B7511752 > = RSE_expedition_rift_overload_Spark007
+						}
+					}
+					myOutcomeActions
+					{
+						StoryDataAction_Dialog "Dialogue Payload"
+						{
+							myDialogSequenceID 7
+							myDialogStoryFlowID 97
+						}
+					}
+					myBlockUpdateWhenComplete TRUE
+				}
+				StoryDataAction_ConditionalAction "Dialogue Sequence 8"
+				{
+					myForceCompleteOptions
+					{
+						myEnabled TRUE
+						myEvaluateOnce TRUE
+						myCompleteOnSolveSimAsset < uid=CC9485AB5C648E2D000003CC661A36BB > = RSE_expedition_rift_overload_Spark008
+					}
+					myConditionalActions
+					{
+						StoryDataAction_WaitForTargetSolved "Systemic Spark 8 Solved"
+						{
+							myObjectiveAutoRemoves FALSE
+							mySimUnitAsset < uid=CC9485AB5C648584000003C4B7511752 > = RSE_expedition_rift_overload_Spark008
+						}
+					}
+					myOutcomeActions
+					{
+						StoryDataAction_Dialog "Dialogue Payload"
+						{
+							myDialogSequenceID 8
+							myDialogStoryFlowID 97
+						}
+					}
+					myBlockUpdateWhenComplete TRUE
+				}
+				StoryDataAction_ConditionalAction "Dialogue Sequence 9"
+				{
+					myForceCompleteOptions
+					{
+						myEnabled TRUE
+						myEvaluateOnce TRUE
+						myCompleteOnSolveSimAsset < uid=CC9485AB5C648E2D000003CDC6704030 > = RSE_expedition_rift_overload_Spark009
+					}
+					myConditionalActions
+					{
+						StoryDataAction_WaitForTargetSolved "Systemic Spark 9 Solved"
+						{
+							myObjectiveAutoRemoves FALSE
+							mySimUnitAsset < uid=CC9485AB5C648584000003C4B7511752 > = RSE_expedition_rift_overload_Spark009
+						}
+					}
+					myOutcomeActions
+					{
+						StoryDataAction_Dialog "Dialogue Payload"
+						{
+							myDialogSequenceID 9
+							myDialogStoryFlowID 97
+						}
+					}
+					myBlockUpdateWhenComplete TRUE
+				}
+				StoryDataAction_ConditionalAction "Dialogue Sequence 10"
+				{
+					myForceCompleteOptions
+					{
+						myEnabled TRUE
+						myEvaluateOnce TRUE
+						myCompleteOnSolveSimAsset < uid=CC9485AB5C648E2D000003CED66C960D > = RSE_expedition_rift_overload_Spark010
+					}
+					myConditionalActions
+					{
+						StoryDataAction_WaitForTargetSolved "Systemic Spark 10 Solved"
+						{
+							myObjectiveAutoRemoves FALSE
+							mySimUnitAsset < uid=CC9485AB5C648584000003C4B7511752 > = RSE_expedition_rift_overload_Spark010
+						}
+					}
+					myOutcomeActions
+					{
+						StoryDataAction_Dialog "Dialogue Payload"
+						{
+							myDialogSequenceID 10
+							myDialogStoryFlowID 97
+						}
+					}
+					myBlockUpdateWhenComplete TRUE
+				}
+				StoryDataAction_ConditionalAction "Dialogue Sequence 11"
+				{
+					myForceCompleteOptions
+					{
+						myEnabled TRUE
+						myEvaluateOnce TRUE
+						myCompleteOnSolveSimAsset < uid=CC9485AB5C648E2D000003CF221C51F2 > = RSE_expedition_rift_overload_Spark011
+					}
+					myConditionalActions
+					{
+						StoryDataAction_WaitForTargetSolved "Systemic Spark 11 Solved"
+						{
+							myObjectiveAutoRemoves FALSE
+							mySimUnitAsset < uid=CC9485AB5C648584000003C4B7511752 > = RSE_expedition_rift_overload_Spark011
+						}
+					}
+					myOutcomeActions
+					{
+						StoryDataAction_Dialog "Dialogue Payload"
+						{
+							myDialogSequenceID 11
+							myDialogStoryFlowID 97
+						}
+					}
+					myBlockUpdateWhenComplete TRUE
+				}
+				StoryDataAction_ConditionalAction "Dialogue Sequence 12"
+				{
+					myForceCompleteOptions
+					{
+						myEnabled TRUE
+						myEvaluateOnce TRUE
+						myCompleteOnSolveSimAsset < uid=CC9485AB5C648E2D000003D0950414E4 > = RSE_expedition_rift_overload_Spark012
+					}
+					myConditionalActions
+					{
+						StoryDataAction_WaitForTargetSolved "Systemic Spark 12 Solved"
+						{
+							myObjectiveAutoRemoves FALSE
+							mySimUnitAsset < uid=CC9485AB5C648584000003C4B7511752 > = RSE_expedition_rift_overload_Spark012
+						}
+					}
+					myOutcomeActions
+					{
+						StoryDataAction_Dialog "Dialogue Payload"
+						{
+							myDialogSequenceID 12
+							myDialogStoryFlowID 97
+						}
+					}
+					myBlockUpdateWhenComplete TRUE
+				}
+				StoryDataAction_ConditionalAction "Dialogue Sequence 13"
+				{
+					myForceCompleteOptions
+					{
+						myEnabled TRUE
+						myEvaluateOnce TRUE
+						myCompleteOnSolveSimAsset < uid=CC9485AB5C648E2D000003D1D131B7B4 > = RSE_expedition_rift_overload_Spark013
+					}
+					myConditionalActions
+					{
+						StoryDataAction_WaitForTargetSolved "Systemic Spark 13 Solved"
+						{
+							myObjectiveAutoRemoves FALSE
+							mySimUnitAsset < uid=CC9485AB5C648584000003C4B7511752 > = RSE_expedition_rift_overload_Spark013
+						}
+					}
+					myOutcomeActions
+					{
+						StoryDataAction_Dialog "Dialogue Payload"
+						{
+							myDialogSequenceID 13
+							myDialogStoryFlowID 97
+						}
+					}
+					myBlockUpdateWhenComplete TRUE
+				}
+				StoryDataAction_ConditionalAction "Dialogue Sequence 14"
+				{
+					myForceCompleteOptions
+					{
+						myEnabled TRUE
+						myEvaluateOnce TRUE
+						myCompleteOnSolveSimAsset < uid=CC9485AB5C648E2D000003D2635F8F61 > = RSE_expedition_rift_overload_Spark014
+					}
+					myConditionalActions
+					{
+						StoryDataAction_WaitForTargetSolved "Systemic Spark 14 Solved"
+						{
+							myObjectiveAutoRemoves FALSE
+							mySimUnitAsset < uid=CC9485AB5C648584000003C4B7511752 > = RSE_expedition_rift_overload_Spark014
+						}
+					}
+					myOutcomeActions
+					{
+						StoryDataAction_Dialog "Dialogue Payload"
+						{
+							myDialogSequenceID 14
+							myDialogStoryFlowID 97
+						}
+					}
+					myBlockUpdateWhenComplete TRUE
+				}
+				StoryDataAction_ConditionalAction "Dialogue Sequence 15"
+				{
+					myForceCompleteOptions
+					{
+						myEnabled TRUE
+						myEvaluateOnce TRUE
+						myCompleteOnSolveSimAsset < uid=CC9485AB5C648E2D000003D3A30CD139 > = RSE_expedition_rift_overload_Spark015
+					}
+					myConditionalActions
+					{
+						StoryDataAction_WaitForTargetSolved "Systemic Spark 15 Solved"
+						{
+							myObjectiveAutoRemoves FALSE
+							mySimUnitAsset < uid=CC9485AB5C648584000003C4B7511752 > = RSE_expedition_rift_overload_Spark015
+						}
+					}
+					myOutcomeActions
+					{
+						StoryDataAction_Dialog "Dialogue Payload"
+						{
+							myDialogSequenceID 15
+							myDialogStoryFlowID 97
+						}
+					}
+					myBlockUpdateWhenComplete TRUE
+				}
+				StoryDataAction_ConditionalAction "Dialogue Sequence 16"
+				{
+					myForceCompleteOptions
+					{
+						myEnabled TRUE
+						myEvaluateOnce TRUE
+						myCompleteOnSolveSimAsset < uid=CC9485AB5C648E2D000003D4161A5288 > = RSE_expedition_rift_overload_Spark016
+					}
+					myConditionalActions
+					{
+						StoryDataAction_WaitForTargetSolved "Systemic Spark 16 Solved"
+						{
+							myObjectiveAutoRemoves FALSE
+							mySimUnitAsset < uid=CC9485AB5C648584000003C4B7511752 > = RSE_expedition_rift_overload_Spark016
+						}
+					}
+					myOutcomeActions
+					{
+						StoryDataAction_Dialog "Dialogue Payload"
+						{
+							myDialogSequenceID 16
+							myDialogStoryFlowID 97
+						}
+					}
+					myBlockUpdateWhenComplete TRUE
+				}
+				StoryDataAction_ConditionalAction "Dialogue Sequence 17"
+				{
+					myForceCompleteOptions
+					{
+						myEnabled TRUE
+						myEvaluateOnce TRUE
+						myCompleteOnSolveSimAsset < uid=CC9485AB5C648E2D000003D54ACACBE8 > = RSE_expedition_rift_overload_Spark017
+					}
+					myConditionalActions
+					{
+						StoryDataAction_WaitForTargetSolved "Systemic Spark 17 Solved"
+						{
+							myObjectiveAutoRemoves FALSE
+							mySimUnitAsset < uid=CC9485AB5C648584000003C4B7511752 > = RSE_expedition_rift_overload_Spark017
+						}
+					}
+					myOutcomeActions
+					{
+						StoryDataAction_Dialog "Dialogue Payload"
+						{
+							myDialogSequenceID 17
+							myDialogStoryFlowID 97
+						}
+					}
+					myBlockUpdateWhenComplete TRUE
+				}
+				StoryDataAction_ConditionalAction "Dialogue Sequence 18"
+				{
+					myForceCompleteOptions
+					{
+						myEnabled TRUE
+						myEvaluateOnce TRUE
+						myCompleteOnSolveSimAsset < uid=CC9485AB5C648E2D000003D6D5716157 > = RSE_expedition_rift_overload_Spark018
+					}
+					myConditionalActions
+					{
+						StoryDataAction_WaitForTargetSolved "Systemic Spark 18 Solved"
+						{
+							myObjectiveAutoRemoves FALSE
+							mySimUnitAsset < uid=CC9485AB5C648584000003C4B7511752 > = RSE_expedition_rift_overload_Spark018
+						}
+					}
+					myOutcomeActions
+					{
+						StoryDataAction_Dialog "Dialogue Payload"
+						{
+							myDialogSequenceID 18
+							myDialogStoryFlowID 97
+						}
+					}
+					myBlockUpdateWhenComplete TRUE
+				}
+				StoryDataAction_ConditionalAction "Dialogue Sequence 19"
+				{
+					myForceCompleteOptions
+					{
+						myEnabled TRUE
+						myEvaluateOnce TRUE
+						myCompleteOnSolveSimAsset < uid=CC9485AB5C648E2D000003D71031E7D9 > = RSE_expedition_rift_overload_Spark019
+					}
+					myConditionalActions
+					{
+						StoryDataAction_WaitForTargetSolved "Systemic Spark 19 Solved"
+						{
+							myObjectiveAutoRemoves FALSE
+							mySimUnitAsset < uid=CC9485AB5C648584000003C4B7511752 > = RSE_expedition_rift_overload_Spark019
+						}
+					}
+					myOutcomeActions
+					{
+						StoryDataAction_Dialog "Dialogue Payload"
+						{
+							myDialogSequenceID 19
+							myDialogStoryFlowID 97
+						}
+					}
+					myBlockUpdateWhenComplete TRUE
+				}
+				StoryDataAction_ConditionalAction "Dialogue Sequence 20"
+				{
+					myConditionalActions
+					{
+						StoryDataAction_WaitForTargetSolved "Systemic Spark 20 Solved"
+						{
+							myObjectiveAutoRemoves FALSE
+							myForceCompleteOptions
+							{
+								myEnabled TRUE
+								myEvaluateOnce TRUE
+								myCompleteOnSolveSimAsset < uid=CC9485AB5C648E2D000003D8D47B7945 > = RSE_expedition_rift_overload_Spark020
+							}
+							mySimUnitAsset < uid=CC9485AB5C648584000003C4B7511752 > = RSE_expedition_rift_overload_Spark020
+						}
+					}
+					myOutcomeActions
+					{
+						StoryDataAction_Dialog "Dialogue Payload"
+						{
+							myDialogSequenceID 20
+							myDialogStoryFlowID 97
+						}
+					}
+					myBlockUpdateWhenComplete TRUE
+				}
+				StoryDataAction_WaitForGameToStoryEvent "Wait Forever"
+				{
+					myGameToStoryStoryEvent Act_06_WaitForever
+				}
+			}
+		}
+		StoryBeatData "Forever Beat" < uid=9FD9E8185C097F6800000088D9784ECB >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_WaitForGameToStoryEvent "Wait Forever"
+				{
+					myGameToStoryStoryEvent Act_06_WaitForever
+				}
+			}
+		}
+	}
+}
+

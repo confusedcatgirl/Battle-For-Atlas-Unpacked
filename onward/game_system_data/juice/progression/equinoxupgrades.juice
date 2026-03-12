@@ -1,0 +1,664 @@
+include "onward/game system data/fruit/progression/progression.fruit"
+include "onward/game system data/juice/mods/enhancements/wardenupgrade_l2.juice"
+include "onward/game system data/juice/mods/enhancements/wardenupgrade_l3.juice"
+include "onward/game system data/juice/mods/enhancements/wardenupgrade_l4.juice"
+include "onward/game system data/juice/mods/enhancements/wardenupgrade_l5.juice"
+include "onward/game system data/juice/mods/enhancements/towingupgrade_l3.juice"
+include "onward/game system data/juice/mods/enhancements/outlaw_extramod_upgrade_l1.juice"
+include "onward/game system data/juice/mods/enhancements/outlaw_extramod_upgrade_l2.juice"
+include "onward/game system data/juice/mods/enhancements/expedition_extramod_upgrade.juice"
+include "onward/game system data/juice/mods/enhancements/expedition_knowledge_upgrade_l1.juice"
+include "onward/game system data/juice/mods/enhancements/expedition_knowledge_upgrade_l2.juice"
+include "onward/game system data/juice/mods/enhancements/drivereactor_upgrade_l1.juice"
+include "onward/game system data/juice/mods/enhancements/drivereactor_upgrade_l2.juice"
+include "onward/game system data/juice/mods/enhancements/drivereactor_upgrade_l3.juice"
+include ./generated_cost_data.juice
+include "onward/game system data/juice/mods/enhancements/equinox_unlock_pocket.juice"
+include "onward/game system data/juice/mods/enhancements/equinox_unlock_pocket_final.juice"
+include "onward/game system data/juice/mods/enhancements/prospector_upgrade_l3.juice"
+include "onward/game system data/juice/mods/enhancements/prospector_upgrade_l4.juice"
+include "onward/game system data/juice/mods/enhancements/equinox_towing_upgrade_l1.juice"
+include "onward/game system data/juice/mods/enhancements/equinox_towing_upgrade_l2.juice"
+include "onward/game system data/juice/mods/enhancements/equinox_towing_upgrade_l4.juice"
+include "onward/game system data/juice/mods/enhancements/equinox_towing_upgrade_l5.juice"
+include "onward/game system data/juice/mods/enhancements/prospector_upgrade_l1.juice"
+include "onward/game system data/juice/mods/enhancements/prospector_upgrade_l2.juice"
+include "onward/game system data/juice/mods/enhancements/outlaw_upgrade_l3.juice"
+include "onward/game system data/juice/mods/enhancements/expedition_upgrade_timers_enhancement.juice"
+
+EquinoxUpgradeSet "Drive Reactor"
+{
+	myLocalizedName "contextComment = \"\", description = \"\", enabled = true, guid = #C91BB55158370BE9005509AE5DA54F25, lineVersion = 2, maxLength = 25, text = \"Core Systems\""
+	myLocalizedDescription "contextComment = '[Placeholder - do not translate] Description for the \"Core Systems\" section of the Equinox Upgrades, which lets the player restore their flight engines, space sensors, and all other Equinox facilities. In Act 4 it also lets the player build a portal to reach the final boss.', description = \"\", enabled = true, guid = #C91BB55158370BE9005509B0C9754BF3, lineVersion = 2, maxLength = 100, text = \"Restore & enhance\nthe Starlink flagship\""
+	mySprite "mySpriteId = -1932643252, mySpritesheet = F\"onward/ui/spritesheets/ui-equinox-centerpiece-icons.spritesheet\""
+	myUpgrades
+	{
+		ProgressionPurchasable "Trigger Act 2" < uid=C91BB5515834BA0F0000004BF1CD6CEF >
+		{
+			myLocalizedName "contextComment = \"[PLACEHOLDER - do not translate].\", description = \"\", enabled = true, guid = #C91BB55158385CEA000DC1B8854C438B, lineVersion = 4, maxLength = 20, text = \"Restore Engines\""
+			myLocalizedDescription "contextComment = \"[PLACEHOLDER - do not translate].\", description = \"\", enabled = true, guid = #C91BB55158385CEA000DC1BA79796E95, lineVersion = 3, maxLength = 112, text = \"Refuel the Equinox so that it can return to space and power your Ships' flight engines\"}"
+			myLocalizedUnlockDescription "contextComment = \"[PLACEHOLDER - do not translate].\", description = \"Bring Nova to the Equinox\", enabled = true, guid = #2B55C72B592F11F60000017AA4EB4DD7, lineVersion = 1, maxLength = 140, text = \"Find a source of refined Electrum to bring back to the Equinox\""
+			myOneOffUpgrade Unlock_FlightEngines
+			myEnhancement < uid=C308E4DB59D77E8E000167F6D3D56840 > = drivereactor_upgrade_l1
+			myUnlockRule
+			{
+				myCondition Challenge
+				myFaction Unaligned
+				myPilotID 0
+				myReqSkillPoints 0
+				myChallengeType Act1UnlockEquinoxUpgrade
+			}
+			mySkillPointCost 0
+			myElectrumCost = GEN_EqUp_GAS_E1
+			myNovaCost = GEN_EqUp_GAS_N1
+		}
+		ProgressionPurchasable "Unlock Other Upgrades" < uid=C91BB5515834BA0F0000004D2CAA74BF >
+		{
+			myLocalizedName "contextComment = \"[PLACEHOLDER - do not translate].\nThe name of the second equinox upgrade in the story category. This reveals the location of Primes infecting planets in the system, and unlocks all the other upgrade facilities\", description = \"\", enabled = true, guid = #C91BB55158385D2300159FFFB488F237, lineVersion = 4, maxLength = 18, text = \"Repair Systems\""
+			myLocalizedDescription "contextComment = \"[PLACEHOLDER - do not translate].\nThe description of the second equinox upgrade in the story category. This reveals the location of Primes infecting planets in the system, and unlocks all the other upgrade facilities\", description = \"\", enabled = true, guid = #C91BB55158385D230015A001A35D32C5, lineVersion = 3, maxLength = 95, text = \"Repair the Equinox to restore its long-range sensors and other facilities\""
+			myLocalizedUnlockDescription "contextComment = \"[PLACEHOLDER - do not translate] Unlock tip telling the player this upgrade won't unlock until they progress the story further.\", description = \"ui-equinox-upgrade-unlock-act2\", enabled = true, guid = #9E6AFEDA59A738560035109560E94EEA, lineVersion = 1, maxLength = 88, text = \"Follow Shaid's advice to find allies who can help repair the Equinox\""
+			myOneOffUpgrade Unlock_AllEquinoxFacilities
+			myEnhancement < uid=C308E4DB59D78E1C0003BC150317E166 > = drivereactor_upgrade_l2
+			myUnlockRule
+			{
+				myCondition Challenge
+				myChallengeType Act2_EquinoxComputersUnlocked
+			}
+			myElectrumCost = GEN_EqUp_GAS_E2
+			myNovaCost = GEN_EqUp_GAS_N2
+		}
+		ProgressionPurchasable "Trigger Final Boss" < uid=A08A88CF585191D600030B185C2C4E75 >
+		{
+			myLocalizedName "contextComment = \"[PLACEHOLDER - do not translate].\", description = \"\", enabled = true, guid = #A08A88CF58543ED800003788FF4EA2C3, lineVersion = 2, maxLength = 30, text = \"Starlink Gate\""
+			myLocalizedDescription "contextComment = \"[PLACEHOLDER - do not translate] Description of the 3rd Game Act Structure upgrade, which allows the player to access the final boss fight\", description = \"ui-equinox-upgrade-description-act4\", enabled = true, guid = #9E6AFEDA59A739E0006BD2916C2332B4, lineVersion = 1, maxLength = 140, text = \"Use Warden technology to supercharge the Starlink system take the battle to Grax\""
+			myLocalizedUnlockDescription "contextComment = \"[PLACEHOLDER - do not translate] Unlock tip telling the player they need to build their alliance meter across the whole star system to unlock this upgrade\", description = \"ui-equinox-upgrade-unlock-act4\", enabled = true, guid = #9E6AFEDA59A739E0006BD2933658B8B9, lineVersion = 0, maxLength = 140, text = \"Recruit more allies across the planets of Atlas to help develop this upgrade\""
+			myOneOffUpgrade Unlock_FinalBossFight
+			myAcquireChallenge Progression_CompletelyUpgradeEquinox_DriveReactor
+			myEnhancement < uid=C308E4DB59D78E1C0003BC16902C8E5D > = drivereactor_upgrade_l3
+			myUnlockRule
+			{
+				myCondition Challenge
+				myReqSkillPoints 0
+				myChallengeType AtlasAllianceGained
+				myReqChallengeRepeatCount 1
+			}
+			mySkillPointCost 0
+			myElectrumCost = GEN_EqUp_GAS_E3
+			myNovaCost = GEN_EqUp_GAS_N3
+		}
+	}
+}
+
+EquinoxUpgradeSet "Part Customization Upgrades"
+{
+	myFacility Part_Upgrades
+	myLocalizedName "contextComment = \"[PLACEHOLDER - do not translate].\nThe name of the equinox upgrade facility that handles part upgrades (ex: additional mod slots for hulls).\", description = \"equinox-upgrades-part_upgrades\", enabled = true, guid = #A08A88CF599C3EA800000056FACF62A9, lineVersion = 2, maxLength = 25, text = \"Ship Hangar\""
+	myLocalizedDescription "contextComment = \"[PLACEHOLDER - do not translate].\nThe description for the equinox upgrade facility that handles part upgrades (ex: additional mod slots for hulls).\", description = \"equinox-upgrades-part_upgrades-description\", enabled = true, guid = #A08A88CF599C4093000000B4BAD3DAAA, lineVersion = 2, maxLength = 100, text = \"Add Booster Mod slots\nto Ships & Weapons\""
+	mySprite "mySpriteId = 1119999987, mySpritesheet = F\"onward/ui/spritesheets/ui-equinox-centerpiece-icons.spritesheet\""
+	myUpgrades
+	{
+		ProgressionPurchasable "Ship Mod Slot 1" < uid=A08A88CF599C50250000003D506A7218 >
+		{
+			myLocalizedName "contextComment = \"[PLACEHOLDER - do not translate].\nName of the first upgrade that unlocks an additional ship mod slot.\", description = \"equinox-upgrades-part_upgrades_shipmodslot_1\", enabled = true, guid = #A08A88CF599C4FCF0000003663109C1B, lineVersion = 1, maxLength = 30, text = \"Starship Tuning\""
+			myLocalizedDescription "contextComment = \"[PLACEHOLDER - do not translate].\nText describing the first upgade that unlocks an additional ship mod slot.\", description = \"equinox-upgrades-part_upgrades_shipmodslot_1-description\", enabled = true, guid = #A08A88CF599C6F5D000002B1FA2FD4CE, lineVersion = 1, maxLength = 100, text = \"All Ships in your collection get an extra Booster Mod slot\""
+			myOneOffUpgrade Unlock_Additional_Ship_Mod_Slot_1
+			myUnlockRule
+			{
+				myCondition Total
+				myReqSkillPoints = GEN_EqUp_Custom_T1
+			}
+			myElectrumCost = GEN_EqUp_Custom_E1
+			myNovaCost = GEN_EqUp_Custom_N1
+		}
+		ProgressionPurchasable "Weapon Mod Slot 1" < uid=A08A88CF599C50520000004D23D1DAA9 >
+		{
+			myLocalizedName "contextComment = \"[PLACEHOLDER - do not translate].\nThe name of the first mod that confers an additional mod slot to the player's weapons.\", description = \"equinox-upgrades-part_upgrades_weaponmodslot_1\", enabled = true, guid = #A08A88CF599C502D0000004C5AE63AC6, lineVersion = 1, maxLength = 30, text = \"Weapon Engineering\"}"
+			myLocalizedDescription "contextComment = \"[PLACEHOLDER - do not translate].\nText describing the effects of the first mod that unlocks an additional slot for the player weapons.\", description = \"equinox-upgrades-part_upgrades_weaponmodslot_1-description\", enabled = true, guid = #A08A88CF599C6FAF000002B9294AC70A, lineVersion = 1, maxLength = 100, text = \"All Weapons in your collection get an extra Booster Mod slot\""
+			myOneOffUpgrade Unlock_Additional_Weapon_Mod_Slot_1
+			myUnlockRule
+			{
+				myCondition Total
+				myReqSkillPoints = GEN_EqUp_Custom_T2
+			}
+			myElectrumCost = GEN_EqUp_Custom_E2
+			myNovaCost = GEN_EqUp_Custom_N2
+		}
+		ProgressionPurchasable "Ship Mod Slot 2" < uid=A08A88CF599C50710000005D97785C31 >
+		{
+			myLocalizedName "contextComment = \"[PLACEHOLDER - do not translate].\nThe name of the second upgrade that unlocks a ship mod slot.\", description = \"equinox-upgrades-part_upgrades_shipmodslot_2\", enabled = true, guid = #A08A88CF599C505D0000005C03B5B524, lineVersion = 1, maxLength = 30, text = \"Shipwight Lab\""
+			myLocalizedDescription "contextComment = \"[PLACEHOLDER - do not translate].\nDescription of the second upgrade that unlocks a mod slot for the ship.\", description = \"equinox-upgrades-part_upgrades_shipmodslot_2-description\", enabled = true, guid = #A08A88CF599C6FFA000002C363AB58E5, lineVersion = 1, maxLength = 100, text = \"All Ships in your collection get an extra Booster Mod slot\""
+			myOneOffUpgrade Unlock_Additional_Ship_Mod_Slot_2
+			myUnlockRule
+			{
+				myCondition Total
+				myReqSkillPoints = GEN_EqUp_Custom_T3
+			}
+			myElectrumCost = GEN_EqUp_Custom_E3
+			myNovaCost = GEN_EqUp_Custom_N3
+		}
+		ProgressionPurchasable "Weapon Mod Slot 2" < uid=A08A88CF599C508B0000005F56777251 >
+		{
+			myLocalizedName "contextComment = \"[PLACEHOLDER - do not translate].\nThe name of the second upgrade to unlock a mod slot for the player weapons.\", description = \"equinox-upgrades-part_upgrades_weaponmodslot_2\", enabled = true, guid = #A08A88CF599C50770000005E91CD4072, lineVersion = 1, maxLength = 30, text = \"Advanced Weaponry\""
+			myLocalizedDescription "contextComment = \"[PLACEHOLDER - do not translate].\nThe description of the second upgrade to unlock a mod slot for the player weapons.\", description = \"equinox-upgrades-part_upgrades_weaponmodslot_2-description\", enabled = true, guid = #A08A88CF599C705B000002CB8F9B7AD1, lineVersion = 1, maxLength = 100, text = \"All Weapons in your collection get an extra Booster Mod slot\""
+			myOneOffUpgrade Unlock_Additional_Weapon_Mod_Slot_2
+			myAcquireChallenge Progression_CompletelyUpgradeEquinox_Part_Upgrades
+			myUnlockRule
+			{
+				myCondition Total
+				myReqSkillPoints = GEN_EqUp_Custom_T4
+			}
+			myElectrumCost = GEN_EqUp_Custom_E4
+			myNovaCost = GEN_EqUp_Custom_N4
+		}
+	}
+}
+
+EquinoxUpgradeSet "Mod Upgrades"
+{
+	myFacility Mod_Upgrades
+	myLocalizedName "contextComment = \"[PLACEHOLDER - do not translate].\nThe upgrade facility associated with improving mods/mod management.\", description = \"equinox-upgrades-mod_upgrades\", enabled = true, guid = #A08A88CF599C3F220000007AF4C8B8F3, lineVersion = 1, maxLength = 25, text = \"Machine Shop\""
+	myLocalizedDescription "contextComment = \"[PLACEHOLDER - do not translate].\nA description of the mod upgrade facility, where the player can unlock the ability to fuse low-level mods into higher-level mods (ship/weapon power-up add-ons)\", description = \"equinox-upgrades-mod_upgrades-description\", enabled = true, guid = #A08A88CF599C4093000000B62C6577A0, lineVersion = 2, maxLength = 100, text = \"Improve Mods\nfor Ships & Weapons\""
+	mySprite "mySpriteId = -1906267213, mySpritesheet = F\"onward/ui/spritesheets/ui-equinox-centerpiece-icons.spritesheet\""
+	myUpgrades
+	{
+		ProgressionPurchasable "Mod Fusion - Uncommon -> Rare" < uid=A08A88CF599C513C00013B4AD38F4C22 >
+		{
+			myLocalizedName "contextComment = \"[PLACEHOLDER - do not translate] Name for an equinox upgrade that allows players to Fuse Common Mods to make Uncommon Mods, or Uncommon to Rare\", description = \"equinox-upgrades-mod_upgrades_uncommonmodfusion\", enabled = true, guid = #A08A88CF599C511C00013B49A0A6B771, lineVersion = 3, maxLength = 30, text = \"Mod Fusion\""
+			myLocalizedDescription "contextComment = \"[PLACEHOLDER - do not translate] Description for an equinox upgrade that allows players to Fuse Uncommon Mods to make Rare Mods\", description = \"equinox-upgrades-mod_upgrades_uncommonmodfusion-description\", enabled = true, guid = #A08A88CF599C70C2000002DB5EE1211E, lineVersion = 3, maxLength = 100, text = \"Combine three Common or Uncommon Mods\n to make one that's more powerful\"}"
+			myOneOffUpgrade Unlock_Uncommon_Mod_Fusion
+			myUnlockRule
+			{
+				myCondition Total
+				myReqSkillPoints = GEN_EqUp_Mods_T1
+			}
+			myElectrumCost = GEN_EqUp_Mods_E1
+			myNovaCost = GEN_EqUp_Mods_N1
+			myLockedSprite "mySpriteId = 1896520638, mySpritesheet = F\"onward/ui/spritesheets/ui-equinox-centerpiece-icons.spritesheet\""
+			myUnpurchasedSprite "mySpriteId = 1896520638, mySpritesheet = F\"onward/ui/spritesheets/ui-equinox-centerpiece-icons.spritesheet\""
+			myPurchasedSprite "mySpriteId = 1896520638, mySpritesheet = F\"onward/ui/spritesheets/ui-equinox-centerpiece-icons.spritesheet\""
+		}
+		ProgressionPurchasable "Mod Fusion - Rare -> Epic" < uid=A08A88CF599C516400013B56FF26EFA1 >
+		{
+			myLocalizedName "contextComment = \"[PLACEHOLDER - do not translate] Name for an equinox upgrade that allows players to Fuse Rare Mods to make Epic Mods\", description = \"equinox-upgrades-mod_upgrades_raremodfusion\", enabled = true, guid = #A08A88CF599C514500013B5545E6F544, lineVersion = 3, maxLength = 30, text = \"Epic Fusion\""
+			myLocalizedDescription "contextComment = \"[PLACEHOLDER - do not translate] Description for an equinox upgrade that allows players to Fuse RareMods to make EpicMods\", description = \"equinox-upgrades-mod_upgrades_raremodfusion-description\", enabled = true, guid = #A08A88CF599C70F0000002E390CB54F3, lineVersion = 3, maxLength = 75, text = \"Combine three Rare Mods \n to make a more powerful Epic Mod\""
+			myOneOffUpgrade Unlock_Rare_Mod_Fusion
+			myUnlockRule
+			{
+				myCondition Total
+				myReqSkillPoints = GEN_EqUp_Mods_T2
+			}
+			mySkillPointCost 0
+			myElectrumCost = GEN_EqUp_Mods_E2
+			myNovaCost = GEN_EqUp_Mods_N2
+			myLockedSprite "mySpriteId = -214542969, mySpritesheet = F\"onward/ui/spritesheets/ui-equinox-centerpiece-icons.spritesheet\""
+			myUnpurchasedSprite "mySpriteId = -214542969, mySpritesheet = F\"onward/ui/spritesheets/ui-equinox-centerpiece-icons.spritesheet\""
+			myPurchasedSprite "mySpriteId = -214542969, mySpritesheet = F\"onward/ui/spritesheets/ui-equinox-centerpiece-icons.spritesheet\""
+		}
+		ProgressionPurchasable "Mod Fusion - Epic -> Legendary" < uid=9E6AFEDA5A5E7CE100001B6BE4457AE6 >
+		{
+			myLocalizedName "contextComment = \"[PLACEHOLDER - do not translate] Name for an equinox upgrade that allows players to Fuse Epic Mods to make Legendary Mods\", description = \"equinox-upgrades-mod_upgrades_epicmodfusion\", enabled = true, guid = #9E6AFEDA5A5E7B9D00001B60A2ACAECD, lineVersion = 1, maxLength = 30, text = \"Legendary Fusion\""
+			myLocalizedDescription "contextComment = \"[PLACEHOLDER - do not translate] Description for an equinox upgrade that allows players to Fuse Epic Mods to make Legendary Mods\", description = \"equinox-upgrades-mod_upgrades_epicmodfusion-description\", enabled = true, guid = #9E6AFEDA5A5E7B9D00001B62BC45088D, lineVersion = 1, maxLength = 100, text = \"Combine three Epic Mods \n to make the ultimate, Legendary Mod\""
+			myOneOffUpgrade Unlock_Epic_Mod_Fusion
+			myUnlockRule
+			{
+				myCondition Total
+				myReqSkillPoints = GEN_EqUp_Mods_T3
+			}
+			mySkillPointCost 0
+			myElectrumCost = GEN_EqUp_Mods_E3
+			myNovaCost = GEN_EqUp_Mods_N3
+			myLockedSprite "mySpriteId = 1770862368, mySpritesheet = F\"onward/ui/spritesheets/ui-equinox-centerpiece-icons.spritesheet\""
+			myUnpurchasedSprite "mySpriteId = 1770862368, mySpritesheet = F\"onward/ui/spritesheets/ui-equinox-centerpiece-icons.spritesheet\""
+			myPurchasedSprite "mySpriteId = 1770862368, mySpritesheet = F\"onward/ui/spritesheets/ui-equinox-centerpiece-icons.spritesheet\""
+		}
+		ProgressionPurchasable "Mod Cloning - Unique" < uid=A08A88CF599C51C70001AF050A4BDDED >
+		{
+			myLocalizedName "contextComment = \"[PLACEHOLDER - do not translate].\nName of the upgrade that allows the player to clone any given mod.\", description = \"equinox-upgrades-mod_upgrades_uniquemodcloning\", enabled = true, guid = #A08A88CF599C51AB0001A61830BDD2F8, lineVersion = 2, maxLength = 30, text = \"Mod Synthesis\""
+			myLocalizedDescription "contextComment = \"[PLACEHOLDER - do not translate].\nDescription of the upgrade that allows the player to clone any mod (including 'unique' mods).\", description = \"equinox-upgrades-mod_upgrades_uniquemodcloning-description\", enabled = true, guid = #A08A88CF599C7181000002F1239D1133, lineVersion = 2, maxLength = 88, text = \"Spend Electrum and Nova to clone any Mod,\n even one-of-a-kind Relics\""
+			myOneOffUpgrade Unlock_Unique_Mod_Cloning
+			myAcquireChallenge Progression_CompletelyUpgradeEquinox_Mod_Upgrades
+			myUnlockRule
+			{
+				myCondition Total
+				myReqSkillPoints = GEN_EqUp_Mods_T4
+			}
+			myElectrumCost = GEN_EqUp_Mods_E4
+			myNovaCost = GEN_EqUp_Mods_N4
+			myLockedSprite "mySpriteId = 618077487, mySpritesheet = F\"onward/ui/spritesheets/ui-equinox-centerpiece-icons.spritesheet\""
+			myUnpurchasedSprite "mySpriteId = 618077487, mySpritesheet = F\"onward/ui/spritesheets/ui-equinox-centerpiece-icons.spritesheet\""
+			myPurchasedSprite "mySpriteId = 618077487, mySpritesheet = F\"onward/ui/spritesheets/ui-equinox-centerpiece-icons.spritesheet\""
+		}
+	}
+}
+
+EquinoxUpgradeSet "Towing Upgrades"
+{
+	myFacility Towing_Upgrades
+	myLocalizedName "contextComment = \"[PLACEHOLDER - do not translate].\nThe facility that improves the player's ability to use/carry towed items.\", description = \"equinox-upgrades-towing_upgrades\", enabled = true, guid = #A08A88CF599C3F220000007E264A661D, lineVersion = 1, maxLength = 25, text = \"Tractor Beams\"}"
+	myLocalizedDescription "contextComment = \"[PLACEHOLDER - do not translate].\nA description of the towing upgrade facility.Here the player can unlock a bigger inventory of carried items, and make it easier to pluck objects that are stuck.\", description = \"equinox-upgrades-towing_upgrades-description\", enabled = true, guid = #A08A88CF599C4093000000B8379C811E, lineVersion = 2, maxLength = 100, text = \"Improve Ships'\ncarrying capacity\"}"
+	mySprite "mySpriteId = 967524162, mySpritesheet = F\"onward/ui/spritesheets/ui-equinox-centerpiece-icons.spritesheet\""
+	myUpgrades
+	{
+		ProgressionPurchasable "Plucking 1" < uid=A08A88CF599C52790001AFA6DFFC2E83 >
+		{
+			myLocalizedName "contextComment = \"[PLACEHOLDER - do not translate].\nName of the first Equinox upgrade that makes it easier to pluck objects.\", description = \"equinox-upgrades-towing_upgrades-easierplucking\", enabled = true, guid = #A08A88CF599C525F0001AFA53413B3D3, lineVersion = 3, maxLength = 30, text = \"Super Tractor\""
+			myLocalizedDescription "contextComment = \"[PLACEHOLDER - do not translate].\nDescription of the first Equinox upgrade that makes it easier to pluck objects.\", description = \"equinox-upgrades-towing_upgrades-easierplucking-description\", enabled = true, guid = #A08A88CF599C72300000030962E27B2D, lineVersion = 3, maxLength = 100, text = 'Amp up your pull force \nto make it easier to \"pluck\" objects'"
+			myOneOffUpgrade Unlock_Easy_Plucking
+			myEnhancement < uid=C308E4DB59CA9EC40000008FA7260EB1 > = towingupgrade_l3
+			myUnlockRule
+			{
+				myCondition Total
+				myFaction Unaligned
+				myReqSkillPoints = GEN_EqUp_Tow_T1
+			}
+			myElectrumCost = GEN_EqUp_Tow_E1
+			myNovaCost = GEN_EqUp_Tow_N1
+		}
+		ProgressionPurchasable "Pocket 1" < uid=A08A88CF599C52420001AF96291FA1B1 >
+		{
+			myLocalizedName "contextComment = \"[PLACEHOLDER - do not translate].\nName of the Equinox upgrade that increases player inventory capacity from 5 to 20 items of each type\", description = \"equinox-upgrades-towing_upgrades-pocket_1\", enabled = true, guid = #A08A88CF599C51FE0001AF958D4C8622, lineVersion = 3, maxLength = 30, text = \"Storage Bays\""
+			myLocalizedDescription "contextComment = \"[PLACEHOLDER - do not translate].\nDescription of the Equinox upgrade that increases player inventory capacity from 5 to 10 items of each type\", description = \"equinox-upgrades-towing_upgrades-pocket_1-description\", enabled = true, guid = #A08A88CF599C71C9000002F9BF38BC96, lineVersion = 3, maxLength = 100, text = \"Increase Ship carrying capacity from 5 to 20 Organic, Metallic, or Warden items\""
+			myOneOffUpgrade Unlock_Pocket_1
+			myEnhancement < uid=C91BB55159CC14AF000FCBEBDFF70E66 > = towing_upgrade_l1
+			myUnlockRule
+			{
+				myCondition Total
+				myFaction Unaligned
+				myReqSkillPoints = GEN_EqUp_Tow_T2
+			}
+			myElectrumCost = GEN_EqUp_Tow_E2
+			myNovaCost = GEN_EqUp_Tow_N2
+		}
+		ProgressionPurchasable "Pocket 2" < uid=A08A88CF599C525B0001AFA43DC4424C >
+		{
+			myLocalizedName "contextComment = \"[PLACEHOLDER - do not translate].\nName of the Equinox upgrade that increases player inventory capacity from 20 to 50 items of each type\", description = \"equinox-upgrades-towing_upgrades-pocket_2\", enabled = true, guid = #A08A88CF599C52480001AFA3E448B540, lineVersion = 3, maxLength = 30, text = \"Dimensional Pocket\""
+			myLocalizedDescription "contextComment = \"[PLACEHOLDER - do not translate].\nDescription of the Equinox upgrade that increases player inventory capacity from 20 to 50 items of each type\", description = \"equinox-upgrades-towing_upgrades-pocket_2-description\", enabled = true, guid = #A08A88CF599C71FD000003019FE89328, lineVersion = 3, maxLength = 100, text = \"Increase ship carrying capacity from 20 to 50 Organic, Metallic, or Warden items\""
+			myOneOffUpgrade Unlock_Pocket_2
+			myEnhancement < uid=C91BB55159CC14BE000FCBF4F3908638 > = towing_upgrade_l2
+			myUnlockRule
+			{
+				myCondition Total
+				myFaction Unaligned
+				myReqSkillPoints = GEN_EqUp_Tow_T3
+			}
+			myElectrumCost = GEN_EqUp_Tow_E3
+			myNovaCost = GEN_EqUp_Tow_N3
+		}
+		ProgressionPurchasable "Plucking 2" < uid=A08A88CF599C585F000000381E69F7C4 >
+		{
+			myLocalizedName "contextComment = \"[PLACEHOLDER - do not translate].\nName of the second Equinox upgrade that makes plucking objects easier\", description = \"equinox-upgrades-towing_upgrades-pocket_4\", enabled = true, guid = #A08A88CF599C581A0000003623DA3D25, lineVersion = 3, maxLength = 30, text = \"UltraTractor\""
+			myLocalizedDescription "contextComment = \"[PLACEHOLDER - do not translate].\nDescription of the second Equinox upgrade that makes plucking objects easier\", description = \"equinox-upgrades-towing_upgrades-pocket_40description\", enabled = true, guid = #A08A88CF599C737600000319A7E098BA, lineVersion = 2, maxLength = 100, text = 'Max out your pull force to make it easier to \"pluck\" objects'"
+			myOneOffUpgrade Unlock_Pocket_4
+			myAcquireChallenge Progression_CompletelyUpgradeEquinox_Towing_Upgrades
+			myEnhancement < uid=C91BB55159CC14BE000FCBF63E1FF474 > = towing_upgrade_l5
+			myUnlockRule
+			{
+				myCondition Total
+				myFaction Unaligned
+				myReqSkillPoints = GEN_EqUp_Tow_T4
+			}
+			myElectrumCost = GEN_EqUp_Tow_E4
+			myNovaCost = GEN_EqUp_Tow_N4
+		}
+		ProgressionPurchasable "Pocket 3" < uid=A08A88CF599C585F00000037586DB203 >
+		{
+			myLocalizedName "contextComment = \"[PLACEHOLDER - do not translate].\nName of the Equinox upgrade that increases player inventory capacity from 50 to 99 items of each type\", description = \"equinox-upgrades-towing_upgrades-pocket_3\", enabled = true, guid = #A08A88CF599C58150000003513E2A53A, lineVersion = 3, maxLength = 30, text = \"Spacefolding\""
+			myLocalizedDescription "contextComment = \"[PLACEHOLDER - do not translate].\nUnlocks a third pocket for the player ship.\", description = \"equinox-upgrades-towing_upgrades-pocket_3-description\", enabled = true, guid = #A08A88CF599C73390000031317802B77, lineVersion = 3, maxLength = 100, text = \"Increase ship carrying capacity from 50 to 99 Organic, Metallic, or Warden items\""
+			myOneOffUpgrade Unlock_Pocket_3
+			myEnhancement < uid=C91BB55159CC14BE000FCBF5254540BC > = towing_upgrade_l4
+			myUnlockRule
+			{
+				myCondition Total
+				myFaction Unaligned
+				myReqSkillPoints = GEN_EqUp_Tow_T5
+			}
+			myElectrumCost = GEN_EqUp_Tow_E5
+			myNovaCost = GEN_EqUp_Tow_N5
+		}
+	}
+}
+
+EquinoxUpgradeSet "Warden Upgrades"
+{
+	myFacility Warden_Upgrades
+	myLocalizedName "contextComment = \"[PLACEHOLDER - do not translate].\nThe facility enabling the player to fast travel and to do more combat damage against the Legon.\", description = \"equinox-upgrades-warden_upgrades\", enabled = true, guid = #A08A88CF599C3F2200000082583FF4DE, lineVersion = 2, maxLength = 25, text = \"SAGE Computer Core\""
+	myLocalizedDescription "contextComment = \"[PLACEHOLDER - do not translate].\nA description of the warden upgrade facility. Here the player can unlock the ability to fast travel to Warden Ruins, and get damage buffs against specific Legion units\", description = \"equinox-upgrades-warden_upgrades-description\", enabled = true, guid = #A08A88CF599C4093000000BAFD439114, lineVersion = 2, maxLength = 79, text = \"Analyzing Warden tech\ngives us an edge in fighting\nthe Legion\""
+	mySprite "mySpriteId = -1612207154, mySpritesheet = F\"onward/ui/spritesheets/ui-equinox-centerpiece-icons.spritesheet\""
+	myUpgrades
+	{
+		ProgressionPurchasable "Fast Travel - Solved Warden Puzzles" < uid=A08A88CF599C58F0000000419D722A69 >
+		{
+			myLocalizedName "contextComment = \"[PLACEHOLDER - do not translate].\nName of the upgrade that allows the player to fast travel to solved warden puzzles/ruins.\", description = \"equinox-upgrades-warden_upgrades-fasttravel_ruins\", enabled = true, guid = #A08A88CF599C58800000003AEA656F62, lineVersion = 1, maxLength = 30, text = \"Warden Network\""
+			myLocalizedDescription "contextComment = \"[PLACEHOLDER - do not translate].\nDescription of the mod enabling fast travel to selected and solved warden puzzles.\", description = \"equinox-upgrades-warden_upgrades-fasttravel_ruins-description\", enabled = true, guid = #A08A88CF599C73BD0000033183FAC1DE, lineVersion = 3, maxLength = 100, text = \"Use the Starmap to Fast Travel\nto any solved Warden Spire\""
+			myOneOffUpgrade Unlock_FastTravel_SolvedWardenPuzzle
+			myUnlockRule
+			{
+				myCondition Challenge
+				myChallengeType WardenPuzzleSolved
+				myReqChallengeRepeatCount 3
+			}
+			myElectrumCost = GEN_EqUp_Warden_E1
+			myNovaCost = GEN_EqUp_Warden_N1
+		}
+		ProgressionPurchasable "Bonus Damage - Base Archetypes" < uid=A08A88CF599C593100000047098A63B6 >
+		{
+			myLocalizedName "contextComment = \"[PLACEHOLDER - do not translate].\nName of the upgrade that boosts damage against 'base'/standard & infused enemies.\", description = \"equinox-upgrades-warden_upgrades-bonusdamage_basearchetypes\", enabled = true, guid = #A08A88CF599C590C0000004669360A63, lineVersion = 2, maxLength = 30, text = \"Legion Intelligence\""
+			myLocalizedDescription "contextComment = \"[PLACEHOLDER - do not translate].\nDescription of the mod that increases damage dealt by the player to base & infused enemy archetypes (ex: base imp, base cyclops, base drake, shielded cyclops, infused cyclops, base probe).\", description = \"equinox-upgrades-warden_upgrades-bonusdamage_basearchetypes-description\", enabled = true, guid = #A08A88CF599C73BC0000032D085C43A3, lineVersion = 2, maxLength = 100, text = \"Deal extra damage to common Legion units\""
+			myOneOffUpgrade Unlock_BonusDamage_BaseArchetypes
+			myEnhancement < uid=E22BA6D759C146FD000234392DEE75AB > = wardenupgrade_l2
+			myUnlockRule
+			{
+				myCondition Challenge
+				myChallengeType WardenPuzzleSolved
+				myReqChallengeRepeatCount 6
+			}
+			myElectrumCost = GEN_EqUp_Warden_E2
+			myNovaCost = GEN_EqUp_Warden_N2
+		}
+		ProgressionPurchasable "Bonus Damage - Structures" < uid=A08A88CF599C59960000005EAAFC9729 >
+		{
+			myLocalizedName "contextComment = \"[PLACEHOLDER - do not translate].\nName of the Equinox Upgrade that boosts damage to all Legion Structures - hives, Extractors, Extractor Satellites\", description = \"equinox-upgrades-warden_upgrades-bonusdamage_infusedarchetypes\", enabled = true, guid = #A08A88CF599C595100000052CDCF86CA, lineVersion = 2, maxLength = 30, text = \"Structural Analysis\""
+			myLocalizedDescription "contextComment = \"[PLACEHOLDER - do not translate].\nUpgrade that increases damage dealt by the player to all Legion Structures - hives, Extractors, Extractor Satellites\", description = \"equinox-upgrades-warden_upgrades-bonusdamage_infusedarchetypes-description\", enabled = true, guid = #A08A88CF599C73B90000032932069160, lineVersion = 2, maxLength = 74, text = \"Deal extra damage to Legion Hive and Extractor structures\""
+			myOneOffUpgrade Unlock_BonusDamage_InfusedArchetypes
+			myEnhancement < uid=E22BA6D759C26E3E0002350DB8372691 > = wardenupgrade_l3
+			myUnlockRule
+			{
+				myCondition Challenge
+				myChallengeType WardenPuzzleSolved
+				myReqChallengeRepeatCount 12
+			}
+			myElectrumCost = GEN_EqUp_Warden_E3
+			myNovaCost = GEN_EqUp_Warden_N3
+		}
+		ProgressionPurchasable "Bonus Damage - Elite Archetypes" < uid=A08A88CF599C59960000005FF0687E06 >
+		{
+			myLocalizedName "contextComment = \"[PLACEHOLDER - do not translate].\nName of the upgrade that increases player damage to elite enemy archetypes.\", description = \"equinox-upgrades-warden_upgrades-bonusdamage_elitearchetypes\", enabled = true, guid = #A08A88CF599C59780000005D5CC158DF, lineVersion = 2, maxLength = 30, text = \"Elite Intelligence\""
+			myLocalizedDescription "contextComment = \"[PLACEHOLDER - do not translate].\nDescription of the upgrade that increases player damage to elite enemy archetypes.\", description = \"equinox-upgrades-warden_upgrades-bonusdamage_elitearchetypes-description\", enabled = true, guid = #A08A88CF599C73B800000325067A952D, lineVersion = 2, maxLength = 100, text = \"Deal extra damage to Elite Legion units\""
+			myOneOffUpgrade Unlock_BonusDamage_EliteArchetypes
+			myEnhancement < uid=E22BA6D759C26E3E0002350E6484E601 > = wardenupgrade_l4
+			myUnlockRule
+			{
+				myCondition Challenge
+				myChallengeType WardenPuzzleSolved
+				myReqChallengeRepeatCount 18
+			}
+			myElectrumCost = GEN_EqUp_Warden_E4
+			myNovaCost = GEN_EqUp_Warden_N4
+		}
+		ProgressionPurchasable "Bonus Damage - Weakpoints" < uid=A08A88CF599C59AF000000650975FFCD >
+		{
+			myLocalizedName "contextComment = \"[PLACEHOLDER - do not translate].\nName of the upgrade that causes the player to deal increased damage to boss units (Primes, Dreadnoughts)\", description = \"equinox-upgrades-warden_upgrades-bonusdamage_weakpoints\", enabled = true, guid = #A08A88CF599C599C00000064CFB8BFA4, lineVersion = 2, maxLength = 30, text = \"Decode Warden Secrets\""
+			myLocalizedDescription "contextComment = \"[PLACEHOLDER - do not translate].\nDescription of the upgrade that causes the player to deal increased damage to boss units (Primes, Dreadnoughts)\", description = \"equinox-upgrades-warden_upgrades-bonusdamage_weakpoints-description\", enabled = true, guid = #A08A88CF599C73B700000321C925739B, lineVersion = 2, maxLength = 66, text = \"Deal extra damage to Legion Primes and Dreadnoughts\""
+			myOneOffUpgrade Unlock_BonusDamage_Weakpoints
+			myAcquireChallenge Progression_CompletelyUpgradeEquinox_Warden_Upgrades
+			myEnhancement < uid=E22BA6D759C26E3E0002350F1731A406 > = wardenupgrade_l5
+			myUnlockRule
+			{
+				myCondition Challenge
+				myChallengeType WardenPuzzleSolved
+				myReqChallengeRepeatCount 24
+			}
+			myElectrumCost = GEN_EqUp_Warden_E5
+			myNovaCost = GEN_EqUp_Warden_N5
+		}
+	}
+}
+
+EquinoxUpgradeSet "Expedition Upgrades"
+{
+	myFacility Expedition_Upgrades
+	myLocalizedName "contextComment = \"[PLACEHOLDER - do not translate].\nThe facility that boosts mod production and exploration features for the player.\", description = \"equinox-upgrades-expedition_upgrades\", enabled = true, guid = #A08A88CF599C3F220000008659E2A9A6, lineVersion = 2, maxLength = 25, text = \"Science Station\""
+	myLocalizedDescription "contextComment = \"[PLACEHOLDER - do not translate].\nA description of the expedition upgrade facility. Here the player can reveal ruins on their Starmap, and get more mods from ruins & allied shipments. Unlocked by leveling Expedition pilots.\", description = \"equinox-upgrades-expedition_upgrades-description\", enabled = true, guid = #A08A88CF599C4093000000BCCD23EB11, lineVersion = 2, maxLength = 100, text = \"Expedition research\nhelps us find more Mod Tech\nand bosters our allies\""
+	mySprite "mySpriteId = 315851295, mySpritesheet = F\"onward/ui/spritesheets/ui-equinox-centerpiece-icons.spritesheet\""
+	myUpgrades
+	{
+		ProgressionPurchasable "Knowledge - Gold Rush Ruins / Space POI" < uid=A08A88CF599C59E60000006A5A570544 >
+		{
+			myLocalizedName "contextComment = \"[PLACEHOLDER - do not translate].\nUpgrade that gives the player knowledge of Gold Rush Ruins and unique Space POI.\", description = \"equinox-upgrades-expedition_upgrades-knowledge-ruinsandspacepoi\", enabled = true, guid = #A08A88CF599C59D300000066DD59E3CF, lineVersion = 1, maxLength = 30, text = \"Expedition Survey\""
+			myLocalizedDescription "contextComment = \"[PLACEHOLDER - do not translate].\nUpgrade that gives the player knowledge of Gold Rush Ruins and unique Space POI.\", description = \"equinox-upgrades-expedition_upgrades-knowledge-ruinsandspacepoi-description\", enabled = true, guid = #A08A88CF599C758C0000036F004E9092, lineVersion = 1, maxLength = 100, text = \"Reveal the location of all ruins from Atlas's Electrum Rush era\"}"
+			myOneOffUpgrade Unlock_Knowledge_GoldRushSpacePOI
+			myEnhancement < uid=C308E4DB59D6668700019E2A7B6251CC > = expedition_knowledge_upgrade_l1
+			myUnlockRule
+			{
+				myCondition Faction
+				myFaction Expedition
+				myReqSkillPoints = GEN_EqUp_Expedition_T1
+			}
+			myElectrumCost = GEN_EqUp_Expedition_E1
+			myNovaCost = GEN_EqUp_Expedition_N1
+		}
+		ProgressionPurchasable "Ally Unit Shield" < uid=DE70F6635AAA8F4200001BE26B5DBED0 >
+		{
+			myLocalizedName "contextComment = \"Name for Expedition Equinox Upgrade that gives +1000 Shield to all allied units\", description = \"equinox-upgrades-expedition_upgrades-ally-shields\", enabled = true, guid = #9E6AFEDA5AB2A75500001BC713F93BC7, lineVersion = 0, maxLength = 25, text = \"[Shield Technology]\""
+			myLocalizedDescription "contextComment = \"Description for Expedition Equinox Upgrade that gives +1000 Shield to all allied units\", description = \"equinox-upgrades-expedition_upgrades-ally-shields-description\", enabled = true, guid = #9E6AFEDA5AB2A75500001BC91A9D4EB0, lineVersion = 0, maxLength = 55, text = \"[Grant energy shields to all allied units]\""
+			myOneOffUpgrade Unlock_AllyUnitShield
+			myUnlockRule
+			{
+				myCondition Faction
+				myFaction Expedition
+				myReqSkillPoints = GEN_EqUp_Expedition_T2
+			}
+			mySkillPointCost 0
+			myElectrumCost = GEN_EqUp_Expedition_E2
+			myNovaCost = GEN_EqUp_Expedition_N2
+		}
+		ProgressionPurchasable "Mod Bonus - Ruins / Wrecks" < uid=A08A88CF599C59E60000006BBE6A00E1 >
+		{
+			myLocalizedName "contextComment = \"[PLACEHOLDER - do not translate].\nAwards the player a bonus mod for searching/solving ruins and wrecks.\", description = \"equinox-upgrades-expedition_upgrades-modbonus-ruinswrecks\", enabled = true, guid = #A08A88CF599C59D400000067E4601738, lineVersion = 1, maxLength = 14, text = \"Archaeology\""
+			myLocalizedDescription "contextComment = \"[PLACEHOLDER - do not translate].\nAwards the player a bonus mod for searching/solving ruins and wrecks.\", description = \"equinox-upgrades-expedition_upgrades-modbonus-ruinswrecks-description\", enabled = true, guid = #A08A88CF599C758B0000036B7248E5A3, lineVersion = 1, maxLength = 100, text = \"Discover extra mods when exploring ruins, wrecks, and Warden structures\""
+			myOneOffUpgrade Unlock_ModCollection_RuinsWrecks
+			myEnhancement < uid=C308E4DB59D2773200018A50B46D5D98 > = expedition_extramod_upgrade
+			myUnlockRule
+			{
+				myCondition Faction
+				myFaction Expedition
+				myReqSkillPoints = GEN_EqUp_Expedition_T3
+			}
+			myElectrumCost = GEN_EqUp_Expedition_E3
+			myNovaCost = GEN_EqUp_Expedition_N3
+		}
+		ProgressionPurchasable "Knowledge - Warden Ruins / Wrecks" < uid=A08A88CF599C59E60000006C2E591D0A >
+		{
+			myLocalizedName "contextComment = \"[PLACEHOLDER - do not translate].\nAwards the player knowledge of all warden ruins and all shipwrecks (small or large, planetary or starbound).\", description = \"equinox-upgrades-expedition_upgrades-knowledge-wardenruinsandwrecks\", enabled = true, guid = #A08A88CF599C59D400000068EE2FD18F, lineVersion = 1, maxLength = 30, text = \"Deep Radar\""
+			myLocalizedDescription "contextComment = \"[PLACEHOLDER - do not translate].\nAwards the player knowledge of all warden ruins and all shipwrecks (small or large, planetary or starbound).\", description = \"equinox-upgrades-expedition_upgrades-knowledge-wardenruinsandwrecks-description\", enabled = true, guid = #A08A88CF599C758A00000367D4C92D88, lineVersion = 1, maxLength = 100, text = \"Reveal the locations of all shipwrecks and Warden structures\""
+			myOneOffUpgrade Unlock_Knowledge_RuinsWrecks
+			myEnhancement < uid=C308E4DB59D666C20001A3AFA8CD59A4 > = expedition_knowledge_upgrade_l2
+			myUnlockRule
+			{
+				myCondition Faction
+				myFaction Expedition
+				myReqSkillPoints = GEN_EqUp_Expedition_T4
+			}
+			myElectrumCost = GEN_EqUp_Expedition_E4
+			myNovaCost = GEN_EqUp_Expedition_N4
+		}
+		ProgressionPurchasable "Reward Timer Decrease - Expedition" < uid=A08A88CF599C59E60000006D7085CA81 >
+		{
+			myLocalizedName "contextComment = \"[PLACEHOLDER - do not translate].\nDecreases the time it takes for rewards from allied expedition outposts to come through.\", description = \"equinox-upgrades-expedition_upgrades-rewardtimerdecreaste-expedition\", enabled = true, guid = #A08A88CF599C59D5000000694802D010, lineVersion = 1, maxLength = 30, text = \"Research Network\""
+			myLocalizedDescription "contextComment = \"[PLACEHOLDER - do not translate].\nDecreases the time it takes for rewards from allied expedition outposts to come through.\", description = \"equinox-upgrades-expedition_upgrades-rewardtimerdecreaste-expedition-description\", enabled = true, guid = #A08A88CF599C7588000003637F79BB5B, lineVersion = 1, maxLength = 100, text = \"Allied Expedition Workshops send you Mods more often\""
+			myOneOffUpgrade Unlock_QuickRewards_Expedition
+			myAcquireChallenge Progression_CompletelyUpgradeEquinox_Expedition_Upgrades
+			myEnhancement < uid=9E6AFEDA5B478214000022201FC6E620 > = expedition_upgrade_timers_enhancement
+			myUnlockRule
+			{
+				myCondition Faction
+				myFaction Expedition
+				myReqSkillPoints = GEN_EqUp_Expedition_T5
+			}
+			myElectrumCost = GEN_EqUp_Expedition_E5
+			myNovaCost = GEN_EqUp_Expedition_N5
+		}
+	}
+}
+
+EquinoxUpgradeSet "Prospector Upgrades"
+{
+	myFacility Prospector_Upgrades
+	myLocalizedName "contextComment = \"[PLACEHOLDER - do not translate].\nThe facility involved in bolstering defense of the player/allies. Fictionally it's related to the Prospectors, who excel at mining and metallurgy\", description = \"equinox-upgrades-prospector_upgrades\", enabled = true, guid = #A08A88CF599C3F220000008AEE066A08, lineVersion = 2, maxLength = 25, text = \"Cargo Bay\"}"
+	myLocalizedDescription "contextComment = \"[PLACEHOLDER - do not translate].\nA description of the prospector upgrade facility. Here the player can buy upgrades to earn more Electrum from mining, trade, and allied shipments, and improve allies' armour\", description = \"equinox-upgrades-prospector_upgrades-description\", enabled = true, guid = #A08A88CF599C4093000000BE37822374, lineVersion = 2, maxLength = 100, text = \"Prospector know-how\nboosts our Electrum earning\nand bolsters our allies\"}"
+	mySprite "mySpriteId = 1311186301, mySpritesheet = F\"onward/ui/spritesheets/ui-equinox-centerpiece-icons.spritesheet\""
+	myUpgrades
+	{
+		ProgressionPurchasable "Bonus Electrum - Electrum Veins" < uid=A08A88CF599C6927000000896285FAC1 >
+		{
+			myLocalizedName "contextComment = \"[PLACEHOLDER - do not translate].\nIncreases the amount of electrum granted by harvesting electrum veins (through the electrum vein hopper).\", description = \"equinox-upgrades-prospector_upgrades-bonuselectrum-electrumveins\", enabled = true, guid = #A08A88CF599C68F4000000695F1AD6A1, lineVersion = 1, maxLength = 21, text = \"Precision Mining\""
+			myLocalizedDescription "contextComment = \"[PLACEHOLDER - do not translate].\nIncreases the amount of electrum granted by harvesting electrum veins (through the electrum vein hopper).\", description = \"equinox-upgrades-prospector_upgrades-bonuselectrum-electrumveins-description\", enabled = true, guid = #A08A88CF599C76E70000039D9C549D24, lineVersion = 1, maxLength = 91, text = \"Use Prospector techniques to collect more Electrum from Electrum Veins\""
+			myOneOffUpgrade Unlock_BonusElectrum_ElectrumVeins
+			myEnhancement < uid=C308E4DB5A957FEC000140516F465A3A > = prospector_upgrade_n_l1
+			myUnlockRule
+			{
+				myCondition Faction
+				myFaction Prospector
+				myReqSkillPoints = GEN_EqUp_Prospector_T1
+			}
+			myElectrumCost = GEN_EqUp_Prospector_E1
+			myNovaCost = GEN_EqUp_Prospector_N1
+		}
+		ProgressionPurchasable "Affinity Weapons" < uid=9E6AFEDA5AB2AA0500001BEA5F86CA04 >
+		{
+			myLocalizedName "contextComment = \"Name for Prospector Equinox Upgrade that gives elemental weapons to all allied units\", description = \"equinox-upgrades-prospector_upgrades-affinity-weapons\", enabled = true, guid = #9E6AFEDA5AB2A84F00001BD14F0C296E, lineVersion = 0, maxLength = 30, text = \"[Affinity Weapons]\""
+			myLocalizedDescription "contextComment = \"Description for Prospector Equinox Upgrade that gives elemental weapons to all allied units (eg. Heat weapons on the ice planet, Cold weapons on the hot planets...)\", description = \"equinox-upgrades-prospector_upgrades-affinity-weapons-description\", enabled = true, guid = #9E6AFEDA5AB2A84F00001BD3B9A07132, lineVersion = 0, maxLength = 100, text = \"[Equip all our allies with Affinity Weapons optimized for each planet.]\""
+			myOneOffUpgrade Unlock_AffinityWeapons_AlliedUnits
+			myUnlockRule
+			{
+				myCondition Faction
+				myFaction Prospector
+				myReqSkillPoints = GEN_EqUp_Prospector_T2
+			}
+			myElectrumCost = GEN_EqUp_Prospector_E2
+			myNovaCost = GEN_EqUp_Prospector_N2
+		}
+		ProgressionPurchasable "Bonus Electrum - Deliveries" < uid=A08A88CF599C69270000008B6D7FD739 >
+		{
+			myLocalizedName "contextComment = \"[PLACEHOLDER - do not translate].\nIncreases the amount of electrum the player receives for completing  deliveries to all outposts.\", description = \"equinox-upgrades-prospector_upgrades-bonuselectrum-deliveries\", enabled = true, guid = #A08A88CF599C6901000000738ECEC795, lineVersion = 1, maxLength = 30, text = \"Negotiating Tactics\""
+			myLocalizedDescription "contextComment = \"[PLACEHOLDER - do not translate].\nIncreases the amount of electrum the player receives for completing  deliveries to all outposts.\", description = \"equinox-upgrades-prospector_upgrades-bonuselectrum-deliveries-description\", enabled = true, guid = #A08A88CF599C76E6000003954EEE1B6C, lineVersion = 1, maxLength = 100, text = \"Use traders' secrets to get better deals when delivering goods to Outposts\"}"
+			myOneOffUpgrade Unlock_BonusElectrum_Deliveries
+			myEnhancement < uid=9543058059E4FC6900016D67954A0202 > = prospector_upgrade_l3
+			myUnlockRule
+			{
+				myCondition Faction
+				myFaction Prospector
+				myReqSkillPoints = GEN_EqUp_Prospector_T3
+			}
+			myElectrumCost = GEN_EqUp_Prospector_E3
+			myNovaCost = GEN_EqUp_Prospector_N3
+		}
+		ProgressionPurchasable "Unit Durability - Allied Units" < uid=A08A88CF599C69270000008A2EB4DB35 >
+		{
+			myLocalizedName "contextComment = \"[PLACEHOLDER - do not translate].\nIncreases durability (ie: damage resistance and/or health) of allied units.\", description = \"equinox-upgrades-prospector_upgrades-durability-alliedunits\", enabled = true, guid = #A08A88CF599C68FC0000006EABA8D786, lineVersion = 1, maxLength = 30, text = \"Metallurgy\""
+			myLocalizedDescription "contextComment = \"[PLACEHOLDER - do not translate].\nIncreases durability (ie: damage resistance and/or health) of allied units.\", description = \"equinox-upgrades-prospector_upgrades-durability-alliedunits-description\", enabled = true, guid = #A08A88CF599C76E70000039933D5FEF8, lineVersion = 1, maxLength = 100, text = \"Equip our allies with tougher armor using Prospector mineral smelting\""
+			myOneOffUpgrade Unlock_Durability_AlliedUnits
+			myEnhancement < uid=DE70F6635AB25BF100001BC8BD35EC94 > = Enhancement_EquinoxUpgrade_IncreasedDurability
+			myUnlockRule
+			{
+				myCondition Faction
+				myFaction Prospector
+				myReqSkillPoints = GEN_EqUp_Prospector_T4
+			}
+			myElectrumCost = GEN_EqUp_Prospector_E4
+			myNovaCost = GEN_EqUp_Prospector_N4
+		}
+		ProgressionPurchasable "Reward Timer Decrease - Prospectors" < uid=A08A88CF599C69270000008C50315EE2 >
+		{
+			myLocalizedName "contextComment = \"[PLACEHOLDER - do not translate].\nDecreases the amount of time it takes the player to receive rewards from allied prospectors.\", description = \"equinox-upgrades-prospector_upgrades-rewardtimerdecreaste-prospector\", enabled = true, guid = #A08A88CF599C690C000000783F33A619, lineVersion = 1, maxLength = 30, text = \"Merchant Fleet\""
+			myLocalizedDescription "contextComment = \"[PLACEHOLDER - do not translate].\nDecreases the amount of time it takes the player to receive rewards from allied prospectors.\", description = \"equinox-upgrades-prospector_upgrades-rewardtimerdecreaste-prospector-description\", enabled = true, guid = #A08A88CF599C76E600000391F2DC2E14, lineVersion = 1, maxLength = 100, text = \"Allied Prospector Refineries send you Electrum shipments more often\""
+			myOneOffUpgrade Unlock_QuickRewards_Prospectors
+			myAcquireChallenge Progression_CompletelyUpgradeEquinox_Prospector_Upgrades
+			myEnhancement < uid=9543058059E4FC6900016D68D57FF2E1 > = prospector_upgrade_l4
+			myUnlockRule
+			{
+				myCondition Faction
+				myFaction Prospector
+				myReqSkillPoints = GEN_EqUp_Prospector_T5
+			}
+			myElectrumCost = GEN_EqUp_Prospector_E5
+			myNovaCost = GEN_EqUp_Prospector_N5
+		}
+	}
+}
+
+EquinoxUpgradeSet "Outlaw Upgrades"
+{
+	myFacility Outlaw_Upgrades
+	myLocalizedName "contextComment = \"[PLACEHOLDER - do not translate].\nFacility offering the player better loot/salvage in combat and more fast travel options.\", description = \"equinox-upgrades-outlaw_upgrades\", enabled = true, guid = #A08A88CF599C3F220000008E3453E6AB, lineVersion = 2, maxLength = 25, text = \"Outlaw Barracks\""
+	myLocalizedDescription "contextComment = \"[PLACEHOLDER - do not translate].\nA description of the outlaw upgrade facility.Here the player can unlock fast travel to Outlaw bases they've defeated, earn more mods from combat kills, and power up their allies' weapons\", description = \"equinox-upgrades-outlaw_upgrades-description\", enabled = true, guid = #A08A88CF599C4093000000C0DB1CA8EF, lineVersion = 2, maxLength = 100, text = \"Outlaw secrets help us \nnavigate & scavenge in space\nand bolster our allies\""
+	mySprite "mySpriteId = 900481826, mySpritesheet = F\"onward/ui/spritesheets/ui-equinox-centerpiece-icons.spritesheet\""
+	myUpgrades
+	{
+		ProgressionPurchasable "Fast Travel - Solved Outlaw Bases" < uid=A08A88CF599C6A9300000121E38B5193 >
+		{
+			myLocalizedName "contextComment = \"[PLACEHOLDER - do not translate].\nPermits the player to travel to any solved outlaw bases through the starmap.\", description = \"equinox-upgrades-outlaw_upgrades-fasttravel-outlawbases\", enabled = true, guid = #A08A88CF599C6A730000010D6A877F87, lineVersion = 1, maxLength = 17, text = \"Getaway Drive\""
+			myLocalizedDescription "contextComment = \"[PLACEHOLDER - do not translate].\nPermits the player to travel to any solved outlaw bases through the starmap.\", description = \"equinox-upgrades-outlaw_upgrades-fasttravel-outlawbases-description\", enabled = true, guid = #A08A88CF599C77E7000003D319B4AA73, lineVersion = 1, maxLength = 84, text = \"Select a defeated Outlaw base on the Starmap to fast travel to it\""
+			myOneOffUpgrade Unlock_FastTravel_SolvedOutlawBases
+			myUnlockRule
+			{
+				myCondition Faction
+				myFaction Outlaw
+				myReqSkillPoints = GEN_EqUp_Outlaw_T1
+			}
+			myElectrumCost = GEN_EqUp_Outlaw_E1
+			myNovaCost = GEN_EqUp_Outlaw_N1
+		}
+		ProgressionPurchasable "Extra Mod Chance  1" < uid=A08A88CF599C6A9300000122E84784A4 >
+		{
+			myLocalizedName "contextComment = \"[PLACEHOLDER - do not translate].\nIncreases the odds of getting a mod for combat kills.\", description = \"equinox-upgrades-outlaw_upgrades-bonusloot-additionalmodchance-1\", enabled = true, guid = #A08A88CF599C6A730000010ECD561FF3, lineVersion = 1, maxLength = 30, text = \"Scavenger's Code\"}"
+			myLocalizedDescription "contextComment = \"[PLACEHOLDER - do not translate].\nIncreases the odds of getting a mod for combat kills. (NOTE: This may get CUT & replaced by ONW-63051)\", description = \"equinox-upgrades-outlaw_upgrades-bonusloot-additionalmodchance-1-description\", enabled = true, guid = #A08A88CF599C77E6000003CFCE82F6C6, lineVersion = 2, maxLength = 83, text = \"[Chance to score more Mod salvage from foes defeated in combat.]\""
+			myOneOffUpgrade Unlock_BonusLoot_ExtraModDrop_1
+			myEnhancement < uid=C308E4DB59D2731200949B6DDCFAD0E6 > = outlaw_extramod_upgrade_l1
+			myUnlockRule
+			{
+				myCondition Faction
+				myFaction Outlaw
+				myReqSkillPoints = GEN_EqUp_Outlaw_T2
+			}
+			myElectrumCost = GEN_EqUp_Outlaw_E2
+			myNovaCost = GEN_EqUp_Outlaw_N2
+		}
+		ProgressionPurchasable "Bonus Damage - Allied Units" < uid=A08A88CF599C6A93000001231A11A83C >
+		{
+			myLocalizedName "contextComment = \"[PLACEHOLDER - do not translate].\nIncreases the damage done by allied units to their enemies/hostile targets.\", description = \"equinox-upgrades-outlaw_upgrades-bonusdamage-alliedunits\", enabled = true, guid = #A08A88CF599C6A730000010F605D584C, lineVersion = 1, maxLength = 18, text = \"Pirate Assault\""
+			myLocalizedDescription "contextComment = \"[PLACEHOLDER - do not translate].\nIncreases the damage done by allied units to their enemies/hostile targets.\", description = \"equinox-upgrades-outlaw_upgrades-bonusdamage-alliedunits-description\", enabled = true, guid = #A08A88CF599C77E6000003CBC9E31019, lineVersion = 1, maxLength = 74, text = \"Use black-market parts to supercharge our allies' weapons\"}"
+			myOneOffUpgrade Unlock_BonusDamage_AlliedUnits
+			myEnhancement < uid=DE70F6635AB2612800001BC81735163D > = Enhancement_EquinoxUpgrade_IncreasedDamage
+			myUnlockRule
+			{
+				myCondition Faction
+				myFaction Outlaw
+				myReqSkillPoints = GEN_EqUp_Outlaw_T3
+			}
+			myElectrumCost = GEN_EqUp_Outlaw_E3
+			myNovaCost = GEN_EqUp_Outlaw_N3
+		}
+		ProgressionPurchasable "Extra Mod Chance 2" < uid=A08A88CF599C6A93000001245D0C5DB2 >
+		{
+			myLocalizedName "contextComment = \"[PLACEHOLDER - do not translate].\nIncreases the odds of getting a mod for combat kills.\", description = \"equinox-upgrades-outlaw_upgrades-bonusloot-additionalmodchance-2\", enabled = true, guid = #A08A88CF599C6A73000001105C0D7292, lineVersion = 1, maxLength = 30, text = \"Battle Trophies\""
+			myLocalizedDescription "contextComment = \"[PLACEHOLDER - do not translate].\nIncreases the odds of getting a mod for combat kills.\", description = \"equinox-upgrades-outlaw_upgrades-bonusloot-additionalmodchance-2-description\", enabled = true, guid = #A08A88CF599C77E5000003C7A56A76CE, lineVersion = 2, maxLength = 100, text = \"[Double the chance to score more Mod salvage from foes defeated in combat.]\""
+			myOneOffUpgrade Unlock_BonusLoot_ExtraModDrop_2
+			myAcquireChallenge Progression_CompletelyUpgradeEquinox_Outlaw_Upgrades
+			myEnhancement < uid=C308E4DB59D2731F0096659B5EDEC469 > = outlaw_extramod_upgrade_l2
+			myUnlockRule
+			{
+				myCondition Faction
+				myFaction Outlaw
+				myReqSkillPoints = GEN_EqUp_Outlaw_T4
+			}
+			myElectrumCost = GEN_EqUp_Outlaw_E4
+			myNovaCost = GEN_EqUp_Outlaw_N4
+		}
+		ProgressionPurchasable "Outlaw Equip Mods" < uid=C91BB5515AA6E59D00AFC18B3C2DADBF >
+		{
+			myLocalizedName "contextComment = \"Name for Outlaw Equinox Upgrade that lets the player equip exclusive Expedition & Prospector armor types on Outlaw ships\", description = \"equinox-upgrades-outlaw_upgrades-cross-equip\", enabled = true, guid = #9E6AFEDA5AB2AB1700001BEC59FBFB42, lineVersion = 0, maxLength = 30, text = \"[Chop Shop]\""
+			myLocalizedDescription "contextComment = \"Description for Outlaw Equinox Upgrade that lets the player equip exclusive Expedition & Prospector armor types on Outlaw ships\", description = \"equinox-upgrades-outlaw_upgrades-cross-equip-description\", enabled = true, guid = #9E6AFEDA5AB2AB1700001BEE469FAD37, lineVersion = 0, maxLength = 100, text = \"[Equip any Armor on Outlaw ships - even Expedition & Prospector Armors.]\""
+			myOneOffUpgrade Unlock_Outlaw_EquipAnyMod
+			myUnlockRule
+			{
+				myCondition Faction
+				myFaction Outlaw
+				myReqSkillPoints = GEN_EqUp_Outlaw_T5
+			}
+			myElectrumCost = GEN_EqUp_Outlaw_E5
+			myNovaCost = GEN_EqUp_Outlaw_N5
+		}
+	}
+}
+

@@ -1,0 +1,26 @@
+include ./template_shipcore.mplayermod
+include ./tuning/mod_tuning_master.juice
+
+PlayerMod mod_racer_shipcore_l4 < uid=C91BB551596FBA4A000002208CAC181A > : template_shipcore
+{
+	myAttributeMods
+	{
+		AttributeMod Speed
+		{
+			myType PartStat_Speed
+			myAddValue = Racer_Core_l4_Speed
+		}
+		AttributeMod Handling
+		{
+			myType PartStat_Handling
+			myAddValue = Racer_Core_l4_Handling
+		}
+		AttributeMod Dash
+		{
+			myType Player_StaminaCost_Dash
+			myPercentageValue = Racer_Core_l4_DodgeCost
+		}
+	}
+	myIsSelfMod TRUE
+}
+

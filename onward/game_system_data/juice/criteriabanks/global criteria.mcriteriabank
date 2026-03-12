@@ -1,0 +1,1853 @@
+include "onward/game system data/fruit/rulesystem/criteriabank.fruit"
+
+CriteriaBank Global_Criteria < uid=3BC8B70A581BA70100000060EA9CA220 >
+{
+	myDescription "Criteria dealing with global facts"
+	myOasisAIElementTypeID 36
+	myIntCriteria
+	{
+		Int_Criterion "Player in Combat" < uid=3BC8B70A581BA701000000613758F298 >
+		{
+			compareType EqualToMax
+			myDescription "Player is in Combat"
+			myOasisAIElementID 746
+			label Player_In_Combat
+			maxValue 1
+		}
+		Int_Criterion "Player not in Combat" < uid=3BC8B70A581BA70100000062C1A0D176 >
+		{
+			compareType EqualToMax
+			myDescription "Player is not in combat"
+			myOasisAIElementID 747
+			label Player_In_Combat
+		}
+		Int_Criterion "Global Player Is On It" < uid=D1E9B2CB5773ECD700000076C017FB67 >
+		{
+			compareType EqualToMax
+			myDescription "Player has ON IT target"
+			myOasisAIElementID 337
+			label Player_Has_On_It_Target
+			maxValue 1
+		}
+		Int_Criterion "Global Player is Not On It" < uid=3BC8B70A57F2CAB50000005707168D12 >
+		{
+			compareType EqualToMax
+			myDescription "Player does not have a selected ON IT Target"
+			myOasisAIElementID 692
+			label Player_Has_On_It_Target
+		}
+		Int_Criterion "Rule Debug Mode Enabled" < uid=3BC8B70A594178C20000004BBAF0996A >
+		{
+			compareType EqualToMax
+			myDescription "Game should evaluate rules marked with debug mode"
+			myOasisAIElementID 2000
+			label Rule_Debug_Mode
+			maxValue 1
+		}
+		Int_Criterion "Rule Debug Mode Disabled" < uid=E9A11135595132150000004BC11139CF >
+		{
+			compareType EqualToMax
+			myDescription "Game should not evaluate rules marked with debug mode"
+			myOasisAIElementID 2036
+			label Rule_Debug_Mode
+		}
+		Int_Criterion "Global First Gameloop of Current Planet" < uid=E9A11135595D63830000004B5A9C441A >
+		{
+			compareType LessThanOrEqualToMax
+			myDescription "Is this the first gameloop event since entering this planet's atmosphere?"
+			myOasisAIElementID 2103
+			label Num_Gameloop_Events
+		}
+		Int_Criterion "Global Not First Gameloop of Current Planet" < uid=E9A11135595F92F50000004BA434CF65 >
+		{
+			compareType GreaterThanMin
+			myDescription "Is this not the first gameloop event since entering this planet's atmosphere?"
+			myOasisAIElementID 2108
+			label Num_Gameloop_Events
+		}
+		Int_Criterion "Last Hack Fail is Hacker Out Of Bounds" < uid=F2C5C692598CC0CC000478F48C678785 >
+		{
+			compareType EqualToMax
+			myOasisAIElementID 2235
+			label Last_Hack_Fail_Reason
+			maxValue 1
+		}
+		Int_Criterion "Last Hack Fail is Hack Aborted" < uid=F2C5C692598CC0CC000478F5F512734E >
+		{
+			compareType EqualToMax
+			myOasisAIElementID 2236
+			label Last_Hack_Fail_Reason
+			maxValue 2
+		}
+		Int_Criterion "Last Hack Fail is Hackable Killed" < uid=F2C5C692598CC0CC000478F6EDB1778F >
+		{
+			compareType EqualToMax
+			myOasisAIElementID 2237
+			label Last_Hack_Fail_Reason
+			maxValue 3
+		}
+		Int_Criterion "Pilot is Owned - Cash" < uid=9543058059BAFEA3000000355B653FEB >
+		{
+			myScope Global
+			compareType EqualToMax
+			myDescription "Pilot is Owned - Cash"
+			myOasisAIElementID 2457
+			label Part_Is_Owned_Pilot_Cash
+			maxValue 1
+		}
+		Int_Criterion "Pilot is Not Owned  - Cash" < uid=9543058059BAFEC700000036C8864289 >
+		{
+			compareType EqualToMax
+			myDescription "Pilot is Not Owned - Cash"
+			myOasisAIElementID 2458
+			label Part_Is_Owned_Pilot_Cash
+		}
+		Int_Criterion "Pilot is Owned - Chase" < uid=9543058059BB012B0000003591367975 >
+		{
+			compareType EqualToMax
+			myDescription "Pilot is Owned - Chase"
+			myOasisAIElementID 2459
+			label Part_Is_Owned_Pilot_Chase
+			maxValue 1
+		}
+		Int_Criterion "Pilot is Not Owned  - Chase" < uid=9543058059BB012B000000367F4214F2 >
+		{
+			compareType EqualToMax
+			myDescription "Pilot is Not Owned - Chase"
+			myOasisAIElementID 2460
+			label Part_Is_Owned_Pilot_Chase
+		}
+		Int_Criterion "Pilot is Owned - Eli" < uid=9543058059BB012B000000379D7960E2 >
+		{
+			compareType EqualToMax
+			myDescription "Pilot is Owned - Eli"
+			myOasisAIElementID 2461
+			label Part_Is_Owned_Pilot_Eli
+			maxValue 1
+		}
+		Int_Criterion "Pilot is Not Owned  - Eli" < uid=9543058059BB012B00000038939C9BB4 >
+		{
+			compareType EqualToMax
+			myDescription "Pilot is Not Owned - Eli"
+			myOasisAIElementID 2462
+			label Part_Is_Owned_Pilot_Eli
+		}
+		Int_Criterion "Pilot is Owned - Fern" < uid=9543058059BB012B00000039B143A563 >
+		{
+			compareType EqualToMax
+			myDescription "Pilot is Owned - Fern"
+			myOasisAIElementID 2463
+			label Part_Is_Owned_Pilot_Fern
+			maxValue 1
+		}
+		Int_Criterion "Pilot is Not Owned  - Fern" < uid=9543058059BB012B0000003ADEC9D23D >
+		{
+			compareType EqualToMax
+			myDescription "Pilot is Not Owned - Fern"
+			myOasisAIElementID 2464
+			label Part_Is_Owned_Pilot_Fern
+		}
+		Int_Criterion "Pilot is Owned - Galla" < uid=9543058059BB012B0000003B88E1C776 >
+		{
+			compareType EqualToMax
+			myDescription "Pilot is Owned - Galla"
+			myOasisAIElementID 2465
+			label Part_Is_Owned_Pilot_Galla
+			maxValue 1
+		}
+		Int_Criterion "Pilot is Not Owned  - Galla" < uid=9543058059BB012B0000003CFFD7ACE5 >
+		{
+			compareType EqualToMax
+			myDescription "Pilot is Not Owned - Galla"
+			myOasisAIElementID 2466
+			label Part_Is_Owned_Pilot_Galla
+		}
+		Int_Criterion "Pilot is Owned - Haywire" < uid=9543058059BB012B0000003D531366C1 >
+		{
+			compareType EqualToMax
+			myDescription "Pilot is Owned - Haywire"
+			myOasisAIElementID 2467
+			label Part_Is_Owned_Pilot_Haywire
+			maxValue 1
+		}
+		Int_Criterion "Pilot is Not Owned  - Haywire" < uid=9543058059BB012B0000003EC3DB0EA4 >
+		{
+			compareType EqualToMax
+			myDescription "Pilot is Not Owned - Haywire"
+			myOasisAIElementID 2468
+			label Part_Is_Owned_Pilot_Haywire
+		}
+		Int_Criterion "Pilot is Owned - Hunter" < uid=9543058059BB012B0000003F4587BBDE >
+		{
+			compareType EqualToMax
+			myDescription "Pilot is Owned - Hunter"
+			myOasisAIElementID 2469
+			label Part_Is_Owned_Pilot_Hunter
+			maxValue 1
+		}
+		Int_Criterion "Pilot is Not Owned  - Hunter" < uid=9543058059BB012B000000400775870F >
+		{
+			compareType EqualToMax
+			myDescription "Pilot is Not Owned - Hunter"
+			myOasisAIElementID 2470
+			label Part_Is_Owned_Pilot_Hunter
+		}
+		Int_Criterion "Pilot is Owned - Judge" < uid=9543058059BB012B00000041CF98CC4E >
+		{
+			compareType EqualToMax
+			myDescription "Pilot is Owned - Judge"
+			myOasisAIElementID 2471
+			label Part_Is_Owned_Pilot_Judge
+			maxValue 1
+		}
+		Int_Criterion "Pilot is Not Owned  - Judge" < uid=9543058059BB012B00000042D42D5537 >
+		{
+			compareType EqualToMax
+			myDescription "Pilot is Not Owned - Judge"
+			myOasisAIElementID 2472
+			label Part_Is_Owned_Pilot_Judge
+		}
+		Int_Criterion "Pilot is Owned - Kharl" < uid=9543058059BB012B00000043AC0C5D27 >
+		{
+			compareType EqualToMax
+			myDescription "Pilot is Owned - Kharl"
+			myOasisAIElementID 2473
+			label Part_Is_Owned_Pilot_Kharl
+			maxValue 1
+		}
+		Int_Criterion "Pilot is Not Owned  - Kharl" < uid=9543058059BB012B0000004407EAFA56 >
+		{
+			compareType EqualToMax
+			myDescription "Pilot is Not Owned - Kharl"
+			myOasisAIElementID 2474
+			label Part_Is_Owned_Pilot_Kharl
+		}
+		Int_Criterion "Pilot is Owned - Levi" < uid=9543058059BB012B000000450E19BC59 >
+		{
+			compareType EqualToMax
+			myDescription "Pilot is Owned - Levi"
+			myOasisAIElementID 2475
+			label Part_Is_Owned_Pilot_Levi
+			maxValue 1
+		}
+		Int_Criterion "Pilot is Not Owned  - Levi" < uid=9543058059BB012B00000046B023D440 >
+		{
+			compareType EqualToMax
+			myDescription "Pilot is Not Owned - Levi"
+			myOasisAIElementID 2476
+			label Part_Is_Owned_Pilot_Levi
+		}
+		Int_Criterion "Pilot is Owned - Rancor" < uid=9543058059BB012B000000477E084206 >
+		{
+			compareType EqualToMax
+			myDescription "Pilot is Owned - Rancor"
+			myOasisAIElementID 2477
+			label Part_Is_Owned_Pilot_Rancor
+			maxValue 1
+		}
+		Int_Criterion "Pilot is Not Owned  - Rancor" < uid=9543058059BB012B000000482E603FDB >
+		{
+			compareType EqualToMax
+			myDescription "Pilot is Not Owned - Rancor"
+			myOasisAIElementID 2478
+			label Part_Is_Owned_Pilot_Rancor
+		}
+		Int_Criterion "Pilot is Owned - Razor" < uid=9543058059BB012B00000049ED58B53A >
+		{
+			compareType EqualToMax
+			myDescription "Pilot is Owned - Razor"
+			myOasisAIElementID 2479
+			label Part_Is_Owned_Pilot_Razor
+			maxValue 1
+		}
+		Int_Criterion "Pilot is Not Owned  - Razor" < uid=9543058059BB012B0000004A4377FD05 >
+		{
+			compareType EqualToMax
+			myDescription "Pilot is Not Owned - Razor"
+			myOasisAIElementID 2480
+			label Part_Is_Owned_Pilot_Razor
+		}
+		Int_Criterion "Pilot is Owned - Shaid" < uid=9543058059BB012B0000004B7F539F1F >
+		{
+			compareType EqualToMax
+			myDescription "Pilot is Owned - Shaide"
+			myOasisAIElementID 2481
+			label Part_Is_Owned_Pilot_Shaide
+			maxValue 1
+		}
+		Int_Criterion "Pilot is Not Owned  - Shaid" < uid=9543058059BB012B0000004C50E2E9C9 >
+		{
+			compareType EqualToMax
+			myDescription "Pilot is Not Owned - Shaide"
+			myOasisAIElementID 2482
+			label Part_Is_Owned_Pilot_Shaide
+		}
+		Int_Criterion "Pilot is Owned - Sorren" < uid=9543058059BB012B0000004D783B778A >
+		{
+			compareType EqualToMax
+			myDescription "Pilot is Owned - Sorren"
+			myOasisAIElementID 2483
+			label Part_Is_Owned_Pilot_Sorren
+			maxValue 1
+		}
+		Int_Criterion "Pilot is Not Owned  - Sorren" < uid=9543058059BB012B0000004E8458325D >
+		{
+			compareType EqualToMax
+			myDescription "Pilot is Not Owned - Sorren"
+			myOasisAIElementID 2484
+			label Part_Is_Owned_Pilot_Sorren
+		}
+		Int_Criterion "Pilot is Owned - Startail" < uid=9543058059BB012B0000004F6710EEAE >
+		{
+			compareType EqualToMax
+			myDescription "Pilot is Owned - Startail"
+			myOasisAIElementID 2485
+			label Part_Is_Owned_Pilot_Startail
+			maxValue 1
+		}
+		Int_Criterion "Pilot is Not Owned  - Startail" < uid=9543058059BB012B0000005020FBEF24 >
+		{
+			compareType EqualToMax
+			myDescription "Pilot is Not Owned - Startail"
+			myOasisAIElementID 2486
+			label Part_Is_Owned_Pilot_Startail
+		}
+		Int_Criterion "Player In Space" < uid=2B55C72B59E0028900000036453C2E7A >
+		{
+			compareType EqualToMax
+			myDescription "Player is In Space"
+			myOasisAIElementID 2550
+			label Player_InSpace
+			maxValue 1
+		}
+		Int_Criterion "Player is Not In Space" < uid=1E68E53559EF739300000721FD1C3412 >
+		{
+			compareType EqualToMax
+			myDescription "Player is Not In Space"
+			myOasisAIElementID 2576
+			label Player_InSpace
+		}
+		Int_Criterion "COOP Transition Is Planet Entry" < uid=F2C5C6925A0F498600002241FC56D7F8 >
+		{
+			compareType EqualToMax
+			myDescription "the player is attempting to enter a planet"
+			myOasisAIElementID 2838
+			label Transition_Is_Space_To_Planet
+			maxValue 1
+		}
+		Int_Criterion "COOP Transition Is Planet Exit" < uid=F2C5C6925A0F498600002242866386C1 >
+		{
+			compareType EqualToMax
+			myDescription "the player is attempting to exit a planet"
+			myOasisAIElementID 2839
+			label Transition_Is_Space_To_Planet
+		}
+		Int_Criterion "Environment Difficulty is High" < uid=F2C5C6925A4CE8F60001860997FDCEF2 >
+		{
+			compareType LessThanOrEqualToMax
+			myDescription "Delta is:  playerSkill - ClosestPlanetDifficulty"
+			myOasisAIElementID 2901
+			label Pilot_To_Difficulty_Domain_Delta
+			maxValue -2
+		}
+		Int_Criterion "Environment Difficulty is Normal" < uid=F2C5C6925A4CE9A10001C8D658631D40 >
+		{
+			compareType EqualToMax
+			myDescription "Delta is:  playerSkill - ClosestPlanetDifficulty"
+			myOasisAIElementID 2902
+			label Pilot_To_Difficulty_Domain_Delta
+		}
+		Int_Criterion "Environment Difficulty is Low" < uid=F2C5C6925A4CE9EC0003E7A3F9C3E7C6 >
+		{
+			compareType GreaterThanOrEqualToMin
+			myDescription "Delta is:  playerSkill - ClosestPlanetDifficulty"
+			myOasisAIElementID 2903
+			label Pilot_To_Difficulty_Domain_Delta
+			minValue 1
+		}
+		Int_Criterion "Global Target is On Player Planet" < uid=4A79E0E45A70C8B600001AEE1D78F5E3 >
+		{
+			myOasisAIElementID 2986
+		}
+		Int_Criterion "Global Target is Not On Player Planet" < uid=4A79E0E45A70C8B600001AEFF327229B >
+		{
+			myOasisAIElementID 2987
+		}
+		Int_Criterion "Player Took Damage From High Level Enemy" < uid=F2C5C6925A9611BF00006BBBD76C81AB >
+		{
+			compareType LessThanOrEqualToMax
+			myDescription "Player took damage from an enemy that has a significantly higher skill level than equipped pilot"
+			myOasisAIElementID 3126
+			label Skill_Delta_Of_Last_Attack_On_Player
+			maxValue -6
+		}
+		Int_Criterion "Player Took Damage From Low Level Enemy" < uid=F2C5C6925A9612DA0000AE7DF44CE218 >
+		{
+			compareType GreaterThanOrEqualToMin
+			myDescription "Player took damage from an enemy that has a significantly lower skill level than equipped pilot"
+			myOasisAIElementID 3127
+			label Skill_Delta_Of_Last_Attack_On_Player
+			minValue 6
+		}
+		Int_Criterion "Player Damaged High Level Enemy" < uid=F2C5C6925A9613650000CECD16D4C472 >
+		{
+			compareType LessThanOrEqualToMax
+			myDescription "Player damaged an enemy that has a signficantly higher skill level than equipped pilot"
+			myOasisAIElementID 3128
+			label Skill_Delta_Of_Players_Last_Attack
+			maxValue -6
+		}
+		Int_Criterion "Player Damaged Low Level Enemy" < uid=F2C5C6925A9611BF00006BBC69D64D09 >
+		{
+			compareType GreaterThanOrEqualToMin
+			myDescription "Player damaged an enemy that has a significantly lower skill level than equipped pilot"
+			myOasisAIElementID 3129
+			label Skill_Delta_Of_Players_Last_Attack
+			minValue 6
+		}
+		Int_Criterion "Global Prime on Current Planet is Alive" < uid=E9A111355AB439AA00001BCE8F0C4C59 >
+		{
+			compareType EqualToMax
+			myOasisAIElementID 3183
+			label Current_Planet_Has_A_Prime
+			maxValue 1
+		}
+		Int_Criterion "Global Prime on Current Planet is Dead" < uid=E9A111355AB439AA00001BCFE714FD85 >
+		{
+			compareType EqualToMax
+			myOasisAIElementID 3184
+			label Current_Planet_Has_A_Prime
+		}
+		Int_Criterion "Global Dreadnought In Current Sector Is Alive" < uid=C139C8D5F80B59A89BE09FBD63B09504 >
+		{
+			compareType EqualToMax
+			myDescription ""
+			myOasisAIElementID 3235
+			label Current_Sector_Has_Active_Dreadnought
+			maxValue 1
+		}
+		Int_Criterion "Harvesters Are In Combat With Player" < uid=1E68E5355AE36C3F00001DC4B83F8123 >
+		{
+			compareType EqualToMax
+			myOasisAIElementID 3315
+			label Harvesters_Are_In_Combat_With_Player
+			maxValue 1
+		}
+		Int_Criterion "Outlaws Are In Combat With Player" < uid=1E68E5355AE36C3F00001DC587CA8D95 >
+		{
+			compareType EqualToMax
+			myOasisAIElementID 3316
+			label Outlaws_Are_In_Combat_With_Player
+			maxValue 1
+		}
+		Int_Criterion "Fauna Scan Completion is less than 100 Percent" < uid=132A31715B58CE71000C048CFC610860 >
+		{
+			compareType EqualToMax
+			myDescription "This criteria will be true when there is still more to learn about the just-scanned creature"
+			myOasisAIElementID 3509
+			label Last_Fauna_Is_Fully_Discovered
+		}
+		Int_Criterion "Fauna Scan Completion is 100 Percent" < uid=132A31715B58CE71000C048D3B49BDE9 >
+		{
+			compareType EqualToMax
+			myDescription "This criteria will be true when there is nothing more to learn about the just-scanned creature"
+			myOasisAIElementID 3510
+			label Last_Fauna_Is_Fully_Discovered
+			maxValue 1
+		}
+		Int_Criterion "Player Inside Dreadnought" < uid=0A1D74E75B6DF42A00014A1819E11505 >
+		{
+			compareType EqualToMax
+			myDescription "Player is inside dreadnought"
+			myOasisAIElementID 3517
+			label Player_Inside_Dreadnought
+			maxValue 1
+		}
+		Int_Criterion "Player Outside Dreadnought" < uid=0A1D74E75B6DF42A00014A1965F61371 >
+		{
+			compareType EqualToMax
+			myDescription "Player is outside dreadnought"
+			myOasisAIElementID 3518
+			label Player_Inside_Dreadnought
+		}
+		Int_Criterion "Last Fauna Scanned Became Fully Discovered" < uid=0A1D74E75BA118F000002415EEE549A4 >
+		{
+			compareType EqualToMax
+			myOasisAIElementID 3529
+			label Last_Fauna_Became_Fully_Discovered
+			maxValue 1
+		}
+		Int_Criterion "Started Expedition SideStory 01" < uid=0A1D74E75C5CAD2100018CCBBBB9ECA8 >
+		{
+			compareType EqualToMax
+			myOasisAIElementID 3958
+			label Started_Expedition_SideStory_01
+			maxValue 1
+		}
+		Int_Criterion "Expedition SideStory 01 Not Started" < uid=0A1D74E75C5CAE9000018DDBDDCC1448 >
+		{
+			compareType EqualToMax
+			myOasisAIElementID 3959
+			label Started_Expedition_SideStory_01
+		}
+	}
+	myFloatCriteria
+	{
+		Float_Criterion "Player Health < 25%" < uid=3BC8B70A591CC4550000004BC2500BC5 >
+		{
+			myOasisAIElementID 1970
+			label Player_Health_Percent
+			maxValue 0.25
+		}
+		Float_Criterion "Player Health 25% to 50%" < uid=3BC8B70A591CC4550000004CC8D08B99 >
+		{
+			compareType GreaterThanOrEqualToMinAndLessThanEqualToMax
+			myOasisAIElementID 1971
+			label Player_Health_Percent
+			minValue 0.25
+			maxValue 0.5
+		}
+		Float_Criterion "Player Health 50% to 75%" < uid=3BC8B70A591CC4550000004D1C3EC7B5 >
+		{
+			compareType GreaterThanOrEqualToMinAndLessThanEqualToMax
+			myOasisAIElementID 1972
+			label Player_Health_Percent
+			minValue 0.5
+			maxValue 0.75
+		}
+		Float_Criterion "Player Health 75% to 100%" < uid=3BC8B70A591CC4550000004E0B8B55F9 >
+		{
+			compareType GreaterThanMinAndLessThanMax
+			myOasisAIElementID 1973
+			label Player_Health_Percent
+			minValue 0.75
+			maxValue 1.0
+		}
+		Float_Criterion "Player Health 100%" < uid=3BC8B70A591CC47D0000004F49C7796E >
+		{
+			compareType EqualToMax
+			myOasisAIElementID 1974
+			label Player_Health_Percent
+			maxValue 1.0
+		}
+		Float_Criterion "Player Inventory Organics Count > 75%" < uid=4A79E0E45A6F66E500001B0AD530A4E4 >
+		{
+			compareType GreaterThanMinAndLessThanMax
+			myOasisAIElementID 2976
+			label Inventory_Organics_Percent
+			minValue 0.75
+			maxValue 1.0
+		}
+		Float_Criterion "Player Inventory Metals Count > 75%" < uid=4A79E0E45A6F66E500001B0B7540DC59 >
+		{
+			compareType GreaterThanMinAndLessThanMax
+			myOasisAIElementID 2977
+			label Inventory_Metals_Percent
+			minValue 0.75
+			maxValue 1.0
+		}
+		Float_Criterion "Player Inventory Cores Count > 0%" < uid=4A79E0E45A6F66E500001B0CE6DE25ED >
+		{
+			compareType GreaterThanMin
+			myOasisAIElementID 2978
+			label Inventory_Cores_Percent
+		}
+	}
+	myStringCriteria
+	{
+		String_Criterion "Last AffinityType Triggered was Ice" < uid=3BC8B70A583778B40000004B0E357BA7 >
+		{
+			myDescription "The last entity that entered Affinity state was Ice"
+			myOasisAIElementID 1012
+			label Last_AffinityType_Triggered
+			value Ice
+		}
+		String_Criterion "Last AffinityType Triggered was Fire" < uid=3BC8B70A583778B40000004C112AF886 >
+		{
+			myDescription "The last entity that entered Affinity state was Fire"
+			myOasisAIElementID 1013
+			label Last_AffinityType_Triggered
+			value Fire
+		}
+		String_Criterion "Last AffinityType Triggered was Crush" < uid=3BC8B70A583778D90000004D6C5C75E3 >
+		{
+			myDescription "The last entity that entered Affinity state was Crush"
+			myOasisAIElementID 1014
+			label Last_AffinityType_Triggered
+			value Crush
+		}
+		String_Criterion "Last AffinityDamage Applied was Generic" < uid=3BC8B70A5838887B0000004B49ED81ED >
+		{
+			myDescription "The last Entity that was hit with Affinity-matching damage was hit with Generic"
+			myOasisAIElementID 1015
+			label Last_AffinityDamage_Applied
+			value Generic
+		}
+		String_Criterion "Last AffinityDamage Applied was Cold" < uid=3BC8B70A5838887B0000004C262A1042 >
+		{
+			myDescription "The last Entity that was hit with Affinity-matching damage was hit with Ice"
+			myOasisAIElementID 1016
+			label Last_AffinityDamage_Applied
+			value Cold
+		}
+		String_Criterion "Last AffinityDamage Applied was Heat" < uid=3BC8B70A5838887B0000004DCE393EB4 >
+		{
+			myDescription "The last Entity that was hit with Affinity-matching damage was hit with Heat"
+			myOasisAIElementID 1017
+			label Last_AffinityDamage_Applied
+			value Heat
+		}
+		String_Criterion "Last AffinityDamage Applied was Crush" < uid=3BC8B70A5838887B0000004E7500AC37 >
+		{
+			myDescription "The last Entity that was hit with Affinity-matching damage was hit with Crush"
+			myOasisAIElementID 1018
+			label Last_AffinityDamage_Applied
+			value Crush
+		}
+		String_Criterion "Last AffinityDamage Applied was Impact" < uid=3BC8B70A5838887B0000004F50C7A993 >
+		{
+			myDescription "The last Entity that was hit with Affinity-matching damage was hit with Impact"
+			myOasisAIElementID 1019
+			label Last_AffinityDamage_Applied
+			value Impact
+		}
+		String_Criterion "Last AffinityDamage Applied was Float" < uid=3BC8B70A5838887B0000005026190BC9 >
+		{
+			myDescription "The last Entity that was hit with Affinity-matching damage was hit with Float"
+			myOasisAIElementID 1020
+			label Last_AffinityDamage_Applied
+			value Float
+		}
+		String_Criterion "Last WeaknessDamage Applied was Generic" < uid=3BC8B70A583889BF0000004B33D1348F >
+		{
+			myDescription "The last Entity that was hit with Weakness-matching damage was hit with Generic"
+			myOasisAIElementID 1021
+			label Last_WeaknessDamage_Applied
+			value Generic
+		}
+		String_Criterion "Last WeaknessDamage Applied was Cold" < uid=3BC8B70A583889BF0000004C9D16B778 >
+		{
+			myDescription "The last Entity that was hit with Weakness-matching damage was hit with Ice"
+			myOasisAIElementID 1022
+			label Last_WeaknessDamage_Applied
+			value Cold
+		}
+		String_Criterion "Last WeaknessDamage Applied was Heat" < uid=3BC8B70A583889BF0000004D2C75C003 >
+		{
+			myDescription "The last Entity that was hit with Weakness-matching damage was hit with Heat"
+			myOasisAIElementID 1023
+			label Last_WeaknessDamage_Applied
+			value Heat
+		}
+		String_Criterion "Last WeaknessDamage Applied was Crush" < uid=3BC8B70A583889BF0000004E8C1970FB >
+		{
+			myDescription "The last Entity that was hit with Weakness-matching damage was hit with Crush"
+			myOasisAIElementID 1024
+			label Last_WeaknessDamage_Applied
+			value Crush
+		}
+		String_Criterion "Last WeaknessDamage Applied was Impact" < uid=3BC8B70A583889BF0000004F36D658BB >
+		{
+			myDescription "The last Entity that was hit with Weakness-matching damage was hit with Impact"
+			myOasisAIElementID 1025
+			label Last_WeaknessDamage_Applied
+			value Impact
+		}
+		String_Criterion "Last WeaknessDamage Applied was Float" < uid=3BC8B70A583889BF000000501E53846E >
+		{
+			myDescription "The last Entity that was hit with Weakness-matching damage was hit with Float"
+			myOasisAIElementID 1026
+			label Last_WeaknessDamage_Applied
+			value Float
+		}
+		String_Criterion "NPC Type AttachedTo Player is Harvester_Imp" < uid=46D5728F58C039E8000044A532008D46 >
+		{
+			myDescription "NPC Type of agent attached to the Player ship"
+			myOasisAIElementID 1376
+			label NPC_Type_AttachedTo_Player
+			value Harvester_Imp
+		}
+		String_Criterion "NPC Type AttachedTo Player is Harvester Imp Cold" < uid=46D5728F58C039E8000044A6ECC78133 >
+		{
+			myDescription "NPC Type of agent attached to the Player ship"
+			myOasisAIElementID 1377
+			label NPC_Type_AttachedTo_Player
+			value Harvester_Imp_Cold
+		}
+		String_Criterion "NPC Type AttachedTo Player is Harvester Imp Heat" < uid=46D5728F58C039E8000044A71B2D0CD2 >
+		{
+			myDescription "NPC Type of agent attached to the Player ship"
+			myOasisAIElementID 1378
+			label NPC_Type_AttachedTo_Player
+			value Harvester_Imp_Heat
+		}
+		String_Criterion "NPC Type AttachedTo Player is Harvester Imp Crush" < uid=46D5728F58C039E8000044A8A30D2FE0 >
+		{
+			myDescription "NPC Type of agent attached to the Player ship"
+			myOasisAIElementID 1379
+			label NPC_Type_AttachedTo_Player
+			value Harvester_Imp_Crush
+		}
+		String_Criterion "Last Expired Opportunity pushed off list" < uid=3BC8B70A58E26AA70000004B4A1BAC2D >
+		{
+			myDescription "Opportunity was pushed off the end of the list"
+			myOasisAIElementID 1411
+			label Last_Expired_Opportunity_Reason
+			value Misc_PushedOffList
+		}
+		String_Criterion "Last Expired Opportunity Find Target Died" < uid=3BC8B70A58E26AA70000004C00464889 >
+		{
+			myDescription "Find target died"
+			myOasisAIElementID 1412
+			label Last_Expired_Opportunity_Reason
+			value Find_TargetDied
+		}
+		String_Criterion "Last Expired Opportunity Pickup Died" < uid=3BC8B70A58E26AA70000004D94191182 >
+		{
+			myDescription "Opportunity Pickup died"
+			myOasisAIElementID 1413
+			label Last_Expired_Opportunity_Reason
+			value Pickup_PickupDied
+		}
+		String_Criterion "Last Expired Opportunity Pickup Grabbed by Other" < uid=3BC8B70A58E26AA70000004EB63042FA >
+		{
+			myDescription "Pickup picked up by non-player"
+			myOasisAIElementID 1414
+			label Last_Expired_Opportunity_Reason
+			value Pickup_OnItPickedUpByOther
+		}
+		String_Criterion "Last Expired Opportunity Pickup bad attach state" < uid=3BC8B70A58E26AA70000004F21DDEAD5 >
+		{
+			myDescription "Could not figure out what state the pickup was in"
+			myOasisAIElementID 1415
+			label Last_Expired_Opportunity_Reason
+			value Pickup_AttachmentStateInvald
+		}
+		String_Criterion "Last Expired Opportunity Delivery Died" < uid=3BC8B70A58E26AA70000005013EDEC67 >
+		{
+			myDescription "Delivery item died"
+			myOasisAIElementID 1416
+			label Last_Expired_Opportunity_Reason
+			value Deliver_DeliveryDied
+		}
+		String_Criterion "Last Expired Opportunity Delivery Destination died" < uid=3BC8B70A58E26AA7000000514F247A99 >
+		{
+			myDescription "Delivery destination died"
+			myOasisAIElementID 1417
+			label Last_Expired_Opportunity_Reason
+			value Deliver_DestinationDied
+		}
+		String_Criterion "Last Expired Opportunity Delivery to Wrong Place" < uid=3BC8B70A58E26AA7000000527B37C615 >
+		{
+			myDescription "Delivered item to the wrong place"
+			myOasisAIElementID 1418
+			label Last_Expired_Opportunity_Reason
+			value Deliver_WrongDeliveryTarget
+		}
+		String_Criterion "Last Expired Opportunity Attack never damaged" < uid=3BC8B70A58E26BA900000053B57200E4 >
+		{
+			myDescription "Attack target died out of range and player never damaged it"
+			myOasisAIElementID 1419
+			label Last_Expired_Opportunity_Reason
+			value Attack_DiedOutOfRange_and_PlayerNeverDamagedIt
+		}
+		String_Criterion "Last Expired Opportunity Defend Target Died" < uid=3BC8B70A58E26BA900000054C9804CF9 >
+		{
+			myDescription "The defend target died"
+			myOasisAIElementID 1420
+			label Last_Expired_Opportunity_Reason
+			value Defend_TargetDied
+		}
+		String_Criterion "Last Expired Opportunity Defend Target became hostile" < uid=3BC8B70A58E26BA900000055A51C17E2 >
+		{
+			myDescription "Defend target became hostile to player"
+			myOasisAIElementID 1421
+			label Last_Expired_Opportunity_Reason
+			value Defend_TargetHostileToPlayer
+		}
+		String_Criterion "Last Expired Opportunity Interact target died" < uid=3BC8B70A58E26BA90000005660DE6A3A >
+		{
+			myDescription "Interact target died"
+			myOasisAIElementID 1422
+			label Last_Expired_Opportunity_Reason
+			value Interact_TargetDied
+		}
+		String_Criterion "Last Expired Opportunity Player Died" < uid=3BC8B70A58E26BA900000057458E33E5 >
+		{
+			myDescription "Player Died"
+			myOasisAIElementID 1423
+			label Last_Expired_Opportunity_Reason
+			value PlayerDied
+		}
+		String_Criterion "PC is Josh (TOR-WKS-AB120)" < uid=3BC8B70A594042CA0000004BA0B06D96 >
+		{
+			myDescription "Local Computer's name is TOR-WKS-AB120"
+			myOasisAIElementID 1998
+			label Local_Computer_Name
+			value TOR-WKS-AB120
+		}
+		String_Criterion "PC is David (TOR-WKS-AA689)" < uid=3BC8B70A594042CA0000004C2718E5BF >
+		{
+			myDescription "Local Computer's name is TOR-WKS-AA689"
+			myOasisAIElementID 1999
+			label Local_Computer_Name
+			value TOR-WKS-AA689
+		}
+		String_Criterion "PC is Adrian TOR-WKS-AB490" < uid=1E68E5355942DD4E000000C6DFB48CB4 >
+		{
+			myDescription "Local Computer's name is TOR-WKS-AB490"
+			myOasisAIElementID 2005
+			label Local_Computer_Name
+			value TOR-WKS-AB490
+		}
+		String_Criterion "PC is Justin (TOR-WKS-AA780)" < uid=E9A111355943EE740000004B74D6A32F >
+		{
+			myDescription "Local Computer's name is TOR-WKS-AA780"
+			myOasisAIElementID 2007
+			label Local_Computer_Name
+			value TOR-WKS-AA780
+			notEqual FALSE
+		}
+		String_Criterion "PC is Eduardo (TOR-WKS-AA798)" < uid=2B55C72B595E5205000000C93AB7D392 >
+		{
+			myDescription "Local Computer's name is TOR-WKS-AA798"
+			myOasisAIElementID 2106
+			label Local_Computer_Name
+			value TOR-WKS-AA798
+		}
+		String_Criterion "PC is Nathan (TOR-WKS-AA924)" < uid=F2C5C692596524BC0000004B1942915F >
+		{
+			myDescription "Local Computer's name is TOR-WKS-AA924"
+			myOasisAIElementID 2122
+			label Local_Computer_Name
+			value TOR-WKS-AA924
+		}
+		String_Criterion "PC is Matt (TOR-WKS-AB101)" < uid=954305805970DDE40000018947DA89AA >
+		{
+			myDescription "Local Computer's name is TOR-WKS-AB101"
+			myOasisAIElementID 2157
+			label Local_Computer_Name
+			value TOR-WKS-AB101
+		}
+		String_Criterion "Last Expired Opportunity Deliver Requester Died" < uid=1E68E535598DF1B100022EEE0C4F5D84 >
+		{
+			myDescription "Last Expired Opportunity Deliver Requester Died"
+			myOasisAIElementID 2244
+			label Last_Expired_Opportunity_Reason
+			value Deliver_RequesterDied
+		}
+		String_Criterion "Shipment is Electrum" < uid=9543058059A03A970000003559D1EB02 >
+		{
+			myDescription "When a shipment is Electrum"
+			myOasisAIElementID 2366
+			label Shipment_Name
+			value Electrum
+		}
+		String_Criterion "Shipment is Enhancements" < uid=9543058059A03A9700000036C3EE0C82 >
+		{
+			myDescription "When a shipment is Enhancements"
+			myOasisAIElementID 2367
+			label Shipment_Name
+			value Enhancements
+		}
+		String_Criterion "Shipment is Nova" < uid=9543058059A03A970000003713E3E2D7 >
+		{
+			myDescription "When a shipment is Nova"
+			myOasisAIElementID 2368
+			label Shipment_Name
+			value Nova
+		}
+		String_Criterion "Co-op leash strength is Strong" < uid=86C48E2D5A66600700001AF72B2C194A >
+		{
+			myOasisAIElementID 2959
+			label Coop_Leash_Strength
+			value Strong
+		}
+		String_Criterion "Co-op leash strength is Weak" < uid=86C48E2D5A67624500001B4974CB78D8 >
+		{
+			myOasisAIElementID 2960
+			label Coop_Leash_Strength
+			value Weak
+		}
+		String_Criterion "Co-op leash strength is Breaking" < uid=86C48E2D5A67624500001B4AB87C5D25 >
+		{
+			myOasisAIElementID 2961
+			label Coop_Leash_Strength
+			value Breaking
+		}
+		String_Criterion "Last Challenge Unlocked is Discover_Fauna01" < uid=F2C5C6925A70D6EC00001B3F728E8C3E >
+		{
+			myOasisAIElementID 2988
+			label Last_Challenge_Type_Completed
+			value Discover_Fauna01
+		}
+		String_Criterion "Last Challenge Unlocked is Discover_Fauna02" < uid=F2C5C6925A70D6EC00001B40F742F450 >
+		{
+			myOasisAIElementID 2989
+			label Last_Challenge_Type_Completed
+			value Discover_Fauna02
+		}
+		String_Criterion "Last Challenge Unlocked is Discover_Fauna03" < uid=F2C5C6925A70D6EC00001B419288155A >
+		{
+			myOasisAIElementID 2990
+			label Last_Challenge_Type_Completed
+			value Discover_Fauna03
+		}
+		String_Criterion "Last Challenge Unlocked is Discover_Fauna04" < uid=F2C5C6925A70D6EC00001B4221F32469 >
+		{
+			myOasisAIElementID 2991
+			label Last_Challenge_Type_Completed
+			value Discover_Fauna04
+		}
+		String_Criterion "Last Challenge Unlocked is Discover_Fauna05" < uid=F2C5C6925A70D6EC00001B43271AB315 >
+		{
+			myOasisAIElementID 2992
+			label Last_Challenge_Type_Completed
+			value Discover_Fauna05
+		}
+		String_Criterion "Last Challenge Unlocked is Discover_Fauna06" < uid=F2C5C6925A70D6EC00001B44C71A23D2 >
+		{
+			myOasisAIElementID 2993
+			label Last_Challenge_Type_Completed
+			value Discover_Fauna06
+		}
+		String_Criterion "Last Challenge Unlocked is Discover_Fauna07" < uid=F2C5C6925A70D6EC00001B4515EADCAE >
+		{
+			myOasisAIElementID 2994
+			label Last_Challenge_Type_Completed
+			value Discover_Fauna07
+		}
+		String_Criterion "Last Challenge Unlocked is Discover_Fauna08" < uid=F2C5C6925A70D6EC00001B46AD826216 >
+		{
+			myOasisAIElementID 2995
+			label Last_Challenge_Type_Completed
+			value Discover_Fauna08
+		}
+		String_Criterion "Last Challenge Unlocked is Discover_Fauna09" < uid=F2C5C6925A70D6EC00001B475FF2EEA8 >
+		{
+			myOasisAIElementID 2996
+			label Last_Challenge_Type_Completed
+			value Discover_Fauna09
+		}
+		String_Criterion "Last Challenge Unlocked is Discover_Fauna10" < uid=F2C5C6925A70D6EC00001B4849E05237 >
+		{
+			myOasisAIElementID 2997
+			label Last_Challenge_Type_Completed
+			value Discover_Fauna10
+		}
+		String_Criterion "Last Challenge Unlocked is Discover_Fauna11" < uid=F2C5C6925A70D6EC00001B490AACF809 >
+		{
+			myOasisAIElementID 2998
+			label Last_Challenge_Type_Completed
+			value Discover_Fauna11
+		}
+		String_Criterion "Last Challenge Unlocked is Discover_Fauna12" < uid=F2C5C6925A70D6EC00001B4AB480B998 >
+		{
+			myOasisAIElementID 2999
+			label Last_Challenge_Type_Completed
+			value Discover_Fauna12
+		}
+		String_Criterion "Last Challenge Unlocked is Discover_Fauna13" < uid=F2C5C6925A70D6EC00001B4B7CCF860E >
+		{
+			myOasisAIElementID 3000
+			label Last_Challenge_Type_Completed
+			value Discover_Fauna13
+		}
+		String_Criterion "Last Challenge Unlocked is Discover_Fauna14" < uid=F2C5C6925A70D6EC00001B4C37F5124A >
+		{
+			myOasisAIElementID 3001
+			label Last_Challenge_Type_Completed
+			value Discover_Fauna14
+		}
+		String_Criterion "Last Challenge Unlocked is Discover_Fauna15" < uid=F2C5C6925A70D6EC00001B4D5AF4C80D >
+		{
+			myOasisAIElementID 3002
+			label Last_Challenge_Type_Completed
+			value Discover_Fauna15
+		}
+		String_Criterion "Last Challenge Unlocked is Discover_Fauna16" < uid=F2C5C6925A70D6EC00001B4EEB09F6B2 >
+		{
+			myOasisAIElementID 3003
+			label Last_Challenge_Type_Completed
+			value Discover_Fauna16
+		}
+		String_Criterion "Last Challenge Unlocked is Discover_Fauna17" < uid=F2C5C6925A70D6EC00001B4FEBF6E22B >
+		{
+			myOasisAIElementID 3004
+			label Last_Challenge_Type_Completed
+			value Discover_Fauna17
+		}
+		String_Criterion "Last Challenge Unlocked is Discover_Fauna18" < uid=F2C5C6925A70D6EC00001B50740EDA5D >
+		{
+			myOasisAIElementID 3005
+			label Last_Challenge_Type_Completed
+			value Discover_Fauna18
+		}
+		String_Criterion "Last Challenge Unlocked is Discover_Fauna19" < uid=F2C5C6925A70D6EC00001B518846C071 >
+		{
+			myOasisAIElementID 3006
+			label Last_Challenge_Type_Completed
+			value Discover_Fauna19
+		}
+		String_Criterion "Last Challenge Unlocked is Discover_Fauna20" < uid=F2C5C6925A70D6EC00001B522C5E0BAD >
+		{
+			myOasisAIElementID 3007
+			label Last_Challenge_Type_Completed
+			value Discover_Fauna20
+		}
+		String_Criterion "Last Challenge Unlocked is Discover_Fauna21" < uid=F2C5C6925A70D6EC00001B5370E553B7 >
+		{
+			myOasisAIElementID 3008
+			label Last_Challenge_Type_Completed
+			value Discover_Fauna21
+		}
+		String_Criterion "Last Challenge Unlocked is Discover_Fauna01" < uid=42BB0A2F5B465E9100002433110FAB34 >
+		{
+			myOasisAIElementID 2988
+			label Last_Challenge_Type_Completed
+			value FullyScan_Fauna01
+		}
+		String_Criterion "Last Challenge Unlocked is Discover_Fauna02" < uid=42BB0A2F5B465E9100002434D24D87CE >
+		{
+			myOasisAIElementID 2989
+			label Last_Challenge_Type_Completed
+			value FullyScan_Fauna02
+		}
+		String_Criterion "Last Challenge Unlocked is Discover_Fauna03" < uid=42BB0A2F5B465E9100002435FF3CF736 >
+		{
+			myOasisAIElementID 2990
+			label Last_Challenge_Type_Completed
+			value FullyScan_Fauna03
+		}
+		String_Criterion "Last Challenge Unlocked is Discover_Fauna04" < uid=42BB0A2F5B465E9100002436BBF8968A >
+		{
+			myOasisAIElementID 2991
+			label Last_Challenge_Type_Completed
+			value FullyScan_Fauna04
+		}
+		String_Criterion "Last Challenge Unlocked is Discover_Fauna05" < uid=42BB0A2F5B465E9100002437D7C2DCCA >
+		{
+			myOasisAIElementID 2992
+			label Last_Challenge_Type_Completed
+			value FullyScan_Fauna05
+		}
+		String_Criterion "Last Challenge Unlocked is Discover_Fauna06" < uid=42BB0A2F5B465E9100002438690F420B >
+		{
+			myOasisAIElementID 2993
+			label Last_Challenge_Type_Completed
+			value FullyScan_Fauna06
+		}
+		String_Criterion "Last Challenge Unlocked is Discover_Fauna07" < uid=42BB0A2F5B465E910000243971928D5B >
+		{
+			myOasisAIElementID 2994
+			label Last_Challenge_Type_Completed
+			value FullyScan_Fauna07
+		}
+		String_Criterion "Last Challenge Unlocked is Discover_Fauna08" < uid=42BB0A2F5B465E910000243A0EA10925 >
+		{
+			myOasisAIElementID 2995
+			label Last_Challenge_Type_Completed
+			value FullyScan_Fauna08
+		}
+		String_Criterion "Last Challenge Unlocked is Discover_Fauna09" < uid=42BB0A2F5B465E910000243BCF44A0B7 >
+		{
+			myOasisAIElementID 2996
+			label Last_Challenge_Type_Completed
+			value FullyScan_Fauna09
+		}
+		String_Criterion "Last Challenge Unlocked is Discover_Fauna10" < uid=42BB0A2F5B465E910000243CDC48BC4E >
+		{
+			myOasisAIElementID 2997
+			label Last_Challenge_Type_Completed
+			value FullyScan_Fauna10
+		}
+		String_Criterion "Last Challenge Unlocked is Discover_Fauna11" < uid=42BB0A2F5B465E910000243D39550AC9 >
+		{
+			myOasisAIElementID 2998
+			label Last_Challenge_Type_Completed
+			value FullyScan_Fauna11
+		}
+		String_Criterion "Last Challenge Unlocked is Discover_Fauna12" < uid=42BB0A2F5B465E910000243E3FBBC4E7 >
+		{
+			myOasisAIElementID 2999
+			label Last_Challenge_Type_Completed
+			value FullyScan_Fauna12
+		}
+		String_Criterion "Last Challenge Unlocked is Discover_Fauna13" < uid=42BB0A2F5B465E910000243FD5109ABF >
+		{
+			myOasisAIElementID 3000
+			label Last_Challenge_Type_Completed
+			value FullyScan_Fauna13
+		}
+		String_Criterion "Last Challenge Unlocked is Discover_Fauna14" < uid=42BB0A2F5B465E91000024404C23E69F >
+		{
+			myOasisAIElementID 3001
+			label Last_Challenge_Type_Completed
+			value FullyScan_Fauna14
+		}
+		String_Criterion "Last Challenge Unlocked is Discover_Fauna15" < uid=42BB0A2F5B465E9100002441DDB1AE90 >
+		{
+			myOasisAIElementID 3002
+			label Last_Challenge_Type_Completed
+			value FullyScan_Fauna15
+		}
+		String_Criterion "Last Challenge Unlocked is Discover_Fauna16" < uid=42BB0A2F5B465E91000024423CCCD53D >
+		{
+			myOasisAIElementID 3003
+			label Last_Challenge_Type_Completed
+			value FullyScan_Fauna16
+		}
+		String_Criterion "Last Challenge Unlocked is Discover_Fauna17" < uid=42BB0A2F5B465E91000024436D587579 >
+		{
+			myOasisAIElementID 3004
+			label Last_Challenge_Type_Completed
+			value FullyScan_Fauna17
+		}
+		String_Criterion "Last Challenge Unlocked is Discover_Fauna18" < uid=42BB0A2F5B465E91000024443E1C7153 >
+		{
+			myOasisAIElementID 3005
+			label Last_Challenge_Type_Completed
+			value FullyScan_Fauna18
+		}
+		String_Criterion "Last Challenge Unlocked is Discover_Fauna19" < uid=42BB0A2F5B465E91000024456E899D2E >
+		{
+			myOasisAIElementID 3006
+			label Last_Challenge_Type_Completed
+			value FullyScan_Fauna19
+		}
+		String_Criterion "Last Challenge Unlocked is Discover_Fauna20" < uid=42BB0A2F5B465E910000244634B6C8FF >
+		{
+			myOasisAIElementID 3007
+			label Last_Challenge_Type_Completed
+			value FullyScan_Fauna20
+		}
+		String_Criterion "Last Challenge Unlocked is Discover_Fauna21" < uid=42BB0A2F5B465E91000024479AEB80AD >
+		{
+			myOasisAIElementID 3008
+			label Last_Challenge_Type_Completed
+			value FullyScan_Fauna21
+		}
+		String_Criterion "Last Challenge Unlocked is Discover_Planet_01" < uid=1E68E5355A73415D00001A952341D542 >
+		{
+			myOasisAIElementID 3028
+			label Last_Challenge_Type_Completed
+			value Discover_Planet01
+		}
+		String_Criterion "Last Challenge Unlocked is Discover_Planet_03" < uid=1E68E5355A73415D00001A9613FA0201 >
+		{
+			myOasisAIElementID 3029
+			label Last_Challenge_Type_Completed
+			value Discover_Planet03
+		}
+		String_Criterion "Last Challenge Unlocked is Discover_Planet_04" < uid=1E68E5355A73415D00001A976A3EA4AD >
+		{
+			myOasisAIElementID 3030
+			label Last_Challenge_Type_Completed
+			value Discover_Planet04
+		}
+		String_Criterion "Last Challenge Unlocked is Discover_Planet_05" < uid=1E68E5355A73415D00001A9881D03EDA >
+		{
+			myOasisAIElementID 3031
+			label Last_Challenge_Type_Completed
+			value Discover_Planet05
+		}
+		String_Criterion "Last Challenge Unlocked is Discover_Planet_07" < uid=1E68E5355A73415D00001A99AC160067 >
+		{
+			myOasisAIElementID 3032
+			label Last_Challenge_Type_Completed
+			value Discover_Planet07
+		}
+		String_Criterion "Last Challenge Unlocked is Discover_Planet_08" < uid=1E68E5355A73415D00001A9A6F3FF5EE >
+		{
+			myOasisAIElementID 3033
+			label Last_Challenge_Type_Completed
+			value Discover_Planet08
+		}
+		String_Criterion "Last Challenge Unlocked is Discover_Planet_15" < uid=1E68E5355A73415D00001A9BF0BB2F68 >
+		{
+			myOasisAIElementID 3034
+			label Last_Challenge_Type_Completed
+			value Discover_Planet15
+		}
+		String_Criterion "Last Challenge Unlocked is Discover_Planet01_XFactor" < uid=1E68E5355A73785D000AE70747DE5CC2 >
+		{
+			myOasisAIElementID 3038
+			label Last_Challenge_Type_Completed
+			value Discover_Planet01_XFactor
+		}
+		String_Criterion "Last Challenge Unlocked is Discover_Planet03_XFactor" < uid=1E68E5355A73785D000AE708C0963609 >
+		{
+			myOasisAIElementID 3039
+			label Last_Challenge_Type_Completed
+			value Discover_Planet03_XFactor
+		}
+		String_Criterion "Last Challenge Unlocked is Discover_Planet04_XFactor" < uid=1E68E5355A73785D000AE70991C33494 >
+		{
+			myOasisAIElementID 3040
+			label Last_Challenge_Type_Completed
+			value Discover_Planet04_XFactor
+		}
+		String_Criterion "Last Challenge Unlocked is Discover_Planet05_XFactor" < uid=1E68E5355A73785D000AE70A78B9A31B >
+		{
+			myOasisAIElementID 3041
+			label Last_Challenge_Type_Completed
+			value Discover_Planet05_XFactor
+		}
+		String_Criterion "Last Challenge Unlocked is Discover_Planet07_XFactor" < uid=1E68E5355A73785D000AE70BCD34D882 >
+		{
+			myOasisAIElementID 3042
+			label Last_Challenge_Type_Completed
+			value Discover_Planet07_XFactor
+		}
+		String_Criterion "Last Challenge Unlocked is Discover_Planet08_XFactor" < uid=1E68E5355A73785D000AE70CBC639953 >
+		{
+			myOasisAIElementID 3043
+			label Last_Challenge_Type_Completed
+			value Discover_Planet08_XFactor
+		}
+		String_Criterion "Last Challenge Unlocked is Discover_Planet15_XFactor" < uid=1E68E5355A73785D000AE70D348C7DDF >
+		{
+			myOasisAIElementID 3044
+			label Last_Challenge_Type_Completed
+			value Discover_Planet15_XFactor
+		}
+		String_Criterion "Last Challenge Unlocked is Discover_FloraSample01" < uid=1E68E5355A7385F100014CD8B3F53F29 >
+		{
+			myOasisAIElementID 3045
+			label Last_Challenge_Type_Completed
+			value Discover_FloraSample01
+		}
+		String_Criterion "Last Challenge Unlocked is Discover_FloraSample02" < uid=1E68E5355A7385F100014CD9D09F298E >
+		{
+			myOasisAIElementID 3046
+			label Last_Challenge_Type_Completed
+			value Discover_FloraSample02
+		}
+		String_Criterion "Last Challenge Unlocked is Discover_FloraSample03" < uid=1E68E5355A7385F100014CDAC3AAA846 >
+		{
+			myOasisAIElementID 3047
+			label Last_Challenge_Type_Completed
+			value Discover_FloraSample03
+		}
+		String_Criterion "Last Challenge Unlocked is Discover_FloraSample04" < uid=1E68E5355A7385F100014CDBE1D55298 >
+		{
+			myOasisAIElementID 3048
+			label Last_Challenge_Type_Completed
+			value Discover_FloraSample04
+		}
+		String_Criterion "Last Challenge Unlocked is Discover_FloraSample05" < uid=1E68E5355A7385F100014CDCFBC335FC >
+		{
+			myOasisAIElementID 3049
+			label Last_Challenge_Type_Completed
+			value Discover_FloraSample05
+		}
+		String_Criterion "Last Challenge Unlocked is Discover_FloraSample06" < uid=1E68E5355A7385F100014CDDD239A053 >
+		{
+			myOasisAIElementID 3050
+			label Last_Challenge_Type_Completed
+			value Discover_FloraSample06
+		}
+		String_Criterion "Last Challenge Unlocked is Discover_FloraSample07" < uid=1E68E5355A7385F100014CDE4447CACA >
+		{
+			myOasisAIElementID 3051
+			label Last_Challenge_Type_Completed
+			value Discover_FloraSample07
+		}
+		String_Criterion "Last Challenge Unlocked is Discover_FloraSample08" < uid=1E68E5355A7385F100014CDF0F4D1148 >
+		{
+			myOasisAIElementID 3052
+			label Last_Challenge_Type_Completed
+			value Discover_FloraSample08
+		}
+		String_Criterion "Last Challenge Unlocked is Discover_FloraSample09" < uid=1E68E5355A7385F100014CE0EDC3A988 >
+		{
+			myOasisAIElementID 3053
+			label Last_Challenge_Type_Completed
+			value Discover_FloraSample09
+		}
+		String_Criterion "Last Challenge Unlocked is Discover_FloraSample10" < uid=1E68E5355A7385F100014CE1F2E7B75B >
+		{
+			myOasisAIElementID 3054
+			label Last_Challenge_Type_Completed
+			value Discover_FloraSample10
+		}
+		String_Criterion "Last Challenge Unlocked is Discover_FloraSample11" < uid=1E68E5355A7385F100014CE2888C2257 >
+		{
+			myOasisAIElementID 3055
+			label Last_Challenge_Type_Completed
+			value Discover_FloraSample11
+		}
+		String_Criterion "Last Challenge Unlocked is Discover_FloraSample12" < uid=1E68E5355A7385F100014CE3EF2CA55F >
+		{
+			myOasisAIElementID 3056
+			label Last_Challenge_Type_Completed
+			value Discover_FloraSample12
+		}
+		String_Criterion "Last Challenge Unlocked is Discover_FloraSample13" < uid=1E68E5355A7385F100014CE41F53DEDB >
+		{
+			myOasisAIElementID 3057
+			label Last_Challenge_Type_Completed
+			value Discover_FloraSample13
+		}
+		String_Criterion "Last Challenge Unlocked is Discover_FloraSample14" < uid=1E68E5355A7385F100014CE5D0C1EF05 >
+		{
+			myOasisAIElementID 3058
+			label Last_Challenge_Type_Completed
+			value Discover_FloraSample14
+		}
+		String_Criterion "Last Challenge Unlocked is Discover_FloraSample15" < uid=1E68E5355A7385F100014CE639B6F1D0 >
+		{
+			myOasisAIElementID 3059
+			label Last_Challenge_Type_Completed
+			value Discover_FloraSample15
+		}
+		String_Criterion "Last Challenge Unlocked is Discover_FloraSample16" < uid=1E68E5355A7385F100014CE7B33AADE4 >
+		{
+			myOasisAIElementID 3060
+			label Last_Challenge_Type_Completed
+			value Discover_FloraSample16
+		}
+		String_Criterion "Last Challenge Unlocked is Discover_FloraSample17" < uid=1E68E5355A7385F100014CE8321E185E >
+		{
+			myOasisAIElementID 3061
+			label Last_Challenge_Type_Completed
+			value Discover_FloraSample17
+		}
+		String_Criterion "Last Challenge Unlocked is Discover_FloraSample18" < uid=1E68E5355A7385F100014CE9ED7860DF >
+		{
+			myOasisAIElementID 3062
+			label Last_Challenge_Type_Completed
+			value Discover_FloraSample18
+		}
+		String_Criterion "Last Challenge Unlocked is Discover_FloraSample19" < uid=1E68E5355A7385F100014CEA63CE34D1 >
+		{
+			myOasisAIElementID 3063
+			label Last_Challenge_Type_Completed
+			value Discover_FloraSample19
+		}
+		String_Criterion "Last Challenge Unlocked is Discover_FloraSample20" < uid=1E68E5355A7385F100014CEB05FDE0C1 >
+		{
+			myOasisAIElementID 3064
+			label Last_Challenge_Type_Completed
+			value Discover_FloraSample20
+		}
+		String_Criterion "Last Challenge Unlocked is Discover_FloraSample21" < uid=1E68E5355A7385F100014CECC7E3D4C8 >
+		{
+			myOasisAIElementID 3065
+			label Last_Challenge_Type_Completed
+			value Discover_FloraSample21
+		}
+		String_Criterion "Last Challenge Unlocked is Discover_FaunaSample01" < uid=1E68E5355A7387AA00014CEDE9B32A73 >
+		{
+			myOasisAIElementID 3066
+			label Last_Challenge_Type_Completed
+			value Discover_FaunaSample01
+		}
+		String_Criterion "Last Challenge Unlocked is Discover_FaunaSample06" < uid=1E68E5355A7387AA00014CEEFBC9E328 >
+		{
+			myOasisAIElementID 3067
+			label Last_Challenge_Type_Completed
+			value Discover_FaunaSample06
+		}
+		String_Criterion "Last Challenge Unlocked is Discover_FaunaSample08" < uid=1E68E5355A7387AA00014CEF11D8EF78 >
+		{
+			myOasisAIElementID 3068
+			label Last_Challenge_Type_Completed
+			value Discover_FaunaSample08
+		}
+		String_Criterion "Last Challenge Unlocked is Discover_FaunaSample09" < uid=1E68E5355A7387AA00014CF0C8443C1F >
+		{
+			myOasisAIElementID 3069
+			label Last_Challenge_Type_Completed
+			value Discover_FaunaSample09
+		}
+		String_Criterion "Last Challenge Unlocked is Discover_FaunaSample12" < uid=1E68E5355A7387AA00014CF1B8D477D6 >
+		{
+			myOasisAIElementID 3070
+			label Last_Challenge_Type_Completed
+			value Discover_FaunaSample12
+		}
+		String_Criterion "Last Challenge Unlocked is Discover_FaunaSample16" < uid=1E68E5355A7387AA00014CF20CB01347 >
+		{
+			myOasisAIElementID 3071
+			label Last_Challenge_Type_Completed
+			value Discover_FaunaSample16
+		}
+		String_Criterion "Last Challenge Unlocked is Discover_FaunaSample19" < uid=1E68E5355A7387AA00014CF3DAC59E86 >
+		{
+			myOasisAIElementID 3072
+			label Last_Challenge_Type_Completed
+			value Discover_FaunaSample19
+		}
+		String_Criterion "Last Challenge Unlocked is Discover_CorruptNova" < uid=1E68E5355A7387AA00014CF43388E505 >
+		{
+			myOasisAIElementID 3073
+			label Last_Challenge_Type_Completed
+			value Discover_CorruptNova
+		}
+		String_Criterion "Last Challenge Unlocked is Discover_ExtractorCore" < uid=1E68E5355A7387AA00014CF528F94E65 >
+		{
+			myOasisAIElementID 3074
+			label Last_Challenge_Type_Completed
+			value Discover_ExtractorCore
+		}
+		String_Criterion "Last Challenge Unlocked is Discover_PrimeCore" < uid=1E68E5355A7387AA00014CF6A45F4A16 >
+		{
+			myOasisAIElementID 3075
+			label Last_Challenge_Type_Completed
+			value Discover_PrimeCore
+		}
+		String_Criterion "Last Challenge Unlocked is Discover_ProspectorSalvage" < uid=1E68E5355A7387AA00014CF75298C1B5 >
+		{
+			myOasisAIElementID 3076
+			label Last_Challenge_Type_Completed
+			value Discover_ProspectorSalvage
+		}
+		String_Criterion "Last Challenge Unlocked is  Discover_ExpeditionSalvage" < uid=1E68E5355A7387AA00014CF8264CA62E >
+		{
+			myOasisAIElementID 3077
+			label Last_Challenge_Type_Completed
+			value Discover_ExpeditionSalvage
+		}
+		String_Criterion "Last Killed Dreadnough Was From Sector A" < uid=F2C5C6925A9EEAB9000BBCAF9138E951 >
+		{
+			myDescription "This fact gets set when a dreadnought dies and will be set to the name of the sector the dreadnough was from"
+			myOasisAIElementID 3145
+			label Last_Destroyed_Dreadnought_Sector_Name
+			value A
+		}
+		String_Criterion "Last Killed Dreadnough Was From Sector B" < uid=F2C5C6925A9EEAB9000BBCB012C3E22E >
+		{
+			myDescription "This fact gets set when a dreadnought dies and will be set to the name of the sector the dreadnough was from"
+			myOasisAIElementID 3146
+			label Last_Destroyed_Dreadnought_Sector_Name
+			value B
+		}
+		String_Criterion "Last Killed Dreadnough Was From Sector C" < uid=F2C5C6925A9EEAB9000BBCB158AEE429 >
+		{
+			myDescription "This fact gets set when a dreadnought dies and will be set to the name of the sector the dreadnough was from"
+			myOasisAIElementID 3147
+			label Last_Destroyed_Dreadnought_Sector_Name
+			value C
+		}
+		String_Criterion "Platform is Switch" < uid=3BC8B70A5ABBE35D00001C0B369AC9DA >
+		{
+			myDescription "Platform is Switch"
+			myOasisAIElementID 3210
+			label Platform_Name
+			value switch
+		}
+		String_Criterion "Platform is Not Switch" < uid=E9A111355ABD7D9500001C4CC8514260 >
+		{
+			myDescription "Platform is not Switch"
+			myOasisAIElementID 3212
+			label Platform_Name
+			value switch
+			notEqual TRUE
+		}
+		String_Criterion "Global Current Sector is A" < uid=E9A111355AC4347100001C8BC75EF9BA >
+		{
+			myDescription "Current Sector is A"
+			myOasisAIElementID 3232
+			label Current_Sector_Name
+			value A
+		}
+		String_Criterion "Global Current Sector is B" < uid=E9A111355AC4347100001C8C5E49BD9C >
+		{
+			myDescription "Current Sector is B"
+			myOasisAIElementID 3233
+			label Current_Sector_Name
+			value B
+		}
+		String_Criterion "Global Current Sector is C" < uid=E9A111355AC4347100001C8D7D27501F >
+		{
+			myDescription "Current Sector is C"
+			myOasisAIElementID 3234
+			label Current_Sector_Name
+			value C
+		}
+		String_Criterion "New String_Criterion (122)" < uid=1E68E5355AE36C3F00001DC6048676A9 >
+		{
+			myOasisAIElementID 3317
+		}
+		String_Criterion "Last Gemini Ally was Fox" < uid=7D4E50DAF80B59A89BE09FBD537E6FE0 >
+		{
+			myDescription ""
+			myOasisAIElementID 3465
+			label Last_Gemini_Ally_Selected_For_Wingmate
+			value Fox
+		}
+		String_Criterion "Last Gemini Ally was Falco" < uid=7D4E50DAF80B59A89BE09FBD935918B5 >
+		{
+			myDescription ""
+			myOasisAIElementID 3466
+			label Last_Gemini_Ally_Selected_For_Wingmate
+			value Falco
+		}
+		String_Criterion "Last Gemini Ally was Peppy" < uid=7D4E50DAF80B59A89BE09FBDDE6DE83B >
+		{
+			myDescription ""
+			myOasisAIElementID 3467
+			label Last_Gemini_Ally_Selected_For_Wingmate
+			value Peppy
+		}
+		String_Criterion "Last Gemini Ally was Slippy" < uid=7D4E50DAF80B59A89BE09FBD6BA9509A >
+		{
+			myDescription ""
+			myOasisAIElementID 3468
+			label Last_Gemini_Ally_Selected_For_Wingmate
+			value Slippy
+		}
+		String_Criterion "Last Challenge Unlocked is  FullyScan_Fauna01" < uid=4A79E0E45B4DE3BD0000221747307DE4 >
+		{
+			myOasisAIElementID 3470
+			label Last_Challenge_Type_Completed
+			value FullyScan_Fauna01
+		}
+		String_Criterion "Last Challenge Unlocked is  FullyScan_Fauna02" < uid=4A79E0E45B4DE46400002218D1FBEF23 >
+		{
+			myOasisAIElementID 3471
+			label Last_Challenge_Type_Completed
+			value FullyScan_Fauna02
+		}
+		String_Criterion "Last Challenge Unlocked is  FullyScan_Fauna03" < uid=4A79E0E45B4DE46400002219C117790B >
+		{
+			myOasisAIElementID 3472
+			label Last_Challenge_Type_Completed
+			value FullyScan_Fauna03
+		}
+		String_Criterion "Last Challenge Unlocked is  FullyScan_Fauna04" < uid=4A79E0E45B4DE4640000221AB5A79E39 >
+		{
+			myOasisAIElementID 3473
+			label Last_Challenge_Type_Completed
+			value FullyScan_Fauna04
+		}
+		String_Criterion "Last Challenge Unlocked is  FullyScan_Fauna05" < uid=4A79E0E45B4DE56B0000222DF30283B4 >
+		{
+			myOasisAIElementID 3474
+			label Last_Challenge_Type_Completed
+			value FullyScan_Fauna05
+		}
+		String_Criterion "Last Challenge Unlocked is  FullyScan_Fauna06" < uid=4A79E0E45B4DE56B0000222EBA563536 >
+		{
+			myOasisAIElementID 3475
+			label Last_Challenge_Type_Completed
+			value FullyScan_Fauna06
+		}
+		String_Criterion "Last Challenge Unlocked is  FullyScan_Fauna07" < uid=4A79E0E45B4DE56B0000222F52138619 >
+		{
+			myOasisAIElementID 3476
+			label Last_Challenge_Type_Completed
+			value FullyScan_Fauna07
+		}
+		String_Criterion "Last Challenge Unlocked is  FullyScan_Fauna08" < uid=4A79E0E45B4DE56B0000223072CDC8A4 >
+		{
+			myOasisAIElementID 3477
+			label Last_Challenge_Type_Completed
+			value FullyScan_Fauna08
+		}
+		String_Criterion "Last Challenge Unlocked is  FullyScan_Fauna09" < uid=4A79E0E45B4DE56B000022319535FA6A >
+		{
+			myOasisAIElementID 3478
+			label Last_Challenge_Type_Completed
+			value FullyScan_Fauna09
+		}
+		String_Criterion "Last Challenge Unlocked is  FullyScan_Fauna10" < uid=4A79E0E45B4DE56B000022329EC1927F >
+		{
+			myOasisAIElementID 3479
+			label Last_Challenge_Type_Completed
+			value FullyScan_Fauna10
+		}
+		String_Criterion "Last Challenge Unlocked is  FullyScan_Fauna11" < uid=4A79E0E45B4DE56B00002233502CECF0 >
+		{
+			myOasisAIElementID 3480
+			label Last_Challenge_Type_Completed
+			value FullyScan_Fauna11
+		}
+		String_Criterion "Last Challenge Unlocked is  FullyScan_Fauna12" < uid=4A79E0E45B4DE56B000022344CB886B9 >
+		{
+			myOasisAIElementID 3481
+			label Last_Challenge_Type_Completed
+			value FullyScan_Fauna12
+		}
+		String_Criterion "Last Challenge Unlocked is  FullyScan_Fauna13" < uid=4A79E0E45B4DE56B000022357664C3EE >
+		{
+			myOasisAIElementID 3482
+			label Last_Challenge_Type_Completed
+			value FullyScan_Fauna13
+		}
+		String_Criterion "Last Challenge Unlocked is  FullyScan_Fauna14" < uid=4A79E0E45B4DE56B00002237D3D8CE3F >
+		{
+			myOasisAIElementID 3483
+			label Last_Challenge_Type_Completed
+			value FullyScan_Fauna14
+		}
+		String_Criterion "Last Challenge Unlocked is  FullyScan_Fauna15" < uid=4A79E0E45B4DE56B000022385BDD17B3 >
+		{
+			myOasisAIElementID 3484
+			label Last_Challenge_Type_Completed
+			value FullyScan_Fauna15
+		}
+		String_Criterion "Last Challenge Unlocked is  FullyScan_Fauna16" < uid=4A79E0E45B4DE56B000022390BF6D495 >
+		{
+			myOasisAIElementID 3485
+			label Last_Challenge_Type_Completed
+			value FullyScan_Fauna16
+		}
+		String_Criterion "Last Challenge Unlocked is  FullyScan_Fauna17" < uid=4A79E0E45B4DE56B0000223AC8389591 >
+		{
+			myOasisAIElementID 3486
+			label Last_Challenge_Type_Completed
+			value FullyScan_Fauna17
+		}
+		String_Criterion "Last Challenge Unlocked is  FullyScan_Fauna18" < uid=4A79E0E45B4DE56B00002236E4A4F537 >
+		{
+			myOasisAIElementID 3487
+			label Last_Challenge_Type_Completed
+			value FullyScan_Fauna18
+		}
+		String_Criterion "Last Challenge Unlocked is  FullyScan_Fauna19" < uid=4A79E0E45B4DE56B0000223BDD84139F >
+		{
+			myOasisAIElementID 3488
+			label Last_Challenge_Type_Completed
+			value FullyScan_Fauna19
+		}
+		String_Criterion "Last Challenge Unlocked is  FullyScan_Fauna20" < uid=4A79E0E45B4DE56B0000223C6E57E713 >
+		{
+			myOasisAIElementID 3489
+			label Last_Challenge_Type_Completed
+			value FullyScan_Fauna20
+		}
+		String_Criterion "Last Challenge Unlocked is  FullyScan_Fauna21" < uid=4A79E0E45B4DE56B0000223DD3B8C430 >
+		{
+			myOasisAIElementID 3490
+			label Last_Challenge_Type_Completed
+			value FullyScan_Fauna21
+		}
+		String_Criterion "Last Hyperspace Net Faction was Outlaw" < uid=954305805B5A22DC000024754FA1C7F2 >
+		{
+			myDescription "Last Hyper space net faction was Outlaw"
+			myOasisAIElementID 3513
+			label Last_Hyperspace_Net_Faction
+			value Outlaw
+		}
+		String_Criterion "Last Hyperspace Net Faction was Harvester" < uid=954305805B5A22DC0000247696B33330 >
+		{
+			myDescription "Last Hyper space net faction was Harvester"
+			myOasisAIElementID 3514
+			label Last_Hyperspace_Net_Faction
+			value Harvester
+		}
+		String_Criterion "Planet Is Blood Moon" < uid=DFE837425C351A5E0003873CB9C4BC97 >
+		{
+			myOasisAIElementID 3847
+			label Planet_UID
+			value E21E96E35BA14B9F000026E1E67096F8
+		}
+		String_Criterion "Planet Is Not Blood Moon" < uid=DFE837425C351A5E0003873DC130246C >
+		{
+			myOasisAIElementID 3848
+			label Planet_UID
+			value E21E96E35BA14B9F000026E1E67096F8
+			notEqual TRUE
+		}
+		String_Criterion "Part Attached Pod" < uid=600A30F35C4B645A000000383429897C >
+		{
+			myOasisAIElementID 3939
+			label Part_Type
+			value Pod
+		}
+		String_Criterion "Part Attached Hull" < uid=600A30F35C4B6511000000390E68B2A3 >
+		{
+			myOasisAIElementID 3940
+			label Part_Type
+			value Hull
+		}
+		String_Criterion "Part Attached Wing" < uid=600A30F35C4B65110000003A94329E8E >
+		{
+			myOasisAIElementID 3941
+			label Part_Type
+			value Wing
+		}
+		String_Criterion "Za Challenge Blocking Transition is Crimson Moon Story" < uid=600A30F35C589545000000383D2BB7B6 >
+		{
+			myOasisAIElementID 3953
+			label Challenge_Blocking_Transition
+			value Unlock_BloodMoon_PlanetEntry
+		}
+	}
+	myPlaceholderCriteria
+	{
+		Placeholder_Criterion "Global Weapon is Fireball" < uid=AA5A640859385A000000000157A2BDF1 >
+		{
+			myDescription "Copy and paste this Placeholder_Criterion, and rename it to the appropriate int/float/string type in the appropriate bank."
+			myOasisAIElementID 1038
+		}
+		Placeholder_Criterion "Global Ship is Zenith" < uid=AA5A640859385A0000000002AD9BEF18 >
+		{
+			myDescription "Copy and paste this Placeholder_Criterion, and rename it to the appropriate int/float/string type in the appropriate bank."
+			myOasisAIElementID 1064
+		}
+		Placeholder_Criterion "Global Ship is Gravcraft" < uid=AA5A640859385A0000000003A2094F90 >
+		{
+			myDescription "Copy and paste this Placeholder_Criterion, and rename it to the appropriate int/float/string type in the appropriate bank."
+			myOasisAIElementID 1065
+		}
+		Placeholder_Criterion "Global Ship is RED-1" < uid=AA5A640859385A00000000049A11E6B0 >
+		{
+			myDescription "Copy and paste this Placeholder_Criterion, and rename it to the appropriate int/float/string type in the appropriate bank."
+			myOasisAIElementID 1066
+		}
+		Placeholder_Criterion "Global Ship is Starblade" < uid=AA5A640859385A0000000005D81E8D36 >
+		{
+			myDescription "Copy and paste this Placeholder_Criterion, and rename it to the appropriate int/float/string type in the appropriate bank."
+			myOasisAIElementID 1067
+		}
+		Placeholder_Criterion "Global Ship is Nomad" < uid=AA5A640859385A0000000006AA8F5A02 >
+		{
+			myDescription "Copy and paste this Placeholder_Criterion, and rename it to the appropriate int/float/string type in the appropriate bank."
+			myOasisAIElementID 1068
+		}
+		Placeholder_Criterion "Global Ship is Nadir" < uid=AA5A640859385A00000000074212F50C >
+		{
+			myDescription "Copy and paste this Placeholder_Criterion, and rename it to the appropriate int/float/string type in the appropriate bank."
+			myOasisAIElementID 1069
+		}
+		Placeholder_Criterion "Global Ship is Gauntlet" < uid=AA5A640859385A00000000085723BF98 >
+		{
+			myDescription "Copy and paste this Placeholder_Criterion, and rename it to the appropriate int/float/string type in the appropriate bank."
+			myOasisAIElementID 1070
+		}
+		Placeholder_Criterion "Global Ship is Marauder" < uid=AA5A640859385A00000000097B78FF77 >
+		{
+			myDescription "Copy and paste this Placeholder_Criterion, and rename it to the appropriate int/float/string type in the appropriate bank."
+			myOasisAIElementID 1071
+		}
+		Placeholder_Criterion "Global Weapon is Crusher" < uid=AA5A640859385A000000000AABF7E550 >
+		{
+			myDescription "Copy and paste this Placeholder_Criterion, and rename it to the appropriate int/float/string type in the appropriate bank."
+			myOasisAIElementID 1072
+		}
+		Placeholder_Criterion "Global Weapon is Flamethrower" < uid=AA5A640859385A000000000B7E98DFB7 >
+		{
+			myDescription "Copy and paste this Placeholder_Criterion, and rename it to the appropriate int/float/string type in the appropriate bank."
+			myOasisAIElementID 1073
+		}
+		Placeholder_Criterion "Global Weapon is FreezeMine" < uid=AA5A640859385A000000000C340D7083 >
+		{
+			myDescription "Copy and paste this Placeholder_Criterion, and rename it to the appropriate int/float/string type in the appropriate bank."
+			myOasisAIElementID 1074
+		}
+		Placeholder_Criterion "Global Weapon is FreezeRay" < uid=AA5A640859385A000000000D8832B232 >
+		{
+			myDescription "Copy and paste this Placeholder_Criterion, and rename it to the appropriate int/float/string type in the appropriate bank."
+			myOasisAIElementID 1075
+		}
+		Placeholder_Criterion "Global Weapon is GaussGun" < uid=AA5A640859385A000000000E9CFB1B01 >
+		{
+			myDescription "Copy and paste this Placeholder_Criterion, and rename it to the appropriate int/float/string type in the appropriate bank."
+			myOasisAIElementID 1076
+		}
+		Placeholder_Criterion "Global Weapon is Hailstorm" < uid=AA5A640859385A000000000F24260A4E >
+		{
+			myDescription "Copy and paste this Placeholder_Criterion, and rename it to the appropriate int/float/string type in the appropriate bank."
+			myOasisAIElementID 1077
+		}
+		Placeholder_Criterion "Global Weapon is IceBarrage" < uid=AA5A640859385A00000000107BF0EF21 >
+		{
+			myDescription "Copy and paste this Placeholder_Criterion, and rename it to the appropriate int/float/string type in the appropriate bank."
+			myOasisAIElementID 1078
+		}
+		Placeholder_Criterion "Global Weapon is Imploder" < uid=AA5A640859385A0000000011664E614F >
+		{
+			myDescription "Copy and paste this Placeholder_Criterion, and rename it to the appropriate int/float/string type in the appropriate bank."
+			myOasisAIElementID 1079
+		}
+		Placeholder_Criterion "Global Weapon is IronFist" < uid=AA5A640859385A000000001222295D94 >
+		{
+			myDescription "Copy and paste this Placeholder_Criterion, and rename it to the appropriate int/float/string type in the appropriate bank."
+			myOasisAIElementID 1080
+		}
+		Placeholder_Criterion "Global Weapon is Jaunt" < uid=AA5A640859385A0000000013364957E5 >
+		{
+			myDescription "Copy and paste this Placeholder_Criterion, and rename it to the appropriate int/float/string type in the appropriate bank."
+			myOasisAIElementID 1081
+		}
+		Placeholder_Criterion "Global Weapon is Levitator" < uid=AA5A640859385A0000000014CA3C3FEA >
+		{
+			myDescription "Copy and paste this Placeholder_Criterion, and rename it to the appropriate int/float/string type in the appropriate bank."
+			myOasisAIElementID 1082
+		}
+		Placeholder_Criterion "Global Weapon is Meteor" < uid=AA5A640859385A0000000015DF6D7BFB >
+		{
+			myDescription "Copy and paste this Placeholder_Criterion, and rename it to the appropriate int/float/string type in the appropriate bank."
+			myOasisAIElementID 1083
+		}
+		Placeholder_Criterion "Global Weapon is Nullifier" < uid=AA5A640859385A0000000016B7C0587F >
+		{
+			myDescription "Copy and paste this Placeholder_Criterion, and rename it to the appropriate int/float/string type in the appropriate bank."
+			myOasisAIElementID 1084
+		}
+		Placeholder_Criterion "Global Weapon is Shockwave" < uid=AA5A640859385A0000000017CB4AC71D >
+		{
+			myDescription "Copy and paste this Placeholder_Criterion, and rename it to the appropriate int/float/string type in the appropriate bank."
+			myOasisAIElementID 1085
+		}
+		Placeholder_Criterion "Global Weapon is Shredder" < uid=AA5A640859385A0000000018E0A272F1 >
+		{
+			myDescription "Copy and paste this Placeholder_Criterion, and rename it to the appropriate int/float/string type in the appropriate bank."
+			myOasisAIElementID 1086
+		}
+		Placeholder_Criterion "Global Weapon is Tidal Wave" < uid=AA5A640859385A000000001954A47FBD >
+		{
+			myDescription "Copy and paste this Placeholder_Criterion, and rename it to the appropriate int/float/string type in the appropriate bank."
+			myOasisAIElementID 1087
+		}
+		Placeholder_Criterion "Global Weapon is Volcano" < uid=AA5A640859385A000000001AE112D6F6 >
+		{
+			myDescription "Copy and paste this Placeholder_Criterion, and rename it to the appropriate int/float/string type in the appropriate bank."
+			myOasisAIElementID 1088
+		}
+		Placeholder_Criterion ZZ_NoJuiceFile_ZZ_Global_Criteria < uid=AA5A6408595B9E59000000021DE46D07 >
+		{
+			myDescription "Cut and paste this Placeholder_Criterion, and rename it to the appropriate int/float/string type in the appropriate bank."
+			myOasisAIElementID 2082
+		}
+		Placeholder_Criterion "ZZ_global criteria.mcriteriabank_OasisID_36" < uid=C6D8AD8CF80B59A89BE09FBDAE6CDE50 >
+		{
+			myDescription "Cut and paste this Placeholder_Criterion, and rename it to the appropriate int/float/string type in the appropriate bank."
+			myOasisAIElementID 2082
+		}
+		Placeholder_Criterion "Last Expired Opportunity Reason Unallied Built It First" < uid=C6D8AD8CF80B59A89BE09FBD7576120F >
+		{
+			myDescription "Last Expired Opportunity Reason Unallied Built It First"
+			myOasisAIElementID 2431
+		}
+		Placeholder_Criterion "Last Expired Opportunity Reason Ally Built It First" < uid=C6D8AD8CF80B59A89BE09FBD574ACA9C >
+		{
+			myDescription "Last Expired Opportunity Reason Ally Built It First"
+			myOasisAIElementID 2432
+		}
+		Placeholder_Criterion "Last Expired Opportunity Reason Repair Target Died" < uid=C6D8AD8CF80B59A89BE09FBDE8A90971 >
+		{
+			myDescription "Last Expired Opportunity Reason Repair Target Died"
+			myOasisAIElementID 2490
+		}
+		Placeholder_Criterion "Last Expired Opportunity Reason Target Repaired By Someone Else" < uid=C6D8AD8CF80B59A89BE09FBD30F7D044 >
+		{
+			myDescription "Last Expired Opportunity Reason Target Repaired By Someone Else"
+			myOasisAIElementID 2491
+		}
+		Placeholder_Criterion "Rogue Outlaws Are In Combat With Workers" < uid=C6D8AD8CF80B59A89BE09FBDCE1375C1 >
+		{
+			myDescription "Cut and paste this Placeholder_Criterion, and rename it to the appropriate int/float/string type in the appropriate bank."
+			myOasisAIElementID 3409
+		}
+		Placeholder_Criterion "Last Fauna Scanned Became Fully Discovered" < uid=AA5A640800000000F53B0D0549127647 >
+		{
+			myDescription "Cut and paste this Placeholder_Criterion, and rename it to the appropriate int/float/string type in the appropriate bank."
+			myOasisAIElementID 3529
+		}
+	}
+}
+

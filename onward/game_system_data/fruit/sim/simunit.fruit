@@ -1,0 +1,206 @@
+include "onward/game system data/fruit/ai/npc.fruit"
+include "onward/game system data/fruit/unitprogression/unitxppayloadtype.fruit"
+include "onward/game system data/fruit/ai/affinitytype.fruit"
+include "onward/game system data/fruit/progression/challenge_types.fruit"
+include "onward/game system data/fruit/sim/formationtype.fruit"
+include "onward/game system data/fruit/bones/bonecategory.fruit"
+include "onward/game system data/fruit/story/storyevent.fruit"
+include "onward/game system data/fruit/sim/simunitcategories.fruit"
+include "onward/game system data/fruit/fogofwar/findsettings.fruit"
+
+enum SimUnitOrderType  < useCategories=1 >
+{
+	None
+	AcceptPickup
+	AcceptSlotUnit
+	BuildDefenseBase
+	BuildObservationDeck
+	BuildResearchBase
+	BuildMiningCenter
+	BuildCreepShed
+	Collect
+	Convert
+	Defend
+	Deliver
+	Demolish
+	Destroy
+	Follow
+	MarkTarget
+	Notify
+	RegisterBuilding
+	RegisterWithOutpost
+	Repair
+	ScanPOI
+	BuildEmptyOutpost
+	Infect
+	
+	< startCategory = "Allied Structures" >
+	BuildAlliedDefenseBase
+	BuildAlliedObservationDeck
+	BuildAlliedResearchBase
+	BuildAlliedMiningCenter
+	BuildAlliedAllianceStructure
+	
+	< startCategory = "Placed Structures" >
+	BuildPlacedDefenseBase
+	BuildPlacedObservationDeck
+	BuildPlacedResearchBase
+	BuildPlacedMiningCenter
+	BuildPlacedAllianceStructure
+	BuildPlacedCreepShed
+	
+	< startCategory = "Towers" >
+	BuildGenerator
+	BuildObservatoryTower
+	BuildResearchTower
+	BuildWatchtower
+	
+	< startCategory="Temporary" >
+	RegisterOutpost
+	RegisterOutpostKitWorker
+	
+	< startCategory="Deprecated" >
+	BuildOutpost
+	BuildTower
+	RegisterGenerator
+	RegisterTower
+	SetParent
+}
+
+// NOTE: Must be kept in sync with OGame_SimUnitUnkillableType
+enum SimUnitUnkillableType
+{
+	Killable
+	UnkillableSimSide
+	UnkillableGameSide
+	Invulnerable
+}
+
+class SimUnitElementSpawnInfo
+{
+	file myEntityFile "" < types=*.mnpc,*.mentitytemplate,*.mgraphobject >
+	int myLevelMin -1 < tooltip="The minimum (inclusive) level at which this entity set can spawn" >
+	int myLevelMax 9999 < tooltip="The maximum (inclusive) level at which this entity set can spawn" >
+}
+list SimUnitElementSpawnInfoList
+{
+	SimUnitElementSpawnInfo
+}
+class SimUnitSpaceSpawnInfo
+{
+	SimUnitEntityFormationType mySpawnFormation None < tooltip="Default spawn formation" >
+	float myFormationFlightDist 0.0 < tooltip="Initial forward flight distance, simulates flying in formation when used on a group (implemented by space unit BTs)" >
+}
+class SimUnitEntitySpawnInfo < uid=auto >
+{
+	int myCountMin	< tooltip="The minimum number of Entities of this type the SimUnit will spawn" > 
+	int myCountMax	< tooltip="The maximum number of Entities of this type the SimUnit will spawn" > 
+	float myEntitySize 3.0 < tooltip="The radius of the entity for spawn separation distance" >
+	bool myIgnoreHealth false < tooltip="Simulation should ignore Health of attached entities" >
+	bool myIgnoreNavMesh false < tooltip="When true Entity will spawn in SimUnit location, not on a nearby nav mesh position" >
+	bool myIgnoreTerrain false < tooltip="(Only Evaluated when IgnoreNavMesh is true) Allows non-navmesh spawning sim unit entities to spawn exactly at the simunit position" >
+	bool mySpawnOutsideZone false < tooltip="spawn outside collision" >
+	bool myIsSpaceLandmark false < tooltip="TRUE if you want the entity will never be unloaded in space (only work in space)" >
+	file myEntityFile "" < tooltip="Deprecated" types=*.mnpc,*.mentitytemplate,*.mgraphobject >
+	SimUnitElementSpawnInfoList myElementSpawnInfo < tooltip="The Asset Files for this SimUnit: NPCs, Entity Templates, Graph Objects" >
+	float myRealizedMinHealthPctWhenDownInSim 0.3 < tooltip="If SimUnit is down but SimUnitEntity is not, this is the min health percent the Entity will be realized with." >
+	float myRealizedMaxHealthPctWhenDownInSim 0.5 < tooltip="If SimUnit is down but SimUnitEntity is not, this is the max health percent the Entity will be realized with." >
+	bool myRealizeOnDetach false < tooltip="Only realize this entity when the SimUnit is detach from its parent" >
+	SimUnitSpaceSpawnInfo mySpaceSettings < tooltip="Settings for space units." >
+	uid myAttachParentSpawnInfoUID < tooltip="(ADVANCED) UID of SimUnitEntitySpawnInfo that spawned entities should attach to" >
+	BoneCategory myAttachBoneCategory < tooltip="Bone category on myAttachParent that spawned entities should attach to (first available)" >
+	int myAttachBoneSocketIndex -1 < tooltip="Index of bone category to attach to, or -1 for first available" >
+	bool myEnsurePhysicsClearance false < tooltip="Relocate if obstructed by physics, or avoidance volumes" >
+    bool myEnsurePlayerClearance false < tooltip="Wait until spawn position is clear of any player presence" >
+	float myProxyTetherDistance 1000.0 < tooltip="When not being realized, ensure entity remains within this distance from proxy (-1 for no tether)" >
+	bool myAllowSpawnThrottling true < tooltip="Allow this entity to be throttled if necessary. Only set FALSE for mission-critical units." >
+	bool myIsPilotTrialObject false < tooltip="Allow this entity to only be spawned during a PilotTrial." >
+	bool myIsPilotTrialCheckpoint false < tooltip="Allow this entity to only be spawned during a PilotTrial at the relevant time." >
+	vec3f myAttachOffset 0.0;0.0;0.0
+}
+list SimUnitEntitySpawnInfoList
+{
+	SimUnitEntitySpawnInfo
+}
+
+class SimUnitInterestSettings
+{
+	bool myIsEnabled false < tooltip="Controls whether this type of sim unit will search for interest targets." >
+	int mySearchPeriod 5000 < tooltip="Minimum period (milliseconds) between searches for sim interest target." >
+	bool myOnlySearchWhenRealized true < tooltip="Flag to control whether an unrealized sim unit is allowed to search for interest targets." >
+	bool myShouldLockValidTarget false < tooltip="Flag to control whether a sim unit should keep searching for other interest targets *after* is has found a continuously valid one." >
+}
+
+class SimUnitSkillLevelCoefficients
+{
+	bool myUseTargetRelativeLevel FALSE < tooltip="If set, this unit will act as if it has a skill level relative to whatever target it's interacting with" >
+	int myTargetRelativeOffset 0 < tooltip="Relative offset if using target-relative level" >
+	bool mySkillLevelAffectsDamage TRUE < tooltip="Whether this unit's skill level should affect damage taken and received" >
+	int myPlanetActMultiplier 0 < tooltip="Multiplier on the base skill level derived from planet & act (defined in skilllevels.juice)" >
+	int myWarEffortLevelMultiplier 0 < tooltip="Multiplier on the Legion War Effort threshold (0 = 0%, 1 = <25%, 2 = <50%, 3 = <75%, 4 = >=75%)" >
+	int myWarEffortAllianceLevelMultiplier 0 < tooltip="Multiplier on the Alliance War Effort threshold (0 = 0%, 1 = <25%, 2 = <50%, 3 = <75%, 4 = >=75%)" >
+	int myParentLevelMultiplier 0 < tooltip="Multiplier on the unit's parent level" >
+	int myParentSkillLevelMultiplier 0 < tooltip="Multiplier on the unit's parent skill level" >
+	int myUnitLevelMultiplier 0 < tooltip="Multiplier on the unit's level" >
+	int myDormancyMultiplier 0 < tooltip="Multiplier on the dormancy skill level offset (defined in skilllevels.juice)" >
+	int myAlliedUnitOffset 0 < tooltip="Additional skill levels added if the unit is of Allied faction" >
+	int myBaseLevel 0 < tooltip="Base skill level of the unit" >
+	bool mySquareUnitLevel FALSE < tooltip="Square the unit's level before considering for UnitLevelMultiplier" >
+	int myAllianceOutpostMultiplier 0 < tooltip="The Multiplier, when you are allied, on the number of Alliance Outpost Tower Thingies on its Planet" >
+}
+
+class SimUnit < uid=auto >
+{
+	varmap myUIName < bhv="localization" >
+	file myBehavior < bhv="asset" assettype="SimUnit Behavior" >
+	file myControlGraph < bhv="asset" assettype="SimUnit Control Graph" >
+	FactionType myFaction Unaligned < tooltip="To what Faction does this SimUnit belong" >
+	SimUnitCategory myCategory Unassigned < tooltip="The bucket this SimUnit falls into" >
+	SimUnitSubCategory mySubCategory None < tooltip="Further differentiates the Sim Unit for Rule System criteria specificity." >
+	int mySubCategoryVariant 0 < tooltip="Used to identify variants" >
+	AffinityType myAffinityType None < tooltip="Affinity type of this SimUnit" >
+	float myMaxHealth 100.0 < min=1 tooltip="Maximum health of this SimUnit" >
+	float myRadius 3.0 < tooltip="The radius of this SimUnit for NavMesh position validity at spawn" >
+	FindSettingsCategory myFindSettingsCategory Small < tooltip="category identifying the find settings for this simunit" >
+	bool myFindRequiresLOS false < tooltip="Determines whether the camera require Line of Sight when finding this simunit." >
+	float mySpeed 50.0 < tooltip="The speed of this SimUnit" >
+	SimUnitEntitySpawnInfoList mySpawnInfo < tooltip="The Asset Definitions for this SimUnit" >
+	bool mySaveable true < tooltip="Should units of this type be saved" >
+	bool myReceiveXPForKills false < tooltip="Should this unit's outpost receive XP for kills this unit or its children make?" >
+	bool mySpawnOutsideZone false < tooltip="[DEPRECATED] spawn outside collision - set only if a SimUnitEntity also sets this" >
+	UnitExperiencePayloadType myDeathXPPayload < tooltip="XP Payload to grant this unit's killer upon my death" >
+	float myConstructionDuration 0.0 < tooltip="Time expected for this unit to 'construct' upon creation" >
+	bool myIsDownable false < tooltip="Can this SimUnit be downed" >
+	float myDownTime 120.0 < tooltip="How long is this SimUnit down in the Sim" >
+	float myDownedHealthRecoveryPercent 0.3 < tooltip = "What percent health does this SimUnit recover when recovering from downed state." >
+	float myNapTime 100.0 < tooltip="How long should this simunit nap between updates" >
+	bool myNapWhenRealized FALSE < tooltip="Always nap when realized (unless woken up)" >
+	bool myNapIfHaveChildren FALSE < tooltip="Always nap graphs if this simunit has any children (unless woken up)" >
+	bool myNapIfHaveAttachment FALSE < tooltip="Always nap graphs if this simunit has any attachment children (unless woken up)" >
+	ChallengeType myRevealedChallengeType
+	ChallengeType myUnlockedChallengeType
+	file mySpawnAttachedSimUnit < bhv="asset" assettype="Sim Unit" >
+	file mySimUnitToSpawnWhenRemoved < bhv="asset" assettype="Sim Unit" >
+	bool myRealizeOnLeader true < tooltip="If true, this attachment is only ever realized on the leader, otherwise it can realize on the Main entity" >
+	int myMaxKillableLevel 9999 < tooltip="Maximum level at which this unit can be damaged/killed in the sim" >
+	bool myUnkillable false < tooltip="DEPRECATED- DO NOT USE- If true, this Sim Unit won't die when it's health reaches Zero. Can still be killed by scripts, etc." >
+	SimUnitUnkillableType myUnkillableType Killable < tooltip="Killable: Unit can take damage and be killed both game- and sim- side\nUnkillableSimSide: Unit cannot take damage sim side (can take damage & be killed game side)\nUnkillableGameSide: Unit can take damage game side but cannot be killed (1HP)\nInvulnerable: Unit cannot take damage in game or sim" >
+	StoryEvent myUnkillableUntilEvent NewGame < tooltip="If not NewGame, This sim unit will not be killable until the story event is complete." >
+	StoryEvent myBlockUnAllyUntilEvent NewGame < tooltip="If not NewGame, This sim unit will not be un-allyable until the story event is complete." >
+	SimUnitUnkillableType myPostEventUnkillableType Killable < tooltip="UnkillableType used after event specified as UnkillableUntilEvent passes (if not NewGame)." >
+	StoryEvent myUnRealizableUntilEvent NewGame < tooltip="If not NewGame, This sim unit will not be spawnded until the story event is complete." >
+	bool myPreserveSpawnInfo false < tooltip="TRUE If you want to use this as a SLOT for spawning other simunits" >
+	bool myIsSpaceLandmark false < tooltip="[DEPRECATED] TRUE if you want the entity will never be unloaded in space (only work in space)" >
+	bool myIsValidPickupTarget true < tooltip="FALSE if faction units should not target this sim unit for pickup (applies to Pickup-category units)" >
+	bool mySelfDestructAfterUnrealized false < tooltip="TRUE if you want the entity to self-destruct after it unrealizes" >
+	SimUnitInterestSettings myInterestSettings
+	SimUnitSkillLevelCoefficients mySkillLevelCoefficients
+	bool myInheritSkillFromParent false
+	int myBaseSkillLevel 0 < tooltip="DEPRECATED. Use SkillLevelCoefficients" >
+	string myIconSprite	< default = "mySpriteId = 326008323, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-progression-resources.spritesheet\"" bhv="sprite" >
+	file myMissionTargetTexture < bhv=asset assettype="Texture" tooltip = "Graphic to be used for Mission Targets in the Outpost menu" >
+	bool myNeedsSaveOnAdd FALSE < tooltip="Request checkpoint save when added to world.  Use sparingly." >
+	bool myNeedsSaveOnRemove FALSE < tooltip="Request checkpoint save when removed from world.  Use sparingly." >
+	bool myNeedsSaveOnSolve FALSE < tooltip="Request checkpoint save when solved.  Use sparingly." >
+	bool mySetChildrenDestroyWhenSimulatedOnRemove FALSE < tooltip="Set all children to Destroy When Simulated when this unit is removed from the world" >
+}

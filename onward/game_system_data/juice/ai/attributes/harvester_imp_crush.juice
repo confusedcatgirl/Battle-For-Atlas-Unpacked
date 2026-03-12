@@ -1,0 +1,122 @@
+include ./base_npc.juice
+
+Attributes "Crush Imp Resistances"
+{
+	Attribute "Damage Resist All"
+	{
+		myType DMG_Resist_All
+		myValue 1.0
+	}
+	Attribute "Damage Resist Cold"
+	{
+		myType DMG_Resist_Cold
+		myValue 1.0
+	}
+	Attribute "Damage Resist Crush"
+	{
+		myType DMG_Resist_Crush
+		myValue 0.01
+	}
+	Attribute "Damage Resist Float"
+	{
+		myType DMG_Resist_Float
+		myValue 1.0
+	}
+	Attribute "Damage Resist Heat"
+	{
+		myType DMG_Resist_Heat
+		myValue 1.0
+	}
+	Attribute "Damage Resist Impact"
+	{
+		myType DMG_Resist_Impact
+		myValue 1.0
+	}
+	Attribute "Damage Resist Kinetic"
+	{
+		myType DMG_Resist_Kinetic
+		myValue 1.0
+	}
+	Attribute "Status Effect Resist Chill"
+	{
+		myType StatusEffectResist_Chill
+		myValue 1.0
+	}
+	Attribute "Status Effect Resist Fire"
+	{
+		myType StatusEffectResist_Fire
+		myValue 1.0
+	}
+	Attribute "Status Effect Resist Freeze"
+	{
+		myType StatusEffectResist_Freeze
+		myValue 1.0
+	}
+	Attribute "Status Effect Resist Gravity"
+	{
+		myType StatusEffectResist_Gravity
+		myValue 1.0
+	}
+	Attribute "Status Effect Resist Stasis"
+	{
+		myType StatusEffectResist_Stasis
+		myValue 1.0
+	}
+	Attribute "Status Effect Resist Stasis Overload"
+	{
+		myType StatusEffectResist_StasisOverload
+		myValue 1.0
+	}
+	Attribute "Status Effect Resist Sunder"
+	{
+		myType StatusEffectResist_Sunder
+		myValue 1.0
+	}
+}
+
+Attributes "Inherited Shatter Values" = "Base Shatter Values"
+
+Attributes "Behavior - Combat"
+{
+	Attribute "Ram Duration"
+	{
+		myType NPC_UserData1
+		myValue 0.8
+		myComment "Ram Duration"
+	}
+	Attribute "Ram Distance"
+	{
+		myType NPC_UserData2
+		myValue 55.0
+		myComment "Ram Distance"
+	}
+	Attribute "Ram Damage"
+	{
+		myType NPC_Damage1
+		myValue 800.0
+		myComment "Ram Damage"
+	}
+	Attribute "Attach Chance"
+	{
+		myType NPC_TriggerChance1
+		myValue 0.5
+		myComment "Percent chance Imp will try to attach"
+	}
+	Attribute "Attach Attempt Cooldown"
+	{
+		myType NPC_Cooldown1
+		myValue 5.0
+	}
+	Attribute "Attach Damage"
+	{
+		myType NPC_Damage2
+		myValue 800.0
+		myComment "Attached damage per swing"
+	}
+	Attribute "Attach Status Effect (Gravity)"
+	{
+		myType StatusEffect_Gravity
+		myValue 50.0
+	}
+}
+

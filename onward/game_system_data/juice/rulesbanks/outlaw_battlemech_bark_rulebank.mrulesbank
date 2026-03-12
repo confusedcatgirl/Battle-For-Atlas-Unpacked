@@ -1,0 +1,381 @@
+include "onward/game system data/juice/rulesystem/rulesbank.juice"
+
+RulesBank outlaw_battlemech_bark_rulebank < uid=2D89BF655C17CA0700000384EDAEA6B2 >
+{
+	myRules
+	{
+		Rule "Enter Combat - Champ" < uid=2D89BF655C17CD5C000003874153DC6B >
+		{
+			myRuleConcept ON_OUTLAWMECH_ENTERED_COMBAT
+			myCriteriaList
+			{
+				uid "is champ" DFE837425C351A5E0003873CB9C4BC97
+			}
+			myPayloads
+			{
+				uid "combat start bark" 2D89BF655C17B69100000039769E9791
+			}
+		}
+		Rule "Enter Combat - Outlaw" < uid=DFF203395C408CCF000003EA96128BE9 >
+		{
+			myRuleConcept ON_OUTLAWMECH_ENTERED_COMBAT
+			myCriteriaList
+			{
+				uid "is outlaw" DFE837425C351A5E0003873DC130246C
+			}
+			myPayloads
+			{
+				uid uid DFF203395C408B27000003A21C334041
+			}
+		}
+		Rule "Rocket Fist Launch Repeated - Outlaw" < uid=2D89BF655C17E4B10000C094C0150C29 >
+		{
+			myRuleConcept ON_OUTLAWMECH_ROCKETFIST_LAUNCH
+			myCriteriaList
+			{
+				uid "Is outlaw" DFE837425C351A5E0003873DC130246C
+			}
+			myPayloads
+			{
+				uid outlaw 887A6E605C33810900000038D9A38E25
+			}
+		}
+		Rule "Rocket Fist Launch Repeated - Champ" < uid=DFF203395C38B93000000085B5A59B72 >
+		{
+			myRuleConcept ON_OUTLAWMECH_ROCKETFIST_LAUNCH
+			myCriteriaList
+			{
+				uid "Is champ" DFE837425C351A5E0003873CB9C4BC97
+			}
+			myPayloads
+			{
+				uid champ 2D89BF655C17E20800005C70A5E43162
+			}
+		}
+		Rule "Rocket Fist Launch 1st Time Phase I and 2 - Outlaw" < uid=DFF203395C38B97A000000862613A2F4 >
+		{
+			myRuleConcept ON_OUTLAWMECH_ROCKETFIST_LAUNCH_FIRST
+			myCriteriaList
+			{
+				uid Outlaw DFE837425C351A5E0003873DC130246C
+			}
+			myPayloads
+			{
+				uid "audio UID" 887A6E605C3381A60000003AB91AFED1
+			}
+		}
+		Rule "Rocket Fist Launch 1st Time Phase I and 2 - Champ" < uid=DFF203395C38B98D000000876BC790F0 >
+		{
+			myRuleConcept ON_OUTLAWMECH_ROCKETFIST_LAUNCH_FIRST
+			myCriteriaList
+			{
+				uid Champ DFE837425C351A5E0003873CB9C4BC97
+			}
+			myPayloads
+			{
+				uid "audio UID" 2D89BF655C17E10C00005C6A99C077F2
+			}
+		}
+		Rule "Entered Downed State Outlaw" < uid=DFF203395C3627AD0004D7EA22464B61 >
+		{
+			myRuleConcept ON_OUTLAWMECH_DOWNED
+			myCriteriaList
+			{
+				uid "not blood moon" DFE837425C351A5E0003873DC130246C
+			}
+			myPayloads
+			{
+				uid "Downed State Outlaw" DFF203395C364966000265C1F32E1F5F
+			}
+		}
+		Rule "Entered Downed State Champ" < uid=DFF203395C361ACB000003C56B2417AB >
+		{
+			myRuleConcept ON_OUTLAWMECH_DOWNED
+			myCriteriaList
+			{
+				uid "blood moon" DFE837425C351A5E0003873CB9C4BC97
+			}
+			myPayloads
+			{
+				uid "DownedState Champ" DFF203395C361851000003C3812F8A74
+			}
+		}
+		Rule "Recovered from downed state Outlaw" < uid=2D89BF655C1901FF000000380E73C5E2 >
+		{
+			myRuleConcept ON_OUTLAWMECH_RECOVERED_FROM_DOWNED
+			myCriteriaList
+			{
+				uid "not blood moon (outlaw)" DFE837425C351A5E0003873DC130246C
+			}
+			myPayloads
+			{
+				uid RecoverVerbose 2D89BF655C1903BA0000003BCF5E2823
+			}
+		}
+		Rule "Player did not damage spine weakpoint - not Startail" < uid=DFF203395C3779190000008541069224 >
+		{
+			myRuleConcept ON_OUTLAWMECH_RECOVERED_FROM_DOWNED_NO_DAMAGE
+			myCriteriaList
+			{
+				uid "Pilot is not startail" DFF203395C37677700000087965B3472
+			}
+			myPayloads
+			{
+				uid "No damage" DFF203395C367B15000A074F3EA3E7E8
+			}
+		}
+		Rule "Player did not damage spine weakpoint - Startail" < uid=DFF203395C37792A00000086BD89D175 >
+		{
+			myRuleConcept ON_OUTLAWMECH_RECOVERED_FROM_DOWNED_NO_DAMAGE
+			myCriteriaList
+			{
+				uid "Player is startail" 3BC8B70A57F2D16A0000006370DF6973
+			}
+			myPayloads
+			{
+				uid "No Damage II" DFF203395C377A7A000000871E3A1F6D
+			}
+		}
+		Rule "Recovered from downed state Champ" < uid=DFF203395C37CBD000087DC19507784F >
+		{
+			myRuleConcept ON_OUTLAWMECH_RECOVERED_FROM_DOWNED
+			myCriteriaList
+			{
+				uid "blood moon" DFE837425C351A5E0003873CB9C4BC97
+			}
+			myPayloads
+			{
+				uid recover 2D89BF655C1902C200000039F64713F3
+			}
+		}
+		Rule "Grapple Success - Outlaw" < uid=DFF203395C391E2A000003AF6F6AC753 >
+		{
+			myRuleConcept ON_OUTLAWMECH_GRAPPLE_SUCCESS
+			myCriteriaList
+			{
+				uid Outlaw DFE837425C351A5E0003873DC130246C
+			}
+			myPayloads
+			{
+				uid audio DFF203395C391BAD000003A3DA87F06E
+			}
+		}
+		Rule "Grapple Success - Champ" < uid=DFF203395C391E33000003B052BC6731 >
+		{
+			myRuleConcept ON_OUTLAWMECH_GRAPPLE_SUCCESS
+			myCriteriaList
+			{
+				uid Champ DFE837425C351A5E0003873CB9C4BC97
+			}
+			myPayloads
+			{
+				uid audio DFF203395C391BA2000003A22C962767
+			}
+		}
+		Rule "Grapple Target Escaped - Outlaw" < uid=DFF203395C3CA591000003A84B7BF66A >
+		{
+			myRuleConcept ON_OUTLAWMECH_GRAPPLE_TARGET_ESCAPED
+			myCriteriaList
+			{
+				uid "Is outlaw" DFE837425C351A5E0003873DC130246C
+			}
+			myPayloads
+			{
+				uid uid DFF203395C3CA62B000003AD199A3572
+			}
+		}
+		Rule "Grapple Target Escaped - Champ" < uid=DFF203395C3CA598000003A9F25811B0 >
+		{
+			myRuleConcept ON_OUTLAWMECH_GRAPPLE_TARGET_ESCAPED
+			myCriteriaList
+			{
+				uid "Is champ" DFE837425C351A5E0003873CB9C4BC97
+			}
+			myPayloads
+			{
+				uid uid DFF203395C3CA620000003AC8E97590E
+			}
+		}
+		Rule "Grapple Hint First Time Rankor" < uid=DFF203395C3DF09F000000850256AC7E >
+		{
+			myRuleConcept ON_OUTLAWMECH_GRAPPLE_HINT_FIRST
+			myCriteriaList
+			{
+				uid Rankor 3BC8B70A57F2D0F00000005F8A0BEFB1
+			}
+			myPayloads
+			{
+				uid uid DFF203395C3DEA5E00000085EC93F6A1
+			}
+		}
+		Rule "Grapple Hint First Time NOT Rankor" < uid=DFF203395C3DF0B60000008674C47F37 >
+		{
+			myRuleConcept ON_OUTLAWMECH_GRAPPLE_HINT_FIRST
+			myCriteriaList
+			{
+				uid "Not Rankor" DFE837425C3CCBCD0002C129DA6C0E09
+			}
+			myPayloads
+			{
+				uid uid DFF203395C3DEA6A00000086FCB14193
+			}
+		}
+		Rule "Grapple Hint Repeated Startail" < uid=DFF203395C3DF0C100000087EF8619B2 >
+		{
+			myRuleConcept ON_OUTLAWMECH_GRAPPLE_HINT
+			myCriteriaList
+			{
+				uid Startail 3BC8B70A57F2D16A0000006370DF6973
+			}
+			myPayloads
+			{
+				uid uid DFF203395C3DEA87000000877102BF94
+			}
+		}
+		Rule "Grapple Hint Repeated Not Startail" < uid=DFF203395C3DF0CE00000088D80AFFD6 >
+		{
+			myRuleConcept ON_OUTLAWMECH_GRAPPLE_HINT
+			myCriteriaList
+			{
+				uid "Not startail" DFF203395C37677700000087965B3472
+			}
+			myPayloads
+			{
+				uid uid DFF203395C3DEA950000008888411618
+			}
+		}
+		Rule "On Death - Outlaw" < uid=DFF203395C3E2DEE001522413D40E558 >
+		{
+			myRuleConcept ON_DEATH
+			myCriteriaList
+			{
+				uid "Target is Mech" DFF203395C49EBCD00000087533BC784
+				uid "Planet is not Blood Moon" DFE837425C351A5E0003873DC130246C
+			}
+			myPayloads
+			{
+				uid uid DFF203395C3E2E5C001522474ABF491E
+			}
+		}
+		Rule "On Death - Champ" < uid=DFF203395C3E2DF400152242EAF5C304 >
+		{
+			myRuleConcept ON_DEATH
+			myCriteriaList
+			{
+				uid "Target is Mech" DFF203395C49EBCD00000087533BC784
+				uid "Planet is Blood Moon" DFE837425C351A5E0003873CB9C4BC97
+				uid "Is in Arena" 0A1D74E75C365FDF000000386E1796D9
+			}
+			myPayloads
+			{
+				uid uid DFF203395C3E2E6500152248AAAEDCD2
+			}
+		}
+		Rule "Health 60 - Outlaw" < uid=DFF203395C3E2DF9001522439716AD81 >
+		{
+			myRuleConcept ON_OUTLAWMECH_PONE_HEALTH
+			myCriteriaList
+			{
+				uid "Is not on blood moon" DFE837425C351A5E0003873DC130246C
+			}
+			myPayloads
+			{
+				uid uid DFF203395C3E2E6B00152249F23AD51F
+			}
+		}
+		Rule "Health 60 - Champ" < uid=DFF203395C3E2E0100152244161EDDF6 >
+		{
+			myRuleConcept ON_OUTLAWMECH_PONE_HEALTH
+			myCriteriaList
+			{
+				uid "Is on blood moon" DFE837425C351A5E0003873CB9C4BC97
+			}
+			myPayloads
+			{
+				uid uid DFF203395C3E2E770015224AA6505ED5
+			}
+		}
+		Rule "Health 30 - Outlaw" < uid=DFF203395C3E2E08001522452C4E9048 >
+		{
+			myRuleConcept ON_OUTLAWMECH_PTWO_HEALTH
+			myCriteriaList
+			{
+				uid "Is not blood moon" DFE837425C351A5E0003873DC130246C
+			}
+			myPayloads
+			{
+				uid uid DFF203395C3E2E7E0015224B161704B8
+			}
+		}
+		Rule "Health 30 - Champ" < uid=DFF203395C3E2E0E0015224668E79B26 >
+		{
+			myRuleConcept ON_OUTLAWMECH_PTWO_HEALTH
+			myCriteriaList
+			{
+				uid "Is blood moon" DFE837425C351A5E0003873CB9C4BC97
+			}
+			myPayloads
+			{
+				uid uid DFF203395C3E2E870015224CCA8302E4
+			}
+		}
+		Rule "Enter Phase II - Champ" < uid=DFF203395C3F3DDA000000A84D5950D5 >
+		{
+			myRuleConcept ON_OUTLAWMECH_PHASETWO
+			myCriteriaList
+			{
+				uid "Is champ" DFE837425C351A5E0003873CB9C4BC97
+			}
+			myPayloads
+			{
+				uid uid DFF203395C3F3E18000003BFCF0AF800
+			}
+		}
+		Rule "Enter Phase II - Outlaw" < uid=DFF203395C3F3DE4000000A9455F61F2 >
+		{
+			myRuleConcept ON_OUTLAWMECH_PHASETWO
+			myCriteriaList
+			{
+				uid "Is outlaw" DFE837425C351A5E0003873DC130246C
+			}
+			myPayloads
+			{
+				uid uid DFF203395C3F3E21000003C0C2C52A34
+			}
+		}
+		Rule "On Champ Damaged (Story)" < uid=B3DC843C5C59ADC900EA6D60838E9FAA >
+		{
+			myRuleConcept ON_DAMAGE
+			myCriteriaList
+			{
+				uid "Instigator is Player" F2C5C6925767FAEB0000000520B9FAB2
+				uid "Target is Mech" DFF203395C49EBCD00000087533BC784
+				uid "Planet is Blood Moon" DFE837425C351A5E0003873CB9C4BC97
+				uid "Story Section is OutlawSideStory_3" 9FD9E8185BE31552000000837BAC50BF
+			}
+			myPayloads
+			{
+				uid uid B3DC843C5C59AC15007A4C0603CCECCC
+			}
+		}
+		Rule "On Player Damaged by Champ (Story)" < uid=B3DC843C5C59ADC900EA6D610CA90E5B >
+		{
+			myRuleConcept ON_DAMAGE
+			myCriteriaList
+			{
+				uid "Instigator is Mech" DFF203395C49EBCD0000008660550771
+				uid "Target is Player" F2C5C6925767FAEB00000006332B93AC
+				uid "Planet is Blood Moon" DFE837425C351A5E0003873CB9C4BC97
+				uid "Story Section is OutlawSideStory_3" 9FD9E8185BE31552000000837BAC50BF
+			}
+			myPayloads
+			{
+				uid uid B3DC843C5C59AC15007A4C082F0F28AB
+			}
+		}
+		Rule "New Rule (28)" < uid=DFF203395C50A64500386296ADEF56D7 >
+		{
+		}
+	}
+}
+

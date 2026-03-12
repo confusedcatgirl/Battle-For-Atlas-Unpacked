@@ -1,0 +1,93 @@
+include ./invisible_npc_base.mnpc
+include onward/skillscripts/npc_ability_harvester_extractor_ice_path.mskillscriptjuice
+include onward/skillscripts/npc_ability_harvester_extractor_nova_beam.mskillscriptjuice
+include onward/skillscripts/npc_ability_harvester_extractor_corruption_shockwave.mskillscriptjuice
+include onward/skillscripts/npc_ability_harvester_extractor_jump_rope.mskillscriptjuice
+include onward/skillscripts/npc_ability_harvester_extractor_corruption_nova_beam.mskillscriptjuice
+include onward/skillscripts/npc_ability_harvester_extractor_corruption_ice_barrage.mskillscriptjuice
+
+NPC harvester_extractor_corruption_logic < uid=C92F4D3F5A3C17E5016DFCA4306CB026 > : invisible_npc_base
+{
+	myUIName_NonLocalized "Corruption Logic"
+	myGraphObjectFile "onward/graph objects/character/harvester_extractor_corruption_logic.mgraphobject"
+	myBehavior "onward/game system data/juice/ai/behavior/harvester_extractor_corruption.mbehavior"
+	myIsInitiallyAggressive TRUE
+	myExitWorldAffector ""
+	myHealthConfig < uid=C92F4D3F5A835F8A0396154E763B5753 > = "harvester_extractor_corruption_logic Health"
+	myDeathSettings
+	{
+		myDeathCullTime 0.0
+		myEventDeathCullTime 0.0
+	}
+	myAbilityDefinitions
+	{
+		NPCAbilityDefinition "Ice Barrage"
+		{
+			myGameAction NPC_Ability1
+			mySkillScript < uid=C92F4D3F5A3C17E5016DFCA66FF7A074 > = npc_ability_harvester_extractor_corruption_ice_barrage
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_harvester_extractor_corruption_ice_barrage.juice"
+		}
+		NPCAbilityDefinition "Nova Beam"
+		{
+			myGameAction NPC_Ability2
+			mySkillScript < uid=C92F4D3F5A3C17E5016DFCA7B473EFB4 > = npc_ability_harvester_extractor_corruption_nova_beam
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_harvester_extractor_corruption_nova_beam.juice"
+		}
+		NPCAbilityDefinition Shockwave
+		{
+			myGameAction NPC_Ability3
+			mySkillScript < uid=C92F4D3F5A3C17E5016DFCA8E1CB949C > = npc_ability_harvester_extractor_corruption_shockwave
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_harvester_extractor_corruption_shockwave.juice"
+		}
+		NPCAbilityDefinition "Jump Rope"
+		{
+			myGameAction NPC_Ability4
+			mySkillScript < uid=C92F4D3F5A58F7CA011F6C45FA1188CB > = npc_ability_harvester_extractor_jump_rope
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_harvester_extractor_corruption_jump_rope.juice"
+		}
+	}
+	myAttributeSettings "onward/game system data/juice/ai/attributes/harvester_extractor_corruption_logic.juice"
+	myDropTableOnDeath Default_Drop_Table
+	myAwarenessDistance 300.0
+	myPhysicsSnapToGround TRUE
+	myIsAffectedByGravity TRUE
+	myIsMobile FALSE
+	myNeedsGroundToSteer FALSE
+	myNeedsGroundToMove FALSE
+	myUseNavMeshForMovement FALSE
+	myAvoidanceRadius 14.0
+	myNPCFaction Harvester
+	myNPCType Encounter
+	myAnimSystemType None
+	myThreatLevel 1.0
+	myBaseThreatProfile
+	{
+		myAddedBaseThreat 0.0
+		myThreatPropagationRange 225.0
+		myMaxBaseThreat 1.0
+		myPlayerBaseThreat 0.0
+		myHarvesterBaseThreat 0.0
+		myCloseRange 20.0
+		myMediumRange 40.0
+		myLongRange 80.0
+		myExtremeRange 200.0
+		myCloseRangeBaseThreat 0.0
+		myMediumRangeBaseThreat 0.0
+		myLongRangeBaseThreat 0.0
+	}
+	myVisibleToAwareness TRUE
+	myAIVisionConeTypeName ExtractorCorruptionVisionCone
+	myIsInteractProxy TRUE
+	myIsTargetable TRUE
+	myLeftFootstepEffectFile ""
+	myRightFootstepEffectFile ""
+	myFrontLeftFootstepEffectFile ""
+	myFrontRightFootstepEffectFile ""
+	myConstructionDuration 0.0
+	myDefaultNavigationType Ground
+}
+

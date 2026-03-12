@@ -1,0 +1,17 @@
+class SquadNPCEntry
+{
+	file myNPCType < types="*.mnpc" tooltip="Type of NPC to allow in squad" >
+}
+
+list SquadNPCEntryList
+{
+	SquadNPCEntry
+}
+
+class SquadDefinition < uid=auto >
+{
+	SquadNPCEntryList mySquadNPCEntries
+	int myCount 1 < tooltip="Number of NPCs to allow in squad" >
+	float myJoinRange  100000.0 < tooltip="Range at which an agent can join my group" >
+	float myLeaveRange 110000.0 < tooltip="Range at which an agent should leave my group" >
+}

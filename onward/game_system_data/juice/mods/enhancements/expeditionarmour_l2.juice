@@ -1,0 +1,17 @@
+include ./templates/template_l2.juice
+include "onward/game system data/juice/mods/mod_expedition_armour_l2.mplayermod"
+include "onward/game system data/juice/buffs/buff_expedition_armour_l1.mbuff"
+
+Enhancement expeditionarmour_l2 < uid=C91BB5515980BB3C000F46C9B27A4EC4 > : "Level 2"
+{
+	myLocalizedName "contextComment = \"[Placeholder - do not translate]\nName for level 2 version of a Ship Armor made by the Expedition that provides the ship with invisibility. Can only be equipped on Expedition Ships.\", description = \"\", enabled = true, guid = #C91BB5515980BB3C000F46C8DCE49B7E, lineVersion = 1, maxLength = 30, text = \"Expedition Armor II\""
+	myLocalizedDescription "contextComment = \"[Placeholder - do not translate]\nDescription for level 2 version of a Ship Armor made by the Expedition that provides the ship with invisibility. Can only be equipped on Expedition Ships.\", description = \"enhancement-description-expedition-armour-2\", enabled = true, guid = #25223E8E97234185BD804FCE3D95DC50, lineVersion = 2, maxLength = 142, text = \"+20 Defense | +20% Elemental Resist\nShip becomes invisible when the Shield Breaks\nEquip on an Expedition Ship\""
+	myIconSprite "mySpriteId = 1113227651, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-mods-ship-armour.spritesheet\""
+	myIsHullEnhancement TRUE
+	myFactionType Expedition
+	myMod < uid=C91BB5515980BB3C000F46CAFBA6BA8B > = mod_expedition_armour_l2
+	myBuff < uid=C91BB551598B49DA00E0D2588BED6685 > = buff_expedition_armour_l1
+	myEnhancementType Armour
+	myEnhancementTrackType ExpeditionArmour
+}
+

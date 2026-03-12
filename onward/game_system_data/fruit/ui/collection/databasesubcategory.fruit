@@ -1,0 +1,92 @@
+include "onward/game system data/fruit/progression/challenge_types.fruit"
+include "onward/game system data/fruit/collectibles/CollectibleTypes.fruit"
+
+list DatabaseEntryColors
+{
+	color
+}
+
+class BaseDatabaseEntry < abstract=1 uid=auto >
+{
+	varmap myLocalizedDescription		< bhv="localization" >
+	varmap myLocalizedShortDescription	< bhv="localization" >
+	varmap myLocalizedNarrative			< bhv="localization" >
+	file   myPortrait 					< bhv=asset assettype="Texture" > 
+	file   myDisplayVideo				< bhv=asset assettype="Bink" >
+	string mySprite						< default = "mySpriteId = -455779427, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-placeholder.spritesheet\"" bhv="sprite" >
+	string myBannerSprite				< default = "mySpriteId = -455779427, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-placeholder.spritesheet\"" bhv="sprite" >
+	string myAttachScreenSprite			< default = "mySpriteId = -455779427, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-placeholder.spritesheet\"" bhv="sprite" >
+	string myStarmapThreatKnownSprite	< default = "mySpriteId = -455779427, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-placeholder.spritesheet\"" bhv="sprite" >
+	string myStarmapThreatUnknownSprite	< default = "mySpriteId = -455779427, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-placeholder.spritesheet\"" bhv="sprite" >
+	color  myPrimaryColor
+	color  mySecondaryColor
+	DatabaseEntryColors  myColors
+	ChallengeType myRevealedChallengeType < tooltip="The challenge that will reveal this database entry from the 'mystery' state to the 'revealed' state" >
+	ChallengeType myUnlockedChallengeType < tooltip="The challenge that will unlock this database entry" >
+	ChallengeType myDeathChallengeType < tooltip="The challange that will increase the 'Kill Count' of this database entry" >
+	CollectibleSubTypes myCollectibleSubType
+	bool mySuppressPipAutoUnlock FALSE
+}
+
+class CustomDatabaseEntry : BaseDatabaseEntry
+{
+	varmap myLocalizedName < bhv="localization" >
+}
+
+list CustomDatabaseEntries
+{
+	CustomDatabaseEntry
+}
+
+list NPCFileReferences
+{
+	file < types=*.mnpc >
+}
+
+class NPCDatabaseEntry : BaseDatabaseEntry
+{
+	NPCFileReferences myNPCFiles
+}
+
+list NPCDatabaseEntries
+{ 
+	NPCDatabaseEntry
+}
+
+list SimUnitFileReferences
+{
+	file < types=*.msimunit >
+}
+
+class SimUnitDatabaseEntry : BaseDatabaseEntry
+{
+	SimUnitFileReferences mySimUnitFiles
+}
+
+list SimUnitDatabaseEntries
+{ 
+	SimUnitDatabaseEntry
+}
+
+list PlanetReferences
+{
+	uid
+}
+
+class PlanetDatabaseEntry : BaseDatabaseEntry
+{
+	PlanetReferences myPlanetUIDs
+	varmap myLocalizedName < bhv="localization" >
+	CollectibleSubTypes myCollectibleSubType < default="Planet" >
+}
+
+list PartReferences
+{
+	uid
+}
+
+class PartDatabaseEntry : BaseDatabaseEntry
+{
+	PartReferences myPartUIDs
+	CollectibleSubTypes myCollectibleSubType < default="Part" >
+}

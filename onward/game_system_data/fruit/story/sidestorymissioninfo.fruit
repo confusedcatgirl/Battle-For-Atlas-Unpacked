@@ -1,0 +1,28 @@
+include "onward/game system data/fruit/story/storydata.fruit"
+include "onward/game system data/fruit/story/storyevent.fruit"
+
+//
+// Uses a StoryFlow to construct a whole "mission"
+// This class contains all the metadata to display to the user to start that Mission
+//
+class SideStoryMissionInfo < uid = auto >
+{
+	varmap myMissionName 							< tooltip = "Mission Name" bhv = "localization" >
+	varmap myMissionDescription 					< tooltip = "Mission Description" bhv = "localization" >
+	
+	StoryBeatSequence* myStoryMissionSequence
+	
+	FactionType myFaction							< tooltip = "Faction of the mission, ie: who is this for?" >
+	string 		myIconSprite 						< bhv="sprite" >
+	
+	GameToStoryEvent myStartStoryEvent				< tooltip = "Event for UI to fire to indicate this side story should activate" > 
+	StoryEventList myRequirementStoryEvents			< tooltip = "List of StoryEvents that are required before you can start this">
+	varmap myRequirementDescription 				< bhv="localization" >
+
+	int myRequiredHardwareID						< default = -1 tooltip = "A hardware ID that is required to complete this mission" >
+}
+
+list SideStoryMissionInfoUIDList
+{
+	uid		< bhv="SideStoryMissionInfoSelector" >
+}

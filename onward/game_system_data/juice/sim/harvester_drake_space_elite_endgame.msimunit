@@ -1,0 +1,31 @@
+include "onward/game system data/fruit/sim/simunit.fruit"
+
+SimUnit harvester_drake_space_elite_endgame < uid=9FD9E8185AC4F29800001D64EA91D401 >
+{
+	myBehavior onward/simworld/behavior/outlaw_defender.msimunitbtgraph
+	myControlGraph ""
+	myFaction Harvester
+	myCategory NPC
+	mySpeed 80.0
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo "outlaw worker agent" < uid=9FD9E8185AC4F29800001D65EB1DCB49 >
+		{
+			myCountMin 3
+			myCountMax 3
+			myEntityFile "onward/game system data/juice/ai/npc/harvester_drake_elite.mnpc"
+			mySpaceSettings
+			{
+				mySpawnFormation FlyingW
+				myFormationFlightDist 30.0
+			}
+			myEnsurePhysicsClearance TRUE
+		}
+	}
+	mySaveable FALSE
+	mySkillLevelCoefficients
+	{
+		myBaseLevel 15
+	}
+}
+

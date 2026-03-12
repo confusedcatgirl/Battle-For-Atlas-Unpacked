@@ -1,0 +1,57 @@
+include "onward/game system data/fruit/sim/simunit.fruit"
+
+SimUnit prospector_systemic_bounty_base < uid=D701B5085BF870ED0000004ACF2C1527 >
+{
+	myUIName "contextComment = \"[Placeholder - do not translate] The name of a sytemic bounty that the player can hunt and capture\", description = \"simunit-systemic-bounty-base\", enabled = true, guid = #D701B5085BF870ED00000049C8A47A4A, lineVersion = 0, maxLength = 22, text = \"[Systemic Bounty]\""
+	myBehavior onward/simworld/behavior/prospector_systemic_bounty.msimunitbtgraph
+	myControlGraph onward/simworld/control/prospector_systemic_bounty.msimunitcontrolgraph
+	myFaction Outlaw
+	myCategory NPC
+	mySubCategory Bounty
+	mySubCategoryVariant 0
+	myRadius 6.0
+	mySpeed 80.0
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo Leader < uid=D701B5085BF870ED0000004BC7464F15 >
+		{
+			myCountMin 1
+			myCountMax 1
+			myEntitySize 30.0
+			myEntityFile ""
+			myElementSpawnInfo
+			{
+				SimUnitElementSpawnInfo Leader
+				{
+					myEntityFile "onward/game system data/juice/ai/npc/outlaw_defender_leader_systemic_bounty.mnpc"
+				}
+			}
+			mySpaceSettings
+			{
+				mySpawnFormation None
+				myFormationFlightDist 0.0
+			}
+			myEnsurePhysicsClearance TRUE
+		}
+	}
+	mySaveable FALSE
+	myNapTime 0.1
+	myPreserveSpawnInfo TRUE
+	myIsValidPickupTarget FALSE
+	mySelfDestructAfterUnrealized FALSE
+	mySkillLevelCoefficients
+	{
+		myUseTargetRelativeLevel TRUE
+		myTargetRelativeOffset 1
+		mySkillLevelAffectsDamage TRUE
+		myPlanetActMultiplier 0
+		myWarEffortLevelMultiplier 0
+		myWarEffortAllianceLevelMultiplier 0
+		myParentLevelMultiplier 0
+		myParentSkillLevelMultiplier 0
+		myUnitLevelMultiplier 0
+		myBaseLevel 1
+	}
+	myBaseSkillLevel 0
+}
+

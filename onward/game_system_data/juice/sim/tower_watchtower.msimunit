@@ -1,0 +1,35 @@
+include ./tower_base.msimunit
+
+SimUnit tower_watchtower < uid=C92F4D3F58FE0CBD009373D93C5A9EE9 > : tower_base
+{
+	myUIName "contextComment = \"[Placeholder - do not translate] HUD name shown when aiming at a Prospector defensive sentry tower\", description = \"ui-target-tower-watchtower\", enabled = true, guid = #9E6AFEDA5903995C009A403A57DD39E1, lineVersion = 0, maxLength = 20, text = \"Watchtower\""
+	myBehavior onward/simworld/behavior/tower_watchtower.msimunitbtgraph
+	myControlGraph onward/simworld/control/tower_watchtower.msimunitcontrolgraph
+	myFaction Prospector
+	mySubCategory Watchtower
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo tower_watchtower < uid=1E68E5355980CBC5000186A2BAF89D32 >
+		{
+			myCountMin 1
+			myCountMax 1
+			myEntitySize 4.0
+			myEntityFile ""
+			myElementSpawnInfo
+			{
+				SimUnitElementSpawnInfo tower_watchtower
+				{
+					myEntityFile "onward/entity templates/tower_watchtower.mentitytemplate"
+				}
+			}
+		}
+	}
+	myUnlockedChallengeType Ally_ProspectorWatchtower
+	myInterestSettings
+	{
+		myIsEnabled TRUE
+	}
+	myIconSprite "mySpriteId = 460254896, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-outpost-inventory-faction-towers.spritesheet\""
+	myMissionTargetTexture onward/baked/textures/UI/icons/outpost_targets/outpost_target_sim_unit/ui-icon-outpost-target-watchtower.dds
+}
+

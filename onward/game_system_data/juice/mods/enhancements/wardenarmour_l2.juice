@@ -1,0 +1,23 @@
+include ./templates/template_l2.juice
+include "onward/game system data/juice/mods/mod_warden_armour_l2.mplayermod"
+include "onward/game system data/juice/buffs/buff_warden_armour_l1.mbuff"
+
+Enhancement wardenarmour_l2 < uid=C91BB5515980C2FC000000B2DC782322 > : "Level 2"
+{
+	myLocalizedName "contextComment = \"[Placeholder - do not translate]\nName for level 2 version of a Ship Armor made by the ancient Wardens that gives the Ship resistance to all elements (Cold, Heat, Gravity, Stasis/anti-grav) and bonuses when fighting near rich Electrum sources\", description = \"\", enabled = true, guid = #C91BB5515980C2FC000000B12477246D, lineVersion = 1, maxLength = 30, text = \"Warden Armor II\""
+	myLocalizedDescription "contextComment = \"[Placeholder - do not translate]\nDescription for level 2 version of a Ship Armor made by the ancient Wardens that gives the Ship resistance to all elements (Cold, Heat, Gravity, Stasis/anti-grav) and bonuses when fighting near rich Electrum sources\", description = \"enhancement-description-warden-armour-2\", enabled = true, guid = #1CDBAA8ABE764B8E8D5A1D90E51F08F3, lineVersion = 1, maxLength = 113, text = \"+20 Defense\n+20% Resistance to all Elemental damage\nExplosive Damage when Shield Breaks\""
+	myIconSprite "mySpriteId = -1252685079, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-mods-ship-armour.spritesheet\""
+	myIsHullEnhancement TRUE
+	myMod < uid=C91BB5515980C2FC000000B3B8435B4D > = mod_warden_armour_l2
+	myBuff < uid=939A35415AAA8FD900001BF78E0240FD > = buff_warden_armour_l1
+	myEnhancementType Armour
+	myEnhancementTrackType WardenArmour
+	myDamageAffectors
+	{
+		DamageAffector_DamageBoostNearElectrumVein "Damage Boost Near Electrum Vein"
+		{
+			myDamageMultiplier 0.5
+		}
+	}
+}
+

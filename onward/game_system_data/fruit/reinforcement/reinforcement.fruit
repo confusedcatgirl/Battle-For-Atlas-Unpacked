@@ -1,0 +1,61 @@
+include ./squadconfiguration.fruit
+include ./reinforcementtype.fruit
+
+class UnitPayloadSelection
+{
+	float mySelectionChance 1.0 < tooltip="% chance this payload will be selected" >
+	SquadConfigurationItemList myConfiguration
+}
+
+list UnitPayloadSelectionList
+{
+	UnitPayloadSelection
+}
+
+class UnitPayloadActLevel
+{
+	int myAct -1 < tooltip="Act for which this payload is valid, or -1 for any act." >
+	int myLevel -1 < tooltip="Requestor level for which this payload is valid, or -1 for any level." >
+}
+
+list UnitPayloadActLevelList
+{
+	UnitPayloadActLevel
+}
+
+class UnitPayload
+{
+	UnitPayloadActLevelList myActsAndLevels < tooltip="Payload will only be considered during these act + requestor level combinations" >
+	UnitPayloadSelectionList mySelections
+}
+
+list UnitPayloadList
+{
+	UnitPayload
+}
+
+class PlanetUnitPayload
+{
+	string myPlanet < bhv=asset assettype=level >
+	UnitPayloadList myPayloads
+}
+
+list PlanetUnitPayloadList
+{
+	PlanetUnitPayload
+}
+
+class ReinforcementConfig
+{
+	ReinforcementType myType
+	float myChargeDuration 10.0 < tooltip = "Time before units start spawning after request" >
+	float mySpawnInPeriod 0.0 < tooltip = "Time over which all units in payload will be spawned" >
+	int myMaxConcurrentSpawn 1 < tooltip = "Maximum number of units from reinforcement to spawn at a time" >
+	PlanetUnitPayloadList myPayloads
+	bool myBarkOnReinforcementRequests < default = false tooltip = "Bark about reinforcements requests. Generally set to true if chargeDuration greater than 1" >
+}
+
+list ReinforcementConfigList
+{
+	ReinforcementConfig
+}

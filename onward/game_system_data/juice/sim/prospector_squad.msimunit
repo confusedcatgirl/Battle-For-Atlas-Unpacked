@@ -1,0 +1,30 @@
+include ./faction_unit_base.msimunit
+
+SimUnit prospector_squad < uid=C92F4D3F5810F08C0015495BF0BC4DCF > : faction_unit_base
+{
+	myBehavior onward/simworld/behavior/prospector_squad.msimunitbtgraph
+	myFaction Prospector
+	myCategory NPC
+	mySubCategory Defender
+	myMaxHealth 900.0
+	mySpeed 25.0
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo Defender < uid=93869D535AB27C7C0034A58F4285DB13 >
+		{
+			myCountMin 2
+			myCountMax 4
+			myEntitySize 7.0
+			myEntityFile ""
+			myElementSpawnInfo
+			{
+				SimUnitElementSpawnInfo defender
+				{
+					myEntityFile "onward/game system data/juice/ai/npc/prospector_defender.mnpc"
+				}
+			}
+		}
+	}
+	myMissionTargetTexture onward/baked/textures/UI/icons/outpost_targets/outpost_target_sim_unit/ui-icon-outpost-target-defend-worker-defense-base.dds
+}
+

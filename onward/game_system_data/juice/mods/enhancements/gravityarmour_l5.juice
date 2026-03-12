@@ -1,0 +1,22 @@
+include ./templates/template_l5.juice
+include "onward/game system data/juice/mods/mod_gravity_armour_l5.mplayermod"
+include ./damageaffectors/damage_affectors.juice
+include "onward/game system data/juice/buffs/buff_gravity_armour_l5.mbuff"
+
+Enhancement gravityarmour_l5 < uid=C91BB551597F86370066E1A5E88300AD > : "Level 5"
+{
+	myLocalizedName "contextComment = \"[Placeholder - do not translate]\nName for level 5 version of a Ship Armor that protects against Gravity/crush damage and gives the player bonuses in hot status effects (gravity field / black hole)\", description = \"\", enabled = true, guid = #C91BB551597F86370066E1A4BBB4FAB9, lineVersion = 1, maxLength = 30, text = \"Gravity Armor V\""
+	myLocalizedDescription "contextComment = \"[Placeholder - do not translate]\nDescription for level 5 version of a Ship Armor that protects against Gravity/crush damage and gives the player bonuses in hot status effects (gravity field / black hole)\", description = \"enhancement-description-gravity-armour-5\", enabled = true, guid = #D94D6D71CAA8410D9C123CFD7B119377, lineVersion = 1, maxLength = 143, text = \"+60 Defense\n+100% Resistance to Gravity damage\nHeal while inside Gravity\nAdds weight to Ship & Resist Crashing\""
+	myIconSprite "mySpriteId = 694401933, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-mods-ship-armour.spritesheet\""
+	myIsHullEnhancement TRUE
+	myMod < uid=C91BB551597F86370066E1A61CEFEBCB > = mod_gravity_armour_l5
+	myBuff < uid=C91BB551597F86370066E1A765DA7EE1 > = buff_gravity_armour_l5
+	myEnhancementType Armour
+	myEnhancementTrackType GravityArmour
+	myDamageAffectors
+	{
+		DamageAffector_DamageFromManifestation "Disable Damage from Black Holes" = GravityArmour_PreventBlackHoleDamage
+		DamageAffector_MitigateProjectileDamageInsideVolume "Disable Damage from Projectiles inside Black Holes" = GravityArmour_PreventProjectileDamageInsideBlackHole
+	}
+}
+

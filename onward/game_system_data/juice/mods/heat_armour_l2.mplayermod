@@ -1,0 +1,20 @@
+include ./template_hull.mplayermod
+include ./tuning/mod_tuning_master.juice
+
+PlayerMod HeatArmour_L2 < uid=A08A88CF583315BC0000004B2000BD92 > : template_hull
+{
+	myAttributeMods
+	{
+		AttributeMod "Heat DMG Resist"
+		{
+			myType DMG_Resist_Heat
+			myMultValue = Heat_Armor_l2_HeatResist
+		}
+		AttributeMod Defense
+		{
+			myType PartStat_Defense
+			myAddValue = Heat_Armor_l2_Defense
+		}
+	}
+}
+

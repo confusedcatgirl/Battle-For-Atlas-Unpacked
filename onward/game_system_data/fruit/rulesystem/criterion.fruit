@@ -1,0 +1,84 @@
+include "onward/game system data/fruit/rulesystem/fact.fruit"
+
+enum CriterionScope < useCategories=1 >
+{
+	// 'Global' *must* remain the first element because OGame_FactsBatch::AddFacts() defaults to an offset of zero when no offset is provided.
+	// Other items can be added and any non-Global element can change order safely.
+	Global
+	Instigator
+	Target
+	ThirdParty
+	InstigatorInterestTarget
+	TargetInterestTarget
+	ThirdPartyInterestTarget
+	InstigatorParent
+	TargetParent
+	ThirdPartyParent
+	LastCompletedOpportunityTarget
+	LastCompletedOpportunityRequester
+	InstigatorPickup
+	TargetPickup
+	ThirdPartyPickup
+	InstigatorPickupInterestTarget
+	TargetPickupInterestTarget
+	ThirdPartyPickupInterestTarget
+}
+
+enum CriterionCompareType
+{
+	LessThanMax
+	LessThanOrEqualToMax
+	EqualToMax
+	GreaterThanOrEqualToMin
+	GreaterThanMin
+	GreaterThanMinAndLessThanMax
+	GreaterThanOrEqualToMinAndLessThanEqualToMax
+}
+
+class Criterion < uid=auto abstract=1 >
+{
+	CriterionScope myScope Global		< tooltip = "Who does this criterion pertain to?  If no one (like 'planet temperature less than zero') then use default 'Global'" >
+	CriterionCompareType compareType	< bhv = "CriterionCompareType" tooltip="Type of comparison to perform" >
+	string myDescription				< tooltip="Short comment to describe what this criteria is supposed to do" >
+	int myOasisAIElementID				< default = 0 hidden = 1 tooltip="Do **NOT** alter this manually. It should be assigned from Oasis only" >
+}
+
+// Criterion defined in Oasis that needs to be implemented in a juice file for real
+class Placeholder_Criterion : Criterion
+{
+}
+
+//
+// Criterion that evaluates how a Fact's value compares to expected (is it larger, smaller, exactly equal, etc)
+//
+class Int_Criterion : Criterion
+{
+	IntFactLabel label					< tooltip="Label of the Fact to try and match" >
+	int minValue						< default = 0 hidden=1 tooltip="Minimum value" >
+	int maxValue						< default = 0 hidden=1 tooltip="Maximum value" >
+}
+
+//
+// Criterion to exactly match a string (the only comparison that makes sense)
+//
+class String_Criterion : Criterion
+{
+	StringFactLabel label				< tooltip="Label of the Fact to try and match" >
+	string value						< tooltip="Criterion matches if the fact's string is exactly this" >
+	bool notEqual false					< tooltip="Check if you want to test that something is NOT equal to the value" >
+}
+
+//
+// Criterion that evaluates how a Fact's value compares to expected (is it larger, smaller, exactly equal, etc)
+//
+class Float_Criterion : Criterion
+{
+	FloatFactLabel label				< tooltip="Label of the Fact to try and match" >
+	float minValue						< default = 0 tooltip="Minimum value" >
+	float maxValue						< default = 0 tooltip="Maximum value" >
+}
+
+list CriteriaList
+{
+	uid < bhv = "CriteriaSelector" >
+}

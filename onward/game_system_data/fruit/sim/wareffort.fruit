@@ -1,0 +1,81 @@
+include "onward/game system data/fruit/sim/shipmentconfig.fruit"
+include "onward/game system data/fruit/attributes/attributes.fruit"
+include "onward/game system data/fruit/mods/mod.fruit"
+include "onward/game system data/fruit/progression/challenge_types.fruit"
+// Points
+
+enum WarEffortPointType < useCategories=1 >
+{
+	< startCategory="Legion" >
+	Prime
+	Extractor
+	Nest
+	
+	< startCategory="Alliance" >
+	AlliedOutpost
+	OutpostLevelUp
+}
+
+class WarEffortPointConfig
+{
+	WarEffortPointType myPointType
+	SimUnit* mySimUnitAsset
+	int myPoints
+	int myLevelUpPoints
+	bool myAllowAllianceContribution TRUE < tooltip="Should this asset be allowed to contribute points to the Alliance war effort?" >
+	bool myAllowLegionContribution TRUE < tooltip="Should this asset be allowed to contribute points to the Legion war effort?" >
+	Mod* myMod
+	Mod* myLevelUpMod
+	EnhancementList myPlanetaryEnhancements
+}
+
+list WarEffortPointConfigs
+{
+	WarEffortPointConfig
+}
+
+// Thresholds
+enum WarEffortThreshold
+{
+	Threshold_0
+	Threshold_25
+	Threshold_50
+	Threshold_75
+	Threshold_90
+	Threshold_100
+}
+
+class WarEffortThresholdConfig
+{
+	WarEffortThreshold myThreshold
+	int myPointsRequired
+}
+
+list WarEffortThresholdConfigs
+{
+	WarEffortThresholdConfig
+}
+
+// Benefits
+enum WarEffortBenefitType
+{
+	Legion
+	Alliance
+}
+
+class WarEffortBenefitConfig
+{
+	WarEffortBenefitType myBenefitType
+	WarEffortThreshold myThreshold
+	ChallengeType myThresholdReachedChallenge
+	Mod* myMod
+	uid myPlanetUID
+	varmap myLocalizedDescription < bhv="localization" >
+	bool mySendLegionSimAlert
+	bool mySendAllianceSimAlert
+}
+
+list WarEffortBenefitConfigs
+{
+	WarEffortBenefitConfig
+}

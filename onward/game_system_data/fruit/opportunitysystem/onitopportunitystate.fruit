@@ -1,0 +1,89 @@
+//
+// An Opportunity can be In-Progress, or Completed or Expired, but not all three, so it's stored in a single
+// state. This means we need to do some checking when *setting* the state, so there's
+// some wrapper functions SetCompletedState / SetExpiredState
+// *** NTB ***: If you change the name of any of these, you need to update the criteria too
+//
+enum OnItOpportunityState < useCategories=1 >
+{
+	Unknown
+	< startCategory="In Progress States" >
+	InProgressStates_BEGIN	< category = "Markup States DO NOT USE">
+	InProgress
+	InProgress_Pickup_OnIt
+	InProgress_ReturnPickupToRequester
+	InProgress_ScanMore
+	InProgress_ChargeMore
+	InProgress_PlacePickupAtLocation
+	InProgress_BombDetonation
+	InProgress_BuildSpecificOutpost
+	Liberate_Hack
+	Liberate_Attack
+	Siege_Approach
+	Siege_Defenses_1
+	Siege_Defenses_2
+	Siege_Defenses_3
+	Siege_Defenses_4
+	Siege_Defenses_5
+	Siege_Loot
+	InProgressStates_END	< category = "Markup States DO NOT USE">
+	< endCategory = "" >
+
+	< startCategory="Successful States" >
+	CompletedStates_BEGIN	< category = "Markup States DO NOT USE">
+	Complete_Successfully
+	CompletedStates_END		< category = "Markup States DO NOT USE">
+	< endCategory = "" >
+
+	< startCategory="Expired States" >
+	ExpiredStates_BEGIN				< category = "Markup States DO NOT USE">
+	Misc_PushedOffList
+	Find_TargetDied
+	Pickup_PickupDied
+	Pickup_OnItPickedUpByOther
+	Pickup_AttachmentStateInvald
+	Deliver_DeliveryDied
+	Deliver_DestinationDied
+	Deliver_RequesterDied
+	Deliver_RequesterNoLongerAllied
+	Deliver_WrongDeliveryTarget
+	Deliver_ResourceDepleted
+	Attack_DiedOutOfRange_and_PlayerNeverDamagedIt
+	Defend_TargetDied
+	Defend_TargetHostileToPlayer
+	Interact_TargetDied
+	PlayerDied
+	PlayerExitedRange
+	Deliver_ZoneOccupied
+	Survive_NoHackableComponent
+	Survive_HackTargetDied
+	Survive_PlayerOutOfBounds
+	Survive_HackAborted
+	Survive_UnknownCancelation
+	Repair_TargetDied
+	Repair_Cancelled
+	Repair_TargetRepairedBySomeoneElse
+	Solve_PuzzleDied
+	BuildOutpost_AllyBuiltItFirst
+	BuildOutpost_UnalliedBuiltItFirst
+	BuildOutpost_PlayerBuiltWrongType
+	Liberate_Target_Missing
+	Liberate_RequesterDied
+	Siege_TargetDied
+	Siege_EncounterReset
+	Siege_InvalidConfig
+	DisableDefense_TargetDied
+	Race_Failed
+		< startCategory="Expired States/Non-Failure Expired States" >
+		NonFailureExpiredStates_BEGIN				< category = "Markup States DO NOT USE">
+
+		Defend_PlayerNeverExchangedDamageWithHostiles
+		Misc_PresentationTimedOut
+		Misc_Dismissed
+
+		NonFailureExpiredStates_END					< category = "Markup States DO NOT USE">
+		< endCategory = "" >
+	
+	ExpiredStates_END				< category = "Markup States DO NOT USE">
+	< endCategory = "" >
+}

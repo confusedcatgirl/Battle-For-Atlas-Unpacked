@@ -1,0 +1,22 @@
+include "onward/game system data/juice/mods/mod_racer_shipcore_l5.mplayermod"
+include ./templates/template_l5.juice
+include "onward/game system data/juice/buffs/buff_racer_shipcore_l4_l5.mbuff"
+
+Enhancement racershipcore_l5 < uid=C91BB551596FA60B000000A0CCD793C8 > : "Level 5"
+{
+	myLocalizedName "contextComment = \"[Placeholder - do not translate]\nName for level 5 version of a Ship Core that increases the ship's speed & boosting capabilities\", description = \"\", enabled = true, guid = #C91BB551596FC1BC005B61B030C290A1, lineVersion = 2, maxLength = 18, text = \"Fighter Core V\"}"
+	myLocalizedDescription "contextComment = \"[Placeholder - do not translate]\nDescription for level 5 version of a Ship Core that increases the ship's speed & boosting capabilities\", description = \"enhancement-description-racer-ship-core-5\", enabled = true, guid = #BA1B0F64E270484D9F2BD9D44AD6DA01, lineVersion = 1, maxLength = 104, text = \"+100 Speed\n+30 Handling\n-25% Boost cost for Dodging\nPrecision Shots charge Boost\"}"
+	myIconSprite "mySpriteId = -1898887246, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-mods-ship-core.spritesheet\""
+	myIsHullEnhancement TRUE
+	myMod < uid=C91BB551596FA615000000A75BDB874D > = mod_racer_shipcore_l5
+	myEnhancementType ShipCore
+	myEnhancementTrackType RacerShipCore
+	myDamageAffectors
+	{
+		DamageAffector_PrecisionStamina "Precision Stamina"
+		{
+			myAmount = Racer_Core_l5_HeadshotStamina
+		}
+	}
+}
+

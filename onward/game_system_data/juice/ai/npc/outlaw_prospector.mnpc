@@ -1,0 +1,79 @@
+include ./outlaw_defender_leader.mnpc
+
+NPC outlaw_prospector < uid=6D25F4C65C140D17000659ECB1E03A15 > : outlaw_defender_leader
+{
+	myUIName "contextComment = \"[Placeholder - do not translate] Name for prospector mission outlaw that can be captured\", description = \"uiname-outlaw-prospector\", enabled = true, guid = #6D25F4C65C140D17000659EB0BE212B2, lineVersion = 1, maxLength = 10, text = \"Outlaw\""
+	myUIName_NonLocalized "Outlaw Defender"
+	myBehavior "onward/game system data/juice/ai/behavior/outlaw_prospector.mbehavior"
+	myHealthConfig < uid=6D25F4C65C140D17000659ED70B2FC9B > = "outlaw_prospector Health"
+	myDeathSettings
+	{
+		myDeathCullTime 2.0
+		myEventDeathCullTime 0.0
+		myDieOnFlightStaticCollision TRUE
+		myDieOnFlightDynamicCollision FALSE
+	}
+	myAbilityDefinitions
+	{
+		NPCAbilityDefinition Gatling
+		{
+			myGameAction NPC_Ability1
+			mySkillScript < uid=6D25F4C65C140D17000659EFDA91BAEA > = npc_ability_outlaw_defender_gatling
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_outlaw_defender_gatling.juice"
+			myEnabled FALSE
+		}
+		NPCAbilityDefinition "Homing Missiles"
+		{
+			myGameAction NPC_Ability2
+			mySkillScript < uid=6D25F4C65C140D17000659F06A11033F > = npc_ability_homing_missile
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_homing_missiles_outlaw_prospector.juice"
+			myEnabled TRUE
+		}
+		NPCAbilityDefinition Laser
+		{
+			myGameAction NPC_Ability3
+			mySkillScript < uid=6D25F4C65C140D17000659F18DA07CC2 > = npc_ability_laser
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_laser.juice"
+			myEnabled FALSE
+		}
+		NPCAbilityDefinition "HyperDrive Jammer"
+		{
+			myGameAction NPC_Ability10
+			mySkillScript < uid=6D25F4C65C140D17000659F2A6C950EC > = npc_ability_hyperdrive_jammer
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_hyperdrive_jammer.juice"
+			myEnabled TRUE
+		}
+		NPCAbilityDefinition "Heavy Gatling"
+		{
+			myGameAction NPC_Ability4
+			mySkillScript < uid=6D25F4C65C140D17000659F3F1D8E835 > = npc_ability_outlaw_heavy_gatling
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_outlaw_heavy_gatling_prospector.juice"
+			myEnabled TRUE
+		}
+		NPCAbilityDefinition "Capture Mines"
+		{
+			myGameAction NPC_Ability8
+			mySkillScript < uid=6D25F4C65C141533007FD97CC468D65E > = npc_ability_capture_mines
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_capture_mines.juice"
+		}
+	}
+	myCrowdControlAttributeSettings "onward/game system data/juice/ai/attributes/crowd control tiers/npc_cc_tier05.juice"
+	myNPCType Outlaw_Prospector
+	myIsInteractable TRUE
+	myIsPluckable TRUE
+	myInteractDistance 150.0
+	myInteractableCustomType Capture
+	myPluckableConfig "onward/game system data/juice/interact/pluckable_capture_outlawleader.juice"
+	myVisualImpactSettings
+	{
+		myUseFixedMass TRUE
+		myFixedMass 100.0
+	}
+}
+

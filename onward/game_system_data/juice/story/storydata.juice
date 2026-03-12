@@ -1,0 +1,173 @@
+include ./act02.juice
+include ./act03.juice
+include ./act05.juice
+include ./act06.juice
+include ./e3_2017_short.juice
+include ./ui_testing.juice
+include ./ld_gymflow.juice
+
+StoryBeatData "New Game" < uid=95430580588F7E9E000000B7C6C3DBE7 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_CompleteStoryEvent "Complete New Game"
+		{
+		}
+		StoryDataAction_SetObjectiveHeader "Set Main Objective Header"
+		{
+			myObjectiveHeader "contextComment = \"\", description = \"ui-story-objective-header-main\", enabled = true, guid = #954305805B35110B0000235F18DF15EF, lineVersion = 0, maxLength = 30, text = \"[MAIN OBJECTIVE HEADER]\""
+		}
+	}
+}
+
+StoryBeatSequence "Standard Game" < uid=954305805AA05DAC00001B29E30F605F >
+{
+	myStoryBeats
+	{
+		StoryBeatData "New Game" < uid=95430580588F7E9E000000B80330F4E9 > = "New Game"
+		BaseStoryData "Act One Sequence" = "ACT I SEQUENCE"
+		BaseStoryData "Act Two Sequence" = "Act Two Sequence"
+		BaseStoryData "Act Three Sequence" = "Act Three Sequence"
+		BaseStoryData "Act Four Sequence" = "Act Four Sequence"
+		BaseStoryData "Act Five Sequence" = "Act Five Sequence"
+		BaseStoryData "Act Six Sequence" = "Act Six Sequence"
+	}
+}
+
+StoryBeatSequence myGameFlow < uid=954305805AA05DAC00001B2A601ABD7C > = "Standard Game"
+
+StoryBeatSequence debug < uid=954305805AA05DAC00001B2B66E04654 >
+{
+	myStoryBeats
+	{
+		StoryBeatData "New Game" < uid=954305805890AE280000004CFB4404DB > = "New Game"
+		StoryBeatData Debug < uid=954305805890AE280000004DD06C2989 >
+		{
+			myStoryDataActions
+			{
+				StoryDataAction_SetNumPrimes "Set Num Primes"
+				{
+					myNumPrimes 1
+				}
+				StoryDataAction_SetMaxPrimeLevel "Set Max Prime Level"
+				{
+					myMaxPrimeLevel 4
+				}
+				StoryDataAction_SetNumExtractors "Set Max Extractors"
+				{
+					myNumExtractors 12
+				}
+				StoryDataAction_SetMaxExtractorLevel "Set Max Extractor Level"
+				{
+					myMaxExtractorLevel 4
+				}
+				StoryDataAction_SetPrimeTimeBetweenExtractors "Set Prime Time Between Extractors"
+				{
+				}
+				StoryDataAction_CompleteStoryEvent "Unlock Outpost Building"
+				{
+					myStoryEvent UnlockBuildOutposts
+				}
+				StoryDataAction_CompleteStoryEvent "Enable Observation Deck Interaction"
+				{
+					myStoryEvent EnableObservationDeckInteraction
+				}
+				StoryDataAction_CompleteStoryEvent "Enable Research Base Interaction"
+				{
+					myStoryEvent EnableResearchBaseInteraction
+				}
+				StoryDataAction_CompleteStoryEvent "Enable Mining Center Interaction"
+				{
+					myStoryEvent EnableMiningCenterInteraction
+				}
+				StoryDataAction_CompleteStoryEvent "Enable Defense Base Interaction"
+				{
+					myStoryEvent EnableDefenseBaseInteraction
+				}
+				StoryDataAction_WaitForGameToStoryEvent "Wait For Ever"
+				{
+					myGameToStoryStoryEvent UpgradeEquinox03
+				}
+			}
+		}
+	}
+}
+
+StoryBeatSequence e3 < uid=954305805AA05DAC00001B2CEFDE7FBB >
+{
+	myStoryBeats
+	{
+		StoryBeatData "New Game" < uid=2B55C72B58F6238F0000025274B3C764 > = "New Game"
+		StoryBeatSequence E3 < uid=954305805AA05DAC00001B2D774BF787 > = E3_2017
+	}
+}
+
+StoryBeatSequence e3_short < uid=954305805AA05DAC00001B2EC20F554F >
+{
+	myStoryBeats
+	{
+		StoryBeatData "New Game" < uid=2B55C72B59306C20000001C92957B81D > = "New Game"
+		StoryBeatSequence E3_Short < uid=954305805AA05DAC00001B2FA6B979BC > = E3_2017_SHORT
+	}
+}
+
+StoryBeatSequence demoalpha < uid=954305805AA05DAC00001B30BA86E977 >
+{
+	myStoryBeats
+	{
+		StoryBeatData "New Game" < uid=2B55C72B59D402C4000001DE91EAFC04 > = "New Game"
+		StoryBeatSequence "Act One Sequence" < uid=954305805AA05DAC00001B319259C66F > = "ACT I SEQUENCE"
+		StoryBeatSequence "Act Two Sequence" < uid=954305805AA05DAC00001B322A445C46 > : "Act Two Sequence"
+		{
+			myStoryBeats
+			{
+				StoryBeatData "Alpha Demo Setup" < uid=2B55C72B59D402C4000001DF520328AC >
+				{
+					myStoryDataActions
+					{
+						StoryDataAction_SetGameLoopOpportunities "Turn Off Gameloop"
+						{
+						}
+					}
+				}
+				StoryBeatSequence "SEQ - Sim Setup" < uid=954305805AA05DAC00001B33475DB42B > = ACT2_SimState
+				StoryBeatSequence "SEQ 1 - Cinematic" < uid=954305805AA05DAC00001B34CA1D20E6 > = "SEQUENCE 1 - OPENING"
+				StoryBeatSequence "SEQ 2 - Opening" < uid=954305805AA05DAC00001B35962BED74 > = "SEQUENCE 2 - FIRST STEPS"
+				StoryBeatSequence "SEQ 3 - Warden Totem" < uid=954305805AA05DAC00001B369E85359B > = "SEQUENCE 3 - WARDEN SPIRE"
+				StoryBeatSequence "SEQ 4 - Mining Outpost" < uid=954305805AA05DAC00001B3734D3368C > = "SEQUENCE 4 - GOLD RUSH"
+				StoryBeatSequence "SEQ 5 - Restore Equinox" < uid=954305805AA05DAC00001B3817EA3AE0 > = "SEQUENCE 5 - UPGRADE EQUINOX"
+				StoryBeatSequence "SEQ 6 - Sonatus Alert" < uid=954305805AA05DAC00001B39DE633524 > = "SEQUENCE 6 - SONATUS ALERT"
+				StoryBeatSequence "SEQ 7 - Destroy Prime" < uid=954305805AA05DAC00001B3A69FDEA9E > = "SEQUENCE 8 - DESTROY THE PRIME"
+			}
+		}
+	}
+}
+
+StoryBeatSequence ui_testing < uid=954305805AA05DAC00001B3BC437D67B >
+{
+	myStoryBeats
+	{
+		StoryBeatData "New Game" < uid=63C8917A59E8E3E100000036673CF958 > = "New Game"
+		BaseStoryData "Act One Sequence" = "ACT I SEQUENCE"
+		BaseStoryData "Act Two Sequence" = "Act Two Sequence"
+		BaseStoryData "Act Three Sequence" = "Act Three Sequence"
+		StoryBeatSequence "New StoryBeatSequence (2)" < uid=954305805AA05DAC00001B3C824CC927 > = "Open/Close Starmap"
+		StoryBeatData "Wait Forever" < uid=63C8917A59E8E4EE0000003C5392E25F >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_Wait "New StoryDataAction_Wait (0)"
+				{
+					mySecondsToWait 50000000.0
+				}
+			}
+		}
+	}
+}
+
+StoryBeatSequence ld_gymflow < uid=9FD9E8185B0C43C800001F11EAF9E445 >
+{
+}
+

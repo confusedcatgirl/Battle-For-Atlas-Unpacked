@@ -1,0 +1,19 @@
+include "onward/game system data/fruit/sim/simunit.fruit"
+
+list SimUnitAssetList
+{
+	SimUnit*
+}
+
+class SimUnitMapVisionRadius
+{
+	SimUnitAssetList mySimUnitAssetList		< tooltip = "a list of simunits you want to grant map vision upon allying." >
+	float myBaseMapVisionRadius	1000.0		< tooltip = "The base radius of map vision this simunit will grant upon allying, not considering simunit level." >
+	float myAdditionalRadiusPerLevel 0.0	< tooltip = "The extra map vision radius that will be granted per level of this simunit.  Resultant radius is base-radius + range-per-level * level." >
+	float myBonusVisionRadius 75.0			< tooltip = "This is applied after the vision radius is calculated and used when determining if a sim unit is visible to avoid issues where sim units can hide under slivers of the find area." >
+}
+
+list SimUnitMapVisionRadiusList
+{
+	SimUnitMapVisionRadius
+}

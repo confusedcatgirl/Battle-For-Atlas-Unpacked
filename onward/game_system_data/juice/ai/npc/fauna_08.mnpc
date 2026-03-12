@@ -1,0 +1,59 @@
+include ./fauna_major.mnpc
+include onward/skillscripts/npc_ability_fauna_gatling.mskillscriptjuice
+include onward/skillscripts/npc_ability_fauna_shatter.mskillscriptjuice
+include onward/skillscripts/npc_ability_fauna_knockback.mskillscriptjuice
+
+NPC fauna_08 < uid=4A8282B956DE05B20000005A431C87E3 > : fauna_major
+{
+	myUIName_NonLocalized Frump
+	myGraphObjectFile "onward/graph objects/character/fauna_08.mgraphobject"
+	myAbilityDefinitions
+	{
+		NPCAbilityDefinition Shoot
+		{
+			myGameAction NPC_Ability1
+			mySkillScript < uid=C92F4D3F578CF19A016256EC8B2CF055 > = npc_ability_fauna_gatling
+			myInputType Hold_New
+			myEnabled FALSE
+		}
+		NPCAbilityDefinition Shatter
+		{
+			myGameAction NPC_Ability2
+			mySkillScript < uid=C92F4D3F578CF19A016256EC8B2CF055 > = npc_ability_fauna_shatter
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_fauna_08_shatter.juice"
+		}
+		NPCAbilityDefinition Knockback
+		{
+			myGameAction NPC_Ability4
+			mySkillScript < uid=93869D535A9EB95E00001CDAAFC2EEE2 > = npc_ability_fauna_knockback
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_fauna_08_knockback.juice"
+		}
+	}
+	myPhysicsCapsuleHeight 4.0
+	myPhysicsSupportHeight -2.0
+	myPhysicsCapsuleRadius 3.0
+	myPhysicsPusherCapsuleRadius 6.0
+	myPhysicsPusherCapsule TRUE
+	myPhysicsCapsuleStart 0.0;8.5;7.5
+	myPhysicsCapsuleEnd 0.0;6.0;-4.5
+	myGroundOrientationFraction 0.9
+	myMaxFootDropFactor 2.5
+	myHitReactionConstants "onward/game system data/juice/combat/hitreactionsconstants_fauna_08.juice"
+	myPatternProfile < uid=4A8282B957BC74C700348E1D7A74FF75 > = "Fauna 08"
+	myDefaultMotionPattern < uid=4A8282B957BC74C700348E1E871DC875 > = "Fauna 08 Default"
+	myNPCType Fauna_08
+	myAnimSystemType Fauna_08
+	myLeggedness Quadruped
+	myWeapon
+	{
+		myWeaponType Shatter
+		myDamageType Cold
+	}
+	myDefaultFootstepEvent 4910CD712D595639DD809CED4E8F259F
+	myOnDeathChallenge Death_Fauna08
+	myOnDiscoveredChallenge Discover_Fauna08
+	myFullyScannedChallenge FullyScan_Fauna08
+}
+

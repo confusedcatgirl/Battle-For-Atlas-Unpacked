@@ -1,0 +1,37 @@
+include ./prospector_defender.msimunit
+
+SimUnit prospector_defender_space < uid=93869D535C3E252900378743B134F1C1 > : "Prospector Defender"
+{
+	myUIName "contextComment = \"The UI name for the Prospector Defender\", description = \"uiname-prospector-defender\", enabled = false, guid = #93869D535C3E252900378742B52271A5, lineVersion = 0, maxLength = 25, text = \"Prospector Defender\""
+	myBehavior onward/simworld/behavior/space_npc_guard_point.msimunitbtgraph
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo Defender < uid=93869D535C3E252900378744C20A84D0 >
+		{
+			myCountMin 1
+			myCountMax 3
+			myEntitySize 9.0
+			myEntityFile "onward/game system data/juice/ai/npc/prospector_defender_space.mnpc"
+			mySpaceSettings
+			{
+				mySpawnFormation FlyingV
+				myFormationFlightDist 150.0
+			}
+		}
+	}
+	mySaveable FALSE
+	myIsValidPickupTarget FALSE
+	myInterestSettings
+	{
+		myIsEnabled FALSE
+		myOnlySearchWhenRealized FALSE
+	}
+	mySkillLevelCoefficients
+	{
+		myUseTargetRelativeLevel TRUE
+		myTargetRelativeOffset 1
+		myParentLevelMultiplier 0
+		myParentSkillLevelMultiplier 1
+	}
+}
+

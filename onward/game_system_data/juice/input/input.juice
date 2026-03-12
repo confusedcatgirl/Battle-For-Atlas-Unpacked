@@ -1,0 +1,54 @@
+include modules/core/input/input.fruit
+
+InputSettings myInput
+{
+	myInputActions
+	{
+		InputActionGroup Default
+		{
+			myFile ./inputactions.juice
+		}
+		InputActionGroup KeyboardUI
+		{
+			myFile ./keyboardactionsui.juice
+		}
+		InputActionGroup Alt
+		{
+			myFile ./inputactions_alt.juice
+		}
+		InputActionGroup DefaultUI
+		{
+			myFile ./inputactionsui.juice
+		}
+	}
+	myConfigurationSets
+	{
+		ConfigurationSet Default
+		{
+			myBindings
+			{
+				DefaultBinding English
+				{
+					myFile ./defaultbinding-en.juice
+				}
+			}
+		}
+	}
+	mySwaps
+	{
+		InputActionConsoleSwap AcceptCancel
+		{
+			myFirst
+			{
+				myDevice Gamepad
+				myGamePadButton Button_A
+			}
+			mySecond
+			{
+				myDevice Gamepad
+				myGamePadButton Button_B
+			}
+		}
+	}
+}
+

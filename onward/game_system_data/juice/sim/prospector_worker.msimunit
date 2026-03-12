@@ -1,0 +1,32 @@
+include ./faction_unit_base.msimunit
+
+SimUnit prospector_worker < uid=F2C5C6925730C8230000008A463A73EF > : faction_unit_base
+{
+	myUIName "contextComment = \"The UI name for the Prospector Worker\", description = \"uiname-prospector-worker\", enabled = true, guid = #1ABBD50B58B479FB00031D7714B453FF, lineVersion = 0, maxLength = 22, text = \"Prospector Worker\""
+	myBehavior onward/simworld/behavior/prospector_worker.msimunitbtgraph
+	myControlGraph ""
+	myFaction Prospector
+	myCategory NPC
+	mySubCategory Worker
+	myRadius 6.0
+	mySpeed 25.0
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo "Prospector Worker" < uid=1E68E535599C75A000000085FB42420B >
+		{
+			myCountMin 1
+			myCountMax 1
+			myEntitySize 5.0
+			myEntityFile "onward/game system data/juice/ai/npc/prospector_worker.mnpc"
+		}
+	}
+	myUnlockedChallengeType Discover_ProspectorWorker
+	myInterestSettings
+	{
+		myIsEnabled TRUE
+		myOnlySearchWhenRealized FALSE
+		myShouldLockValidTarget FALSE
+	}
+	myMissionTargetTexture onward/baked/textures/UI/icons/outpost_targets/outpost_target_sim_unit/ui-icon-outpost-target-defend-worker-mining-center.dds
+}
+

@@ -1,0 +1,22 @@
+include "modules/core/physics/collisionmaterials.fruit"
+include "modules/core/audio/audio.fruit"
+
+list CollisionMaterialsGroup
+{
+	CollisionMaterial
+}
+
+class CollisionEffect < uid=auto >
+{
+	float myMinTriggerVelocity 0.0
+	float myMaxTriggerVelocity 0.0
+	float myMinDeltaVelocity 0.0
+	file myParticleEffect < types=*.mparticles >
+	file myContinuousEffect < types=*.mgraphobject >
+	uid myOneHitAudioEvent < bhv=AudioID type=Event >
+	uid myContinuousAudioEvent < bhv=AudioID type=Event >
+	uid myContinuousEndAudioEvent < bhv=AudioID type=Event >
+	
+	CollisionMaterialsGroup myGroup1
+	CollisionMaterialsGroup myGroup2
+}

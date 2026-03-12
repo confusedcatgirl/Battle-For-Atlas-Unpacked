@@ -1,0 +1,29 @@
+include ./fauna_base.msimunit
+
+SimUnit fauna_01 < uid=C92F4D3F5730AF8F0000008F89BF22D7 > : fauna_base
+{
+	myUIName "contextComment = \"The UI name for Fauna 01\", description = \"uiname-fauna-01\", enabled = true, guid = #1ABBD50B58B487D50004E87875E50CCE, lineVersion = 0, maxLength = 16, text = \"Snapdragon\""
+	myBehavior onward/simworld/behavior/fauna_major.msimunitbtgraph
+	mySubCategory Fauna_01
+	mySubCategoryVariant 1
+	myRadius 12.0
+	mySpeed 16.0
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo "Level 0" < uid=93869D5359BAC2D5005120B0B8A9E12F >
+		{
+			myCountMin 1
+			myCountMax 1
+			myEntitySize 12.0
+			myElementSpawnInfo
+			{
+				SimUnitElementSpawnInfo Herd
+				{
+					myEntityFile "onward/game system data/juice/ai/npc/fauna_01.mnpc"
+				}
+			}
+		}
+	}
+	mySpawnAttachedSimUnit ./pickup_fauna_sample_fauna_01.msimunit
+}
+

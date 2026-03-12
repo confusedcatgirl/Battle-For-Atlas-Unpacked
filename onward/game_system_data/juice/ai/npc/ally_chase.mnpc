@@ -1,0 +1,28 @@
+include ./base_ally_ship.mnpc
+include onward/skillscripts/npc_ability_pod_volcano.mskillscriptjuice
+include onward/skillscripts/ally_repel.mskillscriptjuice
+
+NPC ally_chase < uid=6D25F4C658ADEAAF0027C16901403BB4 > : base_ally_ship
+{
+	myUIName_NonLocalized Chase
+	myGraphObjectFile "onward/graph objects/character/ship_chase_ally.mgraphobject"
+	myAbilityDefinitions
+	{
+		NPCAbilityDefinition Volcano
+		{
+			myGameAction NPC_Ability1
+			mySkillScript < uid=C92F4D3F59C17ABD00311C648FE2D9E6 > = npc_ability_pod_volcano
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_ally_ship_volcano.juice"
+		}
+	}
+	myPersistentScripts
+	{
+		SkillScript Repel < uid=6D25F4C65B1ABB58002462317834D2FB > = ally_repel
+	}
+	myPatternProfile < uid=6D25F4C65BFDCAFF00015B1C54E3CE7F > = "Ally Chase"
+	myDefaultMotionPattern < uid=6D25F4C65BFEC8CB004E481B3CA0924C > = "Wingmate Space Default"
+	myNPCType Chase
+	myAnimSystemType Ally_Chase
+}
+

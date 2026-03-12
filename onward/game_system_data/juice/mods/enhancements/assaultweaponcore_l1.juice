@@ -1,0 +1,21 @@
+include "onward/game system data/juice/mods/mod_assault_weaponcore_l1.mplayermod"
+include ./templates/template_l1.juice
+
+Enhancement assaultweaponcore_l1 < uid=C91BB551596FB614000000335EAA4066 > : "Level 1"
+{
+	myLocalizedName "contextComment = \"[Placeholder - do not translate]\nName for the level 1 version of the Assault Weapon Core, which improves damage & range\", description = \"\", enabled = true, guid = #C91BB551596FC126005B60F8182AD9DB, lineVersion = 2, maxLength = 16, text = \"Power Ammo I\""
+	myLocalizedDescription "contextComment = \"[Placeholder - do not translate]\nDescription of the gameplay effects of the Assault Weapon Core level 1\", description = \"enhancement-description-assault-weapon-core-1\", enabled = true, guid = #9E6AFEDA59CD84E20001892B80062988, lineVersion = 2, maxLength = 56, text = \"+15% Damage\n+25% Damage for 5s after a kill\""
+	myIconSprite "mySpriteId = 417723662, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-mods-weapon-core.spritesheet\""
+	myMod < uid=C91BB551596FB944000000B1B87FA2CB > = mod_assault_weaponcore_l1
+	myEnhancementType WeaponCore
+	myEnhancementTrackType AssaultWeaponCore
+	myDamageAffectors
+	{
+		DamageAffector_PlayerDamageBoostOnKill "Boost on Kill"
+		{
+			myDamageMultiplier = Assault_WeaponCore_l1_KillDmg
+			myDamageBoostTime 5.0
+		}
+	}
+}
+

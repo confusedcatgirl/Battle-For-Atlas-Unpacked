@@ -1,0 +1,32 @@
+include ./template_pod.mplayermod
+
+float "Weapon Damage" = Kinetic_Weapon_Mod_l1_Damage
+
+PlayerMod mod_kinetic_weaponmod_l1 < uid=C91BB55159836955000002DB4ECDAAF1 > : template_pod
+{
+	myAttributeMods
+	{
+		AttributeMod Kinetic
+		{
+			myType DMG_Kinetic
+			myMultValue 1.0
+			myPercentageValue = "Weapon Damage"
+		}
+		AttributeMod UI_Weapon_Damage
+		{
+			myType UI_Weapon_Damage
+			myPercentageValue = "Weapon Damage"
+		}
+		AttributeMod "Max DMG"
+		{
+			myType DMG_Max
+			myPercentageValue = "Weapon Damage"
+		}
+		AttributeMod "Area Kinetic"
+		{
+			myType DMG_Area_Kinetic
+			myPercentageValue = "Weapon Damage"
+		}
+	}
+}
+

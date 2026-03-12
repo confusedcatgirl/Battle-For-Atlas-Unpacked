@@ -1,0 +1,1878 @@
+include ./actions_library.juice
+include "onward/game system data/fruit/input/gameinput.fruit"
+include "onward/game system data/fruit/ai/npc.fruit"
+include "onward/game system data/fruit/entity/faction.fruit"
+include "onward/game system data/fruit/ai/affinitytype.fruit"
+include "onward/game system data/fruit/unitprogression/unitxppayloadtype.fruit"
+include "onward/game system data/fruit/progression/challenge_types.fruit"
+include "onward/game system data/juice/sim/harvester_drake_grax.msimunit"
+include "onward/game system data/juice/sim/act_5_vortex_shield.msimunit"
+include "onward/game system data/juice/sim/act_5_harvester_dreadnought.msimunit"
+include "onward/game system data/juice/sim/harvester_dreadnought_act5_slot.msimunit"
+include "onward/game system data/juice/sim/harvester_drake_squad.msimunit"
+include "onward/game system data/juice/story/objectives/objectives.juice"
+include "onward/game system data/juice/sim/harvester_drake_space_endgame.msimunit"
+include "onward/game system data/juice/sim/harvester_drake_elite_endgame_pair.msimunit"
+
+StoryBeatData Act5_SEQ1_SetupA < uid=2B55C72B5910D0470000004EE9B1B1E7 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_AddFadeRequest "Fade Out"
+		{
+			myFadeRequestType Fade_Out
+			myFadeColor 0xffffffff
+		}
+		StoryDataAction_SetTarget "Clear Target"
+		{
+			myShowWaypoint TRUE
+		}
+		StoryDataAction_ClearPlayerWaypoint "Clear Player Waypoint"
+		{
+		}
+		StoryDataAction_SetGameplayBounds "Clear Gameplay Bounds"
+		{
+		}
+		StoryDataAction_SuppressNonStoryPips "Suppress Non-Story Pips"
+		{
+			myShouldSuppress TRUE
+		}
+	}
+	myStoryDataActionSets
+	{
+		StoryDataActionSet SimSetup
+		{
+		}
+		StoryDataActionSet HealUp
+		{
+			myStoryDataActions
+			{
+				StoryDataAction_HealPlayerShips "Heal Ships"
+				{
+				}
+			}
+		}
+		StoryDataActionSet ActionsSetup
+		{
+			myStoryDataActions
+			{
+				StoryDataAction_SetGameAction "Enable Actions" = "Enable All Actions"
+			}
+		}
+		StoryDataActionSet "Enable All UI" : "Enable All Screen UI Set"
+		{
+		}
+	}
+}
+
+StoryBeatData Act5_SEQ1_Setup < uid=9FD9E81859B0082E000001F8F0B2C490 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_Wait "Wait 3"
+		{
+			mySecondsToWait 3.0
+		}
+		StoryDataAction_SetGameAction "Disable Fast Travel"
+		{
+			mySetGameActionList
+			{
+				SetGameAction "Disable Fast Travel"
+				{
+					myGameAction FastTravel
+				}
+			}
+		}
+		StoryDataAction_SetGameplayBounds "Set Gameplay Bounds - Drake Battle"
+		{
+			myBoundsCenter -142000.0;297950.0;-89800.0
+			myBoundsRadius 9000.0
+		}
+		StoryDataAction_TransitionStorySection "Enter Story Section - Act 5"
+		{
+			myTransitionType Enter
+			myStorySection Act_05
+		}
+		StoryDataAction_SetGameAction "Disable HyperDrive for Act 5 Start"
+		{
+			mySetGameActionList
+			{
+				SetGameAction HyperDrive
+				{
+					myGameAction PlayerQuery_CanStartHyperDrive
+				}
+			}
+		}
+	}
+}
+
+StoryBeatData Act5_SEQ1_SetRespawnCheckpoint < uid=9FD9E8185989C7C8000000BC6BEF7A90 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActionSets
+	{
+		StoryDataActionSet "Set Respawn Location"
+		{
+			myStoryDataActions
+			{
+				StoryDataAction_SetTarget "Set Target for Respawn"
+				{
+					mySimUnitAssetTarget "onward/game system data/juice/sim/act_5_playerstart.msimunit"
+					myShowWaypoint FALSE
+				}
+				StoryDataAction_SetRespawnCheckpoint "Set Respawn Checkpoint"
+				{
+				}
+			}
+		}
+	}
+}
+
+StoryBeatData Act5_SEQ1_SpawnAtlasB < uid=9FD9E81859663A15000001F6BD7A8201 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_TeleportPlayer Teleport
+		{
+			myPlayer1Teleport
+			{
+				mySimUnitAssetPath "onward/game system data/juice/sim/act_5_playerstart.msimunit"
+				myTeleportOffset 0.0;0.0;0.0
+				myTeleportRotation 0.0;0.0;0.0
+			}
+			myPlayer2Teleport
+			{
+				mySimUnitAssetPath "onward/game system data/juice/sim/act_5_playerstart.msimunit"
+				myTeleportOffset 0.0;0.0;50.0
+				myTeleportRotation 0.0;0.0;0.0
+			}
+			myResetShip TRUE
+		}
+		StoryDataAction_CompleteStoryEvent "Complete Story Event - Spawn Allies"
+		{
+			myStoryEvent Act05_SpawnAllies
+		}
+		StoryDataAction_Cinematic "Teleport Bink"
+		{
+			myCinematicFile onward/baked/videos/endportal.bk2
+		}
+	}
+	myStoryDataActionSets
+	{
+	}
+}
+
+StoryBeatData Act5_SEQ1_FadeIn < uid=9FD9E81859E0F7DD00000036485DF6E0 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_AddFadeRequest "Fade In"
+		{
+			myFadeColor 0xffffffff
+			myFadeTime 3.0
+		}
+		StoryDataAction_Wait Wait
+		{
+			mySecondsToWait 2.0
+		}
+	}
+}
+
+StoryBeatData Act5_SEQ1_SpawnBlockadeDreadnought < uid=9FD9E8185967E0D50000023CFE5D1112 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_SetTarget "Set Target"
+		{
+			mySimUnitAssetTarget "onward/game system data/juice/sim/harvester_dreadnought_act5_slot.msimunit"
+			myShowWaypoint FALSE
+		}
+		StoryDataAction_SpawnSimUnitAtSlotUnit "Spawn Dreadnought"
+		{
+			mySimUnitAsset < uid=C92F4D3F5A3AAD6100001EBF68102F51 > = act_5_harvester_dreadnought
+			myOccupySlot TRUE
+		}
+	}
+	myStoryDataActionSets
+	{
+	}
+}
+
+StoryBeatData Act5_SEQ1_SetObjective < uid=2B55C72B5910D0470000004F9C444B67 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_TransitionStorySection "Enter Story Section"
+		{
+			myTransitionType Enter
+			myStorySection Act_05_Drake_Battle
+		}
+	}
+	myStoryDataActionSets
+	{
+	}
+}
+
+StoryBeatData Act5_SEQ1_SeaOfDreadnoughts < uid=9FD9E8185A7CC911000019B8B49E5AAA >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_SetTarget "Set Target - Dreadnought"
+		{
+			mySimUnitAssetTarget "onward/game system data/juice/sim/harvester_dreadnought_act5_slot.msimunit"
+			myActivityType Find
+		}
+		StoryDataAction_SuppressNonStoryPips "Un-Suppress Non-Story Pips"
+		{
+		}
+	}
+	myStoryDataActionSets
+	{
+		StoryDataActionSet "Distance or Dialogue"
+		{
+			myStoryDataActionSetType OR
+			myStoryDataActions
+			{
+				StoryDataAction_Dialog "Dialogue - SQ01 - Entered Portal"
+				{
+					myCompleteImmediately FALSE
+					myDialogSequenceID 1
+					myPauseInOutpostMenu FALSE
+				}
+				StoryDataAction_WaitForArriveAtTarget "Wait for Distance to Blockade Dreadnought"
+				{
+					myDistance 6500.0
+					myRequireInFOV FALSE
+				}
+			}
+		}
+	}
+}
+
+StoryBeatData Act5_SEQ1_WaitForProximity < uid=9FD9E8185A7E00F600001B9A2B20AD28 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+	}
+	myStoryDataActionSets
+	{
+		StoryDataActionSet "Distance OR Time OR Dialogue OR Combat"
+		{
+			myStoryDataActionSetType OR
+			myStoryDataActions
+			{
+				StoryDataAction_Wait "Wait 60s"
+				{
+					mySecondsToWait 60.0
+				}
+				StoryDataAction_WaitForArriveAtTarget "Wait for Distance to Blockade Dreadnought"
+				{
+					myDistance 3250.0
+					myRequireInFOV FALSE
+				}
+				StoryDataAction_Dialog "Dialogue - SQ07 - Dreadnought Appears"
+				{
+					myDialogSequenceID 7
+				}
+			}
+		}
+	}
+}
+
+StoryBeatData Act5_SEQ1_ProximityDialogue < uid=9FD9E8185AC6DA5500001F15CC8902E0 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_SpawnSimUnitNearPlayer "Spawn Initial Drake Swarm"
+		{
+			mySimUnitAsset < uid=9FD9E8185AC6DD1400001F3810C62BA3 > = harvester_drake_space_endgame
+			myLookAheadTime 12.0
+		}
+	}
+	myStoryDataActionSets
+	{
+		StoryDataActionSet "Dialogue Or Timer"
+		{
+			myStoryDataActionSetType OR
+			myStoryDataActions
+			{
+				StoryDataAction_Wait "Wait 10"
+				{
+					mySecondsToWait 8.0
+				}
+				StoryDataAction_Dialog "Dialogue - SQ10 - Drakes Incoming"
+				{
+					myDialogSequenceID 10
+					myPauseInOutpostMenu FALSE
+				}
+			}
+		}
+	}
+}
+
+StoryBeatData Act5_SEQ1_SpawnDrakeSwarm < uid=9FD9E8185A7E010900001B9BE586A962 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_SetTarget "Clear Target"
+		{
+		}
+		StoryDataAction_SetObjective "Complete Chapter 1 - Sub 1"
+		{
+			myObjectiveData < uid=9FD9E8185AA9354400001C2E4C60BB67 > = Act5.Chapter1.Sub1
+			myObjectiveState Remove
+		}
+		StoryDataAction_SpawnSimUnitNearPlayer "Spawn Initial Drake Swarm"
+		{
+			mySimUnitAsset < uid=9FD9E8185AC6D8CC00001F13AE6750E1 > = harvester_drake_space_endgame
+			myDistance 0.0
+			myLookAheadTime 17.0
+		}
+		StoryDataAction_WaitForPlayerEnteredCombat "Entered Combat"
+		{
+		}
+	}
+}
+
+StoryBeatData Act5_SEQ2_WaitForCombat < uid=9FD9E8185966925C0000028D5D4B33E6 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_WaitForPlayerEnteredCombat "Wait for Entered Combat"
+		{
+		}
+		StoryDataAction_CompleteStoryEvent "Complete Story Event - Spawn Drake Swarm"
+		{
+			myStoryEvent Act05_SpawnDrakeSwarm
+		}
+	}
+}
+
+StoryBeatData Act5_SEQ2_DrakeSwarm1 < uid=2B55C72B5910D047000000518C1C0645 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+	}
+	myStoryDataActionSets
+	{
+		StoryDataActionSet "4 Drakes or 2 Elite Drakes"
+		{
+			myStoryDataActionSetType OR
+			myStoryDataActions
+			{
+				StoryDataAction_WaitForPlayerKillNPC "Kill Drakes"
+				{
+					myNPCType Harvester_Drake
+					myNumToKill 4
+				}
+				StoryDataAction_WaitForPlayerKillNPC "Kill Elite Drakes"
+				{
+					myNPCType Harvester_Drake_Elite
+					myNumToKill 2
+				}
+			}
+		}
+	}
+}
+
+StoryBeatData Act5_SEQ2_DrakeSwarm2 < uid=9FD9E818598345AF000001AD00210CC1 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_Dialog "Dialogue - SQ16 - Breach the Dreadnought"
+		{
+			myDialogSequenceID 16
+			myPauseInOutpostMenu FALSE
+		}
+	}
+	myStoryDataActionSets
+	{
+	}
+}
+
+StoryBeatData Act5_SEQ2_PowerSurge < uid=2B55C72B5910D04700000052E846A0A8 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_SetObjective "Close Chapter 1"
+		{
+			myObjectiveData < uid=9FD9E8185B8EE62C0000223EABBAB6C3 > = Act5.Chapter1.Header
+			myObjectiveState Remove
+		}
+		StoryDataAction_CompleteStoryEvent "Complete Story Event - Remove Blockade Dread Door"
+		{
+			myStoryEvent Act05_DrakeSwarmDefeated
+		}
+		StoryDataAction_WaitForGameToStoryEvent "Missile Cam Event"
+		{
+			myGameToStoryStoryEvent Act_05_DreadnoughtDoorActivated
+		}
+		StoryDataAction_SetObjective Objective
+		{
+			myObjectiveData < uid=9FD9E8185B8EE62C0000223F56571C64 > = Act5.Chapter2.Header
+			myObjectiveState Active
+		}
+		StoryDataAction_SetObjective Objective
+		{
+			myObjectiveData < uid=9FD9E8185B8EE74D0000224059606739 > = Act5.Chapter2.Sub1
+			myObjectiveState Active
+		}
+	}
+	myStoryDataActionSets
+	{
+	}
+}
+
+StoryBeatData Act5_SEQ2_WaitForBlockadeApproach < uid=9FD9E8185967AC6E000001FD0CE8257C >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_SetTarget "Set Target - Blockade Dreadnought"
+		{
+			mySimUnitAssetTarget "onward/game system data/juice/sim/act_5_dreadnoughtentrance.msimunit"
+			myShowWaypoint TRUE
+			myActivityType Attack
+		}
+		StoryDataAction_WaitForArriveAtTarget "Wait for Distance 2000"
+		{
+			myDistance 2300.0
+			myRequireInFOV FALSE
+		}
+	}
+	myStoryDataActionSets
+	{
+		StoryDataActionSet "Dialogue or Enter Volume"
+		{
+			myStoryDataActionSetType OR
+			myStoryDataActions
+			{
+				StoryDataAction_Dialog "Dialogue - SQ18 - You know the Drill"
+				{
+					myDialogSequenceID 18
+				}
+				StoryDataAction_WaitForGameToStoryEvent "Game to Story Event - Dreadnought Entered"
+				{
+					myGameToStoryStoryEvent Act05DreadnoughtEntered
+				}
+			}
+		}
+	}
+}
+
+StoryBeatData Act5_SEQ2_EngageBlockadeShip < uid=9FD9E8185967B48F000001FFFC9D9F7A >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+	}
+	myStoryDataActionSets
+	{
+		StoryDataActionSet "Enter Dreadnought"
+		{
+			myStoryDataActionSetType OR
+			myStoryDataActions
+			{
+				StoryDataAction_WaitForGameToStoryEvent "Wait For Event"
+				{
+					myGameToStoryStoryEvent Act05DreadnoughtEntered
+				}
+			}
+		}
+	}
+}
+
+StoryBeatData Act5_SEQ2_SetObjectiveBlockadeShip < uid=9FD9E8185967B5A70000020429FC8D37 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_TransitionStorySection "Enter Story Section - Act_05_Blockade"
+		{
+			myTransitionType Enter
+			myStorySection Act_05_Blockade
+		}
+		StoryDataAction_SetGameplayBounds "Open Gameplay Bounds"
+		{
+			myBoundsCenter 0.0;0.0;0.0
+			myBoundsRadius 0.0
+			myUseTargetAsCenter TRUE
+		}
+	}
+	myStoryDataActionSets
+	{
+	}
+}
+
+StoryBeatData Act5_SEQ2_EnterBlockadeDreadnought < uid=9FD9E81859692150000001BF2893047D >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_SetTarget "Set Target - Dreadnought Core"
+		{
+			mySimUnitAssetTarget "onward/game system data/juice/sim/act_5_dreadnought_coretarget.msimunit"
+			myActivityType Attack
+		}
+		StoryDataAction_SendStoryToGameEvent "Send Game to Story Event - Disable Shield"
+		{
+			myStoryToGameEvent Act05_DisableSolarShield
+		}
+		StoryDataAction_SetObjective "Complete Chapter 2 - Sub 1"
+		{
+			myObjectiveData < uid=9FD9E8185AA936B800001C3F7E6D8C0D > = Act5.Chapter2.Sub1
+			myObjectiveState Remove
+		}
+		StoryDataAction_TransitionStorySection "Exit Story Section - Drake Battle"
+		{
+			myTransitionType Exit
+			myStorySection Act_05_Drake_Battle
+		}
+	}
+	myStoryDataActionSets
+	{
+		StoryDataActionSet "Dialogue Finishes AND Bark Volume"
+		{
+			myStoryDataActions
+			{
+				StoryDataAction_Dialog "Dialogue - SQ20 - Inside Blockade Dreadnought"
+				{
+					myDialogSequenceID 20
+				}
+				StoryDataAction_WaitForGameToStoryEvent "Volume 1 Event"
+				{
+					myGameToStoryStoryEvent Act05DreadnoughtInterior001
+				}
+			}
+		}
+	}
+}
+
+StoryBeatData Act5_SEQ2_DreadnoughtBark1 < uid=9FD9E8185AC3FCEC00001CD393163A8F >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_Dialog "Dialogue - SQ22 - Bark 1"
+		{
+			myDialogSequenceID 22
+		}
+	}
+	myStoryDataActionSets
+	{
+		StoryDataActionSet "Bark Volumes or Core"
+		{
+			myStoryDataActionSetType OR
+			myStoryDataActions
+			{
+				StoryDataAction_WaitForGameToStoryEvent "Bark Volume 2"
+				{
+					myGameToStoryStoryEvent Act05DreadnoughtInterior002
+				}
+				StoryDataAction_WaitForGameToStoryEvent "Engine Entered"
+				{
+					myGameToStoryStoryEvent DreadnoughtEngineEntered
+				}
+			}
+		}
+	}
+}
+
+StoryBeatData Act5_SEQ2_DreadnoughtBark2 < uid=9FD9E8185AC3FCEC00001CD4656F0D94 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+	}
+	myStoryDataActionSets
+	{
+		StoryDataActionSet "Dialogue or Volume"
+		{
+			myStoryDataActionSetType OR
+			myStoryDataActions
+			{
+				StoryDataAction_Dialog "Dialogue - SQ24 - Bark 2"
+				{
+					myDialogSequenceID 24
+				}
+				StoryDataAction_WaitForGameToStoryEvent "Game to Story"
+				{
+					myGameToStoryStoryEvent Act_05_DreadnoughtEngineRoom
+				}
+			}
+		}
+	}
+}
+
+StoryBeatData Act5_SEQ2_WaitForEngineRoom < uid=9FD9E8185A835CB000001B9E665FFD88 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_CompleteStoryEvent "Complete Story Event - Remove NPC's"
+		{
+			myStoryEvent Act05_RemoveNPCs
+		}
+	}
+	myStoryDataActionSets
+	{
+		StoryDataActionSet "G2SEvent for Dialogue OR BlockadeDeath"
+		{
+			myStoryDataActionSetType OR
+			myStoryDataActions
+			{
+				StoryDataAction_WaitForGameToStoryEvent "Wait for Engine Entered G2SEvent"
+				{
+					myGameToStoryStoryEvent Act_05_DreadnoughtEngineRoom
+				}
+				StoryDataAction_WaitForGameToStoryEvent "G2SEvent Act 5 Dreadnought Destroyed"
+				{
+					myGameToStoryStoryEvent Act_05_DreadnoughtDestroyed
+				}
+			}
+		}
+	}
+}
+
+StoryBeatData Act5_SEQ2_WaitForBlockadeDeath < uid=9FD9E81859CADEE300000EAAF48108CF >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_Dialog "Dialogue - SQ25 - Entered Engine Room"
+		{
+			myDialogSequenceID 25
+		}
+	}
+	myStoryDataActionSets
+	{
+		StoryDataActionSet "Dreadnought Death"
+		{
+			myStoryDataActionSetType OR
+			myStoryDataActions
+			{
+				StoryDataAction_WaitForGameToStoryEvent "Wait for G2SEvent - Blockade Death"
+				{
+					myGameToStoryStoryEvent Act_05_DreadnoughtDestroyed
+				}
+			}
+		}
+	}
+}
+
+StoryBeatData Act5_SEQ2_ExitBlockadeDreadnought < uid=9FD9E818596E16B50000010924963152 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_TransitionStorySection "Exit Story Section"
+		{
+			myTransitionType Exit
+			myStorySection Act_05_Blockade
+		}
+		StoryDataAction_SendStoryToGameEvent "Send Story Event - DisableBlockadeShield"
+		{
+			myStoryToGameEvent DisableBlockadeShield
+		}
+		StoryDataAction_TransitionStorySection "Enter Story Section - Grax Planet Battle"
+		{
+			myTransitionType Enter
+			myStorySection Act_05_Grax_Planet_Battle
+		}
+		StoryDataAction_SetObjective "Complete - Chapter 2 - Sub 2"
+		{
+			myObjectiveData < uid=1EE141815AABD28C00001BCDA22FDC3D > = Act5.Chapter2.Sub2
+			myObjectiveState Remove
+		}
+		StoryDataAction_SetTarget "Set Target for Checkpoint"
+		{
+			mySimUnitAssetTarget "onward/game system data/juice/sim/act_5_wardenstationstartpoint.msimunit"
+			myTargetPlanet E21E96E3587CD21C0000011EB3CD3304
+			myShowWaypoint TRUE
+			myActivityType Find
+		}
+		StoryDataAction_SetRespawnCheckpoint "Set Respawn Checkpoint"
+		{
+			myLockCheckpoint TRUE
+		}
+	}
+	myStoryDataActionSets
+	{
+		StoryDataActionSet "Wait For"
+		{
+			myStoryDataActionSetType OR
+			myStoryDataActions
+			{
+				StoryDataAction_Dialog "Dialogue - SQ27 - Destroyed"
+				{
+					myCompleteImmediately FALSE
+					myDialogSequenceID 27
+				}
+				StoryDataAction_WaitForChallengeComplete "WaitForChallenge Complete"
+				{
+					myChallenge Act5_DreadnoughtExited
+				}
+				StoryDataAction_WaitForArriveAtTarget "Distance to SpawnPoint (Reload Fallback)"
+				{
+					myDistance 750.0
+					myRequireInFOV FALSE
+				}
+			}
+		}
+	}
+}
+
+StoryBeatData Act5_SEQ2_DreadnoughtExitDialogue < uid=9FD9E8185AABE05000001C1F0C38A9A8 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActionSets
+	{
+		StoryDataActionSet "Dialogue OR Challenge"
+		{
+			myStoryDataActionSetType OR
+			myStoryDataActions
+			{
+				StoryDataAction_WaitForChallengeComplete WaitForChallenge
+				{
+					myChallenge Act5_DreadnoughtExited
+				}
+				StoryDataAction_Dialog "Dialogue - SQ30 - En Route to Planet"
+				{
+					myDialogSequenceID 30
+					myPauseInOutpostMenu FALSE
+				}
+				StoryDataAction_WaitForArriveAtTarget "Distance to Spawnpoint (Reload Fallback)"
+				{
+					myDistance 750.0
+					myRequireInFOV FALSE
+				}
+			}
+		}
+	}
+}
+
+StoryBeatData Act5_SEQ2_DreadnoughtExited < uid=9FD9E8185AABE0B000001C209F37D66B >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+	}
+	myStoryDataActionSets
+	{
+		StoryDataActionSet "Challenge or Reload Fallback"
+		{
+			myStoryDataActionSetType OR
+			myStoryDataActions
+			{
+				StoryDataAction_WaitForArriveAtTarget "Distance to Spawnpoint (Reload Fallback)"
+				{
+					myDistance 750.0
+					myRequireInFOV FALSE
+				}
+				StoryDataAction_WaitForGameToStoryEvent "Wait For Event"
+				{
+					myGameToStoryStoryEvent Act05DreadnoughtExited
+				}
+			}
+		}
+	}
+}
+
+StoryBeatData Act5_SEQ2_Fade < uid=9FD9E8185A836E5100001BA2BA8C78EE >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_AddFadeRequest "Fade to White"
+		{
+			myFadeRequestType Fade_Out
+			myFadeColor 0xffffffff
+			myFadeTime 0.35
+		}
+		StoryDataAction_Wait "Wait 0.35"
+		{
+			mySecondsToWait 0.35
+		}
+	}
+}
+
+StoryBeatData Act5_SEQ2_DreadnoughtExitedEvent < uid=9FD9E8185B6DE47E00002211CBA2877A >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_SendStoryToGameEvent "Send Story Event - DreadnoughtExited"
+		{
+			myStoryToGameEvent DreadnoughtExited
+		}
+		StoryDataAction_SetObjective "Complete Chapter 2 - Sub 3"
+		{
+			myObjectiveData < uid=9FD9E8185B6DE4D900002212FB1B1236 > = Act5.Chapter2.Sub3
+			myObjectiveState Remove
+		}
+	}
+}
+
+StoryBeatData Act5_SEQ2_Cinematic < uid=9FD9E8185A836E5100001BA36A0CBDFE >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_CompleteStoryEvent "Complete Story Event"
+		{
+			myStoryEvent Act05_GraxLoadingCinematic
+		}
+		StoryDataAction_Cinematic Cinematic
+		{
+			myCinematicFile onward/baked/videos/CIN_ACT5_FinalBoss_LOADING.bk2
+		}
+		StoryDataAction_SendStoryToGameEvent "Solve Dreadnought"
+		{
+			myStoryToGameEvent DreadnoughtExited
+		}
+		StoryDataAction_SetTarget "Set Target Warden Station"
+		{
+			mySimUnitAssetTarget "onward/game system data/juice/sim/act_5_wardenstationstartpoint.msimunit"
+			myShowWaypoint FALSE
+		}
+		StoryDataAction_TeleportPlayer "Teleport Player"
+		{
+			myPlayer1Teleport
+			{
+				mySimUnitAssetPath "onward/game system data/juice/sim/act_5_wardenstationstartpoint.msimunit"
+				myTeleportRotation 0.0;0.0;0.0
+			}
+			myTargetPlanet E21E96E3587CD21C0000011EB3CD3304
+			mySnapToGround TRUE
+		}
+	}
+}
+
+StoryBeatData Act5_SEQ2_Teleport < uid=9FD9E8185A836E5100001BA490F72934 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+	}
+}
+
+StoryBeatData Act5_SEQ3_FadeIn < uid=9FD9E8185A83776300001BA79659CC7C >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_AddFadeRequest "Fade In"
+		{
+			myFadeTime 1.5
+		}
+		StoryDataAction_Wait Wait
+		{
+			mySecondsToWait 2.0
+		}
+	}
+}
+
+StoryBeatData Act5_SEQ3_WaitForCylcopsReady < uid=9FD9E8185AA1740F00001B87BF80DC5E >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_WaitForGameToStoryEvent "Wait for Grax Encounter Ready Game to Story Event"
+		{
+			myGameToStoryStoryEvent Act_05_GraxCyclopsEncounterReadyToBegin
+		}
+	}
+}
+
+StoryBeatData Act5_SEQ3_StartGraxEncounter < uid=9FD9E8185A8F37AB00001D137F448E51 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_SendStoryToGameEvent "Send StartGraxEncounter Story2GameEvent"
+		{
+			myStoryToGameEvent Act05_BeginGraxEncounter
+		}
+	}
+}
+
+StoryBeatData Act5_SEQ3_WaitForWave2 < uid=9FD9E8185AC4019800001CD2EF99183B >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_Dialog "Dialogue - SQ34 - Minions Start"
+		{
+			myDialogSequenceID 34
+		}
+	}
+	myStoryDataActionSets
+	{
+		StoryDataActionSet "Wave 2 OR Done"
+		{
+			myStoryDataActionSetType OR
+			myStoryDataActions
+			{
+				StoryDataAction_WaitForGameToStoryEvent "Wave 2"
+				{
+					myGameToStoryStoryEvent Act_05_CylcopsWave2
+				}
+				StoryDataAction_WaitForGameToStoryEvent "GraxCyclops Ready"
+				{
+					myGameToStoryStoryEvent Act_05_GraxCyclopsReadyToSpawn
+				}
+			}
+		}
+	}
+}
+
+StoryBeatData Act5_SEQ3_WaitForEncounterComplete < uid=9FD9E8185AA9602A00001C8681502F96 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_WaitForGameToStoryEvent "Wait for GraxCyclopsReadyToSpawn Event"
+		{
+			myGameToStoryStoryEvent Act_05_GraxCyclopsReadyToSpawn
+		}
+		StoryDataAction_Dialog "Dialogue - SQ35 - Wave 2"
+		{
+			myDialogSequenceID 35
+		}
+	}
+}
+
+StoryBeatData Act5_SEQ3_GraxDialogueBeforeBink < uid=9FD9E8185AB96A5400001C1EFAB80F1F >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_Dialog "Dialogue - SQ36"
+		{
+			myDialogSequenceID 36
+		}
+	}
+}
+
+StoryBeatData Act5_SEQ3_StationLandedDialogue < uid=9FD9E8185A98936D00001BB40B0C478F >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_Dialog "Dialogue - SQ33 - Landed on Station"
+		{
+			myDialogSequenceID 33
+			myPauseInOutpostMenu FALSE
+		}
+		StoryDataAction_SetTarget "Clear Target"
+		{
+		}
+	}
+}
+
+StoryBeatData Act5_SEQ3_EngageCylcops < uid=2B55C72B5910D0470000005356E7D1B4 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_CompleteStoryEvent "Complete Story Event - Act05a [Legacy]"
+		{
+			myStoryEvent Act05a
+		}
+		StoryDataAction_SetTarget "Set Target - Cyclops"
+		{
+			mySimUnitAssetTarget "onward/game system data/juice/sim/harvester_cyclops_grax.msimunit"
+			myTargetPlanet E21E96E3587CD21C0000011EB3CD3304
+			myActivityType Attack
+		}
+	}
+	myStoryDataActionSets
+	{
+	}
+}
+
+StoryBeatData Act5_SEQ3_GraxIntroCinematic < uid=9FD9E81859D65152000001FA08541221 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_StartDialogueCamera "Start Camera"
+		{
+			myIsTargetFirstSpeaker FALSE
+			myTriggerOnPipInteraction FALSE
+			myPlayerPreset GiantIntro
+			myTargetPreset GiantIntro
+			myIsFullScreen TRUE
+		}
+		StoryDataAction_Wait "Camera Time"
+		{
+			mySecondsToWait 5.0
+		}
+	}
+	myStoryDataActionSets
+	{
+		StoryDataActionSet "Disable UI" = "Disable UI For Dialogue Cinematic"
+	}
+}
+
+StoryBeatData Act5_SEQ3_EndGraxIntroCinematic < uid=9FD9E81859D65152000001FB139748AB >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_StopDialogueCamera "Stop Camera"
+		{
+		}
+	}
+	myStoryDataActionSets
+	{
+		StoryDataActionSet "Enable UI" = "Enable All Screen UI Set"
+	}
+}
+
+StoryBeatData Act5_SEQ3_SetGraxRespawnPoint < uid=9FD9E8185989CE69000000CFC89AC006 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActionSets
+	{
+		StoryDataActionSet "Set Spawnpoint"
+		{
+			myStoryDataActions
+			{
+				StoryDataAction_SetTarget "Set Target"
+				{
+					mySimUnitAssetTarget "onward/game system data/juice/sim/act_5_wardenstationstartpoint.msimunit"
+					myTargetPlanet E21E96E3587CD21C0000011EB3CD3304
+					myShowWaypoint FALSE
+				}
+				StoryDataAction_SetRespawnCheckpoint "Set Respawn Checkpoint"
+				{
+					myLockCheckpoint TRUE
+				}
+				StoryDataAction_SetTarget "Clear Target"
+				{
+				}
+			}
+		}
+	}
+}
+
+StoryBeatData Act5_SEQ3_DefeatCyclops < uid=2B55C72B5910D0470000005416DE746B >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_Dialog "Dialogue - SQ37 - Defeat Cyclops"
+		{
+			myCompleteImmediately FALSE
+			myDialogSequenceID 37
+		}
+		StoryDataAction_SetTarget GraxPrime
+		{
+			mySimUnitAssetTarget "onward/game system data/juice/sim/harvester_cyclops_grax.msimunit"
+			myTargetPlanet E21E96E3587CD21C0000011EB3CD3304
+		}
+		StoryDataAction_WaitForTargetDeath "Wait for Cylcops Death"
+		{
+		}
+		StoryDataAction_TransitionStorySection "Exit Story Section - Station Approach"
+		{
+			myTransitionType Exit
+			myStorySection Act_05_StationApproach
+		}
+		StoryDataAction_TransitionStorySection "Enter Story Section - Grax Planet Battle"
+		{
+			myTransitionType Enter
+			myStorySection Act_05_Grax_Planet_Battle
+		}
+	}
+	myStoryDataActionSets
+	{
+	}
+}
+
+StoryBeatData Act5_SEQ3_CylcopsDefeated < uid=2B55C72B5910D047000000557A9C76DB >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_SendStoryToGameEvent "Send GraxDefeated Event"
+		{
+			myStoryToGameEvent Act05_GraxDefeated
+		}
+		StoryDataAction_PreventPlayerDeath "Prevent Player Death"
+		{
+		}
+		StoryDataAction_TransitionStorySection "Exit Story Section - Grax Planet Battle"
+		{
+			myTransitionType Exit
+			myStorySection Act_05_Grax_Planet_Battle
+		}
+		StoryDataAction_SetObjective "Complete Chapter 3 - Sub 2"
+		{
+			myObjectiveData < uid=9FD9E8185AA9386E00001C5C074FBE6F > = Act5.Chapter3.Sub2
+			myObjectiveState Remove
+		}
+		StoryDataAction_HealPlayerShips "Heal Player Ships"
+		{
+		}
+		StoryDataAction_SetTarget "Set Target for Respawn Checkpoint"
+		{
+			mySimUnitAssetTarget "onward/game system data/juice/sim/act_5_stationapproachstartpoint.msimunit"
+			myShowWaypoint FALSE
+		}
+		StoryDataAction_SetRespawnCheckpoint "Set Respawn Checkpoint"
+		{
+			myLockCheckpoint TRUE
+		}
+	}
+	myStoryDataActionSets
+	{
+	}
+}
+
+StoryBeatData Act5_SEQ3_CyclopsDefeatedDialogueCam < uid=9FD9E8185A98900B00001BB22DF15B3E >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_Dialog "Dialogue - SQ45 - Cyclops Defeated"
+		{
+			myCompleteImmediately FALSE
+			myDialogSequenceID 45
+		}
+	}
+}
+
+StoryBeatData Act5_SEQ3_AfterCylcopsCamFade < uid=9FD9E8185ACE58F100001EDD29FF6F09 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_Wait "Wait 3"
+		{
+			mySecondsToWait 2.0
+		}
+		StoryDataAction_AddFadeRequest "Fade Out"
+		{
+			myFadeRequestType Fade_Out
+			myFadeColor 0xffffffff
+			myFadeTime 2.0
+		}
+	}
+}
+
+StoryBeatData Act5_SEQ4_SetEscapeRespawnPoint < uid=9FD9E81859D52A82000000379926230F >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_SetTarget "Set Target"
+		{
+			mySimUnitAssetTarget "onward/game system data/juice/sim/act_5_wardenstationstartpoint.msimunit"
+			myTargetPlanet E21E96E3587CD21C0000011EB3CD3304
+			myShowWaypoint FALSE
+		}
+		StoryDataAction_SetRespawnCheckpoint "Set Respawn Checkpoint"
+		{
+		}
+		StoryDataAction_SetTarget "Clear Target"
+		{
+		}
+	}
+}
+
+StoryBeatData Act5_SEQ3_AfterCylcopsBink < uid=9FD9E8185A98751000001BABF99352E2 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_CompleteStoryEvent "Complete Story Event - Act05b"
+		{
+			myStoryEvent Act05b
+		}
+		StoryDataAction_Cinematic Cinematic
+		{
+			myCinematicFile onward/baked/videos/CIN_ACT5B.bk2
+		}
+		StoryDataAction_StopDialogueCamera "Stop Camera"
+		{
+		}
+		StoryDataAction_TeleportPlayer Teleport
+		{
+			myPlayer1Teleport
+			{
+				mySimUnitAssetPath "onward/game system data/juice/sim/act_5_stationapproachstartpoint.msimunit"
+			}
+			myPlayer2Teleport
+			{
+				mySimUnitAssetPath "onward/game system data/juice/sim/act_5_stationapproachstartpoint.msimunit"
+				myTeleportOffset 40.0;0.0;0.0
+			}
+		}
+	}
+}
+
+StoryBeatData Act5_SEQ3_TeleportPlayerForExit < uid=9FD9E8185A98751000001BAC8FBCF71C >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_SetTarget "Clear Target"
+		{
+		}
+		StoryDataAction_SetGameAction "Disable Hyperdrive"
+		{
+			mySetGameActionList
+			{
+				SetGameAction "Disable Hyperdrive"
+				{
+					myGameAction PlayerQuery_CanStartHyperDrive
+				}
+			}
+		}
+	}
+}
+
+StoryBeatData Act5_SEQ4_Escape < uid=2B55C72B5910D04700000056A702DAC0 >
+{
+	Enabled TRUE
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_CompleteStoryEvent "Complete Event - Act05b"
+		{
+			myStoryEvent Act05b
+		}
+		StoryDataAction_SetTarget "Set Target - Portal"
+		{
+			mySimUnitAssetTarget "onward/game system data/juice/sim/act_5_portal_destination.msimunit"
+			myActivityType None
+		}
+		StoryDataAction_Dialog "Dialogue - SQ47 - Escape"
+		{
+			myDialogSequenceID 47
+		}
+		StoryDataAction_SendStoryToGameEvent "Story to Game Event - Enable Solor Shield"
+		{
+			myStoryToGameEvent Act05_EnableSolarShield
+		}
+		StoryDataAction_SetGameplayBounds "Set Gameplay Bounds"
+		{
+			myBoundsCenter -142500.0;297950.0;-89800.0
+			myBoundsRadius 7000.0
+		}
+		StoryDataAction_AddFadeRequest "Fade From White"
+		{
+			myFadeColor 0xffffffff
+			myFadeTime 3.0
+		}
+		StoryDataAction_AllowPlayerDeath "Allow Player Death"
+		{
+		}
+	}
+	myStoryDataActionSets
+	{
+	}
+}
+
+StoryBeatData Act5_SEQ4_HalfwayToPortal < uid=9FD9E81859D6523F000001FE28419AF5 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_Dialog "Dialogue - 42 - Almost to Portal"
+		{
+		}
+	}
+}
+
+StoryBeatData Act5_SEQ4_SpawnGraxDrake < uid=2B55C72B5910D04700000057CF00D5E5 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_SpawnSimUnitNearPlayer "Spawn Grax Drake Near Player"
+		{
+			mySimUnitAsset < uid=9FD9E818596902AE0000010C3484A8AC > = harvester_drake_grax
+			myDistance 200.0
+			myLookAheadTime 0.0
+		}
+		StoryDataAction_SpawnSimUnitNearPlayer "Spawn Grax Elites Near Player"
+		{
+			mySimUnitAsset < uid=9FD9E8185ACF7E2500001DE48A291E80 > = harvester_drake_elite_endgame_pair
+			myDistance 200.0
+			myLookAheadTime 0.0
+		}
+		StoryDataAction_SetTarget "Set Target - Grax Drake"
+		{
+			mySimUnitAssetTarget "onward/game system data/juice/sim/harvester_drake_grax.msimunit"
+			myActivityType Attack
+		}
+		StoryDataAction_TransitionStorySection "Enter Story Section"
+		{
+			myTransitionType Enter
+			myStorySection Act_05_Grax_Drake_Battle
+		}
+	}
+	myStoryDataActionSets
+	{
+	}
+}
+
+StoryBeatData Act5_SEQ4_GraxEscapeDialogue < uid=9FD9E81859DE33C4000000B7AB769CFB >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_SetTarget "Set Target for Respawn"
+		{
+			mySimUnitAssetTarget "onward/game system data/juice/sim/act_5_graxdrakerespawncheckpoint.msimunit"
+			myTargetPlanet 00000000000000000000000000000000
+			myShowWaypoint FALSE
+		}
+		StoryDataAction_SetRespawnCheckpoint "Set Respawn Checkpoint"
+		{
+		}
+		StoryDataAction_SetTarget "Clear Target"
+		{
+			myShowWaypoint FALSE
+		}
+		StoryDataAction_SetTarget "Portal Target"
+		{
+			mySimUnitAssetTarget "onward/game system data/juice/sim/act_5_portal_destination.msimunit"
+			myActivityType Find
+		}
+	}
+	myStoryDataActionSets
+	{
+		StoryDataActionSet "Distance to Portal OR Grax Intro Dialogue Complete"
+		{
+			myStoryDataActionSetType OR
+			myStoryDataActions
+			{
+				StoryDataAction_Dialog "Dialogue - SQ50 - Grax Intro"
+				{
+					myDialogSequenceID 50
+				}
+				StoryDataAction_WaitForArriveAtTarget "Wait for Distance - 3k"
+				{
+					myDistance 3000.0
+					myRequireInFOV FALSE
+				}
+			}
+		}
+	}
+}
+
+StoryBeatData Act5_SEQ4_GraxDrakeIntro < uid=9FD9E8185969074700000111927458A8 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_SetPlayerInvincible "Set Player Invulnerable"
+		{
+			mySetInvincible TRUE
+		}
+		StoryDataAction_StartDialogueCamera "Start Camera"
+		{
+			myTriggerOnPipInteraction FALSE
+			myPlayerPreset GraxShipIntro
+			myTargetPreset GraxShipIntro
+			myIsFullScreen TRUE
+		}
+		StoryDataAction_Wait "Wait 5"
+		{
+			mySecondsToWait 5.0
+		}
+	}
+}
+
+StoryBeatData Act5_SEQ4_EndGraxDrakeIntro < uid=9FD9E818596907F9000001135902A583 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_SetPlayerInvincible "Disable Player Invulnerable"
+		{
+		}
+		StoryDataAction_StopDialogueCamera "Stop Camera"
+		{
+		}
+		StoryDataAction_SetGameAction "Enable All Actions" = "Enable All Actions"
+	}
+	myStoryDataActionSets
+	{
+	}
+}
+
+StoryBeatData Act5_SEQ4_WaitForGraxDeath < uid=9FD9E81859690A5600000115E7C4DE3A >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_Dialog "Dialogue - SQ53 - Grax"
+		{
+			myDialogSequenceID 53
+		}
+	}
+	myStoryDataActionSets
+	{
+		StoryDataActionSet "Wait For NPC Death GRAX"
+		{
+			myStoryDataActionSetType OR
+			myStoryDataActions
+			{
+				StoryDataAction_WaitForTargetDeath "Wait for Target Death"
+				{
+				}
+				StoryDataAction_WaitForPlayerKillNPC "NPC Death - Grax"
+				{
+					myNPCType Harvester_Grax_Transport
+				}
+			}
+		}
+	}
+}
+
+StoryBeatData Act5_SEQ4_GraxDeathDialogue < uid=9FD9E8185969133200000117BC744FC4 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_TransitionStorySection "Exit Story Section"
+		{
+			myTransitionType Exit
+			myStorySection Act_05_Grax_Drake_Battle
+		}
+		StoryDataAction_Dialog "Dialogue - SQ60 - Grax Death"
+		{
+			myCompleteImmediately FALSE
+			myDialogSequenceID 60
+		}
+		StoryDataAction_SetGameAction "Enable Hyperdrive"
+		{
+			mySetGameActionList
+			{
+				SetGameAction "Enable Hyperdrive"
+				{
+					myGameAction PlayerQuery_CanStartHyperDrive
+					myEnabled TRUE
+				}
+			}
+		}
+		StoryDataAction_SetTarget "Clear Target"
+		{
+		}
+	}
+	myStoryDataActionSets
+	{
+	}
+}
+
+StoryBeatData Act5_SEQ4_SetObjective < uid=2B55C72B5910D04700000059B32B1C64 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_SetTarget "Set Target - Portal"
+		{
+			mySimUnitAssetTarget "onward/game system data/juice/sim/act_5_portal_destination.msimunit"
+			myActivityType None
+		}
+		StoryDataAction_WaitForArriveAtTarget "Wait for Distance to Portal - 300"
+		{
+			myDistance 300.0
+			myRequireInFOV FALSE
+		}
+		StoryDataAction_Dialog "Dialogue - 55 - Final Escape Through Portal"
+		{
+			myDialogSequenceID 55
+		}
+	}
+	myStoryDataActionSets
+	{
+	}
+}
+
+StoryBeatData Act5_SEQ3_SpawnGraxCyclops < uid=9FD9E8185A8F37AB00001D140FC512F1 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_SendStoryToGameEvent "Send SpawnGraxCyclops Event"
+		{
+			myStoryToGameEvent Act05_SpawnGraxCyclops
+		}
+		StoryDataAction_SetObjective "Complete Chapter 3 - Sub 1"
+		{
+			myObjectiveData < uid=9FD9E8185AA9612E00001C892D24B35B > = Act5.Chapter3.Sub1
+			myObjectiveState Remove
+		}
+		StoryDataAction_WallClockWait Wait
+		{
+			mySecondsToWait 0.5
+		}
+		StoryDataAction_AddFadeRequest "Fade To White"
+		{
+			myFadeRequestType Fade_Out
+			myFadeColor 0xffffffff
+			myFadeTime 0.45
+		}
+	}
+}
+
+StoryBeatData Act5_SEQ3_GraxIntroBink < uid=4A8282B95A8DCA8D006775346B0FD910 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_CompleteStoryEvent "Complete Story Event - Grax Bink"
+		{
+			myStoryEvent Act05_GraxIntroCinematic
+		}
+		StoryDataAction_Cinematic Cinematic
+		{
+			myCinematicFile onward/baked/videos/Boss_Bink_Shake.bk2
+		}
+	}
+	myStoryDataActionSets
+	{
+	}
+}
+
+StoryBeatData Act5_SEQ3_StartGraxIntroCamera < uid=9FD9E8185A8F37AB00001D1526FEF4DA >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_SetTarget "Set Target for Camera - Grax"
+		{
+			mySimUnitAssetTarget "onward/game system data/juice/sim/harvester_cyclops_grax.msimunit"
+			myTargetPlanet E21E96E3587CD21C0000011EB3CD3304
+			myShowWaypoint FALSE
+		}
+		StoryDataAction_AddFadeRequest "Fade From White"
+		{
+			myFadeRequestType Fade_In
+			myFadeColor 0xffffffff
+			myFadeTime 0.5
+		}
+		StoryDataAction_ConditionalAction "Conditional Camera Trigger"
+		{
+			myConditionalActions
+			{
+				StoryDataAction_WallClockWait "Wait 0.5"
+				{
+					mySecondsToWait 0.5
+				}
+			}
+			myOutcomeActions
+			{
+				StoryDataAction_StartDialogueCamera "Start Camera"
+				{
+					myTriggerOnPipInteraction FALSE
+					myPlayerPreset FinalBattleIntro
+					myTargetPreset FinalBattleIntro
+					myIsFullScreen TRUE
+				}
+				StoryDataAction_Wait "Camera Wait"
+				{
+					mySecondsToWait 2.0
+				}
+			}
+		}
+		StoryDataAction_Wait "Wait 3"
+		{
+			mySecondsToWait 3.0
+		}
+	}
+	myStoryDataActionSets
+	{
+	}
+}
+
+StoryBeatData Act5_SEQ3_EndCamera < uid=9FD9E8185A8F37AB00001D164374998C >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_StopDialogueCamera "Stop Camera"
+		{
+		}
+	}
+}
+
+StoryBeatData Act5_SEQ4_FadeToWhite < uid=9FD9E818596D0294000002A8E69A06CE >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_AddFadeRequest "Fade to White"
+		{
+			myFadeRequestType Fade_Out
+			myFadeColor 0xffffffff
+			myFadeTime 1.4
+		}
+		StoryDataAction_Wait "Wait While Fade"
+		{
+			mySecondsToWait 1.4
+		}
+		StoryDataAction_TransitionStorySection "Exit Story Section - Act 5"
+		{
+			myTransitionType Exit
+			myStorySection Act_05
+		}
+	}
+}
+
+StoryBeatData Act5_SEQ4_Portal < uid=9FD9E8185B64B47E000022554E8B4B77 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_Cinematic Cinematic
+		{
+			myCinematicFile onward/baked/videos/EndPortal.bk2
+		}
+	}
+}
+
+StoryBeatData Act5.Objective.Chapter1.Header < uid=1EE141815AA80C3300001C5975762BB4 >
+{
+	myActStartFlag TRUE
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_SetObjective "Close Act 4"
+		{
+			myObjectiveData < uid=9FD9E8185AAC527100001D6B6B300662 > = Act4.Chapter4.Header
+			myObjectiveState Remove
+		}
+		StoryDataAction_SetObjective Objective
+		{
+			myObjectiveData < uid=1EE141815AA80C3300001C5A352067ED > = Act5.Chapter1.Header
+			myObjectiveState Active
+		}
+	}
+}
+
+StoryBeatData Act5.Objective.Chapter1.Sub1 < uid=1EE141815AA80C3300001C5BFD5AFCF0 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_SetObjective Objective
+		{
+			myObjectiveData < uid=1EE141815AA80C3300001C5C2EDDD16E > = Act5.Chapter1.Sub1
+			myObjectiveState Active
+		}
+	}
+}
+
+StoryBeatData Act5.Objective.Chapter1.Sub2 < uid=1EE141815AA80C3300001C5DEA32748A >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_SetObjective Objective
+		{
+			myObjectiveData < uid=1EE141815AA80C3300001C5EDC1B792E > = Act5.Chapter1.Sub2
+			myObjectiveState Active
+		}
+	}
+}
+
+StoryBeatData Act5.Objective.Chapter2.Header < uid=1EE141815AA80C3300001C5FF68CA321 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+	}
+}
+
+StoryBeatData Act5.Objective.Chapter2.Sub1 < uid=1EE141815AA80C3300001C614FF5FE52 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+	}
+}
+
+StoryBeatData Act5.Objective.Chapter2.Sub2 < uid=1EE141815AA80C3300001C63DB261B05 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_SetObjective Objective
+		{
+			myObjectiveData < uid=1EE141815AA80C3300001C643F89F9EC > = Act5.Chapter2.Sub2
+			myObjectiveState Active
+		}
+	}
+}
+
+StoryBeatData Act5.Objective.Chapter2.Sub3 < uid=1EE141815AA80C3300001C65DF6E9721 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_SetObjective Objective
+		{
+			myObjectiveData < uid=1EE141815AA80C3300001C669663BC33 > = Act5.Chapter2.Sub3
+			myObjectiveState Active
+		}
+	}
+}
+
+StoryBeatData Act5.Objective.Chapter3.Header < uid=1EE141815AA80C3300001C677D7663C9 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_SetObjective "Close Chapter 2"
+		{
+			myObjectiveData < uid=9FD9E8185AA937B500001C520FE8CEF1 > = Act5.Chapter2.Header
+			myObjectiveState Remove
+		}
+		StoryDataAction_SetObjective Objective
+		{
+			myObjectiveData < uid=1EE141815AA80C3300001C680D40B312 > = Act5.Chapter3.Header
+			myObjectiveState Active
+		}
+	}
+}
+
+StoryBeatData Act5.Objective.Chapter3.Sub1 < uid=1EE141815AA80C3300001C69A63CFA04 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_SetObjective Objective
+		{
+			myObjectiveData < uid=1EE141815AA80CDB00001C83777DAD67 > = Act5.Chapter3.Sub1
+			myObjectiveState Active
+		}
+	}
+}
+
+StoryBeatData Act5.Objective.Chapter3.Sub2 < uid=1EE141815AA80C3300001C6A2D3548D4 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_SetObjective Objective
+		{
+			myObjectiveData < uid=1EE141815AA80CDB00001C84D85D08E0 > = Act5.Chapter3.Sub2
+			myObjectiveState Active
+		}
+	}
+}
+
+StoryBeatData Act5.Objective.Chapter4.Header < uid=1EE141815AA80C3300001C6BE3930E90 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_SetObjective "Close Chapter 3"
+		{
+			myObjectiveData < uid=9FD9E8185AA9657100001C945DB4F7E6 > = Act5.Chapter3.Header
+			myObjectiveState Remove
+		}
+		StoryDataAction_SetObjective Objective
+		{
+			myObjectiveData < uid=1EE141815AA80CDB00001C8572731038 > = Act5.Chapter4.Header
+			myObjectiveState Active
+		}
+	}
+}
+
+StoryBeatData Act5.Objective.Chapter4.Sub1 < uid=1EE141815AA80C3300001C6CEB43E9D3 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_SetObjective Objective
+		{
+			myObjectiveData < uid=1EE141815AA80CDB00001C8650A714D9 > = Act5.Chapter4.Sub1
+			myObjectiveState Active
+		}
+	}
+}
+
+StoryBeatData Act5.Objective.Chapter5.Header < uid=1EE141815AA80C3300001C6DAAEEC265 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_SetObjective "Close Chapter 4"
+		{
+			myObjectiveData < uid=9FD9E8185AA9657100001C95725BC9DC > = Act5.Chapter4.Header
+			myObjectiveState Remove
+		}
+		StoryDataAction_SetObjective Objective
+		{
+			myObjectiveData < uid=1EE141815AA80CDB00001C87CA2B9D3F > = Act5.Chapter5.Header
+			myObjectiveState Active
+		}
+	}
+}
+
+StoryBeatData Act5.Objective.Chapter5.Sub1 < uid=1EE141815AA80C3300001C6E2D1A4C04 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_SetObjective Objective
+		{
+			myObjectiveData < uid=1EE141815AA80CDB00001C88FA019692 > = Act5.Chapter5.Sub1
+			myObjectiveState Active
+		}
+	}
+}
+
+StoryBeatData Act5.Objective.Chapter6.Header < uid=1EE141815AA80C3300001C6F568620B9 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_SetObjective "Close Chapter 5"
+		{
+			myObjectiveData < uid=9FD9E8185AA93C6E00001C6E7A279A1A > = Act5.Chapter5.Header
+			myObjectiveState Remove
+		}
+		StoryDataAction_SetObjective Objective
+		{
+			myObjectiveData < uid=1EE141815AA80CDB00001C891019AB3A > = Act5.Chapter6.Header
+			myObjectiveState Active
+		}
+	}
+}
+
+StoryBeatData Act5.Objective.Chapter6.Sub1 < uid=1EE141815AA80C3300001C70A27F56CB >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_SetObjective Objective
+		{
+			myObjectiveData < uid=1EE141815AA80CDB00001C8A7870743C > = Act5.Chapter6.Sub1
+			myObjectiveState Active
+		}
+	}
+}
+

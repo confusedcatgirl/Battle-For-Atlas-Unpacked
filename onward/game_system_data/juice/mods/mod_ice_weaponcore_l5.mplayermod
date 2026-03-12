@@ -1,0 +1,73 @@
+include ./template_pod.mplayermod
+include ./tuning/mod_tuning_master.juice
+
+float "Weapon Damage" = Ice_WeaponCore_l5_Damage
+float "Fire Rate" = Ice_WeaponCore_l5_FireRate
+
+PlayerMod mod_ice_weaponcore_l5 < uid=C91BB551598227AA000883EC525F0BF7 > : template_pod
+{
+	myAttributeMods
+	{
+		AttributeMod Cold
+		{
+			myType DMG_Cold
+			myMultValue 1.0
+			myPercentageValue = "Weapon Damage"
+		}
+		AttributeMod Crush
+		{
+			myType DMG_Crush
+			myMultValue 1.0
+			myPercentageValue = "Weapon Damage"
+		}
+		AttributeMod Float
+		{
+			myType DMG_Float
+			myMultValue 1.0
+			myPercentageValue = "Weapon Damage"
+		}
+		AttributeMod Heat
+		{
+			myType DMG_Heat
+			myMultValue 1.0
+			myPercentageValue = "Weapon Damage"
+		}
+		AttributeMod Kinetic
+		{
+			myType DMG_Kinetic
+			myMultValue 1.0
+			myPercentageValue = "Weapon Damage"
+		}
+		AttributeMod Max
+		{
+			myType DMG_Max
+			myMultValue 1.0
+			myPercentageValue = "Weapon Damage"
+		}
+		AttributeMod "Has Shatter"
+		{
+			myType HasShatter
+			myAddValue = Ice_WeaponCore_l5_FreezeShatter
+		}
+		AttributeMod "Area Cold"
+		{
+			myPercentageValue = "Weapon Damage"
+		}
+		AttributeMod UI_Weapon_Damage
+		{
+			myType UI_Weapon_Damage
+			myPercentageValue = "Weapon Damage"
+		}
+		AttributeMod "Fire Rate"
+		{
+			myType Ability_FireRate
+			myAddValue = "Fire Rate"
+		}
+		AttributeMod UI_Weapon_FireRate
+		{
+			myType UI_Weapon_FireRate
+			myAddValue = "Fire Rate"
+		}
+	}
+}
+
