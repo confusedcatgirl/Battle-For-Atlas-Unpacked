@@ -1,0 +1,55 @@
+import "shaders/MRender/MR_ViewConstants.h"
+
+constants : MR_ConstantBuffer0
+{
+    float Scale;
+}
+
+vertex
+{
+	in
+	{
+		float3 corner;
+		float2 uv;
+
+		stream 1 steprate=1
+		{
+			float4 center;
+			float4 color; // Ignored here
+			float4 indexColor;
+		}
+	}
+
+	out
+	{
+		float4 color;
+		float2 uv;
+	}
+
+	main(out float4 clipPos : MR_Position)
+	{
+	    Out.color = In.indexColor;
+	    Out.uv = In.uv;
+	
+	    float4 position = MR_Transform(MR_ViewConstants.worldToClip, In.center.xyz);		
+		clipPos = position + float4(In.corner, 0) * 2 * Scale * position.w / float4(MR_ViewConstants.viewportSize, 1, 1);
+	}
+}
+
+pixel
+{
+	in
+	{
+		float4 color;
+		float2 uv;
+	}
+    
+	MR_Sampler2D InputTexture : MR_Texture0 { filter = linear, wrap = clamp };
+
+	main(out float4 color : MR_Color)
+	{
+		float4 textureColor = MR_Sample(InputTexture, In.uv);
+		clip(textureColor.a - 0.1);
+		color = In.color;
+	}
+}

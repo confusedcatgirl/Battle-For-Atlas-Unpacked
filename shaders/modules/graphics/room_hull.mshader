@@ -1,0 +1,30 @@
+import "shaders/MRender/MR_ViewConstants.h"
+
+constants : MR_ConstantBuffer0
+{
+	float4x4 transform;
+}
+
+vertex 
+{
+
+	in
+	{
+		float3 position;
+	}
+
+	main(out float4 outPosition : MR_Position)
+	{
+		float4 p = float4(In.position, 1);
+		p = MR_Transform(transform, p);
+		outPosition = p;
+	}
+}
+
+pixel 
+{
+	main(out float4 color : MR_Color)
+	{
+		color = vec4(0);
+	}
+}

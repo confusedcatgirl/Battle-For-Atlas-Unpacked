@@ -1,0 +1,38 @@
+import "shaders/modules/graphics/onworld/planet_base.h"
+import "shaders/modules/graphics/onworld/planet_flattening.h"
+
+import "shaders/MRender/MR_ViewConstants.h"
+
+
+constants : MR_ConstantBuffer0
+{
+	float4x4 ModelToWorld;
+	float4x4 WorldToClip;
+	float4 Color;
+}
+
+vertex
+{
+	in
+	{
+		float3 position;
+	}
+	
+	main( out float4 outPosition : MR_Position )
+	{
+		float4 pos = MR_Transform(ModelToWorld, float4(In.position,1));
+
+		OW_SFT_ApplyOld(pos.xyz);
+
+		outPosition = MR_Transform( WorldToClip, pos );
+	}
+}
+
+pixel
+{
+	main( out float4 outColor : MR_Color )
+	{
+        outColor = Color;
+		outColor.a /= 5.0f;
+	}
+}

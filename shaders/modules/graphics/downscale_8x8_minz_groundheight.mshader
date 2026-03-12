@@ -1,0 +1,40 @@
+import "shaders/MRender/MR_ViewConstants.h"
+
+MR_Sampler2D<float2> MinZ : MR_Texture0 { filter = linear point, anisotropy = 0, wrap = clamp };
+MR_Sampler2D<float2> GroundHeight : MR_Texture1 { filter = linear point, anisotropy = 0, wrap = clamp };
+
+MR_RWTexture2D<float> MinZMipsOut : MR_RW_Texture0;
+MR_RWTexture2D<float> GroundHeightMipsOut : MR_RW_Texture1;
+
+computeParameters
+{
+	numThreads 8 8 1
+}
+
+constants : MR_ConstantBuffer0
+{
+	float2 UVScale;
+	float2 UVOffset;
+	float ZScale;
+}
+
+compute main(uint3 dtid : MR_DispatchThreadId)
+{
+	float minZ = 100000;
+	float minHeight = 100000;
+
+	for (uint y=0; y<4; ++y)
+		for (uint x=0; x<4; ++x)
+		{
+			float2 srcUV = float2(dtid.xy * 8 + uint2(x,y) * 2) * UVScale + UVOffset;
+
+			float4 z = MR_SampleGather(MinZ, srcUV);
+			minZ = min(minZ, min(min(z.x, z.y), min(z.z, z.w)));
+
+			float4 height = MR_SampleGather(GroundHeight, srcUV);
+			minHeight = min(minHeight, min(min(height.x, height.y), min(height.z, height.w)));
+		}
+
+	MinZMipsOut[dtid.xy] = minZ * ZScale;
+	GroundHeightMipsOut[dtid.xy] = minHeight;
+}

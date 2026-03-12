@@ -1,0 +1,28 @@
+import "shaders/modules/graphics/onworld/atmosphere/bruneton/common.h"
+
+computeParameters
+{
+    numThreads 16 16 4
+}
+
+MR_RWTexture3D<float4> RWInscatterTexture3D : MR_RW_Texture0;
+MR_Sampler3D DeltaSRTexture : MR_Texture1 { filter = linear, wrap = clamp };
+MR_Sampler3D DeltaSMTexture : MR_Texture2 { filter = linear, wrap = clamp };
+
+compute
+{
+    constants : MR_ConstantBuffer0
+    {
+        float3 const_TargetSize;
+    }
+
+    main( in uint3 dispatchThreadId : MR_DispatchThreadId )
+    {
+        float3 uvw = (dispatchThreadId.xyz + float3(0.5f, 0.5f, 0.5f))/ const_TargetSize;
+
+        float4 ray = MR_SampleLod0(DeltaSRTexture, uvw);
+        float4 mie = MR_SampleLod0(DeltaSMTexture, uvw);
+
+        RWInscatterTexture3D[dispatchThreadId.xyz] = float4(ray.rgb, mie.r);
+    }
+}

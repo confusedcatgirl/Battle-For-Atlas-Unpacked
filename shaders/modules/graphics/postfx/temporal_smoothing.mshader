@@ -1,0 +1,386 @@
+import "shaders/MRender/MR_ViewConstants.h"
+import "shaders/MRender/MR_StencilTexture.h"
+import "shaders/MRender/MR_DepthBuffer.h"
+import "shaders/modules/graphics/environment_constants.h"
+import "shaders/modules/graphics/temporal_aa.h"
+import "shaders/modules/graphics/stencil.h"
+
+computeParameters {
+	numThreads 8 8 1
+}
+
+MR_RWTexture2D<float3> ColorOut : MR_RW_Texture0;
+MR_RWTexture2D<float> QuickAAOut : MR_RW_Texture1;
+
+MR_Texture2D<float3> ThisFrame : MR_Texture0;
+MR_Sampler2D<float3> LastFrame : MR_Texture1 { filter = linear point, wrap = clamp };
+MR_Sampler2D<float> LastFrameQuickAA : MR_Texture2 { filter = linear point, wrap = clamp };
+MR_Sampler2D<float2> MotionVectors : MR_MotionVectors { filter = linear point, wrap = clamp };
+
+constants : MR_ConstantBuffer0
+{
+	float2 lastFrameClipToFramebufferUVScale;
+	float2 lastFrameClipToFramebufferUVOffset;
+
+	float2 lastFrameFramebufferUVToPixelScale;
+	float2 lastFrameFramebufferUVToPixelOffset;
+
+	float thisFrameAlpha;
+	
+	float reconstructionWeights_0;
+	float reconstructionWeights_1;
+	float reconstructionWeights_2;
+	float reconstructionWeights_3;
+	float reconstructionWeights_4;
+	float reconstructionWeights_5;
+	float reconstructionWeights_6;
+	float reconstructionWeights_7;
+	float reconstructionWeights_8;
+	float reconstructionWeights_9;
+}
+
+const float exposureScale = 16;
+
+const bool dilateMotionVectors = 1;
+const uint numDilateMotionVectorSamples = 4; // 4 or 8
+
+const bool motionCausesQuickAA = 1;
+const bool quickAADecay = 0;
+
+const float modAlphaByColorDistanceScale = 0.95; // less than 1 or image will never converge
+const float modAlphaByColorBounds = 1;
+
+const float maxAlphaFromMisalignment = 0.5;
+
+const float bilinearCompensation_TEST = 0;
+
+@ifdef RECONSTRUCT
+const bool modReconstructionByAlpha = 1;
+const bool modReconstructionByClipFactor = 0;
+@else
+const bool modReconstructionByAlpha = 0;
+const bool modReconstructionByClipFactor = 0;
+@endif
+
+const bool clipColor = 1;
+const bool clampColor = 0;
+
+const bool debugTileLastFrame = 0;
+const bool debugShowRenderedFrame = 0;
+const bool debugShowThisFrame = 0;
+const bool debugShowLastFrame = 0;
+const bool debugShowLastFrameMisalignment = 0;
+const bool debugShowQuickUpdate = 0;
+const bool debugShowLastFrameQuickAA = 0;
+const bool debugShowMotion = 0;
+const bool debugShowMotionVectors = 0;
+
+float GetWeight(float3 color)
+{
+	return rcp(Gfx_Environment.averageLuminosity * exposureScale + color.x);
+}
+
+float4 GetWeighted(float3 color)
+{
+	return float4(color, 1) * GetWeight(color);
+}
+
+int2 GetMotionVectorPixel(int2 pixel)
+{
+	if (dilateMotionVectors)
+	{
+		float depthZ = MR_SampleTexelLod0(DepthBufferZ, pixel);
+		float nearestDepth = depthZ;
+		int2 nearestPixel = pixel;
+
+		int2 offsets[] = {
+			int2(-1,-1), int2(-1, 1), int2( 1, 1), int2( 1,-1),
+			int2(-1, 0), int2( 0, 1), int2( 0,-1), int2( 1, 0),
+		};
+
+		for (uint i=0; i<numDilateMotionVectorSamples; ++i)
+		{
+			int2 px = pixel + offsets[i];
+			float d = MR_SampleTexelLod0(DepthBufferZ, px);
+			if (d > nearestDepth)
+			{
+				nearestDepth = d;
+				nearestPixel = px;
+			}
+		}
+
+		return nearestPixel;
+	}
+	else
+		return pixel;
+}
+
+void SampleThisFrame(int2 pixel, out half3 renderedFrame, out half3 originalThisFrame,
+	out half3 reconstructedThisFrame, out half3 min_avg, out half3 max_avg)
+{
+	int2 vpmin = MR_ViewConstants.viewportMin;
+	int2 vpmax = MR_ViewConstants.viewportMax;
+
+	float4 reconstructedTemp = vec4(0);
+
+	renderedFrame = MR_SampleTexelLod0(ThisFrame, pixel);
+	originalThisFrame = RGB2YCoCg(renderedFrame);
+	reconstructedTemp += GetWeighted(originalThisFrame) * reconstructionWeights_4;
+	half3 min_cross = originalThisFrame;
+	half3 max_cross = originalThisFrame;
+
+	half3 snn = RGB2YCoCg(MR_SampleTexelLod0(ThisFrame, clamp(pixel + int2(-1,-1), vpmin, vpmax)));
+	reconstructedTemp += GetWeighted(snn) * reconstructionWeights_0;
+	half3 min_corners = snn;
+	half3 max_corners = snn;
+
+	half3 s0n = RGB2YCoCg(MR_SampleTexelLod0(ThisFrame, clamp(pixel + int2( 0,-1), vpmin, vpmax)));
+	reconstructedTemp += GetWeighted(s0n) * reconstructionWeights_1;
+	min_cross = min(min_cross, s0n);
+	max_cross = max(max_cross, s0n);
+
+	half3 spn = RGB2YCoCg(MR_SampleTexelLod0(ThisFrame, clamp(pixel + int2( 1,-1), vpmin, vpmax)));
+	reconstructedTemp += GetWeighted(spn) * reconstructionWeights_2;
+	min_corners = min(min_corners, spn);
+	max_corners = max(max_corners, spn);
+
+	half3 sn0 = RGB2YCoCg(MR_SampleTexelLod0(ThisFrame, clamp(pixel + int2(-1, 0), vpmin, vpmax)));
+	reconstructedTemp += GetWeighted(sn0) * reconstructionWeights_3;
+	min_cross = min(min_cross, sn0);
+	max_cross = max(max_cross, sn0);
+
+	half3 sp0 = RGB2YCoCg(MR_SampleTexelLod0(ThisFrame, clamp(pixel + int2( 1, 0), vpmin, vpmax)));
+	reconstructedTemp += GetWeighted(sp0) * reconstructionWeights_5;
+	min_cross = min(min_cross, sp0);
+	max_cross = max(max_cross, sp0);
+
+	half3 snp = RGB2YCoCg(MR_SampleTexelLod0(ThisFrame, clamp(pixel + int2(-1, 1), vpmin, vpmax)));
+	reconstructedTemp += GetWeighted(snp) * reconstructionWeights_6;
+	min_corners = min(min_corners, snp);
+	max_corners = max(max_corners, snp);
+
+	half3 s0p = RGB2YCoCg(MR_SampleTexelLod0(ThisFrame, clamp(pixel + int2( 0, 1), vpmin, vpmax)));
+	reconstructedTemp += GetWeighted(s0p) * reconstructionWeights_7;
+	min_cross = min(min_cross, s0p);
+	max_cross = max(max_cross, s0p);
+
+	half3 spp = RGB2YCoCg(MR_SampleTexelLod0(ThisFrame, clamp(pixel + int2( 1, 1), vpmin, vpmax)));
+	reconstructedTemp += GetWeighted(spp) * reconstructionWeights_8;
+	min_corners = min(min_corners, spp);
+	max_corners = max(max_corners, spp);
+
+	half3 min_box = min(min_cross, min_corners);
+	half3 max_box = max(max_cross, max_corners);
+
+	min_avg = (min_box + min_cross) * 0.5;
+	max_avg = (max_box + max_cross) * 0.5;
+
+@ifdef RECONSTRUCT
+	reconstructedThisFrame = reconstructedTemp.xyz / reconstructedTemp.w;
+@else
+	reconstructedThisFrame = originalThisFrame;
+@endif
+}
+
+half3 SampleThisFrame(int2 pixel)
+{
+	half3 renderedFrame, originalThisFrame, reconstructedThisFrame, min_avg, max_avg;
+	SampleThisFrame(pixel, renderedFrame, originalThisFrame, reconstructedThisFrame, min_avg, max_avg);
+	return reconstructedThisFrame;
+}
+
+float FinalizeAlpha(half3 lastFrame, half3 thisFrame, half3 originalThisFrame,
+	half extraAlpha, half alpha, half3 minValue, half3 maxValue, bool motion)
+{
+	float lastFrameClampFactor = getClampFactor(lastFrame, thisFrame, minValue, maxValue);
+
+	if (modAlphaByColorBounds > 0 && lastFrameClampFactor < 0.5)
+	{
+		// when not clipping and the color range is small, use the raw rendered frame for improved details
+
+		half3 range = maxValue - minValue;
+		half maxrange = max(range.x, max(range.y, range.z));
+
+		float t = maxrange / (modAlphaByColorBounds * Gfx_Environment.averageLuminosity);
+		if (t < 1)
+		{
+			thisFrame = lerp(originalThisFrame, thisFrame, t);
+
+			// for objects in motion, start with full alpha (will still be constrained below)
+			if (motion)
+				alpha = 1;
+		}
+	}
+
+	if (modAlphaByColorDistanceScale > 0)
+	{
+		// the closer lastFrame is to be clipped, the more of it we keep
+		// counter-intuitive, but clipping the old color means the current may be an outlier
+
+		alpha = lerp(alpha, 0.0, saturate(lastFrameClampFactor * modAlphaByColorDistanceScale));
+	}
+
+	return saturate(max(alpha, extraAlpha));
+}
+
+half3 ClipColor(half3 lastFrame, half3 thisFrame, half3 originalThisFrame, half alpha, half3 minValue, half3 maxValue)
+{
+	half3 reconstructedThisFrame = thisFrame;
+	half3 start = thisFrame;
+
+	if (modReconstructionByAlpha)
+		thisFrame = lerp(originalThisFrame, thisFrame, alpha);
+
+	half3 value = lerp(lastFrame, thisFrame, alpha);
+	if (clampColor)
+	{
+		return clamp(value, minValue, maxValue);
+	}
+	else if (clipColor)
+	{
+		if (modReconstructionByClipFactor)
+		{
+			float dfmax = getClampFactor(thisFrame, start, minValue, maxValue);
+
+			thisFrame = lerp(originalThisFrame, reconstructedThisFrame, saturate(dfmax * 2));
+			value = lerp(lastFrame, thisFrame, alpha);
+
+			dfmax = getClampFactor(value, start, minValue, maxValue);
+
+			if (dfmax > 1)
+				return start + (value - start) / dfmax;
+			else
+				return value;
+		}
+		else
+			return clipColorImpl(value, start, minValue, maxValue);
+	}
+	else
+		return value;
+}
+
+compute main(uint3 dtid : MR_DispatchThreadId)
+{
+	int2 pixel = dtid.xy + MR_ViewConstants.viewportMin;
+
+	float2 fc = pixel + vec2(0.5);
+
+	int2 mvpixel = GetMotionVectorPixel(pixel);
+	float2 offset = MR_SampleTexelLod0(MotionVectors, mvpixel).xy;
+
+	float2 thisFrameClip2 = MR_PixelToClip(fc.xy);
+	float2 lastFrameClip2 = thisFrameClip2 + offset;
+	float2 lastFrameUV = lastFrameClip2 * lastFrameClipToFramebufferUVScale + lastFrameClipToFramebufferUVOffset;
+	float2 lastFramePixel = lastFrameUV * lastFrameFramebufferUVToPixelScale + lastFrameFramebufferUVToPixelOffset;
+	float2 lastFrameMisalignment = abs(vec2(0.5) - frac(lastFramePixel));
+
+	half4 lastFrameQuickAA4 = MR_SampleGather(LastFrameQuickAA, lastFrameUV);
+	half lastFrameQuickAA = max(max(lastFrameQuickAA4.x, lastFrameQuickAA4.y), max(lastFrameQuickAA4.z, lastFrameQuickAA4.w));
+	half lastFrameQuickAAMin = min(min(lastFrameQuickAA4.x, lastFrameQuickAA4.y), min(lastFrameQuickAA4.z, lastFrameQuickAA4.w));
+
+	float2 lastFrameMV = MR_SampleLod0(MotionVectors, lastFrameUV);
+	uint stencil = MR_SampleStencilTexelLod0(StencilTexture, pixel);
+
+	bool motion = (stencil & Gfx_Stencil_IsMoving) != 0;
+	bool quickAA = (stencil & Gfx_Stencil_QuickAA) != 0;
+	bool quickUpdate = false;
+	if (max(abs(lastFrameClip2.x), abs(lastFrameClip2.y)) > 1)
+	{
+		quickUpdate = true;
+		lastFrameQuickAA = 1;
+		lastFrameQuickAAMin = 1;
+	}
+	else if (quickAA)
+		quickUpdate = true;
+	else if (lastFrameQuickAA > 128.0/255.0)
+	{
+		if (motion && lastFrameQuickAA < 1)
+		{
+			// motion + last frame was in motion
+			lastFrameQuickAA = 0;
+			lastFrameQuickAAMin = 0;
+		}
+	}
+
+	{
+		half quickAAOut;
+		if (quickAA)
+			quickAAOut = 1;
+		else if (motion && motionCausesQuickAA)
+			quickAAOut = 0.98;
+		else
+			quickAAOut = quickAADecay ? lastFrameQuickAA * 0.25 : 0;
+		QuickAAOut[pixel] = quickAAOut;
+	}
+
+	half3 renderedFrame, thisFrame, originalThisFrame, min_avg, max_avg;
+	SampleThisFrame(pixel, renderedFrame, originalThisFrame, thisFrame, min_avg, max_avg);
+
+	half3 diff = vec3(0);
+	if (bilinearCompensation_TEST)
+	{
+		float2 pixelDiff = frac(lastFramePixel);
+		float2 weight = (vec2(0.5) - frac(lastFramePixel)) * 2;
+		int2 dir = pixelDiff > 0.5 ? -1 : 1;
+
+		half3 t10 = SampleThisFrame(pixel + int2(dir.x, 0));
+		half3 tx0 = lerp(thisFrame, t10, weight.x);
+
+		half3 t01 = SampleThisFrame(pixel + int2(0, dir.y));
+		half3 t11 = SampleThisFrame(pixel + dir);
+		half3 tx1 = lerp(t01, t11, weight.x);
+
+		half3 txx = lerp(tx0, tx1, weight.y);
+
+		diff = thisFrame - txx;
+	}
+
+	half3 lastFrame = MR_SampleLod0(LastFrame, lastFrameUV);
+	if (!IsValid(lastFrame))
+		lastFrame = renderedFrame;
+
+	if (debugTileLastFrame)
+		lastFrame = float3((int(fc.x)&32)?1:0, (int(fc.y)&32)?1:0, (int(fc.x+fc.y)&64)?1:0);
+
+	lastFrame = RGB2YCoCg(lastFrame);
+
+	half alpha = saturate(max(thisFrameAlpha, lastFrameQuickAA)); // saturate is redundant but apparently results in better code (around 1% on PC AMD)
+	half extraAlpha = quickUpdate ? 1 : lastFrameQuickAAMin;
+
+	if (maxAlphaFromMisalignment)
+		alpha += length(lastFrameMisalignment) * (maxAlphaFromMisalignment * 2);
+
+	if (bilinearCompensation_TEST)
+		lastFrame += diff * bilinearCompensation_TEST;
+
+	alpha = FinalizeAlpha(lastFrame, thisFrame, originalThisFrame, extraAlpha, alpha, min_avg, max_avg, motion);
+
+	half3 finalColor = ClipColor(lastFrame, thisFrame, originalThisFrame, alpha, min_avg, max_avg);
+
+	if (debugShowThisFrame)
+		finalColor = thisFrame;
+	else if (debugShowLastFrame)
+		finalColor = lastFrame;
+
+	half3 colorOut = YCoCg2RGB(finalColor);
+
+	if (debugShowRenderedFrame)
+		colorOut.xyz = renderedFrame;
+
+	if (debugShowLastFrameMisalignment)
+		colorOut.xy = lastFrameMisalignment;
+
+	if (debugShowQuickUpdate && quickUpdate)
+		colorOut.z = 1;
+
+	if (debugShowLastFrameQuickAA)
+		colorOut.z = lastFrameQuickAA;
+
+	if (debugShowMotion && motion)
+		colorOut.y = 1;
+
+	if (debugShowMotionVectors)
+		colorOut.xy = abs(offset) * 10;
+
+	ColorOut[pixel] = colorOut;
+}

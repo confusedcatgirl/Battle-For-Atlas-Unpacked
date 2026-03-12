@@ -1,0 +1,52 @@
+
+import "shaders/MRender/MR_ViewConstants.h"
+
+
+constants : MR_ConstantBuffer0
+{
+	float4 ViewPort;
+}
+
+vertex
+{
+	in
+	{
+		float3 position;
+		float2 uv;
+		float4<BGRA_UNORM8> color;
+	}
+	
+	out
+	{
+		float4 color;
+		float2 uv;
+	}
+
+	main( out float4 outPosition : MR_Position )
+	{
+		float viewPortWidth = (ViewPort.z - ViewPort.x)*0.5f;
+		float viewPortHeight = (ViewPort.w - ViewPort.y)*0.5f;
+				
+		outPosition = float4(In.position.x/viewPortWidth-1.0f,In.position.y/viewPortHeight+1.0f,0.01f,1.0f);
+		Out.color = In.color;
+		Out.uv = In.uv;
+	}
+}
+
+pixel
+{
+	MR_Sampler2D FontTexture : MR_Texture0 { wrap = clamp };
+
+	in
+	{
+		float4 color;
+		float2 uv;
+	}
+	
+	main( out float4 outColor : MR_Color )
+	{
+		float4 val = MR_Sample(FontTexture, In.uv);
+		outColor = In.color*val;
+		
+	}
+}

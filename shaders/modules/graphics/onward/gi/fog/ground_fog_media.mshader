@@ -1,0 +1,261 @@
+import "shaders/modules/graphics/onward/gi/fog/fog_shared.h"
+import "shaders/modules/graphics/onward/gi/fog/fog_media_shared.h"
+import "shaders/modules/graphics/onward/gi/ground_fog.h"
+import "shaders/modules/graphics/onward/gi/gi_sampling.h"
+import "shaders/modules/graphics/onward/gi/sky_sampling.h"
+import "shaders/modules/graphics/onward/sh/sh_funcs.h"
+
+import "shaders/modules/graphics/onworld/planet_base.h"
+import "shaders/modules/graphics/onworld/planet_flattening.h"
+import "shaders/modules/graphics/environment.h"
+import "shaders/modules/graphics/onworld/atmosphere/planet_sky.h"
+
+import "shaders/modules/graphics/onward/creep/creep_constants.h"
+import "shaders/modules/graphics/onward/creep/creep_funcs.h"
+
+MR_RWTexture3D<float3> GroundGIVolumeRW : MR_RW_Texture2;
+
+MR_SamplerCube HarvesterMaskCubemap : MR_Texture4 { anisotropy = 0 };
+
+computeParameters
+{
+	numThreads 8 8 1
+}
+
+@ifndef OGI_IS_BAKING
+
+float3 OW_FogColor_GetGroundGI( in float3 aPosition, in float3 anUpVector, in float3 aSampleDir, out float aHarvesterMask )
+{
+	const float4 gndColorGICubeMap = MR_SampleLod( PlanetGndColorGICubemap, anUpVector, 0.0f );
+	const float4 skyColorGICubeMap = MR_SampleLod( PlanetSkyColorGICubemap, anUpVector, 0.0f );
+
+	aHarvesterMask = gndColorGICubeMap.a;
+
+	float factor = saturate( dot(anUpVector, aSampleDir) * 0.5f + 0.5f );
+	return lerp( gndColorGICubeMap.xyz, skyColorGICubeMap.xyz, factor ) * OW_GIConstants.myPlanet.myStrength;
+}
+
+float4 OW_FogColor_GetSky( in float3 aCameraPos, in float3 aSampleDir )
+{
+	return OW_Sky_SampleProbe( OW_GI_TransformDirection( normalize( aCameraPos ), aSampleDir ) );
+}
+
+@else
+
+@ifdef NO_FOG_DURING_BAKING
+
+float3 OW_FogColor_GetGroundGI( in float3 aPosition, in float3 anUpVector, in float3 aSampleDir, in float aHarvesterMask )
+{
+	return OW_BakingGI_GetGI( aPosition, aSampleDir, anUpVector );
+}
+
+float4 OW_FogColor_GetSky( in float3 aCameraPos, in float3 aSampleDir )
+{
+	return OW_GIBaking_GetSkyColorAndVisibility( aCameraPos, aSampleDir, normalize( aCameraPos ) );
+}
+
+@else
+
+float3 OW_FogColor_GetGroundGI( in float3 aPosition, in float3 anUpVector, in float3 aSampleDir, in float aHarvesterMask )
+{
+	return vec3( 0 );
+}
+
+float4 OW_FogColor_GetSky( in float3 aCameraPos, in float3 aSampleDir )
+{
+	return vec4( 0 );
+}
+
+@endif // NO_FOG_DURING_BAKING
+
+@endif // OGI_IS_BAKING
+
+const float3 constLumaWeights = float3(0.299, 0.587, 0.114);
+
+MR_Sampler3D<float> Noise3D : MR_Texture8 { filter = linear point, anisotropy = 0 };
+
+compute
+{
+	import "shaders/nodes/shader/functions/onward/OW_GetTerrainLowResAlbedo.h"
+	import "shaders/nodes/Shader/Functions/Onward/OW_GetTerrainLowResRadius.h"
+
+	main(uint3 dispatchThreadId : MR_DispatchThreadId)
+	{
+		if (any(dispatchThreadId.xy >= constColorVolumeSize.xy))
+			return;
+
+		@ifdef OGI_FOG_REPROJECT
+			const float3 jitter = constJitter.xyz;
+		@else
+			const float3 jitter = 0;
+		@endif // OGI_FOG_REPROJECT
+
+		//---------------------------------------------------------------------------------------------------------------------------------------
+		// Transform thread ID into ray from camera
+		const float4 sphere = OW_Planet_GetBaseGroundSphere( );
+		float3 cameraPos = OW_FogVolume_GetCameraPos( );
+		const float2 uv = OW_FogVolume_GetUVFromThreadID( dispatchThreadId, jitter, constColorVolumeInvSize );
+		const float3 camPosToNear = OW_FogVolume_GetCameraPosToNearDir( cameraPos, uv );
+		cameraPos -= sphere.xyz;
+		//---------------------------------------------------------------------------------------------------------------------------------------
+
+		float4 skyColor = OW_FogColor_GetSky( cameraPos, camPosToNear );
+		float skyModifier = ( 1.0f - skyColor.w );
+		skyColor.w = pow( skyColor.w, OW_FogConstantBuffer.myPlanet.mySkyInfluence );
+
+		const float range = OW_FogConstantBuffer.myPlanet.myDistributionRange;
+		const float scale = constColorVolumeInvSize.z;
+
+		uint maxZ = constColorVolumeSize.z; // optimize this
+		float previousDepth = OW_FogConstantBuffer.myPlanet.myNear;
+
+		const float4 tileData = OW_Fog_Tiles_GetData( dispatchThreadId, constTileToThread, constColorVolumeSize );
+		const uint earlyZOut = OW_FogVolume_GetEarlyZOut( OW_FogConstantBuffer.myPlanet, camPosToNear, uv, constColorVolumeSize, tileData );
+
+		OW_FogColor_Media accumulatedMedia = (OW_FogColor_Media) 0;
+
+		const bool hasCreep = OW_Fog_Tiles_HasCreep( tileData );
+
+		float cameraLuma = 0;
+
+		uint3 cell = dispatchThreadId;
+		for (;cell.z<maxZ;++cell.z)
+		{
+			if (cell.z > earlyZOut) // early out?
+			{
+				FogMediaVolumeRW[ cell ] = accumulatedMedia.myColorXYZAnisotropyW;
+				PropertyVolumeRW[ cell ] = accumulatedMedia.myScatteringXAbsorptionY;
+				continue;
+			}
+
+			const float time = OW_FogVolume_GetRangeFromThreadID( cell, jitter, constColorVolumeInvSize );
+			const float depth = OW_FogConstantBuffer.myPlanet.myNear + pow( time, OW_FogConstantBuffer.myPlanet.myInvDistributionPower ) * range;
+
+			//-----------------------------------------------------------------------------------------------------------------------------------
+			// Determine world position and unflatten it
+			float3 relativePos = cameraPos + ( camPosToNear * depth ); // relative position
+			float3 unflattenedPos = relativePos;
+			OW_SFT_ApplyUnflatteningLocal( unflattenedPos );
+			const float len = length( unflattenedPos );
+			const float3 upVector = unflattenedPos * rcp( len );
+			//-----------------------------------------------------------------------------------------------------------------------------------
+
+			float skyContribution = exp2(skyColor.w * time);
+			//-----------------------------------------------------------------------------------------------------------------------------------
+			// Sample GI (to avoid unflattening again)
+			float harvesterMask = 1.0f;
+			float3 gi = OW_FogColor_GetGroundGI( relativePos, upVector, camPosToNear, harvesterMask );
+			gi = lerp( gi, skyColor.xyz, skyColor.a );
+			GroundGIVolumeRW[ cell ] = gi;
+			if (cell.z == 0)
+			{
+				cameraLuma = max( rcp( dot( gi, constLumaWeights ) ), 0.0 );
+			}
+			//-----------------------------------------------------------------------------------------------------------------------------------
+
+			//-----------------------------------------------------------------------------------------------------------------------------------
+			// Add main fog
+			{
+				OW_FogColor_Media mainMedia;
+				mainMedia.myColorXYZAnisotropyW = float4( OW_GetTerrainLowResAlbedo( upVector ), OW_FogConstantBuffer.myPlanet.myAnisotropy );
+				mainMedia.myColorXYZAnisotropyW.xyz *= vec3( 1.0 ) - skyColor.aaa;
+				mainMedia.myColorXYZAnisotropyW.xyz += skyColor.aaa;
+
+				mainMedia.myScatteringXAbsorptionY = OW_FogConstantBuffer.myPlanet.myScatteringAbsorption.xz;
+
+				// from lower denity to upper density between lower height and upper height
+				const float lerpFactor = pow( smoothstep( constHeightParams.w, constHeightParams.y, len ), constParams.y );
+				float densityModifier = lerp( constHeightParams.z, constHeightParams.x, lerpFactor );
+				densityModifier *= 1.0 + constParams.x * max( dot( gi, constLumaWeights ) * cameraLuma - 1.0, 0.0 );
+				//-----------------------------------------------------------------------------------------------------------------------------------
+
+			@ifndef OGI_FOG_NO_CREEPS
+
+				OW_FogColor_Media smokeMedia = (OW_FogColor_Media) 0;
+
+				[branch]
+				if (hasCreep && harvesterMask * MR_OnworldEnvironmentConstants.oneMinusCreepFactor < 1.0f)
+				{
+					const float attenuation = 1.0 - time;
+
+					const float speed = 1.0;
+
+					@ifdef OGI_FOG_PAUSE_NOISE
+						float currentTime = 0.0;
+					@else
+						float currentTime = Gfx_Environment.time;
+					@endif // OGI_FOG_PAUSE_NOISE
+
+					const float3 wind = float3( speed, 0, speed ) * ( currentTime * 0.01 );
+
+					const float frequency = 1.0;
+					const float amplitude = 4.0 * attenuation * attenuation * range * 0.01;
+
+					float3 noise = MR_SampleLod0( Noise3D, unflattenedPos * OW_FogConstantBuffer.myPlanet.myInvDistributionRange * frequency + wind );
+					harvesterMask = OW_Creep_GetZoneAirFactor( harvesterMask, unflattenedPos);
+
+					densityModifier *= 1.0 - harvesterMask; // remove regular fog inside harvested areas
+
+					//-----------------------------------------------------------------------------------------------------------------------------------
+					// Add harvester smoke
+
+					smokeMedia.myColorXYZAnisotropyW = constHarvesterFog1;
+					smokeMedia.myColorXYZAnisotropyW.w = lerp( OW_FogConstantBuffer.myPlanet.myAnisotropy, constHarvesterFog1.w, harvesterMask );
+
+					harvesterMask = max( harvesterMask * attenuation, MR_OnworldEnvironmentConstants.inCreepFactor );
+
+					smokeMedia.myScatteringXAbsorptionY = constHarvesterFog2.xy * harvesterMask;
+					OW_FogColor_AddMedia( accumulatedMedia, smokeMedia );
+				}
+
+				mainMedia.myScatteringXAbsorptionY *= densityModifier;
+				OW_FogColor_SetMedia( accumulatedMedia, mainMedia );
+				OW_FogColor_AddMedia( accumulatedMedia, smokeMedia );
+
+			@else
+
+				mainMedia.myScatteringXAbsorptionY *= densityModifier;
+				OW_FogColor_SetMedia( accumulatedMedia, mainMedia );
+			@endif // !OGI_FOG_NO_CREEPS
+
+			}
+			//-----------------------------------------------------------------------------------------------------------------------------------
+
+			//-----------------------------------------------------------------------------------------------------------------------------------
+			// Add sky fog when flying up
+			@ifndef OGI_FOG_NO_CLOUDS
+			@endif // !OGI_FOG_NO_CLOUDS
+			//-----------------------------------------------------------------------------------------------------------------------------------
+
+			//-----------------------------------------------------------------------------------------------------------------------------------
+			// Add fog volumes
+			OW_FogColor_AddVolumes( relativePos, accumulatedMedia, 0.5f );
+			//-----------------------------------------------------------------------------------------------------------------------------------
+
+			OW_FogColor_Normalize( accumulatedMedia );
+			accumulatedMedia.myScatteringXAbsorptionY *= (depth - previousDepth);
+
+			@ifdef OGI_FOG_REPROJECT
+
+				float lastFrameAlpha = 0.0;
+				const OW_FogVolume3DCoords coords = OW_GroundFog_GetTransfromedCoords( OW_VolumetricFog_GetReprojectionCoords( relativePos + sphere.xyz, depth, lastFrameAlpha ) );
+
+				const float4 lastFrameMedia = MR_SampleLod0( LastFrameFogMediaSampler, float3( coords.my2D.myUV, coords.myW ) );
+				accumulatedMedia.myColorXYZAnisotropyW =
+						lerp( accumulatedMedia.myColorXYZAnisotropyW,
+						lastFrameMedia, lastFrameAlpha );
+
+				const float2 lastFrameProps = MR_SampleLod0( LastFramePropertySampler, float3( coords.my2D.myUV, coords.myW ) );
+				accumulatedMedia.myScatteringXAbsorptionY =
+						lerp( accumulatedMedia.myScatteringXAbsorptionY,
+						lastFrameProps, lastFrameAlpha );
+
+			@endif // OGI_FOG_REPROJECT
+
+			FogMediaVolumeRW[ cell ] = accumulatedMedia.myColorXYZAnisotropyW;
+			PropertyVolumeRW[ cell ] = accumulatedMedia.myScatteringXAbsorptionY;
+
+			previousDepth = depth;
+		}
+	}
+}

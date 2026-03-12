@@ -1,0 +1,122 @@
+
+import "shaders/MRender/MR_ViewConstants.h"
+
+computeParameters
+{
+	numThreads 128 1 1,
+}
+
+compute
+{
+	MR_Texture2D< float > SceneDepth : MR_Texture0;
+	MR_RWTexture2D< float > Depth : MR_RW_Texture0;
+	MR_RWTexture2D< float4 > ColorTarget : MR_RW_Texture1;
+
+	constants : MR_ConstantBuffer0
+	{
+		float4x4 Transform;
+		float2 PlaneValues;
+		uint2 Resolution;
+		uint NumberOfPoints;
+		uint NumberOfSphereInterferences;
+		uint NumberOfCapsuleInterferences;
+	}
+
+	MR_StructuredBuffer< float3 > Points : MR_Buffer0;
+	MR_Buffer< float4 > Colors : MR_Buffer1;
+	MR_Buffer< float4 > Normals : MR_Buffer2;
+	MR_Buffer< float4 > SphereInterferences : MR_Buffer3;
+	MR_Buffer< float4 > CapsuleInterferences : MR_Buffer4;
+
+	void ApplyInterference( in float3 direction, in float radius, in float strength, in float pointWeight, inout float3 position )
+	{
+		float distanceToPoint = length( direction );
+		float distanceWeight = 1 - saturate( distanceToPoint / radius );
+		float3 normDirection = direction / distanceToPoint;
+
+		distanceWeight -= distanceWeight * ( 1 - strength );
+		position += normDirection * radius * distanceWeight * pointWeight;
+	}
+
+	void ApplySphereInterference( in float4 interference0, in float4 interference1, in float pointWeight, inout float3 position )
+	{
+		float3 toPoint = position - interference0.xyz;
+
+		ApplyInterference( toPoint, interference0.w, interference1.x, pointWeight, position );
+	}
+
+	void ApplyCapsuleInterference( in float4 interference0, in float4 interference1, in float pointWeight, inout float3 position )
+	{
+		float3 startToPoint = position - interference0.xyz;
+		float t = dot( startToPoint, interference1.xyz ) / dot( interference1.xyz, interference1.xyz );
+		t = saturate( t );
+		float3 closestPoint = interference0.xyz + interference1.xyz * t;
+
+		float3 toPoint = position - closestPoint;
+
+		ApplyInterference( toPoint, interference0.w, interference1.w, pointWeight, position );
+	}
+	
+	bool ApplyCulling( in float3 position, in float3 normal )
+	{
+		float3 normalWS = MR_TransformNormal( Transform, normal );
+		float3 viewDir = normalize( MR_GetPos( MR_ViewConstants.cameraToWorld ).xyz - position );
+		return dot( viewDir, normalWS ) >= 0.0;
+	}
+
+	main( in uint3 threadIdWithinDispatch : MR_DispatchThreadId )
+	{
+		uint pointIndex = threadIdWithinDispatch.x;
+
+		if( pointIndex < NumberOfPoints )
+		{
+			float3 position = Points[ pointIndex ].xyz;
+			float3 normal = Normals[ pointIndex ].xyz;
+
+			float4 tr = MR_Transform( Transform, float4( position, 1 ) );
+			position = tr.xyz / tr.w;
+
+			// interference
+			{
+				float normIndex = float( pointIndex ) / float( NumberOfPoints - 1 );
+				float indexWeight = normIndex * 1.5 + 0.5;
+
+				uint i;
+				for( i = 0; i < NumberOfSphereInterferences; ++i )
+				{
+					ApplySphereInterference( SphereInterferences[ i * 2 ], SphereInterferences[ i * 2 + 1 ], indexWeight, position );
+				}
+				for( i = 0; i < NumberOfCapsuleInterferences; ++i )
+				{
+					ApplyCapsuleInterference( CapsuleInterferences[ i * 2 ], CapsuleInterferences[ i * 2 + 1 ], indexWeight, position );
+				}
+			}
+
+			float4 projectedPos = MR_Transform( MR_ViewConstants.worldToClip, float4( position, 1 ) );
+
+			if( projectedPos.z >= 0 && ApplyCulling( position, normal ) )
+			{
+				float2 projPos = projectedPos.xy / projectedPos.w * float2( 0.5, -0.5 ) + float2( 0.5, 0.5 );
+				int2 pixelCoord = int2(projPos * float2( Resolution ));
+				int2 fbPixelCoord = pixelCoord + MR_ViewConstants.viewportPos;
+
+				float depth = projectedPos.z / projectedPos.w;
+				float sceneDepth = SceneDepth[fbPixelCoord];
+
+				if(depth > sceneDepth)
+				{
+					float3 color = Colors[ pointIndex ].rgb;
+
+					// this depth test is non-atomic on purpose (for performance)
+					float prevDepth = Depth[ pixelCoord ].r;
+					if( depth > prevDepth )
+					{
+						Depth[ pixelCoord ] = depth;
+						float fade = position.y > PlaneValues.x ? PlaneValues.y : 1;
+						ColorTarget[ pixelCoord ] = float4( color, fade );
+					}
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,31 @@
+computeParameters
+{
+	numThreads 4 4 4,
+}
+
+compute
+{
+@ifdef MR_COPY_PIXELS_RAW
+	MR_RWTexture3D<int4> Destination : MR_RW_Texture0;
+	MR_Texture3D<int4> Source : MR_Texture0;
+@else
+	MR_RWTexture3D<float4> Destination : MR_RW_Texture0;
+	MR_Texture3D<float4> Source : MR_Texture0;
+@endif
+
+	constants : MR_ConstantBuffer0
+	{
+		int4 DestOffset;
+		int4 SrcOffset;
+		int4 Size;
+	}
+
+	main(in uint3 dispatchThreadId : MR_DispatchThreadId)
+	{
+		if( dispatchThreadId.x >= Size.x || dispatchThreadId.y >= Size.y || dispatchThreadId.z >= Size.z )
+			return;
+
+		int3 position = (int3)dispatchThreadId;
+		Destination[DestOffset.xyz + position] = MR_Load(Source, int4(SrcOffset.xyz + position, 0));
+	}
+}

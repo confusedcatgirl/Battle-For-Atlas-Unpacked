@@ -1,0 +1,34 @@
+@include "shaders/modules/graphics/postfx/pixel_in.h"
+
+pixel
+{
+	MR_Sampler2D Color : MR_Texture0 { wrap = clamp };
+
+	constants : MR_ConstantBuffer15
+	{
+		float2 texelSize;
+		float startOffset;
+		int numLoops;
+		float sampleWeight;
+	}
+
+	main(out float4 color : MR_Color)
+	{
+		float3 col = vec3(0);
+		float2 offset = vec2(startOffset);
+		for (int x = 0; x < numLoops; ++x)
+		{
+			offset.y = startOffset;
+			for (int y = 0; y < numLoops; ++y)
+			{
+				float2 uv = clamp(In.uv0 + texelSize * offset, In.uv0Min, In.uv0Max);
+				col += MR_SampleLod0(Color, uv).xyz;
+				
+				offset.y += 2.0f;
+	   		}
+			offset.x += 2.0f;
+		}
+	   	col *= sampleWeight;
+	   	color = float4(col, 1);
+	}
+}

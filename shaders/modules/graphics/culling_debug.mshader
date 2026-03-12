@@ -1,0 +1,31 @@
+@include "shaders/modules/graphics/postfx/pixel_in.h"
+
+blend {}
+
+pixel
+{
+	MR_Sampler2D TrueDepth : MR_Texture0 { wrap = clamp, filter = point };
+	MR_Sampler2D DownsampledZ : MR_Texture1 { wrap = clamp, filter = point };
+
+	constants : MR_ConstantBuffer0
+	{
+		float near;
+		float far;
+		float range;
+		float farDivRange;
+		float allowedError;
+	}
+
+	main(out float4 color : MR_Color)
+	{
+		float trueDepth = MR_SampleLod0(TrueDepth, In.uv0).x;
+	   	float trueZ = saturate(farDivRange * (trueDepth - near) / trueDepth);
+
+		float downsampledZ = MR_SampleLod0(DownsampledZ, In.uv1).x;
+
+		if (trueZ >= downsampledZ + allowedError)
+		   	color = float4(1,0,0, 0.8);
+		else
+			color = float4(0,1,0, 0);
+	}
+}

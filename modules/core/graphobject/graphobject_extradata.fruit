@@ -1,0 +1,182 @@
+class PhysFileDescription
+{
+	file myPhysFile
+	string myMeshFile
+	bool myIsDynamicPhysics
+	bool myCanBeSwitchedByInteraction FALSE
+	bool myStartsInWorld TRUE
+	mat44 myCollisionTransform
+	int myCollisionLayer -1
+	int myCollisionMask 0
+	int myCollType 8
+}
+
+list PhysFilesList
+{
+	PhysFileDescription
+}
+
+class RoomDataFileDescription
+{
+	file myRoomDataFile
+	mat44 myTransform
+}
+
+list RoomDataFilesList
+{
+	RoomDataFileDescription
+}
+
+class RailsDescription
+{
+	mat44 	myBaseTransform
+	float 	myWidth
+}
+
+list RailsList
+{
+	RailsDescription
+}
+
+class InteractionDataDescription
+{
+	mat44 myUIPlacement
+	mat44 myUIFeedback
+	mat44 myBaseTransform
+	mat44 myFacingTransform
+	string myInteractAnim
+	int myPropInteractionType 0
+	int myInteractionIOIndex -1
+	bool myPlayInteractAnim true
+	bool myInteractUsePath true
+	float myInteractionAngle -1
+	float myCloseInteractionRange -1
+	float myInteractionRange -1
+	float myFinishInteractionTime 0
+}
+
+list InteractionDataList
+{
+	InteractionDataDescription
+}
+
+class InteractionPointDescription
+{
+	mat44 myBaseTransform
+	string myInteractionTag
+}
+
+list InteractionPointList
+{
+	InteractionPointDescription
+}
+
+class FragmentDescription
+{
+	file myPhysFile
+	string myPhysMeshName
+	bool myIsFragmentable
+	bool myConnectedToFragmentableNode TRUE
+	mat44 myTransform
+	uid myMaterial
+	int myFragmentHealthType 1
+	float myFragmentRadius 0
+	int myFragmentIdx -1
+	int myCollisionLayer 0
+	bool myCanBeSwitchedByInteraction FALSE
+	bool myStartsInWorld TRUE
+	int myCollType 8
+}
+
+list FragmentList
+{
+	FragmentDescription
+}
+
+class FragmentObject
+{
+	FragmentList myIntactParts
+	FragmentList myDamagedParts
+	FragmentList myIntactDamagedParts
+	FragmentList myDestroyedParts
+	int myFragmentHealthType 1				//can be removed when every object have been resaved (from 131128)
+	float myFragmentRadius					//can be removed when every object have been resaved (from 131128)
+
+	float myTotalHealth
+	float myStartBurnHealth
+	float myBurnDamageRate
+	string myExplodeSkill
+	file myDamageblePartPhysFile
+	string myDamageblePartPhysMeshName
+	mat44 myDamageblePartTransform
+	file myPreAnalyzedFragmentsFile
+	bool myPerFragmentHealth FALSE			//can be removed when every object have been resaved (from 131128)
+}
+
+
+class GearCoverageDescription
+{
+	int myChest 0
+	int myBackpack 0
+	int myBackpackStraps 0
+	int myUpperArm 0
+	int myLowerArmLeft 0
+	int myLowerArmRight 0
+	int myHands 0
+
+	int myHips 0
+	int myLegs 0
+	int myLowerLegs 0
+	int myAnkleLeft 0
+	int myAnkleRight 0
+	int myFeet 0
+
+	int myHelmet 0
+	int myHead 0
+	int myFace 0
+}
+
+list GearCoverageDescriptionList
+{
+	GearCoverageDescription
+}
+
+class WallComponent
+{
+	uid myUID
+	PhysFilesList myPhysFiles
+	file myDamagedGraphObject
+	InteractionPointList myInteractionPoints
+}
+
+list WallComponents
+{
+	WallComponent
+}
+
+list WallGraphs
+{
+	file
+}
+
+class ExtraFlags
+{
+	bool myCompanionInteractable
+	bool myIsRope
+}
+
+class GraphObjectExtraData
+{
+	bool						myIsValid TRUE
+	PhysFilesList 				myPhysFiles
+	RoomDataFilesList           myRoomDataFiles
+	RailsList     				myRails //deprecated
+	bool						myHasRails FALSE
+	InteractionPointList		myInteractionPoints
+	InteractionDataList			myInteractionData
+	FragmentObject				myFragmentObject
+	GearCoverageDescriptionList	myGearDescription
+	WallComponents				myWallComponents
+	WallGraphs					myWallGraphs
+	ExtraFlags					myExtraFlags
+}

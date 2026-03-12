@@ -1,0 +1,31 @@
+import "shaders/modules/graphics/postfx/sharpen.h"
+
+computeParameters
+{
+	numThreads 8 8 1
+}
+
+compute
+{
+	constants : MR_ConstantBuffer0
+	{
+		uint2 myPixelOffset;
+		uint2 myMaxDispatchSize;
+		float strength;
+	}
+
+	MR_Sampler2D Input : MR_Texture0 { wrap = clamp, filter = linear point };
+	MR_RWTexture2D<float3> Result : MR_RW_Texture0;
+
+	main(uint3 DTid : MR_DispatchThreadId)
+	{
+		if((DTid.x < myMaxDispatchSize.x) && (DTid.y < myMaxDispatchSize.y))
+		{
+			uint2 pixel = DTid.xy + myPixelOffset;
+
+			float3 col = Sharpen(Input, pixel, strength, MR_ViewConstants.framebufferUVMin, MR_ViewConstants.framebufferUVMax);
+
+			Result[pixel] = col;
+		}
+	}
+}

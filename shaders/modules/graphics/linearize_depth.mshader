@@ -1,0 +1,19 @@
+@include "shaders/modules/graphics/postfx/pixel_in.h"
+
+import "shaders/MRender/MR_ViewConstants.h"
+
+pixel
+{
+	MR_Texture2D DepthBuffer : MR_Texture0;
+
+	main(out float4 depthOut : MR_Color0, float4 fc : MR_FragCoord)
+	{
+		float z = MR_SampleTexelLod0(DepthBuffer, fc.xy).x;
+
+		float4 clip4 = float4(0,0,z,1);
+		float4 cam4 = MR_Transform(MR_ViewConstants.clipToCamera, clip4);
+		cam4 /= cam4.w;
+
+		depthOut = float4(cam4.z, 0,0,0);
+	}
+}

@@ -1,0 +1,52 @@
+
+vertex
+{
+	import "shaders/MRender/MR_ViewConstants.h"
+
+	in
+	{
+		float4 xyz;
+		float3 normal;
+		float4<BGRA_UNORM8> color;
+
+		stream 1 steprate=1
+		{
+			float4 position_size;
+            uint brickIndex;
+		}
+	}
+
+	out
+	{
+		uint BrickIndex;
+	}
+
+	main(out float4 clipPos : MR_Position)
+	{
+		float3 n = normalize(In.normal);
+		float3 pos = In.position_size.xyz + n * In.position_size.w;
+		clipPos = MR_Transform(MR_ViewConstants.worldToClip, pos);
+
+        Out.BrickIndex = In.brickIndex;
+	}
+}
+
+pixel
+{
+    struct SBrick
+    {
+        float3 Color;
+    };
+
+    MR_StructuredBuffer< SBrick > Bricks : MR_Buffer0;
+
+	in
+	{
+		uint BrickIndex;
+	}
+
+	main(out float3 outColor : MR_Color)
+	{
+        outColor = Bricks[ In.BrickIndex ].Color.rgb;
+	}
+}

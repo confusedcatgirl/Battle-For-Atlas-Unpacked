@@ -1,0 +1,68 @@
+import "shaders/MRender/MR_ViewConstants.h"
+import "shaders/modules/graphics/shadows.h"
+
+import "shaders/modules/graphics/onworld/planet_base.h"
+import "shaders/modules/graphics/onworld/functions/RaySphereIntersection.h"
+
+constants : MR_ConstantBuffer7
+{
+	uint numSamples;
+	float4 positions[15];
+}
+
+computeParameters
+{
+	numThreads 16 1 1
+}
+
+compute
+{
+	MR_RWBuffer<float> OutputW : MR_RW_Buffer0;
+	MR_Buffer<float> OutputR : MR_Buffer5;
+
+	main(uint3 dispatchThreadId : MR_DispatchThreadId)
+	{
+		float3 shadowFactor = GetShadowFactor(positions[dispatchThreadId.x].xyz, float2(0.0, 0.0));
+
+@ifdef FIRST_ITERATION
+
+		OutputW[dispatchThreadId.x + 1] = shadowFactor.x;
+
+@else
+		float newValue = shadowFactor.x;
+		OutputW[dispatchThreadId.x + 1] = lerp(OutputR[dispatchThreadId.x + 1], newValue, 0.1);
+
+		MR_GroupMemoryBarrierSync();
+		
+		float sum = 0;
+
+		if (dispatchThreadId.x == 0)
+		{
+			for (uint i = 1; i <= numSamples; ++i)
+			{
+				sum += OutputW[i];
+
+			}
+
+			OutputW[0] = sum / numSamples;
+
+@ifdef IN_SPACE
+			float3 cameraPos = MR_GetPos( MR_ViewConstants.cameraToWorld ).xyz;
+			float3 sunPos = OW_PlanetConstants.const_RelativeSunPosition.xyz;
+			float3 sunDir = normalize(sunPos - cameraPos);
+			
+			float2 interGround = OW_RaySphereIntersection( cameraPos, sunDir, OW_PlanetConstants.const_PlanetRadii.x, OW_Planet_GetPosition() ); 
+
+			if ((interGround.y >= interGround.x && interGround.y > 0.0f))
+			{
+				float3 farInter = cameraPos + interGround.y * sunDir;
+				float3 closeInter = cameraPos + interGround.x * sunDir;
+				float distance = clamp(length(closeInter - farInter) / OW_PlanetConstants.const_PlanetRadii.x, 0.0f, 1.0f);
+
+				OutputW[0] = lerp(OutputW[0], 0.0f, distance);
+			}
+@endif //IN_SPACE
+		}
+@endif //FIRST_ITERATION
+	}
+}

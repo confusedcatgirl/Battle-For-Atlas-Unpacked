@@ -1,0 +1,552 @@
+@ifdef LIGHT_BRICKS
+
+import "shaders/modules/graphics/environment_constants.h"
+import "shaders/MRender/MR_DataUnpacking.h"
+import "shaders/modules/graphics/environment.h"
+import "shaders/modules/graphics/shadows.h"
+
+computeParameters
+{
+    numThreads 64 1 1,
+}
+
+compute
+{
+    struct SOutputBrick
+    {
+        float3 Radiance;
+    };
+
+    struct SBrick
+    {
+        uint SurfelStart;
+        uint SurfelEndAndGlobalBrick;
+    };
+	
+	struct SurfelData
+	{
+		uint Data[4]; // 7 bits free in data[3]; 0x7f000000
+	};
+	
+	struct SLitProbe
+    {
+        float3 myIrradiance[6];
+    };
+
+	MR_Sampler2DArray<float> RawShadowMap : MR_Texture1 {filter = point point, wrap = clamp };
+
+    MR_StructuredBuffer< SurfelData > SurfelPositions : MR_Buffer0;
+    MR_StructuredBuffer< SBrick > SourceBricks : MR_Buffer1;
+	MR_StructuredBuffer< SLitProbe > LitProbes : MR_Buffer2;
+	
+    MR_RWStructuredBuffer< SOutputBrick > OutputBricks : MR_RW_Buffer0;
+	MR_RWByteBuffer SurfelMasks : MR_RW_Buffer1;
+
+    constants : MR_ConstantBuffer0
+    {
+        float SunFactor;
+        float PointLightsFactor;
+		
+		uint   BrickCount;
+		uint   LightCount;
+		float4 AmbientLightLevelUp;
+		float4 AmbientLightLevelDown;
+		float2 AmbientLightScalerIndoorOutdoor;
+		float  FeedbackMaxAlbedo;
+
+		float4 LightsData[12]; // enough for two lights - makes the compiler behave for what's essentially an unbounded array
+	}
+
+@ifdef GFX_NO_SHADOWS
+
+	float GetCSMShadow( float3 aWorldPos )
+	{
+		return 1.0;
+	}
+	
+@else
+	
+    float GetShadow( float4 aShadowPos )
+	{
+		float shadowFactor;
+
+		if(aShadowPos.z >= 1.5)
+		{
+			float4 depth = MR_SampleGatherRed(RawShadowMap, aShadowPos.xyz);
+			if(depth.x < aShadowPos.w && depth.y < aShadowPos.w && depth.z < aShadowPos.w && depth.w < aShadowPos.w)
+				shadowFactor = 1;
+			else
+				shadowFactor = 0;
+		}
+		else
+		{
+			shadowFactor = MR_SampleLod0Cmp(ShadowMap, aShadowPos.xyz, aShadowPos.w);
+		}
+
+@ifdef GFX_NVIDIA_SHADOWS
+		shadowFactor = ( ShadowConstants.NVIDIAShadowSampleType == ourNVIDIASampleMaps ) ? ( 1.0f - shadowFactor ) : ( shadowFactor );
+@endif
+
+		return shadowFactor;
+	}
+	
+	bool GetCSMShadowPos( float3 aWorldPos, out float4 aShadowPosOut )
+	{
+		const float2 min_slice = float2(0, 0);
+		const float2 max_slice = float2(1, 1);
+		
+		float4 slice_pos = MR_Transform(ShadowConstants.shadowMapWorldToClipZBiased[2], aWorldPos);
+		float2 slice_mask_2 = step(min_slice, slice_pos.xy) * step(slice_pos.xy, max_slice);
+ 		float4 shadowmap_pos = slice_pos;
+
+		slice_pos = MR_Transform(ShadowConstants.shadowMapWorldToClipZBiased[1], aWorldPos);
+		float2 slice_mask_1 = step(min_slice, slice_pos.xy) * step(slice_pos.xy, max_slice);
+ 		shadowmap_pos = lerp(shadowmap_pos, slice_pos, slice_mask_1.x * slice_mask_1.y);
+		
+		slice_pos = MR_Transform(ShadowConstants.shadowMapWorldToClipZBiased[0], aWorldPos);
+		float2 slice_mask_0 = step(min_slice, slice_pos.xy) * step(slice_pos.xy, max_slice);
+ 		shadowmap_pos = lerp(shadowmap_pos, slice_pos, slice_mask_0.x * slice_mask_0.y);
+		
+		if ((slice_mask_0.x+slice_mask_1.x+slice_mask_2.x) < 0.5)
+		{
+			aShadowPosOut = float4(1,0,0,0);
+			return false;
+		}
+
+		if ((slice_mask_0.y+slice_mask_1.y+slice_mask_2.y) < 0.5)
+		{
+			aShadowPosOut = float4(0,1,0,0);
+			return false;
+		}
+
+@ifdef GFX_NVIDIA_SHADOWS
+		shadowmap_pos.w = ( ShadowConstants.NVIDIAShadowSampleType == ourNVIDIASampleMaps ) ? ( 1.0f - shadowmap_pos.w ) : ( shadowmap_pos.w );
+@endif
+
+		aShadowPosOut = shadowmap_pos;
+		return true;
+	}
+
+	float GetCSMShadow( float3 aWorldPos )
+	{
+		float4 shadowPos;
+		if (GetCSMShadowPos(aWorldPos, shadowPos))
+			return GetShadow(shadowPos);
+		else
+			return 0.0;
+	}
+	
+@endif
+
+	float3 GetPointLights( float3 aPos, float3 aNormal )
+	{
+		float3 colour = 0.0;
+		for ( uint j = 0; j < LightCount; j++ )
+		{
+			uint i = j * 6;
+			float4 LightSphere = LightsData[i + 0];
+			float4 LightColour = LightsData[i + 1];
+			float4 LightDir = LightsData[i + 2];
+			float4 LightDir2 = LightsData[i + 3];
+			float4 LightDir3 = LightsData[i + 4];
+			float4 LightAttenuation = LightsData[i + 5];
+
+			float3 fromLight = aPos - LightSphere.xyz;
+			float t2 = saturate(dot(fromLight, LightDir2.xyz)*LightDir2.w);
+			float t3 = saturate(dot(fromLight, LightDir3.xyz)*LightDir3.w);
+			float3 closest = LightSphere.xyz + t2*LightDir2.xyz + t3*LightDir3.xyz;
+
+			float3 delta = aPos - closest;	
+			
+			// Distance attenuation
+			const float kCellSizeSurfel = 1.0f;
+			float r = LightSphere.w;
+			float l = length(delta);
+			float d = l - r;
+
+			float cutoffRange2 = LightAttenuation.z;
+			
+			if( cutoffRange2 < d*d)
+				continue;
+
+			d = max( d, 0.001 );
+			float f = d + 0.03;
+			float attenuation = 1 / ( f * f );
+            attenuation *= 1.0 - smoothstep( LightAttenuation.x, LightAttenuation.y, d );
+			
+			if(l > 0.00001f)
+			{
+				// Normal attenuation
+				float3 dir = delta / l;
+				attenuation *= saturate( -dot( aNormal, dir ) );
+				
+				
+				// This code tries to compensate for the fact that our surfels are discrete points that should be surface areas.
+				// To do this we attempt to calculate an overlap of the light cone and the assumed surfel area.
+				
+				// The surfelRadius is a tweekable value. Setting it too small will cause issues with narrow light cones resulting
+				// in blinking GI as the cone moves. Too large values will result in a reduced details.
+				
+				float surfelRadius = 1.5;
+
+				float lightDirDist = dot(delta, LightDir.xyz);
+				float3 sideVec = delta - LightDir.xyz * lightDirDist;
+				float sideLength = max(length(sideVec), 0.0001);
+				float3 sideDir = sideVec / sideLength;
+
+				float3 sideDir1 = normalize(LightDir.xyz + sideDir * LightAttenuation.w);
+				float3 sideDir2 = normalize(LightDir.xyz - sideDir * LightAttenuation.w);
+
+				float3 surfaceSideVec = sideVec - aNormal * dot(aNormal,sideVec);
+				float surfaceSideLength = max(length(surfaceSideVec), 0.0001);
+				float3 surfaceSideDir = surfaceSideVec/surfaceSideLength;
+
+				float surfaceDist1 = surfelRadius;
+				float sdd1 = dot(sideDir1, aNormal);
+				if(sdd1 < 0)
+				{
+					float dist1 = dot(delta, aNormal) / sdd1;
+					float3 surfaceColPos1 = closest + sideDir1 * dist1;
+					surfaceDist1 = clamp(dot(surfaceSideDir, surfaceColPos1-aPos), -surfelRadius, surfelRadius);
+				}
+				float surfaceDist2 = -surfelRadius;
+				float sdd2 = dot(sideDir2, aNormal);
+				if(sdd2 < 0)
+				{
+					float dist2 = dot(delta, aNormal) / sdd2;
+					float3 surfaceColPos2 = closest + sideDir2 * dist2;
+					surfaceDist2 = clamp(dot(surfaceSideDir, surfaceColPos2-aPos), -surfelRadius, surfelRadius);
+				}
+
+				float covered = (sdd1 < 0 || sdd2 < 0) ? abs(surfaceDist1 - surfaceDist2) / (surfelRadius*2) : 0;
+				
+				float3 midPos = aPos + surfaceSideDir * (surfaceDist1 + surfaceDist2) * 0.5;
+				float3 midDir = normalize(midPos - closest);
+
+				// Angle attenuation
+				float f1 = LightColour.w;
+				float f2 = LightDir.w;
+				float cosAlpha = saturate( dot( midDir, LightDir.xyz ) );
+
+				attenuation *= saturate( f1 * cosAlpha + f2 ); 
+				attenuation *= covered * saturate(covered*2);
+			}
+			colour += LightColour.xyz * saturate(attenuation);
+		}
+		return colour;
+	}
+
+	main( uint3 threadIdWithinDispatch : MR_DispatchThreadId )
+	{
+		uint brickIndex = threadIdWithinDispatch.x;
+
+		if (brickIndex >= BrickCount)
+			return;
+
+		SBrick brick = SourceBricks[ brickIndex ];
+		
+		float3 outputRadiance  = float3( 0.0, 0.0, 0.0 );
+		
+		Gfx_DirectionalLight sun = Gfx_GetShadowLight();
+		float3 sunColor = sun.emission * SunFactor;
+
+		uint surfelMasks[2];
+		surfelMasks[0] = asuint(MR_Load(SurfelMasks, brickIndex*8));
+		surfelMasks[1] = asuint(MR_Load(SurfelMasks, brickIndex*8+4));
+
+		float3 brickSunLitColor = vec3(0);
+		float sunShadow = 0.0;
+		uint surfelEnd = brick.SurfelEndAndGlobalBrick & 0x7fffffff;
+		bool globalBrick = brick.SurfelEndAndGlobalBrick & 0x80000000;
+		//for( uint surfelIndex = brick.SurfelStart; surfelIndex == brick.SurfelStart; ++surfelIndex )
+		for( uint surfelIndex = brick.SurfelStart; surfelIndex < surfelEnd; ++surfelIndex )
+		{
+			SurfelData surfelData = SurfelPositions[ surfelIndex ];
+			
+			// ---- Data chunk 0 ----
+			uint dataChunk = surfelData.Data[0];
+			
+			half x = f16tof32(dataChunk);
+			half y = f16tof32(dataChunk >> 16);
+			
+			// ---- Data chunk 1 ----
+			dataChunk = surfelData.Data[1];
+			
+			half z = f16tof32(dataChunk);
+			
+			float3 sourcePosition = float3(x,y,z);
+			
+			float4 color = MR_UnpackUnorm8VectorFromUint32(dataChunk);
+			
+			float r = color.z;
+			float g = color.w;
+			
+			// ---- Data chunk 2 ----
+			dataChunk = surfelData.Data[2];
+			
+			float b = MR_UnpackUnorm8VectorFromUint32(dataChunk).x;
+			
+			float3 sourceAlbedo = float3(r,g,b);
+			float3 feedbackAlbedo = min(sourceAlbedo, vec3(FeedbackMaxAlbedo));
+			
+			float4 normalFloat = MR_UnpackSnorm8VectorFromInt32(dataChunk);
+            
+			float3 sourceNormal = float3(normalFloat.y, normalFloat.z, normalFloat.w);
+			
+			const uint surfelOffset = surfelIndex - brick.SurfelStart;
+			const uint thisSurfelMask = 1 << (surfelOffset & 31);
+
+			// ---- Data Chunk 3 ----
+			
+			dataChunk = surfelData.Data[3];
+			
+			uint probeFeedbackIndex = dataChunk & 0x0000ffff;
+			
+			uint snowMask = (dataChunk & 0x00ff0000) >> 16;
+			
+			int isIndoor = (dataChunk & 0x80000000) != 0;
+			
+			if( !isIndoor )
+			{
+				if( snowMask & 0x80 )
+				{ // Screen space snow
+					float snowAlpha = smoothstep ( 1.0 , 2.0, smoothstep(0,1.0,sourceNormal.y) + Gfx_Environment.snowAmount);
+				
+					float snowModifier = 1 - (snowMask & 0x7f) / 3.0f;
+				
+					sourceAlbedo = lerp( sourceAlbedo, float3(0.8,0.8,0.8), snowModifier * snowAlpha );
+				}
+				else
+				{ // Snow on ground
+					float snowModifier = (snowMask & 0x7f) / 127.0f;
+					
+					float result = (snowModifier < 0.5 ? (2.0 * snowModifier * Gfx_Environment.snowAmount) : (1.0 - 2.0 * (1.0 - snowModifier) * (1.0 - Gfx_Environment.snowAmount)));
+					
+					result *= smoothstep(0.5,1.0,sourceNormal.y);
+					
+					sourceAlbedo = lerp( sourceAlbedo, float3(0.8,0.8,0.8), result );
+				}
+			}
+			
+@ifdef POINT_LIGHTS_ONLY
+
+			// note: dont modulate by GI environment factors here, that should be done at the dynamic re-lighting stage
+			float3 light = GetPointLights( sourcePosition.xyz, sourceNormal.xyz );
+			outputRadiance += light * sourceAlbedo.rgb;
+
+@else // !POINT_LIGHTS_ONLY		
+			
+			if (SunFactor > 0.0)
+			{
+@ifdef GFX_NO_SHADOWS
+				surfelMasks[0] |= thisSurfelMask;
+@else
+				float4 shadowmapPos;
+				if (!GetCSMShadowPos( sourcePosition.xyz, shadowmapPos ))
+				{
+					sunShadow += (thisSurfelMask & surfelMasks[0]) ? 1 : 0; 
+				}
+				else
+				{
+					float shadowSample = GetShadow(shadowmapPos);
+					sunShadow += shadowSample;
+					if (shadowSample > 0.1)
+						surfelMasks[0] |= thisSurfelMask;
+					else
+						surfelMasks[0] &= ~thisSurfelMask;
+				}
+@endif
+ 			
+				float d = saturate( dot( sun.toLightDirection, sourceNormal.xyz ) );
+				brickSunLitColor += sunColor * d * sourceAlbedo.rgb;
+			}
+
+			float3 light = float3(0.0f,0.0f,0.0f);
+			
+			if(!globalBrick)
+				light = GetPointLights( sourcePosition.xyz, sourceNormal.xyz ) * PointLightsFactor;
+			
+			float3 ambientLight = lerp( AmbientLightLevelDown.rgb, AmbientLightLevelUp.rgb, dot(sourceNormal.rgb, float3(0,1,0)) * 0.5f + 0.5f ) * ( isIndoor ? AmbientLightScalerIndoorOutdoor.x : AmbientLightScalerIndoorOutdoor.y );
+			
+			light += ambientLight;
+			
+			float3 giFeedback = float3(0,0,0);
+			
+			float weight = sourceNormal.x * sourceNormal.x;
+			int index = 0;
+			index = sourceNormal.x > 0 ? 0 : 3;
+
+			giFeedback += weight * LitProbes[probeFeedbackIndex].myIrradiance[index];
+				
+			weight = sourceNormal.y * sourceNormal.y;
+			index = sourceNormal.y > 0 ? 1 : 4;
+		
+			giFeedback += weight * LitProbes[probeFeedbackIndex].myIrradiance[index];
+			
+			weight = sourceNormal.z * sourceNormal.z;
+			index = sourceNormal.z > 0 ? 2 : 5;
+						
+			giFeedback += weight * LitProbes[probeFeedbackIndex].myIrradiance[index];
+			
+			outputRadiance += light * sourceAlbedo.rgb + giFeedback * feedbackAlbedo;
+		
+@endif // !POINT_LIGHTS_ONLY
+	    }
+		
+		const float inversSurfelCount = 1.0f / max(( surfelEnd - brick.SurfelStart ), 1);
+
+@ifdef POINT_LIGHTS_ONLY
+
+		outputRadiance  *= inversSurfelCount;
+		OutputBricks[ brickIndex ].Radiance = outputRadiance;
+
+@else // !POINT_LIGHTS_ONLY
+
+		float oldSunShadow = asfloat(surfelMasks[1]);
+		
+		if(oldSunShadow >= 0)
+			sunShadow = lerp( oldSunShadow, sunShadow, saturate(Gfx_Environment.frameDeltaTime) );
+		
+		surfelMasks[1] = asint(sunShadow);
+		
+	
+		sunShadow *= inversSurfelCount;
+		
+		outputRadiance  += ( brickSunLitColor * sunShadow );
+		
+		outputRadiance  *= inversSurfelCount;
+
+		OutputBricks[ brickIndex ].Radiance  = outputRadiance;
+
+		MR_Store(SurfelMasks, brickIndex*8, asuint(surfelMasks[0]));
+		MR_Store(SurfelMasks, brickIndex*8 + 4, asuint(surfelMasks[1]));
+		
+@endif // !POINT_LIGHTS_ONLY
+	}
+}
+
+@endif
+
+@ifdef LIGHT_PROBES
+
+computeParameters
+{
+    numThreads 64 1 1,
+}
+
+compute
+{
+    struct SProbeConstants
+    {
+        uint BrickFactorStart;
+        uint BrickFactorEnd;
+    };
+
+	struct SLitBrick
+	{
+		float3 Radiance;
+	};
+
+	struct SLitProbe
+	{
+		float3 myIrradiance[6];
+	};
+
+    MR_RWStructuredBuffer< SLitProbe > OutputProbes : MR_RW_Buffer0;
+
+    MR_Buffer< float > SkyVisibility : MR_Buffer0;
+    MR_StructuredBuffer< SProbeConstants > ProbeConstants : MR_Buffer1;
+    MR_Buffer< uint > BrickFactorIndices : MR_Buffer2;
+    MR_Buffer< float > BrickFactorWeights : MR_Buffer3;
+	
+    MR_StructuredBuffer< SLitBrick > LitBricks   : MR_Buffer4;
+	MR_StructuredBuffer< SLitProbe > StaticLitProbes : MR_Buffer5;
+    
+    constants : MR_ConstantBuffer0
+    {
+        float4 SkyColor[6];
+		float3 MinProbeIrradiance;
+        float TextureFactor;
+        uint NumProbes;
+		float PointLightsFactor;
+		bool UseStaticProbes;
+    }
+	
+    main( uint3 threadIdWithinDispatch : MR_DispatchThreadId )
+    {
+
+        uint probeIndex = threadIdWithinDispatch.x;
+        if (probeIndex >= NumProbes)
+        	return;
+
+        SProbeConstants probeConstants = ProbeConstants[ probeIndex ];
+
+        SLitProbe outputProbe;
+
+@ifdef POINT_LIGHTS_ONLY
+		outputProbe = OutputProbes[ probeIndex ];
+
+        for( uint brickFactorIndex = probeConstants.BrickFactorStart; brickFactorIndex <  probeConstants.BrickFactorEnd; ++brickFactorIndex )
+        {
+            uint brickIndex = BrickFactorIndices[ brickFactorIndex ];
+			SLitBrick brick = LitBricks[ brickIndex ];
+			float3 radiance  = brick.Radiance.rgb;
+
+			for( uint i = 0; i < 6; ++i )
+			{
+				float weight = BrickFactorWeights[ brickFactorIndex * 6 + i ];
+				outputProbe.myIrradiance[i] += radiance * weight;
+			}
+        }
+				
+@else
+		if (UseStaticProbes)
+		{
+			outputProbe = StaticLitProbes[ probeIndex ];
+			
+			// read static lit probes and correct for GI environment factors for the static lights
+			// protect against possible drift to negative values
+			for( uint i = 0; i < 6; ++i )
+				outputProbe.myIrradiance[i] = PointLightsFactor*max(outputProbe.myIrradiance[i], vec3(0)); 
+		}
+		else
+		{
+			for( uint i = 0; i < 6; ++i )
+			{			
+				outputProbe.myIrradiance[i] = 0;
+			}
+		}
+
+
+		for( uint i = 0; i < 6; ++i )
+        {			
+			float skyVisibility = SkyVisibility[ probeIndex * 6 + i ];
+			outputProbe.myIrradiance[i] += SkyColor[i].rgb * skyVisibility;
+		}
+
+        for( uint brickFactorIndex = probeConstants.BrickFactorStart; brickFactorIndex <  probeConstants.BrickFactorEnd; ++brickFactorIndex )
+        {
+            uint brickIndex = BrickFactorIndices[ brickFactorIndex ];
+			SLitBrick brick = LitBricks[ brickIndex ];
+			float3 radiance  = brick.Radiance.rgb;
+
+			for( uint i = 0; i < 6; ++i )
+			{
+				float weight = BrickFactorWeights[ brickFactorIndex * 6 + i ];
+				outputProbe.myIrradiance[i] += radiance * weight;
+			}
+        }
+		
+        for( uint i = 0; i < 6; ++i )
+        {
+            outputProbe.myIrradiance[i] *= TextureFactor;
+			outputProbe.myIrradiance[i] = max(outputProbe.myIrradiance[i], MinProbeIrradiance);
+        }
+		
+@endif
+
+        OutputProbes[ probeIndex ] = outputProbe;
+    }
+}
+
+@endif

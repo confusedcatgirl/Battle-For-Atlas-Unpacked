@@ -1,0 +1,39 @@
+list KeywordList
+{
+	Keyword
+} 
+
+enum KeywordFlag
+{
+	InvalidForRelease
+	WarnOnCheckout
+	InvalidForUse
+}
+
+list KeywordFlagList
+{
+	KeywordFlag
+}
+
+class Keyword
+{
+	file myIcon
+	color myColor
+	int myColorPrio
+	KeywordFlagList myKeywordFlags
+}
+
+list CategoryList
+{
+	Category
+}
+
+class Category
+{
+	bool myIsColumnInContentBrowser
+	bool myIsColumnEnabledInContentBrowser
+	bool myIsSingleSelectionOnly
+	
+	CategoryList myCategories
+	KeywordList myKeywords
+}

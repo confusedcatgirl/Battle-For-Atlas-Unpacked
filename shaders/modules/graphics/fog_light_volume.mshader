@@ -1,0 +1,193 @@
+import "shaders/MRender/MR_ViewConstants.h"
+import "shaders/modules/graphics/shadows.h"
+import "shaders/modules/graphics/lights.h"
+import "shaders/modules/graphics/lighting_data.h"
+import "shaders/modules/graphics/fog_compute.h"
+
+@ifdef USE_LIGHT_SHAFT_VOLUME
+import "shaders/modules/graphics/light_shafts/sample_light_shafts.h"
+@endif
+
+MR_RWTexture3D<float3> RWFogTexture3D : MR_RW_Texture0;
+
+MR_ByteBuffer FogLights : MR_Buffer2;
+MR_ByteBuffer TileData3D : MR_Buffer3;
+MR_ByteBuffer TileLightLists : MR_Buffer4;
+
+MR_Sampler3D<float3> FogGIVolume : MR_Texture0 { filter = linear, wrap = clamp, anisotropy = 0 };
+
+MR_Sampler2D Noise {
+	texture = "textures/gaussian_rgb_uniform_a_256x256.tga",
+	filter = point,
+};
+
+computeParameters
+{
+	numThreads 8 8 1
+}
+
+compute
+{
+	struct CalculateLightParameters {};
+
+	void FogCaluclateLighting(inout float3 aLightInOut, Gfx_AttenuatedEmission aEmission,
+		Gfx_LightingDataStruct aLD, CalculateLightParameters someParameters)
+	{
+		aLightInOut += aEmission.diffuseEmission;
+	}
+
+	float3 FogGetLighting(Gfx_LightingDataStruct ld, float distance, float range, float2 uv, float3 lastPos, uint tileIndex3D)
+	{
+		float3 light = vec3(0);
+
+		float3 toCameraDir = normalize(ld.toCamera);
+
+@ifdef USE_SUN_3D
+@ifndef GFX_DEBUG_NO_SUNLIGHT
+		if (Gfx_Environment.shadowLightEmissionIsNonZero)
+		{
+			Gfx_DirectionalLight sun = Gfx_GetShadowLight();
+
+			float miePhase = 1;
+			float scattering = -0.5;
+			if (scattering)
+			{
+				miePhase = GetMiePhase(0.0f, 0.0f, scattering);
+			}
+
+@ifdef USE_LIGHT_SHAFT_VOLUME
+			float shadowFactor = SampleVolumeLightShaftsRaw(uv, distance);
+@else
+			float shadowFactor = GetShadowFactor(ld.worldPosition, ld.pixelPosition).x;
+@endif
+
+			light += sun.emission * (shadowFactor * miePhase);
+		}
+@endif
+@endif
+ 
+@ifdef USE_POINT_LIGHTS_3D
+		{
+
+@ifdef USE_TILED_POINT_LIGHTS_3D
+			uint lightsBegin = TileData3D.Load(tileIndex3D*8);
+			uint lightsEnd = TileData3D.Load(tileIndex3D*8 + 4);
+
+			for (uint i=lightsBegin; i<lightsEnd; ++i)
+			{
+				uint lightIndex = TileLightLists.Load(i*4);
+
+@ifdef GFX_LIGHT_FROM_CONSTANT_BUFFER
+				Gfx_Light lightSource = Gfx_GetLightFromConstantBuffer(lightIndex);
+@else
+				Gfx_Light lightSource = Gfx_GetLight(FogLights, lightIndex);
+@endif
+
+				Gfx_AttenuatedEmission attenuatedEmission;
+				if (Gfx_LightHitsRooms(lightSource, ld.roomBits) && Gfx_GetSpotShadowAttenuatedEmission(attenuatedEmission, lightSource, ld))
+				{
+					float scattering = -0.2;
+					float miePhase = 1;
+					if (scattering)
+					{
+						float toLightDist2 = dot(attenuatedEmission.diffuseToLight, attenuatedEmission.diffuseToLight);
+						float3 toLightDirection = attenuatedEmission.diffuseToLight * rsqrt(max(0.00001, toLightDist2));
+
+						float cos_ = dot(toLightDirection, toCameraDir);
+						float cos2 = cos_ * cos_;
+						miePhase = GetMiePhase(cos_, cos2, scattering);
+					}
+
+					light += attenuatedEmission.diffuseEmission * miePhase;
+				}
+			}
+@else
+			float3 pointLights = vec3(0);
+			CalculateLightParameters params;
+@include "shaders/modules/graphics/lights_code.h"
+			CalculateLighting2(FogCaluclateLighting, pointLights, ld, params);
+			light += pointLights;
+@endif
+		}
+@endif
+
+		return light;
+	}
+
+	main(uint3 dispatchThreadId : MR_DispatchThreadId, uint3 groupId : MR_GroupId)
+	{
+@ifdef USE_DEPTH_NOISE
+		float noise = MR_SampleLod0(Noise, int2(dispatchThreadId.xy) / 256.0).w;
+@else
+		float noise = 0.5;
+@endif
+
+@ifdef REPROJECT
+		float3 jitter = Jitter.xyz;
+@	ifdef USE_DEPTH_NOISE
+		noise = lerp(noise, jitter.z, 0.5);
+@	else
+		noise = jitter.z;
+@	endif
+@else
+		float3 jitter = vec3(0);
+@endif
+
+		float2 uv = (float2(dispatchThreadId.xy) + vec2(0.5) + jitter.xy) / LightVolumeSize.xy;
+		float2 clip2 = (uv - vec2(0.5)) * float2(2,-2);
+		float2 fc = MR_ClipToPixel(clip2);
+		float2 framebufferuv = MR_ClipToFramebufferUV(clip2);
+
+		float3 camNearPos = MR_ClipToCamera(clip2, 1);
+		float3 worldCameraPos = MR_GetPos(MR_ViewConstants.cameraToWorld).xyz;
+		float3 worldNearPos = MR_Transform(MR_ViewConstants.cameraToWorld, camNearPos).xyz;
+		float3 toNear = normalize(worldNearPos - worldCameraPos);
+
+		float3 lastPos = worldCameraPos;
+
+		float4 accumulatedFog = vec4(0);
+
+		float range = LightVolumeSize.w;
+
+		uint tileIndex2D = groupId.x + NumVolumeTilesPerLine * groupId.y;
+		int endSlice = TileData2D.Load(tileIndex2D*4);
+
+		Gfx_LightingDataStruct ld = Gfx_GetLightingDataDummy(worldNearPos, fc, 1);
+		ld.roomIndex = -1;
+
+		for (uint i=0; i<uint(LightVolumeSize.z); ++i)
+		{
+			float v = (i + noise) / LightVolumeSize.z;
+			float depth = Near + pow(saturate(v), InvDistributionGamma3D) * range;
+
+			float sampleDepth = depth;
+			float3 fromCamera = sampleDepth * toNear;
+			float3 pos = worldCameraPos + fromCamera;
+
+			float3 sampledGI = MR_SampleLod0(FogGIVolume, float3(uv, v));
+
+@ifdef GFX_NO_INDOOR
+			float indoor_float = 0;
+@else
+			float indoor_float = MR_SampleLod0(IndoorVolume, float3(uv, v));
+@endif
+
+			ld.isIndoor = indoor_float > 0.5;
+			ld.worldPosition = pos;
+			ld.depth = depth;
+			ld.toCamera = -fromCamera;
+			ld.roomBits = ld.isIndoor ? uint(-2) : uint(1);
+
+			float3 light = sampledGI * GI;
+			if (i < endSlice)
+			{
+				uint tileIndex3D = tileIndex2D + (i/8) * NumVolumeTilesPerSlice;
+				light += FogGetLighting(ld, depth, range, uv, lastPos, tileIndex3D);
+			}
+
+			RWFogTexture3D[uint3(dispatchThreadId.xy, i)] = light;
+
+			lastPos = pos;
+		}
+	}
+}

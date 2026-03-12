@@ -1,0 +1,32 @@
+import "shaders/modules/graphics/onward/decal_cloned.h"
+
+import "shaders/MRender/MR_ViewConstants.h"
+import "shaders/modules/graphics/framebuffer_scale.h"
+import "shaders/modules/graphics/normal_encode.h"
+
+pixel
+{
+	MR_Sampler2D Albedo : MR_Texture0 { wrap = border };
+	MR_Sampler2D Normal : MR_FaceNormalTexture { filter = linear point, wrap = clamp };
+
+	in
+	{
+		float3 decalWorldPos;
+	}
+
+	main(out float4 color : MR_Color, float4 fragCoord : MR_FragCoord)
+	{
+		float3 uv = OW_ClonedDecal_GetUV(In.decalWorldPos);
+		color = DecalEntity.myColor * MR_Sample(Albedo, uv.xy);
+
+		// ------------------------------------------------------------------------------------------------------------------------------------------
+		// normal attenuation
+		float2 sceneUV = MR_PixelToFramebufferUV(fragCoord.xy * FramebufferScaleConstants.NormalScale);
+		float3 sceneNormal = Gfx_DecodeNormal_UNorm(MR_SampleLod0(Normal, sceneUV).xyz);
+		sceneNormal = MR_TransformNormal(MR_ViewConstants.cameraToWorld, sceneNormal);
+
+		float3 decalNormal = normalize(MR_GetYAxis(DecalEntity.myTransform).xyz);
+		// color.a *= smoothstep(0.707f, 1.0f, dot(sceneNormal, decalNormal));
+		// ------------------------------------------------------------------------------------------------------------------------------------------
+	}
+}

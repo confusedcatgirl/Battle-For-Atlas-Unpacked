@@ -1,0 +1,70 @@
+import "shaders/MRender/MR_ViewConstants.h"
+import "shaders/nodes/shader/functions/onward/OW_GetTerrainLowResHeight.h"
+
+constants : MR_ConstantBuffer0
+{
+	float3 constA;
+	float constMinTerrainRadius;
+	float3 constB;
+	float constMaxTerrainRadius;
+	float3 constC;
+	float constWaterRadius;
+
+	uint constSampleCount;
+}
+
+computeParameters
+{
+	numThreads 64 1 1
+}
+
+compute
+{
+	MR_RWBuffer< uint > Output : MR_RW_Buffer0;
+	MR_ByteBuffer VertexBuffer : MR_Buffer0;
+
+	main(uint3 dispatchThreadId : MR_DispatchThreadId)
+	{
+		if (dispatchThreadId.x >= constSampleCount)
+		{
+			return;
+		}
+
+		const uint positionXY = asuint( MR_Load(VertexBuffer, dispatchThreadId.x * 8) );
+		const uint positionZW = asuint( MR_Load(VertexBuffer, dispatchThreadId.x * 8 + 4) );
+
+		const float x = (float) (positionXY & 0xffff)        / 32768.0;
+		const float y = (float)((positionXY >> 16) & 0xffff) / 32768.0;
+		const float z = (float) (positionZW & 0xffff)        / 32768.0;
+		const float w = (float)((positionZW >> 16) & 0xffff);
+
+		float3 dir = float3(x, y, z) * w;
+		dir = normalize( constA.xyz * dir.x +
+		                 constB.xyz * dir.y +
+		                 constC.xyz * dir.z );
+
+		const float height = OW_GetTerrainLowResHeight( dir );
+		float radius = lerp(constMinTerrainRadius, constMaxTerrainRadius, height);
+		if (radius < constWaterRadius)
+		{
+			const float3 pos = dir * constWaterRadius;
+			uint3 positionUInt = uint3(asuint(pos.x), asuint(pos.y), asuint(pos.z));
+
+			// Invert sign bit of positives and whole of negatives to allow comparison as unsigned ints
+
+			positionUInt.x ^= (1+~(positionUInt.x >> 31) | 0x80000000);
+			positionUInt.y ^= (1+~(positionUInt.y >> 31) | 0x80000000);
+			positionUInt.z ^= (1+~(positionUInt.z >> 31) | 0x80000000);
+
+			MR_AtomicMin(Output[0], positionUInt.x);
+			MR_AtomicMin(Output[1], positionUInt.y);
+			MR_AtomicMin(Output[2], positionUInt.z);
+
+			MR_AtomicMax(Output[3], positionUInt.x);
+			MR_AtomicMax(Output[4], positionUInt.y);
+			MR_AtomicMax(Output[5], positionUInt.z);
+
+			MR_AtomicMax(Output[6], 1U); // I used to have the add at the top, but it was breaking the shader on Durango somehow (z always ended up to 0)
+		}
+	}
+}

@@ -1,0 +1,30 @@
+computeParameters
+{
+    numThreads 64 1 1
+}
+
+MR_Buffer<float4> InputRequests : MR_Buffer0;
+
+MR_RWStructuredBuffer<float> OutputRequests : MR_RW_Buffer0;
+
+MR_SamplerCube GICubeMap : MR_Texture0;
+
+compute
+{
+    constants : MR_ConstantBuffer0
+    {
+        uint const_PointsCount;
+    }
+
+    main( in uint3 dispatchThreadId : MR_DispatchThreadId )
+    {
+        const uint requestIndex = dispatchThreadId.x;
+        if (requestIndex >= const_PointsCount)
+            return;
+        
+        // Position already is a sample position in the cubemap
+        const float3 position = InputRequests[requestIndex].xyz;
+
+        OutputRequests[requestIndex] = 1.0f - MR_SampleLod0( GICubeMap, position).a < 0.99f ? 0.0f : 1.0f;
+    }
+}

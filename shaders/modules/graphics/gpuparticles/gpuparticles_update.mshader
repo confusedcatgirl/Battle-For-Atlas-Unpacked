@@ -1,0 +1,54 @@
+computeParameters
+{
+	numThreads 64 1 1
+}
+
+compute
+{
+@ifdef SPAWN_VOLS
+	MR_StructuredBuffer< SParticleSpawnVolume > SpawnVolumes : MR_Buffer0;
+@endif
+	MR_RWStructuredBuffer< SCommonData > CommonData : MR_RW_Buffer0;
+	MR_RWStructuredBuffer< SParticleData > ParticleData : MR_RW_Buffer1;
+	MR_RWBuffer<uint> OutputVertices : MR_RW_Buffer2;
+
+	// border color is not supported on PS4 in Compute: https://ps4.scedev.net/technotes/view/520/1
+	MR_Sampler2D<float> DepthBuffer : MR_DepthTexture { filter = point , wrap = border };
+
+	main(uint3 DTid : MR_DispatchThreadId )
+	{
+		if(DTid.x > CommonData[0].myNumActiveParticles)
+			return;
+
+		// float4 debugColor = 0;
+
+		const int index = (DTid.x+CommonData[0].myFirstActiveParticle) % myMaxParticles;
+
+		SOutputVertices customOutputVertices;
+
+@ifdef SPAWN_VOLS
+		UpdateParticles(index, SpawnVolumes, DepthBuffer, ParticleData[index], customOutputVertices);
+@else
+		UpdateParticles(index, DepthBuffer, ParticleData[index], customOutputVertices);
+@endif
+		
+		const int outIndex = DTid.x;
+		const uint elementsCount = 8;
+		// const uint elementsCount = 10; // adds debugColor
+
+		OutputVertices[outIndex*elementsCount+0] = asuint(customOutputVertices.myCameraPos.x);
+		OutputVertices[outIndex*elementsCount+1] = asuint(customOutputVertices.myCameraPos.y);
+		OutputVertices[outIndex*elementsCount+2] = asuint(customOutputVertices.myCameraPos.z);
+		
+		OutputVertices[outIndex*elementsCount+3] = customOutputVertices.myTextureIdx;
+		
+		OutputVertices[outIndex*elementsCount+4] = f32tof16(customOutputVertices.myLighting.x) | f32tof16(customOutputVertices.myLighting.y) << 16;
+		OutputVertices[outIndex*elementsCount+5] = f32tof16(customOutputVertices.myLighting.z) | f32tof16(customOutputVertices.myAlpha) << 16;
+
+		OutputVertices[outIndex*elementsCount+6] = f32tof16(customOutputVertices.myCameraDir.x) | f32tof16(customOutputVertices.myCameraDir.y) << 16;
+		OutputVertices[outIndex*elementsCount+7] = f32tof16(customOutputVertices.myCameraDir.z) | f32tof16(customOutputVertices.mySize) << 16;
+
+		// OutputVertices[outIndex*10+8] = f32tof16(debugColor.x) | f32tof16(debugColor.y) << 16;
+		// OutputVertices[outIndex*10+9] = f32tof16(debugColor.z) | f32tof16(debugColor.a) << 16;
+	}
+}

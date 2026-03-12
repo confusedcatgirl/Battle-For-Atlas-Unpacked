@@ -1,0 +1,55 @@
+import "shaders/MRender/MR_ViewConstants.h"
+
+import "shaders/modules/graphics/onworld/onworld_environment.h"
+import "shaders/modules/graphics/onworld/functions_plane.h"
+import "shaders/modules/graphics/onworld/atmosphere/bruneton/atmosphere.h"
+import "shaders/MRender/MR_DepthBuffer.h"
+import "shaders/nodes/Shader/Functions/CartesianToSphericalCoords.h"
+import "shaders/modules/graphics/onworld/planet_flattening.h"
+import "shaders/modules/graphics/onworld/atmosphere/planet_sky.h"
+import "shaders/modules/graphics/onward/gi/ground_fog.h"
+
+constants : MR_ConstantBuffer0
+{
+	float const_Blending;
+	float const_Clipping;
+}
+
+vertex
+{
+	in
+	{
+		float2 position;
+	}
+
+	main(out float4 clipPos : MR_Position)
+	{
+		clipPos = float4(In.position, 0.0f, 1.0f);
+	}
+}
+
+pixel
+{
+	main(out float4 color : MR_Color, float4 fragCoord : MR_FragCoord)
+	{
+		color = 0.0f;
+
+		const float2 positionCS = MR_PixelToClip(fragCoord.xy);
+		const float3 origin = OW_Planet_GetCameraPos();
+		const float fullDepth = MR_SampleTexelLod0(Depthbuffer, fragCoord.xy).x;
+		const float3 destination = MR_ClipToWorld(positionCS, fullDepth) - OW_Planet_GetPosition();
+		const float3 cameraDirection = normalize(destination - origin);
+
+		clip(fullDepth - MR_ViewConstants.far * const_Clipping);
+@ifdef ENABLE_ONPLANET_ATMOSPHERE
+		color = OW_Sky_GetCloudsColorFromBelow(origin, cameraDirection);
+@endif
+		float4 fog = OW_GroundFog_GetFarFromLookupHQ( OW_FogVolume_GetCoordsFC( fragCoord ), fragCoord.xy );
+		fog = lerp( float4(0,0,0,1), fog, MR_OnworldEnvironmentConstants.groundLerpFactor.x );
+		OW_Fog_Apply( color.xyz, fog );
+		color.a *= fog.a; // dense fog fades the background
+
+		color.a *= const_Blending; // opaque if wanted
+	}
+}
+

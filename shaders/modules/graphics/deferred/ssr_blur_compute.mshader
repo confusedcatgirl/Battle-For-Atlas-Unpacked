@@ -1,0 +1,122 @@
+@include "shaders/modules/graphics/deferred/ssr.h"
+
+float3 GetBlurred(float2 qfc, float2 aDirection, inout float2 radiusAlphaOut)
+{
+	uint minsamples = 2;
+	uint maxsamples = 32;
+
+	float3 centerLight = MR_SampleTexelLod0(Light_RGB, qfc.xy);
+	float2 centerRadiusAlpha = MR_SampleTexelLod0(Light_RadiusAlpha, qfc.xy);
+	float centerDepth = MR_SampleTexelLod0(Depth, qfc.xy);
+	float3 centerNormal = Gfx_DecodeNormal_UNorm(MR_SampleTexelLod0(Normal, qfc.xy));
+
+	float centerRadius;
+	float centerAlpha;
+	float centerSign;
+	DecodeRadiusAlpha(centerRadius, centerAlpha, centerSign, centerRadiusAlpha);
+
+	float maxRadius = MR_SampleTexelLod0(DownscaledMaxRadius, qfc.xy / MaxRadiusScale) * 255;
+	if (!maxRadius)
+		return vec3(0);
+
+	float4 colorSum = vec4(0);
+	float radiusSum = 0;
+	float alphaSum = 0;
+	float weightSum = 0;
+
+	uint numsamples = clamp(uint(centerRadius * 2), minsamples, maxsamples);
+
+	if (centerSign < 0)
+	{
+		for (uint i=0; i<numsamples; ++i)
+		{
+			float offset = i - numsamples * 0.5;
+			float2 qpixel = qfc.xy + aDirection * offset;
+			qpixel = clamp(qpixel, SSRViewport.pixelMin, SSRViewport.pixelMax);
+
+			float3 light = MR_SampleTexelLod0(Light_RGB, qpixel);
+			float2 radiusAlpha = MR_SampleTexelLod0(Light_RadiusAlpha, qpixel);
+			float radius;
+			float alpha;
+			float sign_;
+			DecodeRadiusAlpha(radius, alpha, sign_, radiusAlpha);
+
+			float depth = MR_SampleTexelLod0(Depth, qpixel).x;
+
+			float minDepth = min(depth, centerDepth);
+			float minRadius = min(radius, centerRadius);
+			float zDistance = abs(depth - centerDepth);
+			float zDistancePixels = zDistance * SSR.quarterPixelSizeScale / minDepth;
+			float distancePixels = sqrt(offset*offset + zDistancePixels*zDistancePixels);
+
+			float weight = 1;
+			weight *= saturate(1 - distancePixels / (minRadius + 1));
+
+@ifdef SSR
+			weight *= saturate(1 + centerSign * sign_);
+@endif
+
+			colorSum += float4(light.xyz, 1) * weight * alpha;
+			radiusSum += radius * weight;
+			alphaSum += alpha * weight;
+			weightSum += weight;
+		}
+	}
+	else
+	{
+		for (uint i=0; i<numsamples; ++i)
+		{
+			float offset = i - numsamples * 0.5;
+			float2 qpixel = qfc.xy + aDirection * offset;
+			qpixel = min(qpixel, SSRViewport.pixelMax);
+			qpixel = max(qpixel, SSRViewport.pixelMin);
+
+			float3 light = MR_SampleTexelLod0(Light_RGB, qpixel);
+			float2 radiusAlpha = MR_SampleTexelLod0(Light_RadiusAlpha, qpixel);
+			float radius;
+			float alpha;
+			float sign_;
+			DecodeRadiusAlpha(radius, alpha, sign_, radiusAlpha);
+
+			float3 normal = Gfx_DecodeNormal_UNorm(MR_SampleTexelLod0(Normal, qpixel).xyz);
+			float weight = 1;
+
+			weight *= exp(-3 * abs(offset / max(1.0, centerRadius)) + 0.1); // simpler gaussian-like weighting
+
+			weight *= GetPackedNormalWeightFactor(normal, centerNormal);
+
+@ifdef SSS
+			weight *= saturate(1 + centerSign * sign_);
+@endif
+
+			colorSum += float4(light.xyz, 1) * weight * alpha;
+			radiusSum += radius * weight;
+			alphaSum += alpha * weight;
+			weightSum += weight;
+		}
+	}
+
+	weightSum = max(0.000001, weightSum);
+
+	float3 colorAvg = colorSum.xyz / max(0.001, colorSum.w);
+	float radiusAvg = radiusSum / weightSum;
+	float alphaAvg = alphaSum / weightSum;
+
+	radiusAlphaOut = EncodeRadiusAlpha(radiusAvg, alphaAvg, centerSign);
+	return colorAvg;
+}
+
+MR_RWTexture2D<float3> ColorOut : MR_RW_Texture0;
+MR_RWTexture2D<float2> RadiusAlphaOut : MR_RW_Texture1;
+
+computeParameters
+{
+	numThreads 8 8 1
+}
+
+compute main(uint3 dtid : MR_DispatchThreadId)
+{
+	float2 radiusAlphaOut = vec2(0);
+	ColorOut[dtid.xy] = GetBlurred(dtid.xy, SSRViewport.direction, radiusAlphaOut);
+	RadiusAlphaOut[dtid.xy] = radiusAlphaOut;
+}

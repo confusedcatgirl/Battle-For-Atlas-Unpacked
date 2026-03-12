@@ -1,0 +1,12 @@
+@include "shaders/modules/graphics/postfx/pixel_in.h"
+
+pixel
+{
+	MR_Sampler2D InputTexture : MR_Texture0 { filter = linear, wrap = clamp };
+
+	main(out float4 color : MR_Color)
+	{
+		float4 col = MR_SampleLod0(InputTexture, In.uv0);
+		color = float4(col);
+	}
+}

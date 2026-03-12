@@ -1,0 +1,11 @@
+@include "shaders/modules/graphics/postfx/pixel_in.h"
+
+pixel
+{
+	MR_Texture2D<uint4> Stencil : MR_Texture0;
+
+	main(out uint4 stencilOut : MR_Color0, float4 fc : MR_FragCoord)
+	{
+		stencilOut = uint4(MR_SampleTexelLod0(Stencil, fc.xy).y, 0,0,0);
+	}
+}

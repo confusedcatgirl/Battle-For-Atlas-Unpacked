@@ -1,0 +1,62 @@
+import "shaders/MRender/MR_DepthBuffer.h"
+
+blend {
+	src = 1,
+	dest = 1-src.a
+}
+
+constants : MR_ConstantBuffer0
+{
+	float MaxAlpha;
+}
+
+vertex
+{
+	in {
+		float2 position;
+	}
+
+	main(out float4 pos : MR_Position)
+	{
+		pos = float4(In.position, 0, 1);
+	}
+}
+
+pixel
+{
+	import "shaders/MRender/MR_ViewConstants.h"
+	import "shaders/modules/graphics/lpv/lpv.h"
+
+	main(out float4 aColorOut : MR_Color, float4 fc : MR_FragCoord)
+	{
+		float2 uv = MR_PixelToFramebufferUV(fc.xy);
+		float depth = MR_SampleLod0(Depthbuffer, uv).x;
+
+		float2 clip2 = MR_PixelToClip(fc.xy);
+		float3 nearPos = MR_ClipToWorld(clip2, 0);
+
+		float3 endPos = MR_ClipToWorld(clip2, depth);
+		float3 dir = endPos - nearPos;
+
+		float maxDistance = 10;
+		float distance = min(length(dir), maxDistance);
+		float stepSize = 0.25;
+		float alphaPerStep = MaxAlpha * stepSize / maxDistance;
+
+		float3 step = normalize(dir) * stepSize;
+
+		aColorOut = vec4(0);
+
+		float3 p = nearPos;
+		for (float d=0; d < maxDistance && d < depth; d += stepSize)
+		{
+			float4 r, g, b, geom;
+			GetLPVFactors(p, r, g, b, geom, vec3(0), 0);
+
+			float3 col = float3(r.w, g.w, b.w);
+			aColorOut += float4(col, 0.5) * alphaPerStep;
+
+			p += step;
+		}
+	}
+}

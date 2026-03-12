@@ -1,0 +1,63 @@
+
+import "shaders/MRender/MR_ViewConstants.h"
+
+constants : MR_ConstantBuffer0
+{
+	float4x4 ModelToWorld;
+	float4x4 WorldToClip;
+	float4 Color;
+}
+
+vertex
+{
+	in
+	{
+		float3 vPos;
+		float3 vNormal;
+	}
+	
+	out
+	{
+		float3 vWorldNormal;
+		float3 vWorldPosXYZ;
+		float3 vLightDir;
+	}
+
+	main( out float4 outPosition : MR_Position )
+	{
+		outPosition = MR_Transform(WorldToClip, MR_Transform(ModelToWorld, float4(In.vPos, 1.0)));
+		
+		Out.vWorldPosXYZ = outPosition.xyz;		
+		Out.vWorldNormal = MR_Transform(ModelToWorld, float4(In.vNormal, 0)).xyz;
+
+		float4x4 cam = MR_ViewConstants.cameraToWorld;
+		//Out.vLightDir = normalize(MR_Transform(cam, normalize(float4(0.3, 1.0, -0.5, 0.0)))).xyz;
+
+		float3 vCamR = float3(cam[0].x, cam[1].x, cam[2].x);
+		float3 vCamU = float3(cam[0].y, cam[1].y, cam[2].y);
+		float3 vCamF = float3(cam[0].z, cam[1].z, cam[2].z);
+
+		//float3x3 mViewInv3x3 = float3x3(vCamR, vCamU, vCamF);
+		float3x3 mViewInv3x3 = float3x3(cam[0].xyz, cam[1].xyz, cam[2].xyz);
+		Out.vLightDir = MR_Transform(mViewInv3x3, normalize(float3(0.3, 1.0, -0.5)));
+	}
+}
+
+pixel
+{
+	in
+	{
+		float3 vWorldNormal;
+		float3 vWorldPosXYZ;
+		float3 vLightDir;
+	}
+	
+	main( out float4 outColor : MR_Color )
+	{
+		float3 vDark = float3(0.214, 0.269, 0.272);
+		float3 vLight = float3(0.522, 0.569, 0.569);
+		float vUp = saturate(dot(In.vWorldNormal, In.vLightDir) * 0.5 + 0.5);
+
+		outColor = float4(max(0.0, Color.rgb * lerp(vLight, vDark, vUp)), Color.a);
+	}
+}

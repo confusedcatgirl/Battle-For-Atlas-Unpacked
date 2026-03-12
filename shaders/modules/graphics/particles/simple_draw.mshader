@@ -1,0 +1,138 @@
+vertex
+{
+	import "shaders/MRender/MR_ViewConstants.h"
+	import "shaders/modules/graphics/particles/constants.h"
+	
+	in
+	{
+		float2 Particle_InstanceUV;
+		
+		stream 1 steprate=1
+		{
+			float3 Particle_Position;
+		}
+		
+		stream 2 steprate=1
+		{
+			float4 Particle_ModColor;
+		}
+		
+		stream 3 steprate=1
+		{
+			float Particle_Size;
+		}
+		
+		stream 4 steprate=1
+		{
+			float Particle_Rotation;
+		}
+		
+		stream 5 steprate=1
+		{
+			float Particle_AgeFracs;
+		}	
+
+		stream 6 steprate=1
+		{
+			float4 Particle_CenterX;
+		}	
+
+		stream 7 steprate=1
+		{
+			float4 Particle_CenterY;
+		}	
+
+	}
+	
+	out
+	{
+		float2 Particle_InstanceUV1;
+@ifdef TEXTURE_ATLAS
+		float2 Particle_InstanceUV2;
+@endif
+		float4 Particle_Color;
+		float2 Particle_ShaderParams;
+	}
+	
+	MR_Sampler2D Gradient : MR_Texture1 { wrap = clamp };
+	
+	main(out float4 position : MR_Position)
+	{
+		float2 Particle_InstanceUV = In.Particle_InstanceUV;
+		float2 rotatedInstanceUV = Particle_InstanceUV - float2(0.5, 0.5);
+		rotatedInstanceUV = float2( ( rotatedInstanceUV.x * cos(In.Particle_Rotation) - rotatedInstanceUV.y * sin(In.Particle_Rotation) ), ( rotatedInstanceUV.x * sin(In.Particle_Rotation) + rotatedInstanceUV.y * cos(In.Particle_Rotation) ) );
+		rotatedInstanceUV += float2(0.5, 0.5);
+		
+		float3 pos = In.Particle_Position; 
+@ifdef UPFACING
+		pos.xz += (rotatedInstanceUV - 0.5) * float2(1, -1) * float(In.Particle_Size);
+@endif
+
+@ifdef WORLDSPACE
+		float2 offset = float2(0,1) + rotatedInstanceUV * float2(1,-1);
+		if (In.Particle_CenterX.w)
+			offset.x -= 0.5;
+		if (In.Particle_CenterY.w)
+			offset.y -= 0.5;
+		
+		pos += (In.Particle_CenterX.xyz * offset.x + In.Particle_CenterY.xyz * offset.y) * float(In.Particle_Size);
+@endif
+
+		float3 campos = MR_Transform(MR_ViewConstants.worldToCamera, pos).xyz;
+@ifndef UPFACING
+@ifndef WORLDSPACE
+		campos.xy += (rotatedInstanceUV - 0.5) * float2(1, -1) * float(In.Particle_Size); 
+@endif
+@endif
+		float4 clippos = MR_Transform(MR_ViewConstants.cameraToClip, campos); 
+		position = clippos; 
+		Out.Particle_Color = MR_SampleLod0(Gradient, float2(In.Particle_AgeFracs, 0.5));
+		Out.Particle_Color *= In.Particle_ModColor;
+
+@ifdef TEXTURE_ATLAS
+		float2 textureAtlasSize = float2(ourPixelConstants[0].x, ourPixelConstants[0].y);
+		uint totalFrames = textureAtlasSize.x * textureAtlasSize.y;
+		float frameIndex = In.Particle_AgeFracs * totalFrames;
+		uint firstFrame = floor(frameIndex);
+		float2 baseUV = Particle_InstanceUV/textureAtlasSize;
+		Out.Particle_InstanceUV1 = baseUV + float2(fmod((firstFrame),textureAtlasSize.x), floor((firstFrame)/textureAtlasSize.x)) / textureAtlasSize;
+		Out.Particle_InstanceUV2 = baseUV + float2(fmod((firstFrame+1),textureAtlasSize.x), floor((firstFrame+1)/textureAtlasSize.x)) / textureAtlasSize;
+		Out.Particle_ShaderParams.x = frameIndex - firstFrame;
+@else
+		Out.Particle_InstanceUV1 = Particle_InstanceUV;
+		Out.Particle_ShaderParams.x = 0;
+@endif
+
+		Out.Particle_ShaderParams.y = ourAlpha;
+	}
+}
+
+pixel
+{
+	in
+	{
+		float2 Particle_InstanceUV1;
+@ifdef TEXTURE_ATLAS
+		float2 Particle_InstanceUV2;
+@endif
+		float4 Particle_Color;
+		float2 Particle_ShaderParams;
+	}
+
+	MR_Sampler2D Blend : MR_Texture0 { wrap = clamp };
+	
+	main(out float4 colorOut : MR_Color0,
+		float4 MR_FragCoord : MR_FragCoord)
+	{
+@ifdef TEXTURE_ATLAS		
+		float4 sample1 = MR_Sample(Blend, In.Particle_InstanceUV1);
+		float4 sample2 = MR_Sample(Blend, In.Particle_InstanceUV2);
+		float4 actualSample = lerp(sample1, sample2, In.Particle_ShaderParams.x);
+@else
+		float4 actualSample = MR_Sample(Blend, In.Particle_InstanceUV1);
+@endif
+		float4 combine = float4(In.Particle_Color.xyz, saturate(In.Particle_Color.w));
+		float4 coloredSample = actualSample * combine;
+		colorOut = coloredSample * float4(1,1,1, In.Particle_ShaderParams.y);
+	}
+}

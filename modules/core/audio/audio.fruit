@@ -1,0 +1,162 @@
+
+class AudioData < abstract=1 >
+{
+	uid myGuid
+}
+
+class AudioEvent : AudioData
+{
+	uid myGuid < bhv=AudioID type=Event >
+}
+
+class AudioState : AudioData
+{
+    uid myGuid < bhv=AudioID type=State >
+}
+
+class AudioSwitch : AudioData
+{
+    uid myGuid < bhv=AudioID type=Switch >
+}
+
+class AudioRTPC : AudioData
+{
+    uid myGuid < bhv=AudioID type=RTPC >
+}
+
+class AudioEffect : AudioData
+{
+    uid myGuid < bhv=AudioID type=Effect >
+}
+
+class AudioBank : AudioData
+{
+    uid myGuid < bhv=AudioID type=Bank >
+}
+
+class AudioAuxBus : AudioData
+{
+    uid myGuid < bhv=AudioID type=AuxBus >
+}
+
+list FilePackages
+{
+	string myFilePackage
+}
+
+list AudioBootstrap
+{
+	AudioBank
+}
+
+list Parameters
+{
+	AudioSwitch
+	AudioRTPC
+}
+
+list AudioEventList
+{
+	AudioEvent
+}
+
+list AudioSwitchList
+{
+	AudioSwitch
+}
+
+class Sound
+{
+	AudioEvent myAudioEvent
+	Parameters myParameters
+}
+
+class BankManagerConfig
+{
+	int myMaxDynamicMemory 150
+}
+
+class AudioProjectData
+{
+	string myLanguage
+	file mySoundbanksPath
+	FilePackages myFilePackages
+	AudioBootstrap myBootstrapCommon
+	AudioBootstrap myBootstrapCommonLate
+	AudioBootstrap myBootstrapWindows
+	AudioBootstrap myBootstrapXboxOne
+	AudioBootstrap myBootstrapPS4
+	BankManagerConfig myBankManagerConfig
+}
+
+list GlobalRTPCs
+{
+	AudioRTPC
+}
+
+list GlobalAuxBuses
+{
+	AudioAuxBus
+}
+
+class GlobalPauseSettings
+{
+	AudioEvent myGlobalPausingEvent
+	AudioEvent myGlobalResumingEvent
+}
+
+class AudioRuntimeData
+{
+    float myDopplerScale 1.0
+	GlobalRTPCs myGlobalRTPCs
+	GlobalAuxBuses myGlobalAuxBuses
+	GlobalPauseSettings myGlobalPauseSettings
+}
+
+class AmbienceTheme
+{
+	color myID 0x00000000
+	AudioEventList myAudioRotationalEvents
+	AudioEventList myAudioNonRotationalEvents
+	AudioEventList myAudioPortalEvents
+	AudioAuxBus myAuxBusOne
+	AudioAuxBus myAuxBusTwo
+	bool myIsOutdoorTheme TRUE
+	bool myIsCompactTheme FALSE
+	float myTransparancy 1.0
+	AudioBank myRequiredBank
+}
+
+list AmbienceThemes
+{
+	AmbienceTheme
+}
+
+class AmbienceThemeData
+{
+	float mySamplingMaxDistance 32.0
+	float myVolumeAtMinSampleDistance 1.0
+	float myVolumeAtMaxSampleDistance 0.5
+	float mySmallRoomRadius 10.0
+	float myMediumRoomRadius 20.0
+	float myLargeRoomRadius 30.0
+	color mySmallRoomThemeID 0x00000000
+	color myMediumRoomThemeID 0x00000000
+	color myLargeRoomThemeID 0x00000000
+	color myExtraLargeRoomThemeID 0x00000000
+	float myPortalBlendRangeIndoor 3.0
+	float myPortalBlendRangeOutdoor 1.0
+	float myPortalBlendMidLevel 0.5
+	AmbienceThemes myAmbienceThemes
+}
+
+class SlapbackData
+{
+	float myUpdateDistanceSquared 6.25
+	float myRaycastDistance 25.0
+	float myTimeScaleFactor 1.0
+	float mySlapbackFade 1.0
+	
+	AudioRTPC		mySlapbackDistanceRTPC
+	AudioSwitchList mySwitches
+}

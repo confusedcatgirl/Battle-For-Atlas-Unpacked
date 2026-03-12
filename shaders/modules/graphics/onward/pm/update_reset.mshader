@@ -1,0 +1,12 @@
+
+computeParameters
+{
+	numThreads 1 1 1
+}
+
+MR_RWBuffer< uint > AliveCount : MR_RW_Buffer0;
+
+compute main(uint3 dtid : MR_DispatchThreadId)
+{
+	AliveCount[0] = 0;
+}

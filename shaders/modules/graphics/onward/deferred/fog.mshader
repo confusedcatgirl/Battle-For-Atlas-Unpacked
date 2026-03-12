@@ -1,0 +1,86 @@
+@include "shaders/modules/graphics/deferred/ssr.h"
+import "shaders/modules/graphics/onward/gi/ground_fog.h"
+
+@ifndef LIGHT_FROM_GROUND
+import "shaders/modules/graphics/onward/gi/space_fog.h"
+@endif // !LIGHT_FROM_GROUND
+
+constants : MR_ConstantBuffer3
+{
+@ifdef USE_DEFERRED_DEBUG_FLAGS
+	float DebugFlag_ClipDepth;
+@else
+	float _DebugFlag_ClipDepth;
+@endif // USE_DEFERRED_DEBUG_FLAGS
+}
+
+@ifndef USE_DEFERRED_DEBUG_FLAGS
+	const float DebugFlag_ClipDepth = 0.0;
+@endif // !USE_DEFERRED_DEBUG_FLAGS
+
+vertex
+{
+	in
+	{
+		float4 clipCoord;
+		float4 uv0_uv1;
+		float4 uv0Min_uv0Max;
+		float4 uv1Min_uv1Max;
+	}
+
+	out
+	{
+	}
+
+	main(out float4 position : MR_Position)
+	{
+		position = float4(In.clipCoord.xyz, 1);
+	}
+}
+
+pixel
+{
+	in
+	{
+	}
+
+	main(out float4 colorOut : MR_Color0, float4 fc : MR_FragCoord)
+	{
+		float depth = MR_SampleTexelLod0(Depth, int2(fc.xy)).x;
+
+@ifdef USE_DEFERRED_DEBUG_FLAGS
+		clip( MAX_LINEAR_DEPTH - depth * DebugFlag_ClipDepth - 1.0 );
+@endif // USE_DEFERRED_DEBUG_FLAGS
+
+		float3 pos = MR_ClipToWorld(MR_PixelToClip(fc.xy), depth);
+		Gfx_LightingDataStruct ld = Gfx_GetLightingData(pos, float4(fc.xy, 0, depth));
+
+		float4 fog = float4( 0, 0, 0, 1 );
+
+@ifndef LIGHT_FROM_SPACE
+		fog = OW_GroundFog_GetFromCoordsHQ( OW_GroundFog_GetCoordsFromPos( ld.worldPosition ),
+				ld.pixelPosition );
+@endif // !LIGHT_FROM_SPACE
+
+@ifndef LIGHT_FROM_GROUND
+		float4 spaceFog = OW_SpaceFog_GetFromCoordsHQ( OW_SpaceFog_GetCoordsFromPos( ld.worldPosition ),
+				ld.pixelPosition );
+	@ifdef LIGHT_FROM_SPACE
+		fog = spaceFog;
+	@else
+		fog = lerp( spaceFog, fog, MR_OnworldEnvironmentConstants.groundLerpFactor.x );
+	@endif // LIGHT_FROM_SPACE
+@endif // !LIGHT_FROM_GROUND
+
+@ifdef OGFX_INCREEP_FOG
+@endif // OGFX_INCREEP_FOG
+
+@ifdef OGFX_BLENDED_FOG
+		colorOut = fog;
+@else
+		colorOut.rgb = MR_SampleTexelLod0( Light_RGB, int2(fc.xy) ).xyz;
+		OW_Fog_Apply( colorOut.rgb, fog );
+		colorOut.a = 1.0f;
+@endif // OGFX_BLENDED_FOG
+	}
+}

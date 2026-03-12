@@ -1,0 +1,49 @@
+import "shaders/MRender/MR_ViewConstants.h"
+import "shaders/modules/graphics/downscale.h"
+
+MR_Sampler2D<float2> MinZ : MR_Texture0 { filter = point point, anisotropy = 0, wrap = clamp };
+MR_Sampler2D<float2> GroundHeight : MR_Texture1 { filter = linear point, anisotropy = 0, wrap = clamp };
+
+MR_RWTexture2D<float> MinZMipsOut : MR_RW_Texture0;
+MR_RWTexture2D<float> GroundHeightMipsOut : MR_RW_Texture1;
+
+computeParameters
+{
+	numThreads 8 8 1
+}
+
+constants : MR_ConstantBuffer0
+{
+	float2 DestSize;
+	float2 SourceStorageSize;
+	float2 SourceViewportSize;
+	float2 NumLoops;
+}
+
+compute main(uint3 dtid : MR_DispatchThreadId)
+{
+	float minZ = 1;
+
+	const float2 viewportMin = vec2(0.0);
+	const float2 viewportMax = SourceViewportSize - vec2(1.0);
+
+	// we assume a minimum downscale factor of 2 here
+	const float2 scale1 = SourceViewportSize / DestSize;
+	const float2 scale2 = max(scale1 - vec2(2.0), vec2(0.0)) /
+		max(NumLoops - vec2(1.0), vec2(1.0));
+
+	for (float y=0; y<NumLoops.y; ++y)
+	{
+		for (float x=0; x<NumLoops.x; ++x)
+		{
+			float2 srcPixel = dtid.xy * scale1 + float2(x,y) * scale2 + vec2(1.0);
+			float4 z = SafeGather4_2(MinZ, SourceStorageSize, srcPixel, viewportMin, viewportMax);
+
+			minZ = min(min3(z.x, z.y, z.z), z.w);
+		}
+	}
+
+	MinZMipsOut[dtid.xy] = minZ;
+
+	GroundHeightMipsOut[dtid.xy] = 0;
+}

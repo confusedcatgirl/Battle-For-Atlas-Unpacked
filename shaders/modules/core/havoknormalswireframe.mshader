@@ -1,0 +1,59 @@
+import "shaders/modules/graphics/onward/flattening.h"
+import "shaders/modules/graphics/onward/flattening_funcs.h"
+import "shaders/MRender/MR_ViewConstants.h"
+
+
+constants : MR_ConstantBuffer0
+{
+	float4x4 ModelToWorld;
+	float4x4 WorldToClip;
+	float4 Color;
+	float4x4 WorldToCamera;
+	OGFX_FlatteningParams Flattening;
+}
+
+vertex
+{
+	in
+	{
+		float3 position;
+		float3 normal;
+	}
+	
+	out
+	{
+		float3 color;
+	}
+
+	main( out float4 outPosition : MR_Position )
+	{
+		float4 pos = MR_Transform(ModelToWorld, float4(In.position,1));
+		if (OW_Flattening_IsActive(Flattening))
+			OW_Flattening_Apply(Flattening, pos.xyz);
+
+		float4 posInCamSpace = MR_Transform(WorldToCamera, pos);
+		outPosition = MR_Transform( WorldToClip, pos );
+		float4 normal = MR_Transform( ModelToWorld, float4(In.normal,0));
+			   normal = MR_Transform( WorldToCamera, normal);
+			   
+		float dotnp = dot(normal,posInCamSpace);
+		if (dotnp < 0)
+			Out.color = float3(0.0f,0.8f,0.0f);
+		else
+			Out.color = float3(0.8f,0.0f,0.0f);
+			
+	}
+}
+
+pixel
+{
+	in
+	{
+		float3 color;
+	}
+	
+	main( out float3 outColor : MR_Color )
+	{
+		outColor = In.color*1.2f;
+	}
+}

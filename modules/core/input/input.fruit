@@ -1,0 +1,85 @@
+include modules/core/input/defaultbindings.fruit
+
+class InputAxisSensitivity
+{
+	float mySensitivityMultiplier 1.0
+	string myCurve "{ numKeys = 2, interpolator = 0, defaultValue = 0, defaultLeftSlope = 0, keys = { properties = { -749, -749, }, values = { 0 0, 1 1, }, inTangents = { -0 -0, -0.279596 -0.769439, }, outTangents = { 0.594484 0.038516, 0 0, }, }, defaultRightSlope = 0, }" < bhv=inputgraph >
+}
+
+class InputAction
+{
+	string myCategory
+	string myCommand
+	varmap myUIName < bhv = "localization" >
+	int myCount 0
+	float myTriggerThreshold 0.5
+	bool myCanChange true
+	bool myCanRemap false
+	string myConfigurationSet
+	bool myIsRequired false
+}
+
+list InputActions
+{
+	InputAction
+}
+
+class DefaultBinding
+{
+	file myFile
+	locstring myUIName
+}
+
+list DefaultBindings
+{
+	DefaultBinding
+}
+
+class ConfigurationSet
+{
+	DefaultBindings myBindings
+}
+
+list ConfigurationSets
+{
+	ConfigurationSet
+}
+
+class GamepadDeadzones
+{
+	float myXboxDeadzone 0.25
+	float myPlaystationDeadzone 0.05
+	float myPCDeadzone 0.25
+}
+
+class InputActionGroup
+{
+	file myFile
+	bool myApplySwaps false
+}
+
+list InputActionGroups
+{
+	InputActionGroup
+}
+
+class InputActionConsoleSwap
+{
+  DefaultKeyBinding myFirst
+  DefaultKeyBinding mySecond
+}
+
+list InputActionConsoleSwaps
+{
+  InputActionConsoleSwap
+}
+
+class InputSettings
+{
+	InputActionGroups myInputActions
+	GamepadDeadzones myGamepadDeadzones
+	DefaultBindings myBindings
+	ConfigurationSets myConfigurationSets
+	
+	InputActionConsoleSwaps mySwaps
+}

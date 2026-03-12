@@ -1,0 +1,18 @@
+import "shaders/modules/graphics/onward/gi/fog/light_shafts_shared.h"
+
+computeParameters
+{
+	numThreads 8 8 1
+}
+
+compute
+{
+	main(uint3 dispatchThreadId : MR_DispatchThreadId)
+	{
+		if (any(dispatchThreadId.xy >= constLightShaftsSize.xy))
+			return;
+
+		RayMarch3D( 256, LightShaftsRW, dispatchThreadId.xy, 65000.0f );
+		LightShaftsRW[ uint3( dispatchThreadId.xy, constLightShaftsSize.z - 1 ) ] = 1;
+	}
+}

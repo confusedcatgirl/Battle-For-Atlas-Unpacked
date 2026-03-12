@@ -1,0 +1,63 @@
+constants : MR_ConstantBuffer0
+{
+    float4x4 WorldMatrix;
+    float4  LineColor;
+    float   LineWidth;
+    float   LineSpacing;
+    float   LineOpacity;
+    float   HeigthMapRange;
+}
+
+vertex
+{
+    import "shaders/MRender/MR_ViewConstants.h"
+
+    in
+    {
+        float3 position;
+        float3 uv;
+    }
+
+    out
+    {
+        float2 uv;
+    }
+
+    main(out float4 clipPos : MR_Position)
+    {
+        Out.uv = In.uv.xy;
+
+        float4 worldPos = MR_Transform( WorldMatrix, In.position );
+        clipPos = MR_Transform( MR_ViewConstants.worldToClip, worldPos );
+    }
+}
+
+pixel
+{
+    MR_Sampler2D sampler0  : MR_Texture0 { wrap = clamp };
+    MR_Sampler2D colorRamp : MR_Texture1 { wrap = clamp };
+
+    in
+    {
+        float2 uv;
+    }
+
+    main(out float4 colorOut : MR_Color)
+    {
+        float4 height = MR_Sample( sampler0, In.uv ).r;
+        float normalizedHeight = (height + (HeigthMapRange * .5)) / HeigthMapRange;
+        
+        float4 colorRampSample = MR_Sample( colorRamp, normalizedHeight );
+        
+        const float absHeight = abs( height );
+        
+        const float lineOffset = LineSpacing * .5;
+        float delta = fmod( absHeight+lineOffset, LineSpacing );
+        delta = min( LineSpacing - delta, delta );
+
+        float lineFactor = (1 - min(1, delta/LineWidth)) * LineOpacity;
+        float colorRampFactor = 1 - lineFactor;
+        
+        colorOut = (colorRampSample * colorRampFactor) + (LineColor * lineFactor);
+    }
+}

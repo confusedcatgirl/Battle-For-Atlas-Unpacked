@@ -1,0 +1,53 @@
+
+import "shaders/modules/graphics/fog_compute.h"
+
+MR_RWTexture2D<float4> RWFogTexture : MR_RW_Texture0;
+
+computeParameters
+{
+	numThreads 32 1 1
+}
+
+compute
+{
+	const float Pi = 3.1415926535897932384626433832795;
+
+	const uint NumDirections = 32;
+	const uint NumDistances = 32;
+
+	main(uint groupIndex : MR_GroupIndex)
+	{
+		float4 accumulatedFog = vec4(0);
+
+		float angle = Pi * 2 * (groupIndex + 0.5) / NumDirections;
+		float3 direction = float3(-sin(angle), 0, -cos(angle));
+
+		float volumeRange = LightVolumeSize.w;
+
+		float lastDistance = 0;
+		for (uint i=0; i<NumDistances; ++i)
+		{
+			float v = (i + 0.5) / NumDistances;
+
+			float distance = pow(v, InvDistributionGamma) * MaxRange;
+			float3 position = CenterPosition.xyz + direction * distance;
+
+			float alpha = Alpha * saturate((distance / volumeRange - 0.9) * 10); // don't include areas covered by 3d fog
+
+			float distanceThisStep = distance - lastDistance;
+			float alphaLocal = saturate(1.0 - pow(1.0 - alpha, distanceThisStep));
+
+			float3 ambient = SampleGI(direction, position) * GI;
+			float3 light = ambient;
+
+			float alphaThisStepFinal = saturate(alphaLocal * (1.0 - accumulatedFog.a));
+
+			accumulatedFog += float4(light, 1) * alphaThisStepFinal;
+			lastDistance = distance;
+
+			float4 fog = float4(accumulatedFog.rgb, 1-accumulatedFog.a);
+
+			RWFogTexture[int2(groupIndex, i)] = fog;
+		}
+	}
+}

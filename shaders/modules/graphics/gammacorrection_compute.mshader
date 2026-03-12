@@ -1,0 +1,45 @@
+
+constants : MR_ConstantBuffer0
+{
+	float myGammaValue;
+}
+
+vertex
+{
+	in
+	{
+		float4 clipCoord_quadCoord;
+		float4 uv0_uv1;
+		float4 uv0Min_uv0Max;
+		float4 uv1Min_uv1Max;
+	}
+
+	out
+	{
+		float2 uv;
+	}
+
+	main(out float4 position : MR_Position, uint id : MR_VertexId)
+	{
+		float4 pos = float4(In.clipCoord_quadCoord.xy, 0, 1);
+		
+		position = pos;
+		Out.uv = In.uv0_uv1.xy;
+	}
+}
+
+pixel
+{
+	in
+	{
+		float2 uv;
+	}
+
+	MR_Sampler2D colorTex : MR_Texture0 { filter = point, wrap = clamp };
+
+	main(out float4 outColor : MR_Color)
+	{
+		outColor=MR_SampleLod0(colorTex, In.uv);
+		outColor.xyz= pow(outColor.xyz,vec3(1.0f/myGammaValue));
+	}
+}

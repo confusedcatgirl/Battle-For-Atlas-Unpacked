@@ -1,0 +1,48 @@
+import "shaders/modules/graphics/onworld/planet_base.h"
+import "shaders/modules/graphics/onworld/planet_flattening.h"
+
+import "shaders/MRender/MR_ViewConstants.h"
+
+vertex
+{
+	in
+	{
+		float4 pos;
+		float4 color;
+	}
+
+	out
+	{
+		float4 color;
+	}
+
+	main(out float4 position : MR_Position, uint id : MR_VertexId )
+	{
+		const float2 uvs[] = { float2(0.0, 0.0), float2(1.0, 0.0), float2(1.0, 1.0),
+							   float2(1.0, 1.0), float2(0.0, 1.0), float2(0.0, 0.0) };
+
+		float2 uv = uvs[id % 6];
+
+		float2 iconSize = float2(10.0f, 10.0f);
+		position = MR_Transform(MR_ViewConstants.worldToClip, In.pos);
+		float w = position.w;
+		position.xy /= w;
+		position.xy += (float2(uv.x - 0.5, 0.5 - uv.y) * iconSize / MR_ViewConstants.viewportSize);
+		position.xy *= w;
+
+		Out.color = In.color;
+	}
+}
+
+pixel
+{
+	in
+	{
+		float4 color;
+	}
+
+	main(out float4 colorOut : MR_Color)
+	{
+		colorOut = In.color;
+	}
+}

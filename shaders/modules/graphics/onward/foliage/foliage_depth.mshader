@@ -1,0 +1,73 @@
+@include "shaders/modules/graphics/onward/foliage/foliage_vs.h"
+
+vertex
+{
+	out
+	{
+		@ifdef DITHER
+			float dist;
+		@endif // DITHER
+		@ifdef USE_TEXTURE_COORDS
+			float2 uvs;
+		@endif // USE_TEXTURE_COORDS
+		float animation;
+	}
+
+
+	main(out float4 clipPos : MR_Position)
+	{
+		float3 normal;
+
+		TransfromOutput output;
+		float3 tangent = float3(1, 0, 0);
+		float3 binormal = float3(1, 0, 0);
+
+		float3 worldPos = TransfromVertex( In.localPos, In.instancePos.xyz, In.instanceCol, float3(1, 0, 0), normal, tangent, binormal, output );
+
+		@ifdef DITHER
+			Out.dist = distance(worldPos, MR_ViewConstants.LODCameraPosition);
+		@endif // DITHER
+
+		clipPos = MR_Transform(MR_ViewConstants.worldToClip, worldPos );
+		@ifdef USE_TEXTURE_COORDS
+			Out.uvs = In.uvs;
+		@endif // USE_TEXTURE_COORDS
+
+		Out.animation = output.params.z; // flicker if we remove this :(
+	}
+}
+
+pixel
+{
+	in
+	{
+		@ifdef DITHER
+			float dist;
+		@endif // DITHER
+		@ifdef USE_TEXTURE_COORDS
+			float2 uvs;
+		@endif // USE_TEXTURE_COORDS
+	}
+
+	@ifdef HAS_ALBEDO_TEXTURE
+		MR_Sampler2D AlbedoTexture : MR_Texture0;
+	@endif // HAS_ALBEDO_TEXTURE
+
+	main(out float4 colorOut0 : MR_Color0
+		@ifdef DITHER
+		, float4 MR_FragCoord : MR_FragCoord
+		@endif // DITHER
+)
+	{
+
+	@ifdef HAS_ALBEDO_TEXTURE
+		clip( MR_Sample(AlbedoTexture, In.uvs).a - 0.5f );
+	@endif // HAS_ALBEDO_TEXTURE
+
+	@ifdef DITHER
+		OW_Foliage_Dither( In.dist, MR_FragCoord.xy );
+	@endif // DITHER
+
+		colorOut0 = 0;
+	}
+}

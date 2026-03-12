@@ -1,0 +1,133 @@
+
+constants : MR_ConstantBuffer0
+{
+	int MipLevel;
+	float TextureIndex;
+	float Gamma;
+	int TextureMode;
+	int TonemappingMode;
+	int	GridMode;
+	float TexelSize;
+	float2 CheckerTileSize;
+	float2 TextureSizeInPixels;
+	float2 Offset;
+	float2 Scaling;
+	float2 RangeValues;
+	float4x4 ColorMatrix;
+	float4 AlphaAdd;
+	float4 BackgroundColor1;
+	float4 BackgroundColor2;
+}
+
+vertex
+{
+	in
+	{
+		float2 pos;
+		float2 uv;
+		float3 dir;
+	}
+
+	out
+	{
+		float3 uv;
+		float3 dir;
+	}
+
+	main(out float4 clipPos : MR_Position)
+	{
+		float2 position = In.pos;
+		position.x = -1 + Offset.x + Scaling.x * (position.x + 1);
+		position.y = 1 + Offset.y + Scaling.y * (position.y - 1);
+	
+		clipPos			= float4(position, 0, 1);
+		Out.uv			= float3(In.uv, TextureIndex);
+		Out.dir			= In.dir;
+	}
+}
+
+pixel
+{
+@ifdef INT
+@	ifdef SINT
+		MR_Sampler2D<int> Sampler2D				: MR_Texture0 { mutable = true };
+		MR_Sampler2DArray<int> Sampler2DArray	: MR_Texture1 { mutable = true };
+		MR_Sampler3D<int> Sampler3D				: MR_Texture2 { mutable = true };
+		MR_SamplerCube<int> SamplerCubeMap		: MR_Texture3 { mutable = true };
+@	else
+		MR_Sampler2D<uint> Sampler2D			: MR_Texture0 { mutable = true };
+		MR_Sampler2DArray<uint> Sampler2DArray	: MR_Texture1 { mutable = true };
+		MR_Sampler3D<uint> Sampler3D			: MR_Texture2 { mutable = true };
+		MR_SamplerCube<uint> SamplerCubeMap		: MR_Texture3 { mutable = true };
+@	endif
+@else
+	MR_Sampler2D Sampler2D						: MR_Texture0 { mutable = true };
+	MR_Sampler2DArray Sampler2DArray			: MR_Texture1 { mutable = true };
+	MR_Sampler3D Sampler3D						: MR_Texture2 { mutable = true };
+	MR_SamplerCube SamplerCubeMap				: MR_Texture3 { mutable = true };
+@endif
+
+	in
+	{
+		float3 uv;
+		float3 dir;
+	}
+
+	main(out float4 color : MR_Color0)
+	{
+		float4 tex = vec4(0);
+
+@ifdef INT
+		float2 texel = In.uv.xy * TextureSizeInPixels;
+		if (TextureMode == 0)
+			tex = MR_Load(Sampler2D, int3(texel.xy, MipLevel)) + float4(0,0,1,0);
+		else if (TextureMode == 1)
+			tex = MR_Load(Sampler2DArray, int4(texel.xy, In.uv.z, MipLevel)) + float4(0,1,0,0);
+@else
+		if (TextureMode == 0)
+			tex = MR_SampleLod(Sampler2D, In.uv.xy, MipLevel);
+		else if (TextureMode == 1)
+			tex = MR_SampleLod(Sampler2DArray, In.uv, MipLevel);
+		else if (TextureMode == 2)
+			tex = MR_SampleLod(Sampler3D, In.uv, MipLevel);
+		else if (TextureMode == 3)
+			tex = MR_SampleLod(SamplerCubeMap, In.dir, MipLevel);
+@endif
+
+		color = tex;
+		color = MR_Transform(ColorMatrix, tex) + AlphaAdd;
+		color.rgb = (color.rgb - vec3(RangeValues.x)) / (RangeValues.y - RangeValues.x);
+		color = max(color, vec4(0));
+		if (TonemappingMode == 1)
+			color.rgb = color.rgb / (color.rgb + vec3(1));
+		color.rgb = pow(color.rgb, vec3(Gamma));
+
+		float4 backgroundColor = BackgroundColor1;
+		float2 checkerUV = frac(CheckerTileSize * In.uv.xy);
+		if ((checkerUV.x < 0.5 && checkerUV.y < 0.5) || (checkerUV.x >= 0.5 && checkerUV.y >= 0.5))
+			backgroundColor = BackgroundColor2;
+		color.rgb = lerp(backgroundColor.rgb, color.rgb, color.a);
+
+		color.a = 1.0;
+		color = saturate(color);
+
+		if (GridMode == 1)
+		{
+			float2 gridUV = (TextureSizeInPixels * In.uv.xy);
+			float2 uv = float2(frac(gridUV.x), frac(gridUV.y));
+			
+			float3 gridColor = float3(0,0,0);
+			float gridAlpha = 0;
+
+			if (uv.x >= (1.0f - TexelSize) || uv.x < TexelSize || uv.y >= (1.0 - TexelSize) || uv.y < TexelSize)
+			{
+				const float strength = 6;
+				float luminance = 0.299 * color.r + 0.587 * color.g + 0.114 * color.b;
+				gridColor = luminance < 0.5 ? vec3(1) : vec3(0);
+				gridAlpha = 1 - saturate(TexelSize * strength);
+			}
+
+			color.rgb = lerp(color.rgb, gridColor, gridAlpha);
+		}
+	}
+}

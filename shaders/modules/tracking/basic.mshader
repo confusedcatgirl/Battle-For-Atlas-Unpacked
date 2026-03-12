@@ -1,0 +1,43 @@
+import "shaders/MRender/MR_ViewConstants.h"
+
+constants : MR_ConstantBuffer0
+{
+	float AlphaFactor;	
+}
+
+vertex
+{
+	in
+	{
+		float4 position;
+		float4 color;
+		float4 indexColor; // Ignored here
+	}
+
+	out
+	{
+		float4 color;
+	}
+
+	main(out float4 clipPos : MR_Position)
+	{
+	    float4 color = In.color;
+	    color.a *= AlphaFactor;	
+	    Out.color = color;
+		
+		clipPos = MR_Transform(MR_ViewConstants.worldToClip, In.position.xyz);
+	}
+}
+
+pixel
+{
+	in
+	{
+		float4 color;
+	}
+
+	main(out float4 color : MR_Color)
+	{
+		color = In.color;
+	}
+}

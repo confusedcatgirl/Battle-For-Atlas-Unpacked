@@ -1,0 +1,193 @@
+@include "shaders/modules/graphics/postfx/pixel_in.h"
+import "shaders/modules/graphics/normal_encode.h"
+import "shaders/MRender/MR_ViewConstants.h"
+
+computeParameters
+{
+	numThreads 16 16 1
+}
+
+compute
+{
+	constants : MR_ConstantBuffer0
+	{
+		int2 TopLeft;
+		int2 BottomRight;
+		float2 LastFrameOffset;
+		float2 LastFrameScale;
+		float TemporalStrength;
+		float FarLength;
+		float MotionScale;
+	}
+
+	MR_Texture2D<float> Visibility : MR_Texture0;
+	MR_Texture2D<float> Depth : MR_Texture1;
+	MR_Texture2D<float2> Normal : MR_Texture2;
+	MR_Texture2D<float2> MotionBuffer : MR_Texture3;
+	MR_RWTexture2D<float> Result : MR_RW_Texture0;
+
+@ifdef USE_TEMPORAL 
+	MR_Texture2D<float> FrameHoldPrev : MR_Texture4;
+@endif
+
+	// 20x20 pixels with an 16x16 center that we will be blurring writing out.
+	global groupshared uint DepthNormalCache[400];
+	global groupshared uint VisibilityCache[200];
+	global groupshared float VisibilityCache2[320];
+
+	uint2 GetCoord(int2 loc) { return uint2(clamp(loc.x+TopLeft.x, TopLeft.x, BottomRight.x), clamp(loc.y+TopLeft.y, TopLeft.y, BottomRight.y)); }
+
+	void StoreDepth( uint index, uint depth)
+	{
+		DepthNormalCache[index] = depth;
+	}
+
+	uint ReadDepth( uint index)
+	{
+		return DepthNormalCache[index];
+	}
+
+	void Store2Visibility(uint index, float vis1, float vis2)
+	{
+		VisibilityCache[index] = f32tof16(vis1) | f32tof16(vis2) << 16;
+	}
+
+	void Read2Visibility(uint index, out float vis1, out float vis2)
+	{
+		uint vv = VisibilityCache[index];
+		vis1 = f16tof32(vv);
+		vis2 = f16tof32(vv >> 16);
+	}
+
+	float GetWeight(uint midDepthNormal, uint sampleDepthNormal)
+	{
+		float weight = 1;
+		int2 midNorm = uint2((midDepthNormal >> 16) & 255, (midDepthNormal >> 24) & 255);
+		int2 sampleNorm = uint2((sampleDepthNormal >> 16) & 255, (sampleDepthNormal >> 24) & 255);
+		int dif = abs(midNorm.x-sampleNorm.x)+abs(midNorm.x-sampleNorm.x);
+		weight *= saturate(1-dif*0.03);
+		weight *= saturate(1.1 - abs(f16tof32(midDepthNormal)-f16tof32(sampleDepthNormal)));
+		return weight;
+	}
+
+	float2 AddVisibility(uint midDepthNormal, uint sampleDepthNormal, float sampleVisibility)
+	{
+		float weight = GetWeight(midDepthNormal, sampleDepthNormal);
+		return float2(sampleVisibility * weight, weight);
+	}
+
+	uint Div10(uint n)
+	{
+		//return n/10;
+		return (n * 0x199a) >> 16;
+	}
+	void ReadInCaches(uint GI, uint3 Gid)
+	{
+		if(GI < 200)
+		{
+			uint yp = Div10(GI);
+			uint xp = GI-yp*10;
+
+			uint cacheWritePos = xp*2 + yp*20;
+			uint cacheWritePos2 = cacheWritePos+1;
+			int2 startRead = Gid.xy*16 + int2(xp*2-(int)2, yp-(int)2);
+			uint2 tc0 = GetCoord(startRead);
+			uint2 tc1 = GetCoord(startRead+int2(1,0));
+
+			float depth1 = Depth[tc0].x;
+			float depth2 = Depth[tc1].x;
+			float2 norm1 = Normal[tc0];
+			float2 norm2 = Normal[tc1];
+			uint depthNorm1 = uint(f32tof16(depth1)) + (uint(saturate(norm1.x*0.5+0.5)*255) << 16) + (uint(saturate(norm1.y*0.5+0.5)*255) << 24);
+			uint depthNorm2 = uint(f32tof16(depth2)) + (uint(saturate(norm2.x*0.5+0.5)*255) << 16) + (uint(saturate(norm2.y*0.5+0.5)*255) << 24);
+			StoreDepth(cacheWritePos , depthNorm1);
+			StoreDepth(cacheWritePos2, depthNorm2);
+
+			float vis1 = depth1 > FarLength ? 1 : Visibility[tc0].x;
+			float vis2 = depth2 > FarLength ? 1 : Visibility[tc1].x;
+			Store2Visibility(cacheWritePos>>1, vis1, vis2);
+		}
+	}
+
+	void FilterHorizontal(uint GI)
+	{
+		if(GI < 160)
+		{
+			uint depthIdx = (GI&7)*2 + (GI/8)*20;
+			uint visibilityIdx = (GI&7) + (GI/8)*10;
+			uint writeIdx = (GI&7)*2 + (GI/8)*16;
+			uint depthNormals[6];
+			float visibilities[6];
+			for(int a=0;a<6;++a)
+			{
+				depthNormals[a] = ReadDepth(depthIdx+a);
+			}
+			for(int a=0;a<3;++a)
+				Read2Visibility((visibilityIdx+a), visibilities[a*2], visibilities[a*2+1]);
+
+			float2 visibility1 = float2(visibilities[2], 1);
+
+			visibility1 += AddVisibility(depthNormals[2], depthNormals[0], visibilities[0]);
+			visibility1 += AddVisibility(depthNormals[2], depthNormals[1], visibilities[1]);
+			visibility1 += AddVisibility(depthNormals[2], depthNormals[3], visibilities[3]);
+			visibility1 += AddVisibility(depthNormals[2], depthNormals[4], visibilities[4]);
+			VisibilityCache2[writeIdx] = visibility1.x/visibility1.y;
+
+			float2 visibility2 = float2(visibilities[3], 1);
+
+			visibility2 += AddVisibility(depthNormals[3], depthNormals[1], visibilities[1]);
+			visibility2 += AddVisibility(depthNormals[3], depthNormals[2], visibilities[2]);
+			visibility2 += AddVisibility(depthNormals[3], depthNormals[4], visibilities[4]); 
+			visibility2 += AddVisibility(depthNormals[3], depthNormals[5], visibilities[5]);
+			VisibilityCache2[writeIdx+1] = visibility2.x/visibility2.y;
+		}
+	}
+
+	float FilterVertical(uint3 GTid)
+	{
+		uint visibilityIdx = (GTid.y)*16+GTid.x;
+		uint depthIdx = (GTid.y)*20+GTid.x+2;
+		uint centerDepthNormal = ReadDepth(depthIdx+2*20);
+		float2 value = float2(VisibilityCache2[visibilityIdx+2*16], 1);
+
+		value += AddVisibility(centerDepthNormal, ReadDepth(depthIdx+0*20), VisibilityCache2[visibilityIdx+0*16]);
+		value += AddVisibility(centerDepthNormal, ReadDepth(depthIdx+1*20), VisibilityCache2[visibilityIdx+1*16]);
+		value += AddVisibility(centerDepthNormal, ReadDepth(depthIdx+3*20), VisibilityCache2[visibilityIdx+3*16]);
+		value += AddVisibility(centerDepthNormal, ReadDepth(depthIdx+4*20), VisibilityCache2[visibilityIdx+4*16]);
+
+		float visibility = value.x/value.y;
+		return visibility;
+	}
+
+	main(uint3 Gid : MR_GroupId, uint GI : MR_GroupIndex, uint3 GTid : MR_GroupThreadId, uint3 DTid : MR_DispatchThreadId )
+	{
+		ReadInCaches(GI, Gid);
+		MR_GroupMemoryBarrierSync();
+
+		FilterHorizontal(GI);
+		MR_GroupMemoryBarrierSync();
+
+		float visibility = FilterVertical(GTid);
+
+		uint2 texCoord = GetCoord(DTid.xy);
+		visibility = pow(visibility, 2.8);
+		visibility = max(visibility, 0.05);
+
+@ifdef USE_TEMPORAL
+		{
+			float2 offset = MotionBuffer[texCoord] * MotionScale;
+			float tempStrength = TemporalStrength - dot(offset, offset) * 500;
+
+			if(tempStrength > 0.1)
+			{
+				float2 oldTexCoord = texCoord*LastFrameScale + LastFrameOffset + offset * MR_ViewConstants.framebufferSize * MR_ViewConstants.clipToFramebufferUVScale;
+				float oldVisibility = FrameHoldPrev[oldTexCoord];
+				float valueOutside = max(0, abs(visibility - oldVisibility) - 0.1f);
+				tempStrength = max(0, tempStrength - valueOutside * 5);
+				visibility = saturate(visibility*(1-tempStrength)+oldVisibility*tempStrength);
+			}
+		}
+@endif
+		Result[texCoord] = visibility;
+	}
+}

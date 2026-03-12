@@ -1,0 +1,36 @@
+struct SFallbackData
+{
+	int2 Key;
+};
+
+constants : MR_ConstantBuffer0
+{
+	float4 SkyColor[6];
+	uint NumberEntries;
+}
+
+	
+MR_StructuredBuffer< SFallbackData > FallbackData : MR_Buffer0;
+
+MR_RWTexture3D< float3 > FallbackTexture : MR_RW_Texture0;
+
+computeParameters
+{
+	numThreads 64 1 1
+}
+
+compute main(uint3 threadIdWithinDispatch : MR_DispatchThreadId)
+{
+	uint3 fallbackIndex = threadIdWithinDispatch;
+	if (fallbackIndex.x >= NumberEntries)
+		return;
+	
+	uint3 pixelIndex = uint3(FallbackData[fallbackIndex.x].Key.x, FallbackData[fallbackIndex.x].Key.y, 0) + uint3(64, 64, 0);
+		
+	for(int i = 0; i < 6; i++)
+	{
+		pixelIndex.z = i;
+			
+		FallbackTexture[pixelIndex] = SkyColor[i].rgb;
+	}
+}

@@ -1,0 +1,1 @@
+global bool ourIsTransparent = false;

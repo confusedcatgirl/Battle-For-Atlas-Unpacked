@@ -1,0 +1,132 @@
+@include "shaders/modules/graphics/onward/foliage/foliage_vs.h"
+import "shaders/MRender/MR_ViewConstants.h"
+
+vertex
+{
+	out
+	{
+		float4 albedo;
+		float3 normal;
+		@ifdef USE_TEXTURE_COORDS
+			float2 uvs;
+			@ifdef HAS_NORMAL_TEXTURE
+			float3 tangent;
+			float3 binormal;
+			@endif // HAS_NORMAL_TEXTURE
+		@endif // USE_TEXTURE_COORDS
+		@ifdef DITHER
+			float dist;
+		@endif // DITHER
+		float animation;
+	}
+
+	main(out float4 clipPos : MR_Position)
+	{
+		TransfromOutput output;
+		float3 tangent = float3(1, 0, 0);
+		float3 binormal = float3(0, 1, 0);
+		float3 inTan = float3(1, 0, 0);
+
+@ifdef USE_TEXTURE_COORDS
+		inTan = In.tan;
+@endif // USE_TEXTURE_COORDS
+
+		float3 worldPos = TransfromVertex( In.localPos, In.instancePos.xyz, In.instanceCol, inTan, Out.normal, tangent, binormal, output );
+
+		clipPos = MR_Transform( MR_ViewConstants.worldToClip, worldPos );
+		@ifdef USE_TEXTURE_COORDS
+			Out.uvs = In.uvs;
+			@ifdef HAS_NORMAL_TEXTURE
+			Out.tangent = tangent;
+			Out.binormal = binormal;
+			@endif // HAS_NORMAL_TEXTURE
+		@endif // USE_TEXTURE_COORDS
+
+
+		Out.albedo.a = saturate( output.params.x );
+		Out.albedo.rgb = In.instanceCol.xyz;
+
+		Out.animation = output.params.z;
+
+@ifdef DITHER
+		Out.dist = distance(worldPos, MR_ViewConstants.LODCameraPosition);
+@endif // DITHER
+	}
+}
+
+pixel
+{
+	import "shaders/modules/graphics/normal_encode.h"
+	import "shaders/modules/graphics/deferred_data.h"
+	import "shaders/nodes/Shader/Functions/Unpack Normal.h"
+
+	in
+	{
+		float4 albedo;
+		float3 normal;
+		@ifdef USE_TEXTURE_COORDS
+			float2 uvs;
+			@ifdef HAS_NORMAL_TEXTURE
+			float3 tangent;
+			float3 binormal;
+			@endif // HAS_NORMAL_TEXTURE
+		@endif // USE_TEXTURE_COORDS
+		@ifdef DITHER
+			float dist;
+		@endif // DITHER
+		float animation;
+	}
+
+	@ifdef HAS_ALBEDO_TEXTURE
+		MR_Sampler2D AlbedoTexture : MR_Texture0;
+	@endif // HAS_ALBEDO_TEXTURE
+
+	@ifdef HAS_NORMAL_TEXTURE
+		MR_Sampler2D NormalTexture : MR_Texture1;
+	@endif // HAS_NORMAL_TEXTURE
+
+	main(out float4 colorOut0 : MR_Color0, out float4 colorOut1 : MR_Color1,out float4 colorOut2 : MR_Color2
+		@ifdef DITHER
+		, float4 MR_FragCoord : MR_FragCoord
+		@endif // DITHER
+	)
+	{
+		Gfx_DeferredData deferredData = Gfx_GetDefaultDeferredData();
+
+		deferredData.color = In.albedo.rgb;
+
+		float3 normal = In.normal;
+
+		float useAlbedoColorAmount = In.albedo.a;
+
+		@ifdef HAS_ALBEDO_TEXTURE
+			float4 albedoTexture = MR_Sample(AlbedoTexture, In.uvs);
+			@ifdef DITHER
+				clip(albedoTexture.w - 0.5f);
+			@endif // DITHER
+		@endif // HAS_ALBEDO_TEXTURE
+
+		@ifdef DITHER
+			 OW_Foliage_Dither( In.dist, MR_FragCoord.xy );
+		@endif // DITHER
+
+		@ifdef HAS_NORMAL_TEXTURE
+			float4 normalTexture = MR_Sample(NormalTexture, In.uvs);
+			UnpackNormalAndAO(normalTexture, normal, useAlbedoColorAmount);
+		@endif // HAS_NORMAL_TEXTURE
+
+		@ifdef HAS_ALBEDO_TEXTURE
+			deferredData.color = lerp(deferredData.color.xyz, albedoTexture.xyz, useAlbedoColorAmount);
+		@endif // HAS_ALBEDO_TEXTURE
+
+		@ifdef HAS_NORMAL_TEXTURE
+			float3x3 tbn = MR_ColumnMatrix( cross(normalize(In.normal), normalize(In.binormal)),  normalize(In.binormal), normalize(In.normal));
+			normal = MR_Transform( tbn, normal );
+		@endif // HAS_NORMAL_TEXTURE
+
+		deferredData.roughness = 1.0f - 0.3f * In.animation.x;
+		//deferredData.opacity = 0.0f;
+		deferredData.worldNormal = normal;
+		Gfx_DeferredToMRT( deferredData, colorOut0, colorOut1, colorOut2 );
+	}
+}

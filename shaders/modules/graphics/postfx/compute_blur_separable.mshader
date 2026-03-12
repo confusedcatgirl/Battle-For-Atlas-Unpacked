@@ -1,0 +1,204 @@
+computeParameters
+{
+	numThreads 64 1 1
+}
+
+compute
+{
+	constants : MR_ConstantBuffer15
+	{
+		uint slice;
+		int maxX;
+		int maxY;
+		uint numWeights;
+		float4 weights[33];
+		float strength;
+	}
+
+@ifdef USE_A_CHANNEL
+
+@ifdef VOLUME_HORIZONTAL
+	@define VOLUME
+	@define HORIZONTAL
+@endif // VOLUME_HORIZONTAL
+
+@ifdef VOLUME
+
+	// assume we doing HORIZONTAL first, we output into a 2D texture then read from it
+	@ifdef HORIZONTAL
+		MR_Texture3D<float4> Input : MR_Texture0;
+		MR_RWTexture2D<float4> Result : MR_RW_Texture0;
+		uint2 GetDestCoord(uint2 loc) { return loc; }
+		uint3 GetSrcCoord(int2 loc) { return uint3(clamp(loc.x, 0, maxX), clamp(loc.y, 0, maxY), slice); }
+	@else
+		MR_Texture2D<float4> Input : MR_Texture0;
+		MR_RWTexture3D<float4> Result : MR_RW_Texture0;
+		uint3 GetDestCoord(uint2 loc) { return uint3(loc, slice); }
+		uint2 GetSrcCoord(int2 loc) { return uint2(clamp(loc.x, 0, maxX), clamp(loc.y, 0, maxY)); }
+	@endif // HORIZONTAL
+
+@else
+	MR_Texture2D<float4> Input : MR_Texture0;
+	MR_RWTexture2D<float4> Result : MR_RW_Texture0;
+
+	uint2 GetDestCoord(uint2 loc) { return loc; }
+	uint2 GetSrcCoord(int2 loc) { return uint2(clamp(loc.x, 0, maxX), clamp(loc.y, 0, maxY)); }
+@endif // VOLUME
+
+	// 2 lines of 64 + (2 * 32) pixels Each uint is two color channels packed together
+	global groupshared uint CacheR[128];
+	global groupshared uint CacheG[128];
+	global groupshared uint CacheB[128];
+	global groupshared uint CacheA[128];
+
+	void Store2Pixels(uint index, float4 pixel1, float4 pixel2)
+	{
+		pixel1 = pixel1 >= 0 && pixel1 < 100000.0 ? pixel1 : vec4(0);
+		pixel2 = pixel2 >= 0 && pixel2 < 100000.0 ? pixel2 : vec4(0);
+
+		CacheR[index] = f32tof16(pixel1.r) | f32tof16(pixel2.r) << 16;
+		CacheG[index] = f32tof16(pixel1.g) | f32tof16(pixel2.g) << 16;
+		CacheB[index] = f32tof16(pixel1.b) | f32tof16(pixel2.b) << 16;
+		CacheA[index] = f32tof16(pixel1.a) | f32tof16(pixel2.a) << 16;
+	}
+
+	void Load2Pixels(uint index, out float4 pixel1, out float4 pixel2)
+	{
+		uint rr = CacheR[index];
+		uint gg = CacheG[index];
+		uint bb = CacheB[index];
+		uint aa = CacheA[index];
+
+		pixel1 = float4( f16tof32(rr      ), f16tof32(gg      ), f16tof32(bb      ), f16tof32(aa      ) );
+		pixel2 = float4( f16tof32(rr >> 16), f16tof32(gg >> 16), f16tof32(bb >> 16), f16tof32(aa >> 16) );
+	}
+
+	// Blur two pixels per thread
+	void Blur(uint2 pixelCoord, uint startIndex)
+	{
+@ifdef HORIZONTAL
+		#define SWIZZLE xy
+@else
+		#define SWIZZLE yx
+@endif // HORIZONTAL
+
+		float4 s0, s1, s2, s3, color0, color1;
+		Load2Pixels(startIndex, color0, color1);
+		float weight = weights[0].x;
+		color0 *= weight;
+		color1 *= weight;
+
+		for(uint i = 1; i < numWeights; ++i)
+		{
+			Load2Pixels(startIndex - i, s0, s1);
+			Load2Pixels(startIndex + i, s2, s3);
+
+			weight = weights[i].x;
+			color0 += (s0 + s2) * weight;
+			color1 += (s1 + s3) * weight;
+		}
+
+		Result[GetDestCoord(pixelCoord)] = color0 * strength;
+		Result[GetDestCoord(pixelCoord + int2(0, 1).SWIZZLE)] = color1 * strength;
+	}
+
+@else // USE_A_CHANNEL
+
+@ifdef VOLUME
+
+	// assume we doing HORIZONTAL first, we output into a 2D texture then read from it
+	@ifdef HORIZONTAL
+		MR_Texture3D<float3> Input : MR_Texture0;
+		MR_RWTexture2D<float3> Result : MR_RW_Texture0;
+		uint2 GetDestCoord(uint2 loc) { return loc; }
+		uint3 GetSrcCoord(int2 loc) { return uint3(clamp(loc.x, 0, maxX), clamp(loc.y, 0, maxY), slice); }
+	@else
+		MR_Texture2D<float3> Input : MR_Texture0;
+		MR_RWTexture3D<float3> Result : MR_RW_Texture0;
+		uint3 GetDestCoord(uint2 loc) { return uint3(loc, slice); }
+		uint2 GetSrcCoord(int2 loc) { return uint2(clamp(loc.x, 0, maxX), clamp(loc.y, 0, maxY)); }
+	@endif // HORIZONTAL
+
+@else
+	MR_Texture2D<float3> Input : MR_Texture0;
+	MR_RWTexture2D<float3> Result : MR_RW_Texture0;
+
+	uint2 GetDestCoord(uint2 loc) { return loc; }
+	uint2 GetSrcCoord(int2 loc) { return uint2(clamp(loc.x, 0, maxX), clamp(loc.y, 0, maxY)); }
+@endif // VOLUME
+
+	// 2 lines of 64 + (2 * 32) pixels Each uint is two color channels packed together
+	global groupshared uint CacheR[128];
+	global groupshared uint CacheG[128];
+	global groupshared uint CacheB[128];
+
+	void Store2Pixels(uint index, float3 pixel1, float3 pixel2)
+	{
+		pixel1 = pixel1 >= 0 && pixel1 < 100000.0 ? pixel1 : vec3(0);
+		pixel2 = pixel2 >= 0 && pixel2 < 100000.0 ? pixel2 : vec3(0);
+
+		CacheR[index] = f32tof16(pixel1.r) | f32tof16(pixel2.r) << 16;
+		CacheG[index] = f32tof16(pixel1.g) | f32tof16(pixel2.g) << 16;
+		CacheB[index] = f32tof16(pixel1.b) | f32tof16(pixel2.b) << 16;
+	}
+
+	void Load2Pixels(uint index, out float3 pixel1, out float3 pixel2)
+	{
+		uint rr = CacheR[index];
+		uint gg = CacheG[index];
+		uint bb = CacheB[index];
+		pixel1 = float3( f16tof32(rr      ), f16tof32(gg      ), f16tof32(bb      ) );
+		pixel2 = float3( f16tof32(rr >> 16), f16tof32(gg >> 16), f16tof32(bb >> 16) );
+	}
+
+	// Blur two pixels per thread
+	void Blur(uint2 pixelCoord, uint startIndex)
+	{
+@ifdef HORIZONTAL
+		#define SWIZZLE xy
+@else
+		#define SWIZZLE yx
+@endif // HORIZONTAL
+
+		float3 s0, s1, s2, s3, color0, color1;
+		Load2Pixels(startIndex, color0, color1);
+		float weight = weights[0].x;
+		color0 *= weight;
+		color1 *= weight;
+
+		for(uint i = 1; i < numWeights; ++i)
+		{
+			Load2Pixels(startIndex - i, s0, s1);
+			Load2Pixels(startIndex + i, s2, s3);
+
+			weight = weights[i].x;
+			color0 += (s0 + s2) * weight;
+			color1 += (s1 + s3) * weight;
+		}
+
+		Result[GetDestCoord(pixelCoord)] = color0 * strength;
+		Result[GetDestCoord(pixelCoord + int2(0, 1).SWIZZLE)] = color1 * strength;
+	}
+
+@endif // USE_A_CHANNEL
+
+	main(uint3 Gid : MR_GroupId, uint3 GTid : MR_GroupThreadId, uint3 DTid : MR_DispatchThreadId)
+	{
+		int border = numWeights - 1;
+		int border2 = border << 1;
+
+		int2 GroupUL = int2(int(Gid.x << 6) - border, Gid.y << 1);	// Upper-left pixel coordinate of group read location
+		int2 ThreadUL = int2(GTid.x, GTid.y << 1) + GroupUL;		// Upper-left pixel coordinate of quad that this thread will read
+
+		uint destIdx = GTid.x;
+		Store2Pixels(destIdx, Input[GetSrcCoord(ThreadUL.SWIZZLE)], Input[GetSrcCoord((ThreadUL + int2(0, 1)).SWIZZLE)]);
+
+		if (destIdx < border2)
+			Store2Pixels(destIdx + 64, Input[GetSrcCoord((ThreadUL + int2(64, 0)).SWIZZLE)], Input[GetSrcCoord((ThreadUL + int2(64, 1)).SWIZZLE)]);
+
+		MR_GroupMemoryBarrierSync();
+
+		uint2 pixelCoord = uint2(DTid.x, DTid.y << 1);
+		Blur(pixelCoord.SWIZZLE, GTid.x + border);
+	}
+}

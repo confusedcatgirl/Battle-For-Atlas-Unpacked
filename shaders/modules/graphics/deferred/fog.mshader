@@ -1,0 +1,34 @@
+@include "shaders/modules/graphics/postfx/pixel_in.h"
+@include "shaders/modules/graphics/deferred/ssr.h"
+
+pixel
+{
+	main(out float4 colorOut : MR_Color0, float4 fc : MR_FragCoord)
+	{
+		float4 mrt0 = MR_SampleTexelLod0(MRT0, fc.xy);
+		float4 mrt1 = MR_SampleTexelLod0(MRT1, fc.xy);
+		float4 mrt2 = MR_SampleTexelLod0(MRT2, fc.xy);
+		float depth = MR_SampleTexelLod0(Depth, fc.xy).x;
+
+		Gfx_DeferredData data;
+		Gfx_MRTToDeferred(data, mrt0, mrt1, mrt2);
+
+		float2 clip2 = MR_PixelToClip(fc.xy);
+		float3 pos = MR_ClipToWorld(clip2, depth);
+
+		float3 light = MR_SampleTexelLod0(Light_RGB, fc.xy).xyz;
+
+		Gfx_LightingDataStruct ld = Gfx_GetLightingData(pos, float4(fc.xy, 0, depth));
+
+@ifndef GFX_NO_INDOOR
+@ifdef GFX_NO_INDOOR_FOG
+		if (!ld.isIndoor)
+@endif
+@endif
+		{
+			// This shader is not used anymore
+		}
+
+		colorOut = float4(light, 1);
+	}
+}

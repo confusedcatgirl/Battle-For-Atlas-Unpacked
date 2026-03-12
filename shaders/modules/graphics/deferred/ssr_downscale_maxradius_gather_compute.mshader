@@ -1,0 +1,53 @@
+@include "shaders/modules/graphics/deferred/ssr.h"
+
+constants Downscale : MR_ConstantBuffer2
+{
+	float2 threadToUVScale;
+	float2 threadToUVOffset;
+}
+
+MR_RWTexture2D<float> RadiusOut : MR_RW_Texture0;
+
+computeParameters
+{
+	numThreads 8 8 1
+}
+
+compute main(uint3 dtid : MR_DispatchThreadId)
+{
+	float maxRadius = 0;
+
+	for (int y=0; y<MaxRadiusScale; y+=2)
+		for (int x=0; x<MaxRadiusScale; x+=2)
+		{
+			float2 centerOffset = float2(x,y) - vec2(MaxRadiusScale/2 + 1);
+
+			float2 uv = dtid.xy * Downscale.threadToUVScale + Downscale.threadToUVOffset;
+			float4 reflected_x = MR_SampleGatherRed(Light_RadiusAlpha, uv + centerOffset * SSR.quarterSizeSinglePixelUVOffset);
+			float4 reflected_y = MR_SampleGatherGreen(Light_RadiusAlpha, uv + centerOffset * SSR.quarterSizeSinglePixelUVOffset);
+
+			float reflectionRadius;
+			float reflectionAlpha;
+			float reflectionSign;
+
+			float minAlpha = SSR.maxRadiusAlphaCutoff;
+
+			DecodeRadiusAlpha(reflectionRadius, reflectionAlpha, reflectionSign, float2(reflected_x.x, reflected_y.x));
+			if (reflectionAlpha > minAlpha)
+				maxRadius = max(maxRadius, reflectionRadius);
+
+			DecodeRadiusAlpha(reflectionRadius, reflectionAlpha, reflectionSign, float2(reflected_x.y, reflected_y.y));
+			if (reflectionAlpha > minAlpha)
+				maxRadius = max(maxRadius, reflectionRadius);
+
+			DecodeRadiusAlpha(reflectionRadius, reflectionAlpha, reflectionSign, float2(reflected_x.z, reflected_y.z));
+			if (reflectionAlpha > minAlpha)
+				maxRadius = max(maxRadius, reflectionRadius);
+
+			DecodeRadiusAlpha(reflectionRadius, reflectionAlpha, reflectionSign, float2(reflected_x.w, reflected_y.w));
+			if (reflectionAlpha > minAlpha)
+				maxRadius = max(maxRadius, reflectionRadius);
+		}
+
+	RadiusOut[dtid.xy] = maxRadius / 255.0;
+}

@@ -1,0 +1,95 @@
+import "shaders/MRender/MR_ViewConstants.h"
+import "shaders/modules/graphics/environment.h"
+
+constants : MR_ConstantBuffer0
+{
+	float3 CloudOffset;
+	float Density;
+	float3 CloudSize;
+	float Offset;
+	float2 Wind;
+	float2 Size;
+	float3 Ambient;
+	float CloudG;
+	float DensityLimitLow;
+	float DensityLimitHigh;
+	float HeightScale;
+}
+	
+vertex
+{
+	in
+	{
+		float3 position;
+	}
+
+	out
+	{
+		float3 worldPosition;
+		float2 uv;
+	}
+
+	main(out float4 clipPos : MR_Position)
+	{
+		float3 worldPosition = In.position * CloudSize + CloudOffset;
+		Out.worldPosition = worldPosition;
+		clipPos = MR_Transform(MR_ViewConstants.worldToClip, worldPosition);
+		
+		Out.uv = In.position.xz; // * Size;
+	}
+}
+
+
+pixel
+{
+	MR_Sampler2D Noise
+	{
+		texture = "noise.dds",
+	};
+	
+	in
+	{
+		float3 worldPosition;
+		float2 uv;
+	}
+	
+	float PhaseFunc(float aCos, float aCos2, float aG, float aG2)
+	{
+		//return (3.0f / 4.0f) * (1.0f + aCos2);
+		return (3.0*(1.0-aG2))/(2.0*(2.0+aG2)) * ((1.0 + aCos2) / pow(1.0 + aG2 - 2.0 * aG * aCos, 1.5));
+	}
+
+	main(out float4 color : MR_Color)
+	{
+		float texelSize = 1.0 / 512.0;
+		float2 coordinates0 = saturate(In.uv + texelSize * float2(0.0, -1.0));
+		float2 coordinates1 = saturate(In.uv + texelSize * float2(-1.0, 0.0));
+		float2 coordinates2 = saturate(In.uv + texelSize * float2(1.0, 0.0));
+		float2 coordinates3 = saturate(In.uv + texelSize * float2(0.0, 1.0));
+		
+		float4 h;
+		h.x = MR_SampleLod(Noise, coordinates0 + Gfx_Environment.time * Wind, 0.0).x * HeightScale;
+		h.y = MR_SampleLod(Noise, coordinates1 + Gfx_Environment.time * Wind, 0.0).x * HeightScale;
+		h.z = MR_SampleLod(Noise, coordinates2 + Gfx_Environment.time * Wind, 0.0).x * HeightScale;
+		h.w = MR_SampleLod(Noise, coordinates3 + Gfx_Environment.time * Wind, 0.0).x * HeightScale;
+		float3 normal = normalize(float3(h.y - h.z, -2.0, h.x - h.w));
+		
+		float4 noise = MR_Sample(Noise, In.uv + Gfx_Environment.time * Wind) * 0.6;
+		noise += MR_Sample(Noise, In.uv * 2.0 + Gfx_Environment.time * Wind) * 0.2;
+		noise += MR_Sample(Noise, In.uv * 4.0 + Gfx_Environment.time * Wind) * 0.1;
+		noise += MR_Sample(Noise, In.uv * 8.0 + Gfx_Environment.time * Wind) * 0.05;
+		noise += MR_Sample(Noise, In.uv * 16.0 + Gfx_Environment.time * Wind) * 0.025;
+		noise += MR_Sample(Noise, In.uv * 32.0 + Gfx_Environment.time * Wind) * 0.025;
+		
+		Gfx_DirectionalLight sun = Gfx_GetShadowLight();
+		float3 viewDir = normalize(MR_GetPos(MR_ViewConstants.cameraToWorld).xyz - In.worldPosition);
+		float cos = dot(sun.toLightDirection, viewDir);
+		float cos2 = cos * cos;
+		
+		color.rgb = sun.emission * PhaseFunc(cos, cos2, CloudG, CloudG*CloudG);
+		color.rgb = lerp(color.rgb, Ambient, smoothstep(DensityLimitLow, DensityLimitHigh, 1.0 - saturate(pow(noise.x - Offset, Density)*2.0)));
+		color.rgb += saturate(dot(sun.toLightDirection, normal)).xxx * sun.emission;
+		
+		color.a = 1.0 - saturate(pow(noise.x - Offset, Density)*2.0);
+	}
+}

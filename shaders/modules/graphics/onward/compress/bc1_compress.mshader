@@ -1,0 +1,38 @@
+@include "shaders/modules/graphics/onward/compress/compress_common.h"
+
+computeParameters
+{
+	numThreads 8 8 1
+}
+
+compute
+{
+	MR_RWTexture2D<uint2> DstTex : MR_RW_Texture0;
+	MR_Sampler2D<float3> SrcTex : MR_Texture0;
+
+	float LinearToSRGB(float aLinearColor)
+	{
+		return aLinearColor > 0.0031308f ? 1.055f * pow(aLinearColor, 1/2.4f) - 0.055f : 12.92f * aLinearColor;
+	}
+
+	float3 LinearToSRGB(float3 aLinearColor)
+	{
+		return float3(LinearToSRGB(aLinearColor.x), LinearToSRGB(aLinearColor.y), LinearToSRGB(aLinearColor.z));
+	}
+
+	main(uint3 DTid : MR_DispatchThreadId )
+	{
+		uint2 id = DTid.xy;
+
+		float3 block[16];
+		for(int y=0;y<4;++y)
+			for(int x=0;x<4;++x)
+@ifdef SRGB
+				block[y*4+x] = LinearToSRGB(MR_SampleTexelLod0(SrcTex, id*4+int2(x,y)));
+@else
+				block[y*4+x] = MR_SampleTexelLod0(SrcTex, id*4+int2(x,y));
+@endif
+		uint2 result = CompressBC1Block(block,1);
+		DstTex[id] = result;
+	}
+}

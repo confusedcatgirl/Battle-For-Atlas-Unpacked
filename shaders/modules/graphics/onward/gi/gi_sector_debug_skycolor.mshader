@@ -1,0 +1,68 @@
+import "shaders/modules/graphics/onward/gi/gi_sampling.h"
+import "shaders/modules/graphics/onward/sh/sh_funcs.h"
+
+constants : MR_ConstantBuffer0
+{
+	float4 constPositionSize;
+}
+
+constants : MR_ConstantBuffer1
+{
+	Gfx_SH3Coeffs constSH3CoeffsR;
+	Gfx_SH3Coeffs constSH3CoeffsG;
+	Gfx_SH3Coeffs constSH3CoeffsB;
+	Gfx_SH3Coeffs constSH3CoeffsA;
+}
+
+vertex
+{
+	import "shaders/MRender/MR_ViewConstants.h"
+
+@ifdef OGI_IS_PLANET
+	import "shaders/nodes/Shader/Functions/Apply Planet Transforms To Vertex.h"
+@endif // OGI_IS_PLANET
+
+	in
+	{
+		float4 xyz;
+		float3 normal;
+		float4<BGRA_UNORM8> color;
+	}
+
+	out
+	{
+		float3 color;
+	}
+
+	main(out float4 clipPos : MR_Position)
+	{
+		float3 normal = normalize( In.normal );
+		float3 pos = constPositionSize.xyz + normal * constPositionSize.w;
+
+@ifdef OGI_IS_PLANET
+		pos = ApplyAllPlanetTransformsToVertex( pos );
+@endif // OGI_IS_PLANET
+
+		clipPos = MR_Transform( MR_ViewConstants.worldToClip, pos );
+
+		normal = OW_GI_TransformDirection( normalize( constPositionSize.xyz ), normal );
+		Gfx_SH3Coeffs shCosineLobe = Gfx_SH3EvalCosineLobe( normal );
+
+		float3 skyColor = Gfx_SH3Dot( constSH3CoeffsR, constSH3CoeffsG, constSH3CoeffsB, shCosineLobe );
+		float skyVisibility = Gfx_SH3Dot( constSH3CoeffsA, shCosineLobe );
+		Out.color = skyColor * skyVisibility;
+	}
+}
+
+pixel
+{
+	in
+	{
+		float3 color;
+	}
+
+	main(out float4 outColor : MR_Color)
+	{
+		outColor = float4( In.color, 1.0f );
+	}
+}

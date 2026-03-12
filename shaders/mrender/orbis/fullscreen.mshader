@@ -1,0 +1,40 @@
+/* SCE CONFIDENTIAL
+PlayStation(R)4 Programmer Tool Runtime Library Release 01.600.051
+* Copyright (C) 2013 Sony Computer Entertainment Inc.
+* All Rights Reserved.
+*/
+
+vertex
+{
+    main( out float4 position : MR_Position, uint id : MR_VertexId ) 
+    {
+	    // id | x  | y
+	    //----+----+--- 
+	    // 0  | 0  | 0
+	    //----+----+--- 
+	    // 1  | 1  | 0
+	    //----+----+--- 
+	    // 2  | 0  | 1
+	    //----+----+--- 
+	    // 3  | 1  | 1
+
+	    int x = id &  1;
+	    int y = id >> 1;
+
+	    position = float4(x*2-1,y*2-1,0,1);
+    }
+
+}
+
+pixel
+{
+    constants : MR_ConstantBuffer0
+    {
+        float4 Color;
+    }
+
+    main( out float4 OutColor : MR_Color0 )
+    {
+        OutColor = Color;
+    }
+}

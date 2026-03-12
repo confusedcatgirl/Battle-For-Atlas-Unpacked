@@ -1,0 +1,133 @@
+@ifdef SSR
+	@define USE_FLATTENED_SSR
+@endif // SSR
+
+import "shaders/modules/graphics/onward/deferred/light_shared.h"
+
+vertex
+{
+	in
+	{
+		float4 clipCoord;
+		float4 uv0_uv1;
+		float4 uv0Min_uv0Max;
+		float4 uv1Min_uv1Max;
+	}
+
+	out
+	{
+	}
+
+	main(out float4 position : MR_Position)
+	{
+		position = float4(In.clipCoord.xyz, 1);
+	}
+}
+
+pixel
+{
+	in
+	{
+	}
+
+	main(out float4 colorOut : MR_Color0,
+
+		// outputs for screenspace effects
+
+		@ifdef SSR_OR_SSS
+			out float4 ssOut0 : MR_Color1,
+		@endif // SSR_OR_SSS
+
+		@ifdef SSR_AND_SSS
+			out float4 ssOut1 : MR_Color2,
+			@ifdef USE_FLATTENED_SSR
+				out float4 ssOutN : MR_Color3,
+			@endif // USE_FLATTENED_SSR
+		@else
+			@ifdef USE_FLATTENED_SSR
+				out float4 ssOutN : MR_Color2,
+			@endif // USE_FLATTENED_SSR
+		@endif // SSR_AND_SSS
+
+		 float4 fc : MR_FragCoord)
+	{
+		const int2 pixel = int2(fc.xy);
+
+		@ifndef SSR_OR_SSS
+			float4 ssOut0;
+		@endif // SSR_OR_SSS
+		@ifndef SSR_AND_SSS
+			float4 ssOut1;
+			@ifndef USE_FLATTENED_SSR
+				float4 ssOutN;
+			@endif // USE_FLATTENED_SSR
+		@endif // SSR_AND_SSS
+
+		ssOut0 = 0;
+		ssOut1 = 0;
+		ssOutN = 0;
+
+		float depth = MR_SampleTexelLod0(Depth, pixel).x;
+
+@ifdef USE_DEFERRED_DEBUG_FLAGS
+		clip( MAX_LINEAR_DEPTH - depth * DebugFlag_ClipDepth - 1.0 );
+@endif // USE_DEFERRED_DEBUG_FLAGS
+
+		float3 pos = MR_ClipToWorld(MR_PixelToClip(fc.xy), depth);
+		Gfx_LightingDataStruct ld = Gfx_GetLightingData(pos, float4(fc.xy, 0, depth));
+		@ifdef COSMOS_ONLY
+			ld.isUnflatten = true;
+		@endif // COSMOS_ONLY
+
+		float3 light = 0;
+
+		const float4 currentSphere = OW_Planet_GetCurrentGroundSphere();
+
+		OW_SunLitPixel sunLitPixel;
+		OW_InitPositionContext( sunLitPixel.myPosCtx, ld.worldPosition, currentSphere, ld.isUnflatten, ld.isUnflatten );
+
+		bool isProcessed = false;
+@ifndef COSMOS_ONLY
+
+		if (!sunLitPixel.myPosCtx.myIsPosInSpace)
+		{
+	@ifndef NO_LIGHTING
+			DeferredComplete( sunLitPixel, ld, light, ssOut0.rgb, ssOut1.rgb, ssOutN.rgb, pixel );
+	@endif // NO_LIGHTING
+
+			isProcessed = true;
+		}
+		else
+		{
+@ifdef PLANET_ONLY
+			clip(-1);
+@endif // PLANET_ONLY
+		}
+
+@endif // COSMOS_ONLY
+
+@ifndef PLANET_ONLY
+
+		if (!isProcessed)
+		{
+	@ifndef NO_LIGHTING
+			DeferredComplete( sunLitPixel, ld, light, ssOut0.rgb, ssOut1.rgb, ssOutN.rgb, pixel );
+	@endif // NO_LIGHTING
+
+			isProcessed = true;
+		}
+
+@endif // PLANET_ONLY
+
+	colorOut = float4(light, 1.0f);
+
+@ifdef USE_DEFERRED_DEBUG_FLAGS
+	if (DebugFlag_NANInfNeg > 0.5f)
+	{
+		colorOut.rgb = isfinite(light.r) && isfinite(light.g) && isfinite(light.b) ? colorOut.rgb : float3(10.0f, 0.0f, 0.0f);
+		colorOut.rgb = light.r < 0.0f || light.g < 0.0f || light.b < 0.0f ? float3(0.0f, 0.0f, 10.0f) : colorOut.rgb;
+	}
+@endif // USE_DEFERRED_DEBUG_FLAGS
+
+	}
+}

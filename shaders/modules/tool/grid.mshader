@@ -1,0 +1,26 @@
+import "shaders/MRender/MR_ViewConstants.h"
+
+blend {
+	src = 1,
+	dest = 1,
+}
+
+pixel
+{
+	constants : MR_ConstantBuffer2
+	{
+		float scale;
+	}
+	
+	main(out float4 color : MR_Color0, float dummyToGetPosition01 : Gfx_Height, float3 worldPosition : Gfx_WorldSpacePos)
+	{
+		float3 vertexToCamera = MR_GetPos(MR_ViewConstants.cameraToWorld).xyz - worldPosition;
+		float distanceToVertex = length(vertexToCamera);
+		float bias = max(distanceToVertex / 100000, 0.001);
+		
+		float2 dummy;
+		float2 boundary = modf(In.Gfx_Position01 / scale, dummy);
+		
+		color = (boundary.y > 1 - bias || boundary.y < bias || boundary.x > 1 - bias || boundary.x < bias) ? float4(3.0f, 3.0f, 3.0f, 1.0f) : float4(0.0f, 0.0f, 0.0f, 0.0f);
+	}
+}

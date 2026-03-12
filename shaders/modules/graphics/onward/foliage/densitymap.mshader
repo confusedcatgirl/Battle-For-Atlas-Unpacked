@@ -1,0 +1,35 @@
+import "shaders/nodes/shader/functions/onward/OW_GetGrassMask.h"
+
+MR_Buffer< float3 > Positions : MR_Buffer0;
+
+computeParameters
+{
+    numThreads 64 1 1
+}
+
+constants : MR_ConstantBuffer0
+{
+	uint constPositionCount;
+	uint constWritePosition;
+}
+
+MR_RWBuffer< uint > Densities : MR_RW_Buffer0;
+
+compute main(uint3 dtid : MR_DispatchThreadId, uint groupIdx : MR_GroupIndex)
+{
+	const uint index = dtid.x;
+	if (index >= constPositionCount)
+		return;
+
+	const float3 position = Positions[ index ];
+	float4 densitySample = OW_GetGrassMaskLod0( position );
+	densitySample = saturate( densitySample ) * vec4( 255.5f );
+	const uint4 sampleInt = uint4( densitySample );
+
+	uint density = 0;
+	density = density | ( sampleInt.x << 24 );
+	density = density | ( sampleInt.y << 16 );
+	density = density | ( sampleInt.z << 8  );
+	density = density | ( sampleInt.w << 0  );
+	Densities[ constWritePosition + index ] = density;
+}

@@ -1,0 +1,85 @@
+@include "shaders/modules/graphics/postfx/pixel_in.h"
+import "shaders/MRender/MR_ViewConstants.h"
+import "shaders/modules/graphics/shadows.h"
+import "shaders/modules/graphics/lights.h"
+import "shaders/modules/graphics/lighting_data.h"
+import "shaders/modules/graphics/fog_compute.h"
+
+MR_ByteBuffer FogLights : MR_Buffer2;
+MR_Sampler2D Noise {
+	texture = "textures/gaussian_rgb_uniform_a_256x256.tga",
+	filter = point,
+};
+
+constants : MR_ConstantBuffer1
+{
+	uint LightIndex;
+	float Depth;
+	float MinDepth;
+	float MaxDepth;
+}
+
+pixel main(out float4 colorOut : MR_Color0, float4 truefc : MR_FragCoord)
+{
+	colorOut = vec4(0);
+
+@ifdef SUPERSAMPLE_POINT_LIGHTS
+	uint nsamples = 4;
+@else
+	uint nsamples = 1;
+@endif
+
+	uint2 loc2 = truefc.xy;
+
+@ifdef GFX_LIGHT_FROM_CONSTANT_BUFFER
+	Gfx_Light light = Gfx_GetLightFromConstantBuffer(LightIndex);
+@else
+	Gfx_Light light = Gfx_GetLight(FogLights, LightIndex);
+@endif
+
+	float range = LightVolumeSize.w;
+
+	float2 uv = (loc2 + vec2(0.5)) / LightVolumeSize.xy;
+	float2 clip2 = (uv - vec2(0.5)) * float2(2,-2);
+	float2 fc = MR_ClipToPixel(clip2);
+	float2 framebufferuv = MR_ClipToFramebufferUV(clip2);
+
+	float3 camNearPos = MR_ClipToCamera(clip2, 1);
+	float3 worldCameraPos = MR_GetPos(MR_ViewConstants.cameraToWorld).xyz;
+	float3 worldNearPos = MR_Transform(MR_ViewConstants.cameraToWorld, camNearPos).xyz;
+	float3 toNear = normalize(worldNearPos - worldCameraPos);
+
+@ifdef USE_DEPTH_NOISE
+	float noise = MR_SampleLod0(Noise, int2(truefc.xy) / 256.0).w;
+@else
+	float noise = 0.5;
+@endif
+
+	float v = truefc.z;
+	float indoor_float = MR_SampleLod0(IndoorVolume, float3(uv, v)).x;
+
+	Gfx_LightingDataStruct ld = Gfx_GetLightingDataDummy(worldNearPos, fc, 1);
+	ld.roomIndex = -1;
+	ld.isIndoor = indoor_float > 0.5;
+	ld.roomBits = ld.isIndoor ? uint(-2) : uint(1);
+
+	for (uint i=0; i<nsamples; ++i)
+	{
+		float t = (noise + i) / nsamples;
+		float sampleDepth = lerp(MinDepth, MaxDepth, t);
+
+		float3 fromCamera = sampleDepth * toNear;
+		float3 pos = worldCameraPos + fromCamera;
+
+		ld.worldPosition = pos;
+		ld.depth = sampleDepth;
+		ld.toCamera = -fromCamera;
+
+		Gfx_AttenuatedEmission attenuatedEmission;
+		if (Gfx_LightHitsRooms(light, ld.roomBits) && Gfx_GetSpotShadowAttenuatedEmission(attenuatedEmission, light, ld))
+			colorOut += float4(attenuatedEmission.diffuseEmission, 1);
+	}
+
+	colorOut /= nsamples;
+	colorOut.w = 1;
+}

@@ -1,0 +1,32 @@
+vertex
+{
+	in
+	{
+		float4 clipCoord;
+		float4 uv0_uv1;
+		float4 uv0Min_uv0Max;
+		float4 uv1Min_uv1Max;
+	}
+
+	out
+	{
+		float2 uv0;
+		float2 uv1;
+		float2 uv0Min;
+		float2 uv0Max;
+		float2 uv1Min;
+		float2 uv1Max;
+	}
+
+	main(out float4 position : MR_Position)
+	{
+		position = float4(In.clipCoord.xyz, 1);
+
+		Out.uv0 = In.uv0_uv1.xy;
+		Out.uv1 = In.uv0_uv1.zw;
+		Out.uv0Min = In.uv0Min_uv0Max.xy;
+		Out.uv0Max = In.uv0Min_uv0Max.zw;
+		Out.uv1Min = In.uv1Min_uv1Max.xy;
+		Out.uv1Max = In.uv1Min_uv1Max.zw;
+	}
+}

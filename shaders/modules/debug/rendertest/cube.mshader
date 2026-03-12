@@ -1,0 +1,172 @@
+constants Transformations : MR_ConstantBuffer0
+{
+	float4x4 myWorld;
+	float4x4 myWorldToClip;
+}
+
+//@ifdef NOOT
+constants tesselationTest : MR_ConstantBuffer1
+{
+	float4 myTesselationFactors;
+}
+//@endif
+
+vertex
+{
+	in
+	{
+		float3 pos;
+	}
+
+	out
+	{
+		float3 color;
+		float3 msPos;
+	}
+
+	main()//out float4 clipPos : MR_Position)
+	{
+    	Out.msPos = In.pos;
+		Out.color = clamp(In.pos, float3(0.0f, 0.0f, 0.0f), float3(1.0f, 1.0f, 1.0f));
+    	//clipPos = Out.pos;
+	}
+}
+
+//@ifdef NOOT
+tessellationParameters
+{
+	primitive = triangles,
+	spacing = fractional_odd,
+	patchVerticesIn = 3,
+	patchVerticesOut = 3,
+	maxTessLevel = 64
+}
+
+tessellationControl
+{	
+	in
+	{
+		float3 color;
+		float3 msPos;
+	}
+
+	out
+	{
+		float3 color;
+		float3 msPos;
+	}
+
+	main(uint vid : MR_OutputPatchVertexId)
+	{
+	    Out.color = In[vid].color;
+	    Out.msPos = In[vid].msPos;
+	}
+
+	patch
+	{
+		main(
+			out float Edges[3] : MR_TessLevelOuter,
+			out float Inside : MR_TessLevelInner
+		)
+		{
+			Edges[0] = tesselationTest.myTesselationFactors.x;
+			Edges[1] = tesselationTest.myTesselationFactors.x;
+			Edges[2] = tesselationTest.myTesselationFactors.x;
+			Inside = tesselationTest.myTesselationFactors.x;
+		}
+	}
+}
+
+tessellationEvaluation
+{
+	in
+	{
+		float3 color;
+		float3 msPos;
+	}
+
+	out
+	{
+		float3 color;
+		float3 msPos;
+	}
+	
+	main(float3 coords : MR_TessCoord, float Edges[3] : MR_TessLevelOuter, float Inside : MR_TessLevelInner)//, out float4 outPos : MR_Position)
+	{
+	    Out.color = coords.x * In[0].color + 
+	                coords.y * In[1].color + 
+	                coords.z * In[2].color;
+	                
+	    Out.msPos = coords.x * In[0].msPos + 
+	                coords.y * In[1].msPos + 
+	                coords.z * In[2].msPos;
+	              
+	   	//float3 wsPos = MR_Transform(Transformations.myWorld, Out.msPos);
+    	//outPos = MR_Transform(Transformations.myWorldToClip, wsPos);  
+	    //outPos = coords.x * In[0].pos + 
+	    //     	 coords.y * In[1].pos + 
+	    //     	 coords.z * In[2].pos;
+	}
+}
+//@endif
+
+//@ifdef NOOT
+geometryParameters
+{
+	maxVertices = 3,
+	invocations = 3,
+	primitivesIn = triangles,
+	primitivesOut = triangle_strip
+}
+
+geometry
+{
+	in
+	{
+		float3 color;
+		float3 msPos;
+	}
+
+	out
+	{
+		float3 color;
+	}
+
+	main(out float4 outPos : MR_Position, uint invocation : MR_InvocationId) //, out uint viewport : MR_ViewportIndex)
+	{
+		Out.color = In[0].color;
+		//viewport = invocation;
+		
+		float3 offset = vec3(0.0);
+		if (invocation == 0)
+			offset.x = 2.0f;
+		else if (invocation == 1)
+			offset.y = 2.0f;
+		else if (invocation == 2)
+			offset.z = 2.0f;
+
+		for (uint i=0; i<3; ++i)
+		{
+	   		float3 wsPos = MR_Transform(Transformations.myWorld, In[i].msPos + offset);
+    		outPos = MR_Transform(Transformations.myWorldToClip, wsPos);
+    	
+			//Out.color = In[i].color;
+			MR_EmitVertex();
+		}
+	}
+}
+//@endif
+
+pixel
+{
+	in
+	{
+		float3 color;
+	}
+
+	main(out float4 outColor : MR_Color)
+	{
+		outColor.rgb = In.color;
+		outColor.a = 1.0;
+	}
+}

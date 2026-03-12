@@ -1,0 +1,34 @@
+import "shaders/MRender/MR_ViewConstants.h"
+import "shaders/nodes/Shader/Functions/Lighting/GI.h"
+
+import "shaders/modules/graphics/particles/sample.h"
+
+computeParameters
+{
+    numThreads 64 1 1
+}
+
+MR_Buffer<float4> Positions : MR_Buffer0;
+MR_RWStructuredBuffer<float4x4> Output : MR_RW_Buffer0;
+
+constants : MR_ConstantBuffer0
+{
+	uint numPoints;
+}
+
+compute main(uint3 dtid : MR_DispatchThreadId)
+{
+	uint index = dtid.x;
+	if (index >= numPoints)
+		return;
+
+	const float3 position = Positions[index].xyz;
+	const float3 upVector = normalize( position - OW_Planet_GetBaseGroundSphere( ).xyz );
+
+	Output[index][0] = float4( 0, 0, 0, 1);
+	Output[index][1] = float4( 0, 0, 0, 1);
+	Output[index][2] = float4( 0, 0, 0, 1);
+
+	OW_SampleParticles( position, upVector, Output[index][0].xyz, Output[index][1].xyz, Output[index][2].xyz, Output[index][3] );
+	Output[index][2].w = OW_GetParticleMultiplier( upVector, Output[index][0].xyz, Output[index][1].xyz );
+}

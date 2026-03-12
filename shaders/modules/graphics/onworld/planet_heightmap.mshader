@@ -1,0 +1,171 @@
+import "shaders/MRender/MR_ViewConstants.h"
+import "shaders/MRender/MR_DepthBuffer.h"
+import "shaders/modules/graphics/normal_encode.h"
+
+blend {
+	src = 1,
+	dest = 0,
+	writeMask = rgb
+}
+
+constants : MR_ConstantBuffer8
+{
+    float4 shaderParams;
+    float4 planetParams;
+
+    float4x4 nodeTransform;
+    float4x4 neighborTransform[4];
+    float4   texTX[4];
+    float4   texTY[4];
+}
+
+vertex
+{
+	in
+	{
+		float4 vertex;
+	}
+
+	out
+	{
+        float2 uv;
+
+	}
+
+	main(out float4 outClipPos : MR_Position)
+	{
+		Out.uv = In.vertex.zw;
+        float2 vertexPosition = Out.uv * float2(2.0f, -2.0f) + float2(-1.0f, 1.0f);
+        outClipPos = float4(vertexPosition.xy, 0.0f, 1.0f);
+	}
+}
+
+pixel
+{
+    MR_Sampler2D MainTexture : MR_Texture0 { filter = point, wrap = clamp };
+
+    @ifdef DIRECTLY
+        MR_Sampler2D Neighbor0Texture : MR_Texture1 { filter = point, wrap = clamp };
+        MR_Sampler2D Neighbor1Texture : MR_Texture2 { filter = point, wrap = clamp };
+        MR_Sampler2D Neighbor2Texture : MR_Texture3 { filter = point, wrap = clamp };
+        MR_Sampler2D Neighbor3Texture : MR_Texture4 { filter = point, wrap = clamp };
+    @endif // DIRECTLY
+
+@ifdef FINALIZE
+
+    float3 GetWorldPositionFromUVAndHeight(in float2 uv, in float height, in float4x4 transformToUse)
+    {
+        float2 vtxPos = uv.xy * float2(2.0f, -2.0f) + float2(-1.0f, 1.0f);
+        float3 worldPos = MR_Transform(transformToUse, float4(vtxPos.x, 0, vtxPos.y, 1)).xyz;
+        worldPos = normalize(worldPos);
+        const float normalStrength = 1.0f;
+        worldPos *= lerp(planetParams.x, planetParams.x+(planetParams.y-planetParams.x)*normalStrength, height);
+        return worldPos;
+    }
+
+    float GetHeight(int i, MR_Sampler2D neighborSampler, in float2 uv, out float4x4 transformToUse, out float2 uvToUse)
+    {
+        uvToUse = uv;
+
+        transformToUse = neighborTransform[i];
+        uvToUse.x = dot(float3(uv,1), texTX[i].xyz);
+        uvToUse.y = dot(float3(uv,1), texTY[i].xyz);
+        float height = MR_SampleLod(neighborSampler, uvToUse, 0.0).x;
+
+        return height;
+    }
+
+    float GetHeight2(MR_Sampler2D neighborSampler, in float2 uv, in float4x4 neighborTransform, out float4x4 transformToUse, out float2 uvToUse)
+    {
+        uvToUse = uv;
+
+        transformToUse = neighborTransform;
+        float height = MR_SampleLod(neighborSampler, uvToUse, 0.0).x;
+
+        return height;
+    }
+
+    float3 GetWorldPosition(in float2 pixelCoord, out float height)
+    {
+        float4x4 transformToUse = nodeTransform;
+
+        const float somethingLike1025      = shaderParams.x;
+        const float somethingLike1024      = shaderParams.y;
+        const float somethingLike1over1025 = shaderParams.z;
+        const float somethingLike1over1024 = shaderParams.w;
+
+        const float pixelSize = somethingLike1over1025;
+        float2 uvToUse = pixelCoord * pixelSize;
+
+        const float lowerLimit = 0.0f;
+        const float upperLimit = somethingLike1025;
+        const float upperLimitminus1 = somethingLike1024;
+
+        const float tCoord = (upperLimitminus1+pixelCoord.y)*pixelSize;
+        const float bCoord = (pixelCoord.y-upperLimitminus1)*pixelSize;
+        const float lCoord = (upperLimitminus1+pixelCoord.x)*pixelSize;
+        const float rCoord = (pixelCoord.x-upperLimitminus1)*pixelSize;
+
+        const bool isT = pixelCoord.y < lowerLimit;
+        const bool isB = pixelCoord.y > upperLimit;
+        const bool isL = pixelCoord.x < lowerLimit;
+        const bool isR = pixelCoord.x > upperLimit;
+        
+        if (isT)
+        {
+            height = GetHeight(0, Neighbor0Texture, float2(pixelCoord.x*pixelSize, tCoord), transformToUse, uvToUse);
+        }
+        else if (isL)
+        {
+            height = GetHeight(1, Neighbor1Texture, float2(lCoord, pixelCoord.y*pixelSize), transformToUse, uvToUse);
+        }
+        else if (isB) 
+        {
+            height = GetHeight(2, Neighbor2Texture, float2(pixelCoord.x*pixelSize, bCoord), transformToUse, uvToUse);
+        }
+        else if (isR)
+        {
+            height = GetHeight(3, Neighbor3Texture, float2(rCoord, pixelCoord.y*pixelSize), transformToUse, uvToUse);
+        }
+        else  // middle
+            height = GetHeight2(MainTexture, pixelCoord * pixelSize, nodeTransform, transformToUse, uvToUse);
+
+        uvToUse = ((uvToUse / pixelSize) - float2(0.5f, 0.5f)) / upperLimitminus1;
+        return GetWorldPositionFromUVAndHeight(uvToUse, height, transformToUse);
+    }
+
+    float3 GetHeightMapNormal(float2 pixelCoord, out float vertexHeight)
+    {
+        float4 h;
+        float3 v1 = GetWorldPosition( pixelCoord+float2(-1,-1), h[0]);
+        float3 v2 = GetWorldPosition( pixelCoord+float2(-1, 1), h[1]);
+        float3 v3 = GetWorldPosition( pixelCoord+float2( 1, 1), h[2]);
+        float3 v4 = GetWorldPosition( pixelCoord+float2( 1,-1), h[3]);
+        float3 v0 = GetWorldPosition( pixelCoord, vertexHeight);
+
+        v1 = cross((v1-v0),(v2-v0));
+        v2 = cross((v3-v0),(v4-v0));
+
+        float3 normal = v1 + v2;
+        normal = normalize(normal);
+
+        return normal;
+    }
+
+@endif // FINALIZE
+
+	in
+	{
+        float2 uv;
+	}
+
+	main(out float4 color : MR_Color, float4 fragCoord : MR_FragCoord)
+	{
+    @ifdef FINALIZE
+        float3 normal = GetHeightMapNormal( fragCoord.xy, color.w );
+        color.xyz = saturate(normal * 0.5 + 0.5);
+    @else
+        color.xyzw = MR_SampleLod(MainTexture, In.uv, 0.0).xxxx;
+    @endif  
+	}
+}

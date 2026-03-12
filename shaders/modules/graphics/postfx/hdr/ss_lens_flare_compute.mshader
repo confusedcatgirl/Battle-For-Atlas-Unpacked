@@ -1,0 +1,91 @@
+import "shaders/modules/graphics/environment_constants.h"
+
+computeParameters
+{
+	numThreads 8 8 1
+}
+
+compute
+{
+	MR_Sampler2D DownsamplePass : MR_Texture0 { filter = linear point, wrap = clamp };
+	MR_Sampler2D LensColor : MR_Texture1 { filter = linear point };
+	MR_Sampler2D HaloStrength { filter = linear point, wrap = repeat, texture = "modules/graphics/hdr/halostrength.tga" };
+	MR_RWTexture2D<float3> Result : MR_RW_Texture0;
+
+	constants : MR_ConstantBuffer0
+	{
+		float2 myUVClampMax;
+		float2 myUVMax;
+		float2 myUVCenter;
+		float2 myTexelSize;
+		float3 myDistortion;
+		float myWeightVectorMaxLength;
+		float myWeightVectorMaxLength2;
+		float myWeightPow;
+		float myHaloSize;
+		float myHaloWeightPow;
+		float myBias;
+		float myScale;
+		float myMaxLuminosityScale;
+	}
+	
+	float3 ScaleAndBias(float3 aColorIn)
+	{
+		float3 color = max(vec3(0.0), aColorIn + vec3(myBias)) * vec3(myScale);
+
+		float len = length(color);
+		len = min(len, Gfx_Environment.averageLuminosity * myMaxLuminosityScale);
+		if(len > 0)
+			color = normalize(color) * len;
+
+		return color;
+	}
+	
+	float3 SampleChromaticDistorted(float2 aTexCoord, float2 aDirection)
+	{
+		float3 color;
+		color.x = MR_SampleLod0(DownsamplePass, min(aTexCoord + aDirection * myDistortion.x, myUVClampMax)).x;
+		color.y = MR_SampleLod0(DownsamplePass, min(aTexCoord + aDirection * myDistortion.y, myUVClampMax)).y;
+		color.z = MR_SampleLod0(DownsamplePass, min(aTexCoord + aDirection * myDistortion.z, myUVClampMax)).z;
+			
+		return ScaleAndBias(color);
+	}
+	
+	main(uint3 DTid : MR_DispatchThreadId)
+	{
+		float2 uv = ((float2(DTid.xy) + vec2(0.5f)) * myTexelSize);
+		float2 texCoord = myUVMax - uv;
+		float2 ghostVec = (myUVCenter - texCoord) * 0.31f;
+		float2 ghostVecNormalized = normalize(ghostVec);
+	
+		float3 color = vec3(0);
+		float reducedWeight = 1.0f;
+		for (int i = 0; i < 7; ++i)
+		{
+			float2 sampleCoord = texCoord + ghostVec * i;
+			
+			float2 weightVec = myUVCenter - sampleCoord;
+			float weight = saturate(dot(weightVec, weightVec) / myWeightVectorMaxLength2);
+			weight = pow(1.0 - weight, myWeightPow);
+			
+			float2 chromaticDirection = normalize(myUVCenter - sampleCoord);
+			color += SampleChromaticDistorted(sampleCoord, chromaticDirection).xyz * weight * reducedWeight;
+			reducedWeight *= 0.5f;
+		}
+	
+		float2 lensColorTexCoord = float2(length(myUVCenter - texCoord) / myWeightVectorMaxLength, 0.0);
+		color *= MR_SampleLod0(LensColor, lensColorTexCoord).xyz;
+	
+		float angle = acos(dot(ghostVecNormalized, float2(1, 0))) * 0.31831f; 
+		float offsetCenter = MR_SampleLod0(HaloStrength, float2(angle + 0.25f, 0.0f)).x;
+		float2 haloVec = ghostVecNormalized * myHaloSize;
+		texCoord += haloVec * (0.975f + (offsetCenter * 0.05f));
+
+		float offsetWeight = MR_SampleLod0(HaloStrength, float2(angle * 2.812f, 0.0f)).x;
+		float weight = saturate(length(myUVCenter - texCoord) / myWeightVectorMaxLength);
+		weight = pow(1.0 - weight, myHaloWeightPow) * offsetWeight;
+		color += SampleChromaticDistorted(texCoord, ghostVecNormalized * (1.0f + (offsetWeight * 4.0f))) * weight;
+		
+		Result[DTid.xy] = color;
+	}
+}

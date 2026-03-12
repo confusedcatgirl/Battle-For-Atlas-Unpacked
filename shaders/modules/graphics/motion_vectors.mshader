@@ -1,0 +1,66 @@
+import "shaders/MRender/MR_ViewConstants.h"
+
+MR_Texture2D<float> Depth : MR_Texture0;
+MR_RWTexture2D<float2> Output : MR_RW_Texture0;
+
+constants : MR_ConstantBuffer0
+{
+	float4x4 LastFrameWorldToClip;
+}
+
+computeParameters
+{
+	numThreads 8 8 1
+}
+
+compute main(uint3 dtid : MR_DispatchThreadId)
+{
+	bool searchIfMissing = true;
+	bool useFoundPixelOffset = false;
+
+	int2 pixel = dtid.xy + MR_ViewConstants.viewportMin;
+
+	float depth = MR_SampleTexelLod0(Depth, pixel);
+	float nearestDepth = depth;
+	int2 nearestPixel = pixel;
+
+	bool dilate = 0;
+	if (dilate)
+	{
+		int2 offsets[] = {
+			int2(-1,-1),
+			int2(-1, 0),
+			int2(-1, 1),
+			int2( 0, 1),
+			int2( 1, 1),
+			int2( 1, 0),
+			int2( 1,-1),
+			int2( 0,-1),
+		};
+
+		for (int i=0; i<8; ++i)
+		{
+			int2 px = pixel + offsets[i];
+			float d = MR_SampleTexelLod0(Depth, px);
+			if (d < nearestDepth)
+			{
+				nearestDepth = d;
+				nearestPixel = px;
+			}
+		}
+
+		pixel = nearestPixel;
+		depth = nearestDepth;
+	}
+
+	float2 clip2 = MR_PixelToClip(pixel + vec2(0.5));
+	float3 pos = MR_ClipToWorld(clip2, depth);
+
+	float4 comparableClip = MR_Transform(MR_ViewConstants.worldToClip, pos);
+	float2 comparableClip2 = comparableClip.xy / comparableClip.w;
+
+	float4 lastFrameClip = MR_Transform(LastFrameWorldToClip, pos);
+	float2 lastFrameClip2 = lastFrameClip.xy / lastFrameClip.w;
+
+	Output[pixel] = float2(lastFrameClip2 - comparableClip2);
+}

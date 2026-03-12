@@ -1,0 +1,91 @@
+import "shaders/modules/graphics/onward/pm/constants.h"
+
+MR_Buffer< float4 > ParticleViewData : MR_Buffer1;
+
+MR_Buffer< uint > VisibleParticleCount : MR_Buffer0;
+MR_RWBuffer< uint > VisibleParticles : MR_RW_Buffer0;
+
+computeParameters
+{
+	numThreads 32 1 1
+}
+
+constants : MR_ConstantBuffer0
+{
+	uint4 constIJKMax;
+}
+
+float GetSortingInfo( uint anIndex, out uint aParticleIndex, in float aFallback )
+{
+@ifdef FIRST_PASS // on the first pass, we put "valid" values into the free 'slots' of the buffer
+	if (anIndex >= VisibleParticleCount[ 0 ])
+	{
+		aParticleIndex = 0xFFFFFFFF;
+		return aFallback;
+	}
+@endif // FIRST_PASS
+	aParticleIndex = VisibleParticles[ anIndex ];
+	return aParticleIndex == 0xFFFFFFFF ? aFallback : ParticleViewData[ aParticleIndex * OGFX_PM_VIEW_DATA_SIZE ].w;
+}
+
+compute main(uint3 dispatchThreadId : MR_DispatchThreadId, uint groupIndex : MR_GroupIndex)
+{
+@ifdef METHOD_1
+
+	const uint particleCount = constIJKMax.x;
+	for ( uint i = 2; i <= particleCount; i <<= 1 )
+	{
+		const uint k = i >> 1;
+		for ( uint j = k; j > 0; j >>= 1 )
+		{
+			for ( uint l = groupIndex; l < particleCount >> 1; l += 32 )
+			{
+@else
+				const uint i = constIJKMax.y;
+				const uint j = constIJKMax.z;
+				const uint k = constIJKMax.w;
+
+				const uint l = dispatchThreadId.x;
+
+@endif // METHOD_1
+
+				const uint m = l / j * j + l;
+				const uint n = m + j;
+
+				uint2 particleIndex;
+
+				float2 sortingValue;
+				sortingValue.x = GetSortingInfo( m, particleIndex.x, -1.0 );
+				sortingValue.y = GetSortingInfo( n, particleIndex.y, -1.0 );
+
+			@ifndef LAST_PASS
+				if (( l & k ) != 0)
+				{
+					if ( sortingValue.x > sortingValue.y )
+					{
+						const uint temp = particleIndex.x;
+						particleIndex.x = particleIndex.y;
+						particleIndex.y = temp;
+					}
+				}
+				else
+			@endif // LAST_PASS
+				{
+					if ( sortingValue.x < sortingValue.y )
+					{
+						const uint temp = particleIndex.x;
+						particleIndex.x = particleIndex.y;
+						particleIndex.y = temp;
+					}
+				}
+
+				VisibleParticles[ m ] = particleIndex.x;
+				VisibleParticles[ n ] = particleIndex.y;
+
+@ifdef METHOD_1
+			}
+			MR_SharedMemoryBarrierSync();
+		}
+	}
+@endif // METHOD_1
+}

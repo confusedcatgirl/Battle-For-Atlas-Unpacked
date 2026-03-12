@@ -1,0 +1,22 @@
+import "shaders/modules/graphics/postfx/dof_separable_bokeh.h"
+
+computeParameters
+{
+	numThreads 8 8 1
+}
+
+compute
+{
+	@include "shaders/modules/graphics/postfx/compute_in.h"
+
+	main(uint3 DTid : MR_DispatchThreadId)
+	{
+		float2 uv0 = GetUV0(DTid);
+	
+		float4 src = MR_SampleLod0(ColorLinear, uv0);
+
+		if (abs(src.w) > 0.5)
+			Result0[DTid.xy + In.destTexelOffset0] = float4(src.xyz, 1);
+	}
+}
+	

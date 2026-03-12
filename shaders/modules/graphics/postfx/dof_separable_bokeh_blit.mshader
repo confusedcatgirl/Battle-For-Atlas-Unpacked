@@ -1,0 +1,16 @@
+@include "shaders/modules/graphics/postfx/pixel_in.h"
+import "shaders/modules/graphics/postfx/dof_separable_bokeh.h"
+
+pixel
+{
+	main(out float4 color : MR_Color)
+	{
+		float4 src = MR_SampleLod0(ColorLinear, In.uv0);
+
+		if (abs(src.w) <= 0.5)
+			discard;
+
+		color = float4(src.xyz, 1);
+	}
+}
+	

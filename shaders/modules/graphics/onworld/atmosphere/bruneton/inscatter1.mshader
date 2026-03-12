@@ -1,0 +1,84 @@
+import "shaders/modules/graphics/onworld/atmosphere/bruneton/common.h"
+
+computeParameters
+{
+    numThreads 16 16 4
+}
+
+MR_RWTexture3D<float4> RWDeltaSTexture3D : MR_RW_Texture0;
+
+compute
+{
+    constants : MR_ConstantBuffer0
+    {
+         // Number of samples taken to compute the optical depth
+        int const_Samples;
+    }
+
+    float3 Integrand(float r, float mu, float muS, float nu, float t, float H)
+    {
+        float3 scattering = 0.0f;
+        float ri = sqrt(r * r + t * t + 2.0 * r * mu * t);
+        float muSi = (nu * t + muS * r) / ri;
+        ri = max(MR_BrunetonAtmConstants.const_Rg, ri);
+        if (muSi >= -sqrt(1.0 - MR_BrunetonAtmConstants.const_Rg * MR_BrunetonAtmConstants.const_Rg / (ri * ri))) 
+        {
+            float3 ti = TransmittanceXX0(r, mu, t) * Transmittance(ri, muSi);
+            scattering = exp(-(ri - MR_BrunetonAtmConstants.const_Rg) / H) * ti;
+        }
+
+        return scattering;
+    }
+
+    float3 Inscatter(float r, float mu, float muS, float nu, float H)
+    {
+        float3 scattering = 0.0f;
+        float dx = PlanetAtm_RayIntersect(r, mu) / float(const_Samples);
+        float xi = 0.0;
+        float3 scatteringi = Integrand(r, mu, muS, nu, 0.0, H);
+        for (int i = 1; i <= const_Samples; ++i)
+        {
+            float xj = float(i) * dx;
+            float3 scatteringj = Integrand(r, mu, muS, nu, xj, H);
+            scattering += (scatteringi + scatteringj) / 2.0 * dx;
+            xi = xj;
+            scatteringi = scatteringj;
+        }
+
+        return scattering;
+    }
+
+    float3 InscatterRay(float r, float mu, float muS, float nu)
+    {
+        return Inscatter(r, mu, muS, nu, MR_BrunetonAtmConstants.const_HR) * MR_BrunetonAtmConstants.const_BetaR;
+    }
+
+    float3 InscatterMie(float r, float mu, float muS, float nu)
+    {
+        return Inscatter(r, mu, muS, nu, MR_BrunetonAtmConstants.const_HM) * MR_BrunetonAtmConstants.const_BetaMSca;
+    }
+
+    main( in uint3 dispatchThreadId : MR_DispatchThreadId )
+    {
+        const uint3 pixelCoords = GetPixelCoords(dispatchThreadId, MR_BrunetonAtmConstants.const_ResMU);
+
+        float r;
+        float4 dhdH;
+        LayerData(pixelCoords.z, r, dhdH);
+
+        float mu = 0.0f;
+        float muS = 0.0f;
+        float nu = 0.0f;
+        MuMuSNu(pixelCoords.x, pixelCoords.y, r, dhdH, mu, muS, nu);
+
+        float4 inscattering = 0.0f;
+
+@ifdef RAY
+        inscattering.xyz = InscatterRay(r, mu, muS, nu);
+@else
+        inscattering.xyz = InscatterMie(r, mu, muS, nu);
+@endif
+
+        RWDeltaSTexture3D[pixelCoords] = inscattering;
+    }
+}

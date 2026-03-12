@@ -1,0 +1,120 @@
+@include "shaders/modules/graphics/postfx/pixel_in.h"
+import "shaders/modules/graphics/normal_encode.h"
+import "shaders/MRender/MR_ViewConstants.h"
+
+pixel
+{
+	MR_Sampler2D<float> Depth : MR_Texture0 { filter = point, wrap = border, border = 0 0 0 0 };
+	MR_Sampler2D<float3> Normal : MR_Texture1 { filter = point, wrap = clamp };
+	MR_Sampler2D<float> QuarterDepth : MR_Texture2 { filter = point, wrap = border, border = 0 0 0 0 };
+
+	MR_Buffer< float4 > RandomOffsetsBuffer : MR_Buffer0;
+
+	constants : MR_ConstantBuffer0
+	{
+		float2 ScreenSize;
+		float2 InvScreenSize;
+		float2 ScreenToViewport;
+		int2 ViewportPos;
+		int2 ViewportSize;
+		float2 TCToClipScale;
+		float2 TCToClipOffset;
+		float2 CamSideLengths;
+		float2 InvOffsetsTexSize;
+		float4 QuarterOffset;
+		uint NumSamples;
+		float VisibilityPower;
+		float Near;
+		float Far;
+		float ShortFar;
+		float WorldRadius;
+		float InvMaxDepth;
+		float MinDotEpsilon;
+		float MaxDotEpsilon;
+		float ClampedMaxDepth;
+		float myFrameYOffset;
+		float4 ProjectionX;
+		float4 ProjectionY;
+		float3 CameraUp;
+		float InvShortFar;
+		float InvMinDepth;
+	}
+
+	float3 ClipToCam(float2 clip, float depth)
+	{
+		//return MR_ClipToCamera(clip, depth);
+		float3 pixelDir = float3(clip*CamSideLengths,1);
+		return pixelDir * depth;
+	}
+
+	uint mod5(uint n) 
+	{
+		//return n%5;
+		//from http://www.hackersdelight.org/divcMore.pdf
+		n = (0x33333333*n) >> 29;
+		return (0x04432210 >> (n << 2)) & 7;
+	}
+
+	float2 ComputeOcclusion(float2 screenTC, float2 offset, float depth, float3 normal, float3 centerCamPos, float centerDot, float offsetLength)
+	{
+		float sampleDepth = MR_SampleLod0(QuarterDepth, screenTC+offset+QuarterOffset.xy) + depth*0.0005;
+		sampleDepth *=  (1.001+normal.z*0.001);
+
+		float2 sampleClip2 = (screenTC+offset+float2(0,0.0005)) * TCToClipScale + TCToClipOffset;
+		float3 sampleCamPos = ClipToCam(sampleClip2, sampleDepth);
+		float3 posdif = sampleCamPos-centerCamPos;
+		float invDist = rsqrt(dot(posdif, posdif));
+		float sampleDot = dot(sampleCamPos, normal);
+		if(sampleDot == 0)
+			return float2(0,0);
+		float3 planeIntersect = sampleCamPos * max(centerDot / sampleDot, 1);
+		float3 planeIntersectDif = planeIntersect-centerCamPos;
+		float invPlaneDist = rsqrt(dot(planeIntersectDif, planeIntersectDif));
+
+		//float occlusion = saturate(-dot(posdif, planeIntersectDif)*invDist*invPlaneDist*0.65f + 0.6f);
+		float occlusion = saturate(max(-dot(posdif, planeIntersectDif)*invDist*invPlaneDist*0.65f + 0.6f, (sampleDot - centerDot) * invDist - 0.2f));
+		//float occlusion = saturate((sampleDot - centerDot) * invDist * 1.6-0.3f);
+		float depthIgnore = saturate((1.3 - (depth-sampleDepth)*1.3f * InvMaxDepth) * (1.1-offsetLength*0.3));
+		depthIgnore *= 0.6+0.4*dot(planeIntersectDif, CameraUp) * invPlaneDist;
+		return float2(occlusion * depthIgnore, depthIgnore);
+	}
+
+	float4 ComputeSSAO(float2 screenTC)
+	{
+		float depth = MR_SampleLod0(Depth, screenTC);
+
+		float2 centerClip2 = screenTC * TCToClipScale + TCToClipOffset;
+		float3 centerCam = ClipToCam(centerClip2, depth);
+
+		float3 normal = MR_TransformNormal(MR_ViewConstants.worldToCamera, Gfx_DecodeNormal_UNorm(MR_SampleLod0(Normal, screenTC)));
+		float centerDot = dot(centerCam, normal);
+		
+		float2 clipRadius;
+		clipRadius.x = dot(float4(WorldRadius, 0, depth, 1), ProjectionX) / depth;
+		clipRadius.y = dot(float4(0, WorldRadius, depth, 1), ProjectionY) / depth;
+		float2 offsetTCScale = clipRadius * float2(0.5, 0.5) * ScreenToViewport;
+		float offsetNearMod = min(depth*InvMinDepth, 1);
+
+		float2 occlusion = float2(0,0.0001f);
+		int2 sampleVec = screenTC * ScreenSize.xy;
+		int baseOffsetIdx = (mod5(sampleVec.y)*5+mod5(sampleVec.x))*NumSamples;
+		for (uint i=0; i<NumSamples; ++i)
+		{
+			float4 offset = RandomOffsetsBuffer[baseOffsetIdx+i];
+
+			float3 reflectedOffset = offset.xyz * sign(dot(normal*float3(1,-1,-1), offset.xyz));
+			float2 offsetScaled = reflectedOffset.xy * offsetTCScale * offsetNearMod;
+
+			occlusion += ComputeOcclusion(screenTC, offsetScaled, depth, normal, centerCam, centerDot, offset.w*offsetNearMod);
+		}
+		//return float4(occlusion.x/occlusion.y,0,0,1);
+		return float4(1-saturate((occlusion.x / occlusion.y) * 1.1) * saturate(3-depth*InvShortFar*3), 0, 0, 1);
+	}
+
+	main(out float4 visibility : MR_Color0)
+	{
+		float4 ao = ComputeSSAO(In.uv0);
+
+		visibility = ao;
+	}
+}

@@ -1,0 +1,90 @@
+import "shaders/MRender/MR_DepthBuffer.h"
+import "shaders/modules/graphics/onworld/functions/RaySphereIntersection.h"
+import "shaders/MRender/MR_ViewConstants.h"
+
+@ifdef OGFX_ON_GROUND
+@define MASK_CLOUDS
+@endif // OGFX_ON_GROUND
+
+@ifdef MASK_CLOUDS
+
+import "shaders/modules/graphics/onworld/planet_base.h"
+import "shaders/modules/graphics/onworld/atmosphere/planet_sky.h"
+
+float OW_Sky_GetCloudsDensityFromBelow(in float3 aViewOrigin, in float3 aViewDir)
+{
+	float3 planeViewDir;
+	float4 intersection;
+	OW_Sky_CloudsSamplingDir(aViewOrigin, aViewDir, planeViewDir, intersection.w, intersection.xyz);
+	return OW_Sky_ProcessCloudsSample(MR_Sample(NegCloudsCube, OW_Sky_GetCloudUVWs(planeViewDir))).w;
+}
+
+@endif // MASK_CLOUDS
+
+constants : MR_ConstantBuffer0
+{
+	float4 constSize;
+	float4 constProp;
+	float constSmoothing;
+}
+
+vertex
+{
+	in
+	{
+		float4 clipCoord;
+
+		float4 uv0_uv1;
+		float4 uv0Min_uv0Max;
+		float4 uv1Min_uv1Max;
+	}
+
+	out
+	{
+	}
+
+	main(out float4 position : MR_Position)
+	{
+		position = float4(In.clipCoord.xyz, 1);
+	}
+}
+
+pixel
+{
+	MR_Sampler2D<float> NearDepthBuffer : MR_Texture0 { filter = point, wrap = clamp };
+
+	in
+	{
+	}
+
+	main(out float4 outColor : MR_Color, float4 fragCoord : MR_FragCoord)
+	{
+		const float2 clipPos = (fragCoord.xy - constSize.xy * vec2(0.5)) * constSize.zw * float2(2.0, -2.0);
+
+		const float3 rayP = MR_GetPos(MR_ViewConstants.cameraToWorld).xyz;
+		float3 rayD = normalize(MR_ClipToWorld(clipPos, 1.0) - rayP);
+
+		const float radius = constProp.w; // scale by 1% to avoid self-occlusion
+		const float2 inter = OW_RaySphereIntersection( rayP, rayD, radius, constProp.xyz );
+		float sunDepth = MR_ViewConstants.LODDistancePlane.w + dot( MR_ViewConstants.LODDistancePlane.xyz, rayP + rayD * inter.x );
+
+		float intensity = saturate( (inter.y - inter.x) * 0.5 / constProp.w );
+		intensity = 1.0 - sqrt( 1.0 - intensity * intensity ); // linearize
+		intensity = smoothstep( 0, constSmoothing, intensity );
+
+		const float depthFromDepthBuffer = MR_SampleLod0(NearDepthBuffer, MR_ClipToQuarterFramebufferUV(clipPos)).x;
+
+@ifdef MASK_CLOUDS
+		const float cloudsMask = OW_Sky_GetCloudsDensityFromBelow( rayP, rayD );
+		intensity *= 1.0 - lerp( 0.0, cloudsMask * 0.33, MR_OnworldEnvironmentConstants.groundLerpFactor.x );
+@endif // MASK_CLOUDS
+
+		outColor = vec4(
+			@ifdef OGFX_ON_GROUND
+				depthFromDepthBuffer < MAX_LINEAR_DEPTH
+			@else
+				depthFromDepthBuffer < sunDepth || inter.x > inter.y
+			@endif // OGFX_ON_GROUND
+			? 0.0 : intensity );
+	}
+}

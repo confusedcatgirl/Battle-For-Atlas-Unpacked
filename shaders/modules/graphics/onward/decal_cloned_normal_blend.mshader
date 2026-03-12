@@ -1,0 +1,18 @@
+import "shaders/modules/graphics/onward/decal_cloned.h"
+
+pixel
+{
+	MR_Sampler2D Albedo : MR_Texture0 { wrap = border };
+
+	in
+	{
+		float3 decalWorldPos;
+	}
+
+	main(out float4 color : MR_Color, float4 fragCoord : MR_FragCoord)
+	{
+		float3 uv = OW_ClonedDecal_GetUV(In.decalWorldPos);
+		color = DecalEntity.myColor;
+		color *= MR_Sample(Albedo, uv.xy);
+	}
+}

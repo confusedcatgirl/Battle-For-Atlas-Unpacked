@@ -1,0 +1,19 @@
+@include "shaders/modules/graphics/postfx/pixel_in.h"
+
+import "shaders/modules/graphics/postfx/sharpen.h"
+
+MR_Sampler2D Light : MR_Texture0 { wrap = clamp, filter = linear point };
+
+constants : MR_ConstantBuffer0
+{
+	float strength;
+}
+
+pixel main(out float4 colorOut : MR_Color0, float4 fc : MR_FragCoord)
+{
+	uint2 pixel = uint2(fc.xy);
+
+	float3 col = Sharpen(Light, pixel, strength, MR_ViewConstants.framebufferUVMin, MR_ViewConstants.framebufferUVMax);
+
+	colorOut = float4(col, 1);
+}

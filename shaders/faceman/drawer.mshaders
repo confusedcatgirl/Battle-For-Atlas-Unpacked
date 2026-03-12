@@ -1,0 +1,34 @@
+pixel
+{
+	in
+	{
+		float4 color0;
+		float4 color1;
+		float4 color2;
+		float4 usage;
+		float2 uv;
+	}
+
+	MR_Sampler2D sampler0 : MR_Texture0 { mutable = true };
+	MR_Sampler2D sampler1 : MR_Texture1 { mutable = true, filter = point };
+	MR_Sampler2D sampler2 : MR_Texture2 { mutable = true };
+
+	main(out float4 color : MR_Color0)
+	{
+		float4 tex0 = MR_Sample(sampler0, In.uv);
+		float4 tex1 = float4(1,1,1, MR_Sample(sampler1, In.uv).r);	// 8 bpp
+		float4 tex2 = MR_Sample(sampler2, In.uv);
+
+		float4 color0premultiplied = float4(In.color0.rgb * In.color0.a, In.color0.a);
+		float4 color1premultiplied = float4(In.color1.rgb * In.color1.a, In.color1.a);
+		float4 color2premultiplied = float4(In.color2.rgb * In.color2.a, In.color2.a);
+
+		float4 plainScaled = In.usage.r * In.color0;
+		float4 tex0Scaled = In.usage.g * (tex0 * In.color0 + In.color1);
+		float4 tex1Scaled = In.usage.b * (tex1 * In.color0);
+		float4 tex2Scaled = In.usage.a * (tex2.r * color0premultiplied + tex2.g * color1premultiplied + tex2.b * color2premultiplied);
+		tex2Scaled.rgb /= max(tex2Scaled.a, 0.0001);
+
+		color = plainScaled + tex0Scaled + tex1Scaled + tex2Scaled;
+	}
+}

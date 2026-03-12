@@ -1,0 +1,62 @@
+import "shaders/modules/graphics/onward/pm/pm.h"
+import "shaders/modules/graphics/onward/pm/planet/update.h"
+import "shaders/modules/graphics/onward/pm/planet/emitter.h"
+import "shaders/modules/graphics/onward/pm/curves.h"
+
+import "shaders/nodes/shader/functions/onward/OW_GetTerrainLowResAlbedo.h"
+
+computeParameters
+{
+	numThreads 64 1 1
+}
+
+constants : MR_ConstantBuffer0
+{
+	uint4 constEmitter;
+}
+
+MR_RWStructuredBuffer< OGfx_Particulate > ParticlesOut : MR_RW_Buffer0;
+
+MR_RWBuffer< uint > AliveItems : MR_RW_Buffer1;
+MR_RWBuffer< uint > AliveCount : MR_RW_Buffer2;
+MR_RWBuffer< uint > DeathItems : MR_RW_Buffer3;
+MR_RWBuffer< uint > DeathCount : MR_RW_Buffer4;
+
+void Emit( in uint aIndex )
+{
+	OGfx_Particulate data = (OGfx_Particulate) 0;
+
+	uint globalIndex = 0;
+	MR_AtomicAdd( DeathCount[ 1 ], 1, globalIndex );
+	OGfx_PM_SetLocalIndex( data, constEmitter.x );
+
+	const uint randomIndex = globalIndex % OGfx_GP_RandomNumber_Count;
+	OGfx_PM_SetRandomIndex( data, randomIndex );
+	float4 random = OGfx_GP_RandomNumbers[ randomIndex ];
+
+	OGfx_PM_EmitterProps props = OGfx_PM_GetEmitterProps( constEmitter.x );
+
+	data.myPosition = props.myPositionRadius.xyz + random.xyz * (random.w * 0.5 + 0.5) * props.myPositionRadius.w;
+	float terrainHeight = lerp(constPlanetRadii.x, constPlanetRadii.y, OW_GetTerrainLowResHeight(data.myPosition)) - props.myMaxSize * 0.1;
+	data.myPosition = normalize(data.myPosition) * terrainHeight;
+
+	data.myVelocity = normalize(data.myPosition) * 2.5;
+	ParticlesOut[ aIndex ] = data;
+}
+
+compute main(uint3 dtid : MR_DispatchThreadId)
+{
+	const int emissionCount = DeathCount[ 2 ];
+	if (dtid.x >= emissionCount)
+		return;
+
+	int index = 0;
+	MR_AtomicAdd( DeathCount[0], -1, index );
+	if (index > 0)
+	{
+		uint particleIndex = DeathItems[ index - 1 ];
+		Emit( particleIndex );
+		MR_AtomicAdd( AliveCount[ 0 ], 1, index );
+		AliveItems[ index ] = particleIndex;
+	}
+}

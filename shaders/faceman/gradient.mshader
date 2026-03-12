@@ -1,0 +1,42 @@
+constants : MR_ConstantBuffer0
+{
+	float4x4 WorldViewProjMatrix;
+	float4 BottomColor;
+	float4 TopColor;
+}
+
+vertex
+{
+	in
+	{
+		float3 position;
+	}
+
+	out
+	{
+		float3 position;
+	}
+
+	main(out float4 clipPos : MR_Position)
+	{
+		Out.position = In.position;
+		
+		clipPos = MR_Transform(WorldViewProjMatrix, float4(In.position.xyz, 0));
+	}
+}
+
+pixel
+{
+	in
+	{
+		float3 position;
+	}
+
+	main(out float4 color : MR_Color)
+	{
+		float lerpFactor = normalize(In.position).y + 0.3;
+		lerpFactor = smoothstep(0.0, 1.0, lerpFactor);
+		color.rgb = lerp(BottomColor.rgb, TopColor.rgb, saturate(lerpFactor));
+		color.a = 1;
+	}
+}

@@ -1,0 +1,114 @@
+import "shaders/MRender/MR_ViewConstants.h"
+import "shaders/modules/graphics/onworld/onworld_environment.h"
+import "shaders/modules/graphics/onward/gi/space_fog_far.h"
+import "shaders/modules/graphics/onworld/planet_base.h"
+import "shaders/modules/graphics/onworld/functions/RaySphereIntersection.h"
+import "shaders/MRender/MR_DepthBuffer.h"
+
+MR_Sampler2D DitherNoise { texture = "textures/random16x16.tga", anisotropy = 0 };
+
+constants : MR_ConstantBuffer0
+{
+	float4x4 constTransform;
+
+	float constFakeRadius;
+	float constLerpFactor;
+}
+
+
+vertex
+{
+	in
+	{
+		float3 position;
+	}
+
+	out
+	{
+@ifdef USE_SPACE_FACE_TEXTURES
+		float2 uv;
+@else
+		float3 uv;
+@endif // USE_SPACE_FACE_TEXTURES
+	}
+
+	main(out float4 outClipPos : MR_Position)
+	{
+		float3 vertexPosition = In.position.xyz;
+		float3 cubePos = MR_Transform(constTransform, float4(vertexPosition.xyz, 1)).xyz;
+		vertexPosition = normalize(cubePos);
+
+		float3 cameraPosition = MR_GetPos(MR_ViewConstants.cameraToWorld).xyz;
+		float3 centerPlanetPos = OW_Planet_GetPosition();
+
+	@ifdef USE_SPACE_FACE_TEXTURES
+		Out.uv = In.position.xz* float2(0.5f, -0.5f) + float2(0.5f, 0.5f);
+	@else
+		Out.uv = vertexPosition;
+	@endif // USE_SPACE_FACE_TEXTURES
+
+		vertexPosition.xyz *= MR_ViewConstants.far;
+
+		vertexPosition += cameraPosition;
+
+		float3 worldPos = vertexPosition.xyz;
+		float3 camPos = MR_Transform(MR_ViewConstants.worldToCamera, worldPos).xyz;
+		outClipPos = MR_Transform(MR_ViewConstants.cameraToClip, camPos);
+		outClipPos.z = max(outClipPos.z, 0.0f);
+	}
+}
+
+pixel
+{
+
+@ifdef USE_SPACE_FACE_TEXTURES
+	MR_Sampler2D Texture : MR_Texture1
+@else
+	MR_SamplerCube Texture : MR_Texture1
+@endif // USE_SPACE_FACE_TEXTURES
+		{ filter = linear, wrap = clamp, anisotropy = 0 };
+
+	in
+	{
+	@ifdef USE_SPACE_FACE_TEXTURES
+		float2 uv;
+	@else
+		float3 uv;
+	@endif // USE_SPACE_FACE_TEXTURES
+	}
+
+	main(out float4 color : MR_Color, float4 fragCoord : MR_FragCoord)
+	{
+	@ifdef USE_SPACE_FACE_TEXTURES
+
+		color.xyz = MR_Sample(Texture, In.uv).rgb;
+
+	@else
+		//Camera at center of the planet
+
+		const float2 positionCS = MR_PixelToClip(fragCoord.xy);
+
+		float3 centerPlanetPos = OW_Planet_GetPosition();
+
+		//Camera in world
+		const float3 cameraPosition = MR_GetPos(MR_ViewConstants.cameraToWorld).xyz;
+
+		float3 worldNearPos = MR_Transform(MR_ViewConstants.cameraToWorld, MR_ClipToCamera(positionCS, 1)).xyz;
+		float3 cameraDirection = normalize(worldNearPos - cameraPosition);
+
+		float2 inter = OW_RaySphereIntersection(cameraPosition - centerPlanetPos, cameraDirection, constFakeRadius);
+		float3 interPosition = cameraPosition + cameraDirection * inter.y;
+		float3 interDirection = normalize(interPosition - centerPlanetPos);
+
+		@ifdef USE_SPACE_CUBEMAP_TEXTURE
+			color.xyz = MR_Sample(Texture, interDirection).rgb;
+		@else
+			color.xyz = MR_Sample(Texture, In.uv).rgb;
+		@endif //USE_SPACE_CUBEMAP_TEXTURE
+
+	@endif // USE_SPACE_FACE_TEXTURES
+
+		color.w = constLerpFactor;
+		color.xyz *= color.w;
+	}
+}

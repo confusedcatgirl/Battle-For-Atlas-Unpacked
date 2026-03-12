@@ -1,0 +1,366 @@
+@include "shaders/modules/graphics/deferred/ssr2.h"
+import "shaders/modules/graphics/temporal_aa.h"
+import "shaders/modules/graphics/onward/lighting/lighting_generic.h"
+
+@ifdef PIXEL
+
+blend
+{
+	src = 1,
+	dest = 0,
+	src[0] = src.a,
+	dest[0] = 1,
+}
+
+@else
+
+MR_RWTexture2D<float3> Output_RGB : MR_RW_Texture0;
+
+@ifdef SSR_TEMPORAL_SMOOTHING
+MR_RWTexture2D<float3> Output_TemporalRGB : MR_RW_Texture1;
+MR_RWTexture2D<float> Output_TemporalAlpha : MR_RW_Texture2;
+@endif
+
+computeParameters
+{
+	numThreads 8 8 1
+}
+
+@endif
+
+@ifdef SSR2_MERGED_RESOLVE
+@include "shaders/modules/graphics/deferred/ssr2_resolve.h"
+
+global groupshared uint2 LDS[64];
+global float3 ourOwnLight;
+global float ourOwnAlpha;
+global float ourOwnDistance;
+
+void WriteLDS(uint2 gtid, float4 value)
+{
+	uint index = gtid.x + gtid.y * 8;
+	uint2 t;
+	t.x = f32tof16(value.x) | (f32tof16(value.y) << 16);
+	t.y = f32tof16(value.z) | (f32tof16(value.w) << 16);
+	LDS[index] = t;
+}
+
+float4 ReadLDS(uint2 gtid)
+{
+	uint index = gtid.x + gtid.y * 8;
+	uint2 t = LDS[index];
+	float4 ret;
+	ret.x = f16tof32(t.x);
+	ret.y = f16tof32(t.x >> 16);
+	ret.z = f16tof32(t.y);
+	ret.w = f16tof32(t.y >> 16);
+	return ret;
+}
+
+float3 GetOwnLight(uint2 px, uint2 gtid)
+{
+	return ourOwnLight;
+}
+
+float3 GetLight_YCoCg(uint2 px, uint2 gtid)
+{
+	return ReadLDS(gtid).xyz;
+}
+
+float2 GetOwnDistanceAlpha(uint2 px, uint2 gtid)
+{
+	return float2(ourOwnDistance, ourOwnAlpha);
+}
+
+float GetAlpha(uint2 px, uint2 gtid)
+{
+	return ReadLDS(gtid).w;
+}
+
+@else
+
+float3 GetOwnLight(uint2 px, uint2 gtid)
+{
+	return Light_RGB[px];
+}
+
+float3 GetLight_YCoCg(uint2 px, uint2 gtid)
+{
+	return RGB2YCoCg(Light_RGB[px]);
+}
+
+float2 GetOwnDistanceAlpha(uint2 px, uint2 gtid)
+{
+	return Distance_Alpha[px];
+}
+
+float GetAlpha(uint2 px, uint2 gtid)
+{
+	return Distance_Alpha[px].y;
+}
+@endif
+
+void ApplySSR(out float3 colorOut, out float alphaOut, float2 ffc, uint3 gtid
+@ifdef SSR_TEMPORAL_SMOOTHING
+@ifdef PIXEL
+	, inout float4 temporalRgbOut, inout float4 temporalAlphaOut
+@endif
+@endif
+)
+{
+	colorOut = vec3(0);
+	alphaOut = 0;
+
+	uint2 px = uint2(ffc.xy);
+
+	float2 distanceAlpha = GetOwnDistanceAlpha(px, gtid.xy);
+//	if (!distanceAlpha.y)
+//		return;
+
+	float depth = MR_SampleLinearDepth(px);
+
+	float2 clip2 = MR_PixelToClip(ffc);
+	float3 camSpacePos = MR_ClipToCamera(clip2, depth);
+	float3 worldPos = MR_Transform(MR_ViewConstants.cameraToWorld, camSpacePos).xyz;
+
+	float3 toCameraDir = normalize(MR_GetPos(MR_ViewConstants.cameraToWorld).xyz - worldPos);
+
+	float distanceToHit = distanceAlpha.x;
+	float4 hitSample = float4(GetOwnLight(px, gtid.xy), distanceAlpha.y);
+
+@ifdef SSR_TEMPORAL_SMOOTHING
+	if (1)
+	{
+		float3 refPos = worldPos - distanceToHit * toCameraDir;
+
+@ifdef SSR2_AFR
+		float4 lastFrameClip4 = MR_Transform(MR_ViewConstants.AFRlastFrameWorldToClip, refPos);
+@else
+		float4 lastFrameClip4 = MR_Transform(MR_ViewConstants.lastFrameWorldToClip, refPos);
+@endif
+
+		float2 lastFrameClip2 = lastFrameClip4.xy / lastFrameClip4.w;
+		float2 lastFrameUV = lastFrameClip2 * SSR.lastFrameClipToFramebufferUVScale + SSR.lastFrameClipToFramebufferUVOffset;
+
+		float lastFrameAlpha = max(abs(lastFrameClip2.x), abs(lastFrameClip2.y)) > 1 ? 0 : MR_SampleLod0(OldLight_RadiusAlpha, lastFrameUV).x;
+
+		if (lastFrameAlpha && 1)
+		{
+			float3 lastFrame = MR_SampleLod0(OldLight_RGB, lastFrameUV);
+			if (IsValid(lastFrame))
+				hitSample = lerp(float4(lastFrame, lastFrameAlpha), hitSample, SSR.thisFrameAlpha);
+
+			if (1)
+			{
+@ifdef SSR_TEMPORAL_8_TAP
+				const uint numOffsets = 8;
+				float2 offsets[numOffsets] = {
+					float2(-1,-1),
+					float2(-1, 0),
+					float2(-1, 1),
+					float2( 0, 1),
+					float2( 1, 1),
+					float2( 1, 0),
+					float2( 1,-1),
+					float2( 0,-1),
+				};
+				const float minNumValid = 3;
+@else
+				const uint numOffsets = 4;
+				float2 offsets[numOffsets] = {
+					float2(-1,-1),
+					float2(-1, 1),
+					float2( 1, 1),
+					float2( 1,-1),
+				};
+				const float minNumValid = 2;
+@endif
+
+				float3 lightMin = vec3(10000);
+				float3 lightMax = vec3(-10000);
+				float alphaMin = 1;
+				float alphaMax = 0;
+				float numValid = 0;
+				for (uint i=0; i<numOffsets; ++i)
+				{
+					int2 offsetpx = clamp(px + offsets[i], MR_ViewConstants.viewportMin, MR_ViewConstants.viewportMax);
+					int2 offsetgtid = clamp(int2(gtid.xy) + offsets[i], int2(0,0), int2(7,7));
+					float a = GetAlpha(offsetpx, offsetgtid);
+					if (a)
+					{
+						float3 light = GetLight_YCoCg(offsetpx, offsetgtid);
+						lightMin = min(lightMin, light);
+						lightMax = max(lightMax, light);
+						numValid += 1;
+					}
+
+					alphaMin = min(alphaMin, a);
+					alphaMax = max(alphaMax, a);
+				}
+
+				if (lightMin.x < lightMax.x)
+					hitSample.xyz = YCoCg2RGB(clamp(RGB2YCoCg(hitSample.xyz), lightMin, lightMax));
+
+				hitSample.w = clamp(hitSample.w, alphaMin, alphaMax);
+			}
+		}
+	}
+
+@ifdef PIXEL
+	temporalRgbOut = float4(hitSample.xyz, 0);
+	temporalAlphaOut = float4(hitSample.w, 0,0,0);
+@else
+	Output_TemporalRGB[px] = hitSample.xyz;
+	Output_TemporalAlpha[px] = hitSample.w;
+@endif
+
+@endif
+
+	colorOut = hitSample.xyz;
+	alphaOut = hitSample.w;
+
+	if (!alphaOut)
+		return;
+
+	float4 mrt0 = MR_SampleTexelLod0(MRT0, px);
+	float4 mrt1 = float4(MR_SampleTexelLod0(Normal, px), 0);
+	float4 mrt2 = MR_SampleTexelLod0(MRT2, px);
+
+	Gfx_DeferredData data;
+	Gfx_MRTToDeferred(data, mrt0, mrt1, mrt2);
+
+	OGfx_Material material = OW_Material_Init(data.roughness, data.metalness, 1);
+	float3 specReflectance = OW_GenericLighting_GetSpecReflectance(data.color, material);
+
+	alphaOut *= saturate(2 - depth * (2 / SSR.range));
+
+@ifdef SSR2_MULTISAMPLE_RESOLVE
+	float3 V = toCameraDir;
+@else
+	float3 V = MR_PixelToCamera(ffc.xy);
+@endif // SSR2_MULTISAMPLE_RESOLVE
+
+	const float dotNV = saturate(dot(data.worldNormal, V));
+	float3 specBRDF = OW_EnvBRDF_1(specReflectance, material.roughness, dotNV);
+
+	colorOut = colorOut * specBRDF;
+}
+
+@ifdef PIXEL
+@	include "shaders/modules/graphics/postfx/pixel_in.h"
+
+pixel main(float4 fc : MR_FragCoord, out float4 blendOut : MR_Color0
+@ifdef SSR_TEMPORAL_SMOOTHING
+	, out float4 temporalRgbOut : MR_Color1, out float4 temporalAlphaOut : MR_Color2
+@endif
+)
+{
+	float2 ffc = fc.xy;
+	uint2 dtid = ffc.xy - MR_ViewConstants.viewportPos;
+
+@ifdef SSR2_CLASSIFY_TILES
+	float hitClass = Light_RadiusAlpha[dtid.xy/16].x;
+	bool tileUsed = hitClass != 0;
+@else
+	bool tileUsed = true;
+@endif
+
+	blendOut = vec4(0);
+@ifdef SSR_TEMPORAL_SMOOTHING
+	temporalRgbOut = vec4(0);
+	temporalAlphaOut = vec4(0);
+@endif
+
+	if (tileUsed)
+	{
+		float alpha;
+		float3 colorOut;
+		ApplySSR(colorOut, alpha, ffc, 0
+@ifdef SSR_TEMPORAL_SMOOTHING
+			, temporalRgbOut, temporalAlphaOut
+@endif
+		);
+
+		if (alpha)
+		{
+			float3 oldLight = BlendSource_RGB[ffc];
+			blendOut = float4(colorOut - oldLight, alpha);
+		}
+	}
+	else
+	{
+@ifdef SSR_DEBUG
+		blendOut = float4(0,1,0,0.1);
+@endif
+	}
+}
+
+@else
+
+compute main(uint3 dtid : MR_DispatchThreadId, uint3 groupId : MR_GroupId, uint3 gtid : MR_GroupThreadId)
+{
+@ifdef SSR2_CLASSIFY_TILES
+	float hitClass = Light_RadiusAlpha[groupId.xy/2].x;
+	bool tileUsed = hitClass != 0;
+@else
+	bool tileUsed = true;
+@endif
+
+	float2 ffc = dtid.xy + vec2(0.5) + MR_ViewConstants.viewportPos;
+@ifdef SSR2_QUARTER_RAYS
+	uint2 hitpx = dtid.xy/2;
+@else
+	uint2 hitpx = dtid.xy;
+@endif
+
+	if (tileUsed)
+	{
+@ifdef SSR2_MERGED_RESOLVE
+		{
+			float4 resolved = vec4(0);
+			float3 resolved_YCoCg = vec3(0);
+			float distanceToHit = 0;
+
+			ResolveSSR(resolved.xyz, resolved.w, distanceToHit, ffc, hitpx);
+			resolved_YCoCg = RGB2YCoCg(resolved.xyz);
+
+			WriteLDS(gtid.xy, float4(resolved_YCoCg, resolved.w));
+			ourOwnLight = resolved.xyz;
+			ourOwnAlpha = resolved.w;
+			ourOwnDistance = distanceToHit;
+
+			MR_GroupMemoryBarrierSync();
+		}
+@endif
+
+		float alpha;
+		float3 colorOut;
+		ApplySSR(colorOut, alpha, ffc, gtid);
+
+		if (alpha)
+		{
+			float3 oldLight = BlendSource_RGB[ffc];
+			float3 oldColor = Framebuffer[ffc];
+			colorOut = oldColor + (colorOut - oldLight) * alpha;
+			Output_RGB[ffc.xy] = max(colorOut, vec3(0));
+		}
+@ifdef SSR2_APPLY_ALWAYS_WRITES
+		else
+			Output_RGB[ffc.xy] = Framebuffer[ffc];
+@endif
+
+	}
+	else
+	{
+@ifdef SSR2_APPLY_ALWAYS_WRITES
+		Output_RGB[ffc.xy] = Framebuffer[ffc];
+@endif
+
+@ifdef SSR_TEMPORAL_SMOOTHING
+		Output_TemporalRGB[ffc.xy] = vec3(0);
+		Output_TemporalAlpha[ffc.xy] = 0;
+@endif
+	}
+}
+
+@endif

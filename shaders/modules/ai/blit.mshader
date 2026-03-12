@@ -1,0 +1,19 @@
+@include "shaders/modules/graphics/postfx/pixel_in.h"
+
+pixel
+{
+	MR_Sampler2D InputTexture : MR_Texture0 { filter = linear, wrap = clamp };
+
+	main(out float4 color : MR_Color)
+	{
+		float4 col = MR_SampleLod0(InputTexture, In.uv0);
+		color = col;
+		if(col.a > 0.0f)
+			color.xyz = col.xyz / (col.a);
+			
+		color.a *= 5.0f;
+		
+		if(color.a > 0.7f)
+			color.a = 0.7f;
+	}
+}

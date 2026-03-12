@@ -1,0 +1,53 @@
+import "shaders/nodes/Shader/Functions/LinearSRGB.h"
+
+constants : MR_ConstantBuffer0
+{
+	float NitsForPaperWhite;
+	float Exposure;
+}
+
+MR_Texture2D HDRLinearSource : MR_Texture0;
+MR_RWTexture2D<float4> PQOutput : MR_RW_Texture0;
+
+computeParameters
+{
+	numThreads 8 8 1
+}
+
+const float g_MaxNitsFor2084 = 10000.0f;     // The ST.2084 spec defines max nits as 10,000 nits
+
+// Per spec, the max nits for ST.2084 is 10,000 nits.We need to establish what the value of 1.0f means
+// by normalizing the values using the defined nits for paper white. According to SDR specs, paper white
+// is 80nits, but that is paper white in a scenema with a dark envirnment, and is perceived as grey on
+// a display in office and living room environments. This value should be tuned according to the nits
+// that the consumer perceives as white in his living room, e.g. 200nits. As refernce, PC monitors is
+// normally in the range 200-300 nits, a smartphone 500nits, etc.
+float3 NormalizeHDRSceneValue(float3 hdrSceneValue)
+{
+    float3 normalizedLinearValue = hdrSceneValue * NitsForPaperWhite / g_MaxNitsFor2084;
+    return normalizedLinearValue;       // Don't clamp between [0..1], so we can still perform operations on scene values higher than 10,000 nits
+}
+
+// Apply the ST.2084 curve to linear values and outputs non-linear values, normalized [0..1]
+float3 LinearToST2084(float3 normalizedLinearValue)
+{
+    float3 ST2084 = pow((0.8359375f + 18.8515625f * pow(abs(normalizedLinearValue), 0.1593017578f)) / (1.0f + 18.6875f * pow(abs(normalizedLinearValue), 0.1593017578f)), 78.84375f);
+    return ST2084;  // Don't clamp between [0..1], so we can still perform operations on scene values higher than 10,000 nits
+}
+
+//  - Quantized using ST.2084 curve
+//  - 10bit per channel
+float3 PrepareHDRSignal(float3 hdrSceneValue)
+{
+    float3 normalizedLinearValue = NormalizeHDRSceneValue(hdrSceneValue);   // Normalize using paper white nits to prepare for ST.2084
+    return LinearToST2084(normalizedLinearValue);                       // Apply ST.2084 curve
+}
+
+compute main(uint3 dtid : MR_DispatchThreadId)
+{
+	float4 hdrSceneValue = MR_SampleTexelLod0(HDRLinearSource, dtid.xy);
+
+	hdrSceneValue.xyz *= Exposure;
+
+	PQOutput[dtid.xy] = saturate(float4(PrepareHDRSignal(hdrSceneValue.xyz), hdrSceneValue.w));
+}

@@ -1,0 +1,95 @@
+import "shaders/MRender/MR_ViewConstants.h"
+import "shaders/modules/graphics/onward/pm/pm.h"
+import "shaders/modules/graphics/onward/pm/curves.h"
+import "shaders/modules/graphics/onward/pm/constants.h"
+import "shaders/modules/graphics/onward/pm/planet/emitter.h"
+
+import "shaders/MRender/MR_DepthBuffer.h"
+import "shaders/modules/graphics/onward/gi/volumetric_fog.h"
+
+MR_StructuredBuffer< OGfx_Particulate > ParticlesIn : MR_Buffer0;
+MR_Buffer< uint > RenderList : MR_Buffer1;
+MR_Buffer< float4 > ParticlePos : MR_Buffer2;
+
+MR_Sampler2DArray Texture : MR_Texture0 { filter = linear point, wrap = clamp };
+
+vertex
+{
+	in
+	{
+		float4 vertexPos2;
+	}
+
+	out
+	{
+		float4 colorAlpha;
+		float3 uvDepth;
+		float4 fog;
+
+		nointerpolation uint textureIndex;
+	}
+
+	main(out float4 position : MR_Position, in uint vertexId : MR_VertexId)
+	{
+		uint instanceId = vertexId / 4;
+
+		uint vertexId4 = vertexId % 4;
+		Out.uvDepth.x = (vertexId4 % 2); // 0, 1, 0, 1
+		Out.uvDepth.y = (vertexId4 / 2); // 0, 0, 1, 1
+
+		float2 vertexPos;
+		vertexPos.x = Out.uvDepth.x * -2.0 + 1.0;
+		vertexPos.y = Out.uvDepth.y *  2.0 - 1.0;
+
+		const uint particleIndex = RenderList[ instanceId ];
+		OGfx_Particulate data = ParticlesIn[ particleIndex ];
+		Out.textureIndex = 0;//OGfx_PM_GetLocalIndex( data );
+
+		OGfx_PM_EmitterProps props = OGfx_PM_GetEmitterProps( OGfx_PM_GetLocalIndex( data ) );
+		Out.colorAlpha.w = OW_Curve_AsymmetricalBellShaped( data.myAge, 0.5, props.myMaxAge ) * (1-pow(saturate( data.myVelocity.y / 360 ), 0.5));
+
+		float4 viewBase0 = ParticlePos[ particleIndex * OGFX_PM_VIEW_DATA_SIZE + 0 ];
+		float4 viewBase1 = ParticlePos[ particleIndex * OGFX_PM_VIEW_DATA_SIZE + 1 ];
+		float4 viewBase2 = ParticlePos[ particleIndex * OGFX_PM_VIEW_DATA_SIZE + 2 ];
+
+		Out.colorAlpha.xyz = viewBase1.xyz;// * viewBase2.w + viewBase2.xyz;
+
+		Out.fog = viewBase2;
+
+		float3 worldPosition = viewBase0.xyz + MR_ViewConstants.LODCameraPosition;
+		float3 camPos = MR_Transform(MR_ViewConstants.worldToCamera, worldPosition).xyz;
+		Out.uvDepth.z = camPos.z;
+		camPos.xy += vertexPos.xy * vec2( props.myMaxSize * Out.colorAlpha.w );
+		position = MR_Transform(MR_ViewConstants.cameraToClip, camPos);
+	}
+}
+
+pixel
+{
+	in
+	{
+		float4 colorAlpha;
+		float3 uvDepth;
+		float4 fog;
+
+		nointerpolation uint textureIndex;
+	}
+
+	main(out float4 color : MR_Color, float4 fc : MR_FragCoord)
+	{
+		float softness = 1.0;
+
+		{
+			float2 depthUV = MR_ClipToQuarterFramebufferUV( MR_PixelToClip( fc.xy ) );
+			float sampledDepth = MR_SampleLod0( Depthbuffer, depthUV ).x;
+
+			float softnessDistance = sampledDepth - In.uvDepth.z;
+			softness = saturate( softnessDistance * 0.1 );
+		}
+
+		color = MR_Sample( Texture, float3( In.uvDepth.xy, In.textureIndex ) );
+		color = float4( color.xyz * In.colorAlpha.xyz, color.x * In.colorAlpha.w * softness );
+		OW_Fog_Apply( color.xyz, In.fog );
+		color.xyz *= color.a;
+	}
+}

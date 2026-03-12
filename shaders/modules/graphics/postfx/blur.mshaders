@@ -1,0 +1,27 @@
+@include "shaders/modules/graphics/postfx/pixel_in.h"
+
+pixel
+{
+	MR_Sampler2D Color : MR_Texture0 { wrap = clamp };
+
+	constants Blur : MR_ConstantBuffer0
+	{
+		float2 texelSize;
+
+		int numWeights;
+		float4 weights[16];
+	}
+
+	main(out float4 color : MR_Color)
+	{
+		color = MR_SampleLod0(Color, clamp(In.uv0, In.uv0Min, In.uv0Max)) * Blur.weights[0].x;
+		for (int i = 1; i < Blur.numWeights; ++i)
+		{
+	   		float2 offset = Blur.texelSize * Blur.weights[i].y;
+			color += MR_SampleLod0(Color, clamp(In.uv0 + offset, In.uv0Min, In.uv0Max)) * Blur.weights[i].x;
+			color += MR_SampleLod0(Color, clamp(In.uv0 - offset, In.uv0Min, In.uv0Max)) * Blur.weights[i].x;
+	   	}
+	   	color *= Blur.weights[0].y;
+		color = max(color, 0);
+	}
+}

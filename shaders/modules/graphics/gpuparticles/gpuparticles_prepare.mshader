@@ -1,0 +1,49 @@
+import "shaders/modules/graphics/gpuparticles/gpuparticles_common.h"
+import "shaders/modules/graphics/normal_encode.h"
+import "shaders/MRender/MR_ViewConstants.h"
+
+computeParameters
+{
+	numThreads 1 1 1
+}
+
+compute
+{
+    MR_RWStructuredBuffer< SCommonData > CommonData : MR_RW_Buffer0;
+    MR_RWStructuredBuffer< SParticleData > ParticleData : MR_RW_Buffer1;
+	MR_RWBuffer< uint > DispatchData : MR_RW_Buffer3;
+	
+	main(uint3 Gid : MR_GroupId, uint GI : MR_GroupIndex, uint3 GTid : MR_GroupThreadId, uint3 DTid : MR_DispatchThreadId )
+	{
+		uint numActive = CommonData[0].myNumActiveParticles;
+
+		float numToCreateF = CalculateNumToCreate(numActive, CommonData[0].myPartialCreation);
+		uint numToCreate = numToCreateF;
+		CommonData[0].myPartialCreation = numToCreateF - numToCreate;
+
+		uint firstActive = CommonData[0].myFirstActiveParticle;
+		PrepareActiveParticles(numActive, firstActive, ParticleData);
+
+		numToCreate = min(numToCreate, myMaxParticles-numActive-1);
+		CommonData[0].myFirstParticleToCreate = (firstActive + numActive) % myMaxParticles;
+		CommonData[0].myNumParticlesToCreate = numToCreate;
+
+		numActive += numToCreate;
+		CommonData[0].myFirstActiveParticle = firstActive;
+		CommonData[0].myNumActiveParticles = numActive;
+
+		DispatchData[0] = (numToCreate+63)/64;
+		DispatchData[1] = 1;
+		DispatchData[2] = 1;
+
+		DispatchData[3] = (numActive+63)/64;
+		DispatchData[4] = 1;
+		DispatchData[5] = 1;
+
+		DispatchData[6] = 6;					//IndexCountPerInstance
+		DispatchData[7] = numActive;			//InstanceCount
+		DispatchData[8] = 0;
+		DispatchData[9] = 0;
+		DispatchData[10] = 0;
+	}
+}

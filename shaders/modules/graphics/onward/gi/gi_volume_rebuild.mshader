@@ -1,0 +1,210 @@
+import "shaders/MRender/MR_ViewConstants.h"
+import "shaders/modules/graphics/onward/gi/gi_volume.h"
+
+struct BVHNode
+{
+	float3 aabbMin;
+	int childIndex;
+	float3 aabbMax;
+	int probeIndex;
+};
+
+MR_ByteBuffer NodesIn : MR_Buffer0;
+
+const int BVH_TREE_NODE_BYTESIZE = 32;
+
+MR_RWBuffer< uint > VoxelToProbeOut : MR_RW_Buffer0;
+
+@ifdef OGI_RECYCLE
+	MR_Buffer< uint4 > VoxelToProbeIn_128bits : MR_Buffer2;
+	@ifdef OGI_USE_128BITS_UAV
+		MR_RWBuffer< uint4 > VoxelToProbeOut_128bits : MR_RW_Buffer2;
+	@endif // OGI_USE_128BITS_UAV
+@endif // OGI_RECYCLE
+
+computeParameters
+{
+	numThreads 8 8 8
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+compute
+{
+@ifdef REF_CTZ
+	// -----------------------------------------------------------------------------------------------------------------------------------------------
+	// unoptimized for now (to make sure it works)
+	// -----------------------------------------------------------------------------------------------------------------------------------------------
+	uint CountTrailingZeros(uint n)
+	{
+		if (n == 0)
+		{
+			return 32;
+		}
+		uint count = 0;
+		while (n % 2 == 0)
+		{
+			++count;
+			n >>= 1;
+		}
+		return count;
+	}
+@else
+	uint CountTrailingZeros(uint n)
+	{
+		const uint tab[32] = { 0,  1,  2, 24,  3, 19, 6,  25,
+		                      22,  4, 20, 10, 16,  7, 12, 26,
+		                      31, 23, 18,  5, 21,  9, 15, 11,
+		                      30, 17,  8, 14, 29, 13, 28, 27 };
+
+		uint x = (n & -n) * 0x04D7651F;
+		return n ? tab[x >> 27] : 32;
+	}
+@endif // REF_CTZ
+
+	// -----------------------------------------------------------------------------------------------------------------------------------------------
+	//
+	// -----------------------------------------------------------------------------------------------------------------------------------------------
+	BVHNode GetNode( uint aOffsetInBytes )
+	{
+		BVHNode node;
+
+		const uint4 data0 = NodesIn.Load4( aOffsetInBytes );
+		const uint4 data1 = NodesIn.Load4( aOffsetInBytes + 16 );
+
+		node.aabbMin    = asfloat( data0.xyz );
+		node.childIndex = asint  ( data0.w );
+		node.aabbMax    = asfloat( data1.xyz );
+		node.probeIndex = asint  ( data1.w );
+
+		return node;
+	}
+
+	// -----------------------------------------------------------------------------------------------------------------------------------------------
+	//
+	// -----------------------------------------------------------------------------------------------------------------------------------------------
+	bool ProcessNode( in BVHNode aNode, in float3 aVoxelMin, in float3 aVoxelMax )
+	{
+		if (aNode.aabbMin.x > aVoxelMax.x || aNode.aabbMax.x < aVoxelMin.x) return false;
+		if (aNode.aabbMin.y > aVoxelMax.y || aNode.aabbMax.y < aVoxelMin.y) return false;
+		if (aNode.aabbMin.z > aVoxelMax.z || aNode.aabbMax.z < aVoxelMin.z) return false;
+		return true;
+	}
+
+	// -----------------------------------------------------------------------------------------------------------------------------------------------
+	//
+	// -----------------------------------------------------------------------------------------------------------------------------------------------
+	void AddProbe( in uint aWriteIndex, in uint aSectorIndex, in uint aProbeIndex )
+	{
+		VoxelToProbeOut[ aWriteIndex ] = (aSectorIndex << 16) | (aProbeIndex & 0xffff);
+	}
+
+	// -----------------------------------------------------------------------------------------------------------------------------------------------
+	//
+	// -----------------------------------------------------------------------------------------------------------------------------------------------
+	void ProcessTree( in uint aRootOffset, in float3 aVoxelMin, in float3 aVoxelMax, in uint aVoxelIndex, in uint aSectorIndex, inout uint aProbeCount )
+	{
+		uint levelStart = 1;
+		uint levelIndex = 0;
+		do
+		{
+			const uint nodeIndex = ( levelStart + levelIndex - 1 );
+			const BVHNode node = GetNode( aRootOffset + nodeIndex * BVH_TREE_NODE_BYTESIZE );
+			if (ProcessNode( node, aVoxelMin, aVoxelMax ))
+			{
+				if (node.probeIndex != -1)
+				{
+						AddProbe( aVoxelIndex + aProbeCount, aSectorIndex, node.probeIndex );
+						if( ++aProbeCount == OGI_MAX_PROBES_PER_VOXEL )
+						{
+							levelStart = 0; // reached the maximum of probes, we stop looping
+						}
+				}
+				else if (node.childIndex != -1)
+				{
+					levelStart = levelStart << 1;
+					levelIndex = levelIndex << 1;
+					continue; // go deeper!
+				}
+			}
+			levelIndex += 1;
+			const uint up = CountTrailingZeros( levelIndex );
+			levelStart = levelStart >> up;
+			levelIndex = levelIndex >> up;
+		}
+		while (levelStart > 1);
+	}
+
+	// -----------------------------------------------------------------------------------------------------------------------------------------------
+	//
+	// -----------------------------------------------------------------------------------------------------------------------------------------------
+	main(uint3 dispatchThreadId : MR_DispatchThreadId)
+	{
+		const float3 voxelMin = ( dispatchThreadId * constVoxelSize ) + constVolumePos;
+		const float3 voxelMax = voxelMin + constVoxelSize;
+
+		const uint outIndex = OW_GetVoxelBufferIndex( dispatchThreadId );
+
+		bool fullUpdate = true;
+
+@ifdef OGI_RECYCLE
+
+		int3 offsetedDispatchThreadId = (int3)dispatchThreadId;
+		offsetedDispatchThreadId += constRecyclingOffset;
+		if (all(offsetedDispatchThreadId.xyz >= int3(0, 0, 0)) && all(offsetedDispatchThreadId.xyz < constVoxelCount))
+		{
+			fullUpdate = false;
+
+			const uint iIndex_div4 = OW_GetVoxelBufferIndex( offsetedDispatchThreadId ) / 4;
+			const uint oIndex_div4 = outIndex / 4;
+
+			const uint iterationCount = (VoxelToProbeIn_128bits[ iIndex_div4 ].x + 4) / 4; // must copy the count thus 3 + 1
+			for (uint it=0;it<iterationCount;++it)
+			{
+				const uint4 source = VoxelToProbeIn_128bits[ iIndex_div4 + it ];
+
+			@ifdef OGI_USE_128BITS_UAV
+				VoxelToProbeOut_128bits[ oIndex_div4 + it ] = source;
+			@else
+				const uint it4 = it * 4;
+				VoxelToProbeOut[ outIndex + it4 + 0 ] = source.x;
+				VoxelToProbeOut[ outIndex + it4 + 1 ] = source.y;
+				VoxelToProbeOut[ outIndex + it4 + 2 ] = source.z;
+				VoxelToProbeOut[ outIndex + it4 + 3 ] = source.w;
+			@endif // OGI_USE_128BITS_UAV
+			}
+		}
+
+@endif // OGI_RECYCLE
+
+		if (fullUpdate)
+		{
+			uint probeCount = 0;
+
+			uint sectorIndex = 0;
+			while (sectorIndex < constSectorCount && probeCount < OGI_MAX_PROBES_PER_VOXEL)
+			{
+				const uint sectorOffset = constSectorParams[ sectorIndex ].x;
+				const uint sectorBuffer = constSectorParams[ sectorIndex ].y;
+
+				ProcessTree( sectorOffset,
+					voxelMin,
+					voxelMax,
+					outIndex + 1,
+					sectorBuffer,
+					probeCount
+				);
+
+				sectorIndex += 1;
+			}
+
+			VoxelToProbeOut[ outIndex ] = probeCount;
+		}
+	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// EOF
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -1,0 +1,42 @@
+constants : MR_ConstantBuffer0
+{
+	float4x4 WorldViewProjMatrix;
+	float4 BottomColor;
+	float4 TopColor;
+}
+
+vertex
+{
+	in
+	{
+		float3 position;
+	}
+
+	out
+	{
+		float3 position;
+	}
+
+	main(out float4 clipPos : MR_Position)
+	{
+		Out.position = In.position;
+		
+		clipPos = MR_Transform(WorldViewProjMatrix, float4(In.position.xyz, 0));
+	}
+}
+
+pixel
+{
+	MR_SamplerCube EnvMap : MR_Texture0;
+
+	in
+	{
+		float3 position;
+	}
+
+	main(out float4 color : MR_Color)
+	{
+		color.rgb = MR_Sample(EnvMap, In.position).xyz;
+		color.a = 1;
+	}
+}

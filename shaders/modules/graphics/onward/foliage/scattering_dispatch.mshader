@@ -1,0 +1,41 @@
+
+computeParameters
+{
+    numThreads 1 1 1
+}
+
+MR_RWBuffer< uint > DispatchData : MR_RW_Buffer0;
+
+@ifdef USE_APPEND_BUFFER
+
+constants : MR_ConstantBuffer1
+{
+	uint bufferLength;
+}
+
+compute main(uint3 dtid : MR_DispatchThreadId)
+{
+	DispatchData[0] = (bufferLength+63)/64;
+	DispatchData[1] = 1;
+	DispatchData[2] = 1;
+}
+
+@else
+
+MR_Buffer< uint > CounterBufferR : MR_Buffer5;
+MR_RWBuffer< uint > CounterBufferW : MR_RW_Buffer6;
+
+compute main(uint3 dtid : MR_DispatchThreadId)
+{
+	DispatchData[0] = (CounterBufferR[0]+63)/64;
+	DispatchData[1] = 1;
+	DispatchData[2] = 1;
+
+	CounterBufferW[0] = 0;
+	CounterBufferW[1] = 0;
+	CounterBufferW[2] = 0;
+	CounterBufferW[3] = 0;
+	CounterBufferW[4] = 0;
+}
+
+@endif // USE_APPEND_BUFFER

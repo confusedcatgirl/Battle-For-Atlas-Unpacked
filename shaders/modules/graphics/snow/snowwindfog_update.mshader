@@ -1,0 +1,33 @@
+@include "shaders/modules/graphics/snow/snowwind_common.h"
+
+computeParameters
+{
+	numThreads 8 8 1
+}
+
+compute
+{
+	MR_Texture2D<float2> FogWindIn : MR_Texture0;
+	MR_Sampler2D<float2> WindIn : MR_Texture2;
+	MR_Sampler2D<float2> BlockersIn : MR_Texture3;
+	MR_RWTexture2D<float2> FogWindOut : MR_RW_Texture0;
+
+	main(uint3 DTid : MR_DispatchThreadId )
+	{
+		int2 id = DTid.xy;
+
+		float2 in1 = FogWindIn[id];
+		float2 in2 = FogWindIn[id+int2(1,0)];
+		float2 in3 = FogWindIn[id+int2(-1,0)];
+		float2 in4 = FogWindIn[id+int2(0,1)];
+		float2 in5 = FogWindIn[id+int2(0,-1)];
+
+		float2 b1 = BlockersIn[id];	
+		float bd1 = saturate(1-dot(b1, b1))+0.01;
+		float windSpeed = length(WindIn[id]);
+
+		float2 out1 = (float2(windSpeed,bd1)*bd1 + in1*in1.y + in2*in2.y + in3*in3.y + in4*in4.y + in5*in5.y)/(bd1+in1.y+in2.y+in3.y+in4.y+in5.y);
+		
+		FogWindOut[id] = out1;
+	}
+}

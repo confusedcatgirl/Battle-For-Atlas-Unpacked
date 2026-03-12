@@ -1,0 +1,100 @@
+
+
+pixel
+{
+    MR_Sampler2D HeightmapFromPSShader : MR_Texture56 { filter = linear, wrap = clamp };
+
+    MR_Sampler2D LowResAlbedoTexture : MR_Texture57 { filter = linear, wrap = clamp };
+    MR_Sampler2D LowResNormalTexture : MR_Texture58 { filter = linear, wrap = clamp };
+
+    MR_Sampler2D SplatMapTexture : OW_SplatTexture { filter = linear, wrap = clamp };
+
+    Gfx_DeferredData Gfx_GetPlanetDeferredData(out float3 specColor)
+    {
+        specColor = float3(0.04f, 0.04f, 0.04f); // used by foward renderer only
+	    Gfx_DeferredData data = Gfx_GetDefaultDeferredData();
+	    return data;
+    }
+
+    float3 GetLongRangeWSNormal(in float2 lowResUV)
+    {
+        return normalize( MR_Sample(LowResNormalTexture, lowResUV.xy).rgb - vec3(0.5) );
+    }
+
+    float OverwriteRoughness(in float aRoughness, in float aLowResRoughness, in float aLowResFactor)
+    {
+        @ifdef FAR_DISTANCE
+            @ifdef FAR_DISTANCE_BLEND
+                aRoughness = lerp(aRoughness, aLowResRoughness, aLowResFactor);
+            @else
+                aRoughness = aLowResRoughness;
+            @endif
+        @else
+            aRoughness = lerp(aRoughness, aLowResRoughness, aLowResFactor);
+        @endif
+
+        return aRoughness;
+    }
+
+    float3 OverwriteWSNormal(in float3 aWSNormal, in float3 aLowResNormal, in float aLowResFactor)
+    {
+        @ifdef FAR_DISTANCE
+            @ifdef FAR_DISTANCE_BLEND
+                aWSNormal = lerp(aWSNormal, aLowResNormal, aLowResFactor);
+            @else
+                aWSNormal = aLowResNormal;
+            @endif
+        @else
+            aWSNormal = lerp(aWSNormal, aLowResNormal, aLowResFactor);
+        @endif
+
+        return aWSNormal;
+    }
+
+    float3 GetLongRangeDiffuse(in float2 lowResUV)
+    {
+        return MR_Sample(LowResAlbedoTexture, lowResUV.xy).rgb;
+    }
+
+    float3 OverwriteDiffuse(in float3 aDiffuse, in float3 aLowResDiffuse, in float aLowResFactor)
+    {
+        @ifdef FAR_DISTANCE
+            @ifdef FAR_DISTANCE_BLEND
+                aDiffuse = lerp(aDiffuse, aLowResDiffuse, aLowResFactor);
+            @else
+                aDiffuse = aLowResDiffuse;
+            @endif
+        @else
+            aDiffuse = lerp(aDiffuse, aLowResDiffuse, aLowResFactor);
+        @endif
+
+        return aDiffuse;
+    }
+
+    float4 OverwriteOutput(in float4 color, in float3 worldPos, in float3 worldPos2, in float displacement, in float3 wsNormal, in float3 diffuse)
+    {
+		color.a = 1;
+
+		color *= constCrustAlpha;
+
+        @ifdef SHADOW // used to generate shadow maps
+            color.rgb = 1;
+        @endif
+        @ifdef DEPTH // used to generate depth texture
+            color.rgb = MR_Transform(MR_ViewConstants.worldToCamera, worldPos).zzz;
+            //color.gba = worldPos2;
+        @endif
+        @ifdef CUBEMAP_GENERATION_DIFFUSE // used to generate diffuse cubemap
+            color.rgb = diffuse;
+        @endif
+        @ifdef CUBEMAP_GENERATION_NORMALS // used to generate normals cubemap
+            color.rgb = normalize(wsNormal) * 0.5f + 0.5f;
+            const float oceanLevel = (Planet_GetOceanStaticRadius() - Planet_GetCurstMinStaticRadius()) / (Planet_GetCurstMaxStaticRadius() - Planet_GetCurstMinStaticRadius());
+            color.a = smoothstep(oceanLevel, 0, displacement);
+        @endif
+
+        return color;
+    }
+
+}
+

@@ -1,0 +1,23 @@
+@include "shaders/modules/graphics/deferred/ssr_calculate.h"
+
+MR_RWTexture2D<float3> Output_RGB : MR_RW_Texture0;
+MR_RWTexture2D<float2> Output_RadiusAlpha : MR_RW_Texture1;
+
+computeParameters
+{
+	numThreads 8 8 1
+}
+
+compute main(uint3 qfc : MR_DispatchThreadId)
+{
+	float2 ffc = qfc.xy * 2 + SSR.viewportOffset;
+
+	float radius;
+	float alpha;
+	float sign_;
+	float3 colorOut;
+	CalculateSSR(colorOut, radius, alpha, sign_, ffc, qfc.xy);
+
+	Output_RGB[qfc.xy] = colorOut;
+	Output_RadiusAlpha[qfc.xy] = EncodeRadiusAlpha(radius, alpha, sign_);
+}

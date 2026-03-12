@@ -1,0 +1,214 @@
+@include "shaders/modules/graphics/postfx/pixel_in.h"
+@include "shaders/modules/graphics/deferred/ssr.h"
+import "shaders/modules/graphics/onward/lighting/lighting_generic.h"
+
+MR_Texture2D<float3> DilatedNormal : MR_Texture10;
+
+pixel
+{
+	float4 GetUpsampled(float2 ffc_in, float signToMatch)
+	{
+		int2 ffc = int2(ffc_in);
+		int2 qfc = int2((ffc_in.xy - SSR.viewportOffset - vec2(1)) / 2);
+		int2 border = ffc.xy & 1;
+
+		float fullDepth = MR_SampleLinearDepth(ffc);
+		float3 fullNormal = MR_SampleTexelLod0(MRT1, ffc).xyz;
+
+@ifdef SSR_DEBUG
+		float debugIntensity = length(Gfx_Environment.ambient);
+		debugIntensity = 0.2;
+@endif // SSR_DEBUG
+
+@ifdef SSR_OFFSET_FINAL_SAMPLING
+	@ifdef SSR_FINAL_SAMPLING_SINGLE_RADIUS
+		float4 baseCol = float4(MR_SampleTexelLod0(Light_RGB, qfc), 0);
+		float2 baseRadiusAlpha = MR_SampleTexelLod0(Light_RadiusAlpha, qfc);
+		float baseRadius;
+		float baseAlpha;
+		float baseSign;
+		DecodeRadiusAlpha(baseRadius, baseAlpha, baseSign, baseRadiusAlpha);
+		baseCol.w = baseAlpha;
+	@endif // SSR_FINAL_SAMPLING_SINGLE_RADIUS
+@endif // SSR_OFFSET_FINAL_SAMPLING
+
+		float4 colorSum = vec4(0);
+		float weightSum = 0;
+
+		int2 offsets[] = {
+			int2(0,0),
+			int2(0,1),
+			int2(1,1),
+			int2(1,0),
+		};
+		for (int i=0; i<4; ++i)
+		{
+			int dx = offsets[i].x;
+			int dy = offsets[i].y;
+
+			int2 qpixel = qfc + int2(dx,dy);
+			qpixel = min(qpixel, SSR.quarterSourceMax);
+
+@ifdef SSR_DEBUG
+			float3 debugCol = float3(0,1,0);
+			float debugAlpha = 1;
+@endif // SSR_DEBUG
+
+			float d = MR_SampleTexelLod0(QuarterDepthbuffer, qpixel);
+			float3 n = MR_SampleTexelLod0(QuarterNormal, qpixel);
+
+			if (signToMatch > 0)
+			{
+@ifdef SSR_OFFSET_FINAL_SAMPLING
+	@ifndef SSR_FINAL_SAMPLING_SINGLE_RADIUS
+				float4 baseCol = MR_SampleTexelLod0(Light_RGB, qpixel);
+				float2 baseRadiusAlpha = MR_SampleTexelLod0(Light_RadiusAlpha, qpixel);
+				float baseRadius;
+				float baseAlpha;
+				float baseSign;
+				DecodeRadiusAlpha(baseRadius, baseAlpha, baseSign, baseRadiusAlpha);
+				baseCol.w = baseAlpha;
+	@endif // SSR_FINAL_SAMPLING_SINGLE_RADIUS
+
+				float3 dilatedNormal = MR_SampleTexelLod0(DilatedNormal, qpixel);
+				float3 ndiff = (fullNormal - dilatedNormal);
+				float ndifflen = length(ndiff);
+				ndiff = ndiff * min(ndifflen, SSR.finalSampleMaxNormalScale) / max(ndifflen, 0.0001);
+
+				float2 offset = ndiff * (baseRadius * SSR.finalSampleOffsetScale);
+				int2 qpixel2 = qpixel + offset;
+				qpixel2 = min(qpixel2, SSR.quarterSourceMax);
+				qpixel2 = max(qpixel2, SSR.quarterSourceMin);
+
+	@ifdef SSR_DEBUG
+				debugCol = float3(1,0,0);
+				debugAlpha = saturate((length(offset) + 1) / 4);
+	@endif // SSR_DEBUG
+
+				d = MR_SampleTexelLod0(QuarterDepthbuffer, qpixel2);
+				n = MR_SampleTexelLod0(DilatedNormal, qpixel2);
+
+				if (
+					true
+					&& abs(fullDepth - d) / fullDepth < SSR.finalSampleMaxDepthDiff
+					&& length(n - fullNormal) < SSR.finalSampleMaxNormalDiff
+					)
+				{
+					qpixel = qpixel2;
+
+	@ifdef SSR_DEBUG
+					debugCol = float3(0,1,0);
+	@endif // SSR_DEBUG
+				}
+				else
+				{
+					d = MR_SampleTexelLod0(QuarterDepthbuffer, qpixel);
+					n = dilatedNormal;
+				}
+@endif // SSR_OFFSET_FINAL_SAMPLING
+			}
+
+			float4 c = float4(MR_SampleTexelLod0(Light_RGB, qpixel), 0);
+			float2 ra = MR_SampleTexelLod0(Light_RadiusAlpha, qpixel);
+
+			float radius;
+			float alpha;
+			float sign_;
+			DecodeRadiusAlpha(radius, alpha, sign_, ra);
+			c.w = alpha;
+
+			float weight = alpha;
+			weight *= (dx == border.x) ? 0.4 : 1.0;
+			weight *= (dy == border.y) ? 0.4 : 1.0;
+			weight *= GetPackedNormalWeightFactor(n, fullNormal);
+
+			if (signToMatch < 0)
+			{
+				float zDistance = abs(d - fullDepth);
+				weight *= 1 / max(0.00001, pow(zDistance, 16));
+			}
+
+@ifdef SSR_DEBUG
+			float3 blue = float3(0,0,1);
+			c.xyz = lerp(c.xyz, debugIntensity * blue, 0.1);
+			c.xyz = lerp(c.xyz, debugIntensity * debugCol, debugAlpha);
+@endif // SSR_DEBUG
+
+			colorSum += c * weight;
+			weightSum += weight;
+		}
+
+		colorSum /= max(0.0001, weightSum);
+
+		colorSum.w *= saturate(1 - fullDepth / SSR.range);
+
+		return colorSum;
+	}
+
+	main(out float4 colorOut : MR_Color0, float4 ffc : MR_FragCoord)
+	{
+		ffc.xy = floor(ffc.xy);
+
+		uint2 maxRadiusPixel = uint2(max(int2(0,0), (ffc.xy - SSR.viewportOffset - vec2(1))) / 2) / MaxRadiusScale;
+
+		float maxRadius = MR_SampleTexelLod0(DownscaledMaxRadius, maxRadiusPixel).x * 255;
+		if (!maxRadius)
+			discard;
+		else
+		{
+			float4 mrt0 = MR_SampleTexelLod0(MRT0, ffc.xy);
+			float4 mrt1 = MR_SampleTexelLod0(MRT1, ffc.xy);
+			float4 mrt2 = MR_SampleTexelLod0(MRT2, ffc.xy);
+			float3 oldLight = MR_SampleTexelLod0(OldLight_RGB, ffc.xy);
+
+			Gfx_DeferredData data;
+			Gfx_MRTToDeferred(data, mrt0, mrt1, mrt2);
+
+			OGfx_Material material = OW_Material_Init(data.roughness, data.metalness, 1);
+			float3 spec = OW_GenericLighting_GetSpecReflectance(data.color, material);
+
+@ifdef SSS
+			float signToMatch = -1;
+@else
+			float signToMatch = 1;
+@endif // SSS
+
+			float4 blurred = GetUpsampled(ffc.xy, signToMatch);
+
+			colorOut.xyz = vec3(0);
+
+@ifdef SSS
+			if (data.sss)
+			{
+				uint stencil = MR_SampleStencilTexelLod0(StencilTexture, ffc.xy);
+
+				blurred.w *= SSR.sssAlpha;
+
+@	ifdef SSR_DEBUG
+				blurred.x = 5;
+@	endif // SSR_DEBUG
+
+				colorOut.xyz = (blurred.xyz - oldLight) * blurred.w;
+			}
+@endif // SSS
+
+@ifdef SSR
+			{
+				const float dotNV = saturate(dot(data.worldNormal, MR_PixelToCamera(ffc.xy)));
+				spec = OW_EnvBRDF_1(spec, material.roughness, dotNV);
+
+				blurred.w /= max(blurred.w, SSR.alphaRange);
+
+@ifdef SSR_DEBUG
+				blurred.y = 5;
+@endif // SSR_DEBUG
+
+				blurred.xyz *= spec * data.ao;
+				colorOut.xyz = (blurred.xyz - oldLight) * blurred.w;
+			}
+@endif // SSR
+
+			colorOut.w = 1;
+		}
+	}
+}

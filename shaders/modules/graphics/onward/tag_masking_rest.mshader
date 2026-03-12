@@ -1,0 +1,77 @@
+import "shaders/modules/graphics/onward/tag_masking.h"
+import "shaders/modules/graphics/onworld/noise/functions_noise.h"
+
+geometryParameters
+{
+	maxVertices = 3,
+	invocations = 1,
+	primitivesIn = triangles,
+	primitivesOut = triangle_strip
+}
+
+geometry
+{
+	in
+	{
+		float4 csPos : MR_Position;
+		float3 wsPos;
+		float2 uv;
+	}
+
+	out
+	{
+		float4 csPos;
+		float3 wsPos;
+		float2 uv;
+	}
+
+	main(out float4 outPos : MR_Position, uint invocation : MR_InvocationId)
+	{
+		float3 v0 = In[1].csPos.xyz - In[0].csPos.xyz;
+		float3 v1 = In[2].csPos.xyz - In[1].csPos.xyz;
+		float3 c = cross(v0, v1);
+
+		float3 minPos = min(min(In[0].csPos.xyz, In[1].csPos.xyz), In[2].csPos.xyz);
+		float3 maxPos = max(max(In[0].csPos.xyz, In[1].csPos.xyz), In[2].csPos.xyz);
+
+		//if(c.z < 0 && maxPos.x > -1 && maxPos.y > -1 && minPos.x < 1 && minPos.y < 1)
+		{
+			for (uint i=0; i<3; ++i)
+			{
+				outPos = float4(In[i].uv, 0, 1);
+				Out.uv = In[i].uv;
+
+				Out.csPos = In[i].csPos;
+				Out.wsPos = In[i].wsPos;
+				MR_EmitVertex();
+			}
+		}
+	}
+}
+
+pixel
+{
+	in
+	{
+		float4 csPos;
+		float3 wsPos;
+		float2 uv;
+	}
+
+	main(out float4 outColor0 : MR_Color0)
+	{
+		float d = distance(Hit.myHitLocation.xyz, In.wsPos);
+		d = saturate(d * 0.1f); // 0 to 10m
+
+		float powD = pow(d, 1.0f);
+		powD += OW_Noise_3D(In.wsPos * 10.0f) * d;
+		outColor0 = lerp(Hit.myMaskingMin, Hit.myMaskingMax, saturate(powD));
+		if (powD >= 1.0f)
+		{
+			outColor0 = float4(1,1,1,1);
+			discard;
+		}
+	}
+}
+
+

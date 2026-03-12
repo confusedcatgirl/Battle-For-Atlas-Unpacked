@@ -1,0 +1,98 @@
+import "shaders/MRender/MR_ViewConstants.h"
+import "shaders/modules/graphics/clouds_planes.h"
+import "shaders/modules/graphics/environment.h"
+	
+vertex
+{
+	in
+	{
+		float sideFactor;
+		float heightFactor;
+		stream 1 steprate=1
+		{
+			float3 position;
+			float alpha;
+			float3 extent;
+			float noiseOffset;
+		}
+	}
+	
+	out
+	{
+		float3 worldPosition;
+		float3 uv3D;
+		float2 uv2D;
+		float alpha;
+	}
+	
+	main(out float4 clipPos : MR_Position)
+	{
+		float3 cameraPosition = MR_GetPos(MR_ViewConstants.cameraToWorld).xyz;
+		
+		float3 worldPosition = In.position + In.extent * In.sideFactor;
+		worldPosition.y = CloudOffset.y + CloudSize.y * In.heightFactor;
+				
+		Out.uv3D = (worldPosition - CloudOffset) / CloudSize;
+		Out.uv3D.y = Out.uv3D.y - 0.5 * NoiseScale.y + In.heightFactor * NoiseScale.y;
+				
+		float3 normalizedExents = normalize(In.extent);
+		Out.uv2D = float2(dot(Out.uv3D, normalizedExents) + In.noiseOffset, In.heightFactor) * NoiseScale2D;
+		//Out.uv2D.x += dot(NoiseOffset2D, normalizedExents.xz);
+		
+		worldPosition += float3(WindOffset.x, 0.0, WindOffset.y);
+		float distance2d = length(worldPosition.xz - cameraPosition.xz);
+		worldPosition.y += (cos(distance2d / 50000.0) - 1.0) * Curvature;
+		Out.worldPosition = worldPosition;
+		
+		Out.alpha = In.alpha * (1.0 - smoothstep(FadeOutStart, FadeOutEnd, distance2d));
+		
+		clipPos = MR_Transform(MR_ViewConstants.worldToClip, worldPosition);
+	}
+}
+
+pixel
+{
+	MR_Sampler3D CloudTexture0 : MR_Texture0 { wrap = repeat repeat border, border = 0 0 0 0 };
+	MR_Sampler3D CloudTexture1 : MR_Texture1 { wrap = repeat repeat border, border = 0 0 0 0 };
+	MR_Sampler2D Noise : MR_Texture2;
+		
+	float PhaseFunc(float aCos, float aCos2, float aG, float aG2)
+	{
+		return (3.0*(1.0-aG2))/(2.0*(2.0+aG2)) * ((1.0 + aCos2) / pow(1.0 + aG2 - 2.0 * aG * aCos, 1.5));
+	}
+	
+	in
+	{
+		float3 worldPosition;
+		float3 uv3D;
+		float2 uv2D;
+		float alpha;
+	}
+		
+	main(out float4 color : MR_Color)
+	{
+		float3 noise = MR_Sample(Noise, In.uv2D).xyz - 0.5;
+		float3 uv = In.uv3D + noise * NoiseScale;
+		//float3 uv = In.uv3D;
+		
+		float4 cloudData = lerp(MR_SampleLod0(CloudTexture0, uv.xzy), MR_SampleLod0(CloudTexture1, uv.xzy), CloudLerp);
+		float density = saturate(cloudData.x * In.alpha);
+		cloudData.yzw = cloudData.yzw / (cloudData.x + 0.000001);
+		
+		float3 toCamera = MR_GetPos(MR_ViewConstants.cameraToWorld).xyz - In.worldPosition;
+		float3 viewDir = normalize(toCamera);
+		float cos = dot(ToSunDir, viewDir);
+		float cos2 = cos * cos;
+		
+		float3 skyLight = cloudData.w * SkylightColor;
+		float directLight = cloudData.y * (DirectLightFactor * PhaseFunc(cos, cos2, CloudG, CloudG2) + DirectLightBase);
+		float scatteringLight = cloudData.z * FakeScatteringFactor;
+		
+		color.rgb = SunColor * (directLight + scatteringLight) + skyLight + CloudAmbient;
+		color.rgb = Gfx_Fog2(color.rgb, toCamera, length(toCamera));
+		color.rgb *= density;
+		color.a = density;
+		
+		//color.rgb = (noise + 0.5) * density * 10.0;
+	}
+}

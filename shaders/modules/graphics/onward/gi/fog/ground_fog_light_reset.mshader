@@ -1,0 +1,15 @@
+
+computeParameters
+{
+	numThreads 1 1 1
+}
+
+compute
+{
+	MR_RWBuffer< uint > OutputToReset : MR_RW_Buffer0;
+
+	main(uint3 dispatchThreadId : MR_DispatchThreadId)
+	{
+		OutputToReset[0] = 0;
+	}
+}

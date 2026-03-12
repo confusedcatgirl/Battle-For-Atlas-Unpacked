@@ -1,0 +1,95 @@
+import "shaders/nodes/Shader/Functions/Lighting/GI.h"
+import "shaders/modules/graphics/environment_constants.h"
+import "shaders/modules/graphics/onworld/onworld_lighting.h"
+
+vertex
+{
+	import "shaders/MRender/MR_ViewConstants.h"
+	import "shaders/nodes/Shader/Functions/Apply Planet Transforms To Vertex.h"
+
+	in
+	{
+		float3 xyz;
+
+		stream 1 steprate=1
+		{
+			float4 pos;
+			float4 col;
+		}
+	}
+
+	float3 RotatedPoint( in float3 aPoint, in float4 aQuat )
+	{
+		return aPoint + 2.0f * cross(aQuat.xyz, cross(aQuat.xyz, aPoint) + aQuat.w * aPoint);
+	}
+
+	float3x3 create_onb(float3 N, in float4 aQuat)
+	{
+		float3 up = float3(1,0,0);
+		float3 tanx = normalize(cross(up, N));
+		float3 tany = cross(N, tanx);
+		return MR_ColumnMatrix( tany, N, tanx);
+	}
+
+	out
+	{
+
+@ifdef OUTPUT_DEPTH
+		float3 cam;
+@else
+		float3 albedo;
+		float3 normal;
+@endif // OUTPUT_DEPTH
+
+	}
+	main(out float4 clipPos : MR_Position)
+	{
+		const float3 upVector = normalize( In.pos.xyz );
+		float4 quat = float4( upVector, 0.0f );
+
+		float3x3 m = create_onb(upVector, quat);
+
+		float3 pos = In.pos.xyz + MR_Transform( m, In.xyz * float3(0.2f, 1.0f, 0.2f));
+		clipPos = MR_Transform(MR_ViewConstants.worldToClip, pos);
+
+@ifdef OUTPUT_DEPTH
+		Out.cam = MR_Transform(MR_ViewConstants.worldToCamera, pos).xyz;
+@else
+		Out.albedo = In.col.xyz * (0.5f + In.xyz.y * 0.5f);
+		Out.normal = upVector;
+@endif // OUTPUT_DEPTH
+
+	}
+}
+
+pixel
+{
+@ifdef OUTPUT_DEPTH
+	in
+	{
+		float3 cam;
+	}
+
+	main(out float4 colorOut0 : MR_Color0)
+	{
+		colorOut0 = In.cam.zzzz;
+	}
+@else
+	import "shaders/modules/graphics/normal_encode.h"
+	import "shaders/modules/graphics/deferred_data.h"
+
+	in
+	{
+		float3 albedo;
+		float3 normal;
+	}
+
+	main(out float4 colorOut0 : MR_Color0, out float4 colorOut1 : MR_Color1,out float4 colorOut2 : MR_Color2)
+	{
+		Gfx_DeferredData deferredData = Gfx_GetDefaultDeferredData();
+		deferredData.color = In.albedo.rgb;
+		deferredData.worldNormal = In.normal;	
+		Gfx_DeferredToMRT( deferredData, colorOut0, colorOut1, colorOut2 );
+	}
+@endif // OUTPUT_DEPTH
+}

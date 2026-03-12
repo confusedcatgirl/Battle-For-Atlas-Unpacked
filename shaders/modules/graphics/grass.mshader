@@ -1,0 +1,151 @@
+import "shaders/modules/graphics/lights.h"
+import "shaders/modules/graphics/environment.h"
+import "shaders/modules/graphics/shadows.h"
+import "shaders/MRender/MR_ViewConstants.h"
+import "shaders/nodes/Shader/Functions/Lighting/GI.h"
+
+@ifdef MATERIAL_OVERRIDE
+import "shaders/nodes/Shader/Functions/Lighting/Material Override.h"
+@endif
+
+constants : MR_ConstantBuffer0
+{
+	float MaxDistance;
+	float StartFadeDistance;
+	float3 Color0;
+	float3 Color1;
+	float4 ImagesData[16];
+}
+
+vertex
+{
+	in
+	{
+		float4<NATIVE_ARGB_UNORM8> corner;
+
+		stream 1 steprate=1
+		{
+			float3 position;
+			float4<RGBA_UNORM8> normal;
+			float4<BGRA_UNORM8> misc;
+		}
+	}
+
+	out
+	{
+		float3 position;
+		float2 tc;
+		float3 light;
+		float3 normal;
+		float3 alpha_shadowFactor_colorLerp;
+	}
+
+	main(out float4 clipPos : MR_Position)
+	{
+		float4 corner = In.corner;
+		float4 misc = In.misc;
+		float3 normal = normalize(In.normal.xyz - 0.5);
+
+		float atlasIndex = misc.b * 255;
+		float direction = misc.g * 3.141592 * 2;
+		float scale = 0.25 + misc.r;
+		float colorLerp = misc.a;
+
+		float2 size = ImagesData[uint(atlasIndex * 2)].xy;
+		float4 tcrect = ImagesData[uint(atlasIndex * 2 + 1)];
+		float2 tcpos = tcrect.xy;
+		float2 tcsize = tcrect.zw;
+
+		float2 offset = float2(corner.x - 0.5, corner.y) * size * scale;
+		if (direction > 0.5)
+			offset.x *= -1;
+
+		float3 origin = In.position;
+
+		float3 camPos = MR_Transform(MR_ViewConstants.worldToCamera, origin).xyz;
+		camPos.xy += offset;
+		Out.position = MR_Transform(MR_ViewConstants.cameraToWorld, camPos).xyz;
+		clipPos = MR_Transform(MR_ViewConstants.worldToClip, Out.position);
+
+        float3 light = SampleGI( normal, origin );
+
+		{
+			float2 clip2 = clipPos.xy / clipPos.w;
+			clip2 = clamp(clip2, vec2(-0.99), vec2(0.99));
+			float2 fragCoord = MR_ClipToPixel(clip2);
+			
+			uint baseIndex;
+			uint numPointlights;
+			float2 minMax;
+			Gfx_GetTileData(baseIndex, numPointlights, minMax, fragCoord);
+			if (clipPos.w >= minMax.x && clipPos.w <= minMax.y)
+			{				
+				for (uint i=0; i<numPointlights; ++i)
+				{
+					Gfx_Light plight = Gfx_GetLightTile(baseIndex + i);
+					Gfx_AttenuatedEmission emission;
+					if (Gfx_GetSpotShadowAttenuatedEmission(emission, plight, origin, fragCoord))
+						light += emission.diffuseEmission;
+				}
+			}
+		}
+
+		Out.alpha_shadowFactor_colorLerp.y = 1.0;
+		
+		float distance = length(camPos.xyz);
+		float fade = 1 - (clipPos.w - StartFadeDistance) / (MaxDistance - StartFadeDistance);
+
+		float alpha = saturate(fade);
+		clipPos = lerp(float4(-10, -10, -1000, 1), clipPos, vec4(saturate((fade - 0.01) * 100000)));
+
+		Out.tc = tcpos + tcsize * In.corner.xy;
+		Out.light = light;
+		Out.normal = normal;
+		Out.alpha_shadowFactor_colorLerp.x = alpha;
+		Out.alpha_shadowFactor_colorLerp.z = colorLerp;
+	}
+}
+
+pixel
+{
+	MR_Sampler2D Sampler : MR_Texture0;
+
+	in
+	{
+		float3 position;
+		float2 tc;
+		float3 light;
+		float3 normal;
+		float3 alpha_shadowFactor_colorLerp;
+	}
+
+	main(out float4 color : MR_Color, float4 fragCoord : MR_FragCoord)
+	{
+		color = MR_Sample(Sampler, In.tc);
+		if (color.a < 0.3)
+			discard;
+
+		float alpha = In.alpha_shadowFactor_colorLerp.x;
+		float shadowFactor = In.alpha_shadowFactor_colorLerp.y;
+		float colorLerp = In.alpha_shadowFactor_colorLerp.z;
+
+		Gfx_DirectionalLight sun = Gfx_GetShadowLight();
+		ourForceDisableScreenspaceShadows = true;
+		float3 shadow = GetShadowFactor(In.position, fragCoord.xy);
+		shadow *= shadowFactor;
+
+		float3 lighting = saturate(dot(In.normal, sun.toLightDirection)) * sun.emission * shadow + In.light;
+
+		color.xyz *= lerp(Color0, Color1, vec3(colorLerp));
+
+@ifdef MATERIAL_OVERRIDE
+		MaterialOverride_Diffuse(color.xyz);
+@endif
+
+		color *= float4(lighting, alpha);
+
+		Gfx_LightingDataStruct ld = Gfx_GetLightingData(In.position, fragCoord);
+		
+		color.xyz = Gfx_Fog(color.xyz, ld);
+	}
+}

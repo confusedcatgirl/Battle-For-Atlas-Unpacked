@@ -1,0 +1,24 @@
+
+computeParameters
+{
+	numThreads 1 1 1
+}
+
+MR_RWBuffer< uint > DeathCounter : MR_RW_Buffer1;
+constants : MR_ConstantBuffer0
+{
+	uint constEmissionCount;
+}
+
+MR_RWBuffer< uint > EmitArguments : MR_RW_Buffer0;
+
+compute main(uint3 dtid : MR_DispatchThreadId)
+{
+	const uint finalEmissionCount = min(DeathCounter[0], constEmissionCount);
+
+	EmitArguments[0] = (finalEmissionCount+63)/ 64;
+	EmitArguments[1] = 1;
+	EmitArguments[2] = 1;
+
+	DeathCounter[2] = finalEmissionCount;
+}

@@ -1,0 +1,16 @@
+MR_RWBuffer<float> Result : MR_RW_Buffer0;
+
+computeParameters
+{
+	numThreads 16 16 1
+}
+
+compute
+{
+	const uint TileSize = 32;
+
+	main(uint Gidx : MR_GroupIndex)
+	{
+		Result[Gidx] = 0.0;
+	}
+}

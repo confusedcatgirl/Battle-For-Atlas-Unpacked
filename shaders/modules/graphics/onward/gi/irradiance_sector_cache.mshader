@@ -1,0 +1,43 @@
+import "shaders/modules/graphics/onward/gi/gi_constants.h"
+import "shaders/modules/graphics/onward/gi/irradiance_struct.h"
+
+computeParameters
+{
+	numThreads 64 1 1,
+}
+compute
+{
+	MR_ByteBuffer RawDataIn : MR_Buffer0;
+
+	constants : MR_ConstantBuffer0
+	{
+		uint constStructSize;
+
+		uint constStart;
+		uint constCount;
+	}
+
+	MR_RWStructuredBuffer< OGI_IrradianceProbeData > ProbeDataOut : MR_RW_Buffer0;
+
+	main(in uint dispatchThreadId : MR_DispatchThreadId)
+	{
+		const uint byteOffset = ( dispatchThreadId * constStructSize );
+
+		if (dispatchThreadId < constCount)
+		{
+			OGI_IrradianceProbeData probe;
+
+			probe.myCenterRadius = asfloat( RawDataIn.Load4( byteOffset ) );
+
+			probe.myIrradiance[0] = asfloat( RawDataIn.Load3( byteOffset + 16 ) );
+			probe.myIrradiance[1] = asfloat( RawDataIn.Load3( byteOffset + 28 ) );
+			probe.myIrradiance[2] = asfloat( RawDataIn.Load3( byteOffset + 40 ) );
+			probe.myIrradiance[3] = asfloat( RawDataIn.Load3( byteOffset + 52 ) );
+			probe.myIrradiance[4] = asfloat( RawDataIn.Load3( byteOffset + 64 ) );
+			probe.myIrradiance[5] = asfloat( RawDataIn.Load3( byteOffset + 76 ) );
+
+			ProbeDataOut[ constStart + dispatchThreadId ] = probe;
+		}
+	}
+
+}

@@ -1,0 +1,149 @@
+import "shaders/MRender/MR_ShaderDebug.h"
+
+blend {
+	src = 1,
+	dest = 0,
+	writeMask = rgba
+}
+
+MR_Sampler2DArray SHTex : MR_Texture0;
+MR_Sampler2DArray GeomTex : MR_Texture1 { filter = linear point, wrap = clamp };
+
+constants : MR_ConstantBuffer0
+{
+	float4 SHFactors;
+	float3 UVOffsets;
+	float3 ToFallbackScale;
+	float3 ToFallbackOffset;
+	float GeometryDirectionScale;
+	float GeometryScale;
+	int Iteration;
+	int CascadeIndex;
+	int StartIndex;
+	int FallbackIndex;
+	int Resolution;
+	int Padding;
+	bool HasFallback;
+	bool UseGeometry;
+	bool OffsetGeometry;
+}
+
+vertex
+{
+	in {
+		float2 pos;
+	}
+
+	main(out float4 pos : MR_Position)
+	{
+		pos = float4(In.pos, 0, 1);
+	}
+}
+
+pixel
+{
+	float SHDotAbs(float4 aA, float4 aB)
+	{
+		return aA.w * aB.w + abs(dot(aA.xyz, aB.xyz));
+	}
+
+	void Accumulate(inout float4 aR, inout float4 aG, inout float4 aB, int3 aPixel, int3 aDirection, float4 aStartOcclusionSH)
+	{
+		int3 pixel3 = aPixel - aDirection;
+		int index = StartIndex;
+		int geomIndex = CascadeIndex;
+		int padding = Padding;
+
+		if (   aDirection.x && (pixel3.x < padding || pixel3.x >= Resolution - padding)
+			|| aDirection.y && (pixel3.y < padding || pixel3.y >= Resolution - padding)
+			|| aDirection.z && (pixel3.z < padding || pixel3.z >= Resolution - padding))
+		{
+			if (Iteration > 0)
+				return;
+
+			pixel3 = int3(float3(pixel3) * ToFallbackScale + ToFallbackOffset);
+			pixel3 = clamp(pixel3, ivec3(0), ivec3(Resolution-1));
+			index = FallbackIndex;
+			geomIndex = FallbackIndex;
+		}
+
+		int2 pixel2 = int2(pixel3.x, pixel3.y + Resolution * pixel3.z);
+
+		float occlusion = 0;
+@ifdef USE_GEOMETRY
+		{
+			float4 f = float4(float3(-aDirection * GeometryDirectionScale), 1) * GeometryScale;
+
+@	ifdef OFFSET_GEOMETRY
+			float4 occlusionSH = vec4(0);
+			occlusionSH += MR_Load(GeomTex, int4(pixel2 + int2(0,1), geomIndex, 0));
+			occlusionSH += MR_Load(GeomTex, int4(pixel2 + int2(0,1), geomIndex, 0));
+			occlusionSH += MR_Load(GeomTex, int4(pixel2 + int2(1,1), geomIndex, 0));
+			occlusionSH += MR_Load(GeomTex, int4(pixel2 + int2(1,1), geomIndex, 0));
+			occlusionSH += MR_Load(GeomTex, int4(pixel2 + int2(0,1 + Resolution), geomIndex, 0));
+			occlusionSH += MR_Load(GeomTex, int4(pixel2 + int2(0,1 + Resolution), geomIndex, 0));
+			occlusionSH += MR_Load(GeomTex, int4(pixel2 + int2(1,1 + Resolution), geomIndex, 0));
+			occlusionSH += MR_Load(GeomTex, int4(pixel2 + int2(1,1 + Resolution), geomIndex, 0));
+			occlusionSH /= 8.0;
+
+			occlusion = saturate(dot(occlusionSH, f));
+@	else
+			float4 occlusionSH = MR_Load(GeomTex, int4(pixel2, geomIndex, 0));
+// 			if (MR_ShaderDebug.int_0 == 0)
+// 				occlusion = max(saturate(dot(occlusionSH, f)), saturate(dot(aStartOcclusionSH, f)));
+// 			else if (MR_ShaderDebug.int_0 == 1)
+				occlusion = saturate(dot(occlusionSH, f));
+// 			else if (MR_ShaderDebug.int_0 == 2)
+// 				occlusion = saturate(dot(aStartOcclusionSH, f));
+// 			else if (MR_ShaderDebug.int_0 == 3)
+// 				occlusion = max(saturate(SHDotAbs(occlusionSH, f)), saturate(SHDotAbs(aStartOcclusionSH, f)));
+// 			else if (MR_ShaderDebug.int_0 == 4)
+// 				occlusion = saturate(SHDotAbs(occlusionSH, f));
+// 			else if (MR_ShaderDebug.int_0 == 5)
+// 				occlusion = saturate(SHDotAbs(aStartOcclusionSH, f));
+@	endif
+		}
+@endif
+
+		float4 rf = MR_Load(SHTex, int4(pixel2, index*3 + 0, 0));
+		float4 gf = MR_Load(SHTex, int4(pixel2, index*3 + 1, 0));
+		float4 bf = MR_Load(SHTex, int4(pixel2, index*3 + 2, 0));
+
+		float4 f = float4(aDirection, 1);
+		float r = max(0.0, dot(f, rf));
+		float g = max(0.0, dot(f, gf));
+		float b = max(0.0, dot(f, bf));
+
+		float4 sh = SHFactors * f * saturate(1.0 - occlusion);
+		aR += sh * r;
+		aG += sh * g;
+		aB += sh * b;
+	}
+
+	main(
+		out float4 aROut : MR_Color0,
+		out float4 aGOut : MR_Color1,
+		out float4 aBOut : MR_Color2,
+		float4 fc : MR_FragCoord,
+	)
+	{
+		aROut = vec4(0);
+		aGOut = vec4(0);
+		aBOut = vec4(0);
+
+		int resolutionMask = Resolution-1;
+
+		int2 ifc = int2(fc.xy);
+		int3 pixel3 = int3(ifc.x, ifc.y & resolutionMask, ifc.y / Resolution);
+		int2 pixel2 = int2(pixel3.x, pixel3.y + Resolution * pixel3.z);
+
+		float4 occlusionSH = MR_Load(GeomTex, int4(pixel2, CascadeIndex, 0));
+
+		Accumulate(aROut, aGOut, aBOut, pixel3, int3(1,0,0), occlusionSH);
+		Accumulate(aROut, aGOut, aBOut, pixel3, int3(-1,0,0), occlusionSH);
+		Accumulate(aROut, aGOut, aBOut, pixel3, int3(0,1,0), occlusionSH);
+		Accumulate(aROut, aGOut, aBOut, pixel3, int3(0,-1,0), occlusionSH);
+		Accumulate(aROut, aGOut, aBOut, pixel3, int3(0,0,1), occlusionSH);
+		Accumulate(aROut, aGOut, aBOut, pixel3, int3(0,0,-1), occlusionSH);
+	}
+}

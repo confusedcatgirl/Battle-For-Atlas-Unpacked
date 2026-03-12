@@ -1,0 +1,39 @@
+import "shaders/MRender/MR_ViewConstants.h"
+import "shaders/modules/graphics/onward/gi/gi_volume.h"
+import "shaders/modules/graphics/onward/gi/cosmicdust_volume_update.h"
+
+MR_Buffer< uint > VoxelToProbeIn : MR_Buffer0;
+
+computeParameters
+{
+	numThreads 8 8 8
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+@ifndef OGI_FORCE_FALLBACK
+MR_StructuredBuffer< OGI_CosmicDustProbeData > ProbeDataIn : MR_Buffer1;
+@endif // OGI_FORCE_FALLBACK
+
+compute
+{
+	// -----------------------------------------------------------------------------------------------------------------------------------------------
+	//
+	// -----------------------------------------------------------------------------------------------------------------------------------------------
+	main(uint3 dispatchThreadId : MR_DispatchThreadId)
+	{
+		const uint3 voxelIdx = dispatchThreadId;
+
+@ifdef OGI_FORCE_FALLBACK
+		VolumeTextureRW[ voxelIdx ] = float4(0, 0, 0, 0);
+@else
+		UpdateVolume( voxelIdx, VoxelToProbeIn, ProbeDataIn );
+@endif // OGI_FORCE_FALLBACK
+	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// EOF
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -1,0 +1,71 @@
+import "shaders/MRender/MR_ViewConstants.h"
+import "shaders/modules/graphics/onworld/onworld_environment.h"
+import "shaders/modules/graphics/onward/gi/space_fog_far.h"
+
+constants : MR_ConstantBuffer0
+{
+	float4x4 const_WorldMatrix;
+	float2 const_xSize_yIntensity;
+}
+
+vertex
+{
+	in
+	{
+		float2 offset;
+		stream 1 steprate=1
+		{
+			float3 position;
+			float size;
+			float3 color;
+		}
+	}
+
+	out
+	{
+		float4 xyzColor_wSize;
+		float4 xyPos_zwMiddle;
+	}
+
+	main(out float4 clipPos : MR_Position)
+	{
+		Out.xyzColor_wSize.xyz = In.color * const_xSize_yIntensity.y;
+
+		float3 position = In.position;
+		float3 worldPosition = MR_Transform(const_WorldMatrix, position).xyz;
+		
+		float3 camPos = MR_Transform(MR_ViewConstants.worldToCamera, worldPosition).xyz;
+		Out.xyPos_zwMiddle.zw = camPos.xy;
+		
+		Out.xyzColor_wSize.w = In.size * const_xSize_yIntensity.x;
+		camPos.xy += In.offset * Out.xyzColor_wSize.w;
+		Out.xyPos_zwMiddle.xy = camPos.xy;
+				
+		clipPos = MR_Transform(MR_ViewConstants.cameraToClip, camPos);
+	}
+}
+
+pixel
+{
+	in
+	{
+		float4 xyzColor_wSize;
+		float4 xyPos_zwMiddle;
+	}
+	
+	main(out float4 outColor : MR_Color, float4 fragCoord : MR_FragCoord)
+	{
+		outColor.a = 1.0f;
+
+		outColor.rgb = In.xyzColor_wSize.xyz;
+
+		outColor.rgb *= pow(saturate(1.0f - length(In.xyPos_zwMiddle.xy - In.xyPos_zwMiddle.zw) / In.xyzColor_wSize.w), 4.0f);
+
+	@ifdef SIMPLE_FOG
+		OW_Fog_ApplyExtinction( outColor.rgb, OW_SpaceFog_GetFarExtinction( ) );
+	@else
+		float4 fog = OW_SpaceFog_GetFarFromLookup( OW_FogVolume_GetCoordsFC( fragCoord ) );
+		OW_Fog_ApplyExtinction( outColor.rgb, fog );
+	@endif // SIMPLE_FOG
+	}
+}

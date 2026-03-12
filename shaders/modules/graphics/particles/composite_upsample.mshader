@@ -1,0 +1,51 @@
+@include "shaders/modules/graphics/postfx/pixel_in.h"
+import "shaders/MRender/MR_ViewConstants.h"
+import "shaders/MRender/MR_DepthBuffer.h"
+
+constants : MR_ConstantBuffer1
+{
+	int2 QuarterMax;
+	float DebugTint;
+}
+
+blend {
+	src = 1,
+	dest = src.a
+}
+
+pixel
+{
+	MR_Texture2D QuarterColor : MR_Texture0;
+
+	main(out float4 color : MR_Color, float4 MR_FragCoord : MR_FragCoord)
+	{
+		int2 fc = int2(MR_FragCoord.xy);
+		int2 qfc = int2((MR_FragCoord.xy - MR_ViewConstants.viewportPos - vec2(1)) / 2);
+		int2 border = fc.xy & 1;
+
+		float fullDepth = MR_SampleTexelLod0(Depthbuffer, fc).x;
+
+		float4 colorSum = vec4(0);
+		float weightSum = 0;
+
+		for (int dy=0; dy!=2; ++dy)
+			for (int dx=0; dx!=2; ++dx)
+			{
+				int2 pixel = qfc + int2(dx,dy);
+				float4 c = MR_SampleTexelLod0(QuarterColor, clamp(pixel, 0, QuarterMax));
+				float d = MR_SampleTexelLod0(QuarterDepthbuffer, clamp(pixel, 0, QuarterMax)).x;
+
+				float weight = 1.0;
+				weight *= (dx == border.x) ? 0.25 : 1.0;
+				weight *= (dy == border.y) ? 0.25 : 1.0;
+				weight /= 0.01 + abs(fullDepth - d);
+
+				colorSum += c * weight;
+				weightSum += weight;
+			}
+
+		color = colorSum / weightSum;
+
+		color.z += DebugTint;
+	}
+}

@@ -1,0 +1,41 @@
+import "shaders/MRender/MR_ViewConstants.h"
+
+MR_Sampler2D<float2> MaxZ : MR_Texture0 { filter = linear point, anisotropy = 0, wrap = clamp };
+MR_Sampler2D<float2> GroundHeight : MR_Texture1 { filter = linear point, anisotropy = 0, wrap = clamp };
+
+MR_RWTexture2D<float> MaxZMipsOut : MR_RW_Texture0;
+MR_RWTexture2D<float> GroundHeightMipsOut : MR_RW_Texture1;
+
+computeParameters
+{
+	numThreads 8 8 1
+}
+
+constants : MR_ConstantBuffer0
+{
+	float2 DestSize;
+	float2 SourceStorageSize;
+	float2 SourceViewportSize;
+	float2 NumLoops;
+}
+
+compute main(uint3 dtid : MR_DispatchThreadId)
+{
+	float maxZ = 0;
+	float minHeight = 100000;
+
+	for (float y=0; y<NumLoops.y; ++y)
+		for (float x=0; x<NumLoops.x; ++x)
+		{
+			float2 srcUV = (dtid.xy + float2(x*2 + 1, y*2 + 1) / NumLoops) * (SourceViewportSize / (DestSize * SourceStorageSize));
+
+			float4 z = MR_SampleGather(MaxZ, srcUV);
+			maxZ = max(maxZ, max(max(z.x, z.y), max(z.z, z.w)));
+
+			float4 height = MR_SampleGather(GroundHeight, srcUV);
+			minHeight = min(minHeight, min(min(height.x, height.y), min(height.z, height.w)));
+		}
+
+	MaxZMipsOut[dtid.xy] = maxZ;
+	GroundHeightMipsOut[dtid.xy] = minHeight;
+}

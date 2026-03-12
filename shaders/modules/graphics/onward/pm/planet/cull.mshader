@@ -1,0 +1,70 @@
+import "shaders/modules/graphics/onward/pm/pm.h"
+import "shaders/modules/graphics/onward/pm/constants.h"
+import "shaders/MRender/MR_ViewConstants.h"
+import "shaders/modules/graphics/onworld/planet_flattening.h"
+
+import "shaders/modules/graphics/onward/gi/ground_fog.h"
+
+computeParameters
+{
+	numThreads 64 1 1
+}
+
+constants : MR_ConstantBuffer0
+{
+	float4 constPlane;
+}
+
+MR_Buffer< uint > ActiveCount : MR_Buffer0;
+MR_Buffer< uint > ActiveList : MR_Buffer1;
+
+MR_StructuredBuffer< OGfx_Particulate > ParticlesIn : MR_Buffer5;
+
+MR_RWBuffer< uint >   VisibleList1   : MR_RW_Buffer0;
+MR_RWBuffer< uint >   VisibleCounter : MR_RW_Buffer1;
+MR_RWBuffer< float4 > VisibleList2   : MR_RW_Buffer2;
+
+compute main(uint3 dtid : MR_DispatchThreadId)
+{
+	if (dtid.x >= ActiveCount[ 0 ])
+	{
+		return;
+	}
+
+	uint index;
+	index = ActiveList[ dtid.x ];
+	OGfx_Particulate data = ParticlesIn[ index ];
+
+	// flatten position
+	float3 flattenedPosition = data.myPosition;
+	OW_SFT_ApplyFlatteningLocal( flattenedPosition, OW_DEFAULT_CATEGORY );
+	flattenedPosition += OW_ViewConstants.flatteningParams.myPlanetCenter;
+
+	float4 particleSize = vec4( -10.0 );
+
+	float4 side;
+	side.w = dot( flattenedPosition, MR_ViewConstants.topPlane.xyz    ) + MR_ViewConstants.topPlane.w;
+	side.z = dot( flattenedPosition, MR_ViewConstants.bottomPlane.xyz ) + MR_ViewConstants.bottomPlane.w;
+	side.x = dot( flattenedPosition, MR_ViewConstants.rightPlane.xyz  ) + MR_ViewConstants.rightPlane.w;
+	side.y = dot( flattenedPosition, MR_ViewConstants.leftPlane.xyz   ) + MR_ViewConstants.leftPlane.w;
+
+	if (any(side < particleSize) || (dot( flattenedPosition, MR_ViewConstants.nearPlane.xyz ) < -MR_ViewConstants.nearPlane.w))
+	{
+		return;
+	}
+
+	uint visibleIndex;
+	MR_AtomicAdd( VisibleCounter[ 0 ], 1, visibleIndex );
+	VisibleList1[ visibleIndex ] = index;
+	const float dist = abs( dot( MR_ViewConstants.LODDistancePlane.xyz, flattenedPosition ) + MR_ViewConstants.LODDistancePlane.w );
+
+	const OW_FogVolume3DCoords fogCoords = OW_GroundFog_GetCoordsFromPos( flattenedPosition );
+	const float4 fog = OW_GroundFog_GetFromCoords( fogCoords );
+	const float3 lighting = MR_SampleLod0( PlanetLightVolume, float3( fogCoords.my2D.myUV, fogCoords.myW ) ).rgb;
+
+	VisibleList2[ index * OGFX_PM_VIEW_DATA_SIZE + 0 ] = float4( flattenedPosition - MR_ViewConstants.LODCameraPosition, dist );
+	VisibleList2[ index * OGFX_PM_VIEW_DATA_SIZE + 1 ] = float4( lighting, 1 );
+	VisibleList2[ index * OGFX_PM_VIEW_DATA_SIZE + 2 ] = fog;
+
+	MR_AtomicAdd( VisibleCounter[1], 6, visibleIndex );
+}

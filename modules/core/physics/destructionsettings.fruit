@@ -1,0 +1,102 @@
+class BrickSetting
+{
+	string myName
+	string myMaterial "Brick Tiles"							//materials this will run for, all if empty
+	float myCrackProbability 0								//probability for that this system will be triggered
+	float myDepth 0.05										//how deep the brick is seen as being by this system
+	float myDepthRandomness 0.05							//randomness in depth, 0=none, 0.5=depth - 1.5*depth etc
+	float myNegativeDepthMod 1								//how far in the negaitve (outward) direction from the surface we will cut compared to inward
+	float myEdgeSize 0.02									//how far from the edge will be counted as a edgehit and not trigger cracking
+	float myExtraEdgeCutSize 0								//how much to cut outside the edge when a brick breaks
+	float myPartialCrackProbability 0.8						//probability for just a part of the brick cracking (as opposed to removing whole)
+	float myDamagedPartialCrackProbabiltySubtract 0.4		//probability subtracted from above for every previos shot
+	float myPartialCrackStraightEdgeProbability 0.5			//if its a partial crack how big the probabilty for it being a straight edged crack as opposed to a round type one
+	float myPartialCrackHoleSizeMod 2						//how much bigger compared to a normal hole a partial crack round hole will be
+}
+list BrickSettings
+{
+	BrickSetting
+}
+
+class WoodSetting
+{
+	string myName
+	string myMaterial "WoodPlank"			//materials this will run for, all if empty
+	bool myEnableSpecialWood
+	float mySplinterLengthMod 1				//length of the splinters around a hole
+	float myHoleBendPieceProbability 0.5	//how likely the splinters are to be bent along the bullet dir
+	float myHoleBendPieceLengthMod 1		//how far along the board the bend from above will go on
+	float myHoleBendPieceAngleMod 1			//the angle of the bent piece above is bent from the board
+	float myBoardHealth 300					//how much damage the board can take in a small area before its considered to break off there
+	float myFixtureHealth 200				//how much damage the fixture points can take before being removed
+	float myFixtureBendMod 1				//how fast the board bends if its only connected at one fixture point
+	float myFixtureMaxBend 0.2				//the board will be released if its bent more that this from start
+	float myBoardWidth 0.15					//width of each board when they break apart, not used if the texture has destruction tile data generated
+	bool  myAlignBoardToTexU FALSE			//direction the boards are directed in texcoord space, not used if the texture has destruction tile data generated
+}
+list WoodSettings
+{
+	WoodSetting
+}
+
+class MetalSetting
+{
+	string myName
+	string myMaterial "MetalThin"			//materials this will run for, all if empty
+	float mySplinterProbability 0			//probability that the metal will splinter
+	float mySplinterSizeMod 1				//length of splinters 
+}
+list MetalSettings
+{
+	MetalSetting
+}
+
+class AggregateHoleSetting
+{
+	string myName
+	string myMaterial								//materials this will run for, all if empty
+	float myCheckProbability 0.3					//probability to check for each new hole created
+	float myMaxStartDepth 0.01						//max depth of the hitting bullet into the mesh in order to be checked
+	float myCuttingDepth 0.05						//depth of the created aggregate hole (calculated around the hit pos)
+	float myCuttingDepthRandomness  0.3
+	float myMinNumHoles 6							//minimum number of holes that must be found to create a aggregate hole
+	float myMinNumHolesRandomness 0.2
+	float myHoleSearchRadius 0.15					//radius to search around the hitpos for other holes
+	float myHoleSearchRadiusRandomness 0.3
+	float myMinRoundness 0.7						//how "round" (area/max dist to center) the found region must be
+	float myEdgeSlopeMin 0							//how much the edges slope inwards into the hole
+	float myEdgeSlopeMax 0.8
+	float myEdgeReduction 0.5						//how much the cutter will try to simplify the edges (reduce number of verts)
+}
+list AggregateHoleSettings
+{
+	AggregateHoleSetting
+}
+
+class ShaderTranslation
+{
+	file myIntactShader
+	string myMaterial
+	file myDamagedShader
+	float myHoleSizeMod 1
+	float myTextureSizeMod 1
+	string myBrickSettings
+	string myWoodSettings
+	string myMetalSettings
+	string myAggregateSettings
+}
+
+list ShaderTranslations
+{
+	ShaderTranslation
+}
+
+class HoleFillExcludedShader
+{
+	string myShader
+}
+
+list HoleFillExcludedShaders
+{
+	HoleFillExcludedShader
+}

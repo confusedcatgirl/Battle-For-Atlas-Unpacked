@@ -1,0 +1,12 @@
+@include "shaders/modules/graphics/postfx/pixel_in.h"
+import "shaders/MRender/MR_DepthBuffer.h"
+
+pixel
+{
+	main(out float4 color : MR_Color, float4 fc : MR_FragCoord)
+	{
+		float z = MR_SampleTexelLod0(DepthBufferZ, fc.xy).x;
+		clip( z <= 0.0f ? -1 : 1 );
+		color = vec4(1);
+	}
+}

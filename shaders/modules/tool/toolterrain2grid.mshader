@@ -1,0 +1,34 @@
+
+vertex
+{
+    import "shaders/MRender/MR_ViewConstants.h"
+
+	in
+	{
+		float4 position;
+	}
+
+    out
+    {
+        float alpha;
+    }
+
+	main(out float4 clipPos : MR_Position)
+	{
+		clipPos = MR_Transform( MR_ViewConstants.worldToClip, In.position.xyz );
+        Out.alpha = In.position.a;
+	}
+}
+
+pixel
+{
+    in
+    {
+        float alpha;
+    }
+    
+	main(out float4 outColor : MR_Color)
+	{
+        outColor = float4( .5, .5, .5, In.alpha );
+	}
+}

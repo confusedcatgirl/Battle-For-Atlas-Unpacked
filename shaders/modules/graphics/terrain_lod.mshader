@@ -1,0 +1,51 @@
+pixel
+{
+	MR_Sampler2D LODTexture : MR_TerrainLodTexture
+	{
+		wrap = clamp,
+	};
+	
+	import "shaders/modules/graphics/terrain.h"
+	import "shaders/modules/graphics/lights.h"
+	import "shaders/modules/graphics/environment.h"
+	import "shaders/MRender/MR_ViewConstants.h"
+	import "shaders/nodes/Shader/Functions/Lighting/Complete (Improved Blinn-Phong).h"
+    import "shaders/modules/graphics/deferred_data.h"
+    import "shaders/modules/graphics/normal_encode.h"
+
+@ifdef MATERIAL_OVERRIDE
+	import "shaders/nodes/Shader/Functions/Lighting/Material Override.h"
+@endif
+
+	main(
+@ifdef DEFERRED
+    out float4 colorOut0 : MR_Color0,
+    out float4 colorOut1 : MR_Color1,
+    out float4 colorOut2 : MR_Color2,
+@else
+    out float4 colorOut : MR_Color0,
+@endif
+    float3 normal : Gfx_WorldSpaceNormal, Gfx_LightingDataStruct Gfx_LightingData : Gfx_LightingData)
+	{
+		float3 diffuse = MR_Sample(LODTexture, float2(In.Gfx_Position01.x, 1.0 - In.Gfx_Position01.y)).rgb;
+
+@ifdef MATERIAL_OVERRIDE
+		MaterialOverride_Diffuse(diffuse);
+@endif
+
+@ifdef DEFERRED
+        Gfx_DeferredData deferredData = Gfx_GetDefaultDeferredData();
+
+        deferredData.color = diffuse;
+        deferredData.roughness = 1;
+        deferredData.ao = 1;
+        deferredData.worldNormal = normal;
+
+        Gfx_DeferredToMRT( deferredData, colorOut0, colorOut1, colorOut2 );
+@else
+		ImprovedBlinnPhongComplete(colorOut.rgb, normal, diffuse, vec3(0), 1.0, vec3(0), 1.0, false, true, normal, Gfx_LightingData);
+
+		colorOut.a = 1.0;
+@endif
+	}
+}

@@ -1,0 +1,34 @@
+pixel
+{
+	in
+	{
+		float4 color0;
+		float4 color1;
+		float4 color2;
+		float4 usage;
+		float2 uv;
+	}
+
+	constants Transformation : MR_ConstantBuffer1
+	{
+		float4x4 cmatrix;
+		float4 add;
+	}
+
+	MR_Sampler2D sampler0 : MR_Texture0 { mutable = true };
+
+	main(out float4 color : MR_Color0)
+	{
+		float4 tex;
+		if (In.color1.a > 0.5)
+			tex = MR_Sample(sampler0, In.uv);
+		else
+			tex = MR_SampleLod(sampler0, In.uv, In.color1.b * 255.0 + 0.01);
+
+		float gamma = In.color2.g / In.color2.b;
+
+		color = MR_Transform(Transformation.cmatrix, tex) + Transformation.add;
+
+		color.rgb = pow(color.rgb, float3(1,1,1) * gamma);
+	}
+}

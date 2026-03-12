@@ -1,0 +1,66 @@
+import "shaders/modules/graphics/onward/gi/gi_sampling.h"
+
+vertex
+{
+	import "shaders/MRender/MR_ViewConstants.h"
+
+@ifdef OGI_IS_PLANET
+	import "shaders/nodes/Shader/Functions/Apply Planet Transforms To Vertex.h"
+@endif // OGI_IS_PLANET
+
+	in
+	{
+		float4 xyz;
+		float3 normal;
+		float4<BGRA_UNORM8> color;
+
+		stream 1 steprate=1
+		{
+			float4 position_size;
+			float4 irradiance0;
+			float4 irradiance1;
+			float4 irradiance2;
+			float4 irradiance3;
+			float4 irradiance4;
+			float4 irradiance5;
+		}
+	}
+
+	out
+	{
+		float3 color;
+	}
+
+	main(out float4 clipPos : MR_Position)
+	{
+		float3 normal = normalize( In.normal );
+		float3 pos = In.position_size.xyz + normal * In.position_size.w;
+
+@ifdef OGI_IS_PLANET
+		pos = ApplyAllPlanetTransformsToVertex( pos );
+		normal = OW_GI_TransformDirection( normalize( In.position_size.xyz ), normal );
+@endif // OGI_IS_PLANET
+		clipPos = MR_Transform( MR_ViewConstants.worldToClip, pos );
+
+		float3 xColor = ( normal.x > 0 ? In.irradiance0.xyz : In.irradiance1.xyz );
+		float3 yColor = ( normal.y > 0 ? In.irradiance2.xyz : In.irradiance3.xyz );
+		float3 zColor = ( normal.z > 0 ? In.irradiance4.xyz : In.irradiance5.xyz );
+
+		Out.color  = xColor * normal.x * normal.x;
+		Out.color += yColor * normal.y * normal.y;
+		Out.color += zColor * normal.z * normal.z;
+	}
+}
+
+pixel
+{
+	in
+	{
+		float3 color;
+	}
+
+	main(out float4 outColor : MR_Color)
+	{
+		outColor = float4( In.color, 1.0f );
+	}
+}

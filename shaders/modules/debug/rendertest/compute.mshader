@@ -1,0 +1,26 @@
+computeParameters
+{
+	numThreads 1 1 1,
+}
+
+compute
+{
+	MR_Buffer<float> Buffer0 : MR_Buffer0;
+	MR_Buffer<float> Buffer1 : MR_Buffer1;
+	MR_RWBuffer<float> WriteBuffer : MR_RW_Buffer0;
+	
+	MR_ByteBuffer ByteBuffer0 : MR_Buffer2;
+	MR_ByteBuffer ByteBuffer1 : MR_Buffer3;
+	MR_RWByteBuffer WriteByteBuffer : MR_RW_Buffer1;
+	
+	main(in uint3 dispatchThreadId : MR_DispatchThreadId)
+	{
+		float f0 = Buffer0[dispatchThreadId.x];
+		float f1 = Buffer1[dispatchThreadId.x];
+		WriteBuffer[dispatchThreadId.x] = f0 + f1;
+		
+		f0 = asfloat(MR_Load(ByteBuffer0, dispatchThreadId.x*4));
+		f1 = asfloat(MR_Load(ByteBuffer1, dispatchThreadId.x*4));
+		MR_Store(WriteByteBuffer, dispatchThreadId.x*4, asuint(f0 + f1));
+	}
+}

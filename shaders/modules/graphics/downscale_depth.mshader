@@ -1,0 +1,11 @@
+@include "shaders/modules/graphics/postfx/pixel_in.h"
+
+pixel
+{
+	MR_Sampler2D Depth : MR_Texture0 { anisotropy = 0, filter = point };
+
+	main(out float4 depth : MR_Color0)
+	{
+		depth = float4(MR_SampleLod0(Depth, In.uv0).x, 0,0,0);
+	}
+}

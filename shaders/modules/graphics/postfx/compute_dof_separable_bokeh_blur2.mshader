@@ -1,0 +1,21 @@
+import "shaders/modules/graphics/postfx/dof_separable_bokeh.h"
+
+computeParameters
+{
+	numThreads 8 8 1
+}
+
+compute
+{
+	@include "shaders/modules/graphics/postfx/compute_in.h"
+
+	main(uint3 DTid : MR_DispatchThreadId)
+	{
+		float2 uv0 = GetUV0(DTid);
+	
+		float4 color0 = Blur(Color0, uv0, In.uv0Min, In.uv0Max, SeparableBokeh.UVOffset0);
+		float4 color1 = Blur(Color1, uv0, In.uv0Min, In.uv0Max, SeparableBokeh.UVOffset1);
+
+		Result0[DTid.xy + In.destTexelOffset0] = (color0 * 0.5 + color1) / 1.5;
+	}
+}

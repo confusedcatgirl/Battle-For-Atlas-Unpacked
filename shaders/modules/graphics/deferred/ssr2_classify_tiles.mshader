@@ -1,0 +1,83 @@
+@include "shaders/modules/graphics/deferred/ssr2.h"
+
+MR_RWTexture2D<float> Output_Class : MR_RW_Texture0;
+
+computeParameters
+{
+	numThreads 16 16 1
+}
+
+bool ClassifySSR(float2 ffc)
+{
+	float2 qfc = (ffc - MR_ViewConstants.viewportMin) * 0.5;
+
+	float depth = MR_SampleTexelLod0(Depth, qfc).x;
+	if (depth > SSR.range)
+		return false;
+
+	float4 mrt0 = MR_SampleTexelLod0(MRT0, ffc);
+	float4 mrt1 = float4(MR_SampleTexelLod0(Normal, qfc), 0);
+	float4 mrt2 = MR_SampleTexelLod0(MRT2, ffc);
+
+	Gfx_DeferredData data;
+	Gfx_MRTToDeferred(data, mrt0, mrt1, mrt2);
+	const float roughness = OW_Material_ArtisticToRoughnessUnclamped(data.roughness);
+
+	if (roughness > SSR.maxRoughness)
+		return false;
+
+	float2 clip2 = MR_PixelToClip(ffc);
+	float3 pos = MR_ClipToWorld(clip2, depth);
+
+	Gfx_LightingDataStruct ld = Gfx_GetLightingData(pos, float4(ffc, 0, depth));
+
+	float3 normal = data.worldNormal;
+
+	float3 direction;
+	float noise;
+	GetReflectionDirection(direction, noise, normal, ld.toCamera, roughness, ffc.xy);
+
+	if (SSR2_GetReflectionSingle(ld.worldPosition, ffc, 0.5, ld.depth, direction, normal, roughness, true).w)
+		return true;
+
+	return false;
+}
+
+compute main(uint3 dtid : MR_DispatchThreadId)
+{
+	float2 ffc = dtid.xy * 16 + MR_ViewConstants.viewportPos;
+
+	float hit = 0;
+
+@ifdef SSR_TEMPORAL_SMOOTHING
+	if (!hit && 1)
+	{
+		float2 qfc = dtid.xy * 8;
+
+		float2 olduv1 = qfc * SSR.quarterPixelToLastFrameUVScale;
+		float2 olduv2 = (qfc + float2(8,0)) * SSR.quarterPixelToLastFrameUVScale;
+		float2 olduv3 = (qfc + float2(8,8)) * SSR.quarterPixelToLastFrameUVScale;
+		float2 olduv4 = (qfc + float2(0,8)) * SSR.quarterPixelToLastFrameUVScale;
+
+		float oldHit;
+		oldHit = MR_SampleLod0(OldLight_RadiusAlpha, olduv1).x;
+		oldHit = max(oldHit, MR_SampleLod0(OldLight_RadiusAlpha, olduv2).x);
+		oldHit = max(oldHit, MR_SampleLod0(OldLight_RadiusAlpha, olduv3).x);
+		oldHit = max(oldHit, MR_SampleLod0(OldLight_RadiusAlpha, olduv4).x);
+
+		hit = oldHit * 0.5;
+	}
+@endif
+
+	if (!hit && 1)
+	{
+		float2 noise = Noise[(dtid.xy + SSR.frameIndex * uint2(7,79))&255].xy;
+
+		float2 ffc2 = ffc.xy + float2(noise * 15);
+
+		if (ClassifySSR(ffc2))
+			hit = 1;
+	}
+
+	Output_Class[dtid.xy] = hit;
+}

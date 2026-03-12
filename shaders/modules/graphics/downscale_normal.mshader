@@ -1,0 +1,11 @@
+@include "shaders/modules/graphics/postfx/pixel_in.h"
+
+pixel
+{
+	MR_Sampler2D Normal : MR_Texture1 { anisotropy = 0, filter = point };
+
+	main(out float4 normal : MR_Color0)
+	{
+		normal = float4(MR_SampleLod0(Normal, In.uv0).xyz, 0);
+	}
+}

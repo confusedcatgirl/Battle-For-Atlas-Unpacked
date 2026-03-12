@@ -1,0 +1,40 @@
+@include "shaders/modules/graphics/postfx/pixel_in.h"
+
+import "shaders/modules/graphics/onworld/planet_crust_cylindrical_uv.h"
+
+pixel
+{
+	MR_Sampler2D HeightMapTexture : MR_AdditionalTexture0 { filter = point, wrap = clamp };
+	MR_Sampler2D SplatMapTexture : OW_SplatTexture { filter = linear, wrap = clamp };
+
+	constants : MR_ConstantBuffer0
+	{
+		float4x4 const_transform;
+
+		float const_planetMinRadius;
+		float const_planetMaxRadius;
+	}
+
+	main(out float4 colorOut0 : MR_Color0, out float4 colorOut1 : MR_Color1)
+	{
+		float4 heights = MR_SampleGather( HeightMapTexture, In.uv0 );
+		const float In_VertexHeight = dot( heights, vec4(0.25f) );
+
+		float2 temp_pos2D = In.uv0 * float2(2.0f, -2.0f) + float2(-1.0f, 1.0f);
+		float3 temp_pos3D = float3(temp_pos2D.x, 0.0f, temp_pos2D.y);
+		temp_pos3D = MR_Transform(const_transform, float4(temp_pos3D, 1.0f)).xyz;
+
+		const float3 In_SphereNormal  = normalize(temp_pos3D);
+		const float3 In_WorldPosition = In_SphereNormal * lerp(const_planetMinRadius, const_planetMaxRadius, In_VertexHeight);
+		const float3 In_VertexNormal  = In_SphereNormal;
+		const float4 In_SplatTexture = MR_SampleLod(SplatMapTexture, In.uv0, 0.0);
+
+		float2 In_CylinderUV = 0.0f;
+		float3 In_SphereTangent = 0.0f;
+		float3 In_SphereBitangent = 0.0f;
+		OW_CalculateCylinderTBN(In_SphereNormal, In_SphereTangent, In_SphereBitangent, In_CylinderUV);
+
+		colorOut1 = vec4(In_VertexHeight);
+		colorOut0 = vec4(0);
+	}
+}

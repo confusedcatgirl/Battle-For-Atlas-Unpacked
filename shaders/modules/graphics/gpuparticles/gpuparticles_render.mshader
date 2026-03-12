@@ -1,0 +1,131 @@
+import "shaders/modules/graphics/gpuparticles/gpuparticles_common.h"
+
+@ifndef PRODUCTION_RENDERING // !!!!!Dont modify this!!!!!
+
+// @define DEBUG_RENDERING // >>>>>>>>Comment/Uncomment to enable debug rendering<<<<<<<<<<
+
+@ifdef DEBUG_RENDERING // !!!!!Dont modify this!!!!!
+
+// >>>>>>>>Comment/Uncomment below<<<<<<<<<<
+// @define EDGES
+@define POINTS
+// @define UV_AXIS
+// @define LIGHTING_COLOR_ALPHA
+// @define LIGHTING_ALPHA
+// @define TEXTURE_COLOR_ALPHA
+// @define UV_AS_COLOR
+// >>>>>>>>Comment/Uncomment above<<<<<<<<<<
+
+@endif
+@endif
+
+vertex
+{
+	in
+	{
+		float4 posPerVertex;
+
+		stream 1 steprate=1
+		{
+			float3 instancePos;
+			float4<RGBA_UNORM8> uvOffset;
+			float4<RGBA_FLOAT16> lighting;
+			float4<RGBA_FLOAT16> camSpaceVectors;
+		}
+	}
+
+	out
+	{
+		float4 lighting;
+		float2 uv;
+	}
+
+	main(out float4 position : MR_Position)
+	{
+		position = ClipPosParticles(In.posPerVertex, In.instancePos, In.camSpaceVectors);
+
+		Out.lighting = In.lighting;
+
+		Out.uv = UVParticles(In.posPerVertex, In.uvOffset);
+	}
+}
+
+pixel
+{
+	MR_Sampler2D Sampler : MR_Texture0 { anisotropy = 0 };
+
+	in
+	{
+		float4 lighting;
+		float2 uv;
+	}
+
+	float4 ProductionRender(float2 someUV, float4 someLighting)
+	{
+		const float4 texelSample = MR_Sample(Sampler, someUV);
+		float4 color = texelSample * someLighting;
+		color.a = saturate(color.a);
+
+		return color;
+	}
+
+	float4 EditorRender(float2 someUV, float4 someLighting)
+	{
+		float4 color = 0.0f;
+
+@ifdef DEBUG_RENDERING
+	@ifdef EDGES
+		if ((someUV.x < 0.01f || someUV.x > 0.99f) ||
+			(someUV.y < 0.01f || someUV.y > 0.99f))
+				color = float4(1.0f, 0.0f, 0.0f, 1.0f);
+	@endif
+
+	@ifdef POINTS
+		if (length(someUV - 0.5f) < 0.01f)
+			color = float4(0.0f, 1.0f, 0.0f, 1.0f);
+	@else // QUADS
+		color.a = 1.0f;
+	@endif
+
+	@ifdef UV_AXIS
+		if ((someUV.x > 0.5f) &&
+			(someUV.y < 0.51f && someUV.y > 0.5f))
+				color = float4(1.0f, 0.0f, 0.0f, 1.0f);
+
+		else if ((someUV.y > 0.5f) &&
+			(someUV.x < 0.51f && someUV.x > 0.5f))
+				color = float4(0.0f, 1.0f, 0.0f, 1.0f);
+	@endif
+
+	@ifdef LIGHTING_COLOR_ALPHA
+		color.rgb = someLighting.rgb * someLighting.a;
+	@else
+		@ifdef LIGHTING_ALPHA
+			color.a *= someLighting.a;
+		@else
+			@ifdef TEXTURE_COLOR_ALPHA
+				float4 textureColor = MR_Sample(Sampler, someUV);
+
+				color.rgb = textureColor.rgb * textureColor.a;
+			@else
+				@ifdef UV_AS_COLOR
+					color.rgb = float3(frac(someUV), 0.0f);
+				@endif
+			@endif
+		@endif
+	@endif
+@else
+		color = ProductionRender(someUV, someLighting);
+@endif
+		return color;
+	}
+
+	main(out float4 color : MR_Color)
+	{
+@ifdef PRODUCTION_RENDERING
+		color = ProductionRender(In.uv, In.lighting);
+@else 
+		color = EditorRender(In.uv, In.lighting);
+@endif
+	}
+}

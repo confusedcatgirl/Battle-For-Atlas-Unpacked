@@ -1,0 +1,132 @@
+@include "shaders/modules/graphics/postfx/pixel_in.h"
+@include "shaders/modules/graphics/onward/foliage/foliage_force.h"
+import "shaders/nodes/Shader/Functions/Onward/OW_GetTerrainLowResRadius.h"
+import "shaders/modules/graphics/onward/foliage/foliage_base.h"
+import "shaders/modules/graphics/onward/foliage/foliage_wind.h"
+
+pixel
+{
+	struct Force
+	{
+		float3 position;
+		float invRange;
+
+		float lifeTime;
+		float strength;
+		float noise;
+		float alpha;
+	};
+
+	constants : MR_ConstantBuffer0
+	{
+		float4 constOffsetWeight[8];
+		float constCenterWeight;
+		int constExtraSampleCount;
+	}
+
+@ifndef EMPTY_BATCH
+	constants : MR_ConstantBuffer1
+	{
+		Force const_forces[8];
+		int const_count;
+	}
+@endif // EMPTY_BATCH
+
+	void SampleOnce(inout float4 aColorOut, in float3 aWorldPos, in float2 aST)
+	{
+		float4 result;
+
+		const float halfCoverage = OW_Foliage_GetForceFieldHalfCoverage( );
+		float3 zAxis = normalize( MR_GetYAxis( ForceFieldConstants.ToWorldTransform ).xyz );
+		aWorldPos += normalize( MR_GetXAxis( ForceFieldConstants.ToWorldTransform ).xyz ) * aST.x * halfCoverage;
+		aWorldPos -= normalize( MR_GetZAxis( ForceFieldConstants.ToWorldTransform ).xyz ) * aST.y * halfCoverage;
+
+		const float3 upVector = normalize( aWorldPos );
+		float lowResRadius = 1000.0f;
+		aWorldPos = upVector * lowResRadius;
+
+@ifdef FIRST_BATCH
+
+		float3x3 foliageTransform = OW_Foliage_CreateTransform( upVector, float4( upVector, 0 ) );
+		aColorOut.rgb = OW_Foliage_GetWindDirection( OW_Foliage_GetWindWaves( aWorldPos, vec3( 0 ) ), foliageTransform );
+
+@endif // FIRST_BATCH
+
+@ifndef EMPTY_BATCH
+
+		for (int it=0;it<const_count;++it)
+		{
+			const Force force = const_forces[it];
+
+			float3 forcePosition = normalize( force.position ) * 1000.0f;
+			float3 dir = aWorldPos - forcePosition;
+
+			float len = length(dir);
+
+			float power = saturate(1.0f - len * force.invRange);
+			float rawPower = power;
+		//	power = sqrt(power);
+
+			//power = pow(power, 3.0f);
+
+			float phase = force.lifeTime * 0.5f;
+			float waveSlow = cos( phase * 4.5f - len * 0.3f )*0.5f + 0.5f;
+			waveSlow = 1 - waveSlow;
+			waveSlow *= waveSlow;
+			waveSlow = 1 - waveSlow;
+
+			float waveFast = cos( phase * 12.0f - len * 0.7f)*0.5f + 0.5f;
+			waveFast = 1 - waveFast;
+			waveFast *= waveFast;
+			waveFast = 1 - waveFast;
+
+			float attenuation =  lerp(1.0f, (waveSlow * 0.3f + waveFast * 0.14f), saturate(force.noise));
+			power *= attenuation;
+
+			dir = normalize(dir);
+
+			//if (power > 0.8f)
+				//waveSlow = 0.9;
+
+			aColorOut.rgb += dir *  power * force.strength * 0.25;
+
+@ifdef TYPE_1
+			aColorOut.rgb += dir * force.strength * saturate( 1.0 - len * force.invRange * 40.0 );
+			aColorOut.a = max( aColorOut.a, smoothstep( 20.0, 2.0, len ) * force.alpha );
+@endif // TYPE_1
+@ifdef TYPE_2
+			aColorOut.rgb += dir * force.strength * saturate( 1.0 - len * force.invRange * 40.0 );
+			aColorOut.a = max( aColorOut.a, smoothstep( 20.0, 2.0, len ) * force.alpha );
+@endif // TYPE_2
+		}
+
+@endif // EMPTY_BATCH
+	}
+
+	main(out float4 colorOut0 : MR_Color0)
+	{
+		colorOut0 = vec4( 0.0 );
+
+		float3 worldPos = MR_GetPos( ForceFieldConstants.ToWorldTransform ).xyz;
+
+		float2 st;
+
+		st.x = In.uv0.x * 2.0 - 1.0; // [0..1] -> [-1,1]
+		st.y = In.uv0.y * 2.0 - 1.0; // [0..1] -> [-1,1]
+
+		SampleOnce( colorOut0, worldPos, st );
+
+@ifdef MULTISAMPLED
+		colorOut0 *= constCenterWeight;
+		for (int sampleIdx=0;sampleIdx<constExtraSampleCount;++sampleIdx)
+		{
+			float4 temp = vec4( 0.0 );
+			SampleOnce( temp, worldPos, st + constOffsetWeight[ sampleIdx ].xy );
+			colorOut0 += temp * constOffsetWeight[ sampleIdx ].w;
+		}
+@endif // MULTISAMPLED
+
+		float2 bufferZone = smoothstep(float2(-1, -1), float2(-0.9, -0.9), st) * smoothstep(float2(1, 1), float2(0.9, 0.9), st);
+		colorOut0.rgb = colorOut0.rgb * (bufferZone.x * bufferZone.y);
+	}
+}

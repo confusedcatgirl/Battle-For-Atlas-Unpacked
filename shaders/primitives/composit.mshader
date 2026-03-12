@@ -1,0 +1,39 @@
+blend {
+	src = 1,
+	dest = src.a
+}
+
+vertex
+{
+	in
+	{
+		float2 pos;
+		float2 uv;
+	}
+
+	out
+	{
+		float2 uv;
+	}
+
+	main(out float4 position : MR_Position)
+	{
+		position = float4(In.pos, 0,1);
+		Out.uv = In.uv;
+	}
+}
+
+pixel
+{
+	MR_Sampler2D Color : MR_Texture0 { filter = point, wrap = clamp };
+
+	in
+	{
+		float2 uv;
+	}
+
+	main(out float4 color : MR_Color)
+	{
+		color = MR_SampleLod0(Color, In.uv);
+	}
+}

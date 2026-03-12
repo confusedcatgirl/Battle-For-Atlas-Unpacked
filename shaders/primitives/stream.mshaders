@@ -1,0 +1,79 @@
+import "shaders/modules/graphics/onworld/planet_base.h"
+import "shaders/modules/graphics/onworld/planet_flattening.h"
+
+vertex
+{
+	import "shaders/MRender/MR_ViewConstants.h"
+
+	in
+	{
+		float3 pos;
+		float4<NATIVE_ARGB_UNORM8> color;
+		float2 uv;
+		float4<NATIVE_ARGB_UNORM8> sampler_;
+		float4<NATIVE_ARGB_UNORM8> flags;
+	}
+
+	out
+	{
+		float4 color;
+		float2 uv;
+		float4 sampler_;
+	}
+
+	main(out float4 position : MR_Position)
+	{
+		float4 flags = In.flags;
+
+		float2 pos2d_2 = In.pos.xy;
+		pos2d_2 = float2(-1.0, 1.0) + pos2d_2 * MR_ViewConstants.pixelToClipScale;
+		float4 pos2d_4 = float4(pos2d_2, In.pos.z, 1);
+
+@ifdef FLATTENING
+		float3 pos3d_flattened = In.pos;
+		OW_SFT_ApplyOld(pos3d_flattened);
+		float4 pos3d_4 = MR_Transform(MR_ViewConstants.worldToClip, pos3d_flattened);
+@else
+		float4 pos3d_4 = MR_Transform(MR_ViewConstants.worldToClip, In.pos);
+@endif // FLATTENING
+
+		position = lerp(pos3d_4, pos2d_4, flags.r);
+
+@ifdef NOCLIP
+		position.z = max(position.z, 0.0f);
+@endif // NOCLIP
+
+		Out.color = In.color;
+		Out.sampler_ = In.sampler_;
+		Out.uv = In.uv;
+	}
+}
+
+pixel
+{
+	MR_Sampler2D sampler0 : MR_Texture0;
+	MR_Sampler2D sampler1 : MR_Texture1;
+	MR_Sampler2D sampler2 : MR_Texture2;
+
+	in
+	{
+		float4 color;
+		float2 uv;
+		float4 sampler_;
+	}
+
+	main(out float4 colorOut : MR_Color)
+	{
+		float4 tex0 = MR_Sample(sampler0, In.uv);
+		float4 tex1 = MR_Sample(sampler1, In.uv);
+		float4 tex2 = float4(1,1,1, MR_Sample(sampler2, In.uv).r);	// 8 bpp;
+
+		float4 texcol = In.sampler_.b * float4(1,1,1,1)
+					  + In.sampler_.g * tex0
+					  + In.sampler_.r * tex1
+					  + In.sampler_.a * tex2;
+
+		colorOut = texcol * In.color;
+		colorOut.rgb *= colorOut.a;
+	}
+}

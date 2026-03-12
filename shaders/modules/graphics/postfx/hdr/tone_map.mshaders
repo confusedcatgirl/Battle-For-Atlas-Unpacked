@@ -1,0 +1,21 @@
+import "shaders/modules/graphics/postfx/hdr/hdr.h"
+
+@include "shaders/modules/graphics/postfx/pixel_in.h"
+
+pixel
+{
+	main(out float4 colorOut : MR_Color, float4 fc : MR_FragCoord)
+	{
+		float3 color = CalculateFinalColor(In.uv0, In.uv0Min, In.uv0Max, In.uv1, fc.xy);
+
+		@ifndef GFX_HDR_DISABLE		
+			@ifdef GFX_HDR_DITHER
+				float3 fakeSRGB = sqrt(color);
+				fakeSRGB += (MR_SampleTexelLod0(DitherNoise, uint2(fc.xy) & 0xf).xyz - 0.5) / 255.0;
+				color = fakeSRGB * fakeSRGB;
+			@endif
+		@endif
+		
+		colorOut = float4(color, 1);
+	}
+}

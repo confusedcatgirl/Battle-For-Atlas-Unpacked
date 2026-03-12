@@ -1,0 +1,68 @@
+import "shaders/MRender/MR_ViewConstants.h"
+import "shaders/modules/graphics/fog_compute.h"
+
+MR_RWTexture3D<float3> RWFogTexture3D : MR_RW_Texture0;
+
+@ifndef GFX_NO_INDOOR
+MR_RWTexture3D<float> RWIndoorTexture3D : MR_RW_Texture1;
+@endif
+
+MR_Buffer Tiles : MR_Buffer0;
+
+computeParameters
+{
+	numThreads 8 8 1
+}
+
+compute
+{
+	main(uint3 dispatchThreadId : MR_DispatchThreadId)
+	{
+		float4 tileData = Tiles[(dispatchThreadId.x >> GITileSizeShift) + ((dispatchThreadId.y >> GITileSizeShift) << GITileShiftY)];
+		float indoor1 = tileData.x;
+		float outdoor2 = tileData.y;
+		float indoor2 = tileData.z;
+		float maxDepth = tileData.w;
+
+		float2 uv = (float2(dispatchThreadId.xy) + vec2(0.5)) / GIVolumeSize.xy;
+		float2 clip2 = (uv - vec2(0.5)) * float2(2,-2);
+
+		float3 camNearPos = MR_ClipToCamera(clip2, 1);
+		float3 worldCameraPos = MR_GetPos(MR_ViewConstants.cameraToWorld).xyz;
+		float3 worldNearPos = MR_Transform(MR_ViewConstants.cameraToWorld, camNearPos).xyz;
+		float3 toNear = normalize(worldNearPos - worldCameraPos);
+
+		float lastDepth = Near;
+		float range = GIVolumeSize.w;
+
+		for (int i=0; i<GIVolumeSize.z; ++i)
+		{
+			float v = (i + 0.5) / GIVolumeSize.z;
+			float depth = Near + pow(saturate(v), InvDistributionGamma3D) * range;
+
+			float sampleDepth = min(lastDepth, maxDepth); // use last depth instead of current to prevent light leaking through walls
+			float3 fromCamera = sampleDepth * toNear;
+			float3 pos = worldCameraPos + fromCamera;
+
+			bool isIndoor = false;
+@ifndef GFX_NO_INDOOR
+			if (sampleDepth > indoor1)
+				isIndoor = true;
+			if (sampleDepth > outdoor2)
+				isIndoor = false;
+			if (sampleDepth > indoor2)
+				isIndoor = true;
+@endif
+
+			float3 gi = SampleGI(toNear, pos, isIndoor);
+
+			RWFogTexture3D[int3(dispatchThreadId.xy, i)] = gi;
+
+@ifndef GFX_NO_INDOOR
+			RWIndoorTexture3D[int3(dispatchThreadId.xy, i)] = isIndoor;
+@endif
+
+			lastDepth = depth;
+		}
+	}
+}

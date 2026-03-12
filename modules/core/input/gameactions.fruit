@@ -1,0 +1,74 @@
+include "modules/core/input/input.fruit"
+
+enum ConditionalInputActionType
+{
+	Pressed
+	PressedAfterTime
+	Released
+	ReleaseBeforeTime
+	ReleaseAfterTime
+	PressAndRelease
+	PressAndReleaseBeforeTime
+	PressAndReleaseAfterTime
+	HoldDown
+	HoldDownBeforeTime
+	HoldDownAfterTime
+	Analog
+	DoublePress
+	PressAndHold
+	SinglePress
+	PressAndRepeat
+}
+
+class ConditionalGameActionBase < abstract=1 >
+{
+	bool myNegate
+	bool myRequireNewInput < tooltip="If this conditional is false, the input needs to be released and pressed again. [Use only for the HoldDown* ConditionalInputActionTypes]" >
+	bool myTriggerOnce < tooltip="This ConditionalGameAction will only be true for one frame" >
+	bool myWasActive
+}
+
+class ConditionalInputActionBase < abstract=1 >
+{
+	ConditionalInputActionType myInputActionType
+	int myTimer < tooltip="In milliseconds [Use only for the HoldDown* ConditionalInputActionTypes]" >
+	int myValidForTimer < tooltip="In milliseconds, after triggering, how long to keep this action successful" >
+	bool myNegate
+	bool myToggle < tooltip="Whenever you want the game action to be toggled on/off. [Don't use with HoldDown* or Analog* ConditionalInputActionTypes]" >
+	bool myClearToggle < tooltip="Whether the input action's toggle state should be cleared when its containing game action fails for some other reason" >
+}
+
+class ConditionalInputAction : ConditionalInputActionBase
+{
+	InputAction* myInputAction
+	InputAction* myInputActionAlt
+}
+
+class ConditionalRotatedInputAction : ConditionalInputActionBase
+{
+	InputAction* myForwardInputAction < tooltip="The InputAction that the user presses to go forward" >
+	InputAction* myBackInputAction < tooltip="The InputAction that the user presses to go back" >
+	InputAction* myLeftInputAction < tooltip="The InputAction that the user presses to go left" >
+	InputAction* myRightInputAction < tooltip="The InputAction that the user presses to go right" >
+	InputAction* myExpectedInputAction < tooltip="The expected InputAction result after taking the camera into account" >
+	bool myShouldShowInUI < tooltip="When set, we should show in the UI" >
+}
+
+enum ConditionalActionGroupOperator
+{
+	And
+	Or
+}
+
+list ConditionalActionList
+{
+	ConditionalInputActionBase
+	ConditionalGameActionBase
+	ConditionalActionGroup
+}
+
+class ConditionalActionGroup
+{
+	ConditionalActionGroupOperator myOperator
+	ConditionalActionList myConditionalInputActions    
+}

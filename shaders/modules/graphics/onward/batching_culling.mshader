@@ -1,0 +1,62 @@
+import "shaders/modules/graphics/onward/batching_culling.h"
+
+computeParameters
+{
+	numThreads 64 1 1
+}
+
+MR_Buffer< uint > BufferIn : OW_InstanceDataIndices;
+
+MR_RWBuffer< uint > DrawArgBufferOut : MR_RW_Buffer0;
+MR_RWBuffer< uint > VisibleBufferOut : MR_RW_Buffer1;
+
+compute main(uint3 dtid : MR_DispatchThreadId)
+{
+	if (dtid.x >= constInstanceCount)
+		return;
+
+	const uint2 instanceIndex = OW_Batching_GetPreCullingIndex( BufferIn, dtid.x );
+	const float3x4 instanceTransform = OW_Batching_GetMatrix( instanceIndex, constBasisSegment );
+	const float3 instancePosition = MR_GetPos( instanceTransform );
+
+	const float3 xAxis = MR_GetXAxis( instanceTransform );
+	const float constMeshSize = myBatchRadius * sqrt( dot(xAxis, xAxis) );
+	float4 meshSize = vec4( -constMeshSize );
+
+	const float distanceToNearPlane = dot( instancePosition, constFrustum[ 0 ].xyz ) + constFrustum[ 0 ].w;
+	if (distanceToNearPlane < -constMeshSize)
+	{
+		return;
+	}
+
+	const float distanceToFarPlane = dot( instancePosition, constFrustum[ 5 ].xyz ) + constFrustum[ 5 ].w;
+	if (distanceToFarPlane < -constMeshSize)
+	{
+		return;
+	}
+
+#ifndef IS_DX11_TEMP
+	// hardcoded test for asteroids; skipped on PC because we don't handle baking properly
+	const float distanceToCamera = distance( constLODCameraPosition, instancePosition );
+	if (distanceToCamera >= 8000.0f)
+	{
+		return;
+	}
+#endif // IS_DX11_TEMP
+
+	float4 side;
+
+	side.w = dot( instancePosition, constFrustum[ 1 ].xyz ) + constFrustum[ 1 ].w;
+	side.z = dot( instancePosition, constFrustum[ 2 ].xyz ) + constFrustum[ 2 ].w;
+	side.x = dot( instancePosition, constFrustum[ 3 ].xyz ) + constFrustum[ 3 ].w;
+	side.y = dot( instancePosition, constFrustum[ 4 ].xyz ) + constFrustum[ 4 ].w;
+
+	if (any(side < meshSize))
+	{
+		return;
+	}
+
+	uint visibleInstanceIndex;
+	MR_AtomicAdd( DrawArgBufferOut[ 1 ], 1, visibleInstanceIndex );
+	VisibleBufferOut[ visibleInstanceIndex ] = OW_Batching_PackIndexForCulling( instanceIndex );
+}

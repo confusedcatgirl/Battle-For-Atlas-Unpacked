@@ -1,0 +1,48 @@
+
+import "shaders/MRender/MR_ViewConstants.h"
+
+import "shaders/modules/graphics/onworld/planet_flattening.h"
+
+blend { writeMask = rgb, src = src.a, dest = 1 }
+
+constants : MR_ConstantBuffer5
+{
+	float4 const_Planet;
+	float4 const_Colour;
+}
+
+vertex
+{
+	in
+	{
+		float3 vertex;
+	}
+
+	out
+	{
+	}
+
+	main(out float4 outClipPos : MR_Position)
+	{
+		float3 vertexPosition = normalize(In.vertex.xyz);
+
+		float3 worldPos = vertexPosition.xyz * const_Planet.w;
+
+		OW_SFT_ApplyFlatteningNoSmoothingLocal(worldPos, OW_DEFAULT_CATEGORY);
+		worldPos += OW_ViewConstants.flatteningParams.myPlanetCenter;
+
+		outClipPos = MR_Transform(MR_ViewConstants.worldToClip, worldPos);
+	}
+}
+
+pixel
+{
+	in
+	{
+	}
+
+	main(out float4 result : MR_Color, float4 fc : MR_FragCoord)
+	{
+		result = const_Colour;
+	}
+}

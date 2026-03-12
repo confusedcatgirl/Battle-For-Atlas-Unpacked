@@ -1,0 +1,75 @@
+import "shaders/modules/graphics/onward/pm/pm.h"
+import "shaders/modules/graphics/onward/pm/planet/update.h"
+import "shaders/modules/graphics/onward/pm/planet/emitter.h"
+import "shaders/modules/graphics/onward/pm/curves.h"
+
+import "shaders/modules/graphics/onworld/functions/RaySphereIntersection.h"
+
+computeParameters
+{
+	numThreads 64 1 1
+}
+
+constants : MR_ConstantBuffer0
+{
+	uint4 constEmitter;
+}
+
+MR_RWStructuredBuffer< OGfx_Particulate > ParticlesOut : MR_RW_Buffer0;
+
+MR_RWBuffer< uint > AliveItems : MR_RW_Buffer1;
+MR_RWBuffer< uint > AliveCount : MR_RW_Buffer2;
+MR_RWBuffer< uint > DeathItems : MR_RW_Buffer3;
+MR_RWBuffer< uint > DeathCount : MR_RW_Buffer4;
+
+bool Emit( in uint aIndex )
+{
+	OGfx_Particulate data = (OGfx_Particulate) 0;
+
+	uint globalIndex = 0;
+	MR_AtomicAdd( DeathCount[ 1 ], 1, globalIndex );
+	OGfx_PM_SetLocalIndex( data, constEmitter.x );
+
+	const uint randomIndex = globalIndex % OGfx_GP_RandomNumber_Count;
+	OGfx_PM_SetRandomIndex( data, randomIndex );
+	float4 random = OGfx_GP_RandomNumbers[ randomIndex ];
+
+	OGfx_PM_EmitterProps props = OGfx_PM_GetEmitterProps( constEmitter.x );
+
+	float2 inter = OW_RaySphereIntersection( vec3(0.0), random.xyz, props.myPositionRadius.w * 1.2  );
+
+	float3 dir = float3( random.x, random.y * 0.1, random.z );
+	data.myPosition = props.myPositionRadius.xyz + random.xyz * inter.y;
+	data.myVelocity = normalize( data.myPosition ) * -100.1;
+			float terrainHeight = lerp(constPlanetRadii.x, constPlanetRadii.y, OW_GetTerrainLowResHeight(data.myPosition));
+		if ((length( data.myPosition ) - terrainHeight ) > (50 + 150 * sqrt(abs(random.w)) ))
+		{
+		data.myPosition = normalize( data.myPosition ) * constPlanetRadii.x * 0.9;
+		data.myAge = 9;
+		}
+
+		data.myVelocity.y = length( data.myPosition ) - constPlanetRadii.x;
+
+	ParticlesOut[ aIndex ] = data;
+
+		return true;
+}
+
+compute main(uint3 dtid : MR_DispatchThreadId)
+{
+	const int emissionCount = DeathCount[ 2 ];
+	if (dtid.x >= emissionCount)
+		return;
+
+	int index = 0;
+	MR_AtomicAdd( DeathCount[ 0 ], -1, index );
+	if (index > 0)
+	{
+		uint particleIndex = DeathItems[ index - 1 ];
+		Emit( particleIndex );
+		{
+			MR_AtomicAdd( AliveCount[ 0 ], 1, index );
+			AliveItems[ index ] = particleIndex;
+		}
+	}
+}

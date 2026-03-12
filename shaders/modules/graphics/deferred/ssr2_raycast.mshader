@@ -1,0 +1,161 @@
+@include "shaders/modules/graphics/deferred/ssr2.h"
+
+MR_RWTexture2D<float4> Output_Pos : MR_RW_Texture0;
+
+@ifdef SSR2_CLASSIFY_TILES
+MR_RWTexture2D<float4> Output_TileClass : MR_RW_Texture1;
+@endif
+
+computeParameters
+{
+@ifdef SSR2_QUARTER_RAYS
+	numThreads 8 8 1
+@else
+@	ifdef SSR2_CLASSIFY_TILES
+@		ifdef CTA_RESHAPE
+	numThreads 8 16 1
+@			define RESHAPE_ON
+@		else
+	numThreads 16 16 1
+@		endif
+@	else
+	numThreads 8 8 1
+@	endif
+@endif
+}
+
+global groupshared int hitSomething = 0;
+
+void SSR_RayCastPass(out float3 posOut, out float alphaOut, float2 ffc, uint2 qfc)
+{
+	uint2 px = uint2(ffc.xy);
+	uint2 qpx = uint2(qfc.xy);
+
+	posOut = vec3(0);
+	alphaOut = 0;
+
+@ifdef SSR2_QUARTER_RAYS
+	if (qpx.x > SSR.quarterSourceMax.x || qpx.y > SSR.quarterSourceMax.y)
+		return;
+@else
+	if (px.x > MR_ViewConstants.viewportMax.x || px.y > MR_ViewConstants.viewportMax.y)
+		return;
+@endif
+
+	float depth = MR_SampleTexelLod0(Depth, qpx).x;
+	if (depth > SSR.range)
+		return;
+
+	float4 mrt0 = MR_SampleTexelLod0(MRT0, px);
+	float4 mrt1 = float4(MR_SampleTexelLod0(Normal, qpx), 0);
+	float4 mrt2 = MR_SampleTexelLod0(MRT2, px);
+
+	Gfx_DeferredData data;
+	Gfx_MRTToDeferred(data, mrt0, mrt1, mrt2);
+	const float roughness = OW_Material_ArtisticToRoughnessUnclamped(data.roughness);
+
+	if (roughness < SSR.maxRoughness)
+	{
+		float2 clip2 = MR_PixelToClip(ffc);
+		float3 pos = MR_ClipToWorld(clip2, depth);
+
+		Gfx_LightingDataStruct ld = Gfx_GetLightingData(pos, float4(ffc, 0, depth));
+
+		float3 direction;
+		float noise;
+		GetReflectionDirection(direction, noise, data.worldNormal, ld.toCamera, roughness, ffc.xy);
+
+		float4 ssr = SSR2_GetReflectionSingle(ld.worldPosition, ffc, noise, ld.depth,
+			direction, data.worldNormal, roughness, false);
+
+		if (ssr.w)
+		{
+			int ignored;
+			MR_AtomicAdd(hitSomething, 1, ignored);
+		}
+
+		posOut = ssr.xyz;
+		alphaOut = ssr.w;
+	}
+}
+
+void DoThreads(uint3 dtids[2], uint numIds, uint3 groupId, uint groupIndex)
+{
+	hitSomething = 0;
+	uint2 hitpx = groupId.xy;
+
+	float2 ffc[2];
+	uint2 qfc[2];
+
+@ifdef SSR2_QUARTER_RAYS
+	[unroll]
+	for (uint i=0; i<numIds; ++i)
+	{
+		ffc[i] = dtids[i].xy*2 + vec2(0.5) + MR_ViewConstants.viewportPos;
+		qfc[i] = dtids[i].xy;
+	}
+@else
+	[unroll]
+	for (uint i=0; i<numIds; ++i)
+	{
+		ffc[i] = dtids[i].xy   + vec2(0.5) + MR_ViewConstants.viewportPos;
+		qfc[i] = ffc[i];
+	}
+@endif
+
+@ifdef SSR2_CLASSIFY_TILES
+	MR_GroupMemoryBarrierSync();
+@endif
+
+@ifdef SSR2_CLASSIFY_TILES_EARLY
+	bool tileUsed = Light_RadiusAlpha[hitpx].x;
+@else
+	bool tileUsed = true;
+@endif
+
+	if (tileUsed)
+	{
+		float alpha;
+		float3 pos;
+
+		[unroll]
+		for (uint i=0; i<numIds; ++i)
+		{
+			SSR_RayCastPass(pos, alpha, ffc[i], qfc[i]);
+			Output_Pos[dtids[i].xy] = float4(pos, alpha);
+		}
+	}
+	else
+	{
+		[unroll]
+		for (uint i=0; i<numIds; ++i)
+			Output_Pos[dtids[i].xy] = vec4(0);
+	}
+
+@ifdef SSR2_CLASSIFY_TILES
+	MR_GroupMemoryBarrierSync();
+
+	if (groupIndex == 0)
+	{
+		Output_TileClass[hitpx] = hitSomething != 0 ? 1 : 0;
+	}
+@endif
+}
+
+compute main(uint3 dtid : MR_DispatchThreadId, uint3 GTid : MR_GroupThreadId, uint3 groupId : MR_GroupId, uint groupIndex : MR_GroupIndex)
+{
+    uint3 dtids[2];
+@ifdef RESHAPE_ON
+	const uint numIds = 2;
+
+    groupIndex = 16*GTid.y + GTid.x;
+	dtids[0] = groupId * uint3(16, 16, 1) + GTid;
+	dtids[1] = dtids[0] + uint3(8, 0, 0);
+@else
+	const uint numIds = 1;
+
+	dtids[0] = dtid;
+@endif
+
+	DoThreads(dtids, numIds, groupId, groupIndex);
+}

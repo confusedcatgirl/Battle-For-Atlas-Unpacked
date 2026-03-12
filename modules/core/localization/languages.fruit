@@ -1,0 +1,48 @@
+class LanguageName
+{
+	int myId
+	varmap myDisplayName < bhv = "localization" >
+	string myCode
+	string mySprite < bhv = "sprite" >
+}
+
+list AllLanguages
+{
+	LanguageName
+}
+
+class LanguageInfo
+{
+	int myId
+	string myPS4Id
+	string myLocaleCode
+	string myWwiseLanguageName
+	int	myParent
+	bool myHasMenus
+	bool myHasSubtitles
+	bool myHasVoice
+	bool myIsRTL
+	int myPluralRule -1
+	int myLineBreakRule -1
+	int myThousandsSeparatorRule 0
+	int myFacialAnimLangId -1
+	bool myUsesEuropeanSeparators false
+}
+
+class DefaultLanguageInfo
+{
+	int myMainLanguageId
+	int mySubLanguageId
+	int myVoiceLanguageId
+}
+
+list LanguagesInSKU
+{
+	LanguageInfo
+}
+
+class SKUDefinition
+{
+	DefaultLanguageInfo myDefaultLanguages
+	LanguagesInSKU myLanguages
+}

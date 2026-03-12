@@ -1,0 +1,112 @@
+import "shaders/MRender/MR_ViewConstants.h"
+import "shaders/modules/graphics/onworld/onworld_environment.h"
+@ifdef OGFX_IS_PLANET_SUN
+import "shaders/modules/graphics/onward/gi/ground_fog.h"
+@endif // OGFX_IS_PLANET_SUN
+@ifdef OGFX_IS_GALAXY_SUN
+import "shaders/modules/graphics/onward/gi/space_fog.h"
+@endif // OGFX_IS_GALAXY_SUN
+
+constants : MR_ConstantBuffer0
+{
+	float3 const_xyzObjPosition;
+	float  const_xTexCoordStep;
+}
+
+constants : MR_ConstantBuffer1
+{
+	float3 const_xyzQuadPosition;
+	float  const_xOpacity;
+	float2 const_xySize;
+	float  const_xTexCoordStart;
+}
+
+vertex
+{
+	in
+	{
+		float2 offset;
+	}
+
+	out
+	{
+		float4 xyzColor_wOpacity;
+		float2 xyUV;
+	}
+
+	main(out float4 clipPos : MR_Position)
+	{
+		const float3 color = vec3(0.5f);
+		Out.xyzColor_wOpacity = float4( color, const_xOpacity.x );
+
+		float4 cameraPos = MR_Transform(MR_ViewConstants.clipToCamera, float4(const_xyzObjPosition.xyz, 1.0));
+		cameraPos.z /= cameraPos.w;
+
+		clipPos.xyz = const_xyzQuadPosition.xyz;
+		clipPos.xy += In.offset * const_xySize * float2(2, -1 );
+		clipPos.z = 0;
+		clipPos.w = 1;
+
+		Out.xyUV = In.offset * 0.5f + 0.5f;
+		Out.xyUV.y = mad(Out.xyUV.y, const_xTexCoordStep, const_xTexCoordStart);
+
+		float3 scale = Gfx_Environment.averageLuminosity;
+@ifdef OGFX_IS_PLANET_SUN
+
+		float3 fogUV = float3( const_xyzObjPosition.xy, 0.0 );
+
+	@ifdef OGFX_IS_SUN_RAYS
+//		fogUV.xy = clipPos.xy;
+	@endif // OGFX_IS_SUN_RAYS
+
+		const float4 fog = MR_SampleLod0( GroundVolFogTexture, float3( OW_FogVolume_CPToUV( fogUV.xy ), 1.0f ) );
+		scale = MR_SampleLod0( PlanetLightVolume, fogUV ).rgb * fog.a + fog.rgb;
+@endif // OGFX_IS_PLANET_SUN
+@ifdef OGFX_IS_GALAXY_SUN
+
+		float3 fogUV = float3( const_xyzObjPosition.xy, 0.0 );
+
+	@ifdef OGFX_IS_SUN_RAYS
+//		fogUV.xy = clipPos.xy;
+	@endif // OGFX_IS_SUN_RAYS
+
+		fogUV = float3( OW_FogVolume_CPToUV( fogUV.xy ), 1.0 );
+		const float4 fog = MR_SampleLod0( SpaceVolFogTexture, fogUV );
+		scale = MR_SampleLod0( SpaceLightVolume, fogUV ).rgb * fog.a + fog.rgb;
+
+@endif // OGFX_IS_GALAXY_SUN
+		Out.xyzColor_wOpacity.rgb *= scale;
+
+@ifdef OGFX_IS_SUN_RAYS
+		Out.xyUV = clipPos.xy / clipPos.w * float2(0.5, -0.5) + 0.5;
+@endif // OGFX_IS_SUN_RAYS
+	}
+}
+
+pixel
+{
+	MR_Sampler2D Texture : MR_Texture0;
+@ifdef OGFX_IS_SUN_RAYS
+	MR_Sampler2D SunRays : MR_Texture1;
+@endif // OGFX_IS_SUN_RAYS
+
+	in
+	{
+		float4 xyzColor_wOpacity;
+		float2 xyUV;
+	}
+
+	main(out float4 outColor : MR_Color, float4 fragCoord : MR_FragCoord)
+	{
+		outColor.a = In.xyzColor_wOpacity.a;
+
+		@ifdef OGFX_IS_SUN_RAYS
+			outColor.rgb = MR_Sample(SunRays, In.xyUV.xy).xxx;
+		@else
+			outColor.rgb = MR_Sample(Texture, In.xyUV.xy).xyz;
+		@endif // OGFX_IS_SUN_RAYS
+
+		outColor.rgb *= In.xyzColor_wOpacity.rgb;
+		outColor.rgb *= outColor.a;
+	}
+}

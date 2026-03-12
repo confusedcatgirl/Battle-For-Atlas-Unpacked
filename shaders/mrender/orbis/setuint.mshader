@@ -1,0 +1,27 @@
+/* SCE CONFIDENTIAL
+PlayStation(R)4 Programmer Tool Runtime Library Release 01.600.051
+* Copyright (C) 2013 Sony Computer Entertainment Inc.
+* All Rights Reserved.
+*/
+
+computeParameters
+{
+	numThreads 64 1 1,
+}
+compute
+{
+	MR_Buffer<uint> src : MR_Buffer0;
+	MR_RWBuffer<uint> dest : MR_RW_Buffer0;
+
+	constants : MR_ConstantBuffer0
+	{
+		uint destNumUInts;
+		uint srcNumUInts;
+	}
+
+	main(in uint dispatchThreadId : MR_DispatchThreadId)
+	{
+		if (dispatchThreadId < destNumUInts)
+		   dest[dispatchThreadId] = src[dispatchThreadId % srcNumUInts];
+	}
+}

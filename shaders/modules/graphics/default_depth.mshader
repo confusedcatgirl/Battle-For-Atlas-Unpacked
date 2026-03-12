@@ -1,0 +1,11 @@
+import "shaders/modules/graphics/normal_encode.h"
+
+pixel
+{
+	MR_Sampler2D Color : MR_Texture;
+
+	main(out float4 colorOut : MR_Color, float3 cameraSpacePos : Gfx_CameraSpacePos )
+	{		
+		colorOut = float4(cameraSpacePos.z, 0, 0, 1);
+	}
+}

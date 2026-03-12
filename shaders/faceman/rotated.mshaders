@@ -1,0 +1,52 @@
+constants Transformation : MR_ConstantBuffer1
+{
+	float4x4 cmatrix;
+	float4 add;
+}
+
+vertex
+{
+	in
+	{
+		float4 pos;
+		float4<NATIVE_ARGB_UNORM8> color0;
+		float4<NATIVE_ARGB_UNORM8> color1;
+		float4<NATIVE_ARGB_UNORM8> color2;
+		float4<NATIVE_ARGB_UNORM8> usage;
+	}
+
+	out
+	{
+		float2 uv;
+	}
+
+	constants Viewport : MR_ConstantBuffer0
+	{
+		float2 bias;
+		float2 scale;
+	}
+
+	main(out float4 clipPos : MR_Position)
+	{
+		float2 pos = In.pos.xy;
+		pos.xy = MR_Transform(Transformation.cmatrix, float4(pos,0,1)).xy;
+		pos = Viewport.bias + pos * Viewport.scale;
+		clipPos = float4(pos,0,1);
+
+		Out.uv = In.pos.zw;
+	}
+}
+pixel
+{
+	in
+	{
+		float2 uv;
+	}
+
+	MR_Sampler2D sampler0 : MR_Texture0 { mutable = true };
+
+	main(out float4 color : MR_Color0)
+	{
+		color = MR_Sample(sampler0, In.uv);
+	}
+}
