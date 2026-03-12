@@ -1,0 +1,25 @@
+<keywords = { "GFX_SHADOW_SHADER", }, >
+pixel
+{
+	struct CustomData {
+		float myAlpha <default = 1, label = "Alpha", pinId = 107>;
+		float myDistortionStrength <default = 0, label = "Distortion Strength", pinId = 106>;
+		float myTimeX <default = 0, label = "Time X", pinId = 109>;
+		float myTimeY <default = 0, label = "Time Y", pinId = 111>;
+		float myFresnelPower <default = 1, label = "Fresnel Power", pinId = 112>;
+		float myFresnelStrength <config = { max = 1, min = 0, }, default = 1, label = "Fresnel Strength", pinId = 114>;
+		float myFlipFresnel0Off1On <default = 0, label = "Flip Fresnel 0 Off 1 On", pinId = 113>;
+		float myOuterFresnelPower <default = 1, label = "Outer Fresnel Power", pinId = 115>;
+		float myOuterFresnelBottomRangeClamp <default = 0, label = "Outer Fresnel Bottom Range Clamp", pinId = 116>;
+		float myUseUnscaledGameTime <default = 0, label = "Use Unscaled Game Time", pinId = 117>;
+		float myUnscaledGameTime <default = 0, label = "Unscaled Game Time", pinId = 118>;
+	};
+	main(CustomData customData : Gfx_CustomData, out float4 colorOut : MR_Color0, 
+		float Gfx_AlphaRef : Gfx_AlphaRef0)
+	{
+		float add_80 = float(1) + float(0);
+		if (add_80 < Gfx_AlphaRef) discard;
+		float4 shadowResult = float4(0.0, 0.0, 0.0, add_80);
+		colorOut = shadowResult;
+	}
+}

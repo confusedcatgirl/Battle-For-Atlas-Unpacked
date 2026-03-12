@@ -1,0 +1,65 @@
+<shaderType = "Object", keywords = { "GFX_FORWARD_SHADER", }, >
+import "shaders/modules/graphics/environment.h"
+blend {
+	src = 1,
+	dest = 1,
+}
+pixel
+{
+	MR_Sampler2D MainTexture : MR_Texture0 <pinId = 103>;
+	MR_Sampler2D Layer2Texture : MR_Texture1 {
+		texture = "onward/baked/textures/FX/rse_sparks_clouds.dds",
+	} <label = "Layer2 Texture", pinId = 105>;
+	struct CustomData {
+		float3 myColor <config = { type = "ColorBox", }, default = 1 1 1, label = "Color", pinId = 101>;
+		float3 myColor2 <config = { type = "ColorBox", }, default = 1 1 1, label = "Color2", pinId = 112>;
+		float myIntensity <default = 1, label = "Intensity", pinId = 102>;
+		float myScrollingSpeed <default = 1, label = "Scrolling Speed", pinId = 104>;
+		float myScrollingSpeedLayer2 <default = 1, label = "Scrolling Speed Layer2", pinId = 106>;
+		float myLayer2Power <default = 1, label = "Layer2 Power", pinId = 107>;
+		float2 myLayer2Tiling <default = 1 1, label = "Layer2 Tiling", pinId = 108>;
+		float myCoreIntensity <default = 10, label = "Core Intensity", pinId = 109>;
+		float myDepthFadePower <default = 1, label = "Depth Fade Power", pinId = 110>;
+		float myDepthFadeFactor <default = 0.1, label = "Depth Fade Factor", pinId = 111>;
+		float2 myTestParams <default = 0.4 1.6, label = "Test Params", pinId = 113>;
+	};
+	main(out float4 colorOut : MR_Color0, CustomData customData : Gfx_CustomData0, 
+		float4 Gfx_Color : Gfx_Color0, float2 Gfx_UV : Gfx_UV0, 
+		float4 Gfx_ClipPosition : Gfx_ClipPosition0)
+	{
+		float sub_72 = Gfx_Color.z - customData.myTestParams.x;
+		float mul_73 = sub_72 * customData.myTestParams.y;
+		float saturate_78 = saturate(mul_73);
+		float3 smear_83 = float3(saturate_78, saturate_78, saturate_78);
+		float3 lerp_86 = lerp(customData.myColor, customData.myColor2, smear_83);
+		float mul_64 = Gfx_Environment.time * customData.myScrollingSpeed;
+		float add_70 = Gfx_UV.y + mul_64;
+		float2 combine_74 = float2(Gfx_UV.x, add_70);
+		float4 sample_79 = MR_Sample(MainTexture, combine_74);
+		float2 mul_68 = Gfx_UV * customData.myLayer2Tiling;
+		float mul_66 = Gfx_Environment.time * customData.myScrollingSpeedLayer2;
+		float add_77 = mul_68.y + mul_66;
+		float2 combine_82 = float2(mul_68.x, add_77);
+		float4 sample_85 = MR_Sample(Layer2Texture, combine_82);
+		float4 smear_90 = float4(sample_85.x, sample_85.x, sample_85.x, sample_85.x);
+		float4 mul_91 = sample_79 * smear_90;
+		float4 smear_67 = float4(customData.myLayer2Power, customData.myLayer2Power, customData.myLayer2Power, customData.myLayer2Power);
+		float4 pow_92 = pow(abs(mul_91), smear_67);
+		float3 mul_94 = lerp_86 * pow_92.xyz;
+		float3 smear_63 = float3(customData.myIntensity, customData.myIntensity, customData.myIntensity);
+		float3 mul_95 = mul_94 * smear_63;
+		float mul_75 = Gfx_Color.y * customData.myCoreIntensity;
+		float3 smear_80 = float3(mul_75, mul_75, mul_75);
+		float3 mul_89 = lerp_86 * smear_80;
+		float3 add_96 = mul_95 + mul_89;
+		float3 smear_60 = float3(Gfx_Color.x, Gfx_Color.x, Gfx_Color.x);
+		float3 mul_97 = add_96 * smear_60;
+		float mul_76 = Gfx_ClipPosition.w * customData.myDepthFadeFactor;
+		float pow_81 = pow(abs(mul_76), customData.myDepthFadePower);
+		float saturate_84 = saturate(pow_81);
+		float3 smear_87 = float3(saturate_84, saturate_84, saturate_84);
+		float3 mul_98 = mul_97 * smear_87;
+		float4 result_100 = float4(mul_98, float(1));
+		colorOut = result_100;
+	}
+}

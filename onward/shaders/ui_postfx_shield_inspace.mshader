@@ -1,0 +1,73 @@
+<shaderType = "UI", >
+import "shaders/modules/graphics/drawer/drawer.h"
+import "shaders/modules/graphics/ssr_common.h"
+import "shaders/nodes/shader/functions/screen position.h"
+import "shaders/nodes/shader/functions/pixeltoframebufferuv.h"
+import "shaders/nodes/shader/ui/ui stencil buffer.h"
+import "shaders/nodes/shader/ui/ui stencil buffer, offset.h"
+blend {
+	writeMask = rgba,
+	src = 1,
+	src.a = 0,
+}
+pixel
+{
+	MR_Sampler2D Sampler_38 : MR_Texture0 {
+		texture = "onward/baked/textures/tiling_noise_cloud.dds",
+	};
+	struct CustomData {
+		float myIntensity <default = 1, label = "Intensity", pinId = 102>;
+		float3 myColor <default = 0 0 0, label = "Color", pinId = 105>;
+		float myAdditive <default = 0, label = "Additive", pinId = 106>;
+	};
+	main(out float4 colorOut : MR_Color0, float4 MR_FragCoord : MR_FragCoord, 
+		CustomData customData : Gfx_CustomData0)
+	{
+		float2 ScreenPosition_26 = ScreenPosition(MR_FragCoord);
+		float2 PixelToFramebufferUV_45 = PixelToFramebufferUV(ScreenPosition_26);
+		float4 sample_46 = MR_Sample(SSR_FramebufferLate, PixelToFramebufferUV_45);
+		float3 truncate_60 = float3(sample_46.xyz);
+		float4 combine_71 = float4(truncate_60.x, truncate_60.y, truncate_60.z, float(1));
+		float3 truncate_73 = float3(combine_71.xyz);
+		float GetStencilBuffer_0 = GetStencilBuffer(MR_FragCoord);
+		float GetStencilBuffer_48 = GetStencilBuffer(float2(-8, 0), MR_FragCoord);
+		float2 ScreenPosition_20 = ScreenPosition(MR_FragCoord);
+		float2 PixelToFramebufferUV_39 = PixelToFramebufferUV(ScreenPosition_20);
+		float4 sample_54 = MR_Sample(Sampler_38, PixelToFramebufferUV_39);
+		float truncate_61 = float(sample_54.x);
+		float mul_68 = GetStencilBuffer_48 * truncate_61;
+		float sub_72 = GetStencilBuffer_0 - mul_68;
+		float GetStencilBuffer_49 = GetStencilBuffer(float2(8, 0), MR_FragCoord);
+		float mul_59 = GetStencilBuffer_49 * float(1);
+		float sub_66 = GetStencilBuffer_0 - mul_59;
+		float add_74 = sub_72 + sub_66;
+		float GetStencilBuffer_50 = GetStencilBuffer(float2(-8, 0), MR_FragCoord);
+		float mul_58 = GetStencilBuffer_50 * float(1);
+		float sub_65 = GetStencilBuffer_0 - mul_58;
+		float GetStencilBuffer_51 = GetStencilBuffer(float2(8, 0), MR_FragCoord);
+		float mul_57 = GetStencilBuffer_51 * float(1);
+		float sub_64 = GetStencilBuffer_0 - mul_57;
+		float add_70 = sub_65 + sub_64;
+		float add_75 = add_74 + add_70;
+		float GetStencilBuffer_52 = GetStencilBuffer(float2(0, 2), MR_FragCoord);
+		float mul_56 = GetStencilBuffer_52 * float(1);
+		float sub_63 = GetStencilBuffer_0 - mul_56;
+		float GetStencilBuffer_53 = GetStencilBuffer(float2(0, -2), MR_FragCoord);
+		float mul_55 = GetStencilBuffer_53 * float(1);
+		float sub_62 = GetStencilBuffer_0 - mul_55;
+		float add_69 = sub_63 + sub_62;
+		float add_76 = add_75 + add_69;
+		float div_77 = add_76 / float(20);
+		float saturate_78 = saturate(div_77);
+		float3 smear_79 = float3(saturate_78, saturate_78, saturate_78);
+		float3 lerp_82 = lerp(float3(0, 0, 0), customData.myColor, smear_79);
+		float3 smear_81 = float3(customData.myIntensity, customData.myIntensity, customData.myIntensity);
+		float3 mul_83 = lerp_82 * smear_81;
+		float3 saturate_84 = saturate(mul_83);
+		float3 add_85 = truncate_73 + saturate_84;
+		float4 combine_87 = float4(add_85.x, add_85.y, add_85.z, float(1));
+		float4 finalColor = vec4(0);
+		finalColor = BlendColor(combine_87, customData.myAdditive);
+		colorOut = finalColor;
+	}
+}

@@ -1,0 +1,75 @@
+<shaderType = "UI", >
+import "shaders/modules/graphics/drawer/drawer.h"
+import "shaders/modules/graphics/ssr_common.h"
+import "shaders/nodes/shader/functions/screen position.h"
+import "shaders/nodes/shader/functions/pixeltoframebufferuv.h"
+import "shaders/nodes/shader/ui/ui blit effect.h"
+blend {
+	writeMask = rgba,
+	src = 1,
+	src.a = 0,
+}
+pixel
+{
+	MR_Sampler2D Texture : MR_Texture0 <pinId = 101>;
+	struct CustomData {
+		float2 myscreenSize <default = 0 0, label = "screenSize", pinId = 102>;
+		float mypixelBlock <default = 0.15, label = "pixelBlock", pinId = 103>;
+		float mycolorPalette <default = 16, label = "colorPalette", pinId = 104>;
+	};
+	float3 pixelize(MR_Sampler2D inBuffer, float2 uv, float2 screenSize, float pixelBlock, 
+		float colorPalette)
+	{
+		float2 pixelsize = pixelBlock * screenSize;
+		 float2 inversepixel = 1.0f/pixelsize;
+		float3 color = MR_Sample(inBuffer, floor(uv * pixelsize) * inversepixel).rgb;
+		 color = floor(color * colorPalette) / colorPalette;
+		 return color;
+	}
+	float signEqual(float x, float y)
+	{
+		return 1.0 - abs(sign(x - y));
+	}
+	main(out float4 colorOut : MR_Color0, float2 Gfx_UV : Gfx_UV0, 
+		float4 MR_FragCoord : MR_FragCoord, CustomData customData : Gfx_CustomData0)
+	{
+		float4 sample_29 = MR_Sample(Texture, Gfx_UV);
+		float2 ScreenPosition_15 = ScreenPosition(MR_FragCoord);
+		float2 PixelToFramebufferUV_22 = PixelToFramebufferUV(ScreenPosition_15);
+		float3 pixelize_30 = pixelize(SSR_FramebufferOpaque, PixelToFramebufferUV_22, customData.myscreenSize, customData.mypixelBlock, customData.mycolorPalette);
+		float3 truncate_23 = float3(float4(0.612, 0.725, 0.086, 1).xyz);
+		float3 sub_31 = pixelize_30 - truncate_23;
+		float length_35 = length(sub_31);
+		float3 truncate_26 = float3(float4(0.549, 0.667, 0.078, 1).xyz);
+		float3 sub_34 = pixelize_30 - truncate_26;
+		float length_38 = length(sub_34);
+		float min_39 = min(length_35, length_38);
+		float3 truncate_24 = float3(float4(0.188, 0.392, 0.188, 1).xyz);
+		float3 sub_32 = pixelize_30 - truncate_24;
+		float length_36 = length(sub_32);
+		float min_40 = min(min_39, length_36);
+		float3 truncate_25 = float3(float4(0.063, 0.247, 0.063, 1).xyz);
+		float3 sub_33 = pixelize_30 - truncate_25;
+		float length_37 = length(sub_33);
+		float min_41 = min(min_40, length_37);
+		float signEqual_43 = signEqual(min_41, length_35);
+		float4 smear_47 = float4(signEqual_43, signEqual_43, signEqual_43, signEqual_43);
+		float4 mul_51 = smear_47 * float4(0.612, 0.725, 0.086, 1);
+		float signEqual_42 = signEqual(min_41, length_38);
+		float4 smear_46 = float4(signEqual_42, signEqual_42, signEqual_42, signEqual_42);
+		float4 mul_50 = smear_46 * float4(0.549, 0.667, 0.078, 1);
+		float4 add_54 = mul_51 + mul_50;
+		float signEqual_44 = signEqual(min_41, length_36);
+		float4 smear_48 = float4(signEqual_44, signEqual_44, signEqual_44, signEqual_44);
+		float4 mul_52 = smear_48 * float4(0.188, 0.392, 0.188, 1);
+		float4 add_55 = add_54 + mul_52;
+		float signEqual_45 = signEqual(min_41, length_37);
+		float4 smear_49 = float4(signEqual_45, signEqual_45, signEqual_45, signEqual_45);
+		float4 mul_53 = smear_49 * float4(0.063, 0.247, 0.063, 1);
+		float4 add_56 = add_55 + mul_53;
+		float4 GetBlitEffectColor_57 = GetBlitEffectColor(sample_29, add_56);
+		float4 finalColor = vec4(0);
+		finalColor = BlendColor(GetBlitEffectColor_57, float(0));
+		colorOut = finalColor;
+	}
+}

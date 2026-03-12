@@ -1,0 +1,34 @@
+<shaderType = "Vertex">
+import "shaders/modules/graphics/environment.h"
+vertex
+{
+	struct CustomData {
+		float myIntensityX <default = 0, label = "Intensity X", pinId = 105>;
+		float myIntensityY <default = 0, label = "Intensity Y", pinId = 106>;
+		float myIntensityZ <default = 0, label = "Intensity Z", pinId = 107>;
+		float mySpeed <default = 5, label = "Speed", pinId = 102>;
+		float myFrequency <default = 15, label = "Frequency", pinId = 103>;
+	};
+	void ModelSpaceModifier(inout float3 Gfx_ModelSpacePos : Gfx_ModelSpacePos, 
+		CustomData customData : Gfx_CustomData0)
+	{
+		float3 smear_9 = float3(customData.myFrequency, customData.myFrequency, customData.myFrequency);
+		float3 mul_10 = Gfx_ModelSpacePos * smear_9;
+		float mul_8 = Gfx_Environment.time * customData.mySpeed;
+		float mul_11 = mul_8 * float(0.9);
+		float add_13 = mul_10.y + mul_11;
+		float sin_15 = sin(add_13);
+		float add_14 = mul_8 + mul_10.x;
+		float sin_16 = sin(add_14);
+		float3 combine_17 = float3(sin_15, sin_16, sin_15);
+		float3 combine_7 = float3(customData.myIntensityX, customData.myIntensityY, customData.myIntensityZ);
+		float3 mul_18 = combine_17 * combine_7;
+		float3 add_19 = mul_18 + Gfx_ModelSpacePos;
+		Gfx_ModelSpacePos = add_19;
+	}
+	main(CustomData customData : Gfx_CustomData0, 
+		inout float3 Gfx_ModelSpacePos : Gfx_ModelSpacePos <modifier = "ModelSpaceModifier">)
+	{
+		// dummy comment so the shader writer does save this out
+	}
+}

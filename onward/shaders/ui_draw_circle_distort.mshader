@@ -1,0 +1,59 @@
+<shaderType = "UI", >
+import "shaders/modules/graphics/drawer/drawer.h"
+blend {
+	writeMask = rgba,
+	src = 1,
+	src.a = 0,
+}
+pixel
+{
+	MR_Sampler2D Sampler_30 : MR_Texture0 {
+		texture = "onward/baked/textures/UI/ui_noise.dds",
+	};
+	struct CustomData {
+		float3 myColor <default = 0 0 0, label = "Color", pinId = 118>;
+		float myNoiseRotation <default = 0, label = "Noise Rotation", pinId = 117>;
+		float myInnerOffset <default = 0.3, label = "Inner Offset", pinId = 119>;
+		float mySoftness <default = 1, label = "Softness", pinId = 120>;
+		float myOpacity <default = 1, label = "Opacity", pinId = 121>;
+	};
+	float circle_dist(float2 UVs)
+	{
+		return distance(UVs, float2(.5,.5));
+	}
+	main(out float4 colorOut : MR_Color0, CustomData customData : Gfx_CustomData0, 
+		float2 Gfx_UV : Gfx_UV0)
+	{
+		float sub_48 = float(0.5) - customData.mySoftness;
+		float2 mul_42 = Gfx_UV * float2(5, 5);
+		float2 sub_43 = mul_42 - float2(0.5, 0.5);
+		float mul_47 = customData.myNoiseRotation * float(5);
+		float sinAngle_49 = sin(mul_47);
+		float cosAngle_49 = cos(mul_47);
+		float2x2 rotMat_49 = { cosAngle_49, -sinAngle_49, sinAngle_49, cosAngle_49 };
+		float2 rot2d_49 = MR_Transform(rotMat_49, sub_43);
+		float2 add_50 = rot2d_49 + float2(0.5, 0.5);
+		float4 sample_51 = MR_Sample(Sampler_30, add_50);
+		float4 saturate_52 = saturate(sample_51);
+		float3 truncate_53 = float3(saturate_52.xyz);
+		float clamp_55 = clamp(truncate_53.x, float(0.99), float(1));
+		float clamp_56 = clamp(truncate_53.y, float(0), float(1));
+		float mul_57 = clamp_55 * clamp_56;
+		float saturate_58 = saturate(mul_57);
+		float mul_59 = saturate_58 * float(0.1);
+		float circle_dist_26 = circle_dist(Gfx_UV);
+		float add_60 = mul_59 + circle_dist_26;
+		float smoothStep_61 = smoothstep(sub_48, float(0.5), add_60);
+		float sub_63 = float(1) - smoothStep_61;
+		float add_46 = customData.myInnerOffset + customData.mySoftness;
+		float smoothStep_62 = smoothstep(customData.myInnerOffset, add_46, add_60);
+		float sub_64 = float(1) - smoothStep_62;
+		float sub_65 = sub_63 - sub_64;
+		float saturate_66 = saturate(sub_65);
+		float mul_67 = saturate_66 * customData.myOpacity;
+		float4 combine_68 = float4(customData.myColor.x, customData.myColor.y, customData.myColor.z, mul_67);
+		float4 finalColor = vec4(0);
+		finalColor = BlendColor(combine_68, float(0));
+		colorOut = finalColor;
+	}
+}

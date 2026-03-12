@@ -1,0 +1,88 @@
+<quarterSize = true, shaderType = "Particle", sixPoint = true, >
+import "shaders/nodes/shader/particles/sample texture atlas.h"
+import "shaders/nodes/shader/functions/ow particle intensity multiplier.h"
+import "shaders/nodes/shader/particles/six point light.h"
+import "shaders/nodes/shader/particles/soft.h"
+blend {
+	src = 1,
+}
+pixel
+{
+	MR_Sampler2D Positive : MR_Texture0 <pinId = 101>;
+	MR_Sampler2D Negative : MR_Texture1 <pinId = 102>;
+	MR_Sampler2D Emission : MR_Texture2 <pinId = 107>;
+	MR_Sampler2D Gradient : MR_Texture3 {
+		wrap = clamp,
+	} <pinId = 112>;
+	struct CustomData {
+		float myContrast <config = { min = 0, }, default = 1, label = "Contrast", pinId = 103>;
+		float myBacklightStrength <config = { min = 0, }, default = 1, label = "Backlight Strength", pinId = 104>;
+		float myGamma <default = 1, label = "Gamma", pinId = 105>;
+		float myTextureScale <default = 0.5, label = "Texture Scale", pinId = 106>;
+		float myEmissionGamma <default = 1, label = "Emission Gamma", pinId = 108>;
+		float myCombineAlpha <default = 0, label = "Combine Alpha", pinId = 109>;
+		float mySphericalShadingScale <config = { max = 10, min = 1, }, default = 1, label = "Spherical Shading Scale", pinId = 110>;
+		float myReceiveShadows <config = { type = "CheckBox", }, default = 1, label = "Receive Shadows", pinId = 111>;
+	};
+	struct CustomInterpolators {
+		float2 myUV1 <default = 0.5 0.5, label = "UV 1", pinId = 203>;
+		float2 myUV2 <default = 0.5 0.5, label = "UV 2", pinId = 204>;
+		float myAlpha1 <default = 1, label = "Alpha 1", pinId = 201>;
+		float myAlpha2 <default = 0, label = "Alpha 2", pinId = 202>;
+		float3 myEmissionColor <default = 1 1 1, label = "Emission Color", pinId = 206>;
+		float myEmissionIntensity <default = 10, label = "Emission Intensity", pinId = 207>;
+		float2 myEmissionUV1 <default = 0.5 0.5, label = "Emission UV 1", pinId = 208>;
+		float2 myEmissionUV2 <default = 0.5 0.5, label = "Emission UV 2", pinId = 209>;
+		float myEmissionAlpha1 <default = 1, label = "Emission Alpha 1", pinId = 210>;
+		float myEmissionAlpha2 <default = 0, label = "Emission Alpha 2", pinId = 211>;
+		float myGradientV <default = 0.5, label = "Gradient V", pinId = 212>;
+	};
+	void ScaleTextures(inout float4 a, inout float4 b, float scale)
+	{
+		a.xyz *= scale;
+		b.xyz *= scale;
+	}
+	bool FloatToBool(float x)
+	{
+		return x > 0;
+	}
+	main(out float4 colorOut : MR_Color0, 
+		CustomInterpolators customInterpolators : Gfx_CustomInterpolators0, 
+		CustomData customData : Gfx_CustomData0, 
+		float4 Particle_Color : Particle_Color0, 
+		float2 Particle_InstanceUV : Particle_InstanceUV0, 
+		float3 Particle_Position : Particle_Position0, 
+		float4 Particle_ShaderParams : Particle_ShaderParams0, 
+		float4 MR_FragCoord : MR_FragCoord)
+	{
+		float4 result86 = vec4(0);
+		float4 SampleTextureAtlas_70 = SampleTextureAtlas(Positive, customInterpolators.myUV1, customInterpolators.myUV2, customInterpolators.myAlpha1, customInterpolators.myAlpha2, true);
+		float4 SampleTextureAtlas_71 = SampleTextureAtlas(Negative, customInterpolators.myUV1, customInterpolators.myUV2, customInterpolators.myAlpha1, customInterpolators.myAlpha2, true);
+		float4 a_73 = SampleTextureAtlas_70;
+		float4 b_73 = SampleTextureAtlas_71;
+		ScaleTextures(a_73, b_73, customData.myTextureScale);
+		float saturate_57 = saturate(Particle_Color.w);
+		float4 combine_59 = float4(Particle_Color.x, Particle_Color.y, Particle_Color.z, saturate_57);
+		bool FloatToBool_68 = FloatToBool(customData.myReceiveShadows);
+		float lerp_61 = lerp(float(0.5), float(1), combine_59.w);
+		float mul_81 = customData.myContrast * lerp_61;
+		float4 SampleTextureAtlas_75 = SampleTextureAtlas(Emission, customInterpolators.myEmissionUV1, customInterpolators.myEmissionUV2, customInterpolators.myEmissionAlpha1, customInterpolators.myEmissionAlpha2, true);
+		float2 combine_79 = float2(SampleTextureAtlas_75.x, customInterpolators.myGradientV);
+		float4 sample_80 = MR_Sample(Gradient, combine_79);
+		float4 smear_67 = float4(customData.myEmissionGamma, customData.myEmissionGamma, customData.myEmissionGamma, customData.myEmissionGamma);
+		float4 pow_82 = pow(sample_80, smear_67);
+		float3 smear_72 = float3(customInterpolators.myEmissionIntensity, customInterpolators.myEmissionIntensity, customInterpolators.myEmissionIntensity);
+		float3 mul_74 = smear_72 * customInterpolators.myEmissionColor;
+		float4 combine_78 = float4(mul_74.x, mul_74.y, mul_74.z, float(1));
+		float4 mul_83 = pow_82 * combine_78;
+		float4 OWParticleIntensityMultiplier_84 = OWParticleIntensityMultiplier(mul_83);
+		float4 aLightOut_85;
+		SixPointLight(aLightOut_85, a_73, b_73, combine_59, FloatToBool_68, true, customInterpolators.myUV1, mul_81, customData.myBacklightStrength, customData.myGamma, true, OWParticleIntensityMultiplier_84, customData.myCombineAlpha, customData.mySphericalShadingScale, Particle_InstanceUV, Particle_Position, Particle_ShaderParams, MR_FragCoord);
+		result86 += float4(aLightOut_85.xyz, 1) * aLightOut_85.w;
+		float4 colorOut_58;
+		float alphaOut_58;
+		SoftParticle(float4(0, 0, 0, 0), Particle_ShaderParams, MR_FragCoord, colorOut_58, alphaOut_58);
+		result86 *= alphaOut_58;
+		colorOut = result86;
+	}
+}

@@ -1,0 +1,47 @@
+<shaderType = "Particle", >
+import "shaders/nodes/shader/functions/unpack normal.h"
+blend {
+	src = 1,
+}
+pixel
+{
+	MR_Sampler2D Force_Normal : MR_Texture0 <pinId = 103>;
+	main(out float4 colorOut : MR_Color0, float3 Particle_Tangent : Particle_Tangent0, 
+		float3 Particle_Normal : Particle_Normal0, 
+		float2 Particle_InstanceUV : Particle_InstanceUV0, 
+		float Particle_Float_ : Particle_Float_0, 
+		float4 Particle_ClipPosition : Particle_ClipPosition0)
+	{
+		float4 result78 = vec4(0);
+		float3 normalize_30 = normalize(Particle_Tangent);
+		float4 combine_50 = float4(normalize_30.x, normalize_30.y, normalize_30.z, float(0));
+		float3 normalize_29 = normalize(Particle_Normal);
+		float3 cross_46 = cross(normalize_29, normalize_30);
+		float4 combine_55 = float4(cross_46.x, cross_46.y, cross_46.z, float(0));
+		float4 combine_49 = float4(normalize_29.x, normalize_29.y, normalize_29.z, float(0));
+		float4x4 matrix_57 = MR_ColumnMatrix(combine_50, combine_55, combine_49, float4(0, 0, 0, 0));
+		float4 sample_66 = MR_Sample(Force_Normal, Particle_InstanceUV);
+		float3 normal_67;
+		float ambientOcclusion_67;
+		UnpackNormalAndAO(sample_66, normal_67, ambientOcclusion_67);
+		float4 combine_69 = float4(normal_67.x, normal_67.y, float(0), float(0));
+		float4 transform_71 = MR_Transform(matrix_57, combine_69);
+		float smoothStep_70 = smoothstep(float(1), float(0.99), normal_67.z);
+		float mul_72 = Particle_Float_ * smoothStep_70;
+		float4 combine_73 = float4(mul_72, mul_72, mul_72, mul_72);
+		float4 mul_74 = transform_71 * combine_73;
+		float3 combine_51 = float3(Particle_ClipPosition.x, Particle_ClipPosition.y, Particle_ClipPosition.z);
+		float max_52 = max(Particle_ClipPosition.w, float(0.0001));
+		float3 smear_54 = float3(max_52, max_52, max_52);
+		float3 div_56 = combine_51 / smear_54;
+		float3 smoothStep_58 = smoothstep(float3(-1, -1, -1), float3(-0.9, -0.9, -0.9), div_56);
+		float3 smoothStep_59 = smoothstep(float3(1, 1, 1), float3(0.9, 0.9, 0.9), div_56);
+		float3 mul_60 = smoothStep_58 * smoothStep_59;
+		float mul_62 = mul_60.x * mul_60.y;
+		float4 smear_63 = float4(mul_62, mul_62, mul_62, mul_62);
+		float4 mul_75 = mul_74 * smear_63;
+		float4 combine_77 = float4(mul_75.x, mul_75.y, mul_75.z, float(1));
+		result78 += float4(combine_77.xyz, 1) * combine_77.w;
+		colorOut = result78;
+	}
+}

@@ -1,0 +1,75 @@
+<shaderType = "Particle", >
+import "shaders/modules/graphics/environment.h"
+import "shaders/nodes/shader/functions/ow particle intensity multiplier.h"
+import "shaders/nodes/shader/particles/soft.h"
+blend {
+	src = 1,
+	dest = 1,
+}
+pixel
+{
+	MR_Sampler2D Texture : MR_Texture0 <pinId = 101>;
+	MR_Sampler2D Texture2 : MR_Texture1 <label = "Texture 2", pinId = 138>;
+	struct CustomData {
+		float myIntensity <default = 1, label = "Intensity", pinId = 118>;
+		float2 myTextureScale <default = 0 0, label = "Texture Scale", pinId = 133>;
+	};
+	void textureAtlas(float2 Size, float Selector, float2 InstanceUV, out float2 NewUV1, 
+		out float2 NewUV2, out float Blend1, out float Blend2)
+	{
+		float width = Size.x;
+		 float height = Size.y;
+		 float area = width * height;
+		 float sel = frac(Selector);
+		 float findex = area * sel;
+		 float index1 = floor(findex);
+		 float index2 = index1 + 1;
+		 float row1 = floor(index1 / width);
+		 float row2 = floor(index2 / width);
+		 float col1 = index1 - row1 * width;
+		 float col2 = index2 - row2 * width;
+		 float2 gridPos1 = float2(col1, row1);
+		 float2 gridPos2 = float2(col2, row2);
+		 NewUV1 = (gridPos1 + InstanceUV) / Size;
+		 NewUV2 = (gridPos2 + InstanceUV) / Size;
+		 Blend2 = findex - index1;
+		 Blend1 = 1.0 - Blend2;
+	}
+	main(out float4 colorOut : MR_Color0, CustomData customData : Gfx_CustomData0, 
+		float2 Particle_InstanceUV : Particle_InstanceUV0, 
+		float4 Particle_ShaderParams : Particle_ShaderParams0, 
+		float4 MR_FragCoord : MR_FragCoord)
+	{
+		float4 result61 = vec4(0);
+		float mul_42 = float(1) * customData.myIntensity;
+		float3 combine_43 = float3(mul_42, mul_42, mul_42);
+		float mul_34 = float(0) * Gfx_Environment.time;
+		float2 combine_36 = float2(mul_34, float(0));
+		float2 add_37 = Particle_InstanceUV + combine_36;
+		float2 mul_44 = add_37 * customData.myTextureScale;
+		float4 sample_47 = MR_Sample(Texture, mul_44);
+		float3 combine_53 = float3(sample_47.x, sample_47.y, sample_47.z);
+		float2 NewUV1_33;
+		float2 NewUV2_33;
+		float Blend1_33;
+		float Blend2_33;
+		textureAtlas(float2(1, 1), float(0), Particle_InstanceUV, NewUV1_33, NewUV2_33, Blend1_33, Blend2_33);
+		float2 add_38 = NewUV1_33 + combine_36;
+		float2 mul_45 = add_38 * customData.myTextureScale;
+		float4 sample_48 = MR_Sample(Texture, mul_45);
+		float3 combine_54 = float3(sample_48.x, sample_48.y, sample_48.z);
+		float3 mul_56 = combine_53 * combine_54;
+		float3 mul_57 = combine_43 * mul_56;
+		float4 sample_49 = MR_Sample(Texture2, frac(mul_44));
+		float3 combine_55 = float3(sample_49.x, sample_49.y, sample_49.z);
+		float3 mul_58 = mul_57 * combine_55;
+		float4 truncate_59 = float4(mul_58.xyz, 1);
+		float4 OWParticleIntensityMultiplier_60 = OWParticleIntensityMultiplier(truncate_59);
+		result61 += float4(OWParticleIntensityMultiplier_60.xyz * OWParticleIntensityMultiplier_60.w, 0);
+		float4 colorOut_35;
+		float alphaOut_35;
+		SoftParticle(float4(0, 0, 0, 0), Particle_ShaderParams, MR_FragCoord, colorOut_35, alphaOut_35);
+		result61 *= alphaOut_35;
+		colorOut = result61;
+	}
+}

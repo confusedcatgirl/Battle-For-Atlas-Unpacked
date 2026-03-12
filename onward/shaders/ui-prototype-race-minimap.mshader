@@ -1,0 +1,149 @@
+<shaderType = "UI", >
+import "shaders/modules/graphics/drawer/drawer.h"
+blend {
+	writeMask = rgba,
+	src = 1,
+	src.a = 0,
+}
+pixel
+{
+	MR_Sampler2D DistanceField : MR_Texture0 <pinId = 101>;
+	MR_Sampler2D Pilot_Texture : MR_Texture1 {
+		wrap = border,
+	} <pinId = 102>;
+	MR_Sampler2D AI_Texture : MR_Texture2 {
+		wrap = border,
+	} <pinId = 133>;
+	MR_Sampler2D Flag_Texture : MR_Texture3 {
+		wrap = border,
+	} <pinId = 103>;
+	struct CustomData {
+		float mydistScale <default = 0, label = "distScale", pinId = 112>;
+		float mymapScaler <default = 0, label = "mapScaler", pinId = 124>;
+		float4 myoutlineColor <default = 0 0 0 0, label = "outlineColor", pinId = 109>;
+		float4 myshadowColor <default = 0 0 0 0, label = "shadowColor", pinId = 121>;
+		float mywidth <default = 0, label = "width", pinId = 113>;
+		float myoutline <default = 0, label = "outline", pinId = 114>;
+		float mysmooth <default = 0, label = "smooth", pinId = 117>;
+		float2 myshadowOffset <default = 0 0, label = "shadowOffset", pinId = 119>;
+		float myshadowBlur <default = 0, label = "shadowBlur", pinId = 120>;
+		float2 mytrackAspect <default = 1373 2571, label = "trackAspect", pinId = 115>;
+		float myPilot0_IconSize <default = 0.01, label = "Pilot0_IconSize", pinId = 122>;
+		float myPilot1_IconSize <default = 0.01, label = "Pilot1_IconSize", pinId = 125>;
+		float myFlag_Size <default = 0, label = "Flag_Size", pinId = 136>;
+		float myAI_IconSize <default = -0.09, label = "AI_IconSize", pinId = 126>;
+		float2 myPilot0 <default = 0 0, label = "Pilot0", pinId = 123>;
+		float2 myPilot1 <default = 0 0, label = "Pilot1", pinId = 127>;
+		float2 myAI0 <default = 0 0, label = "AI0", pinId = 134>;
+		float2 myAI1 <default = 0 0, label = "AI1", pinId = 135>;
+		float2 myStartFlag <default = 0 0, label = "StartFlag", pinId = 128>;
+		float4 myPilot0_Shade <default = 1 1 0.5 1, label = "Pilot0_Shade", pinId = 130>;
+		float4 myPilot1_Shade <default = 1 0 0 0.75, label = "Pilot1_Shade", pinId = 131>;
+		float4 myAI0_Shade <default = 1 0 0.5 0.75, label = "AI0_Shade", pinId = 132>;
+		float4 myAI1_Shade <default = 0 0 0 0, label = "AI1_Shade", pinId = 139>;
+		float4 myFlag_Shade <default = 0 0 0 0, label = "Flag_Shade", pinId = 138>;
+		float2 myFlagUP <default = 0 0, label = "FlagUP", pinId = 137>;
+		float4 myrotUP <default = 0 1 0 0, label = "rotUP", pinId = 140>;
+	};
+	float2 uvTransform(float2 UV, float4 up)
+	{
+		float2 C0 = float2( up.y, up.x);
+		 float2 C1 = float2(-up.x, up.y);
+		 float2 R  = float2( dot(UV,C0), dot(UV,C1) )+up.zw;
+		 return R;
+	}
+	float4 trackRender(float4 mainTexture, MR_Sampler2D trackSampler, float2 UI_uv, float4 trackColor, 
+		float4 outlineColor, float4 shadowColor, float distScale, float width, 
+		float outline, float smooth, float2 shadowOffset, float shadowBlur, float4 BG)
+	{
+		float4 trackMap  = MR_Sample( trackSampler, UI_uv );
+		 float4 shadowMap = MR_Sample( trackSampler, UI_uv -  shadowOffset / distScale );
+		 float4 result;
+
+		 float  WS    = width / distScale;
+		 float  LS    = ( shadowMap.z - WS )  * distScale / (1.0 + shadowBlur );
+		       result = lerp( shadowColor, BG, saturate( LS ) );
+
+		 float  WW    = width / distScale;
+		 float  LW    = ( trackMap.z - WW )  * distScale;
+		       result = lerp( trackColor, result, saturate( LW ) );
+
+		 float  WO    = (outline -  smooth/2) / distScale;
+		 float  LO    = (abs( trackMap.z - WW ) - WO )  * distScale / (1.0 + smooth );
+		       result = lerp( outlineColor, result, saturate( LO ) );
+
+		 return result;
+	}
+	float2 trackSnap(MR_Sampler2D trackSampler, float2 Pos, float mapScaler)
+	{
+		float2 trackMap  = MR_Sample( trackSampler, Pos ).xy-0.5.xx;
+		 return Pos + trackMap * float2( 1.0f,1.0f) * mapScaler;
+	}
+	float2 Place(float2 ui_uv, float2 item_size, float2 item_pos)
+	{
+		return ( ui_uv - item_pos ) / item_size+ 0.5.xx;
+	}
+	float4 Over(float4 bg, float4 fg)
+	{
+		return float4( 
+		             fg.rgb * fg.a + ( bg.rgb * ( 1.0 - fg.a ) ),
+		             saturate(fg.a   +  bg.a));
+	}
+	float2 PlaceAndRotate(float2 ui_uv, float2 item_size, float2 item_pos, float2 vectorUp)
+	{
+		float3x3 RT = float3x3(
+		                   float3( vectorUp.y,-vectorUp.x, 0.0f ),
+		                   float3( vectorUp.x, vectorUp.y, 0.0f ),
+		                   float3( 0.0f, 0.0f, 1.0f ) );
+
+		 float3 ui = float3( ( ui_uv - item_pos ) / item_size, 0.0f );
+
+		 return MR_Transform( RT, ui ).xy + 0.5.xx;
+	}
+	main(out float4 colorOut : MR_Color0, int UI_RenderType : UI_RenderType1, 
+		float2 Gfx_UV : Gfx_UV0, CustomData customData : Gfx_CustomData0, 
+		float4 Gfx_Color : Gfx_Color0)
+	{
+		float2 uvTransform_81 = uvTransform(Gfx_UV, customData.myrotUP);
+		float2 mul_87 = uvTransform_81 * customData.mytrackAspect;
+		float4 sample_93 = GetColorInfo(DistanceField, mul_87, In.UI_RenderType);
+		float4 trackRender_99 = trackRender(sample_93, DistanceField, mul_87, Gfx_Color, customData.myoutlineColor, customData.myshadowColor, customData.mydistScale, customData.mywidth, customData.myoutline, customData.mysmooth, customData.myshadowOffset, customData.myshadowBlur, float4(0, 0, 0, 0));
+		float2 combine_79 = float2(customData.myAI_IconSize, customData.myAI_IconSize);
+		float2 trackSnap_69 = trackSnap(DistanceField, customData.myAI0, customData.mymapScaler);
+		float2 div_74 = trackSnap_69 / customData.mytrackAspect;
+		float2 Place_84 = Place(uvTransform_81, combine_79, div_74);
+		float4 sample_90 = MR_Sample(AI_Texture, Place_84);
+		float4 mul_96 = sample_90 * customData.myAI0_Shade;
+		float4 Over_100 = Over(trackRender_99, mul_96);
+		float2 combine_80 = float2(customData.myAI_IconSize, customData.myAI_IconSize);
+		float2 trackSnap_70 = trackSnap(DistanceField, customData.myAI1, customData.mymapScaler);
+		float2 div_75 = trackSnap_70 / customData.mytrackAspect;
+		float2 Place_85 = Place(uvTransform_81, combine_80, div_75);
+		float4 sample_91 = MR_Sample(AI_Texture, Place_85);
+		float4 mul_97 = sample_91 * customData.myAI1_Shade;
+		float4 Over_101 = Over(Over_100, mul_97);
+		float2 combine_77 = float2(customData.myPilot1_IconSize, customData.myPilot1_IconSize);
+		float2 trackSnap_68 = trackSnap(DistanceField, customData.myPilot1, customData.mymapScaler);
+		float2 div_73 = trackSnap_68 / customData.mytrackAspect;
+		float2 Place_83 = Place(uvTransform_81, combine_77, div_73);
+		float4 sample_89 = MR_Sample(AI_Texture, Place_83);
+		float4 mul_95 = sample_89 * customData.myPilot1_Shade;
+		float4 Over_102 = Over(Over_101, mul_95);
+		float2 combine_78 = float2(customData.myFlag_Size, customData.myFlag_Size);
+		float2 div_72 = customData.myStartFlag / customData.mytrackAspect;
+		float2 PlaceAndRotate_86 = PlaceAndRotate(uvTransform_81, combine_78, div_72, customData.myFlagUP);
+		float4 sample_92 = MR_Sample(Flag_Texture, PlaceAndRotate_86);
+		float4 mul_98 = sample_92 * customData.myFlag_Shade;
+		float4 Over_103 = Over(Over_102, mul_98);
+		float2 combine_76 = float2(customData.myPilot0_IconSize, customData.myPilot0_IconSize);
+		float2 trackSnap_67 = trackSnap(DistanceField, customData.myPilot0, customData.mymapScaler);
+		float2 div_71 = trackSnap_67 / customData.mytrackAspect;
+		float2 Place_82 = Place(uvTransform_81, combine_76, div_71);
+		float4 sample_88 = MR_Sample(Pilot_Texture, Place_82);
+		float4 mul_94 = sample_88 * customData.myPilot0_Shade;
+		float4 Over_104 = Over(Over_103, mul_94);
+		float4 finalColor = vec4(0);
+		finalColor = BlendColor(Over_104, float(0));
+		colorOut = finalColor;
+	}
+}

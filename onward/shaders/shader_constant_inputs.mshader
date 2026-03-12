@@ -1,0 +1,30 @@
+<shaderType = "Object", keywords = { "LIGHT_FROM_GROUND", "IS_MAIN_PLANET", }, >
+import "shaders/nodes/shader/functions/ow emissive intensity multiplier.h"
+import "shaders/nodes/shader/functions/onward/lighting/ow_getgroundfog.h"
+import "shaders/nodes/shader/functions/onward/lighting/ow_applyfogextinction.h"
+blend {
+	src = 1,
+	dest = 1,
+}
+pixel
+{
+	struct CustomData {
+		float3 myColor <config = { type = "ColorBox", }, default = 1 1 1, label = "Color", pinId = 101>;
+		float myEmissiveMultiplier <default = 1, label = "Emissive Multiplier", pinId = 103>;
+	};
+	main(out float4 colorOut : MR_Color0, CustomData customData : Gfx_CustomData0, 
+		float3 Gfx_WorldSpacePos : Gfx_WorldSpacePos0, 
+		float4 MR_FragCoord : MR_FragCoord)
+	{
+		float3 smear_34 = float3(customData.myEmissiveMultiplier, customData.myEmissiveMultiplier, customData.myEmissiveMultiplier);
+		float3 mul_35 = customData.myColor * smear_34;
+		float4 truncate_36 = float4(mul_35.xyz, 1);
+		float4 OWEmissiveIntensityMultiplier_38 = OWEmissiveIntensityMultiplier(truncate_36);
+		float3 truncate_40 = float3(OWEmissiveIntensityMultiplier_38.xyz);
+		float4 OW_GetGroundFog_29 = OW_GetGroundFog(Gfx_WorldSpacePos, MR_FragCoord);
+		float3 aColor_42 = truncate_40;
+		OW_ApplyFogExtinction(aColor_42, OW_GetGroundFog_29);
+		float4 result_44 = float4(aColor_42, 1);
+		colorOut = result_44;
+	}
+}

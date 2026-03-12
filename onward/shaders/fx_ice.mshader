@@ -1,0 +1,92 @@
+<emission = true, shaderType = "Object", >
+import "shaders/nodes/shader/functions/unpack normal.h"
+import "shaders/nodes/shader/functions/framebuffer color early, offset.h"
+import "shaders/nodes/shader/functions/parallax mapping.h"
+import "shaders/nodes/shader/functions/onward/lighting/ow_fullgroundbaselighting.h"
+import "shaders/MRender/MR_ViewConstants.h"
+import "shaders/nodes/shader/functions/fresnel-schlick.h"
+import "shaders/nodes/shader/functions/lighting/ssao.h"
+import "shaders/nodes/shader/functions/depthbuffer, offset.h"
+pixel
+{
+	MR_Sampler2D normal_inner : MR_Texture0 {
+		texture = "onward/baked/textures/default_n.dds",
+	} <pinId = 101>;
+	MR_Sampler2D normal_outer : MR_Texture1 {
+		texture = "onward/baked/textures/default_n.dds",
+	} <pinId = 104>;
+	MR_Sampler2D bubble_alpha : MR_Texture2 <pinId = 106>;
+	MR_Sampler2D Sampler_99 : MR_Texture3 {
+		texture = "onward/baked/textures/debug_black.dds",
+	};
+	struct CustomData {
+		float3 myColour <default = 0 0 0, label = "Colour", pinId = 107>;
+		float myEmissive <default = 0, label = "Emissive", pinId = 108>;
+	};
+	main(out float4 colorOut : MR_Color0, CustomData customData : Gfx_CustomData0, 
+		float3x3 Gfx_TangentToWorld : Gfx_TangentToWorld0, float2 Gfx_UV : Gfx_UV0, 
+		float4 MR_FragCoord : MR_FragCoord, 
+		float3 Gfx_WorldSpacePos : Gfx_WorldSpacePos0, 
+		Gfx_LightingDataStruct Gfx_LightingData : Gfx_LightingData0, 
+		float Gfx_AlphaRef : Gfx_AlphaRef0)
+	{
+		float4 sample_147 = MR_Sample(normal_outer, Gfx_UV);
+		float3 normal_148;
+		float ambientOcclusion_148;
+		UnpackNormalAndAO(sample_147, normal_148, ambientOcclusion_148);
+		float3 transform_149 = MR_Transform(Gfx_TangentToWorld, normal_148);
+		float2 combine_155 = float2(transform_149.x, transform_149.y);
+		float2 div_159 = combine_155 / float2(100, 100);
+		float3 GetFramebuffer1ColorOffset_163 = GetFramebuffer1ColorOffset(div_159, MR_FragCoord);
+		float3 mul_166 = customData.myColour * GetFramebuffer1ColorOffset_163;
+		float2 ParallaxMappingWrapper_127 = ParallaxMappingWrapper(Gfx_UV, Sampler_99, float(10), Gfx_TangentToWorld, Gfx_WorldSpacePos);
+		float4 sample_150 = MR_Sample(normal_inner, ParallaxMappingWrapper_127);
+		float3 normal_153;
+		float ambientOcclusion_153;
+		UnpackNormalAndAO(sample_150, normal_153, ambientOcclusion_153);
+		float3 transform_156 = MR_Transform(Gfx_TangentToWorld, normal_153);
+		float3 aLightOut_161;
+		OW_FullBaseGroundLighting(aLightOut_161, float3(0.04, 0.04, 0.04), transform_156, float(1), float(0.05), float(1), float(1), Gfx_LightingData);
+		float4 transform_126 = MR_Transform(MR_ViewConstants.cameraToWorld, float4(0, 0, 0, 1));
+		float3 truncate_130 = float3(transform_126.xyz);
+		float3 sub_132 = truncate_130 - Gfx_WorldSpacePos;
+		float3 normalize_133 = normalize(sub_132);
+		float3 FresnelSchlick_157 = FresnelSchlick(float3(0, 0, 0), transform_149, normalize_133);
+		float3 lerp_168 = lerp(mul_166, aLightOut_161, FresnelSchlick_157);
+		float visibility_129 = float(1);
+		SSAO_CombineVisibility(visibility_129, MR_FragCoord);
+		float mul_131 = visibility_129 * visibility_129;
+		float3 aLightOut_160;
+		OW_FullBaseGroundLighting(aLightOut_160, customData.myColour, transform_156, float(1), float(0.01), float(0), float(1), Gfx_LightingData);
+		float length_134 = length(sub_132);
+		float GetDepthbuffer_128 = GetDepthbuffer(float2(0, 0), MR_FragCoord);
+		float sub_135 = length_134 - GetDepthbuffer_128;
+		float smoothStep_136 = smoothstep(float(-0.1), float(0), sub_135);
+		float lerp_138 = lerp(float(1), float(0), smoothStep_136);
+		float3 smear_140 = float3(lerp_138, lerp_138, lerp_138);
+		float3 mul_169 = smear_140 * aLightOut_160;
+		float3 add_171 = aLightOut_160 + mul_169;
+		float truncate_172 = float(add_171.x);
+		float mul_173 = mul_131 * truncate_172;
+		float3 smear_174 = float3(mul_173, mul_173, mul_173);
+		float3 mul_175 = smear_174 * float3(0, 0, 0);
+		float smoothStep_137 = smoothstep(float(-0.45), float(0), sub_135);
+		float lerp_139 = lerp(float(0.3), float(0.5), smoothStep_137);
+		float3 smear_141 = float3(lerp_139, lerp_139, lerp_139);
+		float3 mul_176 = mul_175 * smear_141;
+		float dot_158 = dot(transform_149, normalize_133);
+		float smoothStep_162 = smoothstep(float(0.6), float(1), dot_158);
+		float4 sample_151 = MR_Sample(bubble_alpha, ParallaxMappingWrapper_127);
+		float truncate_154 = float(sample_151.x);
+		float mul_164 = smoothStep_162 * truncate_154;
+		float lerp_165 = lerp(mul_164, float(1), smoothStep_137);
+		float mul_167 = lerp_165 * float(0.5);
+		float3 smear_170 = float3(mul_167, mul_167, mul_167);
+		float3 lerp_177 = lerp(lerp_168, mul_176, smear_170);
+		float3 smear_146 = float3(customData.myEmissive, customData.myEmissive, customData.myEmissive);
+		float3 mul_178 = lerp_177 * smear_146;
+		if (float(1) < Gfx_AlphaRef) discard;
+		float4 result_179 = float4(mul_178, float(1));
+		colorOut = result_179;
+	}
+}

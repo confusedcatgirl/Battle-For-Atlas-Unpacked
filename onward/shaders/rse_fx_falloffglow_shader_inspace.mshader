@@ -1,0 +1,43 @@
+<shaderType = "Object", keywords = { "GFX_FORWARD_SHADER", }, >
+import "shaders/MRender/MR_ViewConstants.h"
+blend {
+	dest = 1,
+}
+pixel
+{
+	struct CustomData {
+		float3 myColor <config = { type = "ColorBox", }, default = 1 1 1, label = "Color", pinId = 102>;
+		float myIntensity <default = 15, label = "Intensity", pinId = 103>;
+		float myFlipFresnel <default = 0, label = "Flip Fresnel", pinId = 106>;
+		float myFresenlPower <default = 3, label = "Fresenl Power", pinId = 107>;
+		float myFresnelMin <default = 0, label = "Fresnel Min", pinId = 108>;
+		float myFresnelMax <default = 1, label = "Fresnel Max", pinId = 109>;
+	};
+	main(out float4 colorOut : MR_Color0, CustomData customData : Gfx_CustomData0, 
+		float3 Gfx_WorldSpacePos : Gfx_WorldSpacePos0, 
+		float3 Gfx_WorldSpaceNormal : Gfx_WorldSpaceNormal0, 
+		float Gfx_AlphaRef : Gfx_AlphaRef0)
+	{
+		float3 smear_59 = float3(customData.myIntensity, customData.myIntensity, customData.myIntensity);
+		float3 mul_60 = customData.myColor * smear_59;
+		float abs_50 = abs(float(0));
+		float saturate_52 = saturate(abs_50);
+		float4 transform_49 = MR_Transform(MR_ViewConstants.cameraToWorld, float4(0, 0, 0, 1));
+		float3 truncate_51 = float3(transform_49.xyz);
+		float3 sub_53 = truncate_51 - Gfx_WorldSpacePos;
+		float3 normalize_54 = normalize(sub_53);
+		float3 normalize_43 = normalize(Gfx_WorldSpaceNormal);
+		float dot_55 = dot(normalize_54, normalize_43);
+		float sub_56 = float(1.1) - dot_55;
+		float abs_57 = abs(sub_56);
+		float lerp_61 = lerp(saturate_52, abs_57, customData.myFlipFresnel);
+		float pow_62 = pow(abs(lerp_61), customData.myFresenlPower);
+		float max_63 = max(pow_62, float(0));
+		float remap_64 = customData.myFresnelMin + saturate((max_63 - float(0)) / (float(1) - float(0))) * (customData.myFresnelMax - customData.myFresnelMin);
+		float mul_65 = remap_64 * float(1);
+		float saturate_66 = saturate(mul_65);
+		if (saturate_66 < Gfx_AlphaRef) discard;
+		float4 result_68 = float4(mul_60, saturate_66);
+		colorOut = result_68;
+	}
+}

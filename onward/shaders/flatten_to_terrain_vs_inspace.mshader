@@ -1,0 +1,24 @@
+<shaderType = "Vertex">
+vertex
+{
+	struct CustomData {
+		float mySquishFactor <default = 0.01, label = "Squish Factor", pinId = 101>;
+	};
+	void ModelSpaceModifier(inout float3 Gfx_ModelSpacePos : Gfx_ModelSpacePos, 
+		CustomData customData : Gfx_CustomData0)
+	{
+		float mul_23 = Gfx_ModelSpacePos.y * customData.mySquishFactor;
+		float3 combine_24 = float3(Gfx_ModelSpacePos.x, mul_23, Gfx_ModelSpacePos.z);
+		Gfx_ModelSpacePos = combine_24;
+	}
+	void WorldSpaceModifier(inout float3 Gfx_WorldSpacePos : Gfx_WorldSpacePos)
+	{
+		Gfx_WorldSpacePos = Gfx_WorldSpacePos;
+	}
+	main(CustomData customData : Gfx_CustomData0, 
+		inout float3 Gfx_ModelSpacePos : Gfx_ModelSpacePos <modifier = "ModelSpaceModifier">, 
+		inout float3 Gfx_WorldSpacePos : Gfx_WorldSpacePos <modifier = "WorldSpaceModifier">)
+	{
+		// dummy comment so the shader writer does save this out
+	}
+}

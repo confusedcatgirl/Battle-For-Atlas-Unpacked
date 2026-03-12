@@ -1,0 +1,26 @@
+<shaderType = "Object", keywords = { "GFX_FORWARD_SHADER", }, >
+pixel
+{
+	MR_Sampler2D ColorMap : MR_Texture0 {
+		wrap = clamp,
+	} <label = "Color Map", pinId = 101>;
+	MR_Sampler2D EmissionMap : MR_Texture1 {
+		wrap = clamp,
+	} <label = "Emission Map", pinId = 102>;
+	struct CustomData {
+		float myEmissionIntensity <default = 0, label = "Emission Intensity", pinId = 103>;
+	};
+	main(out float4 colorOut : MR_Color0, float2 Gfx_UV : Gfx_UV0, 
+		CustomData customData : Gfx_CustomData0, float Gfx_AlphaRef : Gfx_AlphaRef0)
+	{
+		float4 sample_47 = MR_Sample(ColorMap, Gfx_UV);
+		float4 sample_48 = MR_Sample(EmissionMap, Gfx_UV);
+		float4 smear_46 = float4(customData.myEmissionIntensity, customData.myEmissionIntensity, customData.myEmissionIntensity, customData.myEmissionIntensity);
+		float4 mul_49 = sample_48 * smear_46;
+		float4 add_50 = sample_47 + mul_49;
+		float3 truncate_52 = float3(add_50.xyz);
+		if (sample_47.w < Gfx_AlphaRef) discard;
+		float4 result_54 = float4(truncate_52, sample_47.w);
+		colorOut = result_54;
+	}
+}

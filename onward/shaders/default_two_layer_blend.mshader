@@ -1,0 +1,72 @@
+<shaderType = "Object", keywords = { "LIGHT_FROM_GROUND", "IS_MAIN_PLANET", "GFX_FORWARD_SHADER", }, >
+import "shaders/nodes/shader/functions/unpack normal.h"
+import "shaders/nodes/shader/functions/onward/lighting/ow_fullgroundbaselighting.h"
+import "shaders/nodes/shader/functions/onward/lighting/ow_groundfog.h"
+pixel
+{
+	MR_Sampler2D BaseColor : MR_Texture0 {
+		texture = "onward/baked/textures/default_b.dds",
+	} <label = "Base Color", pinId = 102>;
+	MR_Sampler2D Normal : MR_Texture1 {
+		texture = "onward/baked/textures/default_n.dds",
+	} <pinId = 103>;
+	MR_Sampler2D Material : MR_Texture2 {
+		texture = "onward/baked/textures/default_m.dds",
+	} <pinId = 104>;
+	MR_Sampler2D BaseColor_Layer2 : MR_Texture3 {
+		texture = "onward/baked/textures/default_b.dds",
+	} <label = "Base Color_Layer 2", pinId = 107>;
+	MR_Sampler2D Normal_Layer2 : MR_Texture4 {
+		texture = "onward/baked/textures/default_n.dds",
+	} <label = "Normal_Layer 2", pinId = 108>;
+	MR_Sampler2D Material_Layer2 : MR_Texture5 {
+		texture = "onward/baked/textures/default_m.dds",
+	} <label = "Material_Layer 2", pinId = 109>;
+	struct CustomData {
+		float myBlendContrast <default = 0, label = "Blend Contrast", pinId = 110>;
+	};
+	main(out float4 colorOut : MR_Color0, float2 Gfx_UV : Gfx_UV0, 
+		float4 Gfx_Color : Gfx_Color0, CustomData customData : Gfx_CustomData0, 
+		float3x3 Gfx_TangentToWorld : Gfx_TangentToWorld0, 
+		Gfx_LightingDataStruct Gfx_LightingData : Gfx_LightingData0, 
+		float3 Gfx_WorldSpacePos : Gfx_WorldSpacePos0, 
+		float4 MR_FragCoord : MR_FragCoord, float Gfx_AlphaRef : Gfx_AlphaRef0)
+	{
+		float4 sample_108 = MR_Sample(BaseColor, Gfx_UV);
+		float4 sample_111 = MR_Sample(BaseColor_Layer2, Gfx_UV);
+		float4 smear_97 = float4(Gfx_Color.x, Gfx_Color.x, Gfx_Color.x, Gfx_Color.x);
+		float4 smear_107 = float4(customData.myBlendContrast, customData.myBlendContrast, customData.myBlendContrast, customData.myBlendContrast);
+		float4 pow_122 = pow(smear_97, smear_107);
+		float4 lerp_125 = lerp(sample_108, sample_111, pow_122);
+		float3 combine_128 = float3(lerp_125.x, lerp_125.y, lerp_125.z);
+		float4 sample_110 = MR_Sample(Normal, Gfx_UV);
+		float3 normal_114;
+		float ambientOcclusion_114;
+		UnpackNormalAndAO(sample_110, normal_114, ambientOcclusion_114);
+		float3 transform_117 = MR_Transform(Gfx_TangentToWorld, normal_114);
+		float4 sample_113 = MR_Sample(Normal_Layer2, Gfx_UV);
+		float3 normal_115;
+		float ambientOcclusion_115;
+		UnpackNormalAndAO(sample_113, normal_115, ambientOcclusion_115);
+		float3 transform_119 = MR_Transform(Gfx_TangentToWorld, normal_115);
+		float3 smear_96 = float3(Gfx_Color.x, Gfx_Color.x, Gfx_Color.x);
+		float3 smear_106 = float3(customData.myBlendContrast, customData.myBlendContrast, customData.myBlendContrast);
+		float3 pow_121 = pow(smear_96, smear_106);
+		float3 lerp_123 = lerp(transform_117, transform_119, pow_121);
+		float4 sample_109 = MR_Sample(Material, Gfx_UV);
+		float4 sample_112 = MR_Sample(Material_Layer2, Gfx_UV);
+		float4 smear_95 = float4(Gfx_Color.x, Gfx_Color.x, Gfx_Color.x, Gfx_Color.x);
+		float4 smear_105 = float4(customData.myBlendContrast, customData.myBlendContrast, customData.myBlendContrast, customData.myBlendContrast);
+		float4 pow_120 = pow(smear_95, smear_105);
+		float4 lerp_124 = lerp(sample_109, sample_112, pow_120);
+		float pow_116 = pow(Gfx_Color.x, customData.myBlendContrast);
+		float lerp_118 = lerp(ambientOcclusion_114, ambientOcclusion_115, pow_116);
+		float3 aLightOut_129;
+		OW_FullBaseGroundLighting(aLightOut_129, combine_128, lerp_123, float(1), lerp_124.y, lerp_124.x, lerp_118, Gfx_LightingData);
+		float3 aColor_131 = aLightOut_129;
+		OW_GroundFog(aColor_131, Gfx_WorldSpacePos, MR_FragCoord);
+		if (lerp_125.w < Gfx_AlphaRef) discard;
+		float4 result_133 = float4(aColor_131, lerp_125.w);
+		colorOut = result_133;
+	}
+}

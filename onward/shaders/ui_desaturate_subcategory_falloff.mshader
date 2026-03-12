@@ -1,0 +1,59 @@
+<shaderType = "UI", >
+import "shaders/modules/graphics/drawer/drawer.h"
+blend {
+	writeMask = rgba,
+	src = 1,
+	src.a = 0,
+}
+pixel
+{
+	MR_Sampler2D Texture : MR_Texture0 <pinId = 101>;
+	struct CustomData {
+		float3 myGreyFactor <default = 0 0 0, label = "Grey Factor", pinId = 102>;
+		float myBottomFalloff <default = 0, label = "Bottom Falloff", pinId = 103>;
+		float myBottomOffset <default = 0, label = "Bottom Offset", pinId = 104>;
+		float myTopFalloff <default = 0, label = "Top Falloff", pinId = 105>;
+		float myTopOffset <default = 0, label = "Top Offset", pinId = 106>;
+	};
+	main(out float4 colorOut : MR_Color0, int UI_RenderType : UI_RenderType1, 
+		float2 Gfx_UV : Gfx_UV0, float4 Gfx_Color : Gfx_Color0, 
+		CustomData customData : Gfx_CustomData0, float2 Gfx_UV2 : Gfx_UV2)
+	{
+		float4 sample_58 = GetColorInfo(Texture, Gfx_UV, In.UI_RenderType);
+		float4 mul_59 = sample_58 * Gfx_Color;
+		float3 combine_70 = float3(mul_59.x, mul_59.y, mul_59.z);
+		float3 combine_54 = float3(float(0.3), float(0.59), float(0.1));
+		float dot_71 = dot(combine_70, combine_54);
+		float3 combine_76 = float3(dot_71, dot_71, dot_71);
+		float3 lerp_79 = lerp(combine_70, combine_76, customData.myGreyFactor);
+		float4 combine_84 = float4(lerp_79.x, lerp_79.y, lerp_79.z, mul_59.w);
+		float4 sample_60 = GetColorInfo(Texture, Gfx_UV, In.UI_RenderType);
+		float4 mul_61 = sample_60 * Gfx_Color;
+		float sub_65 = Gfx_UV2.y - customData.myTopOffset;
+		float gradientVariable73;
+		gradientVariable73 = 0.000000;
+		gradientVariable73 = lerp(gradientVariable73, 1.000000, saturate((sub_65 - 0.000000) / 0.500000));
+		float mul_68 = customData.myTopFalloff * float(50);
+		float sub_69 = float(50) - mul_68;
+		float mul_75 = gradientVariable73 * sub_69;
+		float add_78 = gradientVariable73 + mul_75;
+		float clamp_81 = clamp(add_78, float(0), float(1));
+		float add_64 = Gfx_UV2.y + customData.myBottomOffset;
+		float gradientVariable72;
+		gradientVariable72 = 1.000000;
+		gradientVariable72 = lerp(gradientVariable72, 0.000000, saturate((add_64 - 0.500000) / 0.500000));
+		float mul_66 = customData.myBottomFalloff * float(50);
+		float sub_67 = float(50) - mul_66;
+		float mul_74 = gradientVariable72 * sub_67;
+		float add_77 = gradientVariable72 + mul_74;
+		float clamp_80 = clamp(add_77, float(0), float(1));
+		float mul_83 = clamp_81 * clamp_80;
+		float clamp_85 = clamp(mul_83, float(0), float(1));
+		float mul_87 = clamp_85 * mul_61.w;
+		float4 combine_89 = float4(mul_61.x, mul_61.y, mul_61.z, mul_87);
+		float4 combine_91 = float4(combine_84.xyz.x, combine_84.xyz.y, combine_84.xyz.z, combine_89.w);
+		float4 finalColor = vec4(0);
+		finalColor = BlendColor(combine_91, float(0));
+		colorOut = finalColor;
+	}
+}

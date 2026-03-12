@@ -1,0 +1,45 @@
+<shaderType = "UI", >
+import "shaders/modules/graphics/drawer/drawer.h"
+blend {
+	writeMask = rgba,
+	src = 1,
+	src.a = 0,
+}
+pixel
+{
+	MR_Sampler2D Texture : MR_Texture0 <pinId = 102>;
+	MR_SamplerCube HarvestedMask : MR_Texture1 <label = "Harvested Mask", pinId = 110>;
+	struct CustomData {
+		float3 myPlanetOffset <default = 0 0 0, label = "Planet Offset", pinId = 107>;
+		float3 myForwardExtent <default = 0 0 0, label = "Forward Extent", pinId = 108>;
+		float3 myRightExtent <default = 0 0 0, label = "Right Extent", pinId = 109>;
+		float myFadeRadius <default = 1, label = "Fade Radius", pinId = 105>;
+	};
+	main(out float4 colorOut : MR_Color0, int UI_RenderType : UI_RenderType1, 
+		float2 Gfx_UV : Gfx_UV0, float4 Gfx_Color : Gfx_Color0, 
+		CustomData customData : Gfx_CustomData0, float2 Gfx_UV1 : Gfx_UV1)
+	{
+		float4 sample_53 = GetColorInfo(Texture, Gfx_UV, In.UI_RenderType);
+		float4 mul_54 = sample_53 * Gfx_Color;
+		float4 combine_56 = float4(float(1), float(0), float(0), mul_54.w);
+		float2 remap_45 = float(-1) + saturate((Gfx_UV1 - float(0)) / (float(1) - float(0))) * (float(1) - float(-1));
+		float3 smear_48 = float3(remap_45.x, remap_45.x, remap_45.x);
+		float3 mul_59 = customData.myRightExtent * smear_48;
+		float3 smear_49 = float3(remap_45.y, remap_45.y, remap_45.y);
+		float3 mul_60 = customData.myForwardExtent * smear_49;
+		float3 add_62 = mul_59 + mul_60;
+		float3 add_63 = customData.myPlanetOffset + add_62;
+		float4 sample_64 = MR_Sample(HarvestedMask, add_63);
+		float4 smear_66 = float4(sample_64.w, sample_64.w, sample_64.w, sample_64.w);
+		float4 lerp_67 = lerp(combine_56, mul_54, smear_66);
+		float length_46 = length(remap_45);
+		float sub_57 = customData.myFadeRadius - length_46;
+		float saturate_58 = saturate(sub_57);
+		float4 combine_61 = float4(float(1), float(1), float(1), saturate_58);
+		float4 mul_68 = lerp_67 * combine_61;
+		float4 add_69 = mul_68 + float4(0, 0, 0, 0);
+		float4 finalColor = vec4(0);
+		finalColor = BlendColor(add_69, float(0));
+		colorOut = finalColor;
+	}
+}

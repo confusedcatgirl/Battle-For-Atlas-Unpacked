@@ -1,0 +1,86 @@
+import "shaders/modules/graphics/deferred_data.h"
+import "shaders/modules/graphics/normal_encode.h"
+import "shaders/nodes/shader/functions/screen position.h"
+import "shaders/MRender/MR_ViewConstants.h"
+import "shaders/nodes/shader/functions/unpack normal.h"
+pixel
+{
+	MR_Sampler2D Normal : MR_Texture0 {
+		texture = "onward/baked/textures/default_n.dds",
+	} <pinId = 103>;
+	MR_Sampler2D Sampler_71 : MR_Texture1 {
+		texture = "onward/baked/textures/holograph_m.dds",
+	};
+	struct CustomData {
+		float myCountedTime <config = { max = 1, min = 0, type = "Slider", }, default = 0, label = "CountedTime", pinId = 105>;
+	};
+	main(bool MR_IsFrontFace : MR_IsFrontFace, 
+		out Gfx_DeferredData deferredOut : Gfx_Deferred, 
+		float4 MR_FragCoord : MR_FragCoord, CustomData customData : Gfx_CustomData0, 
+		float3 Gfx_ModelSpacePos : Gfx_ModelSpacePos0, 
+		float3 Gfx_ModelSpaceNormal : Gfx_ModelSpaceNormal0, 
+		float3 Gfx_WorldSpacePos : Gfx_WorldSpacePos0, 
+		float3x3 Gfx_TangentToWorld : Gfx_TangentToWorld0, float2 Gfx_UV : Gfx_UV0, 
+		float Gfx_AlphaRef : Gfx_AlphaRef0)
+	{
+		float2 ScreenPosition_59 = ScreenPosition(MR_FragCoord);
+		float2 mul_70 = ScreenPosition_59 * float2(0.02, 0.02);
+		float4 sample_72 = MR_Sample(Sampler_71, mul_70);
+		float2 combine_128 = float2(float(0), customData.myCountedTime);
+		float2 add_129 = mul_70 + combine_128;
+		float4 sample_130 = MR_Sample(Sampler_71, add_129);
+		float mul_132 = sample_72.x * sample_130.y;
+		float mul_133 = mul_132 * float(0.025);
+		#define Sampler_98 Sampler_71
+		#define MR_GL_FixTC_Sampler_98 MR_GL_FixTC_Sampler_71
+		#define MR_PS3_Sample_Sampler_98 MR_PS3_Sample_Sampler_71
+		#define MR_PS3_SampleLod_Sampler_98 MR_PS3_SampleLod_Sampler_71
+		#define MR_PS3_SampleLod0Cmp_Sampler_98 MR_PS3_SampleLod0Cmp_Sampler_71
+		float3 combine_76 = float3(float(0), float(0), float(0));
+		float3 add_91 = combine_76 + Gfx_ModelSpacePos;
+		float3 mul_93 = add_91 * float3(3, 3, 3);
+		float2 combine_96 = float2(mul_93.x, mul_93.y);
+		float4 sample_100 = MR_Sample(Sampler_98, combine_96);
+		float2 combine_97 = float2(mul_93.x, mul_93.z);
+		float4 sample_101 = MR_Sample(Sampler_98, combine_97);
+		float dot_87 = dot(float3(0, 1, 0), Gfx_ModelSpaceNormal);
+		float abs_88 = abs(dot_87);
+		float smoothStep_89 = smoothstep(float(0.4), float(0.6), abs_88);
+		float4 smear_90 = float4(smoothStep_89, smoothStep_89, smoothStep_89, smoothStep_89);
+		float4 lerp_102 = lerp(sample_100, sample_101, smear_90);
+		float2 combine_95 = float2(mul_93.y, mul_93.z);
+		float4 sample_99 = MR_Sample(Sampler_98, combine_95);
+		float dot_83 = dot(float3(1, 0, 0), Gfx_ModelSpaceNormal);
+		float abs_84 = abs(dot_83);
+		float smoothStep_85 = smoothstep(float(0.4), float(0.6), abs_84);
+		float4 smear_86 = float4(smoothStep_85, smoothStep_85, smoothStep_85, smoothStep_85);
+		float4 lerp_103 = lerp(lerp_102, sample_99, smear_86);
+		float mul_105 = float(0.01) * lerp_103.z;
+		float3 sub_112 = MR_ViewConstants.LODCameraPosition - Gfx_WorldSpacePos;
+		float3 normalize_113 = normalize(sub_112);
+		float4 sample_116 = MR_Sample(Normal, Gfx_UV);
+		float3 normal_117;
+		float ambientOcclusion_117;
+		UnpackNormalAndAO(sample_116, normal_117, ambientOcclusion_117);
+		float3 transform_118 = MR_Transform(Gfx_TangentToWorld, normal_117);
+		float dot_119 = dot(normalize_113, transform_118);
+		float saturate_120 = saturate(dot_119);
+		float sub_121 = float(1) - saturate_120;
+		float pow_122 = pow(sub_121, float(8));
+		float3 smear_123 = float3(pow_122, pow_122, pow_122);
+		float3 lerp_124 = lerp(float3(0, 0, 0), float3(1, 1, 1), smear_123);
+		float truncate_125 = float(lerp_124.x);
+		float add_126 = mul_105 + truncate_125;
+		float add_134 = mul_133 + add_126;
+		float3 smear_135 = float3(add_134, add_134, add_134);
+		deferredOut.color = smear_135;
+		deferredOut.roughness = float(0.01);
+		deferredOut.metalness = add_126;
+		deferredOut.ao = float(1);
+		if (float(1) < Gfx_AlphaRef) discard;
+		float3 flippedNormal = transform_118;
+		if (!MR_IsFrontFace)
+		    flippedNormal = -flippedNormal;
+		deferredOut.worldNormal = MR_TransformNormal(MR_ViewConstants.worldToCamera, flippedNormal);
+	}
+}

@@ -1,0 +1,81 @@
+<keywords = { "LIGHT_FROM_SPACE", "ISNT_MAIN_PLANET", "GFX_DEFERRED_SHADER", }, >
+import "shaders/modules/graphics/deferred_data.h"
+import "shaders/modules/graphics/normal_encode.h"
+import "shaders/nodes/shader/functions/unpack normal.h"
+import "shaders/MRender/MR_ViewConstants.h"
+pixel
+{
+	MR_Sampler2D BaseColor : MR_Texture0 {
+		texture = "onward/baked/textures/default_b.dds",
+	} <label = "Base Color", pinId = 102>;
+	MR_Sampler2D Normal : MR_Texture1 {
+		texture = "onward/baked/textures/default_n.dds",
+	} <pinId = 103>;
+	MR_Sampler2D Material : MR_Texture2 {
+		texture = "onward/baked/textures/default_m.dds",
+	} <pinId = 104>;
+	MR_Sampler2D Detail : MR_Texture3 <pinId = 107>;
+	struct CustomData {
+		float2 myDetailScale <default = 30 30, label = "DetailScale", pinId = 108>;
+		float myStrength <default = 1, label = "Strength", pinId = 109>;
+		float myadjustDistance <default = 1, label = "adjustDistance", pinId = 110>;
+		float myfalloffCurve <default = 2, label = "falloffCurve", pinId = 111>;
+	};
+	float3 GetBump(float height, float adjustDistance, float falloffCurve, float strength, 
+		float2 cameraPos)
+	{
+		float2 cameraDD = float2(ddx_fine(cameraPos.x), ddy_fine(cameraPos.y));
+		 float distanceDD = length(cameraDD);
+		 
+		 float adjustStrength = adjustDistance/distanceDD;
+
+		 adjustStrength = pow(abs(adjustStrength),  falloffCurve);
+
+		 float3 result = float3(-ddx_fine(height), ddy_fine(height), 0) * adjustStrength * 0.001f * strength;
+		 result.z = 1.0f;
+		 return  normalize(result);
+	}
+	main(bool MR_IsFrontFace : MR_IsFrontFace, 
+		out Gfx_DeferredData deferredOut : Gfx_Deferred, float2 Gfx_UV : Gfx_UV0, 
+		float3x3 Gfx_TangentToWorld : Gfx_TangentToWorld0, 
+		float4 Gfx_Color : Gfx_Color0, CustomData customData : Gfx_CustomData0, 
+		float3 Gfx_CameraSpacePos : Gfx_CameraSpacePos0)
+	{
+		float4 sample_93 = MR_Sample(BaseColor, Gfx_UV);
+		float3 combine_101 = float3(sample_93.x, sample_93.y, sample_93.z);
+		deferredOut.color = combine_101;
+		float4 sample_94 = MR_Sample(Material, Gfx_UV);
+		deferredOut.roughness = sample_94.y;
+		deferredOut.metalness = sample_94.x;
+		float4 sample_92 = MR_Sample(Normal, Gfx_UV);
+		float3 normal_96;
+		float ambientOcclusion_96;
+		UnpackNormalAndAO(sample_92, normal_96, ambientOcclusion_96);
+		deferredOut.ao = ambientOcclusion_96;
+		deferredOut.opacity = float(1);
+		float3 transform_100 = MR_Transform(Gfx_TangentToWorld, normal_96);
+		float4 combine_105 = float4(transform_100.x, transform_100.y, transform_100.z, float(0));
+		float4 transform_107 = MR_Transform(MR_ViewConstants.worldToCamera, combine_105);
+		float dot_109 = dot(transform_107, float4(0, 0, 1, 0));
+		float saturate_113 = saturate(-dot_109);
+		float3 smear_115 = float3(saturate_113, saturate_113, saturate_113);
+		float2 mul_91 = customData.myDetailScale * Gfx_UV;
+		float4 sample_95 = MR_Sample(Detail, mul_91);
+		float4 mul_99 = Gfx_Color * sample_95;
+		float add_104 = mul_99.z + mul_99.w;
+		float add_106 = mul_99.y + add_104;
+		float add_108 = mul_99.x + add_106;
+		float2 truncate_77 = float2(Gfx_CameraSpacePos.xy);
+		float3 GetBump_110 = GetBump(add_108, customData.myadjustDistance, customData.myfalloffCurve, customData.myStrength, truncate_77);
+		float4 combine_114 = float4(GetBump_110.x, GetBump_110.y, float(0.01), float(0));
+		float4 transform_116 = MR_Transform(MR_ViewConstants.cameraToWorld, combine_114);
+		float3 combine_118 = float3(transform_116.x, transform_116.y, transform_116.z);
+		float3 mul_119 = smear_115 * combine_118;
+		float3 add_120 = transform_100 + mul_119;
+		float3 normalize_121 = normalize(add_120);
+		float3 flippedNormal = normalize_121;
+		if (!MR_IsFrontFace)
+		    flippedNormal = -flippedNormal;
+		deferredOut.worldNormal = flippedNormal;
+	}
+}

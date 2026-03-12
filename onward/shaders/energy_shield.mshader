@@ -1,0 +1,71 @@
+<shaderType = "Object", >
+import "shaders/MRender/MR_ViewConstants.h"
+blend {
+	src = 1,
+	dest = 1,
+}
+pixel
+{
+	struct CustomData {
+		float3 myHitLocation1 <config = { tooltip = "Location of damage impact", }, default = 0 0 0, label = "Hit Location 1", pinId = 106>;
+		float3 myHitLocation2 <default = 0 0 0, label = "Hit Location 2", pinId = 112>;
+		float3 myHitLocation3 <default = 0 0 0, label = "Hit Location 3", pinId = 113>;
+		float myFalloff <config = { max = 20, min = 1, tooltip = "Falloff around hit location", type = "Slider", }, default = 1, label = "Falloff", pinId = 107>;
+		float3 myColor <config = { tooltip = "Shield Color", type = "ColorBox", }, default = 1 0.214041 0, label = "Color", pinId = 108>;
+		float myIntensity <default = 1, label = "Intensity", pinId = 109>;
+		float myFresnelRelativeIntensity <config = { max = 2, min = 0, type = "Slider", }, default = 20.1886, label = "Fresnel Relative Intensity", pinId = 111>;
+	};
+	main(out float4 colorOut : MR_Color0, CustomData customData : Gfx_CustomData0, 
+		float3 Gfx_WorldSpacePos : Gfx_WorldSpacePos0, 
+		float3 Gfx_WorldSpaceNormal : Gfx_WorldSpaceNormal0, 
+		float3 Gfx_ModelSpaceNormal : Gfx_ModelSpaceNormal0)
+	{
+		float3 smear_47 = float3(customData.myIntensity, customData.myIntensity, customData.myIntensity);
+		float3 mul_51 = customData.myColor * smear_47;
+		float4 transform_35 = MR_Transform(MR_ViewConstants.cameraToWorld, float4(0, 0, 0, 1));
+		float3 truncate_36 = float3(transform_35.xyz);
+		float3 sub_37 = truncate_36 - Gfx_WorldSpacePos;
+		float3 normalize_38 = normalize(sub_37);
+		float3 normalize_30 = normalize(Gfx_WorldSpaceNormal);
+		float dot_39 = dot(normalize_38, normalize_30);
+		float saturate_40 = saturate(dot_39);
+		float sub_41 = float(1) - saturate_40;
+		float pow_42 = pow(sub_41, float(5));
+		float mul_75 = pow_42 * customData.myFresnelRelativeIntensity;
+		float3 normalize_44 = normalize(customData.myHitLocation1);
+		float3 normalize_32 = normalize(Gfx_ModelSpaceNormal);
+		float dot_48 = dot(normalize_44, normalize_32);
+		float saturate_58 = saturate(dot_48);
+		float div_52 = float(1) / customData.myFalloff;
+		float sub_53 = float(1) - div_52;
+		float sub_61 = saturate_58 - sub_53;
+		float mul_64 = sub_61 * customData.myFalloff;
+		float saturate_67 = saturate(mul_64);
+		float mul_70 = saturate_67 * saturate_67;
+		float3 normalize_45 = normalize(customData.myHitLocation2);
+		float dot_49 = dot(normalize_45, normalize_32);
+		float saturate_59 = saturate(dot_49);
+		float div_54 = float(1) / customData.myFalloff;
+		float sub_55 = float(1) - div_54;
+		float sub_62 = saturate_59 - sub_55;
+		float mul_65 = sub_62 * customData.myFalloff;
+		float saturate_68 = saturate(mul_65);
+		float mul_71 = saturate_68 * saturate_68;
+		float max_73 = max(mul_70, mul_71);
+		float3 normalize_46 = normalize(customData.myHitLocation3);
+		float dot_50 = dot(normalize_46, normalize_32);
+		float saturate_60 = saturate(dot_50);
+		float div_56 = float(1) / customData.myFalloff;
+		float sub_57 = float(1) - div_56;
+		float sub_63 = saturate_60 - sub_57;
+		float mul_66 = sub_63 * customData.myFalloff;
+		float saturate_69 = saturate(mul_66);
+		float mul_72 = saturate_69 * saturate_69;
+		float max_74 = max(max_73, mul_72);
+		float add_76 = mul_75 + max_74;
+		float3 smear_77 = float3(add_76, add_76, add_76);
+		float3 mul_78 = mul_51 * smear_77;
+		float4 result_79 = float4(mul_78, 1);
+		colorOut = result_79;
+	}
+}

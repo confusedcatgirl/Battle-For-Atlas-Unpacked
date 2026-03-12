@@ -1,0 +1,92 @@
+<shaderType = "Object", keywords = { "HAS_OPACITY", "LIGHT_FROM_GROUND", "IS_MAIN_PLANET", "GFX_FORWARD_SHADER", }, >
+import "shaders/modules/graphics/environment.h"
+import "shaders/nodes/shader/functions/unpack normal.h"
+import "shaders/nodes/shader/functions/onward/lighting/ow_fullgroundbaselighting.h"
+import "shaders/nodes/shader/functions/onward/lighting/ow_groundfog.h"
+blend {}
+pixel
+{
+	MR_Sampler2D BaseColor : MR_Texture0 {
+		texture = "onward/baked/textures/default_b.dds",
+	} <label = "Base Color", pinId = 102>;
+	MR_Sampler2D Normal : MR_Texture1 {
+		texture = "onward/baked/textures/default_n.dds",
+	} <pinId = 103>;
+	MR_Sampler2D GradientMap : MR_Texture2 {
+		texture = "onward/baked/textures/debug_white.dds",
+		wrap = clamp,
+	} <label = "Gradient Map", pinId = 104>;
+	struct CustomData {
+		float2 myBaseColorUVScale <default = 1 1, label = "Base Color UV Scale", pinId = 107>;
+		float2 myDiffuseUVSpeed <default = 0 0, label = "Diffuse UV Speed", pinId = 108>;
+		float myErosion <default = 0, label = "Erosion", pinId = 118>;
+		float myIntensity <default = 1, label = "Intensity ", pinId = 120>;
+		float myUseUnscaledGameTime <default = 0, label = "Use Unscaled Game Time", pinId = 122>;
+		float myUnscaledGameTime <default = 0, label = "Unscaled Game Time", pinId = 121>;
+	};
+	main(out float4 colorOut : MR_Color0, CustomData customData : Gfx_CustomData0, 
+		float2 Gfx_UV : Gfx_UV0, float3x3 Gfx_TangentToWorld : Gfx_TangentToWorld0, 
+		float4 Gfx_Color : Gfx_Color0, 
+		Gfx_LightingDataStruct Gfx_LightingData : Gfx_LightingData0, 
+		float3 Gfx_WorldSpacePos : Gfx_WorldSpacePos0, 
+		float4 MR_FragCoord : MR_FragCoord, float Gfx_AlphaRef : Gfx_AlphaRef0)
+	{
+		float lerp_118 = lerp(Gfx_Environment.time, customData.myUnscaledGameTime, customData.myUseUnscaledGameTime);
+		float mul_120 = lerp_118 * customData.myDiffuseUVSpeed.x;
+		float2 sub_109 = Gfx_UV - float2(0.5, 0.5);
+		float mul_124 = lerp_118 * float(0);
+		float add_126 = float(0) + mul_124;
+		float sinAngle_128 = sin(add_126);
+		float cosAngle_128 = cos(add_126);
+		float2x2 rotMat_128 = { cosAngle_128, -sinAngle_128, sinAngle_128, cosAngle_128 };
+		float2 rot2d_128 = MR_Transform(rotMat_128, sub_109);
+		float2 add_130 = rot2d_128 + float2(0.5, 0.5);
+		float2 mul_132 = add_130 * customData.myBaseColorUVScale;
+		float2 add_134 = mul_132 + float2(0, 0);
+		float add_138 = mul_120 + add_134.x;
+		float mul_121 = lerp_118 * customData.myDiffuseUVSpeed.y;
+		float add_139 = mul_121 + add_134.y;
+		float2 combine_142 = float2(add_138, add_139);
+		float4 sample_144 = MR_Sample(BaseColor, combine_142);
+		float3 combine_148 = float3(sample_144.x, sample_144.y, sample_144.z);
+		float2 truncate_151 = float2(combine_148.xy);
+		float4 sample_154 = MR_Sample(GradientMap, truncate_151);
+		float3 truncate_157 = float3(sample_154.xyz);
+		float3 mul_159 = truncate_157 * combine_148;
+		float lerp_119 = lerp(Gfx_Environment.time, customData.myUnscaledGameTime, customData.myUseUnscaledGameTime);
+		float mul_122 = lerp_119 * customData.myDiffuseUVSpeed.x;
+		float2 sub_110 = Gfx_UV - float2(0.5, 0.5);
+		float mul_125 = lerp_119 * float(0);
+		float add_127 = float(0) + mul_125;
+		float sinAngle_129 = sin(add_127);
+		float cosAngle_129 = cos(add_127);
+		float2x2 rotMat_129 = { cosAngle_129, -sinAngle_129, sinAngle_129, cosAngle_129 };
+		float2 rot2d_129 = MR_Transform(rotMat_129, sub_110);
+		float2 add_131 = rot2d_129 + float2(0.5, 0.5);
+		float2 mul_133 = add_131 * float2(1, 1);
+		float2 add_135 = mul_133 + float2(0, 0);
+		float add_140 = mul_122 + add_135.x;
+		float mul_123 = lerp_119 * customData.myDiffuseUVSpeed.y;
+		float add_141 = mul_123 + add_135.y;
+		float2 combine_143 = float2(add_140, add_141);
+		float4 sample_145 = MR_Sample(Normal, combine_143);
+		float3 normal_147;
+		float ambientOcclusion_147;
+		UnpackNormalAndAO(sample_145, normal_147, ambientOcclusion_147);
+		float3 normalize_150 = normalize(normal_147);
+		float3 transform_153 = MR_Transform(Gfx_TangentToWorld, normalize_150);
+		float mul_149 = sample_144.w * Gfx_Color.y;
+		float sub_152 = mul_149 - customData.myErosion;
+		float smoothStep_155 = smoothstep(float(0), float(1), sub_152);
+		float clamp_158 = clamp(smoothStep_155, float(0), float(1));
+		float3 aLightOut_160;
+		OW_FullBaseGroundLighting(aLightOut_160, mul_159, transform_153, clamp_158, float(1), float(0), float(1), Gfx_LightingData);
+		float3 smear_117 = float3(customData.myIntensity, customData.myIntensity, customData.myIntensity);
+		float3 add_162 = aLightOut_160 + smear_117;
+		float3 aColor_164 = add_162;
+		OW_GroundFog(aColor_164, Gfx_WorldSpacePos, MR_FragCoord);
+		if (clamp_158 < Gfx_AlphaRef) discard;
+		float4 result_166 = float4(aColor_164, clamp_158);
+		colorOut = result_166;
+	}
+}

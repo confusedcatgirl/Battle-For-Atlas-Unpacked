@@ -1,0 +1,68 @@
+<shaderType = "Object", keywords = { "GFX_FORWARD_SHADER", }, >
+blend {
+	src = 1,
+	dest = 1,
+}
+pixel
+{
+	MR_Sampler2D Texture : MR_Texture0 <pinId = 101>;
+	MR_Sampler2D Texture2 : MR_Texture1 <label = "Texture 2", pinId = 138>;
+	struct CustomData {
+		float myIntensity <default = 1, label = "Intensity", pinId = 118>;
+		float myAlpha <default = 1, label = "Alpha", pinId = 121>;
+		float2 myTextureScale <default = 0 0, label = "Texture Scale", pinId = 133>;
+	};
+	void textureAtlas(float2 Size, float Selector, float2 InstanceUV, out float2 NewUV1, 
+		out float2 NewUV2, out float Blend1, out float Blend2)
+	{
+		float width = Size.x;
+		 float height = Size.y;
+		 float area = width * height;
+		 float sel = frac(Selector);
+		 float findex = area * sel;
+		 float index1 = floor(findex);
+		 float index2 = index1 + 1;
+		 float row1 = floor(index1 / width);
+		 float row2 = floor(index2 / width);
+		 float col1 = index1 - row1 * width;
+		 float col2 = index2 - row2 * width;
+		 float2 gridPos1 = float2(col1, row1);
+		 float2 gridPos2 = float2(col2, row2);
+		 NewUV1 = (gridPos1 + InstanceUV) / Size;
+		 NewUV2 = (gridPos2 + InstanceUV) / Size;
+		 Blend2 = findex - index1;
+		 Blend1 = 1.0 - Blend2;
+	}
+	main(out float4 colorOut : MR_Color0, CustomData customData : Gfx_CustomData0, 
+		float2 Gfx_UV : Gfx_UV0, float Gfx_AlphaRef : Gfx_AlphaRef0)
+	{
+		float mul_61 = float(1) * customData.myIntensity;
+		float3 combine_63 = float3(mul_61, mul_61, mul_61);
+		float2 add_54 = Gfx_UV + float2(0, 0);
+		float2 mul_64 = add_54 * customData.myTextureScale;
+		float4 sample_67 = MR_Sample(Texture, mul_64);
+		float3 combine_73 = float3(sample_67.x, sample_67.y, sample_67.z);
+		float2 NewUV1_53;
+		float2 NewUV2_53;
+		float Blend1_53;
+		float Blend2_53;
+		textureAtlas(float2(1, 1), float(0), Gfx_UV, NewUV1_53, NewUV2_53, Blend1_53, Blend2_53);
+		float2 add_55 = NewUV1_53 + float2(0, 0);
+		float2 mul_65 = add_55 * customData.myTextureScale;
+		float4 sample_68 = MR_Sample(Texture, mul_65);
+		float3 combine_74 = float3(sample_68.x, sample_68.y, sample_68.z);
+		float3 mul_76 = combine_73 * combine_74;
+		float3 mul_78 = combine_63 * mul_76;
+		float4 sample_69 = MR_Sample(Texture2, frac(mul_64));
+		float3 combine_75 = float3(sample_69.x, sample_69.y, sample_69.z);
+		float3 mul_80 = mul_78 * combine_75;
+		float4 smear_59 = float4(customData.myAlpha, customData.myAlpha, customData.myAlpha, customData.myAlpha);
+		float3 combine_62 = float3(smear_59.x, smear_59.y, smear_59.z);
+		float3 mul_77 = combine_75 * combine_73;
+		float3 mul_79 = combine_62 * mul_77;
+		float truncate_81 = float(mul_79.x);
+		if (truncate_81 < Gfx_AlphaRef) discard;
+		float4 result_83 = float4(mul_80, truncate_81);
+		colorOut = result_83;
+	}
+}

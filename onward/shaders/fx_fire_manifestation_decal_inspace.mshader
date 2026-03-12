@@ -1,0 +1,46 @@
+<shaderType = "Object", keywords = { "GFX_FORWARD_SHADER", }, >
+import "shaders/modules/graphics/environment.h"
+blend {
+	src = 1,
+}
+pixel
+{
+	MR_Sampler2D DiffuseMap : MR_Texture0 <label = "Diffuse Map ", pinId = 165>;
+	struct CustomData {
+		float4 myColor <default = 1 1 1 1, label = "Color", pinId = 173>;
+		float2 myDiffuseCoordScale <default = 1 1, label = "Diffuse Coord Scale", pinId = 176>;
+		float myErosion <config = { min = 0, }, default = 0, label = "Erosion", pinId = 180>;
+	};
+	main(out float4 colorOut : MR_Color0, CustomData customData : Gfx_CustomData0, 
+		float2 Gfx_UV : Gfx_UV0, float Gfx_AlphaRef : Gfx_AlphaRef0)
+	{
+		float3 truncate_68 = float3(customData.myColor.xyz);
+		float lerp_59 = lerp(Gfx_Environment.time, float(0), float(0));
+		float mul_60 = lerp_59 * float2(0, 0).x;
+		float2 sub_57 = Gfx_UV - float2(0.5, 0.5);
+		float mul_62 = lerp_59 * float(0);
+		float add_63 = float(0) + mul_62;
+		float sinAngle_64 = sin(add_63);
+		float cosAngle_64 = cos(add_63);
+		float2x2 rotMat_64 = { cosAngle_64, -sinAngle_64, sinAngle_64, cosAngle_64 };
+		float2 rot2d_64 = MR_Transform(rotMat_64, sub_57);
+		float2 add_65 = rot2d_64 + float2(0.5, 0.5);
+		float2 mul_70 = add_65 * customData.myDiffuseCoordScale;
+		float2 add_71 = mul_70 + float2(0, 0);
+		float add_73 = mul_60 + add_71.x;
+		float mul_61 = lerp_59 * float2(0, 0).y;
+		float add_74 = mul_61 + add_71.y;
+		float2 combine_75 = float2(add_73, add_74);
+		float4 sample_76 = MR_Sample(DiffuseMap, combine_75);
+		float3 smear_78 = float3(sample_76.x, sample_76.x, sample_76.x);
+		float3 mul_80 = truncate_68 * smear_78;
+		float mul_79 = customData.myColor.w * sample_76.w;
+		float sub_81 = mul_79 - customData.myErosion;
+		float clamp_82 = clamp(sub_81, float(0), float(1));
+		float3 smear_83 = float3(clamp_82, clamp_82, clamp_82);
+		float3 mul_84 = mul_80 * smear_83;
+		if (clamp_82 < Gfx_AlphaRef) discard;
+		float4 result_85 = float4(mul_84, clamp_82);
+		colorOut = result_85;
+	}
+}

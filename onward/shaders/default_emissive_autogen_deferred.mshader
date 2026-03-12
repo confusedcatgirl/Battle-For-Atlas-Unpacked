@@ -1,0 +1,37 @@
+<keywords = { "LIGHT_FROM_GROUND", "IS_MAIN_PLANET", }, >
+import "shaders/modules/graphics/deferred_data.h"
+import "shaders/modules/graphics/normal_encode.h"
+import "shaders/nodes/shader/functions/ow emissive intensity multiplier.h"
+pixel
+{
+	MR_Sampler2D BaseColor : MR_Texture0 {
+		texture = "onward/baked/textures/default_b.dds",
+	} <label = "Base Color", pinId = 102>;
+	struct CustomData {
+		float myEmissionIntensity <default = 0, label = "Emission Intensity", pinId = 106>;
+	};
+	main(bool MR_IsFrontFace : MR_IsFrontFace, 
+		out Gfx_DeferredData deferredOut : Gfx_Deferred <emission = true,>, 
+		CustomData customData : Gfx_CustomData0, float2 Gfx_UV : Gfx_UV0, 
+		float Gfx_AlphaRef : Gfx_AlphaRef0, 
+		float3 Gfx_WorldSpaceNormal : Gfx_WorldSpaceNormal0)
+	{
+		deferredOut.color = float3(0, 0, 0);
+		float3 combine_59 = float3(customData.myEmissionIntensity, customData.myEmissionIntensity, customData.myEmissionIntensity);
+		float4 sample_60 = MR_Sample(BaseColor, Gfx_UV);
+		float3 truncate_61 = float3(sample_60.xyz);
+		float3 mul_63 = combine_59 * truncate_61;
+		float4 truncate_64 = float4(mul_63.xyz, 1);
+		float4 OWEmissiveIntensityMultiplier_66 = OWEmissiveIntensityMultiplier(truncate_64);
+		float3 truncate_69 = float3(OWEmissiveIntensityMultiplier_66.xyz);
+		deferredOut.emission = truncate_69;
+		deferredOut.roughness = float(1);
+		deferredOut.metalness = float(0);
+		deferredOut.ao = float(1);
+		if (sample_60.w < Gfx_AlphaRef) discard;
+		float3 flippedNormal = Gfx_WorldSpaceNormal;
+		if (!MR_IsFrontFace)
+		    flippedNormal = -flippedNormal;
+		deferredOut.worldNormal = flippedNormal;
+	}
+}

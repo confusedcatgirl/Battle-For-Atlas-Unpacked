@@ -1,0 +1,113 @@
+<keywords = { "LIGHT_FROM_SPACE", "ISNT_MAIN_PLANET", "GFX_DEFERRED_SHADER", }, >
+import "shaders/modules/graphics/deferred_data.h"
+import "shaders/modules/graphics/normal_encode.h"
+import "shaders/nodes/shader/functions/unpack normal.h"
+pixel
+{
+	MR_Sampler2D BaseColor : MR_Texture0 {
+		texture = "onward/baked/textures/default_b.dds",
+	} <label = "Base Color", pinId = 102>;
+	MR_Sampler2D Normal : MR_Texture1 {
+		texture = "onward/baked/textures/default_n.dds",
+	} <pinId = 103>;
+	MR_Sampler2D Material : MR_Texture2 {
+		texture = "onward/baked/textures/default_m.dds",
+	} <pinId = 104>;
+	MR_Sampler2D TriplanarNormal : MR_Texture3 {
+		texture = "onward/baked/textures/tiling_sharp_rocks_n.dds",
+	} <pinId = 107>;
+	MR_Sampler2D TriplanarColor : MR_Texture4 {
+		texture = "onward/baked/textures/tiling_sharp_rocks_b.dds",
+	} <pinId = 109>;
+	main(bool MR_IsFrontFace : MR_IsFrontFace, 
+		out Gfx_DeferredData deferredOut : Gfx_Deferred, float2 Gfx_UV : Gfx_UV0, 
+		float3 Gfx_UnflattenedWorldPos : Gfx_UnflattenedWorldPos0, 
+		float3x3 Gfx_TangentToWorld : Gfx_TangentToWorld0, 
+		float Gfx_AlphaRef : Gfx_AlphaRef0)
+	{
+		float4 sample_145 = MR_Sample(BaseColor, Gfx_UV);
+		float3 combine_152 = float3(sample_145.x, sample_145.y, sample_145.z);
+		float2 combine_131 = float2(Gfx_UnflattenedWorldPos.z, Gfx_UnflattenedWorldPos.y);
+		float2 combine_133 = float2(float(0.01), float(0.01));
+		float2 mul_137 = combine_131 * combine_133;
+		float4 sample_161 = MR_Sample(TriplanarColor, mul_137);
+		float4 sample_147 = MR_Sample(Normal, Gfx_UV);
+		float3 normal_151;
+		float ambientOcclusion_151;
+		UnpackNormalAndAO(sample_147, normal_151, ambientOcclusion_151);
+		float3 transform_153 = MR_Transform(Gfx_TangentToWorld, normal_151);
+		float3 abs_154 = abs(transform_153);
+		float3 combine_132 = float3(float(16.1875), float(16.1875), float(16.1875));
+		float3 pow_162 = pow(abs(abs_154), combine_132);
+		float3 normalize_170 = normalize(pow_162);
+		float add_180 = normalize_170.x + normalize_170.y;
+		float add_181 = add_180 + normalize_170.z;
+		float3 combine_185 = float3(add_181, add_181, add_181);
+		float3 div_189 = normalize_170 / combine_185;
+		float4 smear_192 = float4(div_189.x, div_189.x, div_189.x, div_189.x);
+		float4 mul_198 = sample_161 * smear_192;
+		float2 combine_129 = float2(Gfx_UnflattenedWorldPos.x, Gfx_UnflattenedWorldPos.z);
+		float2 mul_135 = combine_129 * combine_133;
+		float4 sample_157 = MR_Sample(TriplanarColor, mul_135);
+		float4 smear_193 = float4(div_189.y, div_189.y, div_189.y, div_189.y);
+		float4 mul_199 = sample_157 * smear_193;
+		float4 add_204 = mul_198 + mul_199;
+		float2 combine_130 = float2(Gfx_UnflattenedWorldPos.x, Gfx_UnflattenedWorldPos.y);
+		float2 mul_136 = combine_130 * combine_133;
+		float4 sample_159 = MR_Sample(TriplanarColor, mul_136);
+		float4 smear_194 = float4(div_189.z, div_189.z, div_189.z, div_189.z);
+		float4 mul_200 = sample_159 * smear_194;
+		float4 add_205 = add_204 + mul_200;
+		float4 combine_155 = float4(transform_153, float(0));
+		float4x4 matrix_163 = MR_ColumnMatrix(float4(0, 0, 1, 0), float4(0, -1, 0, 0), combine_155, float4(0, 0, 0, 0));
+		float4 sample_160 = MR_Sample(TriplanarNormal, mul_137);
+		float3 normal_169;
+		float ambientOcclusion_169;
+		UnpackNormalAndAO(sample_160, normal_169, ambientOcclusion_169);
+		float4 transform_171 = MR_Transform(matrix_163, normal_169);
+		float4 normalize_176 = normalize(transform_171);
+		float4 combine_186 = float4(normalize_176.x, normalize_176.y, normalize_176.z, ambientOcclusion_169);
+		float4 combine_195 = float4(div_189.x, div_189.x, div_189.x, div_189.x);
+		float4 mul_201 = combine_186 * combine_195;
+		float4x4 matrix_164 = MR_ColumnMatrix(float4(1, 0, 0, 0), float4(0, 0, -1, 0), combine_155, float4(0, 0, 0, 0));
+		float4 sample_156 = MR_Sample(TriplanarNormal, mul_135);
+		float3 normal_167;
+		float ambientOcclusion_167;
+		UnpackNormalAndAO(sample_156, normal_167, ambientOcclusion_167);
+		float4 transform_172 = MR_Transform(matrix_164, normal_167);
+		float4 normalize_177 = normalize(transform_172);
+		float4 combine_187 = float4(normalize_177.x, normalize_177.y, normalize_177.z, ambientOcclusion_167);
+		float4 combine_196 = float4(div_189.y, div_189.y, div_189.y, div_189.y);
+		float4 mul_202 = combine_187 * combine_196;
+		float4 add_206 = mul_201 + mul_202;
+		float4x4 matrix_165 = MR_ColumnMatrix(float4(1, 0, 0, 0), float4(0, -1, 0, 0), combine_155, float4(0, 0, 0, 0));
+		float4 sample_158 = MR_Sample(TriplanarNormal, mul_136);
+		float3 normal_168;
+		float ambientOcclusion_168;
+		UnpackNormalAndAO(sample_158, normal_168, ambientOcclusion_168);
+		float4 transform_173 = MR_Transform(matrix_165, normal_168);
+		float4 normalize_178 = normalize(transform_173);
+		float4 combine_188 = float4(normalize_178.x, normalize_178.y, normalize_178.z, ambientOcclusion_168);
+		float4 combine_197 = float4(div_189.z, div_189.z, div_189.z, div_189.z);
+		float4 mul_203 = combine_188 * combine_197;
+		float4 add_207 = add_206 + mul_203;
+		float3 combine_210 = float3(add_207.x, add_207.y, add_207.z);
+		float3 normalize_211 = normalize(combine_210);
+		float dot_214 = dot(float3(0, 1, 0), normalize_211);
+		float smoothStep_217 = smoothstep(float(0.9), float(0.6), dot_214);
+		float3 smear_219 = float3(smoothStep_217, smoothStep_217, smoothStep_217);
+		float3 lerp_221 = lerp(combine_152, add_205.xyz, smear_219);
+		deferredOut.color = lerp_221;
+		deferredOut.roughness = add_205.w;
+		float4 sample_146 = MR_Sample(Material, Gfx_UV);
+		deferredOut.metalness = sample_146.x;
+		deferredOut.ao = ambientOcclusion_151;
+		deferredOut.opacity = float(1);
+		if (sample_145.w < Gfx_AlphaRef) discard;
+		float3 normalize_212 = normalize(normalize_211);
+		float3 flippedNormal = normalize_212;
+		if (!MR_IsFrontFace)
+		    flippedNormal = -flippedNormal;
+		deferredOut.worldNormal = flippedNormal;
+	}
+}

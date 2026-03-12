@@ -1,0 +1,185 @@
+include modules/core/gamedatabase/gameroot.fruit
+
+GameRoot myGameRoot
+{
+	myGameName Onward
+	myPlatformDefinitionList
+	{
+	}
+	myPrefabIODefinitionList
+	{
+		PrefabIODefinition particles
+		{
+			myDefinitionName Particles
+			myIOFruit ./particles/particlesio.fruit
+		}
+	}
+	myGamePrefabTypesList
+	{
+		GamePrefabType prop
+		{
+			myPrefabTypeName Prop
+			myPrefabTypeGameFolder "onward/graph objects/prop/"
+			myPrefabIOFruit "./graph objects/prop/propio.fruit"
+		}
+		GamePrefabType light
+		{
+			myPrefabTypeName Light
+			myPrefabTypeGameFolder "onward/graph objects/light/"
+		}
+		GamePrefabType character
+		{
+			myPrefabTypeName Character
+			myPrefabTypeGameFolder "onward/graph objects/character/"
+			myPrefabIOFruit "./graph objects/character/characterio.fruit"
+		}
+		GamePrefabType Effect
+		{
+			myPrefabTypeName Effect
+			myPrefabTypeGameFolder "onward/graph objects/effect/"
+			myPrefabIOFruit "./graph objects/effect/effectio.fruit"
+		}
+		GamePrefabType Attachment
+		{
+			myPrefabTypeName Attachment
+			myPrefabTypeGameFolder "onward/graph objects/attachment/"
+		}
+	}
+	myGameConfigFiles
+	{
+		file myGameInfo "./game system data/juice/gameinfo.juice"
+		file myDemoInfo "./game system data/juice/demoinfo.juice"
+		file myFonts "./game system data/juice/ui/Fonts.juice"
+		file myPresetFontStyles "./game system data/juice/ui/presetfontstyles.juice"
+		file myPresetFonts "./game system data/juice/ui/PresetFonts.juice"
+		file myPresetColors "./game system data/juice/ui/presetcolors.juice"
+		file myPresetColorOverrides "./game system data/juice/ui/presetcoloroverrides.juice"
+		file myCameraPresets "./game system data/juice/camera/camera_presets.juice"
+		file myCameraModifiers "./game system data/juice/camera/camera_modifiers.juice"
+		file myShakePresets "./game system data/juice/camera/shake_presets.juice"
+		file myRumbleTracks "./game system data/juice/rumble/rumble_tracks.juice"
+		file mySoundSettings "./game system data/juice/sound/soundsettings.juice"
+		file myPlayerMovementSettings "./game system data/juice/movement/playerMovement.juice"
+		file myMouseSettings "./game system data/juice/mouse/mouse.juice"
+		file myUIConfig "./game system data/juice/ui/uiconfig.juice"
+		file myUILoadList "./game system data/juice/ui/uiloadlist.juice"
+		file myUIOptions "./game system data/juice/ui/uioptions.juice"
+		file myCombatDirector "./game system data/juice/ai/combatdirector.juice"
+		file myThreatManager "./game system data/juice/ai/threatmanager.juice"
+		file myMovementSettings_Base "./game system data/juice/player/movement_base.juice"
+		file myMovementSettings_Weight "./game system data/juice/player/movement_weight.juice"
+		file myMovementSettings_Speed "./game system data/juice/player/movement_speed.juice"
+		file myMovementSettings_Handling "./game system data/juice/player/movement_handling.juice"
+		file myMovementTrialSettings_Base "./game system data/juice/player/trial_movement_base.juice"
+		file myMovementTrialSettings_Weight "./game system data/juice/player/trial_movement_weight.juice"
+		file myMovementTrialSettings_Speed "./game system data/juice/player/trial_movement_speed.juice"
+		file myMovementTrialSettings_Handling "./game system data/juice/player/trial_movement_handling.juice"
+		file myPlayerSettings "./game system data/juice/player/player_settings.juice"
+		file myNPCSettings "./game system data/juice/ai/ai.juice"
+		file myNPCVoiceData "./game system data/juice/ai/npcsound.juice"
+		file myClothMaterials "./game system data/juice/clothmaterials/clothmaterials.juice"
+		file myInputSettings "./game system data/juice/input/input.juice"
+		file myInputActions "./game system data/juice/input/inputactions.juice"
+		file myGameActionsSet "./game system data/juice/input/gameactionsset.juice"
+		file myGameActionsConfig "./game system data/juice/input/gameactionsconfig.juice"
+		file myGameActionsConfig_Motion "./game system data/juice/input/gameactionsconfig_motion.juice"
+		file myGameActionsConfig_Alt1 "./game system data/juice/input/gameactionsconfig_alt1.juice"
+		file myGameActionsConfig_Alt2 "./game system data/juice/input/gameactionsconfig_alt2.juice"
+		file myGameActionsConfig_Alt3 "./game system data/juice/input/gameactionsconfig_alt3.juice"
+		file myCollisionEffects "./game system data/juice/collisioneffects/collisioneffects.juice"
+		file myCollisionMaterials "./game system data/juice/collisionmaterials/collisionmaterials.juice"
+		file myVisualSettings "./game system data/juice/visual/visual.juice"
+		file myJuiceAssetTypes "./game system data/juice/juiceassettypes.juice"
+		file myLanguageNames "./game system data/juice/languages/language_names.juice"
+		file mySKUInfo "./game system data/juice/languages/languages.juice"
+		file myDestructionSettings "./game system data/juice/destruction/destructionsettings.juice"
+		file myEnvironmentDefinitions "./game system data/juice/environment/EnvironmentDefinitions.juice"
+		file myPartData "./game system data/juice/parts/PartData.juice"
+		file myPartTypeLookupTable "./game system data/juice/parts/PartLookupTable.juice"
+		file myPilotData "./game system data/juice/parts/PilotData.juice"
+		file myHealthData "./game system data/juice/health/HealthSegments.juice"
+		file myPlayerImpactDamage "./game system data/juice/player/playerimpactdamage.juice"
+		file myScrollingCombatTextSettings "./game system data/juice/scrollingcombattext/scrollingcombattextsettings.juice"
+		file myAmbienceThemes ./audio/ambiencetheme.juice
+		file myPipParticipants "./game system data/juice/pipconversations/pipparticipants.juice"
+		file myTAGPropagationSettings "./game system data/juice/environment/propagationsettings.juice"
+		file myEquips "./game system data/juice/equip/equip.juice"
+		file myCollisionSoundPresets "./game system data/juice/sound/collisionpresets.juice"
+		file myVoiceSettings ./audio/voicesettings.juice
+		file myInteractionTags "./game system data/juice/interactionpoint/interactiontags.juice"
+		file myButtonIconsDurango "./game system data/juice/ui/buttonIconsConfig_durango.juice"
+		file myButtonIconsOrbis "./game system data/juice/ui/buttonIconsConfig_orbis.juice"
+		file myButtonIconsPC "./game system data/juice/ui/buttonIconsConfig_pc.juice"
+		file myButtonIconsPC_PS4 "./game system data/juice/ui/buttoniconsconfig_pc_orbis.juice"
+		file myButtonIconsNX "./game system data/juice/ui/buttonIconsConfig_nx.juice"
+		file myPhysicsSettings "./game system data/juice/physics/physicsSettings.juice"
+		file myActionLabels "./game system data/juice/input/gameactionlabels.juice"
+		file myManeuverData "./game system data/juice/parts/ManeuverData.juice"
+		file myImpactCategorySettings "./game system data/juice/combat/impactcategorysettings.juice"
+		file myPlayerReactionRules "./game system data/juice/player/reaction_rules_player.juice"
+		file myPlayerImpactReactionRules "./game system data/juice/player/impact_reaction_rules.juice"
+		file myAttributeCategories "./game system data/juice/attributes/attributecategories.juice"
+		file myAttributeRanges "./game system data/juice/attributes/attributeranges.juice"
+		file myRichPresenceData "./game system data/juice/firstparty/rich_presence.juice"
+		file myOutpostPlacementParameters "./game system data/juice/sim/outpostplacementparameters.juice"
+		file myEventInfos "./game system data/juice/ui/localizedeventinfo.juice"
+		file myCameraRecoilSettings "./game system data/juice/camera/recoil_settings.juice"
+		file myRuleSystemConfig "./game system data/juice/rulesystem/rulesystemconfig.juice"
+		file myMaterialProperties "./game system data/juice/physics/materialproperties.juice"
+		file myTutorialData "./game system data/juice/tutorials/tutorial.juice"
+		file myUIChannelManager "./game system data/juice/ui/uichannels.juice"
+		file myUIPlatformSpecificData "./game system data/juice/ui/uiplatformspecificdata.juice"
+		file myOpportunitySystemConfig "./game system data/juice/opportunitysystem/opportunitysystemconfig.juice"
+		file myUIControlSchemeManager "./game system data/juice/input/controlscheme.juice"
+		file myFogOfWarConfig "./game system data/juice/fogofwar/fogofwarsettings.juice"
+		file myKnowledgeQuotients "./game system data/juice/fogofwar/knowledgequotients.juice"
+		file myPropagationSettings "./game system data/juice/sound/propagationsettings.juice"
+		file myAudioLevelBankLoaderSettings "./game system data/juice/sound/level_bank_loader_settings.juice"
+		file myAudioLevelEventPlayerSettings "./game system data/juice/sound/level_event_player_settings.juice"
+		file myAudioWeatherPortalSettings "./game system data/juice/sound/weather_portal_emitters_settings.juice"
+		file myAmbienceThemes ./audio/ambiencetheme.juice
+		file mySlapbackSettings ./audio/slapbacksettings.juice
+		file myClothMaterials "./game system data/juice/clothmaterials/clothmaterials.juice"
+		file myCollisionSoundPresets "./game system data/juice/sound/collisionpresets.juice"
+		file myInputLocalization "./game system data/juice/input/inputlocalization.juice"
+		file myCollectionDatabaseData "./game system data/juice/ui/uicollectiondatabase.juice"
+		file myPlanetThreats "./game system data/juice/ui/uiplanetthreats.juice"
+		file myGameCompletionData "./game system data/juice/progression/gamecompletion.juice"
+		file myPipManagerConfig "./game system data/juice/pipconversations/pipmanagerconfig.juice"
+		file myRecommendationData "./game system data/juice/ui/recommendations.juice"
+		file myDifficultyData "./game system data/juice/difficulty/difficulty.juice"
+		file myExplorationData "./game system data/juice/progression/exploration.juice"
+		file myOutlawReputationData "./game system data/juice/progression/outlawreputation.juice"
+		file mySimInterest "./game system data/juice/interest/simunitinterests.juice"
+		file myPipParticipantLookup "./game system data/juice/pipconversations/pipparticipantlookup.juice"
+		file myPipVariationsMap "./game system data/juice/pipconversations/pipvariationsmap.juice"
+		file myPipParticipantExclusionBank "./game system data/juice/pipconversations/pipparticipantexclusionmap.juice"
+		file myFirmwareMessages "./game system data/juice/ui/uifirmware_messages.juice"
+		file myUIFeatures "./game system data/juice/ui/uifeatures.juice"
+		file myPlayerOptions "./game system data/juice/player/player_options.juice"
+		file myPlanetTemperatures "./game system data/juice/ui/planet_temperatures.juice"
+		file myDiversionManagerConfig "./game system data/juice/diversion/diversion.juice"
+		file myOpportuniyLocalization "./game system data/juice/ui/opportunitylocalization.juice"
+		file mySimUnitMapVisionRadius "./game system data/juice/fogofwar/simunitmapvisionradii.juice"
+		file myCloningCosts "./game system data/juice/progression/cloningcosts.juice"
+		file myPipPortraitBank "./game system data/juice/pipconversations/pipportraitbank.juice"
+		file myFusionCosts "./game system data/juice/progression/fusioncosts.juice"
+		file myFindSettings "./game system data/juice/fogofwar/findsettings.juice"
+		file myToastConfig "./game system data/juice/ui/uitoasts.juice"
+		file myGlobalFactInitialValues "./game system data/juice/rulesystem/globalfactinitialvalues.juice"
+		file myOnDeathDiscoverySettings "./game system data/juice/fogofwar/simunitdeathdiscoverysettings.juice"
+		file myOnAllyDiscoverySettings "./game system data/juice/fogofwar/simunitalliancediscoverysettings.juice"
+		file myTowableCategories "./game system data/juice/sim/towablecategories.juice"
+		file mySkillLevelDeltas "./game system data/juice/skilllevels/skillleveldeltas.juice"
+		file mySkillLevelSettings "./game system data/juice/skilllevels/skilllevels.juice"
+		file mySkillSectors "./game system data/juice/skilllevels/skillsectors.juice"
+		file myActObjectiveReminderConfig "./game system data/juice/actobjectivereminder/actobjectivereminderconfig.juice"
+		file myDefaultPartsBySKU "./game system data/juice/parts/defaultpartsbysku.juice"
+		file myDefaultStoreData "./game system data/juice/firstparty/default_store_data.juice"
+		file myUISimUnitSpriteData "./game system data/juice/ui/simunit_sprites.juice"
+		file mySideStory01StructureData "./game system data/juice/story/partstories/sidestory01.juice"
+		file myAlternateControlOptions "./game system data/juice/input/alternatecontroloptions.juice"
+	}
+	myBinkSubtitleFolder "onward/game system data/juice/binksubtitles/"
+}
+

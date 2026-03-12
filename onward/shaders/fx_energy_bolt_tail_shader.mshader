@@ -1,0 +1,25 @@
+<shaderType = "Object", keywords = { "GFX_FORWARD_SHADER", }, >
+blend {
+	src = 1,
+	dest = 1,
+}
+pixel
+{
+	MR_Sampler2D Texture : MR_Texture0 <pinId = 104>;
+	struct CustomData {
+		float3 myColor <config = { type = "ColorBox", }, default = 1 1 1, label = "Color", pinId = 101>;
+		float3 myEmissionColor <config = { type = "ColorBox", }, default = 1 1 1, label = "Emission Color", pinId = 102>;
+		float myEmissionIntensity <default = 0, label = "Emission Intensity", pinId = 103>;
+	};
+	main(out float4 colorOut : MR_Color0, CustomData customData : Gfx_CustomData0, 
+		float2 Gfx_UV : Gfx_UV0)
+	{
+		float3 smear_46 = float3(customData.myEmissionIntensity, customData.myEmissionIntensity, customData.myEmissionIntensity);
+		float3 mul_49 = customData.myEmissionColor * smear_46;
+		float4 sample_48 = MR_Sample(Texture, Gfx_UV);
+		float3 truncate_50 = float3(sample_48.xyz);
+		float3 mul_51 = mul_49 * truncate_50;
+		float4 result_52 = float4(mul_51, float(1));
+		colorOut = result_52;
+	}
+}

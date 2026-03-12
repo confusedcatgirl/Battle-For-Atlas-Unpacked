@@ -1,0 +1,244 @@
+<shaderType = "UI", >
+import "shaders/modules/graphics/drawer/drawer.h"
+import "shaders/nodes/shader/ui/ui blit effect fullscreen uv.h"
+blend {
+	writeMask = rgba,
+	src = 1,
+	src.a = 0,
+}
+pixel
+{
+	struct CustomData {
+		float myStartingAngle <default = -30, label = "Starting Angle", pinId = 101>;
+		float myEndingAngle <default = 30, label = "Ending Angle", pinId = 102>;
+		float myInnerRadius <default = 0.465, label = "Inner Radius", pinId = 103>;
+		float myOuterRadius <default = 0.47, label = "Outer Radius", pinId = 104>;
+		float mySoftness <default = 0, label = "Softness", pinId = 105>;
+		float myAspectRatio <default = 1.77778, label = "Aspect Ratio", pinId = 107>;
+		float myUseSegments <default = 1, label = "Use Segments", pinId = 108>;
+		float myHightlightStartingAngle <default = 0, label = "Hightlight Starting Angle", pinId = 109>;
+		float myHighlightEndingAngle <default = 0, label = "Highlight Ending Angle", pinId = 110>;
+		float4 myHighlightColor <default = 0 0 0 0, label = "Highlight Color", pinId = 111>;
+		float myXOffset <default = 0.5, label = "X Offset", pinId = 112>;
+		float myYOffset <default = 0.5, label = "Y Offset", pinId = 113>;
+	};
+	float2 RescaleUVs(float2 aInstanceUV, float anAspectRatio, float anXOffset, float aYOffset)
+	{
+		return ((aInstanceUV - float2(0.5, 0.5)) / float2(1.0, anAspectRatio)) + float2(1.0 - anXOffset, ((aYOffset - 0.5) / anAspectRatio) + 0.5);
+	}
+	float GetRadialUV4(float2 aInstanceUV, float center, float anInnerRadius, float anOuterRadius, 
+		float softness)
+	{
+		 float d = sqrt(pow(aInstanceUV.x - center, 2.) + pow(aInstanceUV.y - center, 2.));
+		 d = saturate(d);
+
+		 float centerRadius = anInnerRadius + ((anOuterRadius - anInnerRadius) / 2.0);
+
+		 float innerEdge = step(d, anInnerRadius) * smoothstep(anInnerRadius - (softness / 1000), anInnerRadius, d);
+		 float outerEdge = step(anOuterRadius, d) * (1.0 - smoothstep(anOuterRadius, anOuterRadius + (softness / 1000), d));
+		 float insideRadius = step(anInnerRadius, d) * step(d, anOuterRadius);
+
+		 
+		 
+
+		 float finalMask = saturate(outerEdge + insideRadius + innerEdge);
+
+		 return float(finalMask);
+	}
+	float GetAtan2(float2 aInstanceUV)
+	{
+		float polGradient = atan2(aInstanceUV.y - 0.5, aInstanceUV.x - 0.5);
+		 polGradient = (polGradient + 3.14159265359) / (3.14159265359 * 2);
+		 return polGradient;
+	}
+	float GetRadialUV4(float2 aInstanceUV, float2 center, float anOuterRadius, float softness, 
+		float glowScale)
+	{
+		 float d = sqrt(pow(aInstanceUV.x - center.x, 2.) + pow(aInstanceUV.y - center.y, 2.));
+		 d = saturate(d);
+
+		 float outerEdge = 1.0 - smoothstep(anOuterRadius, anOuterRadius + (softness * (1. - glowScale) / 1000), d);
+
+		 
+		 
+
+		 return float(outerEdge);
+	}
+	main(out float4 colorOut : MR_Color0, float4 Gfx_ClipPosition : Gfx_ClipPosition0, 
+		CustomData customData : Gfx_CustomData0, float4 Gfx_Color : Gfx_Color0)
+	{
+		float2 UIGetBlitEffectFullscreenUV_1 = UIGetBlitEffectFullscreenUV(Gfx_ClipPosition);
+		float2 RescaleUVs_117 = RescaleUVs(UIGetBlitEffectFullscreenUV_1, customData.myAspectRatio, customData.myXOffset, customData.myYOffset);
+		float GetRadialUV4_127 = GetRadialUV4(RescaleUVs_117, float(0.5), customData.myInnerRadius, customData.myOuterRadius, customData.mySoftness);
+		float2 sub_126 = RescaleUVs_117 - float2(0.5, 0.5);
+		float degtorad_107 = float(180) * 0.0174532925f;
+		float sinAngle_134 = sin(degtorad_107);
+		float cosAngle_134 = cos(degtorad_107);
+		float2x2 rotMat_134 = { cosAngle_134, -sinAngle_134, sinAngle_134, cosAngle_134 };
+		float2 rot2d_134 = MR_Transform(rotMat_134, sub_126);
+		float2 add_137 = rot2d_134 + float2(0.5, 0.5);
+		float2 sub_139 = add_137 - float2(0.5, 0.5);
+		float degtorad_110 = customData.myStartingAngle * 0.0174532925f;
+		float sinAngle_142 = sin(degtorad_110);
+		float cosAngle_142 = cos(degtorad_110);
+		float2x2 rotMat_142 = { cosAngle_142, -sinAngle_142, sinAngle_142, cosAngle_142 };
+		float2 rot2d_142 = MR_Transform(rotMat_142, sub_139);
+		float2 add_148 = rot2d_142 + float2(0.5, 0.5);
+		float GetAtan2_156 = GetAtan2(add_148);
+		float sub_177 = float(1) - GetAtan2_156;
+		float sub_112 = customData.myEndingAngle - customData.myStartingAngle;
+		float div_123 = sub_112 / float(360);
+		float div_108 = float(0) / float(360);
+		float add_132 = div_123 + div_108;
+		float sub_116 = customData.myOuterRadius - customData.myInnerRadius;
+		float div_125 = sub_116 / float(2);
+		float add_133 = div_125 + customData.myInnerRadius;
+		float div_136 = sub_116 / add_133;
+		float asin_138 = asin(div_136);
+		float radtodeg_141 = asin_138 * 57.295779513f;
+		float div_147 = radtodeg_141 / float(360);
+		float div_153 = div_147 / float(2);
+		float sub_171 = add_132 - div_153;
+		float step_192 = step(sub_177, sub_171);
+		float add_170 = div_153 + div_108;
+		float step_191 = step(add_170, sub_177);
+		float mul_205 = step_192 * step_191;
+		float mul_214 = GetRadialUV4_127 * mul_205;
+		float sub_155 = div_123 - div_147;
+		float saturate_196 = saturate(-sub_155);
+		float div_207 = saturate_196 / float(2);
+		float add_220 = sub_171 + div_207;
+		float step_227 = step(add_220, sub_177);
+		float add_172 = sub_171 + div_153;
+		float add_173 = add_172 + div_153;
+		float step_193 = step(sub_177, add_173);
+		float mul_234 = step_227 * step_193;
+		float degtorad_115 = customData.myEndingAngle * 0.0174532925f;
+		float div_140 = asin_138 / float(2);
+		float sub_146 = degtorad_115 - div_140;
+		float cos_163 = cos(-sub_146);
+		float mul_185 = cos_163 * add_133;
+		float sin_164 = sin(-sub_146);
+		float mul_186 = sin_164 * add_133;
+		float2 combine_203 = float2(mul_185, mul_186);
+		float2 add_212 = combine_203 + float2(0.5, 0.5);
+		float div_218 = div_207 / div_153;
+		float saturate_225 = saturate(div_218);
+		float sub_232 = float(1) - saturate_225;
+		float mul_239 = sub_232 * customData.mySoftness;
+		float GetRadialUV4_245 = GetRadialUV4(RescaleUVs_117, add_212, div_125, mul_239, float(0));
+		float mul_251 = mul_234 * GetRadialUV4_245;
+		float degtorad_113 = customData.myStartingAngle * 0.0174532925f;
+		float add_145 = degtorad_113 + div_140;
+		float cos_161 = cos(-add_145);
+		float mul_183 = cos_161 * add_133;
+		float sin_162 = sin(-add_145);
+		float mul_184 = sin_162 * add_133;
+		float2 combine_202 = float2(mul_183, mul_184);
+		float2 add_211 = combine_202 + float2(0.5, 0.5);
+		float GetRadialUV4_246 = GetRadialUV4(RescaleUVs_117, add_211, div_125, mul_239, float(0));
+		float sub_219 = div_153 - div_207;
+		float add_226 = div_108 + sub_219;
+		float step_233 = step(sub_177, add_226);
+		float sub_174 = float(1) - div_153;
+		float add_194 = div_108 + sub_174;
+		float step_198 = step(add_194, sub_177);
+		float add_240 = step_233 + step_198;
+		float mul_247 = GetRadialUV4_246 * add_240;
+		float add_252 = mul_251 + mul_247;
+		float add_255 = mul_214 + add_252;
+		float add_130 = customData.mySoftness + float(0);
+		float GetRadialUV4_135 = GetRadialUV4(RescaleUVs_117, float(0.5), customData.myInnerRadius, customData.myOuterRadius, add_130);
+		float sub_118 = customData.myHighlightEndingAngle - customData.myHightlightStartingAngle;
+		float div_128 = sub_118 / float(360);
+		float sub_111 = customData.myHightlightStartingAngle - customData.myStartingAngle;
+		float div_122 = sub_111 / float(360);
+		float add_131 = div_128 + div_122;
+		float sub_166 = add_131 - div_153;
+		float step_188 = step(sub_177, sub_166);
+		float add_165 = div_153 + div_122;
+		float step_187 = step(add_165, sub_177);
+		float mul_204 = step_188 * step_187;
+		float mul_213 = GetRadialUV4_135 * mul_204;
+		float sub_154 = div_128 - div_147;
+		float saturate_195 = saturate(-sub_154);
+		float div_206 = saturate_195 / float(2);
+		float add_217 = sub_166 + div_206;
+		float step_224 = step(add_217, sub_177);
+		float add_167 = sub_166 + div_153;
+		float add_168 = add_167 + div_153;
+		float step_189 = step(sub_177, add_168);
+		float mul_231 = step_224 * step_189;
+		float degtorad_120 = customData.myHighlightEndingAngle * 0.0174532925f;
+		float sub_144 = degtorad_120 - div_140;
+		float cos_159 = cos(-sub_144);
+		float mul_181 = cos_159 * add_133;
+		float sin_160 = sin(-sub_144);
+		float mul_182 = sin_160 * add_133;
+		float2 combine_201 = float2(mul_181, mul_182);
+		float2 add_210 = combine_201 + float2(0.5, 0.5);
+		float div_215 = div_206 / div_153;
+		float saturate_222 = saturate(div_215);
+		float sub_229 = float(1) - saturate_222;
+		float mul_237 = sub_229 * add_130;
+		float GetRadialUV4_242 = GetRadialUV4(RescaleUVs_117, add_210, div_125, mul_237, float(0));
+		float mul_249 = mul_231 * GetRadialUV4_242;
+		float degtorad_119 = customData.myHightlightStartingAngle * 0.0174532925f;
+		float add_143 = degtorad_119 + div_140;
+		float cos_157 = cos(-add_143);
+		float mul_179 = cos_157 * add_133;
+		float sin_158 = sin(-add_143);
+		float mul_180 = sin_158 * add_133;
+		float2 combine_200 = float2(mul_179, mul_180);
+		float2 add_209 = combine_200 + float2(0.5, 0.5);
+		float GetRadialUV4_243 = GetRadialUV4(RescaleUVs_117, add_209, div_125, mul_237, float(0));
+		float sub_216 = div_153 - div_206;
+		float add_223 = div_122 + sub_216;
+		float step_230 = step(sub_177, add_223);
+		float sub_169 = float(1) - div_153;
+		float add_190 = div_122 + sub_169;
+		float step_197 = step(add_190, sub_177);
+		float add_238 = step_230 + step_197;
+		float mul_244 = GetRadialUV4_243 * add_238;
+		float add_250 = mul_249 + mul_244;
+		float add_254 = mul_213 + add_250;
+		float step_257 = step(add_255, float(0));
+		float sub_258 = float(1) - step_257;
+		float mul_259 = add_254 * sub_258;
+		float smoothStep_262 = smoothstep(float(0), float(0.1), mul_259);
+		float sub_265 = float(1) - smoothStep_262;
+		float mul_268 = add_255 * sub_265;
+		float step_269 = step(mul_268, float(0));
+		float sub_271 = float(1) - step_269;
+		float4 smear_273 = float4(sub_271, sub_271, sub_271, sub_271);
+		float mul_270 = Gfx_Color.w * mul_268;
+		float4 combine_272 = float4(Gfx_Color.xyz, mul_270);
+		float4 mul_274 = smear_273 * combine_272;
+		float step_260 = step(mul_259, float(0));
+		float sub_263 = float(1) - step_260;
+		float4 smear_266 = float4(sub_263, sub_263, sub_263, sub_263);
+		float mul_261 = Gfx_Color.w * mul_259;
+		float4 combine_264 = float4(customData.myHighlightColor.xyz, mul_261);
+		float4 mul_267 = smear_266 * combine_264;
+		float4 add_275 = mul_274 + mul_267;
+		float sub_129 = float(1) - customData.myUseSegments;
+		float sub_114 = customData.myEndingAngle - customData.myStartingAngle;
+		float div_124 = sub_114 / float(360);
+		float add_178 = GetAtan2_156 + div_124;
+		float mul_199 = add_178 * float(400);
+		float mod_208 = fmod(mul_199, float(1));
+		float saturate_221 = saturate(mod_208);
+		float sub_228 = float(1) - saturate_221;
+		float smoothStep_235 = smoothstep(float(0.5), float(0.7), sub_228);
+		float smoothStep_236 = smoothstep(float(0.5), float(0.3), sub_228);
+		float add_241 = smoothStep_235 + smoothStep_236;
+		float mul_248 = customData.myUseSegments * add_241;
+		float add_253 = sub_129 + mul_248;
+		float saturate_256 = saturate(add_253);
+		float mul_277 = saturate_256 * add_275.w;
+		float4 combine_278 = float4(add_275.xyz, mul_277);
+		float4 finalColor = vec4(0);
+		finalColor = BlendColor(combine_278, float(0));
+		colorOut = finalColor;
+	}
+}

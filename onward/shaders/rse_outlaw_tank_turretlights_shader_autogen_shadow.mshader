@@ -1,0 +1,18 @@
+<keywords = { "GFX_SHADOW_SHADER", }, >
+pixel
+{
+	MR_Sampler2D ColorMap : MR_Texture0 {
+		wrap = clamp,
+	} <label = "Color Map", pinId = 101>;
+	struct CustomData {
+		float myEmissionIntensity <default = 0, label = "Emission Intensity", pinId = 103>;
+	};
+	main(CustomData customData : Gfx_CustomData, out float4 colorOut : MR_Color0, 
+		float2 Gfx_UV : Gfx_UV0, float Gfx_AlphaRef : Gfx_AlphaRef0)
+	{
+		float4 sample_47 = MR_Sample(ColorMap, Gfx_UV);
+		if (sample_47.w < Gfx_AlphaRef) discard;
+		float4 shadowResult = float4(0.0, 0.0, 0.0, sample_47.w);
+		colorOut = shadowResult;
+	}
+}

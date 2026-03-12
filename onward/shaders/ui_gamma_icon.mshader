@@ -1,0 +1,25 @@
+<shaderType = "UI", >
+import "shaders/modules/graphics/drawer/drawer.h"
+blend {
+	writeMask = rgba,
+	src = 1,
+	src.a = 0,
+}
+pixel
+{
+	MR_Sampler2D Sampler_13 : MR_Texture0 {
+		texture = "onward/baked/textures/UI/icons/starlink/ui-icon-starlink-grey.dds",
+	};
+	struct CustomData {
+		float myicon_brightness <default = 0.5, label = "icon_brightness", pinId = 102>;
+	};
+	main(out float4 colorOut : MR_Color0, CustomData customData : Gfx_CustomData0, 
+		float2 Gfx_UV : Gfx_UV0)
+	{
+		float4 sample_14 = MR_Sample(Sampler_13, Gfx_UV);
+		float4 combine_17 = float4(customData.myicon_brightness, customData.myicon_brightness, customData.myicon_brightness, sample_14.w);
+		float4 finalColor = vec4(0);
+		finalColor = BlendColor(combine_17, float(0));
+		colorOut = finalColor;
+	}
+}

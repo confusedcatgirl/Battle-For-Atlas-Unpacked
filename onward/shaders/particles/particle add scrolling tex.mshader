@@ -1,0 +1,99 @@
+<shaderType = "Particle", >
+import "shaders/modules/graphics/environment.h"
+import "shaders/nodes/shader/functions/ow particle intensity multiplier.h"
+import "shaders/nodes/shader/particles/soft.h"
+blend {
+	src = 1,
+	dest = 1,
+}
+pixel
+{
+	MR_Sampler2D MainTex : MR_Texture0 {
+		texture = "rogue/baked/art/effects/environment/light/lightbeam_01_add_d.dds",
+		wrap = border,
+	} <label = "Main Tex", pinId = 101>;
+	MR_Sampler2D NoiseTex1 : MR_Texture1 {
+		texture = "rogue/baked/art/effect_textures/noise_16bit.dds",
+	} <label = "Noise Tex1", pinId = 102>;
+	MR_Sampler2D NoiseTex2 : MR_Texture2 {
+		texture = "rogue/baked/art/effect_textures/noise_16bit.dds",
+	} <label = "Noise Tex2", pinId = 107>;
+	MR_Sampler2D NoiseTex3 : MR_Texture3 {
+		texture = "rogue/baked/art/effect_textures/noise_16bit.dds",
+	} <label = "Noise Tex3", pinId = 112>;
+	struct CustomData {
+		float myMainTexMulti <default = 1, label = "Main Tex Multi", pinId = 118>;
+		float myTex1Multi <default = 0, label = "Tex 1 Multi", pinId = 120>;
+		float myTex2Multi <default = 1, label = "Tex 2 Multi", pinId = 119>;
+		float myTex3Multi <default = 1, label = "Tex 3 Multi", pinId = 117>;
+		float myScrollNoiseTex1U <default = 0.1, label = "Scroll Noise Tex1 U", pinId = 103>;
+		float myScrollNoiseTex1V <default = 0.1, label = "Scroll Noise Tex1 V", pinId = 104>;
+		float myScaleNoiseTex1U <default = 1, label = "Scale Noise Tex1 U", pinId = 105>;
+		float myScaleNoiseTex1V <default = 1, label = "Scale Noise Tex1 V", pinId = 106>;
+		float myScrollNoiseTex2U <default = -0.03, label = "Scroll Noise Tex2 U", pinId = 108>;
+		float myScrollNoiseTex2V <default = 0.06, label = "Scroll Noise Tex2 V", pinId = 109>;
+		float myScaleNoiseTex2U <default = 1, label = "Scale Noise Tex2 U", pinId = 110>;
+		float myScaleNoiseTex2V <default = 1, label = "Scale Noise Tex2 V", pinId = 111>;
+		float myScrollNoiseTex3U <default = 0.04, label = "Scroll Noise Tex3 U", pinId = 113>;
+		float myScrollNoiseTex3V <default = -0.06, label = "Scroll Noise Tex3 V", pinId = 114>;
+		float myScaleNoiseTex3U <default = 1, label = "Scale Noise Tex3 U", pinId = 115>;
+		float myScaleNoiseTex3V <default = 1, label = "Scale Noise Tex3 V", pinId = 116>;
+	};
+	struct CustomInterpolators {
+		float myIntensity <default = 1, label = "Intensity", pinId = 201>;
+	};
+	main(out float4 colorOut : MR_Color0, float4 Particle_Color : Particle_Color0, 
+		CustomInterpolators customInterpolators : Gfx_CustomInterpolators0, 
+		float2 Particle_InstanceUV : Particle_InstanceUV0, 
+		CustomData customData : Gfx_CustomData0, 
+		float4 Particle_ShaderParams : Particle_ShaderParams0, 
+		float4 MR_FragCoord : MR_FragCoord)
+	{
+		float4 result94 = vec4(0);
+		float4 smear_71 = float4(customInterpolators.myIntensity, customInterpolators.myIntensity, customInterpolators.myIntensity, customInterpolators.myIntensity);
+		float4 mul_79 = Particle_Color * smear_71;
+		float saturate_87 = saturate(mul_79.w);
+		float4 combine_90 = float4(mul_79.x, mul_79.y, mul_79.z, saturate_87);
+		float4 sample_67 = MR_Sample(MainTex, Particle_InstanceUV);
+		float4 combine_55 = float4(customData.myMainTexMulti, customData.myMainTexMulti, customData.myMainTexMulti, customData.myMainTexMulti);
+		float4 pow_72 = pow(sample_67, combine_55);
+		float2 combine_59 = float2(customData.myScrollNoiseTex1U, customData.myScrollNoiseTex1V);
+		float2 smear_46 = float2(Gfx_Environment.time, Gfx_Environment.time);
+		float2 mul_73 = combine_59 * smear_46;
+		float2 combine_60 = float2(customData.myScaleNoiseTex1U, customData.myScaleNoiseTex1V);
+		float2 mul_68 = combine_60 * Particle_InstanceUV;
+		float2 add_76 = mul_73 + mul_68;
+		float4 sample_80 = MR_Sample(NoiseTex1, add_76);
+		float4 combine_56 = float4(customData.myTex1Multi, customData.myTex1Multi, customData.myTex1Multi, customData.myTex1Multi);
+		float4 pow_84 = pow(sample_80, combine_56);
+		float2 combine_62 = float2(customData.myScrollNoiseTex2U, customData.myScrollNoiseTex2V);
+		float2 smear_47 = float2(Gfx_Environment.time, Gfx_Environment.time);
+		float2 mul_74 = combine_62 * smear_47;
+		float2 combine_63 = float2(customData.myScaleNoiseTex2U, customData.myScaleNoiseTex2V);
+		float2 mul_69 = combine_63 * Particle_InstanceUV;
+		float2 add_77 = mul_74 + mul_69;
+		float4 sample_81 = MR_Sample(NoiseTex2, add_77);
+		float4 combine_57 = float4(customData.myTex2Multi, customData.myTex2Multi, customData.myTex2Multi, customData.myTex2Multi);
+		float4 pow_85 = pow(sample_81, combine_57);
+		float4 mul_88 = pow_84 * pow_85;
+		float2 combine_65 = float2(customData.myScrollNoiseTex3U, customData.myScrollNoiseTex3V);
+		float2 smear_48 = float2(Gfx_Environment.time, Gfx_Environment.time);
+		float2 mul_75 = combine_65 * smear_48;
+		float2 combine_66 = float2(customData.myScaleNoiseTex3U, customData.myScaleNoiseTex3V);
+		float2 mul_70 = combine_66 * Particle_InstanceUV;
+		float2 add_78 = mul_75 + mul_70;
+		float4 sample_82 = MR_Sample(NoiseTex3, add_78);
+		float4 combine_58 = float4(customData.myTex3Multi, customData.myTex3Multi, customData.myTex3Multi, customData.myTex3Multi);
+		float4 pow_86 = pow(sample_82, combine_58);
+		float4 mul_89 = mul_88 * pow_86;
+		float4 mul_91 = pow_72 * mul_89;
+		float4 mul_92 = combine_90 * mul_91;
+		float4 OWParticleIntensityMultiplier_93 = OWParticleIntensityMultiplier(mul_92);
+		result94 += float4(OWParticleIntensityMultiplier_93.xyz * OWParticleIntensityMultiplier_93.w, 0);
+		float4 colorOut_50;
+		float alphaOut_50;
+		SoftParticle(float4(0, 0, 0, 0), Particle_ShaderParams, MR_FragCoord, colorOut_50, alphaOut_50);
+		result94 *= alphaOut_50;
+		colorOut = result94;
+	}
+}

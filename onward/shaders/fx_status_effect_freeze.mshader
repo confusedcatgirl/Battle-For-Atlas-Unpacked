@@ -1,0 +1,23 @@
+<shaderType = "Vertex">
+vertex
+{
+	struct CustomData {
+		float myLength <default = 0, label = "Length", pinId = 101>;
+		float3 myUpvector <default = 0 1 0, label = "Up vector", pinId = 102>;
+	};
+	void WorldSpaceModifier(inout float3 Gfx_WorldSpacePos : Gfx_WorldSpacePos, 
+		float4 Gfx_Color : Gfx_Color0, CustomData customData : Gfx_CustomData0)
+	{
+		float mul_4 = Gfx_Color.y * customData.myLength;
+		float mul_5 = mul_4 * Gfx_Color.x;
+		float3 smear_6 = float3(mul_5, mul_5, mul_5);
+		float3 mul_7 = customData.myUpvector * smear_6;
+		float3 add_8 = mul_7 + Gfx_WorldSpacePos;
+		Gfx_WorldSpacePos = add_8;
+	}
+	main(CustomData customData : Gfx_CustomData0, float4 Gfx_Color : Gfx_Color0, 
+		inout float3 Gfx_WorldSpacePos : Gfx_WorldSpacePos <modifier = "WorldSpaceModifier">)
+	{
+		// dummy comment so the shader writer does save this out
+	}
+}

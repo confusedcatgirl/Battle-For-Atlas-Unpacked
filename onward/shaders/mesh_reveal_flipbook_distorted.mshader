@@ -1,0 +1,48 @@
+<shaderType = "Vertex">
+import "shaders/modules/graphics/environment.h"
+vertex
+{
+	struct CustomData {
+		float myAmount <default = 0, label = "Amount", pinId = 101>;
+		float myWarpDistance <default = 0, label = "WarpDistance", pinId = 102>;
+		float mySpeedFlicker <default = 1, label = "SpeedFlicker", pinId = 103>;
+		float mySpeedWarp <default = 0, label = "SpeedWarp", pinId = 104>;
+		float myWarpScale <default = 0, label = "WarpScale", pinId = 105>;
+	};
+	void ModelSpaceModifier(inout float3 Gfx_ModelSpacePos : Gfx_ModelSpacePos, float2 Gfx_UV1 : Gfx_UV1, 
+		CustomData customData : Gfx_CustomData0, float2 Gfx_UV : Gfx_UV0, 
+		float3 Gfx_ModelSpaceTangent : Gfx_ModelSpaceTangent0)
+	{
+		float mul_21 = Gfx_UV.y * float(2);
+		float add_22 = mul_21 + float(-1);
+		float abs_23 = abs(add_22);
+		float sub_24 = float(1) - abs_23;
+		float mul_27 = customData.mySpeedWarp * Gfx_Environment.time;
+		float mul_33 = customData.myWarpScale * Gfx_UV.y;
+		float add_36 = mul_27 + mul_33;
+		float sin_38 = sin(add_36);
+		float mul_40 = sub_24 * sin_38;
+		float mul_41 = mul_40 * customData.myWarpDistance;
+		float3 smear_42 = float3(mul_41, mul_41, mul_41);
+		float3 mul_43 = Gfx_ModelSpaceTangent * smear_42;
+		float3 add_44 = Gfx_ModelSpacePos + mul_43;
+		float mul_26 = customData.mySpeedFlicker * Gfx_Environment.time;
+		float sub_28 = mul_26 - Gfx_UV1.x;
+		float mod_30 = fmod(sub_28, float(1));
+		float step_31 = step(float(0.4), mod_30);
+		float step_32 = step(mod_30, float(0.6));
+		float mul_35 = step_31 * step_32;
+		float sub_29 = float(1) - customData.myAmount;
+		float step_34 = step(sub_29, Gfx_UV1.y);
+		float mul_37 = mul_35 * step_34;
+		float3 smear_39 = float3(mul_37, mul_37, mul_37);
+		float3 mul_45 = add_44 * smear_39;
+		Gfx_ModelSpacePos = mul_45;
+	}
+	main(float3 Gfx_ModelSpaceTangent : Gfx_ModelSpaceTangent0, float2 Gfx_UV : Gfx_UV0, 
+		CustomData customData : Gfx_CustomData0, float2 Gfx_UV1 : Gfx_UV1, 
+		inout float3 Gfx_ModelSpacePos : Gfx_ModelSpacePos <modifier = "ModelSpaceModifier">)
+	{
+		// dummy comment so the shader writer does save this out
+	}
+}

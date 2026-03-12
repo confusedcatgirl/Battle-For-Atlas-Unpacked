@@ -1,0 +1,45 @@
+<shaderType = "UI", >
+import "shaders/modules/graphics/drawer/drawer.h"
+import "shaders/modules/graphics/ssr_common.h"
+import "shaders/nodes/shader/ui/ui blit effect fullscreen uv.h"
+import "shaders/nodes/shader/ui/ui blit effect.h"
+blend {
+	writeMask = rgba,
+	src = 1,
+	src.a = 0,
+}
+pixel
+{
+	MR_Sampler2D UITexture : MR_Texture0 <label = "UI Texture", pinId = 106>;
+	MR_Sampler2D Sampler_27 : MR_Texture1 {
+		texture = "onward/baked/textures/FX/fx_post_pilot_ability_berserk.dds",
+	};
+	struct CustomData {
+		float myMin <default = 0, label = "Min", pinId = 101>;
+		float myMax <default = 0, label = "Max", pinId = 102>;
+		float4 myColor <default = 0 0 0 0, label = "Color", pinId = 103>;
+		float myIntensity <default = 0, label = "Intensity", pinId = 104>;
+		float myContrast <config = { min = 0.01, }, default = 1, label = "Contrast", pinId = 105>;
+	};
+	main(out float4 colorOut : MR_Color0, float2 Gfx_UV : Gfx_UV0, 
+		CustomData customData : Gfx_CustomData0, 
+		float4 Gfx_ClipPosition : Gfx_ClipPosition0)
+	{
+		float4 sample_34 = MR_Sample(UITexture, Gfx_UV);
+		float4 sample_26 = MR_Sample(SSR_FramebufferOpaque, Gfx_UV);
+		float4 smear_32 = float4(customData.myIntensity, customData.myIntensity, customData.myIntensity, customData.myIntensity);
+		float2 UIGetBlitEffectFullscreenUV_23 = UIGetBlitEffectFullscreenUV(Gfx_ClipPosition);
+		float4 sample_29 = MR_Sample(Sampler_27, UIGetBlitEffectFullscreenUV_23);
+		float pow_35 = pow(abs(sample_29.x), customData.myContrast);
+		float smoothStep_36 = smoothstep(customData.myMin, customData.myMax, pow_35);
+		float4 smear_37 = float4(smoothStep_36, smoothStep_36, smoothStep_36, smoothStep_36);
+		float4 lerp_38 = lerp(float4(0, 0, 0, 0), sample_29, smear_37);
+		float4 mul_39 = customData.myColor * lerp_38;
+		float4 mul_40 = smear_32 * mul_39;
+		float4 add_41 = sample_26 + mul_40;
+		float4 GetBlitEffectColor_42 = GetBlitEffectColor(sample_34, add_41);
+		float4 finalColor = vec4(0);
+		finalColor = BlendColor(GetBlitEffectColor_42, float(0));
+		colorOut = finalColor;
+	}
+}

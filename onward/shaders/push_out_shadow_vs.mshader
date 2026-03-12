@@ -1,0 +1,41 @@
+<shaderType = "Vertex">
+import "shaders/MRender/MR_ViewConstants.h"
+vertex
+{
+	struct CustomData {
+		float myOffsetShadow <default = 0, label = "Offset Shadow", pinId = 101>;
+	};
+	float4 PushOutIfShadow(float4 v1, float4 v2)
+	{
+		float4 result = v1;
+		if (MR_ViewConstants.isShadowView == 0)
+		{
+		result = v2;
+		}
+		return result;
+	}
+	void ClipSpaceModifier(inout float4 Gfx_ClipPosition : Gfx_ClipPosition, 
+		float3 Gfx_CameraSpacePos : Gfx_CameraSpacePos0, 
+		float3 Gfx_WorldSpaceNormal : Gfx_WorldSpaceNormal0, 
+		CustomData customData : Gfx_CustomData0)
+	{
+		float3 normalize_11 = normalize(Gfx_CameraSpacePos);
+		float4 combine_14 = float4(normalize_11.x, normalize_11.y, normalize_11.z, float(0));
+		float4 transform_15 = MR_Transform(MR_ViewConstants.cameraToWorld, combine_14);
+		float3 combine_17 = float3(transform_15.x, transform_15.y, transform_15.z);
+		float dot_18 = dot(Gfx_WorldSpaceNormal, combine_17);
+		float abs_19 = abs(dot_18);
+		float mul_21 = customData.myOffsetShadow * abs_19;
+		float4 combine_22 = float4(float(0), float(0), mul_21, float(0));
+		float4 add_23 = Gfx_ClipPosition + combine_22;
+		float4 PushOutIfShadow_24 = PushOutIfShadow(Gfx_ClipPosition, add_23);
+		Gfx_ClipPosition = PushOutIfShadow_24;
+	}
+	main(CustomData customData : Gfx_CustomData0, 
+		float3 Gfx_WorldSpaceNormal : Gfx_WorldSpaceNormal0, 
+		float3 Gfx_CameraSpacePos : Gfx_CameraSpacePos0, 
+		inout float4 Gfx_ClipPosition : Gfx_ClipPosition <modifier = "ClipSpaceModifier">)
+	{
+		// dummy comment so the shader writer does save this out
+	}
+}

@@ -1,0 +1,29 @@
+<keywords = { "LIGHT_FROM_GROUND", "IS_MAIN_PLANET", "GFX_DEPTH_SHADER", }, >
+pixel
+{
+	MR_Sampler2D BaseColor : MR_Texture0 {
+		texture = "onward/baked/textures/default_b.dds",
+	} <label = "Base Color", pinId = 102>;
+	MR_Sampler2D Gradient : MR_Texture3 {
+		wrap = clamp,
+	} <pinId = 107>;
+	struct CustomData {
+		float myLength <config = { max = 2, min = 0, type = "Slider", }, default = 0, label = "Length", pinId = 108>;
+		float myEmissionIntensity <default = 1, label = "Emission Intensity", pinId = 109>;
+	};
+	main(out float4 colorOut : MR_Color0, float2 Gfx_UV : Gfx_UV0, 
+		CustomData customData : Gfx_CustomData0, float2 Gfx_UV1 : Gfx_UV1, 
+		float Gfx_AlphaRef : Gfx_AlphaRef0, 
+		float3 Gfx_CameraSpacePos : Gfx_CameraSpacePos0)
+	{
+		float4 sample_87 = MR_Sample(BaseColor, Gfx_UV);
+		float sub_93 = customData.myLength - Gfx_UV1.y;
+		float saturate_96 = saturate(sub_93);
+		float2 combine_99 = float2(saturate_96, float(0.5));
+		float4 sample_100 = MR_Sample(Gradient, combine_99);
+		float mul_103 = sample_87.w * sample_100.w;
+		if (mul_103 < Gfx_AlphaRef) discard;
+		float4 depthResult = float4(Gfx_CameraSpacePos.z, 0, 0, mul_103);
+		colorOut = depthResult;
+	}
+}

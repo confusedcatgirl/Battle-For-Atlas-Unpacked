@@ -1,0 +1,48 @@
+<emission = true, shaderType = "Object", keywords = { "GFX_FORWARD_SHADER", }, >
+import "shaders/MRender/MR_ViewConstants.h"
+blend {
+	src = 1,
+	dest = 1,
+}
+pixel
+{
+	MR_Sampler2D GradientTexture : MR_Texture0 {
+		wrap = clamp,
+	} <label = "Gradient Texture", pinId = 101>;
+	struct CustomData {
+		float myIntensity <default = 1, label = "Intensity", pinId = 118>;
+		float myFresnelPower <default = 0, label = "Fresnel Power", pinId = 150>;
+		float myFresnelInvert <default = 0, label = "Fresnel Invert", pinId = 151>;
+		float myFresnelBottomRangeClamp <default = 0, label = "Fresnel Bottom Range Clamp", pinId = 157>;
+		float myAlpha <default = 1, label = "Alpha", pinId = 160>;
+		float myOutterFresnel <default = 0, label = "Outter Fresnel", pinId = 161>;
+	};
+	main(out float4 colorOut : MR_Color0, CustomData customData : Gfx_CustomData0, 
+		float3 Gfx_WorldSpacePos : Gfx_WorldSpacePos0, 
+		float3 Gfx_WorldSpaceNormal : Gfx_WorldSpaceNormal0)
+	{
+		float3 smear_55 = float3(customData.myIntensity, customData.myIntensity, customData.myIntensity);
+		float4 transform_47 = MR_Transform(MR_ViewConstants.cameraToWorld, float4(0, 0, 0, 1));
+		float3 truncate_48 = float3(transform_47.xyz);
+		float3 sub_49 = truncate_48 - Gfx_WorldSpacePos;
+		float3 normalize_50 = normalize(sub_49);
+		float3 normalize_40 = normalize(Gfx_WorldSpaceNormal);
+		float dot_51 = dot(normalize_50, normalize_40);
+		float abs_52 = abs(dot_51);
+		float saturate_53 = saturate(abs_52);
+		float pow_59 = pow(abs(saturate_53), customData.myOutterFresnel);
+		float pow_58 = pow(abs(saturate_53), customData.myFresnelPower);
+		float sub_60 = customData.myFresnelInvert - pow_58;
+		float mul_61 = pow_59 * sub_60;
+		float abs_62 = abs(mul_61);
+		float remap_63 = customData.myFresnelBottomRangeClamp + saturate((abs_62 - float(0)) / (float(1) - float(0))) * (float(1) - customData.myFresnelBottomRangeClamp);
+		float2 combine_64 = float2(remap_63, float(0.5));
+		float4 sample_65 = MR_Sample(GradientTexture, combine_64);
+		float3 truncate_66 = float3(sample_65.xyz);
+		float3 mul_67 = smear_55 * truncate_66;
+		float3 smear_57 = float3(customData.myAlpha, customData.myAlpha, customData.myAlpha);
+		float3 mul_68 = mul_67 * smear_57;
+		float4 result_70 = float4(mul_68, 1);
+		colorOut = result_70;
+	}
+}

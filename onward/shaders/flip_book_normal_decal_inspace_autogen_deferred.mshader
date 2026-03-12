@@ -1,0 +1,101 @@
+import "shaders/modules/graphics/normal_encode.h"
+import "shaders/nodes/shader/functions/onward/planet/ow_getplanetposition.h"
+import "shaders/modules/graphics/environment.h"
+import "shaders/nodes/shader/functions/unpack normal.h"
+pixel
+{
+	MR_Sampler2D Posative : MR_Texture0 {
+		texture = "onward/baked/textures/Effects/rotatesmoke16x8_pos_d.dds",
+	} <pinId = 101>;
+	struct CustomData {
+		float2 mySize <default = 8 8, label = "Size", pinId = 106>;
+		float mySpeed <default = 0.1, label = "Speed", pinId = 107>;
+	};
+	void textureAtlas(float2 Size, float Selector, float2 uv, out float2 NewUV1, out float2 NewUV2, 
+		out float Blend1, out float Blend2, float aFlipU, float aFlipV, float aSwapUV, 
+		bool aLooping)
+	{
+		if (aFlipU > 0)
+		   uv.x = 1-uv.x;
+		 if (aFlipV > 0)
+		   uv.y = 1-uv.y;
+		 if (aSwapUV > 0)
+		 {
+		   float t = uv.x;
+		   uv.x = uv.y;
+		   uv.y = t;
+		 }
+		 float width = Size.x;
+		 float height = Size.y;
+		 float area = width * height;
+		 float findex;
+		 if (aLooping)
+		 {
+		   float sel = frac(Selector);
+		   findex = area * sel;
+		 }
+		 else
+		 {
+		   findex = ((Selector * (area+1)) - 1);
+		 }
+		 float index1 = floor(findex);
+		 float index2 = index1 + 1;
+		 float row1 = floor(index1 / width);
+		 float row2 = floor(index2 / width);
+		 float col1 = index1 - row1 * width;
+		 float col2 = index2 - row2 * width;
+		 float2 gridPos1 = float2(col1, row1);
+		 float2 gridPos2 = float2(col2, row2);
+		 NewUV1 = (gridPos1 + uv) / Size;
+		 NewUV2 = (gridPos2 + uv) / Size;
+		 Blend2 = findex - index1;
+		 Blend1 = 1.0 - Blend2;
+		 if (!aLooping)
+		 {
+		   if (index1 < 0 || index1 >= area) Blend1 = 0;
+		   if (index2 < 0 || index2 >= area) Blend2 = 0;
+		 }
+	}
+	main(bool MR_IsFrontFace : MR_IsFrontFace, out float4 colorOut : MR_Color0, 
+		CustomData customData : Gfx_CustomData0, 
+		float3x4 Gfx_ObjectToWorldMatrix : Gfx_ObjectToWorldMatrix0, 
+		float2 Gfx_UV : Gfx_UV0, float3x3 Gfx_TangentToWorld : Gfx_TangentToWorld0)
+	{
+		float3 transform_50 = MR_Transform(Gfx_ObjectToWorldMatrix, float3(0, 0, 0));
+		float3 OW_GetPlanetPosition_40 = OW_GetPlanetPosition();
+		float3 sub_51 = transform_50 - OW_GetPlanetPosition_40;
+		float mul_53 = float(5.32156) * sub_51.x;
+		float mul_54 = float(1.64534) * sub_51.y;
+		float add_55 = mul_53 + mul_54;
+		float add_56 = add_55 + Gfx_Environment.time;
+		float mul_59 = add_56 * customData.mySpeed;
+		float2 NewUV1_60;
+		float2 NewUV2_60;
+		float Blend1_60;
+		float Blend2_60;
+		textureAtlas(customData.mySize, mul_59, Gfx_UV, NewUV1_60, NewUV2_60, Blend1_60, Blend2_60, float(0), float(0), float(0), true);
+		float4 sample_61 = MR_Sample(Posative, NewUV1_60);
+		float3 normal_65;
+		float ambientOcclusion_65;
+		UnpackNormalAndAO(sample_61, normal_65, ambientOcclusion_65);
+		float4 combine_68 = float4(normal_65.x, normal_65.y, normal_65.z, ambientOcclusion_65);
+		float4 smear_63 = float4(Blend1_60, Blend1_60, Blend1_60, Blend1_60);
+		float4 mul_71 = combine_68 * smear_63;
+		float4 sample_62 = MR_Sample(Posative, NewUV2_60);
+		float3 normal_66;
+		float ambientOcclusion_66;
+		UnpackNormalAndAO(sample_62, normal_66, ambientOcclusion_66);
+		float4 combine_70 = float4(normal_66.x, normal_66.y, normal_66.z, ambientOcclusion_66);
+		float4 smear_64 = float4(Blend2_60, Blend2_60, Blend2_60, Blend2_60);
+		float4 mul_72 = combine_70 * smear_64;
+		float4 add_73 = mul_71 + mul_72;
+		float3 combine_75 = float3(add_73.x, add_73.y, add_73.z);
+		float3 transform_76 = MR_Transform(Gfx_TangentToWorld, combine_75);
+		float3 normalize_77 = normalize(transform_76);
+		float3 flippedNormal = normalize_77;
+		if (!MR_IsFrontFace)
+		    flippedNormal = -flippedNormal;
+		float4 deferredResult = float4(Gfx_EncodeNormal_UNorm(flippedNormal), add_73.w);
+		colorOut = deferredResult;
+	}
+}

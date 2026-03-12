@@ -1,0 +1,32 @@
+<keywords = { "LIGHT_FROM_GROUND", "IS_MAIN_PLANET", "GFX_DEFERRED_SHADER", }, >
+import "shaders/modules/graphics/deferred_data.h"
+import "shaders/modules/graphics/normal_encode.h"
+import "shaders/nodes/shader/functions/onward/planet/ow_waterdithering.h"
+pixel
+{
+	struct CustomData {
+		float3 myColor <config = { type = "ColorBox", }, default = 0 0 0, label = "Color", pinId = 101>;
+		float myAlpha <default = 1, label = "Alpha", pinId = 102>;
+	};
+	main(bool MR_IsFrontFace : MR_IsFrontFace, 
+		out Gfx_DeferredData deferredOut : Gfx_Deferred, 
+		CustomData customData : Gfx_CustomData0, 
+		float3 Gfx_WorldSpacePos : Gfx_WorldSpacePos0, 
+		float4 MR_FragCoord : MR_FragCoord, float Gfx_AlphaRef : Gfx_AlphaRef0, 
+		float3 Gfx_WorldSpaceNormal : Gfx_WorldSpaceNormal0)
+	{
+		float3 mul_50 = customData.myColor * customData.myColor;
+		deferredOut.color = mul_50;
+		deferredOut.roughness = float(0);
+		deferredOut.metalness = float(0);
+		deferredOut.ao = float(1);
+		deferredOut.opacity = float(1);
+		float OW_WaterDithering_51 = OW_WaterDithering(customData.myAlpha, Gfx_WorldSpacePos, MR_FragCoord);
+		if (OW_WaterDithering_51 < Gfx_AlphaRef) discard;
+		float3 normalize_40 = normalize(Gfx_WorldSpaceNormal);
+		float3 flippedNormal = normalize_40;
+		if (!MR_IsFrontFace)
+		    flippedNormal = -flippedNormal;
+		deferredOut.worldNormal = flippedNormal;
+	}
+}

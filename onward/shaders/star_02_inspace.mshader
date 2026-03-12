@@ -1,0 +1,20 @@
+<isEmitting = true, isUnlit = true, shaderType = "Terrain", >
+pixel
+{
+	import "shaders/modules/graphics/onworld/env_constants.h"
+	float3 GetSunLightColor()
+	{
+		return MR_OnworldEnvironmentConstants.cosmosDirLightColor;
+	}
+	main()
+	{
+		float3 GetSunLightColor_4 = GetSunLightColor();
+		float3 mul_10 = GetSunLightColor_4 * float3(1, 1, 1);
+		float3 resultEmissive = mul_10;
+		float3 resultDiffuse = float3(0, 0, 0);
+		float3 sphereNormal = In_SphereNormal;
+		float3 resultNormal = sphereNormal;
+		float resultRoughness = float(1);
+		float resultAmbientOcclusion = float(1);
+	}
+}

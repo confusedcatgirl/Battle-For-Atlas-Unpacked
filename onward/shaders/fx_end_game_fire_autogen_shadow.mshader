@@ -1,0 +1,58 @@
+<keywords = { "GFX_SHADOW_SHADER", }, >
+import "shaders/modules/graphics/environment.h"
+pixel
+{
+	MR_Sampler2D NoiseTexture : MR_Texture0 <pinId = 101>;
+	MR_Sampler2D Mask : MR_Texture1 <pinId = 110>;
+	MR_Sampler2D Distortion : MR_Texture2 <pinId = 111>;
+	MR_Sampler2D Alpha : MR_Texture4 {
+		wrap = clamp,
+	} <pinId = 116>;
+	struct CustomData {
+		float2 myNoiseTextureScaleUV <default = 1 1, label = "NoiseTexture Scale UV", pinId = 102>;
+		float2 myNoiseTextureOffsetUV <default = 0 0, label = "NoiseTexture Offset UV", pinId = 103>;
+		float2 myNoiseTextureUVSpeed <default = 0 0, label = "NoiseTexture UV Speed", pinId = 104>;
+		float2 myDistortionScaleUV <default = 1 1, label = "Distortion Scale UV", pinId = 107>;
+		float2 myDistortionOffsetUV <default = 0 0, label = "Distortion Offset UV", pinId = 108>;
+		float2 myDistortionUVSpeed <default = 0 0, label = "Distortion UV Speed", pinId = 109>;
+		float2 myDistortionStrength <default = 0 0, label = "Distortion Strength", pinId = 112>;
+		float myIntensitry <default = 0, label = "Intensitry", pinId = 115>;
+		float myErosion <default = 0, label = "Erosion", pinId = 117>;
+	};
+	main(out float4 colorOut : MR_Color0, float2 Gfx_UV : Gfx_UV0, 
+		CustomData customData : Gfx_CustomData0, float Gfx_AlphaRef : Gfx_AlphaRef0)
+	{
+		float4 sample_102 = MR_Sample(Mask, Gfx_UV);
+		float lerp_88 = lerp(Gfx_Environment.time, float(0), float(0));
+		float mul_103 = lerp_88 * customData.myNoiseTextureUVSpeed.x;
+		float2 mul_92 = Gfx_UV * customData.myNoiseTextureScaleUV;
+		float lerp_85 = lerp(Gfx_Environment.time, float(0), float(0));
+		float mul_106 = lerp_85 * customData.myDistortionUVSpeed.x;
+		float2 mul_94 = Gfx_UV * customData.myDistortionScaleUV;
+		float2 add_95 = mul_94 + customData.myDistortionOffsetUV;
+		float add_108 = mul_106 + add_95.x;
+		float mul_107 = lerp_85 * customData.myDistortionUVSpeed.y;
+		float add_109 = mul_107 + add_95.y;
+		float2 combine_110 = float2(add_108, add_109);
+		float4 sample_111 = MR_Sample(Distortion, combine_110);
+		float2 combine_113 = float2(sample_111.x, sample_111.y);
+		float2 mul_114 = customData.myDistortionStrength * combine_113;
+		float2 add_115 = customData.myNoiseTextureOffsetUV + mul_114;
+		float2 add_116 = mul_92 + add_115;
+		float add_118 = mul_103 + add_116.x;
+		float mul_104 = lerp_88 * customData.myNoiseTextureUVSpeed.y;
+		float add_119 = mul_104 + add_116.y;
+		float2 combine_120 = float2(add_118, add_119);
+		float4 sample_121 = MR_Sample(NoiseTexture, combine_120);
+		float4 smear_123 = float4(sample_121.x, sample_121.x, sample_121.x, sample_121.x);
+		float4 mul_124 = sample_102 * smear_123;
+		float sub_126 = mul_124.x - customData.myErosion;
+		float2 combine_127 = float2(sub_126, float(0));
+		float4 sample_129 = MR_Sample(Alpha, combine_127);
+		float4 clamp_131 = clamp(sample_129, float4(0, 0, 0, 0), float4(1, 1, 1, 1));
+		float truncate_133 = float(clamp_131.x);
+		if (truncate_133 < Gfx_AlphaRef) discard;
+		float4 shadowResult = float4(0.0, 0.0, 0.0, truncate_133);
+		colorOut = shadowResult;
+	}
+}

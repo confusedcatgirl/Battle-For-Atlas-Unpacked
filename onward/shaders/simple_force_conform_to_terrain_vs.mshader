@@ -1,0 +1,67 @@
+<shaderType = "Vertex">
+import "shaders/nodes/shader/functions/getplanetposition.h"
+import "shaders/nodes/shader/functions/onward/ow_getterrainlowresradius.h"
+import "shaders/MRender/MR_ViewConstants.h"
+import "shaders/nodes/shader/functions/onward/ow_getplayerposition.h"
+import "shaders/nodes/shader/functions/onward/planet/ow_getplanetminradius.h"
+import "shaders/nodes/shader/functions/onward/ow_getforcefield.h"
+vertex
+{
+	struct CustomData {
+		float myWindHeightScale <default = 0.05, label = "Wind Height Scale", pinId = 101>;
+	};
+	float GetYScale(float3x4 modelToWorld)
+	{
+		return length(MR_GetYAxis(modelToWorld).xyz);
+	}
+	void WorldSpaceModifier(inout float3 Gfx_WorldSpacePos : Gfx_WorldSpacePos, 
+		CustomData customData : Gfx_CustomData0, 
+		float3x4 Gfx_ObjectToWorldMatrix : Gfx_ObjectToWorldMatrix0, 
+		float3 Gfx_ModelSpacePos : Gfx_ModelSpacePos0)
+	{
+		float3 GetPlanetPosition_0 = GetPlanetPosition();
+		float3 add_32 = GetPlanetPosition_0 + float3(1e-05, 0, 0);
+		float3 sub_35 = Gfx_WorldSpacePos - add_32;
+		float3 normalize_36 = normalize(sub_35);
+		float OW_GetTerrainLowResRadius_37 = OW_GetTerrainLowResRadius(normalize_36);
+		float GetYScale_19 = GetYScale(Gfx_ObjectToWorldMatrix);
+		float mul_29 = Gfx_ModelSpacePos.y * GetYScale_19;
+		float abs_34 = abs(mul_29);
+		float mul_49 = customData.myWindHeightScale * abs_34;
+		float3 sub_18 = Gfx_WorldSpacePos - MR_ViewConstants.LODCameraPosition;
+		float length_30 = length(sub_18);
+		float smoothStep_31 = smoothstep(float(120), float(60), length_30);
+		float mul_50 = mul_49 * smoothStep_31;
+		float3 OW_GetPlayerPosition_10 = OW_GetPlayerPosition();
+		float3 sub_15 = OW_GetPlayerPosition_10 - GetPlanetPosition_0;
+		float3 normalize_28 = normalize(sub_15);
+		float OW_GetPlanetMinRadius_14 = OW_GetPlanetMinRadius();
+		float3 combine_27 = float3(OW_GetPlanetMinRadius_14, OW_GetPlanetMinRadius_14, OW_GetPlanetMinRadius_14);
+		float3 mul_33 = normalize_28 * combine_27;
+		float3 mul_38 = normalize_36 * combine_27;
+		float3 sub_40 = mul_33 - mul_38;
+		float length_42 = length(sub_40);
+		float smoothStep_44 = smoothstep(float(10), float(4), length_42);
+		float mul_46 = float(4) * smoothStep_44;
+		float3 combine_39 = float3(OW_GetTerrainLowResRadius_37, OW_GetTerrainLowResRadius_37, OW_GetTerrainLowResRadius_37);
+		float3 mul_41 = normalize_36 * combine_39;
+		float3 OW_GetForceField_43 = OW_GetForceField(mul_41);
+		float length_45 = length(OW_GetForceField_43);
+		float max_47 = max(mul_46, length_45);
+		float mul_51 = mul_50 * max_47;
+		float sub_52 = mul_29 - mul_51;
+		float max_53 = max(sub_52, float(0));
+		float add_54 = OW_GetTerrainLowResRadius_37 + max_53;
+		float3 combine_55 = float3(add_54, add_54, add_54);
+		float3 mul_56 = normalize_36 * combine_55;
+		float3 add_57 = GetPlanetPosition_0 + mul_56;
+		Gfx_WorldSpacePos = add_57;
+	}
+	main(float3 Gfx_ModelSpacePos : Gfx_ModelSpacePos0, 
+		float3x4 Gfx_ObjectToWorldMatrix : Gfx_ObjectToWorldMatrix0, 
+		CustomData customData : Gfx_CustomData0, 
+		inout float3 Gfx_WorldSpacePos : Gfx_WorldSpacePos <modifier = "WorldSpaceModifier">)
+	{
+		// dummy comment so the shader writer does save this out
+	}
+}

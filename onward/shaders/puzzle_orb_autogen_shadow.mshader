@@ -1,0 +1,20 @@
+pixel
+{
+	MR_Sampler2D BaseColor : MR_Texture0 {
+		texture = "onward/baked/textures/default_b.dds",
+	} <label = "Base Color", pinId = 102>;
+	struct CustomData {
+		float3 myColorRim <config = { type = "ColorBox", }, default = 0 0 0, label = "Color Rim", pinId = 128>;
+		float3 myColorCenter <config = { type = "ColorBox", }, default = 0 0 0, label = "Color Center", pinId = 129>;
+		float myIntensity <default = 20, label = "Intensity", pinId = 131>;
+		float myShimmerIntensity <default = 0, label = "Shimmer Intensity", pinId = 133>;
+	};
+	main(CustomData customData : Gfx_CustomData, out float4 colorOut : MR_Color0, 
+		float2 Gfx_UV : Gfx_UV0, float Gfx_AlphaRef : Gfx_AlphaRef0)
+	{
+		float4 sample_221 = MR_Sample(BaseColor, Gfx_UV);
+		if (sample_221.w < Gfx_AlphaRef) discard;
+		float4 shadowResult = float4(0.0, 0.0, 0.0, sample_221.w);
+		colorOut = shadowResult;
+	}
+}

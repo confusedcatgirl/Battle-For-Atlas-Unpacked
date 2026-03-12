@@ -1,0 +1,186 @@
+<shaderType = "Object", keywords = { "GFX_FORWARD_SHADER", }, >
+import "shaders/modules/graphics/environment.h"
+import "shaders/nodes/shader/functions/ow emissive intensity multiplier.h"
+blend {
+	src = 1,
+}
+pixel
+{
+	MR_Sampler2D DistTexture : MR_Texture0 <label = "Dist Texture", pinId = 101>;
+	MR_Sampler2D DistTexture2 : MR_Texture1 <label = "Dist Texture 2", pinId = 102>;
+	MR_Sampler2D Texture : MR_Texture2 {
+		wrap = clamp,
+	} <pinId = 103>;
+	MR_Sampler2D SparkTexture : MR_Texture3 <pinId = 118>;
+	struct CustomData {
+		float myGradientPower <default = 1, label = "GradientPower", pinId = 104>;
+		float2 myDistIntensity <default = 0 0, label = "DistIntensity", pinId = 105>;
+		float2 myDistIntensity2 <default = 0 0, label = "DistIntensity2", pinId = 106>;
+		float4 myColor1 <default = 0 0 0 0, label = "Color1", pinId = 107>;
+		float4 myColor2 <default = 0 0 0 0, label = "Color2", pinId = 108>;
+		float myOpacIntensity <default = 0, label = "OpacIntensity", pinId = 109>;
+		float2 myUVScale <default = 0 0, label = "UVScale", pinId = 110>;
+		float2 myUVScale2 <default = 0 0, label = "UVScale 2", pinId = 111>;
+		float2 myOffsetUV <default = 0 0, label = "OffsetUV", pinId = 112>;
+		float2 myOffsetUV2 <default = 0 0, label = "OffsetUV2", pinId = 113>;
+		float2 myUVSpeed <default = 0 0, label = "UV Speed", pinId = 114>;
+		float2 myUVSpeed2 <default = 0 0, label = "UV Speed 2", pinId = 115>;
+		float myIntensity1 <default = 0, label = "Intensity1", pinId = 116>;
+		float myIntensity2 <default = 0, label = "Intensity2", pinId = 117>;
+		float myOverrideAlpha <default = 0, label = "OverrideAlpha", pinId = 119>;
+	};
+	void textureAtlas(float2 Size, float Selector, float2 uv, out float2 NewUV1, out float2 NewUV2, 
+		out float Blend1, out float Blend2, float aFlipU, float aFlipV, float aSwapUV, 
+		bool aLooping)
+	{
+		if (aFlipU > 0)
+		   uv.x = 1-uv.x;
+		 if (aFlipV > 0)
+		   uv.y = 1-uv.y;
+		 if (aSwapUV > 0)
+		 {
+		   float t = uv.x;
+		   uv.x = uv.y;
+		   uv.y = t;
+		 }
+		 float width = Size.x;
+		 float height = Size.y;
+		 float area = width * height;
+		 float findex;
+		 if (aLooping)
+		 {
+		   float sel = frac(Selector);
+		   findex = area * sel;
+		 }
+		 else
+		 {
+		   findex = ((Selector * (area+1)) - 1);
+		 }
+		 float index1 = floor(findex);
+		 float index2 = index1 + 1;
+		 float row1 = floor(index1 / width);
+		 float row2 = floor(index2 / width);
+		 float col1 = index1 - row1 * width;
+		 float col2 = index2 - row2 * width;
+		 float2 gridPos1 = float2(col1, row1);
+		 float2 gridPos2 = float2(col2, row2);
+		 NewUV1 = (gridPos1 + uv) / Size;
+		 NewUV2 = (gridPos2 + uv) / Size;
+		 Blend2 = findex - index1;
+		 Blend1 = 1.0 - Blend2;
+		 if (!aLooping)
+		 {
+		   if (index1 < 0 || index1 >= area) Blend1 = 0;
+		   if (index2 < 0 || index2 >= area) Blend2 = 0;
+		 }
+	}
+	main(out float4 colorOut : MR_Color0, CustomData customData : Gfx_CustomData0, 
+		float2 Gfx_UV : Gfx_UV0, float2 Gfx_UV1 : Gfx_UV1, float4 Gfx_Color : Gfx_Color0)
+	{
+		float3 truncate_143 = float3(customData.myColor1.xyz);
+		float3 truncate_145 = float3(customData.myColor2.xyz);
+		float3 add_161 = truncate_143 + truncate_145;
+		float4 combine_165 = float4(add_161, float(1));
+		float sub_120 = float(1) - Gfx_UV.x;
+		float step_122 = step(Gfx_UV1.x, float(0.5));
+		float lerp_130 = lerp(Gfx_UV.x, sub_120, step_122);
+		float mul_158 = customData.myUVSpeed.x * Gfx_Environment.time;
+		float2 mul_148 = Gfx_UV * customData.myUVScale;
+		float2 combine_121 = float2(Gfx_UV1.x, Gfx_UV1.x);
+		float2 mul_129 = combine_121 * float2(7.6545, 8.5464);
+		float2 add_172 = mul_129 + customData.myOffsetUV;
+		float2 add_177 = mul_148 + add_172;
+		float add_184 = mul_158 + add_177.x;
+		float mul_159 = customData.myUVSpeed.y * Gfx_Environment.time;
+		float add_185 = mul_159 + add_177.y;
+		float2 combine_190 = float2(add_184, add_185);
+		float4 sample_193 = MR_Sample(DistTexture, combine_190);
+		float2 combine_197 = float2(sample_193.x, sample_193.y);
+		float2 mul_199 = combine_197 * float2(0.333, 0.333);
+		float2 mul_201 = mul_199 * customData.myDistIntensity;
+		float mul_156 = customData.myUVSpeed2.x * Gfx_Environment.time;
+		float2 mul_149 = Gfx_UV * customData.myUVScale2;
+		float2 add_173 = mul_129 + customData.myOffsetUV2;
+		float2 add_178 = mul_149 + add_173;
+		float add_186 = mul_156 + add_178.x;
+		float mul_157 = customData.myUVSpeed2.y * Gfx_Environment.time;
+		float add_187 = mul_157 + add_178.y;
+		float2 combine_191 = float2(add_186, add_187);
+		float4 sample_194 = MR_Sample(DistTexture2, combine_191);
+		float2 combine_198 = float2(sample_194.x, sample_194.y);
+		float2 mul_200 = combine_198 * customData.myDistIntensity2;
+		float2 mul_202 = mul_200 * customData.myDistIntensity;
+		float2 mul_203 = mul_201 * mul_202;
+		float sub_119 = float(1) - Gfx_UV.y;
+		float mul_168 = sub_119 * customData.myGradientPower;
+		float2 smear_174 = float2(mul_168, mul_168);
+		float2 mul_204 = mul_203 * smear_174;
+		float2 add_205 = Gfx_UV + mul_204;
+		float2 combine_207 = float2(lerp_130, add_205.y);
+		float4 sample_208 = MR_Sample(Texture, combine_207);
+		float mul_211 = sample_208.x * sample_208.z;
+		float4 sample_160 = MR_Sample(Texture, Gfx_UV);
+		float mul_214 = mul_211 * sample_160.w;
+		float4 smear_217 = float4(mul_214, mul_214, mul_214, mul_214);
+		float4 mul_221 = combine_165 * smear_217;
+		float3 truncate_224 = float3(mul_221.xyz);
+		float saturate_218 = saturate(mul_214);
+		float mul_127 = float(0.25) * Gfx_Environment.time;
+		float add_128 = mul_127 + Gfx_UV1.x;
+		float smoothStep_136 = smoothstep(float(0), float(0.25), frac(add_128));
+		float smoothStep_137 = smoothstep(float(0.5), float(0.25), frac(add_128));
+		float mul_138 = smoothStep_136 * smoothStep_137;
+		float lerp_183 = lerp(mul_138, float(1), customData.myOverrideAlpha);
+		float mul_222 = saturate_218 * lerp_183;
+		float4 combine_226 = float4(truncate_224, mul_222);
+		float4 smear_169 = float4(sample_160.w, sample_160.w, sample_160.w, sample_160.w);
+		float3 smear_210 = float3(sample_208.x, sample_208.x, sample_208.x);
+		float3 smear_162 = float3(customData.myColor1.w, customData.myColor1.w, customData.myColor1.w);
+		float3 mul_166 = customData.myColor1.xyz * smear_162;
+		float3 mul_213 = smear_210 * mul_166;
+		float3 smear_152 = float3(customData.myIntensity1, customData.myIntensity1, customData.myIntensity1);
+		float3 mul_216 = mul_213 * smear_152;
+		float3 smear_212 = float3(sample_208.y, sample_208.y, sample_208.y);
+		float3 smear_163 = float3(customData.myColor2.w, customData.myColor2.w, customData.myColor2.w);
+		float3 mul_167 = customData.myColor2.xyz * smear_163;
+		float3 mul_215 = smear_212 * mul_167;
+		float3 smear_154 = float3(customData.myIntensity2, customData.myIntensity2, customData.myIntensity2);
+		float3 mul_219 = mul_215 * smear_154;
+		float3 add_220 = mul_216 + mul_219;
+		float4 combine_223 = float4(add_220, float(1));
+		float4 mul_227 = smear_169 * combine_223;
+		float4 OWEmissiveIntensityMultiplier_229 = OWEmissiveIntensityMultiplier(mul_227);
+		float4 add_230 = combine_226 + OWEmissiveIntensityMultiplier_229;
+		float4 smear_189 = float4(lerp_183, lerp_183, lerp_183, lerp_183);
+		float4 mul_231 = add_230 * smear_189;
+		float4 smear_153 = float4(customData.myIntensity1, customData.myIntensity1, customData.myIntensity1, customData.myIntensity1);
+		float2 NewUV1_126;
+		float2 NewUV2_126;
+		float Blend1_126;
+		float Blend2_126;
+		textureAtlas(float2(8, 8), Gfx_Environment.time, Gfx_UV, NewUV1_126, NewUV2_126, Blend1_126, Blend2_126, float(0), float(0), float(0), true);
+		float4 sample_170 = MR_Sample(SparkTexture, NewUV1_126);
+		float4 smear_132 = float4(Blend1_126, Blend1_126, Blend1_126, Blend1_126);
+		float4 mul_175 = sample_170 * smear_132;
+		float4 sample_171 = MR_Sample(SparkTexture, NewUV2_126);
+		float4 smear_133 = float4(Blend2_126, Blend2_126, Blend2_126, Blend2_126);
+		float4 mul_176 = sample_171 * smear_133;
+		float4 add_179 = mul_175 + mul_176;
+		float4 mul_182 = customData.myColor1 * add_179;
+		float smoothStep_123 = smoothstep(float(0), float(0.5), Gfx_UV1.y);
+		float smoothStep_124 = smoothstep(float(1), float(0.5), Gfx_UV1.y);
+		float mul_131 = smoothStep_123 * smoothStep_124;
+		float4 smear_135 = float4(mul_131, mul_131, mul_131, mul_131);
+		float4 mul_188 = mul_182 * smear_135;
+		float4 mul_192 = smear_153 * mul_188;
+		float4 smear_125 = float4(Gfx_Color.x, Gfx_Color.x, Gfx_Color.x, Gfx_Color.x);
+		float4 lerp_232 = lerp(mul_231, mul_192, smear_125);
+		float4 smear_147 = float4(customData.myOpacIntensity, customData.myOpacIntensity, customData.myOpacIntensity, customData.myOpacIntensity);
+		float4 mul_233 = lerp_232 * smear_147;
+		float3 truncate_235 = float3(mul_233.xyz);
+		float lerp_225 = lerp(mul_222, float(0), Gfx_Color.x);
+		float mul_228 = customData.myOpacIntensity * lerp_225;
+		float4 result_237 = float4(truncate_235, mul_228);
+		colorOut = result_237;
+	}
+}

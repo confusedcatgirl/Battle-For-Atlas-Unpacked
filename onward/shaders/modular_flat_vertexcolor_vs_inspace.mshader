@@ -1,0 +1,17 @@
+<shaderType = "Vertex">
+vertex
+{
+	void WorldSpaceModifier(inout float3 Gfx_WorldSpacePos : Gfx_WorldSpacePos)
+	{
+		Gfx_WorldSpacePos = Gfx_WorldSpacePos;
+	}
+	void WorldSpaceNormalModifier(inout float3 Gfx_WorldSpaceNormal : Gfx_WorldSpaceNormal)
+	{
+		Gfx_WorldSpaceNormal = Gfx_WorldSpaceNormal;
+	}
+	main(inout float3 Gfx_WorldSpacePos : Gfx_WorldSpacePos <modifier = "WorldSpaceModifier">, 
+		inout float3 Gfx_WorldSpaceNormal : Gfx_WorldSpaceNormal <modifier = "WorldSpaceNormalModifier">)
+	{
+		// dummy comment so the shader writer does save this out
+	}
+}

@@ -1,0 +1,55 @@
+<keywords = { "LIGHT_FROM_SPACE", "ISNT_MAIN_PLANET", "GFX_DEPTH_SHADER", }, >
+pixel
+{
+	MR_Sampler2D FalloffGradient : MR_Texture2 {
+		wrap = clamp,
+	} <label = "Falloff Gradient", pinId = 140>;
+	MR_Sampler2D Sampler_119 : MR_Texture3 {
+		texture = "onward/baked/textures/Effects/noise_16bit.dds",
+	};
+	struct CustomData {
+		float4 myEmissioncolor <default = 0 0 0 0, label = "Emission color", pinId = 147>;
+		float myFalloffY <config = { max = 1, min = 0, type = "Slider", }, default = 0, label = "Falloff Y", pinId = 141>;
+		float myEmissionIntensity <default = 500, label = "Emission Intensity", pinId = 106>;
+		float myPulseSpeed <default = 1, label = "Pulse Speed ", pinId = 114>;
+		float myEmissionradius <default = 1, label = "Emission radius", pinId = 139>;
+		float myFeedbackintensity <config = { max = 1, min = 0, type = "Slider", }, default = 0, label = "Feedback intensity", pinId = 144>;
+		float4 myFeedbackcolor <config = { type = "ColorBox", }, default = 0 0 0 0, label = "Feedback color", pinId = 145>;
+		float myFeedbacksize <default = 40, label = "Feedback size", pinId = 146>;
+	};
+	main(out float4 colorOut : MR_Color0, float3 Gfx_ModelSpacePos : Gfx_ModelSpacePos0, 
+		CustomData customData : Gfx_CustomData0, float2 Gfx_UV : Gfx_UV0, 
+		float Gfx_AlphaRef : Gfx_AlphaRef0, 
+		float3 Gfx_CameraSpacePos : Gfx_CameraSpacePos0)
+	{
+		float length_108 = length(Gfx_ModelSpacePos);
+		float remap_149 = float(0) + saturate((length_108 - float(0)) / (customData.myEmissionradius - float(0))) * (float(1) - float(0));
+		float2 combine_154 = float2(remap_149, customData.myFalloffY);
+		float4 sample_157 = MR_Sample(FalloffGradient, combine_154);
+		float dot_159 = dot(sample_157, float4(0.3, 0.59, 0.11, 0));
+		float4 combine_162 = float4(dot_159, dot_159, dot_159, float(1));
+		float4 mul_166 = combine_162 * customData.myEmissioncolor;
+		float2 mul_134 = Gfx_UV * float2(0.1, 0.1);
+		float4 sample_135 = MR_Sample(Sampler_119, mul_134);
+		float remap_137 = float(0.5) + saturate((sample_135.y - float(0.2)) / (float(0.5) - float(0.2))) * (float(1) - float(0.5));
+		float mul_143 = customData.myFeedbackintensity * customData.myFeedbacksize;
+		float mul_163 = remap_137 * mul_143;
+		float sub_167 = float(1) - mul_163;
+		float remap_169 = float(0) + saturate((remap_149 - float(0)) / (sub_167 - float(0))) * (float(1) - float(0));
+		float4 gradient_170;
+		gradient_170 = float4(pow(0, 1/2.2f), pow(0, 1/2.2f), pow(0, 1/2.2f), 1);
+		gradient_170.xyz = lerp(gradient_170.xyz, float4(pow(1.00002, 1/2.2f), pow(1.00001, 1/2.2f), pow(1.00003, 1/2.2f), 1).xyz, saturate((remap_169 - 0) / 1));
+		gradient_170.xyz = pow(gradient_170.xyz, vec3(2.2));
+		float4 mul_171 = gradient_170 * customData.myFeedbackcolor;
+		float sub_173 = float(1) - gradient_170.x;
+		float4 combine_174 = float4(sub_173, sub_173, sub_173, float(1));
+		float4 mul_175 = mul_166 * combine_174;
+		float4 add_176 = mul_171 + mul_175;
+		float remap_150 = float(0) + saturate((customData.myFeedbackintensity - float(0)) / (float(0.3) - float(0))) * (float(1) - float(0));
+		float4 smear_155 = float4(remap_150, remap_150, remap_150, remap_150);
+		float4 lerp_178 = lerp(mul_166, add_176, smear_155);
+		if (lerp_178.w < Gfx_AlphaRef) discard;
+		float4 depthResult = float4(Gfx_CameraSpacePos.z, 0, 0, lerp_178.w);
+		colorOut = depthResult;
+	}
+}

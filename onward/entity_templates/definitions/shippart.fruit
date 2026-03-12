@@ -1,0 +1,120 @@
+enum PartType
+{
+	Hull
+	Wing
+	Pod
+	Pilot
+	Root
+}
+
+enum PartEdition
+{
+	Base
+	Legendary
+	RetailerExclusive
+}
+
+enum PartFlavorType
+{
+	Unknown
+	Heat
+	Cold
+	Lift
+	Crush
+	Kinetic
+}
+
+// DO NOT ADD TO THIS UNLESS YOU ARE A CODER
+//		Needs to be kept in sync with OGame_DeploymentType in code
+enum DeploymentType
+{
+	Unknown
+	Gatling
+	Bazooka
+	Missile
+	Beam
+	Pulse
+	Mine
+	Cyclone
+	Dash
+	Shield
+	Shotgun
+	// DO NOT ADD TO THIS UNLESS YOU ARE A CODER
+	//		Needs to be kept in sync with OGame_DeploymentType in code
+}
+
+//---------- Part Stats ----------//
+enum PartStatType
+{
+	Speed
+	Handling
+	Armor
+	Mass
+	Energy
+	EnergyRegen
+}
+
+class PartStat
+{
+	PartStatType myStatType
+	float myValue
+}
+
+list PartStats
+{
+	PartStat
+}
+
+//---------- Attachment Points ----------//
+class Orientation
+{
+	float Yaw < bhv=angle >
+	float Pitch < bhv=angle >
+	float Roll < bhv=angle >
+}
+
+class AttachmentPoint
+{
+	vec3f myPosition 0;0;0
+	Orientation myOrientation
+}
+
+list Attachments
+{
+	AttachmentPoint
+}
+
+//---------- Health Segments ----------//
+class HealthSegmentID
+{
+	int mySegmentID
+}
+
+list HealthSegments
+{
+	HealthSegmentID
+}
+
+//---------- Maneuvers ----------//
+class Maneuver
+{
+    string myName
+}
+
+list Maneuvers
+{
+	Maneuver
+}
+
+//---------- Maneuvers ----------//
+class Collision
+{
+    vec3f myCapsuleStart
+    vec3f myCapsuleEnd
+    float myCapsuleRadius
+}
+
+list Collisions
+{
+	Collision
+}

@@ -1,0 +1,41 @@
+<shaderType = "Vertex">
+import "shaders/MRender/MR_ViewConstants.h"
+vertex
+{
+	struct CustomData {
+		float myStartScale <default = 350, label = "StartScale", pinId = 108>;
+		float myStartScale2 <default = 350, label = "StartScale2", pinId = 111>;
+		float myEndScale <default = 100, label = "EndScale", pinId = 109>;
+		float myEndScale2 <default = 100, label = "EndScale2", pinId = 110>;
+		float3 myScaleAxis <default = 1 1 1, label = "ScaleAxis", pinId = 112>;
+	};
+	void WorldSpaceModifier(inout float3 Gfx_WorldSpacePos : Gfx_WorldSpacePos, 
+		float4 Gfx_Color : Gfx_Color0, CustomData customData : Gfx_CustomData0, 
+		float2 Gfx_UV1 : Gfx_UV1, 
+		float3x4 Gfx_ObjectToWorldMatrix : Gfx_ObjectToWorldMatrix0)
+	{
+		float3 combine_28 = float3(Gfx_UV1.x, float(0), Gfx_UV1.y);
+		float3 transform_33 = MR_Transform(Gfx_ObjectToWorldMatrix, combine_28);
+		float3 combine_29 = float3(float(1), float(1), float(1));
+		float lerp_47 = lerp(customData.myStartScale, customData.myStartScale2, Gfx_Color.x);
+		float lerp_46 = lerp(customData.myEndScale, customData.myEndScale2, Gfx_Color.x);
+		float3 combine_26 = float3(Gfx_UV1.x, float(0), Gfx_UV1.y);
+		float3 transform_30 = MR_Transform(Gfx_ObjectToWorldMatrix, combine_26);
+		float3 sub_34 = transform_30 - MR_ViewConstants.LODCameraPosition;
+		float length_38 = length(sub_34);
+		float smoothStep_48 = smoothstep(lerp_47, lerp_46, length_38);
+		float3 combine_49 = float3(smoothStep_48, smoothStep_48, smoothStep_48);
+		float3 lerp_50 = lerp(combine_29, combine_49, customData.myScaleAxis);
+		float3 sub_37 = Gfx_WorldSpacePos - transform_33;
+		float3 mul_51 = lerp_50 * sub_37;
+		float3 add_53 = transform_33 + mul_51;
+		Gfx_WorldSpacePos = add_53;
+	}
+	main(float3x4 Gfx_ObjectToWorldMatrix : Gfx_ObjectToWorldMatrix0, 
+		float2 Gfx_UV1 : Gfx_UV1, CustomData customData : Gfx_CustomData0, 
+		float4 Gfx_Color : Gfx_Color0, 
+		inout float3 Gfx_WorldSpacePos : Gfx_WorldSpacePos <modifier = "WorldSpaceModifier">)
+	{
+		// dummy comment so the shader writer does save this out
+	}
+}

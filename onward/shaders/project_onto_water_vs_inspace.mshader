@@ -1,0 +1,39 @@
+<shaderType = "Vertex">
+vertex
+{
+	float4x4 GetWorldToCameraInVS()
+	{
+		return MR_ViewConstants.worldToCamera;
+	}
+	void WorldSpaceModifier(inout float3 Gfx_WorldSpacePos : Gfx_WorldSpacePos)
+	{
+		float min_49 = min(float(0), Gfx_WorldSpacePos.y);
+		float3 combine_50 = float3(Gfx_WorldSpacePos.x, min_49, Gfx_WorldSpacePos.z);
+		Gfx_WorldSpacePos = combine_50;
+	}
+	void CameraSpaceModifier(inout float3 Gfx_CameraSpacePos : Gfx_CameraSpacePos)
+	{
+		float4x4 GetWorldToCameraInVS_1 = GetWorldToCameraInVS();
+		float4 combine_47 = float4(float(0), float(0), float(0), float(1));
+		float4 transform_54 = MR_Transform(GetWorldToCameraInVS_1, combine_47);
+		float3 combine_62 = float3(transform_54.x, transform_54.y, transform_54.z);
+		float3 sub_66 = combine_62 - float3(0, 0, 0);
+		float4 combine_48 = float4(float(0), float(1), float(0), float(0));
+		float4 transform_55 = MR_Transform(GetWorldToCameraInVS_1, combine_48);
+		float3 combine_63 = float3(transform_55.x, transform_55.y, transform_55.z);
+		float dot_67 = dot(sub_66, combine_63);
+		float3 normalize_26 = normalize(Gfx_CameraSpacePos);
+		float dot_68 = dot(normalize_26, combine_63);
+		float min_70 = min(dot_68, float(-0.0001));
+		float div_72 = dot_67 / min_70;
+		float mul_74 = div_72 * float(1.01);
+		float3 smear_76 = float3(mul_74, mul_74, mul_74);
+		float3 mul_78 = smear_76 * normalize_26;
+		Gfx_CameraSpacePos = mul_78;
+	}
+	main(inout float3 Gfx_WorldSpacePos : Gfx_WorldSpacePos <modifier = "WorldSpaceModifier">, 
+		inout float3 Gfx_CameraSpacePos : Gfx_CameraSpacePos <modifier = "CameraSpaceModifier">)
+	{
+		// dummy comment so the shader writer does save this out
+	}
+}

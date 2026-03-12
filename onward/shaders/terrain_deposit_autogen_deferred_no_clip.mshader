@@ -1,0 +1,197 @@
+<keywords = { "LIGHT_FROM_GROUND", "IS_MAIN_PLANET", "GFX_DEFERRED_SHADER", }, >
+import "shaders/modules/graphics/deferred_data.h"
+import "shaders/modules/graphics/normal_encode.h"
+import "shaders/nodes/shader/functions/getplanetposition.h"
+import "shaders/nodes/shader/functions/onward/ow_getterrainlowresalbedo.h"
+import "shaders/nodes/shader/functions/onward/ow_getterrainlowresradius.h"
+import "shaders/nodes/shader/functions/unpack normal.h"
+import "shaders/MRender/MR_ViewConstants.h"
+pixel
+{
+	MR_Sampler2D BaseColor : MR_Texture0 {
+		texture = "onward/baked/textures/default_b.dds",
+	} <label = "Base Color", pinId = 102>;
+	MR_Sampler2D BaseNormal : MR_Texture1 {
+		texture = "onward/baked/textures/default_n.dds",
+	} <label = "Base Normal", pinId = 103>;
+	MR_Sampler2D BaseMaterial : MR_Texture2 {
+		texture = "onward/baked/textures/default_m.dds",
+	} <label = "Base Material", pinId = 104>;
+	MR_Sampler2D DepositColor : MR_Texture3 {
+		texture = "onward/baked/textures/default_b.dds",
+	} <label = "Deposit Color", pinId = 111>;
+	MR_Sampler2D Detail : MR_Texture4 {
+		texture = "onward/baked/textures/rock_detail_m.dds",
+	} <pinId = 127>;
+	struct CustomData {
+		float4 myDepositCreviceAlbedo <config = { type = "ColorBox", }, default = 1 1 1 0, label = "Deposit Crevice Albedo", pinId = 110>;
+		float myDepositRoughness <default = 0, label = "Deposit Roughness", pinId = 123>;
+		float myDepositCreviceRoughness <default = 0, label = "Deposit Crevice Roughness", pinId = 124>;
+		float myDepositTilingU <default = 1, label = "Deposit Tiling U", pinId = 118>;
+		float myDepositTilingV <default = 1, label = "Deposit Tiling V", pinId = 119>;
+		float myBlendOpacity <config = { max = 1, min = 0, type = "Slider", }, default = 3.3, label = "Blend Opacity", pinId = 108>;
+		float myBlendconstrast <config = { max = 20, min = 1, type = "Slider", }, default = 4.7, label = "Blend constrast", pinId = 109>;
+		float myBlendcoverage <config = { max = 1, min = 0, type = "Slider", }, default = 1, label = "Blend coverage", pinId = 116>;
+		float myTerrainLipHeight <config = { max = 200, min = 0, }, default = 1, label = "Terrain Lip Height", pinId = 126>;
+		float2 myDetailScale <default = 30 30, label = "Detail Scale", pinId = 128>;
+		float mystrength <default = 1, label = "strength", pinId = 129>;
+		float myadjustDistance <default = 1, label = "adjustDistance", pinId = 130>;
+		float myfalloffCurve <default = 2, label = "falloffCurve", pinId = 131>;
+	};
+	float3 GetBump(float height, float adjustDistance, float falloffCurve, float strength, 
+		float2 cameraPos)
+	{
+		float2 cameraDD = float2(ddx_fine(cameraPos.x), ddy_fine(cameraPos.y));
+		 float distanceDD = length(cameraDD);
+		 
+		 float adjustStrength = adjustDistance/distanceDD;
+
+		 adjustStrength = pow(abs(adjustStrength),  falloffCurve);
+
+		 float3 result = float3(-ddx_fine(height), ddy_fine(height), 0) * adjustStrength * 0.001f * strength;
+		 result.z = 1.0f;
+		 return  normalize(result);
+	}
+	main(bool MR_IsFrontFace : MR_IsFrontFace, 
+		out Gfx_DeferredData deferredOut : Gfx_Deferred, float2 Gfx_UV : Gfx_UV0, 
+		float3 Gfx_UnflattenedWorldPos : Gfx_UnflattenedWorldPos0, 
+		CustomData customData : Gfx_CustomData0, 
+		float3 Gfx_WorldSpaceNormal : Gfx_WorldSpaceNormal0, 
+		float3x3 Gfx_TangentToWorld : Gfx_TangentToWorld0, 
+		float4 Gfx_Color : Gfx_Color0, float3 Gfx_CameraSpacePos : Gfx_CameraSpacePos0)
+	{
+		float4 sample_201 = MR_Sample(BaseColor, Gfx_UV);
+		float3 GetPlanetPosition_30 = GetPlanetPosition();
+		float3 sub_119 = Gfx_UnflattenedWorldPos - GetPlanetPosition_30;
+		float3 normalize_162 = normalize(sub_119);
+		float3 OW_GetTerrainLowResAlbedo_175 = OW_GetTerrainLowResAlbedo(normalize_162);
+		float3 combine_205 = float3(customData.myDepositCreviceAlbedo.x, customData.myDepositCreviceAlbedo.y, customData.myDepositCreviceAlbedo.z);
+		float add_206 = customData.myDepositCreviceAlbedo.w + float(0);
+		float saturate_209 = saturate(add_206);
+		float3 smear_215 = float3(saturate_209, saturate_209, saturate_209);
+		float3 lerp_217 = lerp(OW_GetTerrainLowResAlbedo_175, combine_205, smear_215);
+		float2 combine_165 = float2(Gfx_UnflattenedWorldPos.z, Gfx_UnflattenedWorldPos.y);
+		float2 combine_199 = float2(customData.myDepositTilingU, customData.myDepositTilingV);
+		float2 mul_213 = combine_165 * combine_199;
+		float4 sample_220 = MR_Sample(DepositColor, mul_213);
+		float3 abs_137 = abs(Gfx_WorldSpaceNormal);
+		float3 combine_169 = float3(float(16.1875), float(16.1875), float(16.1875));
+		float3 pow_170 = pow(abs(abs_137), combine_169);
+		float3 normalize_177 = normalize(pow_170);
+		float add_183 = normalize_177.x + normalize_177.y;
+		float add_184 = add_183 + normalize_177.z;
+		float3 combine_185 = float3(add_184, add_184, add_184);
+		float3 div_186 = normalize_177 / combine_185;
+		float mul_257 = sample_220.z * div_186.x;
+		float2 combine_163 = float2(Gfx_UnflattenedWorldPos.x, Gfx_UnflattenedWorldPos.z);
+		float2 mul_211 = combine_163 * combine_199;
+		float4 sample_218 = MR_Sample(DepositColor, mul_211);
+		float mul_258 = sample_218.z * div_186.y;
+		float add_268 = mul_257 + mul_258;
+		float2 combine_164 = float2(Gfx_UnflattenedWorldPos.x, Gfx_UnflattenedWorldPos.y);
+		float2 mul_212 = combine_164 * combine_199;
+		float4 sample_219 = MR_Sample(DepositColor, mul_212);
+		float mul_259 = sample_219.z * div_186.z;
+		float add_269 = add_268 + mul_259;
+		float3 smear_276 = float3(add_269, add_269, add_269);
+		float3 lerp_286 = lerp(lerp_217, OW_GetTerrainLowResAlbedo_175, smear_276);
+		float4 combine_300 = float4(lerp_286.x, lerp_286.y, lerp_286.z, float(0));
+		float3 GetPlanetPosition_63 = GetPlanetPosition();
+		float3 sub_143 = Gfx_UnflattenedWorldPos - GetPlanetPosition_63;
+		float3 normalize_172 = normalize(sub_143);
+		float dot_179 = dot(normalize_172, Gfx_WorldSpaceNormal);
+		float saturate_182 = saturate(dot_179);
+		float add_230 = customData.myBlendcoverage + saturate_182;
+		float pow_237 = pow(abs(add_230), customData.myBlendconstrast);
+		float saturate_244 = saturate(pow_237);
+		float mul_251 = customData.myBlendOpacity * saturate_244;
+		float3 GetPlanetPosition_67 = GetPlanetPosition();
+		float3 sub_144 = Gfx_UnflattenedWorldPos - GetPlanetPosition_67;
+		float length_174 = length(sub_144);
+		float OW_GetTerrainLowResRadius_173 = OW_GetTerrainLowResRadius(sub_144);
+		float sub_180 = length_174 - OW_GetTerrainLowResRadius_173;
+		float smoothStep_222 = smoothstep(customData.myTerrainLipHeight, float(0), sub_180);
+		float lerp_262 = lerp(mul_251, float(1), smoothStep_222);
+		float saturate_271 = saturate(lerp_262);
+		float3 smear_281 = float3(saturate_271, saturate_271, saturate_271);
+		float4 combine_297 = float4(smear_281.x, smear_281.y, smear_281.z, float(0));
+		float4 lerp_302 = lerp(sample_201, combine_300, combine_297);
+		float3 combine_312 = float3(lerp_302.x, lerp_302.y, lerp_302.z);
+		deferredOut.color = combine_312;
+		float4 sample_202 = MR_Sample(BaseMaterial, Gfx_UV);
+		float lerp_277 = lerp(customData.myDepositCreviceRoughness, customData.myDepositRoughness, add_269);
+		float4 combine_288 = float4(float(0), lerp_277, float(0), float(0));
+		float4 smear_279 = float4(saturate_271, saturate_271, saturate_271, saturate_271);
+		float4 lerp_289 = lerp(sample_202, combine_288, smear_279);
+		deferredOut.roughness = lerp_289.y;
+		deferredOut.metalness = lerp_289.x;
+		float4 sample_203 = MR_Sample(BaseNormal, Gfx_UV);
+		float3 normal_207;
+		float ambientOcclusion_207;
+		UnpackNormalAndAO(sample_203, normal_207, ambientOcclusion_207);
+		float4 combine_166 = float4(Gfx_WorldSpaceNormal.x, Gfx_WorldSpaceNormal.y, Gfx_WorldSpaceNormal.z, float(0));
+		float4x4 matrix_176 = MR_ColumnMatrix(float4(0, 0, 1, 0), float4(0, -1, 0, 0), combine_166, float4(0, 0, 0, 0));
+		float4 combine_235 = float4(float(0), sample_220.y, sample_220.w, sample_220.x);
+		float3 normal_242;
+		float ambientOcclusion_242;
+		UnpackNormalAndAO(combine_235, normal_242, ambientOcclusion_242);
+		float4 transform_249 = MR_Transform(matrix_176, normal_242);
+		float4 normalize_256 = normalize(transform_249);
+		float4 combine_275 = float4(normalize_256.x, normalize_256.y, normalize_256.z, ambientOcclusion_242);
+		float4 combine_189 = float4(div_186.x, div_186.x, div_186.x, div_186.x);
+		float4 mul_285 = combine_275 * combine_189;
+		float4x4 matrix_167 = MR_ColumnMatrix(float4(1, 0, 0, 0), float4(0, 0, -1, 0), combine_166, float4(0, 0, 0, 0));
+		float4 combine_233 = float4(float(0), sample_218.y, sample_218.w, sample_218.x);
+		float3 normal_240;
+		float ambientOcclusion_240;
+		UnpackNormalAndAO(combine_233, normal_240, ambientOcclusion_240);
+		float4 transform_247 = MR_Transform(matrix_167, normal_240);
+		float4 normalize_254 = normalize(transform_247);
+		float4 combine_273 = float4(normalize_254.x, normalize_254.y, normalize_254.z, ambientOcclusion_240);
+		float4 combine_190 = float4(div_186.y, div_186.y, div_186.y, div_186.y);
+		float4 mul_283 = combine_273 * combine_190;
+		float4 add_292 = mul_285 + mul_283;
+		float4x4 matrix_168 = MR_ColumnMatrix(float4(1, 0, 0, 0), float4(0, -1, 0, 0), combine_166, float4(0, 0, 0, 0));
+		float4 combine_234 = float4(float(0), sample_219.y, sample_219.w, sample_219.x);
+		float3 normal_241;
+		float ambientOcclusion_241;
+		UnpackNormalAndAO(combine_234, normal_241, ambientOcclusion_241);
+		float4 transform_248 = MR_Transform(matrix_168, normal_241);
+		float4 normalize_255 = normalize(transform_248);
+		float4 combine_274 = float4(normalize_255.x, normalize_255.y, normalize_255.z, ambientOcclusion_241);
+		float4 combine_191 = float4(div_186.z, div_186.z, div_186.z, div_186.z);
+		float4 mul_284 = combine_274 * combine_191;
+		float4 add_293 = add_292 + mul_284;
+		float lerp_305 = lerp(ambientOcclusion_207, add_293.w, saturate_271);
+		deferredOut.ao = lerp_305;
+		deferredOut.opacity = float(1);
+		float3 transform_210 = MR_Transform(Gfx_TangentToWorld, normal_207);
+		float4 combine_225 = float4(transform_210.x, transform_210.y, transform_210.z, float(0));
+		float4 transform_232 = MR_Transform(MR_ViewConstants.worldToCamera, combine_225);
+		float dot_239 = dot(transform_232, float4(0, 0, 1, 0));
+		float saturate_253 = saturate(-dot_239);
+		float3 smear_264 = float3(saturate_253, saturate_253, saturate_253);
+		float2 mul_200 = customData.myDetailScale * Gfx_UV;
+		float4 sample_204 = MR_Sample(Detail, mul_200);
+		float4 mul_208 = Gfx_Color * sample_204;
+		float add_223 = mul_208.z + mul_208.w;
+		float add_231 = mul_208.y + add_223;
+		float add_238 = mul_208.x + add_231;
+		float2 truncate_149 = float2(Gfx_CameraSpacePos.xy);
+		float3 GetBump_245 = GetBump(add_238, customData.myadjustDistance, customData.myfalloffCurve, customData.mystrength, truncate_149);
+		float4 combine_263 = float4(GetBump_245.x, GetBump_245.y, float(0.01), float(0));
+		float4 transform_272 = MR_Transform(MR_ViewConstants.cameraToWorld, combine_263);
+		float3 combine_291 = float3(transform_272.x, transform_272.y, transform_272.z);
+		float3 mul_298 = smear_264 * combine_291;
+		float3 add_303 = transform_210 + mul_298;
+		float3 normalize_309 = normalize(add_303);
+		float3 combine_304 = float3(add_293.x, add_293.y, add_293.z);
+		float3 normalize_310 = normalize(combine_304);
+		float3 smear_280 = float3(saturate_271, saturate_271, saturate_271);
+		float3 lerp_313 = lerp(normalize_309, normalize_310, smear_280);
+		float3 flippedNormal = lerp_313;
+		if (!MR_IsFrontFace)
+		    flippedNormal = -flippedNormal;
+		deferredOut.worldNormal = flippedNormal;
+	}
+}

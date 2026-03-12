@@ -1,0 +1,66 @@
+<shaderType = "UI", >
+import "shaders/modules/graphics/drawer/drawer.h"
+import "shaders/modules/graphics/ssr_common.h"
+import "shaders/modules/graphics/environment.h"
+import "shaders/nodes/shader/ui/ui blit effect.h"
+blend {
+	writeMask = rgba,
+	src = 1,
+	src.a = 0,
+}
+pixel
+{
+	MR_Sampler2D Texture : MR_Texture0 <pinId = 105>;
+	MR_Sampler2D Sampler_44 : MR_Texture1 {
+		texture = "onward/baked/textures/noise_rgb.dds",
+	};
+	struct CustomData {
+		float myMultiplier <default = 1, label = "Multiplier", pinId = 108>;
+	};
+	void glitch(in float2 uv, in float noise, in float uvNoise, in float line_thresh, 
+		out float2 uvR, out float2 uvG, out float2 uvB)
+	{
+		uvR = uv;
+		uvG = uv;
+		uvB = uv; 
+		if (noise < line_thresh) {
+		float2 dist = (frac(uvNoise) - 0.5) * 0.3;
+		uvR += dist * 0.1;
+		uvG += dist * 0.2;
+		uvB += dist * 0.125;
+		}
+	}
+	main(out float4 colorOut : MR_Color0, float2 Gfx_UV : Gfx_UV0, 
+		CustomData customData : Gfx_CustomData0)
+	{
+		float4 sample_64 = MR_Sample(Texture, Gfx_UV);
+		float2 div_45 = Gfx_UV / float2(0.0625, 0.01);
+		float2 div_52 = floor(div_45) / float2(64, 64);
+		float2 smear_38 = float2(Gfx_Environment.time, Gfx_Environment.time);
+		float2 mul_47 = smear_38 * float2(1234, 3543);
+		float2 div_53 = floor(mul_47) / float2(64, 64);
+		float2 add_56 = div_52 + div_53;
+		float4 sample_59 = MR_Sample(Sampler_44, add_56);
+		float mul_65 = sample_59.y * customData.myMultiplier;
+		float truncate_58 = float(add_56.x);
+		float2 smear_41 = float2(Gfx_Environment.time, Gfx_Environment.time);
+		float2 mul_48 = smear_41 * float2(1263.05, 2236.05);
+		float2 mul_54 = frac(mul_48) * frac(mul_48);
+		float2 mul_55 = mul_54 * frac(mul_48);
+		float2 mul_57 = mul_55 * float2(0.7, 0.7);
+		float truncate_60 = float(mul_57.x);
+		float2 uvR_66;
+		float2 uvG_66;
+		float2 uvB_66;
+		glitch(Gfx_UV, mul_65, truncate_58, truncate_60, uvR_66, uvG_66, uvB_66);
+		float4 sample_67 = MR_Sample(SSR_FramebufferOpaque, uvR_66);
+		float4 sample_68 = MR_Sample(SSR_FramebufferOpaque, uvG_66);
+		float4 sample_69 = MR_Sample(SSR_FramebufferOpaque, uvB_66);
+		float3 combine_73 = float3(sample_67.x, sample_68.y, sample_69.z);
+		float4 combine_75 = float4(combine_73.x, combine_73.y, combine_73.z, float(1));
+		float4 GetBlitEffectColor_76 = GetBlitEffectColor(sample_64, combine_75);
+		float4 finalColor = vec4(0);
+		finalColor = BlendColor(GetBlitEffectColor_76, float(0));
+		colorOut = finalColor;
+	}
+}

@@ -1,0 +1,73 @@
+<keywords = { "LIGHT_FROM_GROUND", "IS_MAIN_PLANET", "GFX_SHADOW_SHADER", }, >
+pixel
+{
+	MR_Sampler2D Sampler_177 : MR_Texture7 {
+		texture = "onward/baked/textures/plasma_m.dds",
+	};
+	MR_Sampler2D Sampler_233 : MR_Texture6 {
+		texture = "onward/baked/textures/grunge_noise_b.dds",
+	};
+	struct CustomData {
+		float4 myEmissive <config = { type = "ColorBox", }, default = 1 1 1 1, label = "Emissive", pinId = 117>;
+		float myEmissionIntensity <default = 0, label = "Emission Intensity", pinId = 106>;
+		float myDissolve <config = { max = 1, min = 0, type = "Slider", }, default = 0, label = "Dissolve", pinId = 108>;
+		float myFreeze <default = 0, label = "Freeze", pinId = 124>;
+		float mySunder <default = 0, label = "Sunder", pinId = 125>;
+		float myGravityAndStasis <default = 0, label = "Gravity And Stasis ", pinId = 126>;
+		float myChill <default = 0, label = "Chill", pinId = 130>;
+		float myPackedStatusUVScale <default = 0.5, label = "Packed Status UV Scale", pinId = 131>;
+		float myAtmosphereTransition <default = 0, label = "Atmosphere Transition", pinId = 135>;
+		float3 myCenter <default = 0 0 0, label = "Center", pinId = 136>;
+		float myLength <config = { min = 0.01, }, default = 1, label = "Length", pinId = 137>;
+		float mySeamsIntensity <default = 0, label = "Seams Intensity", pinId = 138>;
+		float3 mySeamsColor <config = { type = "ColorBox", }, default = 1 1 1, label = "Seams Color", pinId = 139>;
+		float myTime <default = 0, label = "Time", pinId = 140>;
+		float myMinY <default = 0, label = "Min Y", pinId = 141>;
+		float myMaxY <default = 0, label = "Max Y", pinId = 142>;
+		float myTransitionRange <default = 1, label = "Transition Range", pinId = 143>;
+		float myEmissionRange <default = 1, label = "Emission Range", pinId = 144>;
+		float myTransitionIntensity <default = 0, label = "Transition Intensity", pinId = 145>;
+		float3 myTransitionColor <config = { type = "ColorBox", }, default = 1 1 1, label = "Transition Color", pinId = 146>;
+	};
+	main(out float4 colorOut : MR_Color0, CustomData customData : Gfx_CustomData0, 
+		float3 Gfx_ModelSpacePos : Gfx_ModelSpacePos0, 
+		float3 Gfx_ModelSpaceNormal : Gfx_ModelSpaceNormal0, float2 Gfx_UV : Gfx_UV0, 
+		float Gfx_AlphaRef : Gfx_AlphaRef0)
+	{
+		float mul_311 = customData.myDissolve * float(0.5);
+		float3 mul_179 = Gfx_ModelSpacePos * float3(0.5, 0.5, 0.5);
+		float2 combine_258 = float2(mul_179.x, mul_179.y);
+		float4 sample_267 = MR_Sample(Sampler_177, combine_258);
+		float2 combine_257 = float2(mul_179.x, mul_179.z);
+		float4 sample_266 = MR_Sample(Sampler_177, combine_257);
+		float dot_246 = dot(float3(0, 1, 0), Gfx_ModelSpaceNormal);
+		float abs_260 = abs(dot_246);
+		float smoothStep_269 = smoothstep(float(0.4), float(0.6), abs_260);
+		float4 smear_275 = float4(smoothStep_269, smoothStep_269, smoothStep_269, smoothStep_269);
+		float4 lerp_281 = lerp(sample_267, sample_266, smear_275);
+		float2 combine_259 = float2(mul_179.y, mul_179.z);
+		float4 sample_268 = MR_Sample(Sampler_177, combine_259);
+		float dot_247 = dot(float3(1, 0, 0), Gfx_ModelSpaceNormal);
+		float abs_261 = abs(dot_247);
+		float smoothStep_270 = smoothstep(float(0.4), float(0.6), abs_261);
+		float4 smear_276 = float4(smoothStep_270, smoothStep_270, smoothStep_270, smoothStep_270);
+		float4 lerp_282 = lerp(lerp_281, sample_268, smear_276);
+		float4 mul_283 = lerp_282 * float4(0.49, 0.49, 0.49, 0.49);
+		float truncate_284 = float(mul_283.x);
+		float add_381 = mul_311 + truncate_284;
+		float step_387 = step(float(0.5), add_381);
+		float mul_397 = step_387 * float(1);
+		float lerp_304 = lerp(customData.myMinY, customData.myMaxY, customData.myTime);
+		float sub_310 = Gfx_ModelSpacePos.y - lerp_304;
+		float remap_323 = float(0) + saturate((sub_310 - float(1)) / (float(0) - float(1))) * (customData.myTransitionRange - float(0));
+		float2 combine_256 = float2(float(1), float(1));
+		float2 mul_265 = Gfx_UV * combine_256;
+		float4 sample_274 = MR_Sample(Sampler_233, mul_265);
+		float mul_364 = remap_323 * sample_274.x;
+		float add_370 = mul_364 + sub_310;
+		float mul_406 = mul_397 * ceil(add_370);
+		if (mul_406 < Gfx_AlphaRef) discard;
+		float4 shadowResult = float4(0.0, 0.0, 0.0, mul_406);
+		colorOut = shadowResult;
+	}
+}

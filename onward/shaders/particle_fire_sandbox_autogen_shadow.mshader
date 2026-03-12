@@ -1,0 +1,77 @@
+<shaderType = "Particle", >
+import "shaders/modules/graphics/environment.h"
+import "shaders/nodes/shader/particles/soft.h"
+pixel
+{
+	MR_Sampler2D DistTexture : MR_Texture0 <label = "Dist Texture", pinId = 106>;
+	MR_Sampler2D DistTexture2 : MR_Texture1 <label = "Dist Texture 2", pinId = 107>;
+	MR_Sampler2D PackedBase : MR_Texture2 {
+		wrap = clamp,
+	} <label = "Packed Base", pinId = 109>;
+	struct CustomInterpolators {
+		float myIntensity1 <default = 0, label = "Intensity 1", pinId = 209>;
+		float2 myDistUVScale <default = 0 0, label = "Dist UV Scale", pinId = 201>;
+		float2 myDistUVScale2 <default = 0 0, label = "Dist UV Scale 2", pinId = 202>;
+		float2 myDistUVSpeed <default = 0 0, label = "Dist UV Speed", pinId = 203>;
+		float2 myDistUVSpeed2 <default = 0 0, label = "Dist UV Speed 2", pinId = 204>;
+		float2 myOffsetUV <default = 0 0, label = "Offset UV", pinId = 206>;
+		float2 myOffsetUV2 <default = 0 0, label = "Offset UV 2", pinId = 213>;
+		float3 myColor1 <config = { type = "ColorBox", }, default = 1 1 1, label = "Color 1", pinId = 207>;
+		float3 myColor2 <config = { type = "ColorBox", }, default = 1 1 1, label = "Color 2", pinId = 208>;
+		float myIntensity2 <default = 0, label = "Intensity 2", pinId = 210>;
+		float myGradientPow <default = 1, label = "Gradient Pow", pinId = 211>;
+		float myOpacIntensity <default = 0, label = "Opac Intensity", pinId = 215>;
+		float2 myDistIntensity <default = 1 1, label = "Dist Intensity", pinId = 216>;
+		float2 myDistIntensity2 <default = 1 1, label = "Dist Intensity 2", pinId = 217>;
+	};
+	main(out float4 colorOut : MR_Color0, 
+		CustomInterpolators customInterpolators : Gfx_CustomInterpolators0, 
+		float2 Particle_InstanceUV : Particle_InstanceUV0, 
+		float4 Particle_ShaderParams : Particle_ShaderParams0, 
+		float4 MR_FragCoord : MR_FragCoord)
+	{
+		float4 blendColor = vec4(0);
+		float3 add_56 = customInterpolators.myColor1 + customInterpolators.myColor2;
+		float mul_63 = customInterpolators.myDistUVSpeed.x * Gfx_Environment.time;
+		float2 mul_50 = Particle_InstanceUV * customInterpolators.myDistUVScale;
+		float2 add_54 = mul_50 + customInterpolators.myOffsetUV;
+		float add_72 = mul_63 + add_54.x;
+		float mul_64 = customInterpolators.myDistUVSpeed.y * Gfx_Environment.time;
+		float add_73 = mul_64 + add_54.y;
+		float2 combine_79 = float2(add_72, add_73);
+		float4 sample_84 = MR_Sample(DistTexture, combine_79);
+		float2 combine_88 = float2(sample_84.x, sample_84.y);
+		float2 mul_90 = combine_88 * float2(0.333, 0.333);
+		float2 mul_92 = mul_90 * customInterpolators.myDistIntensity;
+		float mul_61 = customInterpolators.myDistUVSpeed2.x * Gfx_Environment.time;
+		float2 mul_51 = Particle_InstanceUV * customInterpolators.myDistUVScale2;
+		float2 add_55 = mul_51 + customInterpolators.myOffsetUV2;
+		float add_70 = mul_61 + add_55.x;
+		float mul_62 = customInterpolators.myDistUVSpeed2.y * Gfx_Environment.time;
+		float add_71 = mul_62 + add_55.y;
+		float2 combine_78 = float2(add_70, add_71);
+		float4 sample_83 = MR_Sample(DistTexture2, combine_78);
+		float2 combine_87 = float2(sample_83.x, sample_83.y);
+		float2 mul_89 = combine_87 * customInterpolators.myDistIntensity2;
+		float2 mul_91 = mul_89 * customInterpolators.myDistIntensity;
+		float2 mul_93 = mul_92 * mul_91;
+		float sub_42 = float(1) - Particle_InstanceUV.y;
+		float mul_76 = sub_42 * customInterpolators.myGradientPow;
+		float2 smear_82 = float2(mul_76, mul_76);
+		float2 mul_94 = mul_93 * smear_82;
+		float2 add_95 = Particle_InstanceUV + mul_94;
+		float2 combine_97 = float2(Particle_InstanceUV.x, add_95.y);
+		float4 sample_98 = MR_Sample(PackedBase, combine_97);
+		float mul_101 = sample_98.x * sample_98.z;
+		float mul_104 = customInterpolators.myOpacIntensity * mul_101;
+		float4 sample_60 = MR_Sample(PackedBase, Particle_InstanceUV);
+		float mul_107 = mul_104 * sample_60.w;
+		float4 combine_110 = float4(add_56, mul_107);
+		blendColor += float4(combine_110.xyz, 1) * combine_110.w;
+		float4 colorOut_43;
+		float alphaOut_43;
+		SoftParticle(float4(0, 0, 0, 0), Particle_ShaderParams, MR_FragCoord, colorOut_43, alphaOut_43);
+		blendColor *= alphaOut_43;
+		colorOut = vec4(1 - blendColor.w);
+	}
+}

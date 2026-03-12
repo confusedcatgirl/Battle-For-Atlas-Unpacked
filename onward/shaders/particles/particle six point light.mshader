@@ -1,0 +1,66 @@
+<quarterSize = true, shaderType = "Particle", sixPoint = true, >
+import "shaders/nodes/shader/particles/sample texture atlas.h"
+import "shaders/nodes/shader/functions/ow particle intensity multiplier.h"
+import "shaders/nodes/shader/particles/six point light.h"
+import "shaders/nodes/shader/particles/soft.h"
+blend {
+	src = 1,
+}
+pixel
+{
+	MR_Sampler2D Positive : MR_Texture0 <pinId = 101>;
+	MR_Sampler2D Negative : MR_Texture1 <pinId = 102>;
+	struct CustomData {
+		float myContrast <config = { min = 0, }, default = 1, label = "Contrast", pinId = 103>;
+		float myBacklightStrength <config = { min = 0, }, default = 1, label = "Backlight Strength", pinId = 104>;
+		float myGamma <default = 1, label = "Gamma", pinId = 105>;
+		float myTextureScale <default = 0.5, label = "Texture Scale", pinId = 106>;
+		float mySphericalShadingScale <config = { max = 10, min = 1, }, default = 1, label = "Spherical Shading Scale", pinId = 107>;
+		float myReceiveShadows <config = { type = "CheckBox", }, default = 1, label = "Receive Shadows", pinId = 108>;
+	};
+	struct CustomInterpolators {
+		float2 myUV1 <default = 0.5 0.5, label = "UV 1", pinId = 203>;
+		float2 myUV2 <default = 0.5 0.5, label = "UV 2", pinId = 204>;
+		float myAlpha1 <default = 1, label = "Alpha 1", pinId = 201>;
+		float myAlpha2 <default = 0, label = "Alpha 2", pinId = 202>;
+	};
+	void ScaleTextures(inout float4 a, inout float4 b, float scale)
+	{
+		a.xyz *= scale;
+		b.xyz *= scale;
+	}
+	bool FloatToBool(float x)
+	{
+		return x > 0;
+	}
+	main(out float4 colorOut : MR_Color0, 
+		CustomInterpolators customInterpolators : Gfx_CustomInterpolators0, 
+		CustomData customData : Gfx_CustomData0, 
+		float4 Particle_Color : Particle_Color0, 
+		float2 Particle_InstanceUV : Particle_InstanceUV0, 
+		float3 Particle_Position : Particle_Position0, 
+		float4 Particle_ShaderParams : Particle_ShaderParams0, 
+		float4 MR_FragCoord : MR_FragCoord)
+	{
+		float4 result55 = vec4(0);
+		float4 SampleTextureAtlas_50 = SampleTextureAtlas(Positive, customInterpolators.myUV1, customInterpolators.myUV2, customInterpolators.myAlpha1, customInterpolators.myAlpha2, true);
+		float4 SampleTextureAtlas_51 = SampleTextureAtlas(Negative, customInterpolators.myUV1, customInterpolators.myUV2, customInterpolators.myAlpha1, customInterpolators.myAlpha2, true);
+		float4 a_52 = SampleTextureAtlas_50;
+		float4 b_52 = SampleTextureAtlas_51;
+		ScaleTextures(a_52, b_52, customData.myTextureScale);
+		float saturate_39 = saturate(Particle_Color.w);
+		float4 combine_41 = float4(Particle_Color.x, Particle_Color.y, Particle_Color.z, saturate_39);
+		float4 OWParticleIntensityMultiplier_43 = OWParticleIntensityMultiplier(combine_41);
+		bool FloatToBool_49 = FloatToBool(customData.myReceiveShadows);
+		float lerp_44 = lerp(float(0.5), float(1), combine_41.w);
+		float mul_53 = customData.myContrast * lerp_44;
+		float4 aLightOut_54;
+		SixPointLight(aLightOut_54, a_52, b_52, OWParticleIntensityMultiplier_43, FloatToBool_49, true, customInterpolators.myUV1, mul_53, customData.myBacklightStrength, customData.myGamma, true, float4(0, 0, 0, 0), float(1), customData.mySphericalShadingScale, Particle_InstanceUV, Particle_Position, Particle_ShaderParams, MR_FragCoord);
+		result55 += float4(aLightOut_54.xyz, 1) * aLightOut_54.w;
+		float4 colorOut_40;
+		float alphaOut_40;
+		SoftParticle(float4(0, 0, 0, 0), Particle_ShaderParams, MR_FragCoord, colorOut_40, alphaOut_40);
+		result55 *= alphaOut_40;
+		colorOut = result55;
+	}
+}

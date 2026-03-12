@@ -1,0 +1,52 @@
+<shaderType = "Object", keywords = { "GFX_FORWARD_SHADER", }, >
+import "shaders/MRender/MR_ViewConstants.h"
+blend {
+	src = 1,
+	dest = 1,
+}
+pixel
+{
+	MR_Sampler2D atmospheregradient : MR_Texture0 {
+		wrap = clamp,
+	} <label = "atmosphere gradient", pinId = 102>;
+	MR_Sampler2D falloffgradient : MR_Texture1 {
+		wrap = clamp,
+	} <label = "falloff gradient", pinId = 109>;
+	struct CustomData {
+		float myAtmospheresmoothstepmin <default = 0.2, label = "Atmosphere smoothstep min", pinId = 104>;
+		float myAtmospheresmoothstepmax <default = 0.5, label = "Atmosphere smoothstep max", pinId = 105>;
+		float myIntensity <default = 1, label = "Intensity", pinId = 106>;
+		float3 myLocalsundirection <default = 1 0 0, label = "Local sun direction", pinId = 107>;
+	};
+	main(out float4 colorOut : MR_Color0, CustomData customData : Gfx_CustomData0, 
+		float3 Gfx_ModelSpacePos : Gfx_ModelSpacePos0, 
+		float3x4 Gfx_WorldToObjectMatrix : Gfx_WorldToObjectMatrix0, 
+		float Gfx_AlphaRef : Gfx_AlphaRef0)
+	{
+		float3 normalize_53 = normalize(Gfx_ModelSpacePos);
+		float dot_67 = dot(customData.myLocalsundirection, normalize_53);
+		float add_68 = dot_67 + float(1);
+		float mul_69 = add_68 * float(0.5);
+		float saturate_71 = saturate(mul_69);
+		float2 combine_72 = float2(saturate_71, float(0.5));
+		float4 sample_74 = MR_Sample(atmospheregradient, combine_72);
+		float4 mul_76 = sample_74 * sample_74;
+		float4 smear_65 = float4(customData.myIntensity, customData.myIntensity, customData.myIntensity, customData.myIntensity);
+		float4 mul_77 = mul_76 * smear_65;
+		float3 transform_52 = MR_Transform(Gfx_WorldToObjectMatrix, MR_ViewConstants.LODCameraPosition);
+		float3 sub_58 = transform_52 - Gfx_ModelSpacePos;
+		float3 normalize_59 = normalize(sub_58);
+		float3 normalize_54 = normalize(Gfx_ModelSpacePos);
+		float dot_60 = dot(normalize_59, normalize_54);
+		float saturate_61 = saturate(dot_60);
+		float2 combine_62 = float2(saturate_61, float(0.5));
+		float4 sample_73 = MR_Sample(falloffgradient, combine_62);
+		float4 mul_75 = sample_73 * sample_73;
+		float4 mul_78 = mul_77 * mul_75;
+		float3 truncate_79 = float3(mul_78.xyz);
+		float smoothStep_70 = smoothstep(customData.myAtmospheresmoothstepmin, customData.myAtmospheresmoothstepmax, dot_60);
+		if (smoothStep_70 < Gfx_AlphaRef) discard;
+		float4 result_81 = float4(truncate_79, smoothStep_70);
+		colorOut = result_81;
+	}
+}

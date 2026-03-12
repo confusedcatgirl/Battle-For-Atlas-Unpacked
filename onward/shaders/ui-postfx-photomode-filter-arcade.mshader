@@ -1,0 +1,42 @@
+<shaderType = "UI", >
+import "shaders/modules/graphics/drawer/drawer.h"
+import "shaders/modules/graphics/ssr_common.h"
+import "shaders/nodes/shader/functions/screen position.h"
+import "shaders/nodes/shader/functions/pixeltoframebufferuv.h"
+import "shaders/nodes/shader/ui/ui blit effect.h"
+blend {
+	writeMask = rgba,
+	src = 1,
+	src.a = 0,
+}
+pixel
+{
+	MR_Sampler2D Texture : MR_Texture0 <pinId = 108>;
+	struct CustomData {
+		float2 myscreenSize <default = 0 0, label = "screenSize", pinId = 101>;
+		float myPixelBlock <default = 0.1, label = "PixelBlock", pinId = 109>;
+		float mycolorPalette <default = 16, label = "colorPalette", pinId = 110>;
+	};
+	float3 pixelize(MR_Sampler2D inBuffer, float2 uv, float2 screenSize, float pixelBlock, 
+		float colorPalette)
+	{
+		float2 pixelsize = pixelBlock * screenSize;
+		 float2 inversepixel = 1.0f/pixelsize;
+		float3 color = MR_Sample(inBuffer, floor(uv * pixelsize) * inversepixel).rgb;
+		 color = floor(color * colorPalette) / colorPalette;
+		 return color;
+	}
+	main(out float4 colorOut : MR_Color0, float2 Gfx_UV : Gfx_UV0, 
+		float4 MR_FragCoord : MR_FragCoord, CustomData customData : Gfx_CustomData0)
+	{
+		float4 sample_17 = MR_Sample(Texture, Gfx_UV);
+		float2 ScreenPosition_12 = ScreenPosition(MR_FragCoord);
+		float2 PixelToFramebufferUV_14 = PixelToFramebufferUV(ScreenPosition_12);
+		float3 pixelize_18 = pixelize(SSR_FramebufferEarly, PixelToFramebufferUV_14, customData.myscreenSize, customData.myPixelBlock, customData.mycolorPalette);
+		float4 truncate_19 = float4(pixelize_18.xyz, 1);
+		float4 GetBlitEffectColor_20 = GetBlitEffectColor(sample_17, truncate_19);
+		float4 finalColor = vec4(0);
+		finalColor = BlendColor(GetBlitEffectColor_20, float(0));
+		colorOut = finalColor;
+	}
+}

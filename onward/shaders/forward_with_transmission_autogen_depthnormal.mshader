@@ -1,0 +1,18 @@
+pixel
+{
+	MR_Sampler2D BaseColor : MR_Texture0 {
+		texture = "onward/baked/textures/default_b.dds",
+	} <label = "Base Color", pinId = 102>;
+	struct CustomData {
+		float myTransmissionDepthScale <default = 0.1, label = "Transmission Depth Scale", pinId = 106>;
+	};
+	main(CustomData customData : Gfx_CustomData, out float4 colorOut : MR_Color0, 
+		float2 Gfx_UV : Gfx_UV0, float Gfx_AlphaRef : Gfx_AlphaRef0, 
+		float3 Gfx_CameraSpacePos : Gfx_CameraSpacePos0)
+	{
+		float4 sample_67 = MR_Sample(BaseColor, Gfx_UV);
+		if (sample_67.w < Gfx_AlphaRef) discard;
+		float4 depthResult = float4(Gfx_CameraSpacePos.z, 0, 0, sample_67.w);
+		colorOut = depthResult;
+	}
+}

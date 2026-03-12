@@ -1,0 +1,93 @@
+<shaderType = "UI", >
+import "shaders/modules/graphics/drawer/drawer.h"
+import "shaders/nodes/shader/ui/ui blit effect fullscreen uv.h"
+blend {
+	writeMask = rgba,
+	src = 1,
+	src.a = 0,
+}
+pixel
+{
+	MR_Sampler2D Distort : MR_Texture0 {
+		texture = "onward/baked/textures/effects/smokedistort_tileable.dds",
+	} <pinId = 117>;
+	MR_Sampler2D Gradient : MR_Texture1 {
+		wrap = clamp,
+	} <pinId = 126>;
+	struct CustomData {
+		float myStartingAngle <default = -30, label = "Starting Angle", pinId = 101>;
+		float myInnerRadius <default = 0.465, label = "Inner Radius", pinId = 103>;
+		float myOuterRadius <default = 0.47, label = "Outer Radius", pinId = 104>;
+		float mySoftness <default = 0.005, label = "Softness", pinId = 105>;
+		float myAspectRatio <default = 1.77778, label = "Aspect Ratio", pinId = 107>;
+		float myXOffset <default = 0.5, label = "X Offset", pinId = 112>;
+		float myYOffset <default = 0.5, label = "Y Offset", pinId = 113>;
+		float myClashNoiseStrength <default = 0, label = "Clash Noise Strength", pinId = 121>;
+		float myClashNoiseTiling <default = 0, label = "Clash Noise Tiling", pinId = 122>;
+		float2 myClashTime <default = 0 0, label = "Clash Time", pinId = 123>;
+		float2 myClashDirection1 <default = 0.4 0.01, label = "Clash Direction1", pinId = 124>;
+		float2 myClashDirection2 <default = -0.2 0.2, label = "Clash Direction2", pinId = 125>;
+		float2 mySize <default = 0.01 0.0005, label = "Size", pinId = 128>;
+	};
+	float2 RescaleUVs(float2 aInstanceUV, float anAspectRatio, float anXOffset, float aYOffset)
+	{
+		return ((aInstanceUV - float2(0.5, 0.5)) / float2(1.0, anAspectRatio)) + float2(1.0 - anXOffset, ((aYOffset - 0.5) / anAspectRatio) + 0.5);
+	}
+	float myDistFunc(float2 uv, float2 center, float2 size, float distortNoise)
+	{
+		float2 d = abs(uv - center) - size;
+		 float insideDistance = min(max(d.x, d.y), 0.0);
+		 float outsideDistance = length(max(d, 0.0));
+		 return insideDistance + outsideDistance + distortNoise;
+	}
+	main(out float4 colorOut : MR_Color0, CustomData customData : Gfx_CustomData0, 
+		float4 Gfx_ClipPosition : Gfx_ClipPosition0, float2 Gfx_UV : Gfx_UV0, 
+		float4 Gfx_Color : Gfx_Color0)
+	{
+		float2 UIGetBlitEffectFullscreenUV_0 = UIGetBlitEffectFullscreenUV(Gfx_ClipPosition);
+		float2 RescaleUVs_55 = RescaleUVs(UIGetBlitEffectFullscreenUV_0, customData.myAspectRatio, customData.myXOffset, customData.myYOffset);
+		float2 sub_63 = RescaleUVs_55 - float2(0.5, 0.5);
+		float degtorad_51 = float(180) * 0.0174532925f;
+		float sinAngle_68 = sin(degtorad_51);
+		float cosAngle_68 = cos(degtorad_51);
+		float2x2 rotMat_68 = { cosAngle_68, -sinAngle_68, sinAngle_68, cosAngle_68 };
+		float2 rot2d_68 = MR_Transform(rotMat_68, sub_63);
+		float2 add_72 = rot2d_68 + float2(0.5, 0.5);
+		float2 sub_75 = add_72 - float2(0.5, 0.5);
+		float degtorad_53 = customData.myStartingAngle * 0.0174532925f;
+		float sinAngle_78 = sin(degtorad_53);
+		float cosAngle_78 = cos(degtorad_53);
+		float2x2 rotMat_78 = { cosAngle_78, -sinAngle_78, sinAngle_78, cosAngle_78 };
+		float2 rot2d_78 = MR_Transform(rotMat_78, sub_75);
+		float2 add_80 = rot2d_78 + float2(0.5, 0.5);
+		float sub_66 = float(0.5) - customData.myOuterRadius;
+		float sub_54 = customData.myOuterRadius - customData.myInnerRadius;
+		float mul_62 = sub_54 * float(0.5);
+		float add_67 = sub_66 + mul_62;
+		float2 combine_71 = float2(add_67, float(0.5));
+		float2 mul_59 = customData.myClashTime * customData.myClashDirection1;
+		float2 smear_58 = float2(customData.myClashNoiseTiling, customData.myClashNoiseTiling);
+		float2 mul_61 = Gfx_UV * smear_58;
+		float2 add_64 = mul_59 + mul_61;
+		float4 sample_69 = MR_Sample(Distort, add_64);
+		float4 mul_73 = sample_69 * float4(2, 2, 2, 2);
+		float4 sub_76 = mul_73 - float4(1, 1, 1, 1);
+		float2 mul_60 = customData.myClashTime * customData.myClashDirection2;
+		float2 add_65 = mul_60 + mul_61;
+		float4 sample_70 = MR_Sample(Distort, add_65);
+		float4 mul_74 = sample_70 * float4(2, 2, 2, 2);
+		float4 sub_77 = mul_74 - float4(1, 1, 1, 1);
+		float4 add_79 = sub_76 + sub_77;
+		float mul_82 = add_79.x * customData.myClashNoiseStrength;
+		float myDistFunc_83 = myDistFunc(add_80, combine_71, customData.mySize, mul_82);
+		float smoothStep_84 = smoothstep(customData.mySoftness, float(0), myDistFunc_83);
+		float2 combine_85 = float2(smoothStep_84, float(0.5));
+		float4 sample_86 = MR_Sample(Gradient, combine_85);
+		float3 truncate_87 = float3(sample_86.xyz);
+		float4 combine_88 = float4(truncate_87, smoothStep_84);
+		float4 mul_89 = combine_88 * Gfx_Color;
+		float4 finalColor = vec4(0);
+		finalColor = BlendColor(mul_89, float(0));
+		colorOut = finalColor;
+	}
+}

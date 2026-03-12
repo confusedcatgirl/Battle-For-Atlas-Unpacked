@@ -1,0 +1,76 @@
+<emission = true, shaderType = "Object", keywords = { "LIGHT_FROM_GROUND", "IS_MAIN_PLANET", "GFX_FORWARD_SHADER", }, >
+import "shaders/nodes/shader/functions/unpack normal.h"
+import "shaders/nodes/shader/functions/onward/lighting/ow_fullgroundbaselighting.h"
+import "shaders/nodes/shader/functions/ow emissive intensity multiplier.h"
+import "shaders/nodes/shader/functions/onward/lighting/ow_groundfog.h"
+pixel
+{
+	MR_Sampler2D BaseColor : MR_Texture0 {
+		texture = "onward/baked/textures/default_b.dds",
+	} <label = "Base Color", pinId = 102>;
+	MR_Sampler2D Normal : MR_Texture1 {
+		texture = "onward/baked/textures/default_n.dds",
+	} <pinId = 103>;
+	MR_Sampler2D Material : MR_Texture2 {
+		texture = "onward/baked/textures/default_m.dds",
+	} <pinId = 104>;
+	MR_Sampler2D PaintMask : MR_Texture3 <pinId = 110>;
+	MR_Sampler2D AO : MR_Texture4 <pinId = 107>;
+	MR_Sampler2D PaintColor : MR_Texture5 <pinId = 109>;
+	struct CustomData {
+		float myIntensity <default = 0, label = "Intensity", pinId = 108>;
+		float myPaintRoughness <default = 1, label = "PaintRoughness", pinId = 111>;
+		float myOverridePaintRoughness <default = 0.75, label = "OverridePaintRoughness", pinId = 112>;
+	};
+	float3 SelectColor(in float3 aColorA, in float3 aColorB, in bool aCond)
+	{
+		return aCond ? aColorA : aColorB;
+	}
+	main(out float4 colorOut : MR_Color0, float2 Gfx_UV : Gfx_UV0, 
+		float2 Gfx_UV1 : Gfx_UV1, float3x3 Gfx_TangentToWorld : Gfx_TangentToWorld0, 
+		CustomData customData : Gfx_CustomData0, 
+		Gfx_LightingDataStruct Gfx_LightingData : Gfx_LightingData0, 
+		float4 Gfx_Color : Gfx_Color0, float3 Gfx_WorldSpacePos : Gfx_WorldSpacePos0, 
+		float4 MR_FragCoord : MR_FragCoord, float Gfx_AlphaRef : Gfx_AlphaRef0)
+	{
+		float4 sample_107 = MR_Sample(BaseColor, Gfx_UV);
+		float3 combine_123 = float3(sample_107.x, sample_107.y, sample_107.z);
+		float4 sample_109 = MR_Sample(PaintMask, Gfx_UV);
+		float4 sample_112 = MR_Sample(PaintColor, Gfx_UV1);
+		float3 mul_125 = sample_109.xyz * sample_112.xyz;
+		float mul_126 = sample_112.w * sample_109.w;
+		float3 smear_130 = float3(mul_126, mul_126, mul_126);
+		float3 lerp_134 = lerp(combine_123, mul_125, smear_130);
+		float4 sample_108 = MR_Sample(Normal, Gfx_UV);
+		float3 normal_114;
+		float ambientOcclusion_114;
+		UnpackNormalAndAO(sample_108, normal_114, ambientOcclusion_114);
+		float3 transform_124 = MR_Transform(Gfx_TangentToWorld, normal_114);
+		float4 sample_110 = MR_Sample(Material, Gfx_UV);
+		float lerp_127 = lerp(sample_110.y, customData.myPaintRoughness, customData.myOverridePaintRoughness);
+		float lerp_132 = lerp(sample_110.y, lerp_127, mul_126);
+		float lerp_131 = lerp(sample_110.x, float(0), mul_126);
+		float4 sample_111 = MR_Sample(AO, Gfx_UV1);
+		float truncate_118 = float(sample_111.x);
+		float3 aLightOut_135;
+		OW_FullBaseGroundLighting(aLightOut_135, lerp_134, transform_124, float(1), lerp_132, lerp_131, truncate_118, Gfx_LightingData);
+		float add_122 = Gfx_Color.w + sample_110.z;
+		float saturate_129 = saturate(add_122);
+		float mul_133 = customData.myIntensity * saturate_129;
+		float3 combine_137 = float3(mul_133, mul_133, mul_133);
+		float3 mul_138 = combine_137 * Gfx_Color.xyz;
+		float4 mul_120 = sample_111 * sample_111;
+		float3 truncate_128 = float3(mul_120.xyz);
+		float3 mul_139 = mul_138 * truncate_128;
+		float4 truncate_140 = float4(mul_139.xyz, 1);
+		float4 OWEmissiveIntensityMultiplier_142 = OWEmissiveIntensityMultiplier(truncate_140);
+		float3 truncate_144 = float3(OWEmissiveIntensityMultiplier_142.xyz);
+		float3 SelectColor_146 = SelectColor(truncate_144, mul_139, true);
+		float3 add_148 = aLightOut_135 + SelectColor_146;
+		float3 aColor_150 = add_148;
+		OW_GroundFog(aColor_150, Gfx_WorldSpacePos, MR_FragCoord);
+		if (sample_107.w < Gfx_AlphaRef) discard;
+		float4 result_152 = float4(aColor_150, sample_107.w);
+		colorOut = result_152;
+	}
+}

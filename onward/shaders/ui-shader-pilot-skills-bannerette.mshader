@@ -1,0 +1,54 @@
+<shaderType = "UI", >
+import "shaders/modules/graphics/drawer/drawer.h"
+blend {
+	writeMask = rgba,
+	src = 1,
+	src.a = 0,
+}
+pixel
+{
+	MR_Sampler2D Texture : MR_Texture0 {
+		wrap = clamp,
+	} <pinId = 101>;
+	struct CustomData {
+		float myTopFadeX <default = 0, label = "Top Fade X", pinId = 102>;
+		float myBottomFadeX <default = 0, label = "Bottom Fade X", pinId = 103>;
+		float myGradientThickness <default = 0, label = "Gradient Thickness", pinId = 104>;
+		float4 myLeftColour <default = 0 0 0 0, label = "Left Colour", pinId = 105>;
+		float4 myRightColour <default = 0 0 0 0, label = "Right Colour", pinId = 106>;
+		float myMaximumOpacity <default = 0, label = "Maximum Opacity", pinId = 107>;
+	};
+	main(out float4 colorOut : MR_Color0, int UI_RenderType : UI_RenderType1, 
+		float2 Gfx_UV : Gfx_UV0, float4 Gfx_Color : Gfx_Color0, 
+		CustomData customData : Gfx_CustomData0)
+	{
+		float4 sample_40 = GetColorInfo(Texture, Gfx_UV, In.UI_RenderType);
+		float4 mul_44 = sample_40 * Gfx_Color;
+		float3 combine_42 = float3(customData.myLeftColour.x, customData.myLeftColour.y, customData.myLeftColour.z);
+		float3 combine_43 = float3(customData.myRightColour.x, customData.myRightColour.y, customData.myRightColour.z);
+		float3 combine_33 = float3(Gfx_UV.x, Gfx_UV.x, Gfx_UV.x);
+		float3 lerp_51 = lerp(combine_42, combine_43, combine_33);
+		float min_36 = min(customData.myTopFadeX, customData.myBottomFadeX);
+		float max_37 = max(customData.myTopFadeX, customData.myBottomFadeX);
+		float remap_41 = min_36 + saturate((Gfx_UV.y - float(0)) / (float(1) - float(0))) * (max_37 - min_36);
+		float sub_49 = remap_41 - customData.myGradientThickness;
+		float sub_45 = Gfx_UV.x - customData.myGradientThickness;
+		float smoothStep_50 = smoothstep(sub_49, remap_41, sub_45);
+		float sub_48 = float(1) - customData.myTopFadeX;
+		float sub_47 = float(1) - customData.myBottomFadeX;
+		float max_53 = max(sub_48, sub_47);
+		float min_52 = min(sub_48, sub_47);
+		float remap_55 = max_53 + saturate((Gfx_UV.y - float(0)) / (float(1) - float(0))) * (min_52 - max_53);
+		float add_56 = remap_55 + customData.myGradientThickness;
+		float add_46 = Gfx_UV.x + customData.myGradientThickness;
+		float smoothStep_57 = smoothstep(add_56, remap_55, add_46);
+		float mul_58 = smoothStep_50 * smoothStep_57;
+		float saturate_59 = saturate(mul_58);
+		float remap_60 = float(0) + saturate((saturate_59 - float(0)) / (float(1) - float(0))) * (customData.myMaximumOpacity - float(0));
+		float4 combine_61 = float4(lerp_51.x, lerp_51.y, lerp_51.z, remap_60);
+		float4 mul_62 = mul_44 * combine_61;
+		float4 finalColor = vec4(0);
+		finalColor = BlendColor(mul_62, float(0));
+		colorOut = finalColor;
+	}
+}

@@ -1,0 +1,28 @@
+<shaderType = "UI", >
+import "shaders/modules/graphics/drawer/drawer.h"
+import "shaders/nodes/shader/functions/framebuffer color.h"
+blend {
+	writeMask = rgba,
+	src = 1,
+	src.a = 0,
+}
+pixel
+{
+	struct CustomData {
+		float4 myColorBlindCol1 <default = 0 0 0 0, label = "Color Blind Col 1", pinId = 101>;
+		float4 myColorBlindCol2 <default = 0 0 0 0, label = "Color Blind Col 2", pinId = 102>;
+		float4 myColorBlindCol3 <default = 0 0 0 0, label = "Color Blind Col 3", pinId = 103>;
+		float4 myColorBlindCol4 <default = 0 0 0 0, label = "Color Blind Col 4", pinId = 104>;
+	};
+	main(out float4 colorOut : MR_Color0, CustomData customData : Gfx_CustomData0, 
+		float4 MR_FragCoord : MR_FragCoord)
+	{
+		float4x4 matrix_8 = MR_ColumnMatrix(customData.myColorBlindCol1, customData.myColorBlindCol2, customData.myColorBlindCol3, customData.myColorBlindCol4);
+		float3 GetFramebufferColor_1 = GetFramebufferColor(MR_FragCoord);
+		float4 combine_6 = float4(GetFramebufferColor_1.x, GetFramebufferColor_1.y, GetFramebufferColor_1.z, float(1));
+		float4 transform_9 = MR_Transform(matrix_8, combine_6);
+		float4 finalColor = vec4(0);
+		finalColor = BlendColor(transform_9, float(0));
+		colorOut = finalColor;
+	}
+}

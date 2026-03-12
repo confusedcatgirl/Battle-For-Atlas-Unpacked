@@ -1,0 +1,81 @@
+import "shaders/modules/graphics/normal_encode.h"
+import "shaders/nodes/shader/functions/unpack normal.h"
+pixel
+{
+	MR_Sampler2D Normal : MR_Texture0 <pinId = 102>;
+	struct CustomData {
+		float myStrength <default = 0, label = "Strength", pinId = 101>;
+		float myFadeInStart <default = 1, label = "FadeInStart", pinId = 103>;
+		float myFadeInEnd <default = 2, label = "FadeInEnd", pinId = 104>;
+		float myFadeOutStart <default = 3, label = "FadeOutStart", pinId = 105>;
+		float myFadeOutEnd <default = 4, label = "FadeOutEnd", pinId = 106>;
+		float myTimeScale <default = 1, label = "TimeScale", pinId = 107>;
+		float2 myFlipBookSize <default = 1 1, label = "FlipBookSize", pinId = 108>;
+		float myAlpha <default = 0.333, label = "Alpha", pinId = 109>;
+	};
+	float getMatrixScale(float3x4 m)
+	{
+		return length(MR_GetYAxis(m));
+	}
+	void textureAtlas(float2 Size, float Selector, float2 InstanceUV, out float2 NewUV1, 
+		out float2 NewUV2, out float Blend1, out float Blend2)
+	{
+		float width = Size.x;
+		 float height = Size.y;
+		 float area = width * height;
+		 float sel = frac(Selector);
+		 float findex = area * sel;
+		 float index1 = floor(findex);
+		 float index2 = index1 + 1;
+		 float row1 = floor(index1 / width);
+		 float row2 = floor(index2 / width);
+		 float col1 = index1 - row1 * width;
+		 float col2 = index2 - row2 * width;
+		 float2 gridPos1 = float2(col1, row1);
+		 float2 gridPos2 = float2(col2, row2);
+		 NewUV1 = (gridPos1 + InstanceUV) / Size;
+		 NewUV2 = (gridPos2 + InstanceUV) / Size;
+		 Blend2 = findex - index1;
+		 Blend1 = 1.0 - Blend2;
+	}
+	main(bool MR_IsFrontFace : MR_IsFrontFace, out float4 colorOut : MR_Color0, 
+		CustomData customData : Gfx_CustomData0, 
+		float3x4 Gfx_ObjectToWorldMatrix : Gfx_ObjectToWorldMatrix0, 
+		float2 Gfx_UV : Gfx_UV0, float3x3 Gfx_TangentToWorld : Gfx_TangentToWorld0)
+	{
+		float getMatrixScale_32 = getMatrixScale(Gfx_ObjectToWorldMatrix);
+		float smoothStep_35 = smoothstep(customData.myFadeInStart, customData.myFadeInEnd, getMatrixScale_32);
+		float smoothStep_36 = smoothstep(customData.myFadeOutEnd, customData.myFadeOutStart, getMatrixScale_32);
+		float mul_38 = smoothStep_35 * smoothStep_36;
+		float mul_40 = customData.myStrength * mul_38;
+		float smoothStep_37 = smoothstep(customData.myFadeInStart, customData.myFadeOutEnd, getMatrixScale_32);
+		float mul_39 = smoothStep_37 * customData.myTimeScale;
+		float2 NewUV1_43;
+		float2 NewUV2_43;
+		float Blend1_43;
+		float Blend2_43;
+		textureAtlas(customData.myFlipBookSize, frac(mul_39), Gfx_UV, NewUV1_43, NewUV2_43, Blend1_43, Blend2_43);
+		float4 sample_45 = MR_Sample(Normal, NewUV2_43);
+		float3 normal_48;
+		float ambientOcclusion_48;
+		UnpackNormalAndAO(sample_45, normal_48, ambientOcclusion_48);
+		float4 sample_44 = MR_Sample(Normal, NewUV1_43);
+		float3 normal_47;
+		float ambientOcclusion_47;
+		UnpackNormalAndAO(sample_44, normal_47, ambientOcclusion_47);
+		float3 smear_46 = float3(Blend1_43, Blend1_43, Blend1_43);
+		float3 lerp_49 = lerp(normal_48, normal_47, smear_46);
+		float smoothStep_52 = smoothstep(float(1), float(0.7), lerp_49.z);
+		float mul_54 = customData.myAlpha * smoothStep_52;
+		float mul_56 = mul_40 * mul_54;
+		float3 smear_42 = float3(mul_40, mul_40, mul_40);
+		float3 lerp_51 = lerp(float3(0, 0, 1), lerp_49, smear_42);
+		float3 normalize_53 = normalize(lerp_51);
+		float3 transform_55 = MR_Transform(Gfx_TangentToWorld, normalize_53);
+		float3 flippedNormal = transform_55;
+		if (!MR_IsFrontFace)
+		    flippedNormal = -flippedNormal;
+		float4 deferredResult = float4(Gfx_EncodeNormal_UNorm(flippedNormal), mul_56);
+		colorOut = deferredResult;
+	}
+}

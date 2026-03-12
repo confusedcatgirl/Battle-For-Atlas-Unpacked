@@ -1,0 +1,38 @@
+<shaderType = "Object", keywords = { "HAS_OPACITY", "LIGHT_FROM_GROUND", "IS_MAIN_PLANET", }, >
+import "shaders/nodes/shader/functions/unpack normal.h"
+import "shaders/nodes/shader/functions/onward/lighting/ow_fullgroundbaselighting.h"
+import "shaders/nodes/shader/functions/onward/lighting/ow_groundfog.h"
+pixel
+{
+	MR_Sampler2D BaseColor : MR_Texture0 {
+		texture = "onward/baked/textures/default_b.dds",
+	} <label = "Base Color", pinId = 102>;
+	MR_Sampler2D Normal : MR_Texture1 {
+		texture = "onward/baked/textures/default_n.dds",
+	} <pinId = 103>;
+	MR_Sampler2D Material : MR_Texture2 {
+		texture = "onward/baked/textures/default_m.dds",
+	} <pinId = 104>;
+	main(out float4 colorOut : MR_Color0, float2 Gfx_UV : Gfx_UV0, 
+		float3x3 Gfx_TangentToWorld : Gfx_TangentToWorld0, 
+		Gfx_LightingDataStruct Gfx_LightingData : Gfx_LightingData0, 
+		float3 Gfx_WorldSpacePos : Gfx_WorldSpacePos0, 
+		float4 MR_FragCoord : MR_FragCoord, float Gfx_AlphaRef : Gfx_AlphaRef0)
+	{
+		float4 sample_70 = MR_Sample(BaseColor, Gfx_UV);
+		float3 combine_76 = float3(sample_70.x, sample_70.y, sample_70.z);
+		float4 sample_72 = MR_Sample(Normal, Gfx_UV);
+		float3 normal_75;
+		float ambientOcclusion_75;
+		UnpackNormalAndAO(sample_72, normal_75, ambientOcclusion_75);
+		float3 transform_77 = MR_Transform(Gfx_TangentToWorld, normal_75);
+		float4 sample_71 = MR_Sample(Material, Gfx_UV);
+		float3 aLightOut_78;
+		OW_FullBaseGroundLighting(aLightOut_78, combine_76, transform_77, sample_71.z, sample_71.y, sample_71.x, ambientOcclusion_75, Gfx_LightingData);
+		float3 aColor_80 = aLightOut_78;
+		OW_GroundFog(aColor_80, Gfx_WorldSpacePos, MR_FragCoord);
+		if (sample_70.w < Gfx_AlphaRef) discard;
+		float4 result_82 = float4(aColor_80, sample_70.w);
+		colorOut = result_82;
+	}
+}

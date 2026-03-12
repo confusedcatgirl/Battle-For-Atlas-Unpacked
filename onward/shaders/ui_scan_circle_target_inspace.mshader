@@ -1,0 +1,42 @@
+<decal = true, decalblendcolor = true, deferreddecal = true, emission = true, shaderType = "Object", keywords = { "GFX_FORWARD_SHADER", }, >
+import "shaders/modules/graphics/environment.h"
+pixel
+{
+	MR_Sampler2D Mask : MR_Texture0 <pinId = 121>;
+	MR_Sampler2D Sampler_61 : MR_Texture1 {
+		texture = "onward/baked/textures/UI/ui_scan_circle.dds",
+	};
+	MR_Sampler2D Sampler_59 : MR_Texture2 {
+		texture = "onward/baked/textures/UI/ui_hextile_fill.dds",
+	};
+	struct CustomData {
+		float2 myTime <default = 0 0, label = "Time", pinId = 118>;
+		float3 myIn1 <default = 0 0 0, label = "In 1", pinId = 122>;
+		float2 myEmission <default = 0 0, label = "Emission", pinId = 123>;
+		float myAccuracy <default = 0, label = "Accuracy", pinId = 124>;
+		float myFalloff <default = 0, label = "Falloff", pinId = 125>;
+	};
+	main(out float4 colorOut : MR_Color0, CustomData customData : Gfx_CustomData0, 
+		float2 Gfx_UV : Gfx_UV0, float Gfx_AlphaRef : Gfx_AlphaRef0)
+	{
+		float add_72 = customData.myAccuracy + customData.myFalloff;
+		float4 sample_74 = MR_Sample(Mask, Gfx_UV);
+		float smoothStep_78 = smoothstep(add_72, customData.myAccuracy, sample_74.x);
+		float3 smear_80 = float3(smoothStep_78, smoothStep_78, smoothStep_78);
+		float3 lerp_82 = lerp(float3(0, 1, 2), float3(25, 0, 0), smear_80);
+		float3 smear_65 = float3(Gfx_Environment.averageLuminosity, Gfx_Environment.averageLuminosity, Gfx_Environment.averageLuminosity);
+		float3 mul_84 = lerp_82 * smear_65;
+		float4 sample_73 = MR_Sample(Mask, Gfx_UV);
+		float4 sample_62 = MR_Sample(Sampler_61, Gfx_UV);
+		float mul_77 = sample_73.x * sample_62.x;
+		float2 mul_60 = float2(100, 100) * Gfx_UV;
+		float4 sample_66 = MR_Sample(Sampler_59, mul_60);
+		float mul_79 = mul_77 * sample_66.w;
+		float2 smear_81 = float2(mul_79, mul_79);
+		float2 mul_83 = customData.myTime * smear_81;
+		float truncate_85 = float(mul_83.x);
+		if (truncate_85 < Gfx_AlphaRef) discard;
+		float4 result_86 = float4(mul_84, truncate_85);
+		colorOut = result_86;
+	}
+}

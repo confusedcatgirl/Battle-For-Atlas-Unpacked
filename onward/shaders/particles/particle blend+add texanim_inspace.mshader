@@ -1,0 +1,46 @@
+<shaderType = "Particle", >
+import "shaders/nodes/shader/particles/sample texture atlas.h"
+import "shaders/nodes/shader/functions/ow particle intensity multiplier.h"
+import "shaders/nodes/shader/particles/soft.h"
+blend {
+	src = 1,
+}
+pixel
+{
+	MR_Sampler2D Blend : MR_Texture0 <pinId = 101>;
+	MR_Sampler2D Add : MR_Texture1 <pinId = 107>;
+	struct CustomInterpolators {
+		float2 myBlendUV1 <default = 0.5 0.5, label = "Blend UV 1", pinId = 203>;
+		float2 myBlendUV2 <default = 0.5 0.5, label = "Blend UV 2", pinId = 204>;
+		float myBlendAlpha1 <default = 1, label = "Blend Alpha 1", pinId = 201>;
+		float myBlendAlpha2 <default = 0, label = "Blend Alpha 2", pinId = 202>;
+		float2 myAddUV1 <default = 0.5 0.5, label = "Add UV 1", pinId = 208>;
+		float2 myAddUV2 <default = 0.5 0.5, label = "Add UV 2", pinId = 209>;
+		float myAddAlpha1 <default = 1, label = "Add Alpha 1", pinId = 210>;
+		float myAddAlpha2 <default = 0, label = "Add Alpha 2", pinId = 211>;
+		float4 myAddColor <config = { type = "ColorBox", }, default = 1 1 1 1, label = "Add Color", pinId = 212>;
+	};
+	main(out float4 colorOut : MR_Color0, float4 Particle_Color : Particle_Color0, 
+		CustomInterpolators customInterpolators : Gfx_CustomInterpolators0, 
+		float4 Particle_ShaderParams : Particle_ShaderParams0, 
+		float4 MR_FragCoord : MR_FragCoord)
+	{
+		float4 result42 = vec4(0);
+		float saturate_27 = saturate(Particle_Color.w);
+		float4 combine_29 = float4(Particle_Color.x, Particle_Color.y, Particle_Color.z, saturate_27);
+		float4 SampleTextureAtlas_34 = SampleTextureAtlas(Blend, customInterpolators.myBlendUV1, customInterpolators.myBlendUV2, customInterpolators.myBlendAlpha1, customInterpolators.myBlendAlpha2, true);
+		float4 mul_40 = combine_29 * SampleTextureAtlas_34;
+		result42 += float4(mul_40.xyz, 1) * mul_40.w;
+		float saturate_36 = saturate(customInterpolators.myAddColor.w);
+		float4 combine_38 = float4(customInterpolators.myAddColor.x, customInterpolators.myAddColor.y, customInterpolators.myAddColor.z, saturate_36);
+		float4 SampleTextureAtlas_37 = SampleTextureAtlas(Add, customInterpolators.myAddUV1, customInterpolators.myAddUV2, customInterpolators.myAddAlpha1, customInterpolators.myAddAlpha2, true);
+		float4 mul_39 = combine_38 * SampleTextureAtlas_37;
+		float4 OWParticleIntensityMultiplier_41 = OWParticleIntensityMultiplier(mul_39);
+		result42 += float4(OWParticleIntensityMultiplier_41.xyz * OWParticleIntensityMultiplier_41.w, 0);
+		float4 colorOut_28;
+		float alphaOut_28;
+		SoftParticle(float4(0, 0, 0, 0), Particle_ShaderParams, MR_FragCoord, colorOut_28, alphaOut_28);
+		result42 *= alphaOut_28;
+		colorOut = result42;
+	}
+}

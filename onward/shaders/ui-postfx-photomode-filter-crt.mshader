@@ -1,0 +1,84 @@
+<shaderType = "UI", >
+import "shaders/modules/graphics/drawer/drawer.h"
+import "shaders/nodes/shader/functions/screen position.h"
+import "shaders/nodes/shader/functions/pixeltoframebufferuv.h"
+import "shaders/modules/graphics/ssr_common.h"
+import "shaders/modules/graphics/environment.h"
+import "shaders/nodes/shader/ui/ui blit effect.h"
+blend {
+	writeMask = rgba,
+	src = 1,
+	src.a = 0,
+}
+pixel
+{
+	import "shaders/MRender/MR_ViewConstants.h"
+	MR_Sampler2D Texture : MR_Texture0 <pinId = 103>;
+	struct CustomData {
+		float myStrength <default = 7.5, label = "Strength", pinId = 102>;
+	};
+	float4 MyFunc(float2 uv, float strength, MR_Sampler2D Backbuffer)
+	{
+		float4 result;
+		float2 texel = 1.0f / MR_ViewConstants.framebufferSize;
+		float2 centerBased = (uv - 0.5f) * 2.0f;
+		float squareLength = dot(centerBased, centerBased);
+
+		float2 offsetVector = float2(1.0-(centerBased.x * squareLength.x),0.0);
+		    
+
+		    result = MR_Sample(Backbuffer, uv);
+
+		    result.r = MR_Sample(Backbuffer, uv - texel * offsetVector*strength).r;
+		    result.ga = MR_Sample(Backbuffer, uv).ga;
+		    result.b = MR_Sample(Backbuffer, uv + texel * offsetVector*strength).b;
+
+		return result;
+	}
+	float hash(float n)
+	{
+		return frac(sin(n)*43758.5453123);
+	}
+	main(out float4 colorOut : MR_Color0, float2 Gfx_UV : Gfx_UV0, 
+		float4 MR_FragCoord : MR_FragCoord, CustomData customData : Gfx_CustomData0)
+	{
+		float4 sample_82 = MR_Sample(Texture, Gfx_UV);
+		float2 ScreenPosition_12 = ScreenPosition(MR_FragCoord);
+		float2 PixelToFramebufferUV_34 = PixelToFramebufferUV(ScreenPosition_12);
+		float4 MyFunc_83 = MyFunc(PixelToFramebufferUV_34, customData.myStrength, SSR_FramebufferOpaque);
+		float3 truncate_84 = float3(MyFunc_83.xyz);
+		float4 combine_85 = float4(truncate_84, float(1));
+		float hash_59 = hash(PixelToFramebufferUV_34.x);
+		float add_60 = hash_59 + PixelToFramebufferUV_34.y;
+		float mul_37 = Gfx_Environment.realTime * float(5);
+		float mul_63 = add_60 * mul_37;
+		float hash_67 = hash(mul_63);
+		float2 mul_53 = PixelToFramebufferUV_34 * float2(64, 64);
+		float mul_40 = Gfx_Environment.realTime * float(5);
+		float hash_55 = hash(mul_40);
+		float add_61 = mul_53.y + hash_55;
+		float mul_64 = add_61 * float(2);
+		float add_71 = hash_67 + frac(mul_64);
+		float mul_73 = add_71 * float(0.2);
+		float mul_74 = add_71 * float(0.05);
+		float2 ScreenPosition_20 = ScreenPosition(MR_FragCoord);
+		float2 PixelToFramebufferUV_42 = PixelToFramebufferUV(ScreenPosition_20);
+		float mul_44 = Gfx_Environment.realTime * float(-0.4);
+		float add_57 = PixelToFramebufferUV_42.y + mul_44;
+		float smoothStep_66 = smoothstep(float(0), float(1), frac(add_57));
+		float sub_65 = float(1) - frac(add_57);
+		float smoothStep_69 = smoothstep(float(0), float(1), sub_65);
+		float mul_70 = smoothStep_66 * smoothStep_69;
+		float mul_72 = mul_70 * float(2);
+		float saturate_75 = saturate(mul_72);
+		float lerp_76 = lerp(mul_73, mul_74, saturate_75);
+		float saturate_77 = saturate(lerp_76);
+		float3 smear_78 = float3(saturate_77, saturate_77, saturate_77);
+		float4 combine_79 = float4(smear_78, float(1));
+		float4 add_86 = combine_85 + combine_79;
+		float4 GetBlitEffectColor_87 = GetBlitEffectColor(sample_82, add_86);
+		float4 finalColor = vec4(0);
+		finalColor = BlendColor(GetBlitEffectColor_87, float(0));
+		colorOut = finalColor;
+	}
+}

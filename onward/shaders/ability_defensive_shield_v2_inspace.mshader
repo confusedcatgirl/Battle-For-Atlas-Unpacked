@@ -1,0 +1,125 @@
+<shaderType = "Object", keywords = { "GFX_FORWARD_SHADER", }, >
+import "shaders/MRender/MR_ViewConstants.h"
+import "shaders/modules/graphics/environment.h"
+blend {
+	src = 1,
+}
+pixel
+{
+	MR_Sampler2D Mask : MR_Texture0 <pinId = 185>;
+	MR_Sampler2D GradientTexture : MR_Texture1 {
+		wrap = clamp,
+	} <label = "Gradient Texture", pinId = 186>;
+	MR_Sampler2D FresnelGradientTexture : MR_Texture2 {
+		wrap = clamp,
+	} <label = "Fresnel Gradient Texture  ", pinId = 101>;
+	MR_Sampler2D Texture1 : MR_Texture3 <label = "Texture 1", pinId = 162>;
+	MR_Sampler2D TransitionTexture : MR_Texture4 <label = "Transition Texture", pinId = 183>;
+	struct CustomData {
+		float myIntensity <default = 1, label = "Intensity", pinId = 118>;
+		float myFresnelPower <default = 0, label = "Fresnel Power", pinId = 150>;
+		float myFresnelBottomRangeClamp <default = 0, label = "Fresnel Bottom Range Clamp", pinId = 157>;
+		float myAlpha <default = 0.7, label = "Alpha", pinId = 160>;
+		float2 myTexture1UVScale <default = 1 1, label = "Texture 1 UV Scale", pinId = 182>;
+		float2 myTexture1UVSpeed <default = 0 0, label = "Texture 1 UV Speed", pinId = 163>;
+		float myUseUnscaledGameTime <default = 0, label = "Use Unscaled Game Time", pinId = 165>;
+		float myUnscaledGameTime <default = 0, label = "Unscaled Game Time", pinId = 166>;
+		float myTime <default = 0, label = "Time", pinId = 168>;
+		float myMinY <default = 0, label = "Min Y", pinId = 169>;
+		float myMaxY <default = 0, label = "Max Y", pinId = 170>;
+		float myTransitionRange <default = 1, label = "Transition Range", pinId = 171>;
+		float myEmissionRange <default = 1, label = "Emission Range", pinId = 172>;
+		float myTransitionIntensity <default = 0, label = "Transition Intensity", pinId = 173>;
+		float2 myTransitionUVScale <default = 1 1, label = "Transition UV Scale", pinId = 184>;
+		float myInMin <default = 0, label = "In Min", pinId = 188>;
+		float myInMax <default = 1, label = "In Max", pinId = 189>;
+		float myOutStart <default = 0, label = "Out Start", pinId = 190>;
+		float myOutStop <default = 1, label = "Out Stop", pinId = 191>;
+	};
+	float toSign(float dot)
+	{
+		float val = sign(dot);
+		return val;
+	}
+	main(out float4 colorOut : MR_Color0, CustomData customData : Gfx_CustomData0, 
+		float3 Gfx_ModelSpacePos : Gfx_ModelSpacePos0, float2 Gfx_UV : Gfx_UV0, 
+		float3 Gfx_WorldSpacePos : Gfx_WorldSpacePos0, 
+		float3 Gfx_FlattenedWorldNormal : Gfx_FlattenedWorldNormal0, 
+		float3 Gfx_WorldSpaceNormal : Gfx_WorldSpaceNormal0, float2 Gfx_UV1 : Gfx_UV1, 
+		float Gfx_AlphaRef : Gfx_AlphaRef0)
+	{
+		float lerp_145 = lerp(customData.myMinY, customData.myMaxY, customData.myTime);
+		float sub_152 = lerp_145 - Gfx_ModelSpacePos.y;
+		float remap_155 = float(0) + saturate((sub_152 - float(1)) / (float(0) - float(1))) * (customData.myTransitionRange - float(0));
+		float2 mul_147 = Gfx_UV * customData.myTransitionUVScale;
+		float4 sample_153 = MR_Sample(TransitionTexture, mul_147);
+		float mul_159 = remap_155 * sample_153.x;
+		float add_162 = mul_159 + sub_152;
+		float clamp_169 = clamp(ceil(add_162), float(0), float(1));
+		float4 smear_173 = float4(clamp_169, clamp_169, clamp_169, clamp_169);
+		float3 sub_124 = MR_ViewConstants.LODCameraPosition - Gfx_WorldSpacePos;
+		float3 normalize_127 = normalize(sub_124);
+		float dot_129 = dot(normalize_127, Gfx_FlattenedWorldNormal);
+		float toSign_131 = toSign(dot_129);
+		float remap_167 = customData.myOutStart + saturate((toSign_131 - customData.myInMin) / (customData.myInMax - customData.myInMin)) * (customData.myOutStop - customData.myOutStart);
+		float4 smear_171 = float4(remap_167, remap_167, remap_167, remap_167);
+		float4 smear_139 = float4(customData.myIntensity, customData.myIntensity, customData.myIntensity, customData.myIntensity);
+		float4 transform_126 = MR_Transform(MR_ViewConstants.cameraToWorld, float4(0, 0, 0, 1));
+		float3 truncate_128 = float3(transform_126.xyz);
+		float3 sub_130 = truncate_128 - Gfx_WorldSpacePos;
+		float3 normalize_132 = normalize(sub_130);
+		float3 normalize_118 = normalize(Gfx_WorldSpaceNormal);
+		float dot_133 = dot(normalize_132, normalize_118);
+		float abs_134 = abs(dot_133);
+		float saturate_135 = saturate(abs_134);
+		float pow_179 = pow(abs(saturate_135), customData.myFresnelPower);
+		float abs_181 = abs(pow_179);
+		float remap_183 = customData.myFresnelBottomRangeClamp + saturate((abs_181 - float(0)) / (float(1) - float(0))) * (float(1) - customData.myFresnelBottomRangeClamp);
+		float2 combine_185 = float2(remap_183, float(0.5));
+		float4 sample_187 = MR_Sample(FresnelGradientTexture, combine_185);
+		float lerp_144 = lerp(Gfx_Environment.time, customData.myUnscaledGameTime, customData.myUseUnscaledGameTime);
+		float mul_149 = lerp_144 * customData.myTexture1UVSpeed.x;
+		float2 sub_125 = Gfx_UV - float2(0.5, 0.5);
+		float mul_151 = lerp_144 * float(0);
+		float add_154 = float(0) + mul_151;
+		float sinAngle_158 = sin(add_154);
+		float cosAngle_158 = cos(add_154);
+		float2x2 rotMat_158 = { cosAngle_158, -sinAngle_158, sinAngle_158, cosAngle_158 };
+		float2 rot2d_158 = MR_Transform(rotMat_158, sub_125);
+		float2 add_161 = rot2d_158 + float2(0.5, 0.5);
+		float2 mul_164 = add_161 * customData.myTexture1UVScale;
+		float2 add_168 = mul_164 + float2(0, 0);
+		float add_175 = mul_149 + add_168.x;
+		float mul_150 = lerp_144 * customData.myTexture1UVSpeed.y;
+		float add_176 = mul_150 + add_168.y;
+		float2 combine_178 = float2(add_175, add_176);
+		float4 sample_180 = MR_Sample(Texture1, combine_178);
+		float3 combine_184 = float3(sample_180.x, sample_180.y, sample_180.z);
+		float4 truncate_186 = float4(combine_184.xyz, 1);
+		float4 mul_188 = sample_187 * truncate_186;
+		float2 combine_190 = float2(mul_188.x, float(0));
+		float4 sample_192 = MR_Sample(GradientTexture, combine_190);
+		float4 mul_194 = smear_139 * sample_192;
+		float4 mul_196 = smear_171 * mul_194;
+		float remap_166 = float(1) + saturate((add_162 - float(0)) / (customData.myEmissionRange - float(0))) * (float(0) - float(1));
+		float4 smear_170 = float4(remap_166, remap_166, remap_166, remap_166);
+		float4 mul_174 = float4(0.0325032, 0.213716, 0.831396, 1) * smear_170;
+		float mul_160 = sample_153.y * customData.myTransitionIntensity;
+		float4 smear_163 = float4(mul_160, mul_160, mul_160, mul_160);
+		float4 mul_177 = mul_174 * smear_163;
+		float4 add_197 = mul_196 + mul_177;
+		float4 sample_148 = MR_Sample(Mask, Gfx_UV1);
+		float4 mul_198 = add_197 * sample_148;
+		float4 mul_199 = smear_173 * mul_198;
+		float4 smear_141 = float4(customData.myAlpha, customData.myAlpha, customData.myAlpha, customData.myAlpha);
+		float4 mul_200 = mul_199 * smear_141;
+		float3 truncate_202 = float3(mul_200.xyz);
+		float truncate_156 = float(sample_148.x);
+		float mul_191 = mul_188.x * truncate_156;
+		float mul_193 = clamp_169 * mul_191;
+		float mul_195 = customData.myAlpha * mul_193;
+		if (mul_195 < Gfx_AlphaRef) discard;
+		float4 result_204 = float4(truncate_202, mul_195);
+		colorOut = result_204;
+	}
+}

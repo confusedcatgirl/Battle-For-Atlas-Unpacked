@@ -1,0 +1,92 @@
+<keywords = { "LIGHT_FROM_GROUND", "IS_MAIN_PLANET", "GFX_DEFERRED_SHADER", }, >
+import "shaders/modules/graphics/deferred_data.h"
+import "shaders/modules/graphics/normal_encode.h"
+import "shaders/nodes/shader/functions/ow emissive intensity multiplier.h"
+import "shaders/nodes/shader/functions/unpack normal.h"
+import "shaders/MRender/MR_ViewConstants.h"
+pixel
+{
+	MR_Sampler2D BaseColor : MR_Texture0 {
+		texture = "onward/baked/textures/default_b.dds",
+	} <label = "Base Color", pinId = 102>;
+	MR_Sampler2D Normal : MR_Texture1 {
+		texture = "onward/baked/textures/default_n.dds",
+	} <pinId = 103>;
+	MR_Sampler2D Material : MR_Texture2 {
+		texture = "onward/baked/textures/default_m.dds",
+	} <pinId = 104>;
+	MR_Sampler2D Detail : MR_Texture3 <pinId = 107>;
+	struct CustomData {
+		float2 myDetailScale <default = 30 30, label = "DetailScale", pinId = 108>;
+		float myStrength <default = 1, label = "Strength", pinId = 109>;
+		float myadjustDistance <default = 1, label = "adjustDistance", pinId = 110>;
+		float myfalloffCurve <default = 2, label = "falloffCurve", pinId = 111>;
+		float myEmissionIntensity <default = 0, label = "Emission Intensity", pinId = 112>;
+	};
+	float3 GetBump(float height, float adjustDistance, float falloffCurve, float strength, 
+		float2 cameraPos)
+	{
+		float2 cameraDD = float2(ddx_fine(cameraPos.x), ddy_fine(cameraPos.y));
+		 float distanceDD = length(cameraDD);
+		 
+		 float adjustStrength = adjustDistance/distanceDD;
+
+		 adjustStrength = pow(abs(adjustStrength),  falloffCurve);
+
+		 float3 result = float3(-ddx_fine(height), ddy_fine(height), 0) * adjustStrength * 0.001f * strength;
+		 result.z = 1.0f;
+		 return  normalize(result);
+	}
+	main(bool MR_IsFrontFace : MR_IsFrontFace, 
+		out Gfx_DeferredData deferredOut : Gfx_Deferred <emission = true,>, 
+		float2 Gfx_UV : Gfx_UV0, CustomData customData : Gfx_CustomData0, 
+		float3x3 Gfx_TangentToWorld : Gfx_TangentToWorld0, 
+		float4 Gfx_Color : Gfx_Color0, float3 Gfx_CameraSpacePos : Gfx_CameraSpacePos0)
+	{
+		float4 sample_96 = MR_Sample(BaseColor, Gfx_UV);
+		float3 combine_106 = float3(sample_96.x, sample_96.y, sample_96.z);
+		deferredOut.color = combine_106;
+		float3 combine_94 = float3(customData.myEmissionIntensity, customData.myEmissionIntensity, customData.myEmissionIntensity);
+		float4 combine_103 = float4(combine_94.x, combine_94.y, combine_94.z, float(0));
+		float4 sample_97 = MR_Sample(Material, Gfx_UV);
+		float4 combine_107 = float4(sample_97.z, sample_97.z, sample_97.z, sample_97.z);
+		float4 mul_110 = sample_96 * combine_107;
+		float4 mul_113 = combine_103 * mul_110;
+		float3 combine_119 = float3(mul_113.x, mul_113.y, mul_113.z);
+		float4 truncate_123 = float4(combine_119.xyz, 1);
+		float4 OWEmissiveIntensityMultiplier_127 = OWEmissiveIntensityMultiplier(truncate_123);
+		float3 truncate_133 = float3(OWEmissiveIntensityMultiplier_127.xyz);
+		deferredOut.emission = truncate_133;
+		deferredOut.roughness = sample_97.y;
+		deferredOut.metalness = sample_97.x;
+		float4 sample_95 = MR_Sample(Normal, Gfx_UV);
+		float3 normal_100;
+		float ambientOcclusion_100;
+		UnpackNormalAndAO(sample_95, normal_100, ambientOcclusion_100);
+		deferredOut.ao = ambientOcclusion_100;
+		float3 transform_105 = MR_Transform(Gfx_TangentToWorld, normal_100);
+		float4 combine_112 = float4(transform_105.x, transform_105.y, transform_105.z, float(0));
+		float4 transform_115 = MR_Transform(MR_ViewConstants.worldToCamera, combine_112);
+		float dot_118 = dot(transform_115, float4(0, 0, 1, 0));
+		float saturate_125 = saturate(-dot_118);
+		float3 smear_129 = float3(saturate_125, saturate_125, saturate_125);
+		float2 mul_93 = customData.myDetailScale * Gfx_UV;
+		float4 sample_98 = MR_Sample(Detail, mul_93);
+		float4 mul_104 = Gfx_Color * sample_98;
+		float add_111 = mul_104.z + mul_104.w;
+		float add_114 = mul_104.y + add_111;
+		float add_117 = mul_104.x + add_114;
+		float2 truncate_78 = float2(Gfx_CameraSpacePos.xy);
+		float3 GetBump_120 = GetBump(add_117, customData.myadjustDistance, customData.myfalloffCurve, customData.myStrength, truncate_78);
+		float4 combine_128 = float4(GetBump_120.x, GetBump_120.y, float(0.01), float(0));
+		float4 transform_134 = MR_Transform(MR_ViewConstants.cameraToWorld, combine_128);
+		float3 combine_136 = float3(transform_134.x, transform_134.y, transform_134.z);
+		float3 mul_137 = smear_129 * combine_136;
+		float3 add_138 = transform_105 + mul_137;
+		float3 normalize_139 = normalize(add_138);
+		float3 flippedNormal = normalize_139;
+		if (!MR_IsFrontFace)
+		    flippedNormal = -flippedNormal;
+		deferredOut.worldNormal = flippedNormal;
+	}
+}

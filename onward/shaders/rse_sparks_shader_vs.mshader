@@ -1,0 +1,91 @@
+<shaderType = "Vertex">
+import "shaders/modules/graphics/environment.h"
+import "shaders/nodes/shader/functions/noisehelpers.h"
+import "shaders/nodes/shader/functions/getplanetposition.h"
+import "shaders/nodes/shader/functions/onward/ow_getterrainlowresradius.h"
+vertex
+{
+	struct CustomData {
+		float myDisplacement <config = { max = 100, min = 0, type = "Slider", }, default = 0, label = "Displacement", pinId = 102>;
+		float myNoiseFreq <default = 0.5, label = "NoiseFreq", pinId = 104>;
+		float myCompensateForFlattening <default = 0, label = "Compensate For Flattening", pinId = 106>;
+		float mySnapToPlanet <default = 0, label = "Snap To Planet", pinId = 107>;
+	};
+	float3 get_pos(float3x4 m)
+	{
+		return MR_GetPos(m);
+	}
+	void ModelSpaceModifier(inout float3 Gfx_ModelSpacePos : Gfx_ModelSpacePos, 
+		float4 Gfx_Color : Gfx_Color0, CustomData customData : Gfx_CustomData0, 
+		float3 Gfx_WorldSpaceNormal : Gfx_WorldSpaceNormal0)
+	{
+		float3 smear_36 = float3(float(0.6), float(0.6), float(0.6));
+		float3 mul_42 = Gfx_WorldSpaceNormal * smear_36;
+		float lerp_63 = lerp(float(0), customData.myDisplacement, Gfx_Color.x);
+		float3 smear_67 = float3(lerp_63, lerp_63, lerp_63);
+		float3 mul_69 = mul_42 * smear_67;
+		float3 smear_58 = float3(customData.myNoiseFreq, customData.myNoiseFreq, customData.myNoiseFreq);
+		float3 mul_59 = Gfx_ModelSpacePos * smear_58;
+		float4 combine_60 = float4(mul_59, float(1));
+		float Noise_64 = Noise(combine_60);
+		float mul_68 = Noise_64 * float(6.28);
+		float add_70 = Gfx_Environment.time + mul_68;
+		float sin_71 = sin(add_70);
+		float3 smear_72 = float3(sin_71, sin_71, sin_71);
+		float3 mul_73 = mul_69 * smear_72;
+		float3 add_74 = mul_73 + Gfx_ModelSpacePos;
+		Gfx_ModelSpacePos = add_74;
+	}
+	void WorldSpaceModifier(inout float3 Gfx_WorldSpacePos : Gfx_WorldSpacePos, 
+		CustomData customData : Gfx_CustomData0, float2 Gfx_UV2 : Gfx_UV2, 
+		float2 Gfx_UV1 : Gfx_UV1, 
+		float3x4 Gfx_ObjectToWorldMatrix : Gfx_ObjectToWorldMatrix0)
+	{
+		float3 get_pos_25 = get_pos(Gfx_ObjectToWorldMatrix);
+		float3 GetPlanetPosition_7 = GetPlanetPosition();
+		float3 sub_26 = get_pos_25 - GetPlanetPosition_7;
+		float3 normalize_37 = normalize(sub_26);
+		float3 GetPlanetPosition_8 = GetPlanetPosition();
+		float3 sub_27 = Gfx_WorldSpacePos - GetPlanetPosition_8;
+		float dot_39 = dot(normalize_37, sub_27);
+		float3 combine_43 = float3(dot_39, dot_39, dot_39);
+		float3 normalize_38 = normalize(sub_27);
+		float3 mul_45 = combine_43 * normalize_38;
+		float3 get_pos_31 = get_pos(Gfx_ObjectToWorldMatrix);
+		float3 GetPlanetPosition_16 = GetPlanetPosition();
+		float3 sub_32 = get_pos_31 - GetPlanetPosition_16;
+		float3 normalize_41 = normalize(sub_32);
+		float3 combine_40 = float3(Gfx_UV1.x, Gfx_UV2.x, Gfx_UV1.y);
+		float3 transform_44 = MR_Transform(Gfx_ObjectToWorldMatrix, combine_40);
+		float3 GetPlanetPosition_17 = GetPlanetPosition();
+		float3 sub_46 = transform_44 - GetPlanetPosition_17;
+		float dot_48 = dot(normalize_41, sub_46);
+		float3 combine_49 = float3(dot_48, dot_48, dot_48);
+		float3 normalize_47 = normalize(sub_46);
+		float3 mul_50 = combine_49 * normalize_47;
+		float3 sub_52 = mul_45 - mul_50;
+		float3 normalize_51 = normalize(mul_50);
+		float OW_GetTerrainLowResRadius_53 = OW_GetTerrainLowResRadius(normalize_51);
+		float3 combine_54 = float3(OW_GetTerrainLowResRadius_53, OW_GetTerrainLowResRadius_53, OW_GetTerrainLowResRadius_53);
+		float3 mul_55 = normalize_51 * combine_54;
+		float3 add_56 = sub_52 + mul_55;
+		float step_62 = step(customData.mySnapToPlanet, float(0.5));
+		float3 combine_66 = float3(step_62, step_62, step_62);
+		float3 lerp_76 = lerp(add_56, mul_45, combine_66);
+		float3 GetPlanetPosition_9 = GetPlanetPosition();
+		float3 add_77 = lerp_76 + GetPlanetPosition_9;
+		float step_61 = step(customData.myCompensateForFlattening, float(0.5));
+		float3 combine_65 = float3(step_61, step_61, step_61);
+		float3 lerp_78 = lerp(add_77, Gfx_WorldSpacePos, combine_65);
+		Gfx_WorldSpacePos = lerp_78;
+	}
+	main(float3 Gfx_WorldSpaceNormal : Gfx_WorldSpaceNormal0, 
+		CustomData customData : Gfx_CustomData0, float4 Gfx_Color : Gfx_Color0, 
+		float3x4 Gfx_ObjectToWorldMatrix : Gfx_ObjectToWorldMatrix0, 
+		float2 Gfx_UV1 : Gfx_UV1, float2 Gfx_UV2 : Gfx_UV2, 
+		inout float3 Gfx_ModelSpacePos : Gfx_ModelSpacePos <modifier = "ModelSpaceModifier">, 
+		inout float3 Gfx_WorldSpacePos : Gfx_WorldSpacePos <modifier = "WorldSpaceModifier">)
+	{
+		// dummy comment so the shader writer does save this out
+	}
+}

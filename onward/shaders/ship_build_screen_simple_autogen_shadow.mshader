@@ -1,0 +1,31 @@
+import "shaders/MRender/MR_ViewConstants.h"
+import "shaders/nodes/shader/functions/unpack normal.h"
+pixel
+{
+	MR_Sampler2D Normal : MR_Texture0 {
+		texture = "onward/baked/textures/default_n.dds",
+	} <pinId = 103>;
+	struct CustomData {
+		float myCountedTime <config = { max = 1, min = 0, type = "Slider", }, default = 0, label = "CountedTime", pinId = 105>;
+		float3 myColor <config = { type = "ColorBox", }, default = 0 0.577581 1, label = "Color", pinId = 106>;
+	};
+	main(CustomData customData : Gfx_CustomData, out float4 colorOut : MR_Color0, 
+		float3 Gfx_WorldSpacePos : Gfx_WorldSpacePos0, 
+		float3x3 Gfx_TangentToWorld : Gfx_TangentToWorld0, float2 Gfx_UV : Gfx_UV0, 
+		float Gfx_AlphaRef : Gfx_AlphaRef0)
+	{
+		float3 sub_63 = MR_ViewConstants.LODCameraPosition - Gfx_WorldSpacePos;
+		float3 normalize_83 = normalize(sub_63);
+		float4 sample_109 = MR_Sample(Normal, Gfx_UV);
+		float3 normal_110;
+		float ambientOcclusion_110;
+		UnpackNormalAndAO(sample_109, normal_110, ambientOcclusion_110);
+		float3 transform_112 = MR_Transform(Gfx_TangentToWorld, normal_110);
+		float dot_114 = dot(normalize_83, transform_112);
+		float saturate_117 = saturate(dot_114);
+		float mul_120 = saturate_117 * float(0.5);
+		if (mul_120 < Gfx_AlphaRef) discard;
+		float4 shadowResult = float4(0.0, 0.0, 0.0, mul_120);
+		colorOut = shadowResult;
+	}
+}

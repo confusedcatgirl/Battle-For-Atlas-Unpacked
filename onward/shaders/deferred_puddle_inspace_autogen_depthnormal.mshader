@@ -1,0 +1,122 @@
+import "shaders/nodes/shader/functions/getplanetposition.h"
+import "shaders/nodes/shader/functions/onward/ow_getterrainlowresradius.h"
+import "shaders/modules/graphics/environment.h"
+import "shaders/nodes/shader/functions/unpack normal.h"
+pixel
+{
+	MR_Sampler2D NormalWithFoam : MR_Texture0 {
+		texture = "onward/baked/textures/water_with_foam_n.dds",
+	} <pinId = 108>;
+	struct CustomData {
+		float3 myColor <config = { type = "ColorBox", }, default = 0 0 0, label = "Color", pinId = 107>;
+		float2 myNormalTililng <default = 1 1, label = "Normal Tililng", pinId = 111>;
+		float2 myNoisetiling <default = 1 1, label = "Noise tiling", pinId = 110>;
+		float3 mySpeed <default = 3 1 0.5, label = "Speed", pinId = 112>;
+		float myHeightBias <default = 0, label = "Height Bias", pinId = 113>;
+		float myDepth <default = 2, label = "Depth", pinId = 114>;
+		float myFoamDepth <default = 2, label = "Foam Depth", pinId = 115>;
+		float3 myFoamColor <config = { type = "ColorBox", }, default = 1 1 1, label = "Foam Color", pinId = 116>;
+	};
+	main(out float4 colorOut : MR_Color0, CustomData customData : Gfx_CustomData0, 
+		float3x4 Gfx_ObjectToWorldMatrix : Gfx_ObjectToWorldMatrix0, 
+		float3 Gfx_ModelSpacePos : Gfx_ModelSpacePos0, 
+		float3 Gfx_ModelSpaceNormal : Gfx_ModelSpaceNormal0, 
+		float Gfx_AlphaRef : Gfx_AlphaRef0, 
+		float3 Gfx_CameraSpacePos : Gfx_CameraSpacePos0)
+	{
+		float3 transform_147 = MR_Transform(Gfx_ObjectToWorldMatrix, Gfx_ModelSpacePos);
+		float3 GetPlanetPosition_95 = GetPlanetPosition();
+		float3 sub_149 = transform_147 - GetPlanetPosition_95;
+		float length_160 = length(sub_149);
+		float add_192 = customData.myHeightBias + length_160;
+		float3 normalize_159 = normalize(sub_149);
+		float OW_GetTerrainLowResRadius_166 = OW_GetTerrainLowResRadius(normalize_159);
+		float sub_194 = add_192 - OW_GetTerrainLowResRadius_166;
+		float smoothStep_205 = smoothstep(float(0), float(0.05), sub_194);
+		float smoothStep_206 = smoothstep(float(0), float(0.05), sub_194);
+		float smoothStep_204 = smoothstep(customData.myFoamDepth, float(0), sub_194);
+		float mul_218 = smoothStep_206 * smoothStep_204;
+		float lerp_227 = lerp(float(3), float(0), mul_218);
+		float2 combine_170 = float2(sub_149.z, sub_149.y);
+		float2 mul_197 = combine_170 * customData.myNormalTililng;
+		float mul_152 = Gfx_Environment.time * float(0.002);
+		float3 smear_164 = float3(mul_152, mul_152, mul_152);
+		float3 mul_193 = customData.mySpeed * smear_164;
+		float2 combine_210 = float2(mul_193.x, float(0));
+		float2 add_219 = mul_197 + combine_210;
+		float4 sample_228 = MR_Sample(NormalWithFoam, add_219);
+		float3 normal_237;
+		float ambientOcclusion_237;
+		UnpackNormalAndAO(sample_228, normal_237, ambientOcclusion_237);
+		float2 combine_222 = float2(-mul_193.x, -mul_193.y);
+		float2 add_231 = mul_197 + combine_222;
+		float4 sample_240 = MR_Sample(NormalWithFoam, add_231);
+		float3 normal_249;
+		float ambientOcclusion_249;
+		UnpackNormalAndAO(sample_240, normal_249, ambientOcclusion_249);
+		float add_255 = ambientOcclusion_237 + ambientOcclusion_249;
+		float2 combine_214 = float2(-mul_193.z, mul_193.z);
+		float2 add_223 = mul_197 + combine_214;
+		float4 sample_234 = MR_Sample(NormalWithFoam, add_223);
+		float3 normal_243;
+		float ambientOcclusion_243;
+		UnpackNormalAndAO(sample_234, normal_243, ambientOcclusion_243);
+		float add_262 = add_255 + ambientOcclusion_243;
+		float3 abs_107 = abs(Gfx_ModelSpaceNormal);
+		float3 combine_150 = float3(float(23.4554), float(23.4554), float(23.4554));
+		float3 pow_151 = pow(abs_107, combine_150);
+		float3 normalize_163 = normalize(pow_151);
+		float add_176 = normalize_163.x + normalize_163.y;
+		float add_177 = add_176 + normalize_163.z;
+		float3 combine_178 = float3(add_177, add_177, add_177);
+		float3 div_179 = normalize_163 / combine_178;
+		float mul_269 = add_262 * div_179.x;
+		float2 combine_168 = float2(sub_149.x, sub_149.z);
+		float2 mul_195 = combine_168 * customData.myNormalTililng;
+		float2 add_220 = mul_195 + combine_210;
+		float4 sample_229 = MR_Sample(NormalWithFoam, add_220);
+		float3 normal_238;
+		float ambientOcclusion_238;
+		UnpackNormalAndAO(sample_229, normal_238, ambientOcclusion_238);
+		float2 add_232 = mul_195 + combine_222;
+		float4 sample_241 = MR_Sample(NormalWithFoam, add_232);
+		float3 normal_250;
+		float ambientOcclusion_250;
+		UnpackNormalAndAO(sample_241, normal_250, ambientOcclusion_250);
+		float add_257 = ambientOcclusion_238 + ambientOcclusion_250;
+		float2 add_224 = mul_195 + combine_214;
+		float4 sample_235 = MR_Sample(NormalWithFoam, add_224);
+		float3 normal_244;
+		float ambientOcclusion_244;
+		UnpackNormalAndAO(sample_235, normal_244, ambientOcclusion_244);
+		float add_264 = add_257 + ambientOcclusion_244;
+		float mul_271 = add_264 * div_179.y;
+		float add_276 = mul_269 + mul_271;
+		float2 combine_169 = float2(sub_149.x, sub_149.y);
+		float2 mul_196 = combine_169 * customData.myNormalTililng;
+		float2 add_221 = mul_196 + combine_210;
+		float4 sample_230 = MR_Sample(NormalWithFoam, add_221);
+		float3 normal_239;
+		float ambientOcclusion_239;
+		UnpackNormalAndAO(sample_230, normal_239, ambientOcclusion_239);
+		float2 add_233 = mul_196 + combine_222;
+		float4 sample_242 = MR_Sample(NormalWithFoam, add_233);
+		float3 normal_251;
+		float ambientOcclusion_251;
+		UnpackNormalAndAO(sample_242, normal_251, ambientOcclusion_251);
+		float add_259 = ambientOcclusion_239 + ambientOcclusion_251;
+		float2 add_225 = mul_196 + combine_214;
+		float4 sample_236 = MR_Sample(NormalWithFoam, add_225);
+		float3 normal_245;
+		float ambientOcclusion_245;
+		UnpackNormalAndAO(sample_236, normal_245, ambientOcclusion_245);
+		float add_266 = add_259 + ambientOcclusion_245;
+		float mul_273 = add_266 * div_179.z;
+		float add_279 = add_276 + mul_273;
+		float smoothStep_284 = smoothstep(lerp_227, float(3.01), add_279);
+		float add_290 = smoothStep_205 + smoothStep_284;
+		if (add_290 < Gfx_AlphaRef) discard;
+		float4 depthResult = float4(Gfx_CameraSpacePos.z, 0, 0, add_290);
+		colorOut = depthResult;
+	}
+}

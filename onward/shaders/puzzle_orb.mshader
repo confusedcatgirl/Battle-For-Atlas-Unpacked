@@ -1,0 +1,145 @@
+<emission = true, shaderType = "Object", keywords = { "LIGHT_FROM_GROUND", "IS_MAIN_PLANET", "GFX_FORWARD_SHADER", }, >
+import "shaders/nodes/shader/functions/unpack normal.h"
+import "shaders/nodes/shader/functions/onward/lighting/ow_fullgroundbaselighting.h"
+import "shaders/MRender/MR_ViewConstants.h"
+import "shaders/modules/graphics/environment.h"
+import "shaders/nodes/shader/functions/fresnel-schlick.h"
+import "shaders/nodes/shader/functions/ow emissive intensity multiplier.h"
+import "shaders/nodes/shader/functions/onward/lighting/ow_groundfog.h"
+pixel
+{
+	import "shaders/MRender/MR_ViewConstants.h"
+	MR_Sampler2D BaseColor : MR_Texture0 {
+		texture = "onward/baked/textures/default_b.dds",
+	} <label = "Base Color", pinId = 102>;
+	MR_Sampler2D Normal : MR_Texture1 {
+		texture = "onward/baked/textures/default_n.dds",
+	} <pinId = 103>;
+	MR_Sampler2D Material : MR_Texture2 {
+		texture = "onward/baked/textures/default_m.dds",
+	} <pinId = 104>;
+	MR_Sampler2D RadialTexture : MR_Texture3 <label = "Radial Texture", pinId = 125>;
+	MR_Sampler2D DistortionTexture : MR_Texture4 <label = "Distortion Texture", pinId = 127>;
+	MR_Sampler2D ShimmerTexture : MR_Texture5 <label = "Shimmer Texture", pinId = 132>;
+	MR_Sampler2D Sampler_151 : MR_Texture6 {
+		texture = "onward/baked/textures/tiling_noise_cloud.dds",
+	};
+	struct CustomData {
+		float3 myColorRim <config = { type = "ColorBox", }, default = 0 0 0, label = "Color Rim", pinId = 128>;
+		float3 myColorCenter <config = { type = "ColorBox", }, default = 0 0 0, label = "Color Center", pinId = 129>;
+		float myIntensity <default = 20, label = "Intensity", pinId = 131>;
+		float myShimmerIntensity <default = 0, label = "Shimmer Intensity", pinId = 133>;
+	};
+	float atanFN(float2 t)
+	{
+		float Pi = 3.1415926535897932384626433832795;
+		 float v = (atan2(t.x , t.y) - Pi * 0.5) / (2 * Pi) + 0.75;
+		 
+		 return v;
+	}
+	float4 toClip(float4 pos)
+	{
+		float4 newPos = MR_Transform(MR_ViewConstants.worldToClip, pos);
+		return newPos;
+	}
+	main(out float4 colorOut : MR_Color0, float2 Gfx_UV : Gfx_UV0, 
+		float3x3 Gfx_TangentToWorld : Gfx_TangentToWorld0, 
+		Gfx_LightingDataStruct Gfx_LightingData : Gfx_LightingData0, 
+		CustomData customData : Gfx_CustomData0, 
+		float3 Gfx_WorldSpacePos : Gfx_WorldSpacePos0, 
+		float3 Gfx_FlattenedWorldNormal : Gfx_FlattenedWorldNormal0, 
+		float3x4 Gfx_ObjectToWorldMatrix : Gfx_ObjectToWorldMatrix0, 
+		float3 Gfx_ModelSpacePos : Gfx_ModelSpacePos0, 
+		float4 MR_FragCoord : MR_FragCoord, float Gfx_AlphaRef : Gfx_AlphaRef0)
+	{
+		float4 sample_221 = MR_Sample(BaseColor, Gfx_UV);
+		float3 combine_229 = float3(sample_221.x, sample_221.y, sample_221.z);
+		float4 sample_223 = MR_Sample(Normal, Gfx_UV);
+		float3 normal_226;
+		float ambientOcclusion_226;
+		UnpackNormalAndAO(sample_223, normal_226, ambientOcclusion_226);
+		float3 transform_230 = MR_Transform(Gfx_TangentToWorld, normal_226);
+		float4 sample_222 = MR_Sample(Material, Gfx_UV);
+		float3 aLightOut_231;
+		OW_FullBaseGroundLighting(aLightOut_231, combine_229, transform_230, float(1), sample_222.y, sample_222.x, ambientOcclusion_226, Gfx_LightingData);
+		float3 mul_227 = customData.myColorRim * float3(1, 1, 1);
+		float3 mul_228 = customData.myColorCenter * float3(20, 20, 20);
+		float3 sub_138 = MR_ViewConstants.LODCameraPosition - Gfx_WorldSpacePos;
+		float3 normalize_167 = normalize(sub_138);
+		float dot_178 = dot(normalize_167, Gfx_FlattenedWorldNormal);
+		float saturate_184 = saturate(dot_178);
+		float mul_189 = saturate_184 * saturate_184;
+		float2 mul_141 = Gfx_UV * float2(2, 2);
+		float2 sub_168 = mul_141 - float2(1, 1);
+		float atanFN_179 = atanFN(sub_168);
+		float length_180 = length(sub_168);
+		float abs_185 = abs(length_180);
+		float2 combine_190 = float2(atanFN_179, abs_185);
+		float mul_172 = Gfx_Environment.time * float(0);
+		float add_199 = combine_190.x + mul_172;
+		float add_170 = Gfx_UV.x + float(0);
+		float mul_171 = Gfx_Environment.time * float(0.25);
+		float add_181 = Gfx_UV.y + mul_171;
+		float2 combine_186 = float2(add_170, add_181);
+		float2 mul_191 = combine_186 * float2(0.5, 0.5);
+		float4 sample_235 = MR_Sample(DistortionTexture, mul_191);
+		float mul_237 = sample_235.x * float(0.05);
+		float add_239 = add_199 + mul_237;
+		float2 combine_241 = float2(add_239, combine_190.y);
+		float2 mul_243 = combine_241 * float2(1, 1);
+		float4 sample_245 = MR_SampleLod(RadialTexture, mul_243, float(0));
+		float mul_169 = Gfx_Environment.time * float(0.05);
+		float add_198 = combine_190.x + mul_169;
+		float add_238 = add_198 + mul_237;
+		float2 combine_240 = float2(add_238, combine_190.y);
+		float2 mul_242 = combine_240 * float2(1, 1);
+		float4 sample_244 = MR_SampleLod(Sampler_151, mul_242, float(0));
+		float div_248 = sample_244.x / float(0.5);
+		float mul_249 = sample_245.x * div_248;
+		float mul_250 = mul_189 * mul_249;
+		float3 smear_252 = float3(mul_250, mul_250, mul_250);
+		float3 lerp_254 = lerp(mul_227, mul_228, smear_252);
+		float3 smear_218 = float3(customData.myIntensity, customData.myIntensity, customData.myIntensity);
+		float3 mul_256 = lerp_254 * smear_218;
+		float3 transform_157 = MR_Transform(Gfx_ObjectToWorldMatrix, Gfx_ModelSpacePos);
+		float4 combine_175 = float4(transform_157.x, transform_157.y, transform_157.z, float(1));
+		float4 toClip_183 = toClip(combine_175);
+		float2 combine_193 = float2(toClip_183.x, toClip_183.y);
+		float2 smear_194 = float2(toClip_183.w, toClip_183.w);
+		float2 div_197 = combine_193 / smear_194;
+		float3 transform_174 = MR_Transform(Gfx_ObjectToWorldMatrix, float3(0, 0, 0));
+		float4 combine_187 = float4(transform_174.x, transform_174.y, transform_174.z, float(1));
+		float4 toClip_192 = toClip(combine_187);
+		float2 combine_200 = float2(toClip_192.x, toClip_192.y);
+		float2 smear_201 = float2(toClip_192.w, toClip_192.w);
+		float2 div_203 = combine_200 / smear_201;
+		float sub_205 = div_197.x - div_203.x;
+		float sub_206 = div_203.y - div_197.y;
+		float2 combine_207 = float2(sub_205, sub_206);
+		float mul_176 = Gfx_Environment.time * float(2);
+		float add_209 = combine_207.x + mul_176;
+		float2 combine_210 = float2(add_209, combine_207.y);
+		float2 mul_211 = combine_210 * float2(0.25, 0.25);
+		float4 sample_251 = MR_Sample(ShimmerTexture, mul_211);
+		float4 mul_253 = sample_251 * float4(1, 1, 1, 1);
+		float3 sub_164 = MR_ViewConstants.LODCameraPosition - Gfx_WorldSpacePos;
+		float3 normalize_177 = normalize(sub_164);
+		float3 FresnelSchlick_233 = FresnelSchlick(float3(0, 0, 0), transform_230, normalize_177);
+		float4 truncate_234 = float4(FresnelSchlick_233.xyz, 1);
+		float4 mul_255 = mul_253 * truncate_234;
+		float4 mul_257 = mul_255 * float4(500, 500, 500, 1);
+		float4 smear_220 = float4(customData.myShimmerIntensity, customData.myShimmerIntensity, customData.myShimmerIntensity, customData.myShimmerIntensity);
+		float4 mul_258 = mul_257 * smear_220;
+		float3 truncate_259 = float3(mul_258.xyz);
+		float3 add_260 = mul_256 + truncate_259;
+		float4 truncate_261 = float4(add_260.xyz, 1);
+		float4 OWEmissiveIntensityMultiplier_263 = OWEmissiveIntensityMultiplier(truncate_261);
+		float3 truncate_265 = float3(OWEmissiveIntensityMultiplier_263.xyz);
+		float3 add_269 = aLightOut_231 + truncate_265;
+		float3 aColor_271 = add_269;
+		OW_GroundFog(aColor_271, Gfx_WorldSpacePos, MR_FragCoord);
+		if (sample_221.w < Gfx_AlphaRef) discard;
+		float4 result_273 = float4(aColor_271, sample_221.w);
+		colorOut = result_273;
+	}
+}

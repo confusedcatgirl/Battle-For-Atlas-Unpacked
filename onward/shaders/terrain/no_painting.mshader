@@ -1,0 +1,122 @@
+<shaderType = "Terrain">
+import "shaders/nodes/shader/functions/lighting/complete (improved blinn-phong).h"
+pixel
+{
+	MR_Sampler2D Sampler_249 : MR_Texture1 {
+		texture = "onward/baked/art/ground_textures/grass_red_d.dds",
+		averageTiling = 0.2,
+	};
+	MR_Sampler2D Sampler_230 : MR_Texture2 {
+		texture = "onward/baked/art/ground_textures/fm_riverbed01_stones_gt_d.dds",
+		averageTiling = 0.2,
+	};
+	MR_Sampler2D Sampler_198 : MR_Texture3 {
+		texture = "onward/baked/art/ground_textures/fm_cliffbig01_gt_d.dds",
+	};
+	main(out float4 colorOut : MR_Color0, 
+		float3 Gfx_WorldSpaceNormal : Gfx_WorldSpaceNormal0, 
+		float3 Gfx_WorldSpacePos : Gfx_WorldSpacePos0, 
+		bool MR_IsFrontFace : MR_IsFrontFace, 
+		Gfx_LightingDataStruct Gfx_LightingData : Gfx_LightingData0)
+	{
+		float4 result283;
+		float3 combine_148 = float3(float(5), float(5), float(5));
+		float3 div_243 = Gfx_WorldSpacePos / combine_148;
+		float3 mul_245 = div_243 * float3(1, -1, -1);
+		float2 combine_247 = float2(mul_245.x, mul_245.z);
+		float4 sample_250 = MR_Sample(Sampler_249, combine_247);
+		float3 combine_253 = float3(sample_250.x, sample_250.y, sample_250.z);
+		float4 truncate_254 = float4(combine_253.xyz, 1);
+		float3 combine_152 = float3(float(5), float(5), float(5));
+		float3 div_224 = Gfx_WorldSpacePos / combine_152;
+		float3 mul_226 = div_224 * float3(1, -1, -1);
+		float2 combine_228 = float2(mul_226.x, mul_226.z);
+		float4 sample_231 = MR_Sample(Sampler_230, combine_228);
+		float3 combine_234 = float3(sample_231.x, sample_231.y, sample_231.z);
+		float4 truncate_235 = float4(combine_234.xyz, 1);
+		float remap_218 = float(0) + saturate((Gfx_WorldSpaceNormal.y - float(0)) / (float(1) - float(0))) * (float(1) - float(0));
+		float3 gradient_219;
+		gradient_219 = float4(1, 1, 1, 1).xyz;
+		gradient_219 = lerp(gradient_219, float4(2e-005, 1e-005, 3e-005, 1).xyz, saturate((remap_218 - 0.938331) / 0.059909));
+		gradient_219.xyz = pow(gradient_219.xyz, vec3(2.2));
+		float4 combine_221 = float4(gradient_219.x, gradient_219.y, gradient_219.z, float(1));
+		float4 lerp_255 = lerp(truncate_254, truncate_235, combine_221);
+		float3 smear_173 = float3(float(12), float(12), float(12));
+		float3 div_174 = Gfx_WorldSpacePos / smear_173;
+		float3 mul_181 = div_174 * float3(1, -1, -1);
+		float2 combine_183 = float2(mul_181.z, mul_181.y);
+		float4 sample_201 = MR_Sample(Sampler_198, combine_183);
+		float3 abs_175 = abs(Gfx_WorldSpaceNormal);
+		float add_177 = float(10) + float(0);
+		float3 combine_178 = float3(add_177, add_177, add_177);
+		float3 pow_179 = pow(abs_175, combine_178);
+		float3 max_187 = max(pow_179, float3(0, 0, 0));
+		float add_189 = max_187.x + max_187.y;
+		float add_190 = add_189 + max_187.z;
+		float3 combine_191 = float3(add_190, add_190, add_190);
+		float3 div_192 = max_187 / combine_191;
+		float4 smear_196 = float4(div_192.x, div_192.x, div_192.x, div_192.x);
+		float4 mul_202 = sample_201 * smear_196;
+		float2 combine_184 = float2(mul_181.x, mul_181.z);
+		float4 sample_203 = MR_Sample(Sampler_198, combine_184);
+		float4 smear_195 = float4(div_192.y, div_192.y, div_192.y, div_192.y);
+		float4 mul_204 = sample_203 * smear_195;
+		float4 add_205 = mul_202 + mul_204;
+		float2 combine_185 = float2(mul_181.x, mul_181.y);
+		float4 sample_199 = MR_Sample(Sampler_198, combine_185);
+		float4 smear_194 = float4(div_192.z, div_192.z, div_192.z, div_192.z);
+		float4 mul_200 = sample_199 * smear_194;
+		float4 add_206 = add_205 + mul_200;
+		float remap_130 = float(0) + saturate((Gfx_WorldSpaceNormal.y - float(0)) / (float(1) - float(0))) * (float(1) - float(0));
+		float3 gradient_207;
+		gradient_207 = float4(1, 1, 1, 1).xyz;
+		gradient_207 = lerp(gradient_207, float4(2e-005, 1e-005, 3e-005, 1).xyz, saturate((remap_130 - 0.478548) / 0.481549));
+		gradient_207.xyz = pow(gradient_207.xyz, vec3(2.2));
+		float4 combine_209 = float4(gradient_207.x, gradient_207.y, gradient_207.z, float(1));
+		float4 lerp_256 = lerp(lerp_255, add_206, combine_209);
+		#define Sampler_197 Sampler_198
+		#define MR_GL_FixTC_Sampler_197 MR_GL_FixTC_Sampler_198
+		#define MR_PS3_Sample_Sampler_197 MR_PS3_Sample_Sampler_198
+		#define MR_PS3_SampleLod_Sampler_197 MR_PS3_SampleLod_Sampler_198
+		#define MR_PS3_SampleLod0Cmp_Sampler_197 MR_PS3_SampleLod0Cmp_Sampler_198
+		float3 smear_265 = float3(float(50), float(50), float(50));
+		float3 div_266 = Gfx_WorldSpacePos / smear_265;
+		float3 mul_267 = div_266 * float3(1, -1, -1);
+		float2 combine_269 = float2(mul_267.z, mul_267.y);
+		float4 sample_270 = MR_Sample(Sampler_197, combine_269);
+		float3 abs_141 = abs(Gfx_WorldSpaceNormal);
+		float add_154 = float(10) + float(0);
+		float3 combine_155 = float3(add_154, add_154, add_154);
+		float3 pow_156 = pow(abs_141, combine_155);
+		float3 max_157 = max(pow_156, float3(0, 0, 0));
+		float add_159 = max_157.x + max_157.y;
+		float add_160 = add_159 + max_157.z;
+		float3 combine_161 = float3(add_160, add_160, add_160);
+		float3 div_162 = max_157 / combine_161;
+		float4 smear_166 = float4(div_162.x, div_162.x, div_162.x, div_162.x);
+		float4 mul_271 = sample_270 * smear_166;
+		float2 combine_272 = float2(mul_267.x, mul_267.z);
+		float4 sample_273 = MR_Sample(Sampler_197, combine_272);
+		float4 smear_165 = float4(div_162.y, div_162.y, div_162.y, div_162.y);
+		float4 mul_274 = sample_273 * smear_165;
+		float4 add_275 = mul_271 + mul_274;
+		float2 combine_276 = float2(mul_267.x, mul_267.y);
+		float4 sample_277 = MR_Sample(Sampler_197, combine_276);
+		float4 smear_164 = float4(div_162.z, div_162.z, div_162.z, div_162.z);
+		float4 mul_278 = sample_277 * smear_164;
+		float4 add_279 = add_275 + mul_278;
+		float remap_137 = float(0) + saturate((Gfx_WorldSpaceNormal.y - float(0)) / (float(1) - float(0))) * (float(1) - float(0));
+		float3 gradient_138;
+		gradient_138 = float4(0.618631, 0.618631, 0.618631, 1).xyz;
+		gradient_138 = lerp(gradient_138, float4(2e-005, 1e-005, 3e-005, 1).xyz, saturate((remap_137 - 0.423216) / 0.072552));
+		gradient_138.xyz = pow(gradient_138.xyz, vec3(2.2));
+		float4 combine_140 = float4(gradient_138.x, gradient_138.y, gradient_138.z, float(1));
+		float4 lerp_280 = lerp(lerp_256, add_279, combine_140);
+		float3 truncate_281 = float3(lerp_280.xyz);
+		float3 aLightOut_282;
+		ImprovedBlinnPhongComplete(aLightOut_282, Gfx_WorldSpaceNormal, truncate_281, float3(0, 0, 0), float(1), float3(0, 0, 0), float(1), false, true, Gfx_WorldSpaceNormal, MR_IsFrontFace, Gfx_LightingData);
+		result283.rgb = aLightOut_282;
+		result283.a = 1.0;
+		colorOut = result283;
+	}
+}

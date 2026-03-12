@@ -1,0 +1,76 @@
+<shaderType = "Object", keywords = { "GFX_FORWARD_SHADER", }, >
+import "shaders/modules/graphics/environment.h"
+import "shaders/MRender/MR_ViewConstants.h"
+blend {}
+pixel
+{
+	import "shaders/nodes/Shader/Functions/Lighting/SS Refraction.h"
+	MR_Sampler2D DistortionTexture : MR_Texture0 <label = "Distortion Texture", pinId = 101>;
+	MR_Sampler2D DistorionAlpha : MR_Texture1 <label = "Distorion Alpha", pinId = 110>;
+	struct CustomData {
+		float myAlpha <default = 1, label = "Alpha", pinId = 107>;
+		float myDistortionStrength <default = 0, label = "Distortion Strength", pinId = 106>;
+		float myTimeX <default = 0, label = "Time X", pinId = 109>;
+		float myTimeY <default = 0, label = "Time Y", pinId = 111>;
+		float myFresnelPower <default = 1, label = "Fresnel Power", pinId = 112>;
+		float myFresnelStrength <config = { max = 1, min = 0, }, default = 1, label = "Fresnel Strength", pinId = 114>;
+		float myFlipFresnel0Off1On <default = 0, label = "Flip Fresnel 0 Off 1 On", pinId = 113>;
+		float myOuterFresnelPower <default = 1, label = "Outer Fresnel Power", pinId = 115>;
+		float myOuterFresnelBottomRangeClamp <default = 0, label = "Outer Fresnel Bottom Range Clamp", pinId = 116>;
+		float myUseUnscaledGameTime <default = 0, label = "Use Unscaled Game Time", pinId = 117>;
+		float myUnscaledGameTime <default = 0, label = "Unscaled Game Time", pinId = 118>;
+	};
+	float4 ParticleRefract(float4 fc : MR_FragCoord, float2 offset, float a, float2 originalOffset)
+	{
+		float2 uv = MR_PixelToFramebufferUV(fc.xy);
+		float originalA = length(originalOffset) * 2.0;
+		float4 c = SSR_GetUVRefraction(SSR_FramebufferLate, uv, uv + offset * a, fc);
+		if (c.a < 0.01) discard;
+		return c;
+	}
+	main(out float4 colorOut : MR_Color0, CustomData customData : Gfx_CustomData0, 
+		float2 Gfx_UV : Gfx_UV0, float3 Gfx_WorldSpacePos : Gfx_WorldSpacePos0, 
+		float3 Gfx_WorldSpaceNormal : Gfx_WorldSpaceNormal0, 
+		float4 MR_FragCoord : MR_FragCoord, float Gfx_AlphaRef : Gfx_AlphaRef0)
+	{
+		float lerp_89 = lerp(Gfx_Environment.time, customData.myUnscaledGameTime, customData.myUseUnscaledGameTime);
+		float mul_91 = lerp_89 * customData.myTimeX;
+		float add_93 = mul_91 + Gfx_UV.x;
+		float mul_92 = lerp_89 * customData.myTimeY;
+		float add_94 = Gfx_UV.y + mul_92;
+		float2 combine_96 = float2(add_93, add_94);
+		float4 sample_98 = MR_Sample(DistortionTexture, combine_96);
+		float2 combine_100 = float2(sample_98.x, sample_98.y);
+		float2 sub_103 = combine_100 - float2(0.5, 0.5);
+		float3 sub_73 = MR_ViewConstants.LODCameraPosition - Gfx_WorldSpacePos;
+		float3 normalize_81 = normalize(sub_73);
+		float3 normalize_72 = normalize(Gfx_WorldSpaceNormal);
+		float dot_83 = dot(normalize_81, normalize_72);
+		float abs_84 = abs(dot_83);
+		float saturate_85 = saturate(abs_84);
+		float pow_102 = pow(abs(saturate_85), customData.myOuterFresnelPower);
+		float pow_101 = pow(abs(saturate_85), customData.myFresnelPower);
+		float sub_104 = customData.myFlipFresnel0Off1On - pow_101;
+		float mul_105 = pow_102 * sub_104;
+		float abs_106 = abs(mul_105);
+		float remap_107 = customData.myOuterFresnelBottomRangeClamp + saturate((abs_106 - float(0)) / (float(1) - float(0))) * (float(1) - customData.myOuterFresnelBottomRangeClamp);
+		float lerp_108 = lerp(float(1), remap_107, customData.myFresnelStrength);
+		float mul_109 = customData.myDistortionStrength * lerp_108;
+		float mul_110 = sample_98.w * mul_109;
+		float2 combine_111 = float2(mul_110, mul_110);
+		float2 mul_112 = sub_103 * combine_111;
+		float4 sample_90 = MR_Sample(DistorionAlpha, Gfx_UV);
+		float mul_97 = customData.myAlpha * sample_90.x;
+		float4 ParticleRefract_113 = ParticleRefract(MR_FragCoord, mul_112, mul_97, sub_103);
+		float3 truncate_114 = float3(ParticleRefract_113.xyz);
+		float3 combine_116 = float3(truncate_114.x, truncate_114.y, truncate_114.z);
+		float sub_78 = float(1) - float(0);
+		float step_79 = step(Gfx_UV.y, sub_78);
+		float3 smear_82 = float3(step_79, step_79, step_79);
+		float3 mul_117 = combine_116 * smear_82;
+		float add_80 = float(1) + float(0);
+		if (add_80 < Gfx_AlphaRef) discard;
+		float4 result_119 = float4(mul_117, add_80);
+		colorOut = result_119;
+	}
+}

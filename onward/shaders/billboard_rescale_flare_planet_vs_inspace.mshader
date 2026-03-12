@@ -1,0 +1,172 @@
+<shaderType = "Vertex">
+import "shaders/MRender/MR_ViewConstants.h"
+import "shaders/modules/graphics/environment.h"
+vertex
+{
+	import "shaders/MRender/MR_ViewConstants.h"
+	import "shaders/MRender/MR_DepthBuffer.h"
+	struct CustomData {
+		float myStartRange <default = 0, label = "Start Range", pinId = 118>;
+		float myMidRange <default = 0, label = "Mid Range", pinId = 125>;
+		float myEndRange <default = 0, label = "End Range", pinId = 119>;
+		float myMinScale <default = 0, label = "Min Scale", pinId = 120>;
+		float myMidScale <default = 0, label = "Mid Scale", pinId = 124>;
+		float myMaxScale <default = 0, label = "Max Scale", pinId = 121>;
+		float myMinTestScale <default = 0, label = "Min Test Scale", pinId = 122>;
+		float myMidTestScale <default = 0, label = "Mid Test Scale", pinId = 126>;
+		float myMaxTestScale <default = 0, label = "Max Test Scale", pinId = 123>;
+	};
+	float4x4 GetP()
+	{
+		return MR_ViewConstants.cameraToClip;
+	}
+	float2 GetDepthbuffer(float2 aClipPos)
+	{
+		return MR_ClipToFramebufferUV (aClipPos);
+	}
+	float GetDepthbuffer2(float2 aUV)
+	{
+		return MR_SampleLod0(Depthbuffer, aUV).x;
+	}
+	void ClipSpaceModifier(inout float4 Gfx_ClipPosition : Gfx_ClipPosition, 
+		CustomData customData : Gfx_CustomData0, float2 Gfx_UV : Gfx_UV0, 
+		float3x4 Gfx_ObjectToWorldMatrix : Gfx_ObjectToWorldMatrix0)
+	{
+		float4x4 GetP_68 = GetP();
+		float3 transform_128 = MR_Transform(Gfx_ObjectToWorldMatrix, float3(0, 0, 0));
+		float4 combine_145 = float4(transform_128.x, transform_128.y, transform_128.z, float(1));
+		float4 transform_148 = MR_Transform(MR_ViewConstants.worldToCamera, combine_145);
+		float4 mul_151 = transform_148 * float4(0, 0, 1, 1);
+		float2 lerp_134 = lerp(float2(-0.5, -0.5), float2(0.5, 0.5), Gfx_UV);
+		float3 sub_139 = MR_ViewConstants.LODCameraPosition - transform_128;
+		float length_144 = length(sub_139);
+		float remap_185 = float(0) + saturate((length_144 - customData.myStartRange) / (customData.myMidRange - customData.myStartRange)) * (float(1) - float(0));
+		float saturate_189 = saturate(remap_185);
+		float sub_195 = float(1) - saturate_189;
+		float mul_201 = customData.myMinTestScale * sub_195;
+		float remap_186 = float(0) + saturate((length_144 - customData.myEndRange) / (customData.myMidRange - customData.myEndRange)) * (float(1) - float(0));
+		float saturate_190 = saturate(remap_186);
+		float mul_194 = saturate_189 * saturate_190;
+		float mul_200 = customData.myMidTestScale * mul_194;
+		float add_205 = mul_201 + mul_200;
+		float sub_196 = float(1) - saturate_190;
+		float mul_202 = sub_196 * customData.myMaxTestScale;
+		float add_206 = add_205 + mul_202;
+		float2 smear_211 = float2(add_206, add_206);
+		float2 mul_216 = lerp_134 * smear_211;
+		float remap_183 = float(0) + saturate((length_144 - customData.myStartRange) / (customData.myMidRange - customData.myStartRange)) * (float(1) - float(0));
+		float saturate_187 = saturate(remap_183);
+		float sub_192 = float(1) - saturate_187;
+		float mul_198 = customData.myMinScale * sub_192;
+		float remap_184 = float(0) + saturate((length_144 - customData.myEndRange) / (customData.myMidRange - customData.myEndRange)) * (float(1) - float(0));
+		float saturate_188 = saturate(remap_184);
+		float mul_191 = saturate_187 * saturate_188;
+		float mul_197 = customData.myMidScale * mul_191;
+		float add_203 = mul_198 + mul_197;
+		float sub_193 = float(1) - saturate_188;
+		float mul_199 = sub_193 * customData.myMaxScale;
+		float add_204 = add_203 + mul_199;
+		float mul_142 = transform_128.x * float(1.35);
+		float mul_143 = transform_128.z * float(2.57);
+		float add_147 = mul_142 + mul_143;
+		float add_150 = transform_128.y + add_147;
+		float add_157 = Gfx_Environment.time + add_150;
+		float sin_160 = sin(add_157);
+		float abs_165 = abs(sin_160);
+		float mul_207 = add_204 * abs_165;
+		float2 combine_212 = float2(mul_207, mul_207);
+		float2 mul_218 = combine_212 * lerp_134;
+		float2 add_222 = mul_216 + mul_218;
+		float4 combine_230 = float4(add_222.x, add_222.y, float(0), float(0));
+		float4 add_236 = mul_151 + combine_230;
+		float4 transform_242 = MR_Transform(GetP_68, add_236);
+		float4 mul_152 = transform_148 * float4(1, 1, 0, 1);
+		float4 add_235 = mul_152 + combine_230;
+		float4 transform_241 = MR_Transform(GetP_68, add_235);
+		float4 combine_136 = float4(float2(1, 1).x, float2(1, 1).y, float(0), float(0));
+		float4 lerp_248 = lerp(transform_242, transform_241, combine_136);
+		float4 combine_256 = float4(lerp_248.x, lerp_248.y, float(1), lerp_248.w);
+		float4 transform_153 = MR_Transform(GetP_68, transform_148);
+		float2 combine_161 = float2(transform_153.x, transform_153.y);
+		float2 smear_162 = float2(transform_153.w, transform_153.w);
+		float2 div_166 = combine_161 / smear_162;
+		float2 abs_168 = abs(div_166);
+		float2 step_171 = step(abs_168, float2(1, 1));
+		float mul_179 = step_171.x * step_171.y;
+		float2 combine_210 = float2(add_206, add_206);
+		float2 combine_135 = float2(float(0), float(0));
+		float2 mul_215 = combine_210 * combine_135;
+		float4 combine_225 = float4(mul_215.x, mul_215.y, float(0), float(0));
+		float4 add_229 = transform_148 + combine_225;
+		float4 transform_234 = MR_Transform(GetP_68, add_229);
+		float2 combine_246 = float2(transform_234.x, transform_234.y);
+		float2 smear_247 = float2(transform_234.w, transform_234.w);
+		float2 div_251 = combine_246 / smear_247;
+		float2 GetDepthbuffer_255 = GetDepthbuffer(div_251);
+		float GetDepthbuffer2_258 = GetDepthbuffer2(GetDepthbuffer_255);
+		float add_260 = GetDepthbuffer2_258 + add_206;
+		float step_262 = step(transform_234.w, add_260);
+		float min_266 = min(mul_179, step_262);
+		float4 smear_270 = float4(min_266, min_266, min_266, min_266);
+		float4 lerp_274 = lerp(float4(0, 0, 0, 0.1), combine_256, smear_270);
+		Gfx_ClipPosition = lerp_274;
+	}
+	void UV0Modifier(inout float2 Gfx_UV0 : Gfx_UV0, float2 Gfx_UV : Gfx_UV0)
+	{
+		Gfx_UV0 = Gfx_UV;
+	}
+	void UV1Modifier(inout float2 Gfx_UV1 : Gfx_UV1, CustomData customData : Gfx_CustomData0, 
+		float3x4 Gfx_ObjectToWorldMatrix : Gfx_ObjectToWorldMatrix0)
+	{
+		float4x4 GetP_68 = GetP();
+		float3 transform_128 = MR_Transform(Gfx_ObjectToWorldMatrix, float3(0, 0, 0));
+		float4 combine_145 = float4(transform_128.x, transform_128.y, transform_128.z, float(1));
+		float4 transform_148 = MR_Transform(MR_ViewConstants.worldToCamera, combine_145);
+		float3 sub_139 = MR_ViewConstants.LODCameraPosition - transform_128;
+		float length_144 = length(sub_139);
+		float remap_185 = float(0) + saturate((length_144 - customData.myStartRange) / (customData.myMidRange - customData.myStartRange)) * (float(1) - float(0));
+		float saturate_189 = saturate(remap_185);
+		float sub_195 = float(1) - saturate_189;
+		float mul_201 = customData.myMinTestScale * sub_195;
+		float remap_186 = float(0) + saturate((length_144 - customData.myEndRange) / (customData.myMidRange - customData.myEndRange)) * (float(1) - float(0));
+		float saturate_190 = saturate(remap_186);
+		float mul_194 = saturate_189 * saturate_190;
+		float mul_200 = customData.myMidTestScale * mul_194;
+		float add_205 = mul_201 + mul_200;
+		float sub_196 = float(1) - saturate_190;
+		float mul_202 = sub_196 * customData.myMaxTestScale;
+		float add_206 = add_205 + mul_202;
+		float2 combine_210 = float2(add_206, add_206);
+		float2 combine_135 = float2(float(0), float(0));
+		float2 mul_215 = combine_210 * combine_135;
+		float4 combine_225 = float4(mul_215.x, mul_215.y, float(0), float(0));
+		float4 add_229 = transform_148 + combine_225;
+		float4 transform_234 = MR_Transform(GetP_68, add_229);
+		float2 combine_246 = float2(transform_234.x, transform_234.y);
+		float2 smear_247 = float2(transform_234.w, transform_234.w);
+		float2 div_251 = combine_246 / smear_247;
+		float2 GetDepthbuffer_255 = GetDepthbuffer(div_251);
+		float GetDepthbuffer2_258 = GetDepthbuffer2(GetDepthbuffer_255);
+		float add_260 = GetDepthbuffer2_258 + add_206;
+		float step_262 = step(transform_234.w, add_260);
+		float saturate_265 = saturate(step_262);
+		float4 transform_153 = MR_Transform(GetP_68, transform_148);
+		float2 combine_161 = float2(transform_153.x, transform_153.y);
+		float2 smear_162 = float2(transform_153.w, transform_153.w);
+		float2 div_166 = combine_161 / smear_162;
+		float2 abs_168 = abs(div_166);
+		float2 remap_170 = float(1) + saturate((abs_168 - float(0)) / (float(1) - float(0))) * (float(0) - float(1));
+		float mul_178 = remap_170.x * remap_170.y;
+		float mul_269 = saturate_265 * mul_178;
+		float2 combine_273 = float2(mul_269, float(0));
+		Gfx_UV1 = combine_273;
+	}
+	main(float3x4 Gfx_ObjectToWorldMatrix : Gfx_ObjectToWorldMatrix0, 
+		float2 Gfx_UV : Gfx_UV0, CustomData customData : Gfx_CustomData0, 
+		inout float4 Gfx_ClipPosition : Gfx_ClipPosition <modifier = "ClipSpaceModifier">, 
+		inout float2 Gfx_UV0 : Gfx_UV0 <modifier = "UV0Modifier">, 
+		inout float2 Gfx_UV1 : Gfx_UV1 <modifier = "UV1Modifier">)
+	{
+		// dummy comment so the shader writer does save this out
+	}
+}

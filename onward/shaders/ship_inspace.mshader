@@ -1,0 +1,163 @@
+<emission = true, shaderType = "Object", keywords = { "LIGHT_FROM_SPACE", "ISNT_MAIN_PLANET", "GFX_FORWARD_SHADER", }, >
+import "shaders/nodes/shader/functions/unpack normal.h"
+import "shaders/nodes/shader/functions/onward/lighting/ow_fullspacebaselighting.h"
+import "shaders/nodes/shader/functions/ow emissive intensity multiplier.h"
+import "shaders/nodes/shader/functions/onward/lighting/ow_spacefog.h"
+pixel
+{
+	MR_Sampler2D BaseColor : MR_Texture0 {
+		texture = "onward/baked/textures/default_b.dds",
+	} <label = "Base Color", pinId = 102>;
+	MR_Sampler2D Normal : MR_Texture1 {
+		texture = "onward/baked/textures/default_n.dds",
+	} <pinId = 103>;
+	MR_Sampler2D Material : MR_Texture2 {
+		texture = "onward/baked/textures/default_m.dds",
+	} <pinId = 104>;
+	MR_Sampler2D FrostBaseColor : MR_Texture3 {
+		texture = "onward/baked/textures/default_b.dds",
+	} <label = "Frost Base Color", pinId = 110>;
+	MR_Sampler2D FrostMaterial : MR_Texture4 {
+		texture = "onward/baked/textures/default_m.dds",
+	} <label = "Frost Material", pinId = 111>;
+	MR_Sampler2D FrostNormal : MR_Texture5 {
+		texture = "onward/baked/textures/default_n.dds",
+	} <label = "Frost Normal", pinId = 112>;
+	MR_Sampler2D MoltenBaseColor : MR_Texture6 {
+		texture = "onward/baked/textures/default_b.dds",
+	} <label = "Molten Base Color", pinId = 113>;
+	MR_Sampler2D MoltenMaterial : MR_Texture7 {
+		texture = "onward/baked/textures/default_m.dds",
+	} <label = "Molten Material", pinId = 114>;
+	MR_Sampler2D MoltenNormal : MR_Texture8 {
+		texture = "onward/baked/textures/default_n.dds",
+	} <label = "Molten Normal", pinId = 115>;
+	MR_Sampler2D Sampler_152 : MR_Texture9 {
+		texture = "onward/baked/textures/plasma_m.dds",
+	};
+	struct CustomData {
+		float4 myEmissive <config = { type = "ColorBox", }, default = 1 1 1 1, label = "Emissive ", pinId = 117>;
+		float myEmissiveTextureContrast <config = { min = 0.1, }, default = 1, label = "Emissive Texture Contrast", pinId = 119>;
+		float myEmissionIntensity <default = 0, label = "Emission Intensity", pinId = 106>;
+		float myDissolve <config = { max = 1, min = 0, type = "Slider", }, default = 0, label = "Dissolve", pinId = 108>;
+		float myTemperature <config = { max = 1, min = -1, }, default = 0, label = "Temperature", pinId = 109>;
+		float myBlendTile <default = 0, label = "BlendTile", pinId = 116>;
+	};
+	main(out float4 colorOut : MR_Color0, float2 Gfx_UV : Gfx_UV0, 
+		CustomData customData : Gfx_CustomData0, 
+		float3x3 Gfx_TangentToWorld : Gfx_TangentToWorld0, 
+		Gfx_LightingDataStruct Gfx_LightingData : Gfx_LightingData0, 
+		float3 Gfx_WorldSpacePos : Gfx_WorldSpacePos0, 
+		float4 MR_FragCoord : MR_FragCoord, 
+		float3 Gfx_ModelSpacePos : Gfx_ModelSpacePos0, 
+		float3 Gfx_ModelSpaceNormal : Gfx_ModelSpaceNormal0, 
+		float Gfx_AlphaRef : Gfx_AlphaRef0)
+	{
+		float4 sample_216 = MR_Sample(BaseColor, Gfx_UV);
+		float3 combine_252 = float3(sample_216.x, sample_216.y, sample_216.z);
+		float4 sample_210 = MR_Sample(FrostBaseColor, Gfx_UV);
+		float3 truncate_230 = float3(sample_210.xyz);
+		float3 lerp_237 = lerp(truncate_230, float3(0, 0.8, 1), float3(0.25, 0.25, 0.25));
+		float abs_208 = abs(customData.myTemperature);
+		float3 smear_220 = float3(abs_208, abs_208, abs_208);
+		float3 lerp_239 = lerp(truncate_230, lerp_237, smear_220);
+		float3 combine_222 = float3(abs_208, abs_208, abs_208);
+		float3 lerp_261 = lerp(combine_252, lerp_239, combine_222);
+		float3 combine_224 = float3(abs_208, abs_208, abs_208);
+		float3 lerp_262 = lerp(combine_252, combine_252, combine_224);
+		float step_228 = step(float(0), customData.myTemperature);
+		float3 combine_242 = float3(step_228, step_228, step_228);
+		float3 lerp_267 = lerp(lerp_261, lerp_262, combine_242);
+		float4 sample_218 = MR_Sample(Normal, Gfx_UV);
+		float4 sample_212 = MR_Sample(FrostNormal, Gfx_UV);
+		float4 combine_223 = float4(abs_208, abs_208, abs_208, abs_208);
+		float4 lerp_232 = lerp(sample_218, sample_212, combine_223);
+		float4 sample_215 = MR_Sample(MoltenNormal, Gfx_UV);
+		float4 combine_225 = float4(abs_208, abs_208, abs_208, abs_208);
+		float4 lerp_234 = lerp(sample_218, sample_215, combine_225);
+		float4 combine_243 = float4(step_228, step_228, step_228, step_228);
+		float4 lerp_248 = lerp(lerp_232, lerp_234, combine_243);
+		float3 normal_258;
+		float ambientOcclusion_258;
+		UnpackNormalAndAO(lerp_248, normal_258, ambientOcclusion_258);
+		float3 transform_265 = MR_Transform(Gfx_TangentToWorld, normal_258);
+		float3 normalize_270 = normalize(transform_265);
+		float4 sample_217 = MR_Sample(Material, Gfx_UV);
+		float4 sample_211 = MR_Sample(FrostMaterial, Gfx_UV);
+		float lerp_238 = lerp(sample_211.y, float(0), float(0.3));
+		float lerp_246 = lerp(sample_211.y, lerp_238, abs_208);
+		float lerp_253 = lerp(sample_217.y, lerp_246, abs_208);
+		float4 sample_214 = MR_Sample(MoltenMaterial, Gfx_UV);
+		float lerp_250 = lerp(sample_217.y, sample_214.y, abs_208);
+		float lerp_259 = lerp(lerp_253, lerp_250, step_228);
+		float lerp_245 = lerp(sample_217.x, sample_211.x, abs_208);
+		float lerp_249 = lerp(sample_217.x, sample_214.x, abs_208);
+		float lerp_256 = lerp(lerp_245, lerp_249, step_228);
+		float3 aLightOut_272;
+		OW_FullBaseSpaceLighting(aLightOut_272, lerp_267, normalize_270, float(1), lerp_259, lerp_256, ambientOcclusion_258, Gfx_LightingData);
+		float abs_207 = abs(customData.myTemperature);
+		float saturate_219 = saturate(abs_207);
+		float sub_229 = float(1) - saturate_219;
+		float mul_244 = customData.myEmissionIntensity * sub_229;
+		float4 smear_255 = float4(mul_244, mul_244, mul_244, mul_244);
+		float pow_254 = pow(sample_217.z, customData.myEmissiveTextureContrast);
+		float4 smear_263 = float4(pow_254, pow_254, pow_254, pow_254);
+		float4 mul_268 = customData.myEmissive * smear_263;
+		float4 mul_274 = smear_255 * mul_268;
+		float3 combine_280 = float3(mul_274.x, mul_274.y, mul_274.z);
+		float lerp_221 = lerp(float(0), float(40), abs_208);
+		float4 smear_240 = float4(lerp_221, lerp_221, lerp_221, lerp_221);
+		float pow_247 = pow(sample_211.z, customData.myEmissiveTextureContrast);
+		float4 smear_257 = float4(pow_247, pow_247, pow_247, pow_247);
+		float4 mul_264 = customData.myEmissive * smear_257;
+		float4 mul_269 = smear_240 * mul_264;
+		float3 combine_278 = float3(mul_269.x, mul_269.y, mul_269.z);
+		float3 lerp_282 = lerp(combine_280, combine_278, combine_222);
+		float4 smear_241 = float4(lerp_221, lerp_221, lerp_221, lerp_221);
+		float4 sample_213 = MR_Sample(MoltenBaseColor, Gfx_UV);
+		float4 smear_251 = float4(sample_214.z, sample_214.z, sample_214.z, sample_214.z);
+		float4 mul_260 = sample_213 * smear_251;
+		float4 mul_266 = customData.myEmissive * mul_260;
+		float4 mul_271 = smear_241 * mul_266;
+		float3 combine_279 = float3(mul_271.x, mul_271.y, mul_271.z);
+		float3 combine_209 = float3(customData.myTemperature, customData.myTemperature, customData.myTemperature);
+		float3 mul_283 = combine_279 * combine_209;
+		float3 mul_226 = float3(1, 0, 0) * combine_209;
+		float3 add_285 = mul_283 + mul_226;
+		float3 mul_287 = float3(3, 3, 3) * add_285;
+		float3 lerp_288 = lerp(combine_280, mul_287, combine_224);
+		float3 lerp_289 = lerp(lerp_282, lerp_288, combine_242);
+		float4 truncate_290 = float4(lerp_289.xyz, 1);
+		float4 OWEmissiveIntensityMultiplier_292 = OWEmissiveIntensityMultiplier(truncate_290);
+		float3 truncate_294 = float3(OWEmissiveIntensityMultiplier_292.xyz);
+		float3 add_298 = aLightOut_272 + truncate_294;
+		float3 aColor_300 = add_298;
+		OW_SpaceFog(aColor_300, Gfx_WorldSpacePos, MR_FragCoord);
+		float mul_227 = customData.myDissolve * float(0.5);
+		float3 mul_154 = Gfx_ModelSpacePos * float3(0.5, 0.5, 0.5);
+		float2 combine_182 = float2(mul_154.x, mul_154.y);
+		float4 sample_187 = MR_Sample(Sampler_152, combine_182);
+		float2 combine_181 = float2(mul_154.x, mul_154.z);
+		float4 sample_186 = MR_Sample(Sampler_152, combine_181);
+		float dot_179 = dot(float3(0, 1, 0), Gfx_ModelSpaceNormal);
+		float abs_184 = abs(dot_179);
+		float smoothStep_189 = smoothstep(float(0.4), float(0.6), abs_184);
+		float4 smear_191 = float4(smoothStep_189, smoothStep_189, smoothStep_189, smoothStep_189);
+		float4 lerp_193 = lerp(sample_187, sample_186, smear_191);
+		float2 combine_183 = float2(mul_154.y, mul_154.z);
+		float4 sample_188 = MR_Sample(Sampler_152, combine_183);
+		float dot_180 = dot(float3(1, 0, 0), Gfx_ModelSpaceNormal);
+		float abs_185 = abs(dot_180);
+		float smoothStep_190 = smoothstep(float(0.4), float(0.6), abs_185);
+		float4 smear_192 = float4(smoothStep_190, smoothStep_190, smoothStep_190, smoothStep_190);
+		float4 lerp_194 = lerp(lerp_193, sample_188, smear_192);
+		float4 mul_195 = lerp_194 * float4(0.49, 0.49, 0.49, 0.49);
+		float truncate_196 = float(mul_195.x);
+		float add_281 = mul_227 + truncate_196;
+		float step_284 = step(float(0.5), add_281);
+		float mul_286 = step_284 * float(1);
+		if (mul_286 < Gfx_AlphaRef) discard;
+		float4 result_302 = float4(aColor_300, mul_286);
+		colorOut = result_302;
+	}
+}

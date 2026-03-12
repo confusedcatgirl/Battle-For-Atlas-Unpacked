@@ -1,0 +1,24 @@
+<emission = true, shaderType = "Object", keywords = { "LIGHT_FROM_GROUND", "IS_MAIN_PLANET", "GFX_FORWARD_SHADER", }, >
+import "shaders/nodes/shader/functions/ow emissive intensity multiplier.h"
+import "shaders/nodes/shader/functions/onward/lighting/ow_groundfog.h"
+pixel
+{
+	struct CustomData {
+		float3 myEmission <default = 0 0 0, label = "Emission", pinId = 108>;
+		float myEmissionIntensity <default = 1, label = "Emission Intensity", pinId = 106>;
+	};
+	main(out float4 colorOut : MR_Color0, CustomData customData : Gfx_CustomData0, 
+		float3 Gfx_WorldSpacePos : Gfx_WorldSpacePos0, 
+		float4 MR_FragCoord : MR_FragCoord)
+	{
+		float3 smear_48 = float3(customData.myEmissionIntensity, customData.myEmissionIntensity, customData.myEmissionIntensity);
+		float3 mul_49 = customData.myEmission * smear_48;
+		float4 truncate_50 = float4(mul_49.xyz, 1);
+		float4 OWEmissiveIntensityMultiplier_52 = OWEmissiveIntensityMultiplier(truncate_50);
+		float3 truncate_54 = float3(OWEmissiveIntensityMultiplier_52.xyz);
+		float3 aColor_58 = truncate_54;
+		OW_GroundFog(aColor_58, Gfx_WorldSpacePos, MR_FragCoord);
+		float4 result_60 = float4(aColor_58, 1);
+		colorOut = result_60;
+	}
+}

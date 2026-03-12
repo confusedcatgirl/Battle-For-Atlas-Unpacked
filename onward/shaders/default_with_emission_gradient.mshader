@@ -1,0 +1,109 @@
+<emission = true, shaderType = "Object", keywords = { "LIGHT_FROM_GROUND", "IS_MAIN_PLANET", "GFX_FORWARD_SHADER", }, >
+import "shaders/nodes/shader/functions/unpack normal.h"
+import "shaders/nodes/shader/functions/onward/lighting/ow_fullgroundbaselighting.h"
+import "shaders/modules/graphics/environment.h"
+import "shaders/nodes/shader/functions/ow emissive intensity multiplier.h"
+import "shaders/nodes/shader/functions/onward/lighting/ow_groundfog.h"
+pixel
+{
+	MR_Sampler2D Normal : MR_Texture0 {
+		texture = "onward/baked/textures/default_n.dds",
+	} <pinId = 103>;
+	MR_Sampler2D Material : MR_Texture1 {
+		texture = "onward/baked/textures/default_m.dds",
+	} <pinId = 104>;
+	MR_Sampler2D FalloffGradient : MR_Texture2 {
+		wrap = clamp,
+	} <label = "Falloff Gradient", pinId = 140>;
+	MR_Sampler2D Sampler_119 : MR_Texture3 {
+		texture = "onward/baked/textures/Effects/noise_16bit.dds",
+	};
+	struct CustomData {
+		float4 myEmissioncolor <default = 0 0 0 0, label = "Emission color", pinId = 147>;
+		float myFalloffY <config = { max = 1, min = 0, type = "Slider", }, default = 0, label = "Falloff Y", pinId = 141>;
+		float myEmissionIntensity <default = 500, label = "Emission Intensity", pinId = 106>;
+		float myPulseSpeed <default = 1, label = "Pulse Speed ", pinId = 114>;
+		float myEmissionradius <default = 1, label = "Emission radius", pinId = 139>;
+		float myFeedbackintensity <config = { max = 1, min = 0, type = "Slider", }, default = 0, label = "Feedback intensity", pinId = 144>;
+		float4 myFeedbackcolor <config = { type = "ColorBox", }, default = 0 0 0 0, label = "Feedback color", pinId = 145>;
+		float myFeedbacksize <default = 40, label = "Feedback size", pinId = 146>;
+	};
+	float3 SelectColor(in float3 aColorA, in float3 aColorB, in bool aCond)
+	{
+		return aCond ? aColorA : aColorB;
+	}
+	main(out float4 colorOut : MR_Color0, float3 Gfx_ModelSpacePos : Gfx_ModelSpacePos0, 
+		CustomData customData : Gfx_CustomData0, float2 Gfx_UV : Gfx_UV0, 
+		float3x3 Gfx_TangentToWorld : Gfx_TangentToWorld0, 
+		Gfx_LightingDataStruct Gfx_LightingData : Gfx_LightingData0, 
+		float3 Gfx_WorldSpacePos : Gfx_WorldSpacePos0, 
+		float4 MR_FragCoord : MR_FragCoord, float Gfx_AlphaRef : Gfx_AlphaRef0)
+	{
+		float length_108 = length(Gfx_ModelSpacePos);
+		float remap_149 = float(0) + saturate((length_108 - float(0)) / (customData.myEmissionradius - float(0))) * (float(1) - float(0));
+		float2 combine_154 = float2(remap_149, customData.myFalloffY);
+		float4 sample_157 = MR_Sample(FalloffGradient, combine_154);
+		float dot_159 = dot(sample_157, float4(0.3, 0.59, 0.11, 0));
+		float4 combine_162 = float4(dot_159, dot_159, dot_159, float(1));
+		float4 mul_166 = combine_162 * customData.myEmissioncolor;
+		float2 mul_134 = Gfx_UV * float2(0.1, 0.1);
+		float4 sample_135 = MR_Sample(Sampler_119, mul_134);
+		float remap_137 = float(0.5) + saturate((sample_135.y - float(0.2)) / (float(0.5) - float(0.2))) * (float(1) - float(0.5));
+		float mul_143 = customData.myFeedbackintensity * customData.myFeedbacksize;
+		float mul_163 = remap_137 * mul_143;
+		float sub_167 = float(1) - mul_163;
+		float remap_169 = float(0) + saturate((remap_149 - float(0)) / (sub_167 - float(0))) * (float(1) - float(0));
+		float4 gradient_170;
+		gradient_170 = float4(pow(0, 1/2.2f), pow(0, 1/2.2f), pow(0, 1/2.2f), 1);
+		gradient_170.xyz = lerp(gradient_170.xyz, float4(pow(1.00002, 1/2.2f), pow(1.00001, 1/2.2f), pow(1.00003, 1/2.2f), 1).xyz, saturate((remap_169 - 0) / 1));
+		gradient_170.xyz = pow(gradient_170.xyz, vec3(2.2));
+		float4 mul_171 = gradient_170 * customData.myFeedbackcolor;
+		float sub_173 = float(1) - gradient_170.x;
+		float4 combine_174 = float4(sub_173, sub_173, sub_173, float(1));
+		float4 mul_175 = mul_166 * combine_174;
+		float4 add_176 = mul_171 + mul_175;
+		float remap_150 = float(0) + saturate((customData.myFeedbackintensity - float(0)) / (float(0.3) - float(0))) * (float(1) - float(0));
+		float4 smear_155 = float4(remap_150, remap_150, remap_150, remap_150);
+		float4 lerp_178 = lerp(mul_166, add_176, smear_155);
+		float3 combine_183 = float3(lerp_178.x, lerp_178.y, lerp_178.z);
+		float4 sample_145 = MR_Sample(Normal, Gfx_UV);
+		float3 normal_148;
+		float ambientOcclusion_148;
+		UnpackNormalAndAO(sample_145, normal_148, ambientOcclusion_148);
+		float3 transform_153 = MR_Transform(Gfx_TangentToWorld, normal_148);
+		float4 sample_144 = MR_Sample(Material, Gfx_UV);
+		float3 aLightOut_185;
+		OW_FullBaseGroundLighting(aLightOut_185, combine_183, transform_153, float(1), sample_144.y, sample_144.x, ambientOcclusion_148, Gfx_LightingData);
+		float mul_141 = customData.myPulseSpeed * Gfx_Environment.time;
+		float mul_146 = mul_141 * float(6.28319);
+		float sin_151 = sin(mul_146);
+		float mul_156 = sin_151 * float(0.5);
+		float add_158 = mul_156 + float(0.5);
+		float mul_161 = add_158 * float(1);
+		float add_165 = customData.myEmissionIntensity + mul_161;
+		float3 combine_168 = float3(add_165, add_165, add_165);
+		float4 gradient_160;
+		gradient_160 = float4(pow(0.702151, 1/2.2f), pow(0.702151, 1/2.2f), pow(0.702151, 1/2.2f), 1);
+		gradient_160.xyz = lerp(gradient_160.xyz, float4(pow(1.00002, 1/2.2f), pow(1.00001, 1/2.2f), pow(1.00003, 1/2.2f), 1).xyz, saturate((add_158 - 0) / 1));
+		gradient_160.xyz = pow(gradient_160.xyz, vec3(2.2));
+		float length_177 = length(add_176);
+		float mul_179 = gradient_160.x * length_177;
+		float3 smear_182 = float3(mul_179, mul_179, mul_179);
+		float3 mul_184 = combine_168 * smear_182;
+		float4 combine_188 = float4(mul_184.x, mul_184.y, mul_184.z, float(0));
+		float4 combine_152 = float4(sample_144.z, sample_144.z, sample_144.z, sample_144.z);
+		float4 mul_180 = lerp_178 * combine_152;
+		float4 mul_189 = combine_188 * mul_180;
+		float3 combine_191 = float3(mul_189.x, mul_189.y, mul_189.z);
+		float4 truncate_192 = float4(combine_191.xyz, 1);
+		float4 OWEmissiveIntensityMultiplier_194 = OWEmissiveIntensityMultiplier(truncate_192);
+		float3 truncate_196 = float3(OWEmissiveIntensityMultiplier_194.xyz);
+		float3 SelectColor_198 = SelectColor(truncate_196, combine_191, true);
+		float3 add_200 = aLightOut_185 + SelectColor_198;
+		float3 aColor_202 = add_200;
+		OW_GroundFog(aColor_202, Gfx_WorldSpacePos, MR_FragCoord);
+		if (lerp_178.w < Gfx_AlphaRef) discard;
+		float4 result_204 = float4(aColor_202, lerp_178.w);
+		colorOut = result_204;
+	}
+}

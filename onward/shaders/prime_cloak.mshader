@@ -1,0 +1,35 @@
+<shaderType = "Object", keywords = { "GFX_FORWARD_SHADER", }, >
+pixel
+{
+	import "shaders/nodes/Shader/Functions/Lighting/SS Refraction.h"
+	MR_Sampler2D DistortionTexture : MR_Texture0 <label = "Distortion Texture", pinId = 101>;
+	struct CustomData {
+		float myDistortionStrength <default = 0, label = "Distortion Strength", pinId = 106>;
+	};
+	float4 ParticleRefract(float4 fc : MR_FragCoord, float2 offset, float a, float2 originalOffset)
+	{
+		float2 uv = MR_PixelToFramebufferUV(fc.xy);
+		float originalA = length(originalOffset) * 2.0;
+		float4 c = SSR_GetUVRefraction(SSR_FramebufferLate, uv, uv + offset * a, fc);
+		if (c.a < 0.01) discard;
+		return c;
+	}
+	main(out float4 colorOut : MR_Color0, float2 Gfx_UV : Gfx_UV0, 
+		CustomData customData : Gfx_CustomData0, float4 MR_FragCoord : MR_FragCoord, 
+		float Gfx_AlphaRef : Gfx_AlphaRef0)
+	{
+		float4 sample_53 = MR_Sample(DistortionTexture, Gfx_UV);
+		float2 combine_56 = float2(sample_53.x, sample_53.y);
+		float2 sub_58 = combine_56 - float2(0.5, 0.5);
+		float mul_55 = sample_53.w * float(1);
+		float2 combine_57 = float2(mul_55, mul_55);
+		float2 mul_59 = sub_58 * combine_57;
+		float4 ParticleRefract_60 = ParticleRefract(MR_FragCoord, mul_59, customData.myDistortionStrength, sub_58);
+		float3 truncate_61 = float3(ParticleRefract_60.xyz);
+		float3 combine_63 = float3(truncate_61.x, truncate_61.y, truncate_61.z);
+		float add_50 = float(1) + float(0);
+		if (add_50 < Gfx_AlphaRef) discard;
+		float4 result_64 = float4(combine_63, add_50);
+		colorOut = result_64;
+	}
+}

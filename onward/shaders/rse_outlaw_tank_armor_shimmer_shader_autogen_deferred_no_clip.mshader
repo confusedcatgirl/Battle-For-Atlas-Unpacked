@@ -1,0 +1,137 @@
+<keywords = { "LIGHT_FROM_GROUND", "IS_MAIN_PLANET", "GFX_DEFERRED_SHADER", }, >
+import "shaders/modules/graphics/deferred_data.h"
+import "shaders/modules/graphics/normal_encode.h"
+import "shaders/modules/graphics/environment.h"
+import "shaders/nodes/shader/functions/unpack normal.h"
+import "shaders/MRender/MR_ViewConstants.h"
+import "shaders/nodes/shader/functions/fresnel-schlick.h"
+import "shaders/nodes/shader/functions/ow emissive intensity multiplier.h"
+pixel
+{
+	import "shaders/MRender/MR_ViewConstants.h"
+	MR_Sampler2D BaseColor : MR_Texture0 {
+		texture = "onward/baked/textures/default_b.dds",
+	} <label = "Base Color", pinId = 102>;
+	MR_Sampler2D Normal : MR_Texture1 {
+		texture = "onward/baked/textures/default_n.dds",
+	} <pinId = 103>;
+	MR_Sampler2D Material : MR_Texture2 {
+		texture = "onward/baked/textures/default_m.dds",
+	} <pinId = 104>;
+	MR_Sampler2D Shimmer : MR_Texture3 <pinId = 107>;
+	MR_Sampler2D Sampler_133 : MR_Texture4 {
+		texture = "onward/baked/textures/grunge_noise_b.dds",
+	};
+	struct CustomData {
+		float myIntensity <default = 1, label = "Intensity", pinId = 108>;
+		float myTime <default = 0, label = "Time", pinId = 115>;
+		float myMinHeight <default = 0, label = "Min Height", pinId = 120>;
+		float myMaxHeight <default = 0, label = "Max Height", pinId = 121>;
+		float myTransitionRange <default = 1, label = "Transition Range", pinId = 122>;
+		float myEmissionRange <default = 1, label = "Emission Range", pinId = 123>;
+		float myTransitionIntensity <default = 1, label = "Transition Intensity", pinId = 124>;
+		float myTargetedTransitionTime <config = { max = 1, min = 0, type = "Slider", }, default = 0, label = "TargetedTransitionTime", pinId = 125>;
+		float myFresnelLerp <default = 1, label = "Fresnel Lerp", pinId = 126>;
+	};
+	float4 toClip(float4 pos)
+	{
+		float4 newPos = MR_Transform(MR_ViewConstants.worldToClip, pos);
+		return newPos;
+	}
+	float3 SelectColor(in float3 aColorA, in float3 aColorB, in bool aCond)
+	{
+		return aCond ? aColorA : aColorB;
+	}
+	main(bool MR_IsFrontFace : MR_IsFrontFace, 
+		out Gfx_DeferredData deferredOut : Gfx_Deferred <emission = true,>, 
+		float2 Gfx_UV : Gfx_UV0, CustomData customData : Gfx_CustomData0, 
+		float3 Gfx_ModelSpacePos : Gfx_ModelSpacePos0, 
+		float3x4 Gfx_ObjectToWorldMatrix : Gfx_ObjectToWorldMatrix0, 
+		float3x3 Gfx_TangentToWorld : Gfx_TangentToWorld0, 
+		float3 Gfx_WorldSpacePos : Gfx_WorldSpacePos0, 
+		float3 Gfx_FlattenedWorldNormal : Gfx_FlattenedWorldNormal0)
+	{
+		float4 sample_193 = MR_Sample(BaseColor, Gfx_UV);
+		float3 combine_201 = float3(sample_193.x, sample_193.y, sample_193.z);
+		float lerp_190 = lerp(customData.myMinHeight, customData.myMaxHeight, customData.myTime);
+		float sub_196 = lerp_190 - Gfx_ModelSpacePos.y;
+		float remap_200 = float(0) + saturate((sub_196 - float(1)) / (float(0) - float(1))) * (customData.myTransitionRange - float(0));
+		float2 combine_151 = float2(float(1), float(1));
+		float2 mul_155 = Gfx_UV * combine_151;
+		float4 sample_159 = MR_Sample(Sampler_133, mul_155);
+		float mul_206 = remap_200 * sample_159.x;
+		float add_208 = mul_206 + sub_196;
+		float4 combine_212 = float4(combine_201, ceil(add_208));
+		float3 truncate_215 = float3(combine_212.xyz);
+		deferredOut.color = truncate_215;
+		float3 transform_117 = MR_Transform(Gfx_ObjectToWorldMatrix, Gfx_ModelSpacePos);
+		float4 combine_146 = float4(transform_117, float(1));
+		float4 toClip_152 = toClip(combine_146);
+		float2 combine_160 = float2(toClip_152.x, toClip_152.y);
+		float2 smear_161 = float2(toClip_152.w, toClip_152.w);
+		float2 div_166 = combine_160 / smear_161;
+		float3 transform_147 = MR_Transform(Gfx_ObjectToWorldMatrix, float3(0, 0, 0));
+		float4 combine_148 = float4(transform_147, float(1));
+		float4 toClip_153 = toClip(combine_148);
+		float2 combine_162 = float2(toClip_153.x, toClip_153.y);
+		float2 smear_163 = float2(toClip_153.w, toClip_153.w);
+		float2 div_167 = combine_162 / smear_163;
+		float sub_172 = div_166.x - div_167.x;
+		float sub_173 = div_167.y - div_166.y;
+		float2 combine_175 = float2(sub_172, sub_173);
+		float mul_149 = Gfx_Environment.time * float(0.75);
+		float add_179 = combine_175.x + mul_149;
+		float2 combine_180 = float2(add_179, combine_175.y);
+		float2 mul_182 = combine_180 * float2(0.25, 0.25);
+		float4 sample_220 = MR_Sample(Shimmer, mul_182);
+		float4 sample_195 = MR_Sample(Normal, Gfx_UV);
+		float3 normal_199;
+		float ambientOcclusion_199;
+		UnpackNormalAndAO(sample_195, normal_199, ambientOcclusion_199);
+		float3 transform_202 = MR_Transform(Gfx_TangentToWorld, normal_199);
+		float3 sub_123 = MR_ViewConstants.LODCameraPosition - Gfx_WorldSpacePos;
+		float3 normalize_150 = normalize(sub_123);
+		float3 FresnelSchlick_203 = FresnelSchlick(float3(0, 0, 0), transform_202, normalize_150);
+		float3 smear_192 = float3(customData.myFresnelLerp, customData.myFresnelLerp, customData.myFresnelLerp);
+		float3 lerp_204 = lerp(float3(1, 1, 1), FresnelSchlick_203, smear_192);
+		float4 truncate_205 = float4(lerp_204.xyz, 1);
+		float4 mul_221 = sample_220 * truncate_205;
+		float4 mul_222 = mul_221 * float4(500, 500, 500, 1);
+		float4 smear_189 = float4(customData.myIntensity, customData.myIntensity, customData.myIntensity, customData.myIntensity);
+		float4 mul_223 = mul_222 * smear_189;
+		float dot_154 = dot(Gfx_FlattenedWorldNormal, normalize_150);
+		float clamp_158 = clamp(dot_154, float(0), float(1));
+		float sub_164 = float(1) - clamp_158;
+		float mul_168 = sub_164 * sub_164;
+		float mul_171 = mul_168 * mul_168;
+		float mul_174 = mul_171 * mul_171;
+		float4 smear_176 = float4(mul_174, mul_174, mul_174, mul_174);
+		float4 mul_178 = float4(0.0642959, 1, 0.0642959, 1) * smear_176;
+		float4 mul_181 = float4(50, 50, 50, 1) * mul_178;
+		float4 add_183 = mul_181 + float4(0.0642959, 1, 0.0642959, 1);
+		float4 add_224 = mul_223 + add_183;
+		float4 smear_191 = float4(customData.myTargetedTransitionTime, customData.myTargetedTransitionTime, customData.myTargetedTransitionTime, customData.myTargetedTransitionTime);
+		float4 lerp_225 = lerp(mul_223, add_224, smear_191);
+		float remap_211 = float(1) + saturate((add_208 - float(0)) / (customData.myEmissionRange - float(0))) * (float(0) - float(1));
+		float4 smear_213 = float4(remap_211, remap_211, remap_211, remap_211);
+		float4 mul_216 = float4(0, 0.754834, 1, 1) * smear_213;
+		float mul_207 = sample_159.y * customData.myTransitionIntensity;
+		float4 smear_209 = float4(mul_207, mul_207, mul_207, mul_207);
+		float4 mul_219 = mul_216 * smear_209;
+		float4 add_226 = lerp_225 + mul_219;
+		float3 truncate_227 = float3(add_226.xyz);
+		float4 truncate_229 = float4(truncate_227.xyz, 1);
+		float4 OWEmissiveIntensityMultiplier_231 = OWEmissiveIntensityMultiplier(truncate_229);
+		float3 truncate_233 = float3(OWEmissiveIntensityMultiplier_231.xyz);
+		float3 SelectColor_235 = SelectColor(truncate_233, truncate_227, true);
+		deferredOut.emission = SelectColor_235;
+		float4 sample_194 = MR_Sample(Material, Gfx_UV);
+		deferredOut.roughness = sample_194.y;
+		deferredOut.metalness = sample_194.x;
+		deferredOut.ao = ambientOcclusion_199;
+		float3 flippedNormal = transform_202;
+		if (!MR_IsFrontFace)
+		    flippedNormal = -flippedNormal;
+		deferredOut.worldNormal = flippedNormal;
+	}
+}

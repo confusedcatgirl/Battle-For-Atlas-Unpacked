@@ -1,0 +1,27 @@
+<decal = true, decalblendnormal = true, deferreddecal = true, shaderType = "Object", keywords = { "GFX_FORWARD_SHADER", }, >
+import "shaders/nodes/shader/functions/unpack normal.h"
+blend {}
+pixel
+{
+	MR_Sampler2D BaseColor : MR_Texture0 {
+		texture = "onward/baked/textures/default_b.dds",
+		wrap = border,
+	} <label = "Base Color", pinId = 102>;
+	MR_Sampler2D Normal : MR_Texture1 {
+		texture = "onward/baked/textures/default_n.dds",
+	} <pinId = 103>;
+	main(out float4 colorOut : MR_Color0, 
+		float3x3 Gfx_TangentToWorld : Gfx_TangentToWorld0, float2 Gfx_UV : Gfx_UV0, 
+		float Gfx_AlphaRef : Gfx_AlphaRef0)
+	{
+		float4 sample_37 = MR_Sample(Normal, Gfx_UV);
+		float3 normal_39;
+		float ambientOcclusion_39;
+		UnpackNormalAndAO(sample_37, normal_39, ambientOcclusion_39);
+		float3 transform_40 = MR_Transform(Gfx_TangentToWorld, normal_39);
+		float4 sample_36 = MR_Sample(BaseColor, Gfx_UV);
+		if (sample_36.w < Gfx_AlphaRef) discard;
+		float4 result_41 = float4(transform_40, sample_36.w);
+		colorOut = result_41;
+	}
+}

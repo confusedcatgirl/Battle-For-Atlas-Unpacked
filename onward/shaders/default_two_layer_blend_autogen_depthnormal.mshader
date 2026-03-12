@@ -1,0 +1,27 @@
+pixel
+{
+	MR_Sampler2D BaseColor : MR_Texture0 {
+		texture = "onward/baked/textures/default_b.dds",
+	} <label = "Base Color", pinId = 102>;
+	MR_Sampler2D BaseColor_Layer2 : MR_Texture3 {
+		texture = "onward/baked/textures/default_b.dds",
+	} <label = "Base Color_Layer 2", pinId = 107>;
+	struct CustomData {
+		float myBlendContrast <default = 0, label = "Blend Contrast", pinId = 110>;
+	};
+	main(out float4 colorOut : MR_Color0, float2 Gfx_UV : Gfx_UV0, 
+		float4 Gfx_Color : Gfx_Color0, CustomData customData : Gfx_CustomData0, 
+		float Gfx_AlphaRef : Gfx_AlphaRef0, 
+		float3 Gfx_CameraSpacePos : Gfx_CameraSpacePos0)
+	{
+		float4 sample_108 = MR_Sample(BaseColor, Gfx_UV);
+		float4 sample_111 = MR_Sample(BaseColor_Layer2, Gfx_UV);
+		float4 smear_97 = float4(Gfx_Color.x, Gfx_Color.x, Gfx_Color.x, Gfx_Color.x);
+		float4 smear_107 = float4(customData.myBlendContrast, customData.myBlendContrast, customData.myBlendContrast, customData.myBlendContrast);
+		float4 pow_122 = pow(smear_97, smear_107);
+		float4 lerp_125 = lerp(sample_108, sample_111, pow_122);
+		if (lerp_125.w < Gfx_AlphaRef) discard;
+		float4 depthResult = float4(Gfx_CameraSpacePos.z, 0, 0, lerp_125.w);
+		colorOut = depthResult;
+	}
+}

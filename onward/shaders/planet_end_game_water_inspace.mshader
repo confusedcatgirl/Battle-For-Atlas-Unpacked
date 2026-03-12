@@ -1,0 +1,80 @@
+<shaderType = "Object", keywords = { "NO_SSAO_COMBINE", "GFX_FORWARD_SHADER", }, >
+import "shaders/nodes/shader/functions/framebuffer color early, offset.h"
+import "shaders/nodes/shader/functions/cartesiantosphericalcoords.h"
+import "shaders/modules/graphics/environment.h"
+import "shaders/nodes/shader/functions/depthbuffer.h"
+import "shaders/nodes/shader/functions/depth buffer to world space.h"
+blend {}
+pixel
+{
+	MR_Sampler2D Sampler_87 : MR_Texture0 {
+		texture = "onward/baked/textures/sun_noise_b.dds",
+	};
+	MR_Sampler2D Sampler_81 : MR_Texture1 {
+		texture = "onward/baked/textures/planet_end_game_splat.dds",
+	};
+	struct CustomData {
+		float myFogDepth <default = 2, label = "Fog Depth", pinId = 102>;
+	};
+	main(out float4 colorOut : MR_Color0, float4 MR_FragCoord : MR_FragCoord, 
+		float3 Gfx_WorldSpaceNormal : Gfx_WorldSpaceNormal0, 
+		CustomData customData : Gfx_CustomData0, 
+		float3 Gfx_WorldSpacePos : Gfx_WorldSpacePos0, 
+		float Gfx_AlphaRef : Gfx_AlphaRef0)
+	{
+		float3 GetFramebuffer1ColorOffset_106 = GetFramebuffer1ColorOffset(float2(0, 0), MR_FragCoord);
+		float2 CartesianToSphericalCoords_100 = CartesianToSphericalCoords(Gfx_WorldSpaceNormal);
+		float4 sample_107 = MR_Sample(Sampler_81, CartesianToSphericalCoords_100);
+		float4 combine_116 = float4(sample_107.x, sample_107.y, float(0), float(0));
+		float4 smear_118 = float4(sample_107.z, sample_107.z, sample_107.z, sample_107.z);
+		float4 lerp_122 = lerp(combine_116, float4(0.7, 0.4, 0, 0), smear_118);
+		float4 mul_126 = lerp_122 * float4(2, 2, 1, 1);
+		float4 add_129 = mul_126 + float4(-1, -1, 0, 0);
+		float mul_132 = add_129.y * float(-1);
+		float2 combine_133 = float2(add_129.x, mul_132);
+		float mul_110 = Gfx_Environment.time * float(2);
+		float lerp_120 = lerp(float(-0.333), float(0.333), frac(mul_110));
+		float2 smear_124 = float2(lerp_120, lerp_120);
+		float2 mul_134 = combine_133 * smear_124;
+		float2 mul_109 = CartesianToSphericalCoords_100 * float2(20, 80);
+		float2 add_136 = mul_134 + mul_109;
+		float4 sample_138 = MR_Sample(Sampler_87, add_136);
+		float add_114 = mul_110 + float(0.5);
+		float lerp_125 = lerp(float(-0.333), float(0.333), frac(add_114));
+		float2 smear_128 = float2(lerp_125, lerp_125);
+		float2 mul_135 = combine_133 * smear_128;
+		float2 add_137 = mul_135 + mul_109;
+		float4 sample_139 = MR_Sample(Sampler_87, add_137);
+		float sub_119 = frac(mul_110) - float(0.5);
+		float mul_123 = sub_119 * float(2);
+		float abs_127 = abs(mul_123);
+		float4 smear_130 = float4(abs_127, abs_127, abs_127, abs_127);
+		float4 lerp_140 = lerp(sample_138, sample_139, smear_130);
+		float4 smear_117 = float4(sample_107.z, sample_107.z, sample_107.z, sample_107.z);
+		float4 mul_141 = lerp_140 * smear_117;
+		float truncate_142 = float(mul_141.x);
+		float4 gradient_143;
+		gradient_143 = float4(pow(0.0112819, 1/2.2f), pow(0.152556, 1/2.2f), pow(0.516457, 1/2.2f), 1);
+		gradient_143.xyz = lerp(gradient_143.xyz, float4(pow(0.0674906, 1/2.2f), pow(0.379962, 1/2.2f), pow(0.592008, 1/2.2f), 1).xyz, saturate((truncate_142 - 0) / 1));
+		gradient_143.xyz = pow(gradient_143.xyz, vec3(2.2));
+		float4 combine_108 = float4(float(20), float(20), float(20), float(20));
+		float4 mul_144 = gradient_143 * combine_108;
+		float3 truncate_145 = float3(mul_144.xyz);
+		float GetDepthbuffer_26 = GetDepthbuffer(MR_FragCoord);
+		float3 DepthToWorldSpace_105 = DepthToWorldSpace(GetDepthbuffer_26, float2(0, 0), MR_FragCoord);
+		float3 sub_111 = Gfx_WorldSpacePos - DepthToWorldSpace_105;
+		float length_115 = length(sub_111);
+		float smoothStep_148 = smoothstep(float(0), customData.myFogDepth, length_115);
+		float pow_150 = pow(smoothStep_148, float(0.5));
+		float3 smear_152 = float3(pow_150, pow_150, pow_150);
+		float3 lerp_153 = lerp(GetFramebuffer1ColorOffset_106, truncate_145, smear_152);
+		float3 truncate_146 = float3(mul_144.xyz);
+		float smoothStep_149 = smoothstep(float(0), customData.myFogDepth, length_115);
+		float3 smear_151 = float3(smoothStep_149, smoothStep_149, smoothStep_149);
+		float3 mul_154 = truncate_146 * smear_151;
+		float3 add_155 = lerp_153 + mul_154;
+		if (float(1) < Gfx_AlphaRef) discard;
+		float4 result_157 = float4(add_155, float(1));
+		colorOut = result_157;
+	}
+}

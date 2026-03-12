@@ -1,0 +1,47 @@
+<shaderType = "Object", keywords = { "LIGHT_FROM_SPACE", "ISNT_MAIN_PLANET", "GFX_FORWARD_SHADER", }, >
+import "shaders/nodes/shader/functions/unpack normal.h"
+import "shaders/nodes/shader/functions/onward/lighting/ow_fullspacebaselighting.h"
+import "shaders/nodes/shader/functions/onward/lighting/ow_spacefog.h"
+pixel
+{
+	MR_Sampler2D BaseColor : MR_Texture0 {
+		texture = "onward/baked/textures/default_b.dds",
+	} <label = "Base Color", pinId = 102>;
+	MR_Sampler2D Normal : MR_Texture1 {
+		texture = "onward/baked/textures/default_n.dds",
+	} <pinId = 103>;
+	MR_Sampler2D Material : MR_Texture2 {
+		texture = "onward/baked/textures/default_m.dds",
+	} <pinId = 104>;
+	struct CustomData {
+		float myStartFade <default = 500, label = "StartFade", pinId = 107>;
+		float myEndFade <default = 400, label = "EndFade", pinId = 108>;
+	};
+	main(out float4 colorOut : MR_Color0, float2 Gfx_UV : Gfx_UV0, 
+		float3x3 Gfx_TangentToWorld : Gfx_TangentToWorld0, 
+		CustomData customData : Gfx_CustomData0, 
+		Gfx_LightingDataStruct Gfx_LightingData : Gfx_LightingData0, 
+		float3 Gfx_WorldSpacePos : Gfx_WorldSpacePos0, 
+		float4 MR_FragCoord : MR_FragCoord, float Gfx_AlphaRef : Gfx_AlphaRef0)
+	{
+		float4 sample_84 = MR_Sample(BaseColor, Gfx_UV);
+		float3 combine_92 = float3(sample_84.x, sample_84.y, sample_84.z);
+		float4 sample_86 = MR_Sample(Normal, Gfx_UV);
+		float3 normal_90;
+		float ambientOcclusion_90;
+		UnpackNormalAndAO(sample_86, normal_90, ambientOcclusion_90);
+		float3 transform_93 = MR_Transform(Gfx_TangentToWorld, normal_90);
+		float3 normalize_95 = normalize(transform_93);
+		float add_83 = customData.myStartFade + customData.myEndFade;
+		float min_87 = min(add_83, float(0.001));
+		float4 sample_85 = MR_Sample(Material, Gfx_UV);
+		float add_91 = min_87 + sample_85.y;
+		float3 aLightOut_99;
+		OW_FullBaseSpaceLighting(aLightOut_99, combine_92, normalize_95, float(1), add_91, sample_85.x, ambientOcclusion_90, Gfx_LightingData);
+		float3 aColor_102 = aLightOut_99;
+		OW_SpaceFog(aColor_102, Gfx_WorldSpacePos, MR_FragCoord);
+		if (sample_84.w < Gfx_AlphaRef) discard;
+		float4 result_104 = float4(aColor_102, sample_84.w);
+		colorOut = result_104;
+	}
+}

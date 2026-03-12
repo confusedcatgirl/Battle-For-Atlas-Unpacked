@@ -1,0 +1,101 @@
+<shaderType = "Vertex">
+import "shaders/nodes/shader/functions/getplanetposition.h"
+import "shaders/modules/graphics/environment.h"
+import "shaders/nodes/shader/functions/onward/ow_getforcefield.h"
+import "shaders/MRender/MR_ViewConstants.h"
+vertex
+{
+	struct CustomData {
+		float myForceMax <default = 4, label = "Force Max", pinId = 101>;
+		float myForceStiffness <default = 0.5, label = "Force Stiffness", pinId = 103>;
+		float myVerticleNoiseSpeed <default = 4, label = "Verticle Noise Speed", pinId = 104>;
+		float myVerticalNoiseStrength <default = 0.05, label = "Vertical Noise Strength", pinId = 105>;
+	};
+	float3x3 axisAngleMatrix(float3 axis, float angle)
+	{
+		float c = cos(angle);
+		 float s = sin(angle);
+		 float t = 1 - c;
+		 float x = axis.x;
+		 float y = axis.y;
+		 float z = axis.z;
+		 return MR_RowMatrix(
+		     float3(t*x*x + c, t*x*y - z*s, t*x*z + y*s),
+		     float3(t*x*y + z*s, t*y*y + c, t*y*z - x*s),
+		     float3(t*x*z - y*s, t*y*z + x*s, t*z*z + c)
+		 );
+	}
+	void WorldSpaceModifier(inout float3 Gfx_WorldSpacePos : Gfx_WorldSpacePos, 
+		float4 Gfx_Color : Gfx_Color0, CustomData customData : Gfx_CustomData0, 
+		float4 Gfx_Color1 : Gfx_Color1, float2 Gfx_UV2 : Gfx_UV2, 
+		float2 Gfx_UV1 : Gfx_UV1, 
+		float3x4 Gfx_ObjectToWorldMatrix : Gfx_ObjectToWorldMatrix0)
+	{
+		float3 combine_33 = float3(Gfx_UV1.x, Gfx_UV2.x, Gfx_UV1.y);
+		float3 combine_34 = float3(Gfx_Color1.x, Gfx_Color1.y, Gfx_Color1.z);
+		float3 mul_35 = combine_34 * float3(2, 2, 2);
+		float3 sub_38 = mul_35 - float3(1, 1, 1);
+		float3 add_43 = sub_38 + float3(0, 0.01, 0);
+		float3 add_49 = combine_33 + add_43;
+		float3 transform_53 = MR_Transform(Gfx_ObjectToWorldMatrix, add_49);
+		float3 transform_37 = MR_Transform(Gfx_ObjectToWorldMatrix, combine_33);
+		float3 sub_57 = transform_53 - transform_37;
+		float3 add_59 = sub_57 + float3(0.001, 0, 0);
+		float3 normalize_60 = normalize(add_59);
+		float3 GetPlanetPosition_16 = GetPlanetPosition();
+		float3 sub_39 = transform_37 - GetPlanetPosition_16;
+		float3 normalize_45 = normalize(sub_39);
+		float3 mul_44 = sub_39 * float3(45.2313, 21.6451, 0.541);
+		float add_54 = mul_44.x + mul_44.y;
+		float add_55 = add_54 + mul_44.z;
+		float mul_62 = Gfx_Environment.time * customData.myVerticleNoiseSpeed;
+		float add_63 = add_55 + mul_62;
+		float sin_64 = sin(add_63);
+		float mul_65 = sin_64 * customData.myVerticalNoiseStrength;
+		float3 smear_66 = float3(mul_65, mul_65, mul_65);
+		float3 mul_67 = normalize_45 * smear_66;
+		float3 sub_41 = transform_37 - GetPlanetPosition_16;
+		float3 OW_GetForceField_47 = OW_GetForceField(sub_41);
+		float3 add_68 = mul_67 + OW_GetForceField_47;
+		float3 add_69 = add_68 + float3(0, 0, 0.001);
+		float3 normalize_71 = normalize(add_69);
+		float3 cross_73 = cross(normalize_60, normalize_71);
+		float3 normalize_76 = normalize(cross_73);
+		float dot_74 = dot(normalize_60, normalize_71);
+		float acos_77 = acos(dot_74);
+		float length_70 = length(add_68);
+		float div_72 = length_70 / customData.myForceMax;
+		float saturate_75 = saturate(div_72);
+		float mul_78 = saturate_75 * customData.myForceStiffness;
+		float mul_79 = acos_77 * mul_78;
+		float3x3 axisAngleMatrix_80 = axisAngleMatrix(normalize_76, mul_79);
+		float3 sub_40 = Gfx_WorldSpacePos - transform_37;
+		float3 transform_81 = MR_Transform(axisAngleMatrix_80, sub_40);
+		float3 sub_82 = transform_81 - sub_40;
+		float4 combine_32 = float4(Gfx_Color.x, Gfx_Color.x, Gfx_Color.x, Gfx_Color.x);
+		float3 truncate_36 = float3(combine_32.xyz);
+		float3 mul_83 = sub_82 * truncate_36;
+		float3 add_84 = mul_83 + Gfx_WorldSpacePos;
+		float3 sub_85 = add_84 - transform_37;
+		float3 normalize_86 = normalize(sub_85);
+		float length_46 = length(sub_40);
+		float3 smear_51 = float3(length_46, length_46, length_46);
+		float3 mul_87 = normalize_86 * smear_51;
+		float3 add_88 = mul_87 + transform_37;
+		float3 sub_42 = transform_37 - MR_ViewConstants.LODCameraPosition;
+		float length_48 = length(sub_42);
+		float smoothStep_52 = smoothstep(float(602), float(300), length_48);
+		float saturate_56 = saturate(smoothStep_52);
+		float3 smear_58 = float3(saturate_56, saturate_56, saturate_56);
+		float3 lerp_89 = lerp(Gfx_WorldSpacePos, add_88, smear_58);
+		Gfx_WorldSpacePos = lerp_89;
+	}
+	main(float3x4 Gfx_ObjectToWorldMatrix : Gfx_ObjectToWorldMatrix0, 
+		float2 Gfx_UV1 : Gfx_UV1, float2 Gfx_UV2 : Gfx_UV2, 
+		float4 Gfx_Color1 : Gfx_Color1, CustomData customData : Gfx_CustomData0, 
+		float4 Gfx_Color : Gfx_Color0, 
+		inout float3 Gfx_WorldSpacePos : Gfx_WorldSpacePos <modifier = "WorldSpaceModifier">)
+	{
+		// dummy comment so the shader writer does save this out
+	}
+}

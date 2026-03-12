@@ -1,0 +1,149 @@
+<shaderType = "Object", keywords = { "OGFX_NO_DITHERING", "GFX_FORWARD_SHADER", }, >
+import "shaders/modules/graphics/environment.h"
+blend {
+	src = 1,
+}
+pixel
+{
+	MR_Sampler2D Texture : MR_Texture0 {
+		texture = "onward/baked/textures/FX/fx_hyperspace_net_b.dds",
+	} <pinId = 130>;
+	MR_Sampler2D Sampler_53 : MR_Texture1 {
+		texture = "onward/baked/textures/effects/smokedistort_tileable.dds",
+	};
+	struct CustomData {
+		float4 myPoint1 <default = 0 0 0 10, label = "Point1", pinId = 101>;
+		float4 myPoint2 <default = 0 0 0 10, label = "Point2", pinId = 106>;
+		float4 myPoint3 <default = 0 0 0 10, label = "Point3", pinId = 107>;
+		float4 myPoint4 <default = 0 0 0 10, label = "Point4", pinId = 108>;
+		float4 myPoint5 <default = 0 0 0 10, label = "Point5", pinId = 113>;
+		float4 myPoint6 <default = 0 0 0 10, label = "Point6", pinId = 114>;
+		float4 myPoint7 <default = 0 0 0 10, label = "Point7", pinId = 115>;
+		float4 myPoint8 <default = 0 0 0 10, label = "Point8", pinId = 116>;
+		float myNetTiling <default = 30, label = "Net Tiling", pinId = 110>;
+		float3 myColor <config = { type = "ColorBox", }, default = 1 0.100482 0, label = "Color", pinId = 122>;
+		float myScale <default = 1000, label = "Scale", pinId = 123>;
+		float myIntensity <default = 150, label = "Intensity", pinId = 126>;
+		float myOpacity <default = 1, label = "Opacity", pinId = 127>;
+		float mynetSize <default = 1, label = "netSize", pinId = 129>;
+		float myRotationSpeed <default = 0.2, label = "Rotation Speed", pinId = 131>;
+	};
+	float ringnoise(float rad, float dist, float distort)
+	{
+		return smoothstep(rad, (rad +(rad * distort)), dist);
+	}
+	void myFunc3(MR_Sampler2D Grid, float4 point1, float4 point2, float4 point3, float4 point4, 
+		float4 point5, float4 point6, float4 point7, float4 point8, 
+		float3 modelSpacePos, float2 UV, float scale, float3 color, float intensity, 
+		float opacity, float3 distort, float netSize, out float3 Color, out float Alpha)
+	{
+		scale = 1/scale;
+		float 	outval = 0; 
+		float 	distmap = 1;
+		float 	shademap = 1;
+
+		float 	radius,
+		distance,
+		hole,
+		radius_falloff,
+		smooth_dist,
+		ring,
+		circle;
+
+		float2 	uv_out;	
+
+		float3 	pos,
+		relativePosition,
+		locator_n,
+		s_out = {0,0,0},
+		test_out = {0,0,0},
+		overlay_map = {1,1,1},
+		gridmap3;
+
+		float4 overlay4;
+
+		distort *=  0.03;
+
+		const float4 points[8] = {point1, point2, point3, point4, point5, point6, point7, point8};
+		for (int i = 0; i < 8; ++i)
+		{
+
+		float4 p = points[i];
+		pos = p.xyz * scale;
+		float pyclamp =  clamp(pos.y, 0 ,1);
+		radius = (p.w * scale) + (length(distort * 0.4));
+		float testz = clamp((radius), 0.3, 10) * clamp(p.w, 0, 1);
+		radius_falloff = radius + testz;
+
+		relativePosition = (modelSpacePos - pos);
+
+		distance = length(relativePosition);
+
+		smooth_dist = smoothstep((clamp((radius - 0.2),0,0.2)), radius_falloff, distance);
+		circle = smoothstep(radius, (radius + 0.2), distance);
+
+		ring = ringnoise(radius, distance, (distort.x * 4 + 0.1));
+		hole = radius < distance;
+		overlay_map = min(overlay_map, ring);
+		circle *= 0.9;
+		circle += 0.1* hole;
+		distmap = min(distmap, hole);
+		shademap = min(shademap, circle);
+
+		locator_n = relativePosition * ((1 - smooth_dist)*10);
+		s_out = lerp(locator_n, s_out, smooth_dist);
+		uv_out.x = (s_out.x + 1) + distort.x;
+		uv_out.y = (-s_out.z + 1) + distort.y;
+		}
+
+		test_out = overlay_map - distmap;
+
+		UV *= uv_out;
+
+		float4 gridmap = MR_SampleGrad( Grid, UV.xy, ddx( UV.x ), ddy( UV.y ) );
+
+		gridmap3 = (gridmap.x, gridmap.y, gridmap.z);
+
+		gridmap3 = min(gridmap3, shademap) - test_out;
+		float center_distance = length(modelSpacePos);
+
+		netSize *= 0.48;
+		float outer_ring = center_distance > (netSize - 0.005) + distort.x && center_distance < netSize + distort.y;
+
+		gridmap3 *= center_distance < netSize + distort.y;
+		outer_ring *= distmap;
+		gridmap3 = max(gridmap3 , outer_ring);
+
+		shademap = shademap - test_out.x;
+
+		Alpha = gridmap3.x * opacity;
+		Color = (gridmap3 * ((intensity * shademap))*color) * opacity;
+	}
+	main(out float4 colorOut : MR_Color0, CustomData customData : Gfx_CustomData0, 
+		float3 Gfx_ModelSpacePos : Gfx_ModelSpacePos0, float2 Gfx_UV : Gfx_UV0, 
+		float Gfx_AlphaRef : Gfx_AlphaRef0)
+	{
+		float2 combine_70 = float2(customData.myNetTiling, customData.myNetTiling);
+		float2 sub_62 = Gfx_UV - float2(0.5, 0.5);
+		float mul_72 = Gfx_Environment.time * customData.myRotationSpeed;
+		float sinAngle_73 = sin(mul_72);
+		float cosAngle_73 = cos(mul_72);
+		float2x2 rotMat_73 = { cosAngle_73, -sinAngle_73, sinAngle_73, cosAngle_73 };
+		float2 rot2d_73 = MR_Transform(rotMat_73, sub_62);
+		float2 add_74 = rot2d_73 + float2(0.5, 0.5);
+		float2 mul_75 = combine_70 * add_74;
+		float2 mul_76 = mul_75 * float2(1, 1);
+		float mul_61 = Gfx_Environment.time * float(0.02);
+		float sin_63 = sin(mul_61);
+		float2 smear_64 = float2(sin_63, sin_63);
+		float2 add_65 = Gfx_UV + smear_64;
+		float2 mul_66 = add_65 * float2(2, 2);
+		float4 sample_67 = MR_Sample(Sampler_53, mul_66);
+		float3 Color_77;
+		float Alpha_77;
+		myFunc3(Texture, customData.myPoint1, customData.myPoint2, customData.myPoint3, customData.myPoint4, customData.myPoint5, customData.myPoint6, customData.myPoint7, customData.myPoint8, Gfx_ModelSpacePos, mul_76, customData.myScale, customData.myColor, customData.myIntensity, customData.myOpacity, sample_67.xyz, customData.mynetSize, Color_77, Alpha_77);
+		if (Alpha_77 < Gfx_AlphaRef) discard;
+		float4 result_78 = float4(Color_77, Alpha_77);
+		colorOut = result_78;
+	}
+}

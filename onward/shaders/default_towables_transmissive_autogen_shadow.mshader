@@ -1,0 +1,25 @@
+<keywords = { "NO_SSAO_COMBINE", "DO_AMBIENT_OPACITY", "GFX_SHADOW_SHADER", }, >
+pixel
+{
+	MR_Sampler2D BaseColor : MR_Texture0 {
+		texture = "onward/baked/textures/default_b.dds",
+	} <label = "Base Color", pinId = 102>;
+	struct CustomData {
+		float myIntensity <default = 1, label = "Intensity", pinId = 109>;
+		float myTransmissionDepthScale <default = 0.1, label = "Transmission Depth Scale", pinId = 106>;
+		float myTime <default = 0, label = "Time", pinId = 110>;
+		float myMinHeight <default = 0, label = "Min Height", pinId = 111>;
+		float mymaxHeight <default = 0, label = "max Height", pinId = 112>;
+		float myTransitionRange <default = 1, label = "Transition Range", pinId = 113>;
+		float myEmissionRange <default = 1, label = "Emission Range", pinId = 114>;
+		float myTargetedTransitionTime <config = { max = 1, min = 0, type = "Slider", }, default = 0, label = "TargetedTransitionTime", pinId = 108>;
+	};
+	main(CustomData customData : Gfx_CustomData, out float4 colorOut : MR_Color0, 
+		float2 Gfx_UV : Gfx_UV0, float Gfx_AlphaRef : Gfx_AlphaRef0)
+	{
+		float4 sample_205 = MR_Sample(BaseColor, Gfx_UV);
+		if (sample_205.w < Gfx_AlphaRef) discard;
+		float4 shadowResult = float4(0.0, 0.0, 0.0, sample_205.w);
+		colorOut = shadowResult;
+	}
+}

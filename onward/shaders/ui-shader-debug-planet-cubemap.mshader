@@ -1,0 +1,13 @@
+<shaderType = "Object", >
+pixel
+{
+	MR_SamplerCube PlanetCubemap : MR_Texture0 <label = "Planet Cubemap", pinId = 101>;
+	main(out float4 colorOut : MR_Color0, float3 Gfx_ModelSpacePos : Gfx_ModelSpacePos0)
+	{
+		float3 normalize_29 = normalize(Gfx_ModelSpacePos);
+		float4 sample_32 = MR_Sample(PlanetCubemap, normalize_29);
+		float3 truncate_34 = float3(sample_32.xyz);
+		float4 result_35 = float4(truncate_34, 1);
+		colorOut = result_35;
+	}
+}

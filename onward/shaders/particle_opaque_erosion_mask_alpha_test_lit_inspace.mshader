@@ -1,0 +1,122 @@
+<emission = true, shaderType = "Object", keywords = { "LIGHT_FROM_SPACE", "ISNT_MAIN_PLANET", "GFX_FORWARD_SHADER", }, >
+import "shaders/modules/graphics/environment.h"
+import "shaders/nodes/shader/functions/onward/lighting/ow_fullspacebaselighting.h"
+import "shaders/nodes/shader/functions/ow emissive intensity multiplier.h"
+import "shaders/nodes/shader/functions/onward/lighting/ow_spacefog.h"
+pixel
+{
+	MR_Sampler2D GradientTexture : MR_Texture0 {
+		wrap = clamp,
+	} <label = "Gradient Texture", pinId = 121>;
+	MR_Sampler2D TextureOne : MR_Texture1 <label = "Texture One", pinId = 101>;
+	MR_Sampler2D Erosion : MR_Texture2 <pinId = 107>;
+	MR_Sampler2D MaskTexture : MR_Texture3 <label = "Mask Texture", pinId = 114>;
+	struct CustomData {
+		float myIntensity <default = 0, label = "Intensity", pinId = 122>;
+		float2 myUVspeed <default = 0 0, label = "UV speed", pinId = 102>;
+		float myUVRotation <default = 0, label = "UV Rotation", pinId = 103>;
+		float myRotationSpeed <default = 0, label = "Rotation Speed", pinId = 104>;
+		float2 myScaleUV <default = 1 1, label = "Scale UV", pinId = 105>;
+		float2 myOffsetUV <default = 0 0, label = "Offset UV", pinId = 106>;
+		float myErosion <default = 0, label = "Erosion", pinId = 108>;
+		float2 myErosionScaleUV <default = 1 1, label = "Erosion Scale UV", pinId = 109>;
+		float2 myErosionOffsetUV <default = 0 0, label = "Erosion Offset UV", pinId = 110>;
+		float2 myErosionUVSpeed <default = 0 0, label = "Erosion UV Speed", pinId = 111>;
+		float myErosionUVRotation <default = 0, label = "Erosion UV Rotation", pinId = 112>;
+		float myErosionUVRotationSpeed <default = 0, label = "Erosion UV Rotation Speed", pinId = 113>;
+		float4 myMaskChannelControl <default = 1 0 0 0, label = "Mask Channel Control", pinId = 120>;
+		float2 myMaskScaleUV <default = 1 1, label = "Mask Scale UV", pinId = 115>;
+		float2 myMaskOffsetUV <default = 0 0, label = "Mask Offset UV", pinId = 116>;
+		float2 myMaskUVSpeed <default = 0 0, label = "Mask UV Speed", pinId = 117>;
+		float myMaskUVRotation <default = 0, label = "Mask UV Rotation", pinId = 118>;
+		float myMaskUVRotationSpeed <default = 0, label = "Mask UV Rotation Speed", pinId = 119>;
+		float myUseUnscaledGameTime <default = 0, label = "Use Unscaled Game Time", pinId = 123>;
+		float myUnscaledGameTime <default = 0, label = "Unscaled Game Time", pinId = 124>;
+	};
+	main(out float4 colorOut : MR_Color0, CustomData customData : Gfx_CustomData0, 
+		float2 Gfx_UV : Gfx_UV0, 
+		float3 Gfx_FlattenedWorldNormal : Gfx_FlattenedWorldNormal0, 
+		Gfx_LightingDataStruct Gfx_LightingData : Gfx_LightingData0, 
+		float3 Gfx_WorldSpacePos : Gfx_WorldSpacePos0, 
+		float4 MR_FragCoord : MR_FragCoord, float Gfx_AlphaRef : Gfx_AlphaRef0)
+	{
+		float lerp_123 = lerp(Gfx_Environment.time, customData.myUnscaledGameTime, customData.myUseUnscaledGameTime);
+		float mul_126 = lerp_123 * customData.myUVspeed.x;
+		float2 sub_110 = Gfx_UV - float2(0.5, 0.5);
+		float mul_132 = lerp_123 * customData.myRotationSpeed;
+		float add_135 = customData.myUVRotation + mul_132;
+		float sinAngle_138 = sin(add_135);
+		float cosAngle_138 = cos(add_135);
+		float2x2 rotMat_138 = { cosAngle_138, -sinAngle_138, sinAngle_138, cosAngle_138 };
+		float2 rot2d_138 = MR_Transform(rotMat_138, sub_110);
+		float2 add_141 = rot2d_138 + float2(0.5, 0.5);
+		float2 mul_144 = add_141 * customData.myScaleUV;
+		float2 add_147 = mul_144 + customData.myOffsetUV;
+		float add_153 = mul_126 + add_147.x;
+		float mul_127 = lerp_123 * customData.myUVspeed.y;
+		float add_154 = mul_127 + add_147.y;
+		float2 combine_159 = float2(add_153, add_154);
+		float4 sample_162 = MR_Sample(TextureOne, combine_159);
+		float2 combine_168 = float2(sample_162.x, float(0.5));
+		float4 sample_173 = MR_Sample(GradientTexture, combine_168);
+		float3 truncate_178 = float3(sample_173.xyz);
+		float3 aLightOut_183;
+		OW_FullBaseSpaceLighting(aLightOut_183, truncate_178, Gfx_FlattenedWorldNormal, float(1), float(1), float(0), float(1), Gfx_LightingData);
+		float4 smear_116 = float4(customData.myIntensity, customData.myIntensity, customData.myIntensity, customData.myIntensity);
+		float4 mul_177 = sample_173 * smear_116;
+		float3 truncate_182 = float3(mul_177.xyz);
+		float4 truncate_186 = float4(truncate_182.xyz, 1);
+		float4 OWEmissiveIntensityMultiplier_189 = OWEmissiveIntensityMultiplier(truncate_186);
+		float3 truncate_193 = float3(OWEmissiveIntensityMultiplier_189.xyz);
+		float3 add_196 = aLightOut_183 + truncate_193;
+		float3 aColor_198 = add_196;
+		OW_SpaceFog(aColor_198, Gfx_WorldSpacePos, MR_FragCoord);
+		float lerp_124 = lerp(Gfx_Environment.time, customData.myUnscaledGameTime, customData.myUseUnscaledGameTime);
+		float mul_128 = lerp_124 * customData.myErosionUVSpeed.x;
+		float2 sub_111 = Gfx_UV - float2(0.5, 0.5);
+		float mul_133 = lerp_124 * customData.myErosionUVRotationSpeed;
+		float add_136 = customData.myErosionUVRotation + mul_133;
+		float sinAngle_139 = sin(add_136);
+		float cosAngle_139 = cos(add_136);
+		float2x2 rotMat_139 = { cosAngle_139, -sinAngle_139, sinAngle_139, cosAngle_139 };
+		float2 rot2d_139 = MR_Transform(rotMat_139, sub_111);
+		float2 add_142 = rot2d_139 + float2(0.5, 0.5);
+		float2 mul_145 = add_142 * customData.myErosionScaleUV;
+		float2 add_148 = mul_145 + customData.myErosionOffsetUV;
+		float add_155 = mul_128 + add_148.x;
+		float mul_129 = lerp_124 * customData.myErosionUVSpeed.y;
+		float add_156 = mul_129 + add_148.y;
+		float2 combine_160 = float2(add_155, add_156);
+		float4 sample_163 = MR_Sample(Erosion, combine_160);
+		float lerp_125 = lerp(Gfx_Environment.time, customData.myUnscaledGameTime, customData.myUseUnscaledGameTime);
+		float mul_130 = lerp_125 * customData.myMaskUVSpeed.x;
+		float2 sub_112 = Gfx_UV - float2(0.5, 0.5);
+		float mul_134 = lerp_125 * customData.myMaskUVRotationSpeed;
+		float add_137 = customData.myMaskUVRotation + mul_134;
+		float sinAngle_140 = sin(add_137);
+		float cosAngle_140 = cos(add_137);
+		float2x2 rotMat_140 = { cosAngle_140, -sinAngle_140, sinAngle_140, cosAngle_140 };
+		float2 rot2d_140 = MR_Transform(rotMat_140, sub_112);
+		float2 add_143 = rot2d_140 + float2(0.5, 0.5);
+		float2 mul_146 = add_143 * customData.myMaskScaleUV;
+		float2 add_149 = mul_146 + customData.myMaskOffsetUV;
+		float add_157 = mul_130 + add_149.x;
+		float mul_131 = lerp_125 * customData.myMaskUVSpeed.y;
+		float add_158 = mul_131 + add_149.y;
+		float2 combine_161 = float2(add_157, add_158);
+		float4 sample_164 = MR_Sample(MaskTexture, combine_161);
+		float mul_169 = sample_164.x * customData.myMaskChannelControl.x;
+		float mul_170 = sample_164.y * customData.myMaskChannelControl.y;
+		float add_174 = mul_169 + mul_170;
+		float mul_171 = sample_164.z * customData.myMaskChannelControl.z;
+		float mul_172 = sample_164.w * customData.myMaskChannelControl.w;
+		float add_175 = mul_171 + mul_172;
+		float add_179 = add_174 + add_175;
+		float mul_184 = sample_163.x * add_179;
+		float sub_187 = mul_184 - customData.myErosion;
+		float saturate_190 = saturate(sub_187);
+		if (saturate_190 < Gfx_AlphaRef) discard;
+		float4 result_200 = float4(aColor_198, saturate_190);
+		colorOut = result_200;
+	}
+}

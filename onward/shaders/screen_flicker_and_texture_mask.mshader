@@ -1,0 +1,147 @@
+<shaderType = "UI", >
+import "shaders/modules/graphics/drawer/drawer.h"
+import "shaders/modules/graphics/environment.h"
+blend {
+	writeMask = rgba,
+	src = 1,
+	src.a = 0,
+}
+pixel
+{
+	MR_Sampler2D Diffuse : MR_Texture0 <pinId = 102>;
+	MR_Sampler2D NoiseTexture : MR_Texture1 {
+		texture = "onward/baked/textures/FX/fx_probe_noise_flat_b.dds",
+		wrap = clamp clamp repeat,
+	} <label = "Noise Texture", pinId = 106>;
+	MR_Sampler2D TexturetoMask : MR_Texture2 {
+		wrap = clamp clamp repeat,
+	} <label = "Texture to Mask", pinId = 125>;
+	struct CustomData {
+		float4 myColour <default = 1 1 1 1, label = "Colour", pinId = 103>;
+		float myNoiseIdle <default = 1, label = "Noise Idle", pinId = 115>;
+		float myAlphaTransition <default = 0.5, label = "Alpha Transition", pinId = 118>;
+		float myTransitionSpeed <default = 1, label = "Transition Speed", pinId = 119>;
+		float myTime <default = 0, label = "Time", pinId = 123>;
+		float2 myMaskAspectRatio <default = 1 1, label = "Mask Aspect Ratio", pinId = 126>;
+		float2 myUVAddPercent <default = 0 0, label = "UV Add Percent", pinId = 127>;
+		float myNoiseTransition <default = 2, label = "Noise Transition", pinId = 124>;
+		float myFadeHeight <default = 0.75, label = "Fade Height", pinId = 128>;
+		float myNoiseIdleFrequency <default = 1, label = "Noise Idle Frequency", pinId = 129>;
+	};
+	float transition_scroll(float t, float y, float s)
+	{
+		if (t < 3.14159/(s*2) && t > -3.14159/(s*2)){
+		return y - sin(t*s);
+		}
+		else{
+		return 0.;
+		}
+	}
+	float ramp(float y, float start, float end)
+	{
+		float inside = step(start, y) - step(end, y);
+		float fact = (y-start)/(end-start)*inside;
+		return (1. - fact) * inside;
+	}
+	float inv_ramp(float y, float start, float end)
+	{
+		float inside = step(end, y) - step(start, y);
+		float fact = (y-start)/(end-start)*inside;
+		return (1. - fact) * inside;
+	}
+	float4 invert(float4 v)
+	{
+		v.xyz = (-1)*v.xyz + 1;
+		v.w = 1;
+		return v;
+	}
+	float noise_prep(float y, float t, float s)
+	{
+		return y + (t)/4. - sin(t*s*.1 + sin(t*0.5));
+	}
+	float mult_all(float x, float y, float z, float s)
+	{
+		return x*y*z*s;
+	}
+	float transition_scroll_n(float t, float y, float s)
+	{
+		if (t < 3.14159/(s*2) && t > -3.14159/(s*2)){
+		return y - sin(t*s);
+		}
+		else{
+		return 0.;
+		}
+	}
+	float mult_all_3(float x, float y, float z)
+	{
+		return x*y*z;
+	}
+	float2 color_noise_mask(float2 uv, float t, float s, float dist, float2 ratio, float2 percent)
+	{
+		uv = uv*ratio + percent + (1-ratio)/2;
+		uv.x = uv.x + (t*s*dist);
+		return uv;
+	}
+	float4 change_alpha(float t, float fade, float4 color, float4 resize)
+	{
+		color.w = color.w - t - fade;
+		return color*resize;
+	}
+	main(out float4 colorOut : MR_Color0, CustomData customData : Gfx_CustomData0, 
+		float2 Gfx_UV1 : Gfx_UV1, float2 Gfx_UV : Gfx_UV0, 
+		int UI_RenderType : UI_RenderType1)
+	{
+		float transition_scroll_118 = transition_scroll(customData.myTime, Gfx_UV1.y, customData.myTransitionSpeed);
+		float ramp_126 = ramp(transition_scroll_118, float(0.5), float(1));
+		float inv_ramp_127 = inv_ramp(transition_scroll_118, float(0.5), float(0));
+		float add_133 = ramp_126 + inv_ramp_127;
+		float mul_137 = add_133 * float(1);
+		float mul_141 = mul_137 * customData.myAlphaTransition;
+		float mod_105 = fmod(Gfx_UV1.y, float(1));
+		float inv_ramp_122 = inv_ramp(mod_105, float(2), customData.myFadeHeight);
+		float mul_123 = inv_ramp_122 * float(10);
+		float2 combine_103 = float2(Gfx_UV1.x, Gfx_UV1.y);
+		float4 sample_124 = MR_Sample(NoiseTexture, combine_103);
+		float4 invert_130 = invert(sample_124);
+		float2 truncate_135 = float2(invert_130.xy);
+		float dot_139 = dot(truncate_135, float2(12.9898, 78.233));
+		float sin_142 = sin(dot_139);
+		float mul_143 = sin_142 * float(43758.5);
+		float add_145 = frac(mul_143) + float(-0.5);
+		float div_146 = add_145 / float(2);
+		float2 combine_104 = float2(Gfx_Environment.time, Gfx_UV.y);
+		float dot_106 = dot(combine_104, float2(12.9898, 78.233));
+		float sin_107 = sin(dot_106);
+		float mul_108 = sin_107 * float(43758.5);
+		float add_110 = frac(mul_108) + float(-0.5);
+		float div_111 = add_110 / float(2);
+		float noise_prep_117 = noise_prep(Gfx_UV1.y, Gfx_Environment.time, customData.myNoiseIdle);
+		float mod_125 = fmod(noise_prep_117, customData.myNoiseIdleFrequency);
+		float ramp_131 = ramp(mod_125, float(0.4), float(0.6));
+		float inv_ramp_132 = inv_ramp(mod_125, float(0.4), float(0.2));
+		float add_136 = ramp_131 + inv_ramp_132;
+		float mul_140 = float(1) * add_136;
+		float mult_all_147 = mult_all(div_146, div_111, mul_140, customData.myNoiseIdle);
+		float transition_scroll_n_119 = transition_scroll_n(customData.myTime, Gfx_UV1.y, customData.myTransitionSpeed);
+		float ramp_128 = ramp(transition_scroll_n_119, float(0.5), float(1));
+		float inv_ramp_129 = inv_ramp(transition_scroll_n_119, float(0.5), float(0));
+		float add_134 = ramp_128 + inv_ramp_129;
+		float mul_138 = add_134 * customData.myNoiseTransition;
+		float mult_all_3_148 = mult_all_3(mul_138, div_146, div_111);
+		float add_149 = mult_all_147 + mult_all_3_148;
+		float2 color_noise_mask_152 = color_noise_mask(Gfx_UV, add_149, float(0.9), float(1), customData.myMaskAspectRatio, customData.myUVAddPercent);
+		float4 sample_155 = MR_Sample(TexturetoMask, color_noise_mask_152);
+		float2 color_noise_mask_151 = color_noise_mask(Gfx_UV, add_149, float(0.5), float(1), customData.myMaskAspectRatio, customData.myUVAddPercent);
+		float4 sample_154 = MR_Sample(TexturetoMask, color_noise_mask_151);
+		float2 color_noise_mask_150 = color_noise_mask(Gfx_UV, add_149, float(0.2), float(1), customData.myMaskAspectRatio, customData.myUVAddPercent);
+		float4 sample_153 = MR_Sample(TexturetoMask, color_noise_mask_150);
+		float4 combine_159 = float4(sample_155.x, sample_154.y, sample_153.z, sample_153.w);
+		float4 mul_160 = customData.myColour * combine_159;
+		float4 sample_116 = GetColorInfo(Diffuse, Gfx_UV, In.UI_RenderType);
+		float4 combine_121 = float4(float(1), float(1), float(1), sample_116.w);
+		float4 change_alpha_161 = change_alpha(mul_141, mul_123, mul_160, combine_121);
+		float4 finalColor = vec4(0);
+		finalColor = BlendColor(change_alpha_161, float(0));
+		colorOut = finalColor;
+	}
+}

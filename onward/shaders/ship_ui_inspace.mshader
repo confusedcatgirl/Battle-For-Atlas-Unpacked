@@ -1,0 +1,59 @@
+<emission = true, shaderType = "Object", keywords = { "GFX_FORWARD_SHADER", }, >
+import "shaders/MRender/MR_ViewConstants.h"
+import "shaders/nodes/shader/functions/unpack normal.h"
+import "shaders/nodes/shader/functions/fresnel-schlick.h"
+import "shaders/nodes/shader/functions/onward/lighting/ow_fulluishiplighting.h"
+pixel
+{
+	MR_Sampler2D BaseColor : MR_Texture0 {
+		texture = "onward/baked/textures/default_b.dds",
+	} <label = "Base Color", pinId = 102>;
+	MR_Sampler2D Normal : MR_Texture1 {
+		texture = "onward/baked/textures/default_n.dds",
+	} <pinId = 103>;
+	MR_Sampler2D Material : MR_Texture2 {
+		texture = "onward/baked/textures/default_m.dds",
+	} <pinId = 104>;
+	struct CustomData {
+		float myEmissionIntensity <default = 0, label = "Emission Intensity", pinId = 106>;
+		float4 myColorModulation <default = 1 1 1 1, label = "Color Modulation", pinId = 110>;
+		float3 mySelectedColor <default = 0 0 0, label = "SelectedColor", pinId = 111>;
+	};
+	main(out float4 colorOut : MR_Color0, float2 Gfx_UV : Gfx_UV0, 
+		float3x3 Gfx_TangentToWorld : Gfx_TangentToWorld0, 
+		CustomData customData : Gfx_CustomData0, 
+		float3 Gfx_WorldSpacePos : Gfx_WorldSpacePos0, 
+		Gfx_LightingDataStruct Gfx_LightingData : Gfx_LightingData0)
+	{
+		float4 sample_62 = MR_Sample(BaseColor, Gfx_UV);
+		float3 truncate_67 = float3(sample_62.xyz);
+		float4 sample_64 = MR_Sample(Normal, Gfx_UV);
+		float3 normal_69;
+		float ambientOcclusion_69;
+		UnpackNormalAndAO(sample_64, normal_69, ambientOcclusion_69);
+		float3 transform_71 = MR_Transform(Gfx_TangentToWorld, normal_69);
+		float3 normalize_74 = normalize(transform_71);
+		float4 combine_77 = float4(normalize_74, float(0));
+		float4 transform_79 = MR_Transform(MR_ViewConstants.worldToCamera, combine_77);
+		float3 truncate_81 = float3(transform_79.xyz);
+		float4 sample_63 = MR_Sample(Material, Gfx_UV);
+		float4 smear_60 = float4(customData.myEmissionIntensity, customData.myEmissionIntensity, customData.myEmissionIntensity, customData.myEmissionIntensity);
+		float4 smear_70 = float4(sample_63.z, sample_63.z, sample_63.z, sample_63.z);
+		float4 mul_73 = sample_62 * smear_70;
+		float4 mul_76 = smear_60 * mul_73;
+		float3 sub_53 = MR_ViewConstants.LODCameraPosition - Gfx_WorldSpacePos;
+		float3 normalize_55 = normalize(sub_53);
+		float3 FresnelSchlick_72 = FresnelSchlick(float3(0.2, 0.2, 0.2), normalize_55, transform_71);
+		float3 mul_75 = customData.mySelectedColor * FresnelSchlick_72;
+		float3 mul_78 = mul_75 * float3(2, 2, 2);
+		float4 truncate_80 = float4(mul_78.xyz, 1);
+		float4 add_82 = mul_76 + truncate_80;
+		float3 truncate_83 = float3(add_82.xyz);
+		float3 aLightOut_85;
+		OW_FullUIShipLighting(aLightOut_85, truncate_67, truncate_81, float(1), sample_63.y, sample_63.x, ambientOcclusion_69, truncate_83, Gfx_LightingData);
+		float3 combine_65 = float3(customData.myColorModulation.x, customData.myColorModulation.y, customData.myColorModulation.z);
+		float3 mul_86 = aLightOut_85 * combine_65;
+		float4 result_87 = float4(mul_86, 1);
+		colorOut = result_87;
+	}
+}

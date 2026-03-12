@@ -1,0 +1,63 @@
+import "shaders/nodes/shader/functions/unpack normal.h"
+pixel
+{
+	MR_Sampler2D BaseColor : MR_Texture0 {
+		texture = "onward/baked/textures/default_b.dds",
+	} <label = "Base Color", pinId = 102>;
+	MR_Sampler2D Normal : MR_Texture1 {
+		texture = "onward/baked/textures/default_n.dds",
+	} <pinId = 103>;
+	MR_Sampler2D TriplanarBase : MR_Texture4 <label = "Triplanar Base", pinId = 110>;
+	struct CustomData {
+		float2 myTiling <default = 0 0, label = "Tiling", pinId = 108>;
+		float myTriplanarBaseStrength <default = 1, label = "Triplanar Base Strength", pinId = 112>;
+		float myTransitionContrast <default = 1.69734, label = "Transition Contrast", pinId = 113>;
+	};
+	main(out float4 colorOut : MR_Color0, float2 Gfx_UV : Gfx_UV0, 
+		float3 Gfx_WorldSpacePos : Gfx_WorldSpacePos0, 
+		CustomData customData : Gfx_CustomData0, 
+		float3x3 Gfx_TangentToWorld : Gfx_TangentToWorld0, 
+		float4 Gfx_Color : Gfx_Color0, float Gfx_AlphaRef : Gfx_AlphaRef0, 
+		float3 Gfx_CameraSpacePos : Gfx_CameraSpacePos0)
+	{
+		float4 sample_151 = MR_Sample(BaseColor, Gfx_UV);
+		float2 combine_142 = float2(Gfx_WorldSpacePos.z, Gfx_WorldSpacePos.y);
+		float2 mul_159 = combine_142 * customData.myTiling;
+		float4 sample_167 = MR_Sample(TriplanarBase, mul_159);
+		float4 sample_153 = MR_Sample(Normal, Gfx_UV);
+		float3 normal_155;
+		float ambientOcclusion_155;
+		UnpackNormalAndAO(sample_153, normal_155, ambientOcclusion_155);
+		float3 transform_156 = MR_Transform(Gfx_TangentToWorld, normal_155);
+		float3 abs_160 = abs(transform_156);
+		float3 combine_150 = float3(customData.myTransitionContrast, customData.myTransitionContrast, customData.myTransitionContrast);
+		float3 pow_168 = pow(abs_160, combine_150);
+		float3 normalize_173 = normalize(pow_168);
+		float add_190 = normalize_173.x + normalize_173.y;
+		float add_191 = add_190 + normalize_173.z;
+		float3 combine_195 = float3(add_191, add_191, add_191);
+		float3 div_199 = normalize_173 / combine_195;
+		float4 combine_208 = float4(div_199.x, div_199.x, div_199.x, div_199.x);
+		float4 mul_217 = sample_167 * combine_208;
+		float2 combine_140 = float2(Gfx_WorldSpacePos.x, Gfx_WorldSpacePos.z);
+		float2 mul_157 = combine_140 * customData.myTiling;
+		float4 sample_163 = MR_Sample(TriplanarBase, mul_157);
+		float4 combine_209 = float4(div_199.y, div_199.y, div_199.y, div_199.y);
+		float4 mul_218 = sample_163 * combine_209;
+		float4 add_223 = mul_217 + mul_218;
+		float2 combine_141 = float2(Gfx_WorldSpacePos.x, Gfx_WorldSpacePos.y);
+		float2 mul_158 = combine_141 * customData.myTiling;
+		float4 sample_165 = MR_Sample(TriplanarBase, mul_158);
+		float4 combine_210 = float4(div_199.z, div_199.z, div_199.z, div_199.z);
+		float4 mul_219 = sample_165 * combine_210;
+		float4 add_224 = add_223 + mul_219;
+		float4 mul_228 = add_224 * Gfx_Color;
+		float4 saturate_231 = saturate(mul_228);
+		float remap_236 = float(0) + saturate((saturate_231.x - float(0)) / (float(1) - float(0))) * (customData.myTriplanarBaseStrength - float(0));
+		float4 smear_238 = float4(remap_236, remap_236, remap_236, remap_236);
+		float4 sub_240 = sample_151 - smear_238;
+		if (sub_240.w < Gfx_AlphaRef) discard;
+		float4 depthResult = float4(Gfx_CameraSpacePos.z, 0, 0, sub_240.w);
+		colorOut = depthResult;
+	}
+}

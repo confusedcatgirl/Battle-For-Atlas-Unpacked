@@ -1,0 +1,27 @@
+<keywords = { "LIGHT_FROM_GROUND", "IS_MAIN_PLANET", "GFX_SHADOW_SHADER", }, >
+import "shaders/nodes/shader/functions/dither.h"
+pixel
+{
+	MR_Sampler2D BaseColor : MR_Texture0 {
+		texture = "onward/baked/textures/default_b.dds",
+	} <label = "Base Color", pinId = 102>;
+	struct CustomData {
+		float myEmissionIntensity <default = 0, label = "Emission Intensity", pinId = 113>;
+	};
+	main(CustomData customData : Gfx_CustomData, out float4 colorOut : MR_Color0, 
+		float2 Gfx_UV : Gfx_UV0, float2 Gfx_UV1 : Gfx_UV1, 
+		float4 MR_FragCoord : MR_FragCoord, float Gfx_AlphaRef : Gfx_AlphaRef0)
+	{
+		float4 sample_119 = MR_Sample(BaseColor, Gfx_UV);
+		float2 combine_105 = float2(Gfx_UV1.y, Gfx_UV.y);
+		float4 sample_125 = MR_Sample(BaseColor, combine_105);
+		float smoothStep_106 = smoothstep(float(0.25), float(0.75), Gfx_UV1.x);
+		float Dither_107 = Dither(smoothStep_106, MR_FragCoord);
+		float4 smear_108 = float4(Dither_107, Dither_107, Dither_107, Dither_107);
+		float4 lerp_132 = lerp(sample_119, sample_125, smear_108);
+		float Dither_139 = Dither(lerp_132.w, MR_FragCoord);
+		if (Dither_139 < Gfx_AlphaRef) discard;
+		float4 shadowResult = float4(0.0, 0.0, 0.0, Dither_139);
+		colorOut = shadowResult;
+	}
+}

@@ -1,0 +1,88 @@
+<emission = true, shaderType = "Object", keywords = { "GFX_FORWARD_SHADER", }, >
+import "shaders/modules/graphics/environment.h"
+import "shaders/nodes/shader/functions/direction to latlong uv.h"
+import "shaders/MRender/MR_ViewConstants.h"
+blend {
+	src = 1,
+	dest = 1,
+}
+pixel
+{
+	MR_Sampler2D GradientTexture : MR_Texture0 <label = "Gradient Texture", pinId = 101>;
+	MR_Sampler2D TextureOne : MR_Texture1 {
+		wrap = repeat repeat clamp,
+	} <label = "Texture One", pinId = 138>;
+	MR_Sampler2D TextureTwo : MR_Texture2 <label = "Texture Two", pinId = 146>;
+	struct CustomData {
+		float myIntensity <default = 1, label = "Intensity", pinId = 118>;
+		float myGradientRotation <default = 0, label = "Gradient Rotation", pinId = 147>;
+		float myGradientSpeed <default = 0, label = "Gradient Speed", pinId = 152>;
+		float3 myNormal <default = 0 0 0, label = "Normal", pinId = 153>;
+		float myFresnelPower <default = 0, label = "Fresnel Power", pinId = 150>;
+		float myFresnelInvert <default = 0, label = "Fresnel Invert", pinId = 151>;
+		float myTextureOneSpeed <default = 0, label = "Texture One Speed", pinId = 155>;
+		float4 myTextureOnePower <default = 0 0 0 0, label = "Texture One Power", pinId = 156>;
+		float myFresnelBottomRangeClamp <default = 0, label = "Fresnel Bottom Range Clamp", pinId = 157>;
+		float myTextureOneXOffset <default = 0, label = "Texture One X Offset", pinId = 158>;
+		float myAlpha <default = 1, label = "Alpha", pinId = 160>;
+		float myOutterFresnel <default = 0, label = "Outter Fresnel", pinId = 161>;
+		float myUseUnscaledGameTime <default = 0, label = "Use Unscaled Game Time", pinId = 162>;
+		float myUnscaledGameTime <default = 0, label = "Unscaled Game Time", pinId = 163>;
+	};
+	main(out float4 colorOut : MR_Color0, CustomData customData : Gfx_CustomData0, 
+		float2 Gfx_UV : Gfx_UV0, float3 Gfx_WorldSpacePos : Gfx_WorldSpacePos0, 
+		float3 Gfx_WorldSpaceNormal : Gfx_WorldSpaceNormal0)
+	{
+		float4 smear_76 = float4(customData.myIntensity, customData.myIntensity, customData.myIntensity, customData.myIntensity);
+		float lerp_84 = lerp(Gfx_Environment.time, customData.myUnscaledGameTime, customData.myUseUnscaledGameTime);
+		float mul_89 = customData.myGradientSpeed * lerp_84;
+		float3 normalize_82 = normalize(customData.myNormal);
+		float2 DirectionToLatLongUV_88 = DirectionToLatLongUV(normalize_82);
+		float truncate_94 = float(DirectionToLatLongUV_88.x);
+		float add_95 = mul_89 + truncate_94;
+		float2 smear_97 = float2(add_95, add_95);
+		float degtorad_78 = customData.myGradientRotation * 0.0174532925f;
+		float sinAngle_85 = sin(degtorad_78);
+		float cosAngle_85 = cos(degtorad_78);
+		float2x2 rotMat_85 = { cosAngle_85, -sinAngle_85, sinAngle_85, cosAngle_85 };
+		float2 rot2d_85 = MR_Transform(rotMat_85, Gfx_UV);
+		float2 add_99 = smear_97 + rot2d_85;
+		float4 sample_101 = MR_Sample(GradientTexture, add_99);
+		float mul_90 = customData.myTextureOneSpeed * lerp_84;
+		float3 normalize_81 = normalize(customData.myNormal);
+		float2 DirectionToLatLongUV_87 = DirectionToLatLongUV(normalize_81);
+		float truncate_93 = float(DirectionToLatLongUV_87.x);
+		float add_96 = mul_90 + truncate_93;
+		float2 smear_98 = float2(add_96, add_96);
+		float add_91 = Gfx_UV.x + customData.myTextureOneXOffset;
+		float2 combine_92 = float2(add_91, Gfx_UV.y);
+		float2 add_100 = smear_98 + combine_92;
+		float4 sample_102 = MR_Sample(TextureOne, add_100);
+		float4 sample_86 = MR_Sample(TextureTwo, float2(0, 0));
+		float4 mul_103 = sample_102 * sample_86;
+		float4 pow_104 = pow(abs(mul_103), customData.myTextureOnePower);
+		float4 mul_105 = sample_101 * pow_104;
+		float4 transform_68 = MR_Transform(MR_ViewConstants.cameraToWorld, float4(0, 0, 0, 1));
+		float3 truncate_69 = float3(transform_68.xyz);
+		float3 sub_70 = truncate_69 - Gfx_WorldSpacePos;
+		float3 normalize_71 = normalize(sub_70);
+		float3 normalize_61 = normalize(Gfx_WorldSpaceNormal);
+		float dot_72 = dot(normalize_71, normalize_61);
+		float abs_73 = abs(dot_72);
+		float saturate_74 = saturate(abs_73);
+		float pow_107 = pow(abs(saturate_74), customData.myOutterFresnel);
+		float pow_106 = pow(abs(saturate_74), customData.myFresnelPower);
+		float sub_108 = customData.myFresnelInvert - pow_106;
+		float mul_109 = pow_107 * sub_108;
+		float abs_110 = abs(mul_109);
+		float remap_111 = customData.myFresnelBottomRangeClamp + saturate((abs_110 - float(0)) / (float(1) - float(0))) * (float(1) - customData.myFresnelBottomRangeClamp);
+		float4 smear_112 = float4(remap_111, remap_111, remap_111, remap_111);
+		float4 mul_113 = mul_105 * smear_112;
+		float4 mul_114 = smear_76 * mul_113;
+		float4 smear_83 = float4(customData.myAlpha, customData.myAlpha, customData.myAlpha, customData.myAlpha);
+		float4 mul_115 = mul_114 * smear_83;
+		float3 truncate_116 = float3(mul_115.xyz);
+		float4 result_118 = float4(truncate_116, 1);
+		colorOut = result_118;
+	}
+}

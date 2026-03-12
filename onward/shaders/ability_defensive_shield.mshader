@@ -1,0 +1,163 @@
+<emission = true, shaderType = "Object", keywords = { "GFX_FORWARD_SHADER", }, >
+import "shaders/MRender/MR_ViewConstants.h"
+import "shaders/modules/graphics/environment.h"
+blend {
+	src = 1,
+	dest = 1,
+}
+pixel
+{
+	MR_Sampler2D GradientTexture : MR_Texture0 <label = "Gradient Texture", pinId = 101>;
+	MR_Sampler2D FresnelNoise : MR_Texture1 <label = "Fresnel Noise", pinId = 162>;
+	MR_Sampler2D Texture : MR_Texture2 <pinId = 167>;
+	MR_Sampler2D Sampler_206 : MR_Texture3 {
+		texture = "onward/baked/textures/FX/_fx_debug_checkert.dds",
+	};
+	MR_Sampler2D Sampler_186 : MR_Texture4 {
+		texture = "onward/baked/textures/sun_noise_b.dds",
+	};
+	MR_Sampler2D Sampler_197 : MR_Texture5 {
+		texture = "onward/baked/textures/Effects/noise_16bit.dds",
+	};
+	struct CustomData {
+		float myIntensity <default = 1, label = "Intensity", pinId = 118>;
+		float myFresnelPower <default = 0, label = "Fresnel Power", pinId = 150>;
+		float myFresnelBottomRangeClamp <default = 0, label = "Fresnel Bottom Range Clamp", pinId = 157>;
+		float myAlpha <default = 1, label = "Alpha", pinId = 160>;
+		float2 myUVSpeed <default = 0 0, label = "UV Speed", pinId = 163>;
+		float myUseUnscaledGameTime <default = 0, label = "Use Unscaled Game Time", pinId = 165>;
+		float myUnscaledGameTime <default = 0, label = "Unscaled Game Time", pinId = 166>;
+		float myTime <default = 0, label = "Time", pinId = 168>;
+		float myMinY <default = 0, label = "Min Y", pinId = 169>;
+		float myMaxY <default = 0, label = "Max Y", pinId = 170>;
+		float myTransitionRange <default = 1, label = "Transition Range", pinId = 171>;
+		float myEmissionRange <default = 1, label = "Emission Range", pinId = 172>;
+		float myTransitionIntensity <default = 0, label = "Transition Intensity", pinId = 173>;
+	};
+	main(out float4 colorOut : MR_Color0, CustomData customData : Gfx_CustomData0, 
+		float3 Gfx_ModelSpacePos : Gfx_ModelSpacePos0, float2 Gfx_UV : Gfx_UV0, 
+		float3 Gfx_WorldSpacePos : Gfx_WorldSpacePos0, 
+		float3 Gfx_WorldSpaceNormal : Gfx_WorldSpaceNormal0)
+	{
+		float lerp_293 = lerp(customData.myMinY, customData.myMaxY, customData.myTime);
+		float sub_297 = lerp_293 - Gfx_ModelSpacePos.y;
+		float remap_299 = float(0) + saturate((sub_297 - float(1)) / (float(0) - float(1))) * (customData.myTransitionRange - float(0));
+		float2 combine_231 = float2(float(16), float(16));
+		float2 mul_243 = Gfx_UV * combine_231;
+		float4 sample_248 = MR_Sample(Sampler_206, mul_243);
+		float mul_304 = remap_299 * sample_248.x;
+		float add_307 = mul_304 + sub_297;
+		float clamp_315 = clamp(ceil(add_307), float(0), float(1));
+		float3 smear_319 = float3(clamp_315, clamp_315, clamp_315);
+		float3 smear_286 = float3(customData.myIntensity, customData.myIntensity, customData.myIntensity);
+		float4 transform_219 = MR_Transform(MR_ViewConstants.cameraToWorld, float4(0, 0, 0, 1));
+		float3 truncate_232 = float3(transform_219.xyz);
+		float3 sub_244 = truncate_232 - Gfx_WorldSpacePos;
+		float3 normalize_249 = normalize(sub_244);
+		float3 normalize_153 = normalize(Gfx_WorldSpaceNormal);
+		float dot_254 = dot(normalize_249, normalize_153);
+		float abs_258 = abs(dot_254);
+		float saturate_262 = saturate(abs_258);
+		float pow_313 = pow(abs(saturate_262), customData.myFresnelPower);
+		float abs_317 = abs(pow_313);
+		float remap_321 = customData.myFresnelBottomRangeClamp + saturate((abs_317 - float(0)) / (float(1) - float(0))) * (float(1) - customData.myFresnelBottomRangeClamp);
+		float2 combine_324 = float2(remap_321, float(0.5));
+		float4 sample_327 = MR_Sample(GradientTexture, combine_324);
+		float3 truncate_329 = float3(sample_327.xyz);
+		float lerp_291 = lerp(Gfx_Environment.time, customData.myUnscaledGameTime, customData.myUseUnscaledGameTime);
+		float mul_294 = lerp_291 * customData.myUVSpeed.x;
+		float2 sub_220 = Gfx_UV - float2(0.5, 0.5);
+		float mul_296 = lerp_291 * float(0);
+		float add_298 = float(0) + mul_296;
+		float sinAngle_300 = sin(add_298);
+		float cosAngle_300 = cos(add_298);
+		float2x2 rotMat_300 = { cosAngle_300, -sinAngle_300, sinAngle_300, cosAngle_300 };
+		float2 rot2d_300 = MR_Transform(rotMat_300, sub_220);
+		float2 add_301 = rot2d_300 + float2(0.5, 0.5);
+		float2 mul_302 = add_301 * float2(1, 1);
+		float2 add_303 = mul_302 + float2(0, 0);
+		float add_309 = mul_294 + add_303.x;
+		float mul_295 = lerp_291 * customData.myUVSpeed.y;
+		float add_310 = mul_295 + add_303.y;
+		float2 combine_314 = float2(add_309, add_310);
+		float4 sample_318 = MR_Sample(FresnelNoise, combine_314);
+		float4 smear_325 = float4(sample_318.x, sample_318.x, sample_318.x, sample_318.x);
+		float4 mul_328 = float4(1, 1, 1, 1) * smear_325;
+		float lerp_224 = lerp(Gfx_Environment.time, float(0), float(0));
+		float mul_234 = lerp_224 * float2(0, 0).x;
+		float2 sub_222 = Gfx_UV - float2(0.5, 0.5);
+		float mul_236 = lerp_224 * float(0);
+		float add_245 = float(0) + mul_236;
+		float sinAngle_250 = sin(add_245);
+		float cosAngle_250 = cos(add_245);
+		float2x2 rotMat_250 = { cosAngle_250, -sinAngle_250, sinAngle_250, cosAngle_250 };
+		float2 rot2d_250 = MR_Transform(rotMat_250, sub_222);
+		float2 add_255 = rot2d_250 + float2(0.5, 0.5);
+		float2 mul_259 = add_255 * float2(1, 0.2);
+		float lerp_227 = lerp(Gfx_Environment.time, float(0), float(0));
+		float mul_237 = lerp_227 * float2(0.01, 0.5).x;
+		float2 sub_225 = Gfx_UV - float2(0.5, 0.5);
+		float mul_239 = lerp_227 * float(0);
+		float add_246 = float(0) + mul_239;
+		float sinAngle_251 = sin(add_246);
+		float cosAngle_251 = cos(add_246);
+		float2x2 rotMat_251 = { cosAngle_251, -sinAngle_251, sinAngle_251, cosAngle_251 };
+		float2 rot2d_251 = MR_Transform(rotMat_251, sub_225);
+		float2 add_256 = rot2d_251 + float2(0.5, 0.5);
+		float2 mul_260 = add_256 * float2(1, 4);
+		float2 add_263 = mul_260 + float2(0, 0);
+		float add_267 = mul_237 + add_263.x;
+		float mul_238 = lerp_227 * float2(0.01, 0.5).y;
+		float add_268 = mul_238 + add_263.y;
+		float2 combine_271 = float2(add_267, add_268);
+		float4 sample_273 = MR_Sample(Sampler_186, combine_271);
+		float2 smear_277 = float2(sample_273.x, sample_273.x);
+		float2 add_279 = mul_259 + smear_277;
+		float add_282 = mul_234 + add_279.x;
+		float mul_235 = lerp_224 * float2(0, 0).y;
+		float add_283 = mul_235 + add_279.y;
+		float2 combine_284 = float2(add_282, add_283);
+		float4 sample_330 = MR_Sample(Texture, combine_284);
+		float4 smear_332 = float4(sample_330.x, sample_330.x, sample_330.x, sample_330.x);
+		float4 mul_333 = smear_332 * float4(4, 4, 4, 1);
+		float4 add_334 = mul_328 + mul_333;
+		float lerp_230 = lerp(Gfx_Environment.time, float(0), float(0));
+		float mul_240 = lerp_230 * float2(0.25, 0.5).x;
+		float2 sub_228 = Gfx_UV - float2(0.5, 0.5);
+		float mul_242 = lerp_230 * float(0);
+		float add_247 = float(0) + mul_242;
+		float sinAngle_252 = sin(add_247);
+		float cosAngle_252 = cos(add_247);
+		float2x2 rotMat_252 = { cosAngle_252, -sinAngle_252, sinAngle_252, cosAngle_252 };
+		float2 rot2d_252 = MR_Transform(rotMat_252, sub_228);
+		float2 add_257 = rot2d_252 + float2(0.5, 0.5);
+		float2 mul_261 = add_257 * float2(1, 1);
+		float2 add_264 = mul_261 + float2(0, 0);
+		float add_269 = mul_240 + add_264.x;
+		float mul_241 = lerp_230 * float2(0.25, 0.5).y;
+		float add_270 = mul_241 + add_264.y;
+		float2 combine_272 = float2(add_269, add_270);
+		float4 sample_274 = MR_Sample(Sampler_197, combine_272);
+		float4 smear_278 = float4(sample_274.x, sample_274.x, sample_274.x, sample_274.x);
+		float4 mul_280 = smear_278 * float4(10, 10, 10, 1);
+		float4 mul_335 = add_334 * mul_280;
+		float4 mul_336 = sample_327 * mul_335;
+		float3 truncate_337 = float3(mul_336.xyz);
+		float3 add_338 = truncate_329 + truncate_337;
+		float remap_312 = float(1) + saturate((add_307 - float(0)) / (customData.myEmissionRange - float(0))) * (float(0) - float(1));
+		float4 smear_316 = float4(remap_312, remap_312, remap_312, remap_312);
+		float4 mul_320 = float4(0.0325032, 0.213716, 0.831396, 1) * smear_316;
+		float mul_305 = sample_248.y * customData.myTransitionIntensity;
+		float4 smear_308 = float4(mul_305, mul_305, mul_305, mul_305);
+		float4 mul_323 = mul_320 * smear_308;
+		float3 truncate_326 = float3(mul_323.xyz);
+		float3 add_339 = add_338 + truncate_326;
+		float3 mul_340 = smear_286 * add_339;
+		float3 mul_341 = smear_319 * mul_340;
+		float3 smear_288 = float3(customData.myAlpha, customData.myAlpha, customData.myAlpha);
+		float3 mul_342 = mul_341 * smear_288;
+		float3 add_343 = float3(0, 0, 0) + mul_342;
+		float4 result_344 = float4(add_343, 1);
+		colorOut = result_344;
+	}
+}

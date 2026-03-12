@@ -1,0 +1,39 @@
+<keywords = { "GFX_DEFERRED_SHADER", }, >
+import "shaders/modules/graphics/deferred_data.h"
+import "shaders/modules/graphics/normal_encode.h"
+pixel
+{
+	struct CustomData {
+		float3 myColor <config = { type = "ColorBox", }, default = 1 1 1, label = "Color", pinId = 102>;
+		float myIntensity <default = 15, label = "Intensity", pinId = 103>;
+		float myFresnelMin <default = -0.3, label = "Fresnel Min", pinId = 108>;
+		float myFresnelMax <default = 1, label = "Fresnel Max", pinId = 109>;
+		float myDepthFadePower <default = 2, label = "Depth Fade Power", pinId = 112>;
+		float myDepthFadeFactor <default = 0.01, label = "Depth Fade Factor", pinId = 113>;
+		float2 myCloudRemapping <default = 0 1, label = "Cloud Remapping", pinId = 122>;
+		float2 myLayer1Scroll <default = 1 1, label = "Layer1 Scroll", pinId = 126>;
+		float2 myLayer2Scroll <default = -1 -1, label = "Layer2 Scroll", pinId = 127>;
+		float myTextureDistiortion <config = { max = 1, min = 0, type = "Slider", }, default = 0, label = "Texture Distiortion", pinId = 128>;
+		float myTextureSoftness <default = 0.333, label = "Texture Softness", pinId = 129>;
+		float4 myDistortionZone1 <default = 0 0 0 0, label = "DistortionZone1", pinId = 130>;
+		float4 myDistortionZone2 <default = 0 0 0 0, label = "DistortionZone2", pinId = 131>;
+		float4 myDistortionZone3 <default = 0 0 0 0, label = "DistortionZone3", pinId = 132>;
+		float myDistortionPower <default = 8, label = "Distortion Power", pinId = 133>;
+		float3 myDistortedColor <default = 1 0 0, label = "Distorted Color", pinId = 137>;
+		float3 myDistortionRanges <default = 0.004 0.004 0.004, label = "Distortion Ranges", pinId = 138>;
+	};
+	main(bool MR_IsFrontFace : MR_IsFrontFace, 
+		out Gfx_DeferredData deferredOut : Gfx_Deferred, 
+		CustomData customData : Gfx_CustomData, 
+		float3 Gfx_WorldSpaceNormal : Gfx_WorldSpaceNormal0)
+	{
+		deferredOut.color = float3(0.005, 0.05, 0.8);
+		deferredOut.roughness = float(0);
+		deferredOut.metalness = float(0);
+		deferredOut.ao = float(1);
+		float3 flippedNormal = Gfx_WorldSpaceNormal;
+		if (!MR_IsFrontFace)
+		    flippedNormal = -flippedNormal;
+		deferredOut.worldNormal = flippedNormal;
+	}
+}

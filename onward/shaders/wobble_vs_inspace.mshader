@@ -1,0 +1,33 @@
+<shaderType = "Vertex">
+import "shaders/modules/graphics/environment.h"
+vertex
+{
+	struct CustomData {
+		float myIntensity <default = 0.03, label = "Intensity", pinId = 101>;
+		float mySpeed <default = 5, label = "Speed", pinId = 102>;
+		float myFrequency <default = 15, label = "Frequency", pinId = 103>;
+		float myNewNormalLerp <config = { max = 1, min = 0, type = "Slider", }, default = 0, label = "New Normal Lerp", pinId = 104>;
+	};
+	void ModelSpaceModifier(inout float3 Gfx_ModelSpacePos : Gfx_ModelSpacePos, 
+		CustomData customData : Gfx_CustomData0)
+	{
+		float3 smear_8 = float3(customData.myFrequency, customData.myFrequency, customData.myFrequency);
+		float3 mul_9 = Gfx_ModelSpacePos * smear_8;
+		float mul_7 = Gfx_Environment.time * customData.mySpeed;
+		float mul_10 = mul_7 * float(0.9);
+		float add_12 = mul_9.y + mul_10;
+		float sin_14 = sin(add_12);
+		float add_13 = mul_7 + mul_9.x;
+		float sin_15 = sin(add_13);
+		float3 combine_16 = float3(sin_14, sin_15, sin_14);
+		float3 smear_6 = float3(customData.myIntensity, customData.myIntensity, customData.myIntensity);
+		float3 mul_17 = combine_16 * smear_6;
+		float3 add_18 = mul_17 + Gfx_ModelSpacePos;
+		Gfx_ModelSpacePos = add_18;
+	}
+	main(CustomData customData : Gfx_CustomData0, 
+		inout float3 Gfx_ModelSpacePos : Gfx_ModelSpacePos <modifier = "ModelSpaceModifier">)
+	{
+		// dummy comment so the shader writer does save this out
+	}
+}

@@ -1,0 +1,79 @@
+<keywords = { "GFX_DEFERRED_SHADER", }, >
+import "shaders/modules/graphics/deferred_data.h"
+import "shaders/modules/graphics/normal_encode.h"
+import "shaders/nodes/shader/functions/getplanetposition.h"
+import "shaders/modules/graphics/environment.h"
+pixel
+{
+	MR_Sampler2D Texture : MR_Texture0 <pinId = 101>;
+	struct CustomData {
+		float myIntensity <default = 0, label = "Intensity", pinId = 102>;
+		float4 myColor <default = 0 0 0 0, label = "Color", pinId = 103>;
+		float myshimmerspeed <default = 0.01, label = "shimmer speed", pinId = 106>;
+		float myshimmer <default = 0, label = "shimmer", pinId = 107>;
+	};
+	main(bool MR_IsFrontFace : MR_IsFrontFace, 
+		out Gfx_DeferredData deferredOut : Gfx_Deferred <emission = true,>, 
+		float2 Gfx_UV : Gfx_UV0, 
+		float3x4 Gfx_ObjectToWorldMatrix : Gfx_ObjectToWorldMatrix0, 
+		CustomData customData : Gfx_CustomData0, float2 Gfx_UV1 : Gfx_UV1, 
+		float3 Gfx_WorldSpaceNormal : Gfx_WorldSpaceNormal0)
+	{
+		deferredOut.color = float3(0, 0, 0);
+		float2 mul_90 = Gfx_UV * float2(2, 2);
+		float2 sub_91 = mul_90 - float2(1, 1);
+		float3 GetPlanetPosition_59 = GetPlanetPosition();
+		float3 transform_95 = MR_Transform(Gfx_ObjectToWorldMatrix, float3(0, 0, 0));
+		float3 sub_97 = GetPlanetPosition_59 - transform_95;
+		float length_99 = length(sub_97);
+		float mod_93 = fmod(Gfx_Environment.time, float(1));
+		float mod_94 = fmod(Gfx_Environment.time, float(0.2));
+		float mul_96 = mod_93 * mod_94;
+		float sin_98 = sin(mul_96);
+		float add_101 = sin_98 + float(1);
+		float mul_104 = add_101 * float(0.5);
+		float mul_106 = mul_104 * float(20);
+		float add_108 = length_99 + mul_106;
+		float mul_114 = add_108 * customData.myshimmerspeed;
+		float mod_116 = fmod(mul_114, float(1));
+		float mul_118 = mod_116 * float(6.28319);
+		float sin_119 = sin(mul_118);
+		float add_120 = sin_119 + float(1);
+		float mul_121 = add_120 * float(0.5);
+		float add_102 = sub_97.x + float(234234);
+		float add_103 = sub_97.y + float(488);
+		float add_105 = add_102 + add_103;
+		float add_107 = add_105 + sub_97.z;
+		float abs_109 = abs(add_107);
+		float mul_115 = abs_109 * customData.myshimmerspeed;
+		float mod_117 = fmod(mul_115, float(1));
+		float mul_122 = mul_121 * mod_117;
+		float mul_125 = round(mul_122) * float(0.05);
+		float sub_127 = mul_125 - float(0.025);
+		float sinAngle_129 = sin(sub_127);
+		float cosAngle_129 = cos(sub_127);
+		float2x2 rotMat_129 = { cosAngle_129, -sinAngle_129, sinAngle_129, cosAngle_129 };
+		float2 rot2d_129 = MR_Transform(rotMat_129, sub_91);
+		float2 add_131 = rot2d_129 + float2(1, 1);
+		float2 mul_133 = add_131 * float2(0.5, 0.5);
+		float4 sample_134 = MR_Sample(Texture, mul_133);
+		float mul_124 = mul_122 * customData.myshimmer;
+		float sub_113 = float(1) - customData.myshimmer;
+		float add_126 = mul_124 + sub_113;
+		float mul_128 = customData.myIntensity * add_126;
+		float4 combine_130 = float4(mul_128, mul_128, mul_128, mul_128);
+		float4 mul_132 = customData.myColor * combine_130;
+		float4 mul_135 = sample_134 * mul_132;
+		float3 truncate_136 = float3(mul_135.xyz);
+		float3 smear_89 = float3(Gfx_UV1.x, Gfx_UV1.x, Gfx_UV1.x);
+		float3 mul_137 = truncate_136 * smear_89;
+		deferredOut.emission = mul_137;
+		deferredOut.roughness = float(0);
+		deferredOut.metalness = float(0);
+		deferredOut.ao = float(0);
+		float3 flippedNormal = Gfx_WorldSpaceNormal;
+		if (!MR_IsFrontFace)
+		    flippedNormal = -flippedNormal;
+		deferredOut.worldNormal = flippedNormal;
+	}
+}

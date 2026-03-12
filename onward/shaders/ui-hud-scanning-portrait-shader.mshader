@@ -1,0 +1,125 @@
+<shaderType = "UI", >
+import "shaders/modules/graphics/drawer/drawer.h"
+blend {
+	writeMask = rgba,
+	src = 1,
+	src.a = 0,
+}
+pixel
+{
+	MR_Sampler2D Sampler_85 : MR_Texture0;
+	struct CustomData {
+		float myScanProgress <default = 0, label = "Scan Progress", pinId = 101>;
+		float myTime <default = 0, label = "Time", pinId = 104>;
+	};
+	main(out float4 colorOut : MR_Color0, CustomData customData : Gfx_CustomData0, 
+		float2 Gfx_UV2 : Gfx_UV2, int UI_RenderType : UI_RenderType1, 
+		float2 Gfx_UV : Gfx_UV0, float4 Gfx_Color : Gfx_Color0)
+	{
+		float add_112 = customData.myTime + float(25);
+		float mul_119 = add_112 * float(2);
+		float sin_126 = sin(mul_119);
+		float2 smear_133 = float2(sin_126, sin_126);
+		float2 sub_101 = Gfx_UV2 - float2(0.5, 0.5);
+		float mul_113 = customData.myTime * float(-5.314);
+		float sinAngle_120 = sin(mul_113);
+		float cosAngle_120 = cos(mul_113);
+		float2x2 rotMat_120 = { cosAngle_120, -sinAngle_120, sinAngle_120, cosAngle_120 };
+		float2 rot2d_120 = MR_Transform(rotMat_120, sub_101);
+		float2 add_127 = rot2d_120 + float2(0.5, 0.5);
+		float2 add_134 = smear_133 + add_127;
+		float gradientVariable145;
+		gradientVariable145 = 0.000000;
+		gradientVariable145 = lerp(gradientVariable145, 1.445270, saturate((add_134.x - 0.000000) / 0.476739));
+		gradientVariable145 = lerp(gradientVariable145, 0.000000, saturate((add_134.x - 0.476739) / 0.523261));
+		float3 combine_150 = float3(float(0), gradientVariable145, gradientVariable145);
+		float3 mul_155 = combine_150 * float3(0, 1.2, 1.2);
+		float3 clamp_159 = clamp(mul_155, float3(0, 0.7, 0.7), float3(0, 1.5, 1.5));
+		float add_114 = customData.myTime + float(0.5);
+		float mul_121 = add_114 * float(2);
+		float sin_128 = sin(mul_121);
+		float2 smear_135 = float2(sin_128, sin_128);
+		float2 sub_102 = Gfx_UV2 - float2(0.5, 0.5);
+		float mul_115 = customData.myTime * float(5.314);
+		float sinAngle_122 = sin(mul_115);
+		float cosAngle_122 = cos(mul_115);
+		float2x2 rotMat_122 = { cosAngle_122, -sinAngle_122, sinAngle_122, cosAngle_122 };
+		float2 rot2d_122 = MR_Transform(rotMat_122, sub_102);
+		float2 add_129 = rot2d_122 + float2(0.5, 0.5);
+		float2 add_136 = smear_135 + add_129;
+		float gradientVariable146;
+		gradientVariable146 = 0.000000;
+		gradientVariable146 = lerp(gradientVariable146, 1.445270, saturate((add_136.x - 0.000000) / 0.476739));
+		gradientVariable146 = lerp(gradientVariable146, 0.000000, saturate((add_136.x - 0.476739) / 0.523261));
+		float3 combine_151 = float3(float(0), gradientVariable146, gradientVariable146);
+		float3 mul_156 = combine_151 * float3(0, 1.3, 1.3);
+		float3 clamp_160 = clamp(mul_156, float3(0, 0.7, 0.7), float3(0, 1.5, 1.5));
+		float4 sample_86 = GetColorInfo(Sampler_85, Gfx_UV, In.UI_RenderType);
+		float4 mul_87 = sample_86 * Gfx_Color;
+		float3 clamp_107 = clamp(mul_87.xyz, float3(0.3, 0.3, 0.3), float3(0.5, 0.5, 0.5));
+		float3 mul_109 = clamp_107 * float3(0, 2, 1.5);
+		float3 mul_163 = clamp_160 * mul_109;
+		float3 mul_165 = clamp_159 * mul_163;
+		float2 sub_105 = Gfx_UV2 - float2(0.5, 0.5);
+		float sinAngle_106 = sin(float(1.57));
+		float cosAngle_106 = cos(float(1.57));
+		float2x2 rotMat_106 = { cosAngle_106, -sinAngle_106, sinAngle_106, cosAngle_106 };
+		float2 rot2d_106 = MR_Transform(rotMat_106, sub_105);
+		float2 add_108 = rot2d_106 + float2(0.5, 0.5);
+		float mul_116 = customData.myTime * float(0.1);
+		float2 smear_123 = float2(mul_116, mul_116);
+		float2 add_130 = add_108 + smear_123;
+		float truncate_137 = float(add_130.x);
+		float mul_142 = truncate_137 * float(250);
+		float2 smear_147 = float2(mul_142, mul_142);
+		float sin_157 = sin(smear_147.x);
+		float mul_161 = mul_87.w * sin_157;
+		float add_117 = customData.myTime + float(1);
+		float mul_124 = add_117 * float(1);
+		float sin_131 = sin(mul_124);
+		float2 smear_138 = float2(sin_131, sin_131);
+		float2 add_143 = smear_138 + Gfx_UV2;
+		float gradientVariable153;
+		gradientVariable153 = 0.000000;
+		gradientVariable153 = lerp(gradientVariable153, 1.200620, saturate((add_143.y - 0.000000) / 0.118388));
+		gradientVariable153 = lerp(gradientVariable153, 0.001181, saturate((add_143.y - 0.118388) / 0.179166));
+		gradientVariable153 = lerp(gradientVariable153, 0.001906, saturate((add_143.y - 0.297554) / 0.011315));
+		gradientVariable153 = lerp(gradientVariable153, 1.200620, saturate((add_143.y - 0.308869) / 0.191131));
+		gradientVariable153 = lerp(gradientVariable153, -0.002361, saturate((add_143.y - 0.500000) / 0.197937));
+		gradientVariable153 = lerp(gradientVariable153, -0.003542, saturate((add_143.y - 0.697937) / 0.005713));
+		gradientVariable153 = lerp(gradientVariable153, 1.220810, saturate((add_143.y - 0.703650) / 0.146350));
+		gradientVariable153 = lerp(gradientVariable153, 0.000000, saturate((add_143.y - 0.850000) / 0.150000));
+		float add_118 = customData.myTime + float(0.5);
+		float mul_125 = add_118 * float(2);
+		float sin_132 = sin(mul_125);
+		float2 smear_139 = float2(sin_132, sin_132);
+		float2 add_144 = smear_139 + Gfx_UV2;
+		float gradientVariable154;
+		gradientVariable154 = 0.000000;
+		gradientVariable154 = lerp(gradientVariable154, 1.200620, saturate((add_144.x - 0.000000) / 0.118388));
+		gradientVariable154 = lerp(gradientVariable154, 0.001181, saturate((add_144.x - 0.118388) / 0.179166));
+		gradientVariable154 = lerp(gradientVariable154, 0.001906, saturate((add_144.x - 0.297554) / 0.011315));
+		gradientVariable154 = lerp(gradientVariable154, 1.200620, saturate((add_144.x - 0.308869) / 0.191131));
+		gradientVariable154 = lerp(gradientVariable154, -0.002361, saturate((add_144.x - 0.500000) / 0.197937));
+		gradientVariable154 = lerp(gradientVariable154, -0.003542, saturate((add_144.x - 0.697937) / 0.005713));
+		gradientVariable154 = lerp(gradientVariable154, 1.220810, saturate((add_144.x - 0.703650) / 0.146350));
+		gradientVariable154 = lerp(gradientVariable154, 0.000000, saturate((add_144.x - 0.850000) / 0.150000));
+		float add_158 = gradientVariable153 + gradientVariable154;
+		float mul_162 = mul_161 * add_158;
+		float add_164 = mul_161 + mul_162;
+		float mul_166 = add_164 * mul_87.y;
+		float4 combine_168 = float4(mul_165.x, mul_165.y, mul_165.z, mul_166);
+		#define Sampler_88 Sampler_85
+		#define MR_GL_FixTC_Sampler_88 MR_GL_FixTC_Sampler_85
+		#define MR_PS3_Sample_Sampler_88 MR_PS3_Sample_Sampler_85
+		#define MR_PS3_SampleLod_Sampler_88 MR_PS3_SampleLod_Sampler_85
+		#define MR_PS3_SampleLod0Cmp_Sampler_88 MR_PS3_SampleLod0Cmp_Sampler_85
+		float4 sample_89 = GetColorInfo(Sampler_88, Gfx_UV, In.UI_RenderType);
+		float4 mul_90 = sample_89 * Gfx_Color;
+		float4 smear_111 = float4(customData.myScanProgress, customData.myScanProgress, customData.myScanProgress, customData.myScanProgress);
+		float4 lerp_169 = lerp(combine_168, mul_90, smear_111);
+		float4 finalColor = vec4(0);
+		finalColor = BlendColor(lerp_169, float(0));
+		colorOut = finalColor;
+	}
+}

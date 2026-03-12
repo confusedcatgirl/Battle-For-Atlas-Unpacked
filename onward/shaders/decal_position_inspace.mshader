@@ -1,0 +1,14 @@
+<shaderType = "Vertex">
+vertex
+{
+	void ClipSpaceModifier(inout float4 Gfx_ClipPosition : Gfx_ClipPosition)
+	{
+		float4 combine_9 = float4(float(0), float(0), float(0.001), float(0));
+		float4 add_10 = Gfx_ClipPosition + combine_9;
+		Gfx_ClipPosition = add_10;
+	}
+	main(inout float4 Gfx_ClipPosition : Gfx_ClipPosition <modifier = "ClipSpaceModifier">)
+	{
+		// dummy comment so the shader writer does save this out
+	}
+}

@@ -1,0 +1,39 @@
+<shaderType = "UI", >
+import "shaders/modules/graphics/drawer/drawer.h"
+blend {
+	writeMask = rgba,
+	src = 1,
+	src.a = 0,
+}
+pixel
+{
+	MR_Sampler2D Sampler_24 : MR_Texture0 {
+		texture = "onward/baked/textures/UI/UI_minimap_hex_texture.dds",
+	};
+	struct CustomData {
+		float3 myVignetteColor <default = 0 0 0, label = "Vignette Color", pinId = 109>;
+		float myopacity <default = 1, label = "opacity", pinId = 105>;
+		float myGradientIntensity <default = 1, label = "Gradient Intensity", pinId = 107>;
+	};
+	float distance_circle(float2 UVs, float2 center)
+	{
+		float test = distance(UVs, center);
+		return test;
+	}
+	main(out float4 colorOut : MR_Color0, CustomData customData : Gfx_CustomData0, 
+		float2 Gfx_UV2 : Gfx_UV2, float2 Gfx_UV : Gfx_UV0)
+	{
+		float distance_circle_21 = distance_circle(Gfx_UV2, float2(0.5, 0.5));
+		float smoothStep_28 = smoothstep(float(0), float(0.9), distance_circle_21);
+		float2 mul_30 = Gfx_UV * float2(90, 45);
+		float4 sample_31 = MR_Sample(Sampler_24, mul_30);
+		float smoothStep_29 = smoothstep(float(0.5), float(1), distance_circle_21);
+		float mul_33 = sample_31.w * smoothStep_29;
+		float add_34 = smoothStep_28 + mul_33;
+		float mul_36 = add_34 * customData.myopacity;
+		float4 combine_37 = float4(customData.myVignetteColor, mul_36);
+		float4 finalColor = vec4(0);
+		finalColor = BlendColor(combine_37, float(0));
+		colorOut = finalColor;
+	}
+}

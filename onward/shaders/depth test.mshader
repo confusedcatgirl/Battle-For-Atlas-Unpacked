@@ -1,0 +1,31 @@
+<shaderType = "UI", >
+import "shaders/modules/graphics/drawer/drawer.h"
+import "shaders/nodes/shader/functions/depthbuffer.h"
+blend {
+	writeMask = rgba,
+	src = 1,
+	src.a = 0,
+}
+pixel
+{
+	MR_Sampler2D Texture : MR_Texture0 <pinId = 103>;
+	struct CustomData {
+		float myThreshold <default = 0, label = "Threshold", pinId = 101>;
+	};
+	main(out float4 colorOut : MR_Color0, int UI_RenderType : UI_RenderType1, 
+		float2 Gfx_UV : Gfx_UV0, float4 Gfx_Color : Gfx_Color0, 
+		CustomData customData : Gfx_CustomData0, float4 MR_FragCoord : MR_FragCoord, 
+		float UI_UserBig : UI_UserBig0)
+	{
+		float4 sample_24 = GetColorInfo(Texture, Gfx_UV, In.UI_RenderType);
+		float4 mul_25 = sample_24 * Gfx_Color;
+		float GetDepthbuffer_1 = GetDepthbuffer(MR_FragCoord);
+		float sub_18 = GetDepthbuffer_1 - UI_UserBig;
+		float step_26 = step(customData.myThreshold, sub_18);
+		float4 combine_27 = float4(float(1), float(1), float(1), step_26);
+		float4 mul_28 = mul_25 * combine_27;
+		float4 finalColor = vec4(0);
+		finalColor = BlendColor(mul_28, float(0));
+		colorOut = finalColor;
+	}
+}

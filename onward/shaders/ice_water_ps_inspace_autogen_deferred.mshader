@@ -1,0 +1,124 @@
+<keywords = { "NO_SSAO_COMBINE", "LIGHT_FROM_SPACE", "ISNT_MAIN_PLANET", "GFX_DEFERRED_SHADER", }, >
+import "shaders/modules/graphics/deferred_data.h"
+import "shaders/modules/graphics/normal_encode.h"
+import "shaders/nodes/shader/functions/onward/planet/ow_waterconstants.h"
+import "shaders/nodes/shader/functions/onward/ow_getterrainlowresradius.h"
+import "shaders/nodes/shader/functions/onward/planet/ow_waterdithering.h"
+import "shaders/nodes/shader/functions/unpack normal.h"
+pixel
+{
+	MR_Sampler2D Normal_LayerMask : MR_Texture0 {
+		texture = "onward/baked/textures/new_ice_crack_n.dds",
+	} <pinId = 109>;
+	MR_Sampler2D Ice_Mask : MR_Texture1 <pinId = 111>;
+	struct CustomData {
+		float3 myColor1 <config = { type = "ColorBox", }, default = 0 0 0, label = "Color 1", pinId = 101>;
+		float myAlpha1 <default = 1, label = "Alpha 1", pinId = 102>;
+		float3 myColor2 <config = { type = "ColorBox", }, default = 0 0 0, label = "Color 2", pinId = 105>;
+		float myAlpha2 <default = 0, label = "Alpha 2", pinId = 107>;
+		float3 myIceColor <config = { type = "ColorBox", }, default = 0 0 0, label = "Ice Color", pinId = 106>;
+		float2 myTiling <default = 1 1, label = "Tiling", pinId = 103>;
+		float myDepth <default = 0, label = "Depth", pinId = 104>;
+		float myTintDepth <default = 50, label = "Tint Depth", pinId = 110>;
+	};
+	main(bool MR_IsFrontFace : MR_IsFrontFace, 
+		out Gfx_DeferredData deferredOut : Gfx_Deferred, 
+		CustomData customData : Gfx_CustomData0, 
+		float3 Gfx_ModelSpacePos : Gfx_ModelSpacePos0, 
+		float3 Gfx_ModelSpaceNormal : Gfx_ModelSpaceNormal0, 
+		float3 Gfx_WorldSpacePos : Gfx_WorldSpacePos0, 
+		float4 MR_FragCoord : MR_FragCoord, float Gfx_AlphaRef : Gfx_AlphaRef0, 
+		float3 Gfx_WorldSpaceNormal : Gfx_WorldSpaceNormal0)
+	{
+		float aRadius_56;
+		OW_GetWaterConstants(aRadius_56);
+		float3 normalize_95 = normalize(Gfx_ModelSpacePos);
+		float OW_GetTerrainLowResRadius_112 = OW_GetTerrainLowResRadius(normalize_95);
+		float sub_116 = aRadius_56 - OW_GetTerrainLowResRadius_112;
+		float smoothStep_142 = smoothstep(float(0), customData.myTintDepth, sub_116);
+		float3 smear_148 = float3(smoothStep_142, smoothStep_142, smoothStep_142);
+		float3 lerp_154 = lerp(customData.myColor1, customData.myColor2, smear_148);
+		float2 combine_106 = float2(Gfx_ModelSpacePos.z, Gfx_ModelSpacePos.y);
+		float2 mul_135 = combine_106 * customData.myTiling;
+		float4 sample_141 = MR_Sample(Ice_Mask, mul_135);
+		float3 abs_83 = abs(Gfx_ModelSpaceNormal);
+		float3 combine_107 = float3(float(23.4554), float(23.4554), float(23.4554));
+		float3 pow_108 = pow(abs(abs_83), combine_107);
+		float3 normalize_115 = normalize(pow_108);
+		float add_118 = normalize_115.x + normalize_115.y;
+		float add_119 = add_118 + normalize_115.z;
+		float3 combine_120 = float3(add_119, add_119, add_119);
+		float3 div_121 = normalize_115 / combine_120;
+		float4 combine_127 = float4(div_121.x, div_121.x, div_121.x, div_121.x);
+		float4 mul_169 = sample_141 * combine_127;
+		float2 combine_104 = float2(Gfx_ModelSpacePos.x, Gfx_ModelSpacePos.z);
+		float2 mul_133 = combine_104 * customData.myTiling;
+		float4 sample_137 = MR_Sample(Ice_Mask, mul_133);
+		float4 combine_128 = float4(div_121.y, div_121.y, div_121.y, div_121.y);
+		float4 mul_170 = sample_137 * combine_128;
+		float4 add_174 = mul_169 + mul_170;
+		float2 combine_105 = float2(Gfx_ModelSpacePos.x, Gfx_ModelSpacePos.y);
+		float2 mul_134 = combine_105 * customData.myTiling;
+		float4 sample_139 = MR_Sample(Ice_Mask, mul_134);
+		float4 combine_129 = float4(div_121.z, div_121.z, div_121.z, div_121.z);
+		float4 mul_171 = sample_139 * combine_129;
+		float4 add_175 = add_174 + mul_171;
+		float smoothStep_144 = smoothstep(float(0), customData.myDepth, sub_116);
+		float mul_150 = smoothStep_144 * float(0.75);
+		float sub_179 = add_175.x - mul_150;
+		float mul_181 = sub_179 * float(2);
+		float saturate_183 = saturate(mul_181);
+		float3 smear_184 = float3(saturate_183, saturate_183, saturate_183);
+		float3 lerp_186 = lerp(lerp_154, customData.myIceColor, smear_184);
+		deferredOut.color = lerp_186;
+		float lerp_185 = lerp(float(0.075), float(0.75), saturate_183);
+		deferredOut.roughness = lerp_185;
+		deferredOut.metalness = float(0);
+		deferredOut.ao = float(1);
+		deferredOut.opacity = float(1);
+		float smoothStep_143 = smoothstep(float(0), customData.myDepth, sub_116);
+		float lerp_149 = lerp(customData.myAlpha1, customData.myAlpha2, smoothStep_143);
+		float saturate_155 = saturate(lerp_149);
+		float OW_WaterDithering_159 = OW_WaterDithering(saturate_155, Gfx_WorldSpacePos, MR_FragCoord);
+		if (OW_WaterDithering_159 < Gfx_AlphaRef) discard;
+		float4 combine_94 = float4(Gfx_WorldSpaceNormal, float(0));
+		float4x4 matrix_109 = MR_ColumnMatrix(float4(0, 0, 1, 0), float4(0, -1, 0, 0), combine_94, float4(0, 0, 0, 0));
+		float4 sample_140 = MR_Sample(Normal_LayerMask, mul_135);
+		float3 normal_147;
+		float ambientOcclusion_147;
+		UnpackNormalAndAO(sample_140, normal_147, ambientOcclusion_147);
+		float4 transform_153 = MR_Transform(matrix_109, normal_147);
+		float4 normalize_158 = normalize(transform_153);
+		float4 combine_165 = float4(normalize_158.x, normalize_158.y, normalize_158.z, ambientOcclusion_147);
+		float4 combine_124 = float4(div_121.x, div_121.x, div_121.x, div_121.x);
+		float4 mul_168 = combine_165 * combine_124;
+		float4x4 matrix_110 = MR_ColumnMatrix(float4(1, 0, 0, 0), float4(0, 0, -1, 0), combine_94, float4(0, 0, 0, 0));
+		float4 sample_136 = MR_Sample(Normal_LayerMask, mul_133);
+		float3 normal_145;
+		float ambientOcclusion_145;
+		UnpackNormalAndAO(sample_136, normal_145, ambientOcclusion_145);
+		float4 transform_151 = MR_Transform(matrix_110, normal_145);
+		float4 normalize_156 = normalize(transform_151);
+		float4 combine_163 = float4(normalize_156.x, normalize_156.y, normalize_156.z, ambientOcclusion_145);
+		float4 combine_125 = float4(div_121.y, div_121.y, div_121.y, div_121.y);
+		float4 mul_166 = combine_163 * combine_125;
+		float4 add_172 = mul_168 + mul_166;
+		float4x4 matrix_111 = MR_ColumnMatrix(float4(1, 0, 0, 0), float4(0, -1, 0, 0), combine_94, float4(0, 0, 0, 0));
+		float4 sample_138 = MR_Sample(Normal_LayerMask, mul_134);
+		float3 normal_146;
+		float ambientOcclusion_146;
+		UnpackNormalAndAO(sample_138, normal_146, ambientOcclusion_146);
+		float4 transform_152 = MR_Transform(matrix_111, normal_146);
+		float4 normalize_157 = normalize(transform_152);
+		float4 combine_164 = float4(normalize_157.x, normalize_157.y, normalize_157.z, ambientOcclusion_146);
+		float4 combine_126 = float4(div_121.z, div_121.z, div_121.z, div_121.z);
+		float4 mul_167 = combine_164 * combine_126;
+		float4 add_173 = add_172 + mul_167;
+		float3 combine_178 = float3(add_173.x, add_173.y, add_173.z);
+		float3 normalize_180 = normalize(combine_178);
+		float3 flippedNormal = normalize_180;
+		if (!MR_IsFrontFace)
+		    flippedNormal = -flippedNormal;
+		deferredOut.worldNormal = flippedNormal;
+	}
+}

@@ -1,0 +1,39 @@
+<shaderType = "Vertex">
+import "shaders/modules/graphics/environment.h"
+vertex
+{
+	MR_Sampler2D PositionMap : MR_Texture0 <label = "Position Map", pinId = 106>;
+	struct CustomData {
+		float myNumFrames <default = 16, label = "Num Frames", pinId = 105>;
+		float myBoundingMax <default = 1, label = "Bounding Max", pinId = 110>;
+		float myBoundingMin <default = 0, label = "Bounding Min", pinId = 111>;
+		float mySpeed <default = 1, label = "Speed", pinId = 102>;
+	};
+	void ModelSpaceModifier(inout float3 Gfx_ModelSpacePos : Gfx_ModelSpacePos, 
+		CustomData customData : Gfx_CustomData0, float2 Gfx_UV1 : Gfx_UV1)
+	{
+		float mul_22 = Gfx_Environment.time * customData.mySpeed;
+		float mul_27 = frac(mul_22) * customData.myNumFrames;
+		float div_29 = ceil(mul_27) / customData.myNumFrames;
+		float div_26 = float(1) / customData.myNumFrames;
+		float add_30 = div_29 + div_26;
+		float add_31 = Gfx_UV1.y + add_30;
+		float2 combine_32 = float2(Gfx_UV1.x, add_31);
+		float4 sample_33 = MR_SampleLod(PositionMap, combine_32, float(0));
+		float3 combine_35 = float3(sample_33.x, sample_33.y, sample_33.z);
+		float sub_20 = customData.myBoundingMax - customData.myBoundingMin;
+		float3 smear_24 = float3(sub_20, sub_20, sub_20);
+		float3 mul_36 = combine_35 * smear_24;
+		float3 smear_21 = float3(customData.myBoundingMin, customData.myBoundingMin, customData.myBoundingMin);
+		float3 add_37 = mul_36 + smear_21;
+		float mul_39 = add_37.x * float(-1);
+		float3 combine_40 = float3(mul_39, add_37.z, add_37.y);
+		float3 add_41 = Gfx_ModelSpacePos + combine_40;
+		Gfx_ModelSpacePos = add_41;
+	}
+	main(float2 Gfx_UV1 : Gfx_UV1, CustomData customData : Gfx_CustomData0, 
+		inout float3 Gfx_ModelSpacePos : Gfx_ModelSpacePos <modifier = "ModelSpaceModifier">)
+	{
+		// dummy comment so the shader writer does save this out
+	}
+}

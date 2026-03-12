@@ -1,0 +1,48 @@
+pixel
+{
+	MR_Sampler2D BaseColor : MR_Texture0 {
+		texture = "onward/baked/textures/default_b.dds",
+	} <label = "Base Color", pinId = 102>;
+	MR_Sampler2D Sampler_135 : MR_Texture9 {
+		texture = "onward/baked/textures/plasma_m.dds",
+	};
+	struct CustomData {
+		float myEmissionIntensity <default = 0, label = "Emission Intensity", pinId = 106>;
+		float myDissolve <config = { max = 1, min = 0, type = "Slider", }, default = 0, label = "Dissolve", pinId = 108>;
+		float myTemperature <config = { max = 1, min = -1, }, default = 0, label = "Temperature", pinId = 109>;
+		float myBlendTile <default = 0, label = "BlendTile", pinId = 116>;
+	};
+	main(out float4 colorOut : MR_Color0, CustomData customData : Gfx_CustomData0, 
+		float3 Gfx_ModelSpacePos : Gfx_ModelSpacePos0, 
+		float3 Gfx_ModelSpaceNormal : Gfx_ModelSpaceNormal0, float2 Gfx_UV : Gfx_UV0, 
+		float Gfx_AlphaRef : Gfx_AlphaRef0)
+	{
+		float mul_203 = customData.myDissolve * float(0.5);
+		float3 mul_137 = Gfx_ModelSpacePos * float3(0.5, 0.5, 0.5);
+		float2 combine_158 = float2(mul_137.x, mul_137.y);
+		float4 sample_163 = MR_Sample(Sampler_135, combine_158);
+		float2 combine_157 = float2(mul_137.x, mul_137.z);
+		float4 sample_162 = MR_Sample(Sampler_135, combine_157);
+		float dot_155 = dot(float3(0, 1, 0), Gfx_ModelSpaceNormal);
+		float abs_160 = abs(dot_155);
+		float smoothStep_165 = smoothstep(float(0.4), float(0.6), abs_160);
+		float4 smear_167 = float4(smoothStep_165, smoothStep_165, smoothStep_165, smoothStep_165);
+		float4 lerp_169 = lerp(sample_163, sample_162, smear_167);
+		float2 combine_159 = float2(mul_137.y, mul_137.z);
+		float4 sample_164 = MR_Sample(Sampler_135, combine_159);
+		float dot_156 = dot(float3(1, 0, 0), Gfx_ModelSpaceNormal);
+		float abs_161 = abs(dot_156);
+		float smoothStep_166 = smoothstep(float(0.4), float(0.6), abs_161);
+		float4 smear_168 = float4(smoothStep_166, smoothStep_166, smoothStep_166, smoothStep_166);
+		float4 lerp_170 = lerp(lerp_169, sample_164, smear_168);
+		float4 mul_171 = lerp_170 * float4(0.49, 0.49, 0.49, 0.49);
+		float truncate_172 = float(mul_171.x);
+		float add_254 = mul_203 + truncate_172;
+		float step_256 = step(float(0.5), add_254);
+		float4 sample_192 = MR_Sample(BaseColor, Gfx_UV);
+		float mul_258 = step_256 * sample_192.w;
+		if (mul_258 < Gfx_AlphaRef) discard;
+		float4 shadowResult = float4(0.0, 0.0, 0.0, mul_258);
+		colorOut = shadowResult;
+	}
+}

@@ -1,0 +1,14 @@
+<keywords = { "LIGHT_FROM_GROUND", "IS_MAIN_PLANET", "GFX_SHADOW_SHADER", }, >
+pixel
+{
+	struct CustomData {
+		float myEmissionIntensity <default = 0, label = "Emission Intensity", pinId = 106>;
+	};
+	main(CustomData customData : Gfx_CustomData, out float4 colorOut : MR_Color0, 
+		float Gfx_AlphaRef : Gfx_AlphaRef0)
+	{
+		if (float(1) < Gfx_AlphaRef) discard;
+		float4 shadowResult = float4(0.0, 0.0, 0.0, float(1));
+		colorOut = shadowResult;
+	}
+}

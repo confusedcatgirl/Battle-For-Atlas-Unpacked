@@ -1,0 +1,90 @@
+<shaderType = "Object", keywords = { "GFX_FORWARD_SHADER", }, >
+blend {
+	src = 1,
+	dest = 1,
+}
+pixel
+{
+	MR_Sampler2D Texture : MR_Texture0 <pinId = 101>;
+	MR_Sampler2D GradientOverlay : MR_Texture1 {
+		wrap = clamp,
+	} <label = "Gradient Overlay", pinId = 110>;
+	struct CustomData {
+		float2 mySize <default = 1 1, label = "Size", pinId = 106>;
+		float mySelector <default = 0, label = "Selector", pinId = 107>;
+		float myIntensity <default = 1, label = "Intensity", pinId = 108>;
+		float myErosion <default = 0, label = "Erosion", pinId = 112>;
+		float2 myUVTiling <default = 1 1, label = "UV Tiling", pinId = 113>;
+	};
+	void textureAtlas(float2 Size, float Selector, float2 InstanceUV, out float2 NewUV1, 
+		out float2 NewUV2, out float Blend1, out float Blend2, float aFlipU, 
+		float aFlipV, float aSwapUV, bool aLooping)
+	{
+		if (aFlipU > 0)
+		   InstanceUV.x = 1-InstanceUV.x;
+		 if (aFlipV > 0)
+		   InstanceUV.y = 1-InstanceUV.y;
+		 if (aSwapUV > 0)
+		 {
+		   float t = InstanceUV.x;
+		   InstanceUV.x = InstanceUV.y;
+		   InstanceUV.y = t;
+		 }
+		 float width = Size.x;
+		 float height = Size.y;
+		 float area = width * height;
+		 float findex;
+		 if (aLooping)
+		 {
+		   float sel = frac(Selector);
+		   findex = area * sel;
+		 }
+		 else
+		 {
+		   findex = ((Selector * (area+1)) - 1);
+		 }
+		 float index1 = floor(findex);
+		 float index2 = index1 + 1;
+		 float row1 = floor(index1 / width);
+		 float row2 = floor(index2 / width);
+		 float col1 = index1 - row1 * width;
+		 float col2 = index2 - row2 * width;
+		 float2 gridPos1 = float2(col1, row1);
+		 float2 gridPos2 = float2(col2, row2);
+		 NewUV1 = (gridPos1 + InstanceUV) / Size;
+		 NewUV2 = (gridPos2 + InstanceUV) / Size;
+		 Blend2 = findex - index1;
+		 Blend1 = 1.0 - Blend2;
+		 if (!aLooping)
+		 {
+		   if (index1 < 0 || index1 >= area) Blend1 = 0;
+		   if (index2 < 0 || index2 >= area) Blend2 = 0;
+		 }
+	}
+	main(out float4 colorOut : MR_Color0, CustomData customData : Gfx_CustomData0, 
+		float2 Gfx_UV : Gfx_UV0, float Gfx_AlphaRef : Gfx_AlphaRef0)
+	{
+		float mul_66 = customData.mySize.x * customData.mySize.y;
+		float div_67 = customData.mySelector / mul_66;
+		float2 NewUV1_68;
+		float2 NewUV2_68;
+		float Blend1_68;
+		float Blend2_68;
+		textureAtlas(customData.mySize, div_67, Gfx_UV, NewUV1_68, NewUV2_68, Blend1_68, Blend2_68, float(0), float(0), float(0), true);
+		float2 mul_69 = NewUV1_68 * customData.myUVTiling;
+		float4 sample_70 = MR_Sample(Texture, mul_69);
+		float2 combine_72 = float2(sample_70.x, float(0.5));
+		float4 sample_74 = MR_Sample(GradientOverlay, combine_72);
+		float3 combine_78 = float3(sample_74.x, sample_74.y, sample_74.z);
+		float3 smear_73 = float3(sample_70.x, sample_70.x, sample_70.x);
+		float3 smear_65 = float3(customData.myErosion, customData.myErosion, customData.myErosion);
+		float3 sub_75 = smear_73 - smear_65;
+		float3 clamp_77 = clamp(sub_75, float3(0, 0, 0), float3(1, 1, 1));
+		float3 mul_79 = combine_78 * clamp_77;
+		float3 smear_63 = float3(customData.myIntensity, customData.myIntensity, customData.myIntensity);
+		float3 mul_80 = mul_79 * smear_63;
+		if (float(1) < Gfx_AlphaRef) discard;
+		float4 result_81 = float4(mul_80, float(1));
+		colorOut = result_81;
+	}
+}

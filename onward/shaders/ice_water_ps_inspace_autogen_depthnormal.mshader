@@ -1,0 +1,36 @@
+<keywords = { "NO_SSAO_COMBINE", "LIGHT_FROM_SPACE", "ISNT_MAIN_PLANET", "GFX_DEPTH_SHADER", }, >
+import "shaders/nodes/shader/functions/onward/planet/ow_waterconstants.h"
+import "shaders/nodes/shader/functions/onward/ow_getterrainlowresradius.h"
+import "shaders/nodes/shader/functions/onward/planet/ow_waterdithering.h"
+pixel
+{
+	struct CustomData {
+		float3 myColor1 <config = { type = "ColorBox", }, default = 0 0 0, label = "Color 1", pinId = 101>;
+		float myAlpha1 <default = 1, label = "Alpha 1", pinId = 102>;
+		float3 myColor2 <config = { type = "ColorBox", }, default = 0 0 0, label = "Color 2", pinId = 105>;
+		float myAlpha2 <default = 0, label = "Alpha 2", pinId = 107>;
+		float3 myIceColor <config = { type = "ColorBox", }, default = 0 0 0, label = "Ice Color", pinId = 106>;
+		float2 myTiling <default = 1 1, label = "Tiling", pinId = 103>;
+		float myDepth <default = 0, label = "Depth", pinId = 104>;
+		float myTintDepth <default = 50, label = "Tint Depth", pinId = 110>;
+	};
+	main(out float4 colorOut : MR_Color0, CustomData customData : Gfx_CustomData0, 
+		float3 Gfx_ModelSpacePos : Gfx_ModelSpacePos0, 
+		float3 Gfx_WorldSpacePos : Gfx_WorldSpacePos0, 
+		float4 MR_FragCoord : MR_FragCoord, float Gfx_AlphaRef : Gfx_AlphaRef0, 
+		float3 Gfx_CameraSpacePos : Gfx_CameraSpacePos0)
+	{
+		float aRadius_56;
+		OW_GetWaterConstants(aRadius_56);
+		float3 normalize_95 = normalize(Gfx_ModelSpacePos);
+		float OW_GetTerrainLowResRadius_112 = OW_GetTerrainLowResRadius(normalize_95);
+		float sub_116 = aRadius_56 - OW_GetTerrainLowResRadius_112;
+		float smoothStep_143 = smoothstep(float(0), customData.myDepth, sub_116);
+		float lerp_149 = lerp(customData.myAlpha1, customData.myAlpha2, smoothStep_143);
+		float saturate_155 = saturate(lerp_149);
+		float OW_WaterDithering_159 = OW_WaterDithering(saturate_155, Gfx_WorldSpacePos, MR_FragCoord);
+		if (OW_WaterDithering_159 < Gfx_AlphaRef) discard;
+		float4 depthResult = float4(Gfx_CameraSpacePos.z, 0, 0, OW_WaterDithering_159);
+		colorOut = depthResult;
+	}
+}

@@ -1,0 +1,33 @@
+<shaderType = "UI", >
+import "shaders/modules/graphics/drawer/drawer.h"
+blend {
+	writeMask = rgba,
+	src = 1,
+	src.a = 0,
+}
+pixel
+{
+	MR_Sampler2D Texture : MR_Texture0 <pinId = 101>;
+	struct CustomData {
+		float4 myColour <default = 0 0 0 0, label = "Colour", pinId = 102>;
+		float myFadePoint <default = 0, label = "Fade Point", pinId = 103>;
+	};
+	main(out float4 colorOut : MR_Color0, CustomData customData : Gfx_CustomData0, 
+		int UI_RenderType : UI_RenderType1, float2 Gfx_UV : Gfx_UV0, 
+		float4 Gfx_Color : Gfx_Color0)
+	{
+		float4 sample_27 = GetColorInfo(Texture, Gfx_UV, In.UI_RenderType);
+		float4 mul_28 = sample_27 * Gfx_Color;
+		float4 smear_33 = float4(mul_28.w, mul_28.w, mul_28.w, mul_28.w);
+		float4 mul_35 = customData.myColour * smear_33;
+		float step_29 = step(Gfx_UV.y, customData.myFadePoint);
+		float remap_30 = float(1) + saturate((Gfx_UV.y - customData.myFadePoint) / (float(1) - customData.myFadePoint)) * (float(0) - float(1));
+		float add_32 = step_29 + remap_30;
+		float clamp_34 = clamp(add_32, float(0), float(1));
+		float4 smear_36 = float4(clamp_34, clamp_34, clamp_34, clamp_34);
+		float4 lerp_37 = lerp(mul_35, mul_28, smear_36);
+		float4 finalColor = vec4(0);
+		finalColor = BlendColor(lerp_37, float(0));
+		colorOut = finalColor;
+	}
+}

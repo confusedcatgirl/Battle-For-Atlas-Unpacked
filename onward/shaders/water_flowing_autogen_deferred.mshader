@@ -1,0 +1,127 @@
+import "shaders/modules/graphics/deferred_data.h"
+import "shaders/modules/graphics/normal_encode.h"
+import "shaders/modules/graphics/environment.h"
+import "shaders/nodes/shader/functions/unpack normal.h"
+pixel
+{
+	MR_Sampler2D FlowMap : MR_Texture0 {
+		texture = "onward/baked/textures/default_n.dds",
+	} <label = "Flow Map", pinId = 103>;
+	MR_Sampler2D Sampler_77 : MR_Texture1 {
+		texture = "onward/baked/textures/water_n.dds",
+	};
+	struct CustomData {
+		float myTiling <default = 1, label = "Tiling", pinId = 108>;
+		float myTimeScale <default = 0.1, label = "Time Scale", pinId = 109>;
+	};
+	main(bool MR_IsFrontFace : MR_IsFrontFace, 
+		out Gfx_DeferredData deferredOut : Gfx_Deferred <emission = true,>, 
+		float2 Gfx_UV : Gfx_UV0, CustomData customData : Gfx_CustomData0, 
+		float Gfx_AlphaRef : Gfx_AlphaRef0, 
+		float3x3 Gfx_TangentToWorld : Gfx_TangentToWorld0)
+	{
+		float4 combine_127 = float4(float(0), float(0), float(0), float(1));
+		float3 truncate_129 = float3(combine_127.xyz);
+		deferredOut.color = truncate_129;
+		float3 truncate_130 = float3(combine_127.xyz);
+		deferredOut.emission = truncate_130;
+		float4 combine_126 = float4(float(0), float(0), float(0), float(0));
+		deferredOut.roughness = combine_126.y;
+		deferredOut.metalness = combine_126.x;
+		float4 sample_139 = MR_Sample(FlowMap, Gfx_UV);
+		float4 mul_148 = sample_139 * float4(2, 2, 1, 1);
+		float4 add_151 = mul_148 + float4(-1, -1, 0, 0);
+		float mul_184 = add_151.y * float(-1);
+		float2 combine_193 = float2(add_151.x, mul_184);
+		float mul_136 = Gfx_Environment.time * customData.myTimeScale;
+		float lerp_152 = lerp(float(-0.333), float(0.333), frac(mul_136));
+		float2 smear_170 = float2(lerp_152, lerp_152);
+		float2 mul_199 = combine_193 * smear_170;
+		float mul_135 = Gfx_Environment.time * customData.myTimeScale;
+		float2 combine_141 = float2(mul_135, mul_135);
+		float2 mul_165 = combine_141 * float2(0, -0.05);
+		float2 combine_134 = float2(customData.myTiling, customData.myTiling);
+		float2 mul_140 = combine_134 * Gfx_UV;
+		float2 add_180 = mul_165 + mul_140;
+		float2 add_205 = mul_199 + add_180;
+		float4 sample_211 = MR_Sample(Sampler_77, add_205);
+		float add_143 = mul_136 + float(0.5);
+		float lerp_181 = lerp(float(-0.333), float(0.333), frac(add_143));
+		float2 smear_190 = float2(lerp_181, lerp_181);
+		float2 mul_196 = combine_193 * smear_190;
+		float2 add_202 = mul_196 + add_180;
+		float4 sample_208 = MR_Sample(Sampler_77, add_202);
+		float sub_153 = frac(mul_136) - float(0.5);
+		float mul_154 = sub_153 * float(2);
+		float abs_171 = abs(mul_154);
+		float4 smear_185 = float4(abs_171, abs_171, abs_171, abs_171);
+		float4 lerp_214 = lerp(sample_211, sample_208, smear_185);
+		float3 normal_217;
+		float ambientOcclusion_217;
+		UnpackNormalAndAO(lerp_214, normal_217, ambientOcclusion_217);
+		deferredOut.ao = ambientOcclusion_217;
+		if (combine_127.w < Gfx_AlphaRef) discard;
+		float4 mul_150 = sample_139 * float4(2, 2, 1, 1);
+		float4 add_159 = mul_150 + float4(-1, -1, 0, 0);
+		float mul_188 = add_159.y * float(-1);
+		float2 combine_195 = float2(add_159.x, mul_188);
+		float mul_138 = Gfx_Environment.time * customData.myTimeScale;
+		float lerp_160 = lerp(float(-0.333), float(0.333), frac(mul_138));
+		float2 smear_176 = float2(lerp_160, lerp_160);
+		float2 mul_201 = combine_195 * smear_176;
+		float2 mul_123 = float2(0.05, 0.05) * float2(1, 1);
+		float2 mul_163 = combine_141 * mul_123;
+		float2 add_178 = mul_163 + mul_140;
+		float2 add_207 = mul_201 + add_178;
+		float4 sample_213 = MR_Sample(Sampler_77, add_207);
+		float add_147 = mul_138 + float(0.5);
+		float lerp_183 = lerp(float(-0.333), float(0.333), frac(add_147));
+		float2 smear_192 = float2(lerp_183, lerp_183);
+		float2 mul_198 = combine_195 * smear_192;
+		float2 add_204 = mul_198 + add_178;
+		float4 sample_210 = MR_Sample(Sampler_77, add_204);
+		float sub_161 = frac(mul_138) - float(0.5);
+		float mul_162 = sub_161 * float(2);
+		float abs_177 = abs(mul_162);
+		float4 smear_189 = float4(abs_177, abs_177, abs_177, abs_177);
+		float4 lerp_216 = lerp(sample_213, sample_210, smear_189);
+		float3 normal_219;
+		float ambientOcclusion_219;
+		UnpackNormalAndAO(lerp_216, normal_219, ambientOcclusion_219);
+		float4 mul_149 = sample_139 * float4(2, 2, 1, 1);
+		float4 add_155 = mul_149 + float4(-1, -1, 0, 0);
+		float mul_186 = add_155.y * float(-1);
+		float2 combine_194 = float2(add_155.x, mul_186);
+		float mul_137 = Gfx_Environment.time * customData.myTimeScale;
+		float lerp_156 = lerp(float(-0.333), float(0.333), frac(mul_137));
+		float2 smear_173 = float2(lerp_156, lerp_156);
+		float2 mul_200 = combine_194 * smear_173;
+		float2 mul_124 = float2(0.05, 0.05) * float2(-1, 1);
+		float2 mul_164 = combine_141 * mul_124;
+		float2 add_179 = mul_164 + mul_140;
+		float2 add_206 = mul_200 + add_179;
+		float4 sample_212 = MR_Sample(Sampler_77, add_206);
+		float add_145 = mul_137 + float(0.5);
+		float lerp_182 = lerp(float(-0.333), float(0.333), frac(add_145));
+		float2 smear_191 = float2(lerp_182, lerp_182);
+		float2 mul_197 = combine_194 * smear_191;
+		float2 add_203 = mul_197 + add_179;
+		float4 sample_209 = MR_Sample(Sampler_77, add_203);
+		float sub_157 = frac(mul_137) - float(0.5);
+		float mul_158 = sub_157 * float(2);
+		float abs_174 = abs(mul_158);
+		float4 smear_187 = float4(abs_174, abs_174, abs_174, abs_174);
+		float4 lerp_215 = lerp(sample_212, sample_209, smear_187);
+		float3 normal_218;
+		float ambientOcclusion_218;
+		UnpackNormalAndAO(lerp_215, normal_218, ambientOcclusion_218);
+		float3 add_220 = normal_219 + normal_218;
+		float3 add_221 = add_220 + normal_217;
+		float3 normalize_222 = normalize(add_221);
+		float3 transform_223 = MR_Transform(Gfx_TangentToWorld, normalize_222);
+		float3 flippedNormal = transform_223;
+		if (!MR_IsFrontFace)
+		    flippedNormal = -flippedNormal;
+		deferredOut.worldNormal = flippedNormal;
+	}
+}

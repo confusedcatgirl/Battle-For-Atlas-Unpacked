@@ -1,0 +1,96 @@
+<keywords = { "GFX_DEFERRED_SHADER", }, >
+import "shaders/modules/graphics/deferred_data.h"
+import "shaders/modules/graphics/normal_encode.h"
+import "shaders/nodes/shader/functions/unpack normal.h"
+pixel
+{
+	MR_Sampler2D BaseColor : MR_Texture0 {
+		texture = "onward/baked/textures/default_b.dds",
+	} <label = "Base Color", pinId = 102>;
+	MR_Sampler2D Normal : MR_Texture1 {
+		texture = "onward/baked/textures/default_n.dds",
+	} <pinId = 103>;
+	MR_Sampler2D Material : MR_Texture2 {
+		texture = "onward/baked/textures/default_m.dds",
+	} <pinId = 104>;
+	MR_Sampler2D Gradient1 : MR_Texture3 {
+		wrap = clamp,
+	} <label = "Gradient 1", pinId = 110>;
+	MR_Sampler2D Gradient2 : MR_Texture4 {
+		wrap = clamp,
+	} <label = "Gradient 2", pinId = 111>;
+	MR_Sampler2D Sampler_99 : MR_Texture5 {
+		texture = "onward/baked/textures/tiling_noise_cloud.dds",
+	};
+	struct CustomData {
+		float4 myColour <config = { type = "ColorBox", }, default = 1 1 1 1, label = "Colour", pinId = 107>;
+		float myEmissionIntensity <default = 1, label = "Emission Intensity", pinId = 108>;
+		float4 myEmissiveColor <config = { type = "ColorBox", }, default = 0 0 0 0, label = "Emissive Color", pinId = 109>;
+		float myCharging <default = 0, label = "Charging", pinId = 112>;
+		float myDissolve <default = 1, label = "Dissolve", pinId = 113>;
+		float3 myDissolveUV <default = 1 1 1, label = "Dissolve UV", pinId = 114>;
+	};
+	main(bool MR_IsFrontFace : MR_IsFrontFace, 
+		out Gfx_DeferredData deferredOut : Gfx_Deferred <emission = true,>, 
+		CustomData customData : Gfx_CustomData0, float2 Gfx_UV : Gfx_UV0, 
+		float3 Gfx_ModelSpacePos : Gfx_ModelSpacePos0, 
+		float3 Gfx_ModelSpaceNormal : Gfx_ModelSpaceNormal0, 
+		float Gfx_AlphaRef : Gfx_AlphaRef0, 
+		float3x3 Gfx_TangentToWorld : Gfx_TangentToWorld0)
+	{
+		float4 sample_124 = MR_Sample(BaseColor, Gfx_UV);
+		float4 mul_129 = customData.myColour * sample_124;
+		float3 combine_147 = float3(mul_129.x, mul_129.y, mul_129.z);
+		deferredOut.color = combine_147;
+		float3 smear_119 = float3(customData.myEmissionIntensity, customData.myEmissionIntensity, customData.myEmissionIntensity);
+		float4 combine_132 = float4(smear_119.x, smear_119.y, smear_119.z, float(1));
+		float4 sample_125 = MR_Sample(Material, Gfx_UV);
+		float2 combine_133 = float2(sample_125.z, float(0.5));
+		float4 sample_141 = MR_Sample(Gradient1, combine_133);
+		float3 combine_153 = float3(sample_141.x, sample_141.y, sample_141.z);
+		float2 combine_134 = float2(sample_125.z, float(0.5));
+		float4 sample_142 = MR_Sample(Gradient2, combine_134);
+		float3 combine_154 = float3(sample_142.x, sample_142.y, sample_142.z);
+		float3 smear_122 = float3(customData.myCharging, customData.myCharging, customData.myCharging);
+		float3 lerp_156 = lerp(combine_153, combine_154, smear_122);
+		float4 truncate_158 = float4(lerp_156.xyz, 1);
+		float4 mul_160 = combine_132 * truncate_158;
+		float3 combine_162 = float3(mul_160.x, mul_160.y, mul_160.z);
+		deferredOut.emission = combine_162;
+		deferredOut.roughness = sample_125.y;
+		deferredOut.metalness = sample_125.x;
+		float4 sample_126 = MR_Sample(Normal, Gfx_UV);
+		float3 normal_131;
+		float ambientOcclusion_131;
+		UnpackNormalAndAO(sample_126, normal_131, ambientOcclusion_131);
+		deferredOut.ao = ambientOcclusion_131;
+		float sub_135 = float(1) - customData.myDissolve;
+		float mul_143 = sub_135 * float(0.5);
+		float3 mul_123 = Gfx_ModelSpacePos * customData.myDissolveUV;
+		float2 combine_137 = float2(mul_123.x, mul_123.y);
+		float4 sample_145 = MR_Sample(Sampler_99, combine_137);
+		float2 combine_136 = float2(mul_123.x, mul_123.z);
+		float4 sample_144 = MR_Sample(Sampler_99, combine_136);
+		float dot_104 = dot(float3(0, 1, 0), Gfx_ModelSpaceNormal);
+		float abs_109 = abs(dot_104);
+		float smoothStep_111 = smoothstep(float(0.4), float(0.6), abs_109);
+		float4 smear_113 = float4(smoothStep_111, smoothStep_111, smoothStep_111, smoothStep_111);
+		float4 lerp_151 = lerp(sample_145, sample_144, smear_113);
+		float2 combine_138 = float2(mul_123.y, mul_123.z);
+		float4 sample_146 = MR_Sample(Sampler_99, combine_138);
+		float dot_105 = dot(float3(1, 0, 0), Gfx_ModelSpaceNormal);
+		float abs_110 = abs(dot_105);
+		float smoothStep_112 = smoothstep(float(0.4), float(0.6), abs_110);
+		float4 smear_114 = float4(smoothStep_112, smoothStep_112, smoothStep_112, smoothStep_112);
+		float4 lerp_152 = lerp(lerp_151, sample_146, smear_114);
+		float4 mul_155 = lerp_152 * float4(0.5, 0.5, 0.5, 0.5);
+		float truncate_157 = float(mul_155.x);
+		float add_159 = mul_143 + truncate_157;
+		if (add_159 < Gfx_AlphaRef) discard;
+		float3 transform_140 = MR_Transform(Gfx_TangentToWorld, normal_131);
+		float3 flippedNormal = transform_140;
+		if (!MR_IsFrontFace)
+		    flippedNormal = -flippedNormal;
+		deferredOut.worldNormal = flippedNormal;
+	}
+}

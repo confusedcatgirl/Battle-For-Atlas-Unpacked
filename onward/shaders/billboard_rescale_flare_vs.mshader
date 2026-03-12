@@ -1,0 +1,320 @@
+<shaderType = "Vertex">
+import "shaders/MRender/MR_ViewConstants.h"
+import "shaders/modules/graphics/environment.h"
+vertex
+{
+	import "shaders/modules/graphics/onworld/planet_flattening.h"
+	import "shaders/MRender/MR_ViewConstants.h"
+	import "shaders/MRender/MR_DepthBuffer.h"
+	struct CustomData {
+		float myStartRange <default = 0, label = "Start Range", pinId = 118>;
+		float myMidRange <default = 0, label = "Mid Range", pinId = 125>;
+		float myEndRange <default = 0, label = "End Range", pinId = 119>;
+		float myMinScale <default = 0, label = "Min Scale", pinId = 120>;
+		float myMidScale <default = 0, label = "Mid Scale", pinId = 124>;
+		float myMaxScale <default = 0, label = "Max Scale", pinId = 121>;
+		float myMinTestScale <default = 0, label = "Min Test Scale", pinId = 122>;
+		float myMaxTestScale <default = 0, label = "Max Test Scale", pinId = 123>;
+	};
+	float4x4 GetP()
+	{
+		return MR_ViewConstants.cameraToClip;
+	}
+	void OW_SFT_AFL(inout float3 aPosition)
+	{
+		OW_SFT_ApplyOld(aPosition);
+	}
+	float2 GetDepthbuffer(float2 aClipPos)
+	{
+		return MR_ClipToFramebufferUV (aClipPos);
+	}
+	float GetDepthbuffer2(float2 aUV)
+	{
+		return MR_SampleLod0(Depthbuffer, aUV).x;
+	}
+	void ClipSpaceModifier(inout float4 Gfx_ClipPosition : Gfx_ClipPosition, 
+		CustomData customData : Gfx_CustomData0, float2 Gfx_UV : Gfx_UV0, 
+		float3x4 Gfx_ObjectToWorldMatrix : Gfx_ObjectToWorldMatrix0)
+	{
+		float4x4 GetP_51 = GetP();
+		float3 transform_275 = MR_Transform(Gfx_ObjectToWorldMatrix, float3(0, 0, 0));
+		float3 aPosition_301 = transform_275;
+		OW_SFT_AFL(aPosition_301);
+		float4 combine_310 = float4(aPosition_301.x, aPosition_301.y, aPosition_301.z, float(1));
+		float4 transform_316 = MR_Transform(MR_ViewConstants.worldToCamera, combine_310);
+		float4 mul_321 = transform_316 * float4(0, 0, 1, 1);
+		float2 lerp_278 = lerp(float2(-0.5, -0.5), float2(0.5, 0.5), Gfx_UV);
+		float3 transform_276 = MR_Transform(Gfx_ObjectToWorldMatrix, float3(0, 0, 0));
+		float3 sub_302 = MR_ViewConstants.LODCameraPosition - transform_276;
+		float length_307 = length(sub_302);
+		float sub_384 = length_307 - customData.myStartRange;
+		float sub_383 = customData.myEndRange - customData.myStartRange;
+		float div_387 = sub_384 / sub_383;
+		float saturate_390 = saturate(div_387);
+		float lerp_394 = lerp(customData.myMinTestScale, customData.myMaxTestScale, saturate_390);
+		float2 smear_400 = float2(lerp_394, lerp_394);
+		float2 mul_415 = lerp_278 * smear_400;
+		float4 transform_324 = MR_Transform(GetP_51, transform_316);
+		float4 combine_281 = float4(float2(1, 1).x, float2(1, 1).y, float(0), float(0));
+		float4 lerp_332 = lerp(float4(0, 0, 0, 1), transform_324, combine_281);
+		float4 sub_342 = transform_324 - lerp_332;
+		float2 combine_357 = float2(sub_342.x, sub_342.y);
+		float length_365 = length(combine_357);
+		float2 smear_373 = float2(length_365, length_365);
+		float2 lerp_378 = lerp(float2(1, 1), smear_373, float2(0, 0));
+		float4 sub_341 = float4(0, 0, 0, 1) - lerp_332;
+		float2 combine_356 = float2(sub_341.x, sub_341.y);
+		float length_364 = length(combine_356);
+		float2 smear_372 = float2(length_364, length_364);
+		float2 lerp_377 = lerp(float2(1, 1), smear_372, float2(0, 0));
+		float2 mul_380 = lerp_378 * lerp_377;
+		float2 smear_343 = float2(transform_324.w, transform_324.w);
+		float2 lerp_350 = lerp(float2(1, 1), smear_343, float2(0, 0));
+		float2 mul_381 = mul_380 * lerp_350;
+		float remap_385 = float(0) + saturate((length_307 - customData.myStartRange) / (customData.myMidRange - customData.myStartRange)) * (float(1) - float(0));
+		float saturate_388 = saturate(remap_385);
+		float sub_392 = float(1) - saturate_388;
+		float mul_396 = customData.myMinScale * sub_392;
+		float remap_386 = float(0) + saturate((length_307 - customData.myEndRange) / (customData.myMidRange - customData.myEndRange)) * (float(1) - float(0));
+		float saturate_389 = saturate(remap_386);
+		float mul_391 = saturate_388 * saturate_389;
+		float mul_395 = customData.myMidScale * mul_391;
+		float add_408 = mul_396 + mul_395;
+		float sub_393 = float(1) - saturate_389;
+		float mul_397 = sub_393 * customData.myMaxScale;
+		float add_409 = add_408 + mul_397;
+		float mul_303 = transform_275.x * float(1.35);
+		float mul_304 = transform_275.z * float(2.57);
+		float add_308 = mul_303 + mul_304;
+		float add_311 = transform_275.y + add_308;
+		float add_317 = Gfx_Environment.time + add_311;
+		float sin_325 = sin(add_317);
+		float abs_334 = abs(sin_325);
+		float mul_410 = add_409 * abs_334;
+		float2 combine_429 = float2(mul_410, mul_410);
+		float2 mul_544 = mul_381 * combine_429;
+		float2 mul_562 = mul_544 * lerp_278;
+		float2 add_580 = mul_415 + mul_562;
+		float4 combine_617 = float4(add_580.x, add_580.y, float(0), float(0));
+		float4 add_637 = mul_321 + combine_617;
+		float4 transform_652 = MR_Transform(GetP_51, add_637);
+		float4 mul_322 = transform_316 * float4(1, 1, 0, 1);
+		float4 add_636 = mul_322 + combine_617;
+		float4 transform_651 = MR_Transform(GetP_51, add_636);
+		float4 lerp_660 = lerp(transform_652, transform_651, combine_281);
+		float4 combine_672 = float4(lerp_660.x, lerp_660.y, float(1), lerp_660.w);
+		float4 transform_323 = MR_Transform(GetP_51, transform_316);
+		float2 combine_339 = float2(transform_323.x, transform_323.y);
+		float2 smear_340 = float2(transform_323.w, transform_323.w);
+		float2 div_347 = combine_339 / smear_340;
+		float2 abs_355 = abs(div_347);
+		float2 step_363 = step(abs_355, float2(1, 1));
+		float mul_376 = step_363.x * step_363.y;
+		float2 combine_398 = float2(lerp_394, lerp_394);
+		float2 combine_279 = float2(float(0.5), float(0.5));
+		float2 mul_411 = combine_398 * combine_279;
+		float4 combine_446 = float4(mul_411.x, mul_411.y, float(0), float(0));
+		float4 add_462 = transform_316 + combine_446;
+		float4 transform_478 = MR_Transform(GetP_51, add_462);
+		float2 combine_511 = float2(transform_478.x, transform_478.y);
+		float2 smear_512 = float2(transform_478.w, transform_478.w);
+		float2 div_545 = combine_511 / smear_512;
+		float2 GetDepthbuffer_563 = GetDepthbuffer(div_545);
+		float GetDepthbuffer2_581 = GetDepthbuffer2(GetDepthbuffer_563);
+		float mul_399 = lerp_394 * float(0.8);
+		float add_599 = GetDepthbuffer2_581 + mul_399;
+		float step_618 = step(transform_478.w, add_599);
+		float2 combine_280 = float2(float(0.5), float(-0.5));
+		float2 mul_412 = combine_398 * combine_280;
+		float4 combine_447 = float4(mul_412.x, mul_412.y, float(0), float(0));
+		float4 add_463 = transform_316 + combine_447;
+		float4 transform_479 = MR_Transform(GetP_51, add_463);
+		float2 combine_513 = float2(transform_479.x, transform_479.y);
+		float2 smear_514 = float2(transform_479.w, transform_479.w);
+		float2 div_546 = combine_513 / smear_514;
+		float2 GetDepthbuffer_564 = GetDepthbuffer(div_546);
+		float GetDepthbuffer2_582 = GetDepthbuffer2(GetDepthbuffer_564);
+		float add_600 = GetDepthbuffer2_582 + mul_399;
+		float step_619 = step(transform_479.w, add_600);
+		float max_638 = max(step_618, step_619);
+		float2 combine_282 = float2(float(-0.5), float(0.5));
+		float2 mul_413 = combine_398 * combine_282;
+		float4 combine_448 = float4(mul_413.x, mul_413.y, float(0), float(0));
+		float4 add_464 = transform_316 + combine_448;
+		float4 transform_480 = MR_Transform(GetP_51, add_464);
+		float2 combine_515 = float2(transform_480.x, transform_480.y);
+		float2 smear_516 = float2(transform_480.w, transform_480.w);
+		float2 div_547 = combine_515 / smear_516;
+		float2 GetDepthbuffer_565 = GetDepthbuffer(div_547);
+		float GetDepthbuffer2_583 = GetDepthbuffer2(GetDepthbuffer_565);
+		float add_601 = GetDepthbuffer2_583 + mul_399;
+		float step_620 = step(transform_480.w, add_601);
+		float2 combine_283 = float2(float(-0.5), float(-0.5));
+		float2 mul_414 = combine_398 * combine_283;
+		float4 combine_449 = float4(mul_414.x, mul_414.y, float(0), float(0));
+		float4 add_465 = transform_316 + combine_449;
+		float4 transform_481 = MR_Transform(GetP_51, add_465);
+		float2 combine_517 = float2(transform_481.x, transform_481.y);
+		float2 smear_518 = float2(transform_481.w, transform_481.w);
+		float2 div_548 = combine_517 / smear_518;
+		float2 GetDepthbuffer_566 = GetDepthbuffer(div_548);
+		float GetDepthbuffer2_584 = GetDepthbuffer2(GetDepthbuffer_566);
+		float add_602 = GetDepthbuffer2_584 + mul_399;
+		float step_621 = step(transform_481.w, add_602);
+		float max_640 = max(step_620, step_621);
+		float max_653 = max(max_638, max_640);
+		float min_661 = min(mul_376, max_653);
+		float4 smear_667 = float4(min_661, min_661, min_661, min_661);
+		float4 lerp_673 = lerp(float4(0, 0, 0, 0.1), combine_672, smear_667);
+		Gfx_ClipPosition = lerp_673;
+	}
+	void UV0Modifier(inout float2 Gfx_UV0 : Gfx_UV0, float2 Gfx_UV : Gfx_UV0)
+	{
+		Gfx_UV0 = Gfx_UV;
+	}
+	void UV1Modifier(inout float2 Gfx_UV1 : Gfx_UV1, CustomData customData : Gfx_CustomData0, 
+		float3x4 Gfx_ObjectToWorldMatrix : Gfx_ObjectToWorldMatrix0)
+	{
+		float4x4 GetP_51 = GetP();
+		float3 transform_275 = MR_Transform(Gfx_ObjectToWorldMatrix, float3(0, 0, 0));
+		float3 aPosition_301 = transform_275;
+		OW_SFT_AFL(aPosition_301);
+		float4 combine_310 = float4(aPosition_301.x, aPosition_301.y, aPosition_301.z, float(1));
+		float4 transform_316 = MR_Transform(MR_ViewConstants.worldToCamera, combine_310);
+		float3 transform_276 = MR_Transform(Gfx_ObjectToWorldMatrix, float3(0, 0, 0));
+		float3 sub_302 = MR_ViewConstants.LODCameraPosition - transform_276;
+		float length_307 = length(sub_302);
+		float sub_384 = length_307 - customData.myStartRange;
+		float sub_383 = customData.myEndRange - customData.myStartRange;
+		float div_387 = sub_384 / sub_383;
+		float saturate_390 = saturate(div_387);
+		float lerp_394 = lerp(customData.myMinTestScale, customData.myMaxTestScale, saturate_390);
+		float2 combine_398 = float2(lerp_394, lerp_394);
+		float2 combine_279 = float2(float(0.5), float(0.5));
+		float2 mul_411 = combine_398 * combine_279;
+		float4 combine_446 = float4(mul_411.x, mul_411.y, float(0), float(0));
+		float4 add_462 = transform_316 + combine_446;
+		float4 transform_478 = MR_Transform(GetP_51, add_462);
+		float2 combine_511 = float2(transform_478.x, transform_478.y);
+		float2 smear_512 = float2(transform_478.w, transform_478.w);
+		float2 div_545 = combine_511 / smear_512;
+		float2 GetDepthbuffer_563 = GetDepthbuffer(div_545);
+		float GetDepthbuffer2_581 = GetDepthbuffer2(GetDepthbuffer_563);
+		float mul_399 = lerp_394 * float(0.8);
+		float add_599 = GetDepthbuffer2_581 + mul_399;
+		float step_618 = step(transform_478.w, add_599);
+		float2 combine_280 = float2(float(0.5), float(-0.5));
+		float2 mul_412 = combine_398 * combine_280;
+		float4 combine_447 = float4(mul_412.x, mul_412.y, float(0), float(0));
+		float4 add_463 = transform_316 + combine_447;
+		float4 transform_479 = MR_Transform(GetP_51, add_463);
+		float2 combine_513 = float2(transform_479.x, transform_479.y);
+		float2 smear_514 = float2(transform_479.w, transform_479.w);
+		float2 div_546 = combine_513 / smear_514;
+		float2 GetDepthbuffer_564 = GetDepthbuffer(div_546);
+		float GetDepthbuffer2_582 = GetDepthbuffer2(GetDepthbuffer_564);
+		float add_600 = GetDepthbuffer2_582 + mul_399;
+		float step_619 = step(transform_479.w, add_600);
+		float add_639 = step_618 + step_619;
+		float2 combine_282 = float2(float(-0.5), float(0.5));
+		float2 mul_413 = combine_398 * combine_282;
+		float4 combine_448 = float4(mul_413.x, mul_413.y, float(0), float(0));
+		float4 add_464 = transform_316 + combine_448;
+		float4 transform_480 = MR_Transform(GetP_51, add_464);
+		float2 combine_515 = float2(transform_480.x, transform_480.y);
+		float2 smear_516 = float2(transform_480.w, transform_480.w);
+		float2 div_547 = combine_515 / smear_516;
+		float2 GetDepthbuffer_565 = GetDepthbuffer(div_547);
+		float GetDepthbuffer2_583 = GetDepthbuffer2(GetDepthbuffer_565);
+		float add_601 = GetDepthbuffer2_583 + mul_399;
+		float step_620 = step(transform_480.w, add_601);
+		float2 combine_283 = float2(float(-0.5), float(-0.5));
+		float2 mul_414 = combine_398 * combine_283;
+		float4 combine_449 = float4(mul_414.x, mul_414.y, float(0), float(0));
+		float4 add_465 = transform_316 + combine_449;
+		float4 transform_481 = MR_Transform(GetP_51, add_465);
+		float2 combine_517 = float2(transform_481.x, transform_481.y);
+		float2 smear_518 = float2(transform_481.w, transform_481.w);
+		float2 div_548 = combine_517 / smear_518;
+		float2 GetDepthbuffer_566 = GetDepthbuffer(div_548);
+		float GetDepthbuffer2_584 = GetDepthbuffer2(GetDepthbuffer_566);
+		float add_602 = GetDepthbuffer2_584 + mul_399;
+		float step_621 = step(transform_481.w, add_602);
+		float add_641 = step_620 + step_621;
+		float add_654 = add_639 + add_641;
+		float2 combine_401 = float2(lerp_394, lerp_394);
+		float2 combine_284 = float2(float(0.25), float(0.25));
+		float2 mul_416 = combine_401 * combine_284;
+		float4 combine_450 = float4(mul_416.x, mul_416.y, float(0), float(0));
+		float4 add_466 = transform_316 + combine_450;
+		float4 transform_482 = MR_Transform(GetP_51, add_466);
+		float2 combine_519 = float2(transform_482.x, transform_482.y);
+		float2 smear_520 = float2(transform_482.w, transform_482.w);
+		float2 div_549 = combine_519 / smear_520;
+		float2 GetDepthbuffer_567 = GetDepthbuffer(div_549);
+		float GetDepthbuffer2_585 = GetDepthbuffer2(GetDepthbuffer_567);
+		float mul_402 = lerp_394 * float(0.8);
+		float add_603 = GetDepthbuffer2_585 + mul_402;
+		float step_622 = step(transform_482.w, add_603);
+		float2 combine_285 = float2(float(0.25), float(-0.25));
+		float2 mul_417 = combine_401 * combine_285;
+		float4 combine_451 = float4(mul_417.x, mul_417.y, float(0), float(0));
+		float4 add_467 = transform_316 + combine_451;
+		float4 transform_483 = MR_Transform(GetP_51, add_467);
+		float2 combine_521 = float2(transform_483.x, transform_483.y);
+		float2 smear_522 = float2(transform_483.w, transform_483.w);
+		float2 div_550 = combine_521 / smear_522;
+		float2 GetDepthbuffer_568 = GetDepthbuffer(div_550);
+		float GetDepthbuffer2_586 = GetDepthbuffer2(GetDepthbuffer_568);
+		float add_604 = GetDepthbuffer2_586 + mul_402;
+		float step_623 = step(transform_483.w, add_604);
+		float add_642 = step_622 + step_623;
+		float2 combine_286 = float2(float(-0.25), float(0.25));
+		float2 mul_418 = combine_401 * combine_286;
+		float4 combine_452 = float4(mul_418.x, mul_418.y, float(0), float(0));
+		float4 add_468 = transform_316 + combine_452;
+		float4 transform_484 = MR_Transform(GetP_51, add_468);
+		float2 combine_523 = float2(transform_484.x, transform_484.y);
+		float2 smear_524 = float2(transform_484.w, transform_484.w);
+		float2 div_551 = combine_523 / smear_524;
+		float2 GetDepthbuffer_569 = GetDepthbuffer(div_551);
+		float GetDepthbuffer2_587 = GetDepthbuffer2(GetDepthbuffer_569);
+		float add_605 = GetDepthbuffer2_587 + mul_402;
+		float step_624 = step(transform_484.w, add_605);
+		float2 combine_287 = float2(float(-0.25), float(-0.25));
+		float2 mul_419 = combine_401 * combine_287;
+		float4 combine_453 = float4(mul_419.x, mul_419.y, float(0), float(0));
+		float4 add_469 = transform_316 + combine_453;
+		float4 transform_485 = MR_Transform(GetP_51, add_469);
+		float2 combine_525 = float2(transform_485.x, transform_485.y);
+		float2 smear_526 = float2(transform_485.w, transform_485.w);
+		float2 div_552 = combine_525 / smear_526;
+		float2 GetDepthbuffer_570 = GetDepthbuffer(div_552);
+		float GetDepthbuffer2_588 = GetDepthbuffer2(GetDepthbuffer_570);
+		float add_606 = GetDepthbuffer2_588 + mul_402;
+		float step_625 = step(transform_485.w, add_606);
+		float add_643 = step_624 + step_625;
+		float add_655 = add_642 + add_643;
+		float add_662 = add_654 + add_655;
+		float mul_668 = add_662 * float(0.25);
+		float saturate_674 = saturate(mul_668);
+		float4 transform_323 = MR_Transform(GetP_51, transform_316);
+		float2 combine_339 = float2(transform_323.x, transform_323.y);
+		float2 smear_340 = float2(transform_323.w, transform_323.w);
+		float2 div_347 = combine_339 / smear_340;
+		float2 abs_355 = abs(div_347);
+		float2 remap_362 = float(1) + saturate((abs_355 - float(0)) / (float(1) - float(0))) * (float(0) - float(1));
+		float mul_375 = remap_362.x * remap_362.y;
+		float mul_676 = saturate_674 * mul_375;
+		float2 combine_678 = float2(mul_676, float(0));
+		Gfx_UV1 = combine_678;
+	}
+	main(float3x4 Gfx_ObjectToWorldMatrix : Gfx_ObjectToWorldMatrix0, 
+		float2 Gfx_UV : Gfx_UV0, CustomData customData : Gfx_CustomData0, 
+		inout float4 Gfx_ClipPosition : Gfx_ClipPosition <modifier = "ClipSpaceModifier">, 
+		inout float2 Gfx_UV0 : Gfx_UV0 <modifier = "UV0Modifier">, 
+		inout float2 Gfx_UV1 : Gfx_UV1 <modifier = "UV1Modifier">)
+	{
+		// dummy comment so the shader writer does save this out
+	}
+}

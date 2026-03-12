@@ -1,0 +1,38 @@
+<shaderType = "Vertex">
+import "shaders/nodes/shader/functions/getplanetposition.h"
+vertex
+{
+	float GetYScale(float3x4 modelToWorld)
+	{
+		return length(MR_GetYAxis(modelToWorld).xyz);
+	}
+	void WorldSpaceModifier(inout float3 Gfx_WorldSpacePos : Gfx_WorldSpacePos, 
+		float3 Gfx_ModelSpacePos : Gfx_ModelSpacePos0, 
+		float3x4 Gfx_ObjectToWorldMatrix : Gfx_ObjectToWorldMatrix0)
+	{
+		float3 GetPlanetPosition_0 = GetPlanetPosition();
+		float3 transform_14 = MR_Transform(Gfx_ObjectToWorldMatrix, Gfx_ModelSpacePos);
+		float3 add_18 = GetPlanetPosition_0 + float3(1e-05, 0, 0);
+		float3 sub_19 = transform_14 - add_18;
+		float3 normalize_23 = normalize(sub_19);
+		float3 transform_20 = MR_Transform(Gfx_ObjectToWorldMatrix, float3(0, 0, 0));
+		float3 add_21 = GetPlanetPosition_0 + float3(1e-05, 0, 0);
+		float3 sub_24 = transform_20 - add_21;
+		float length_26 = length(sub_24);
+		float3 combine_27 = float3(length_26, length_26, length_26);
+		float3 mul_28 = normalize_23 * combine_27;
+		float GetYScale_13 = GetYScale(Gfx_ObjectToWorldMatrix);
+		float mul_17 = Gfx_ModelSpacePos.y * GetYScale_13;
+		float3 smear_22 = float3(mul_17, mul_17, mul_17);
+		float3 mul_25 = normalize_23 * smear_22;
+		float3 add_29 = mul_28 + mul_25;
+		float3 add_30 = GetPlanetPosition_0 + add_29;
+		Gfx_WorldSpacePos = add_30;
+	}
+	main(float3x4 Gfx_ObjectToWorldMatrix : Gfx_ObjectToWorldMatrix0, 
+		float3 Gfx_ModelSpacePos : Gfx_ModelSpacePos0, 
+		inout float3 Gfx_WorldSpacePos : Gfx_WorldSpacePos <modifier = "WorldSpaceModifier">)
+	{
+		// dummy comment so the shader writer does save this out
+	}
+}

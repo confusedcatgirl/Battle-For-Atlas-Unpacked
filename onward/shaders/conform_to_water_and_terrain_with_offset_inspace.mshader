@@ -1,0 +1,30 @@
+<shaderType = "Vertex">
+vertex
+{
+	struct CustomData {
+		float myHeight <default = 0.1, label = "Height", pinId = 102>;
+	};
+	void WorldSpaceModifier(inout float3 Gfx_WorldSpacePos : Gfx_WorldSpacePos)
+	{
+		Gfx_WorldSpacePos = Gfx_WorldSpacePos;
+	}
+	void ClipSpaceModifier(inout float4 Gfx_ClipPosition : Gfx_ClipPosition, 
+		CustomData customData : Gfx_CustomData0, 
+		float3 Gfx_ModelSpacePos : Gfx_ModelSpacePos0)
+	{
+		float length_18 = length(Gfx_ModelSpacePos);
+		float smoothStep_28 = smoothstep(float(0), float(50), length_18);
+		float sub_30 = float(1) - smoothStep_28;
+		float mul_41 = sub_30 * customData.myHeight;
+		float4 combine_42 = float4(float(0), float(0), mul_41, float(0));
+		float4 add_43 = Gfx_ClipPosition + combine_42;
+		Gfx_ClipPosition = add_43;
+	}
+	main(float3 Gfx_ModelSpacePos : Gfx_ModelSpacePos0, 
+		CustomData customData : Gfx_CustomData0, 
+		inout float3 Gfx_WorldSpacePos : Gfx_WorldSpacePos <modifier = "WorldSpaceModifier">, 
+		inout float4 Gfx_ClipPosition : Gfx_ClipPosition <modifier = "ClipSpaceModifier">)
+	{
+		// dummy comment so the shader writer does save this out
+	}
+}

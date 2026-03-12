@@ -1,0 +1,58 @@
+<shaderType = "Object", keywords = { "LIGHT_FROM_GROUND", "IS_MAIN_PLANET", "GFX_FORWARD_SHADER", }, >
+import "shaders/nodes/shader/functions/getplanetposition.h"
+import "shaders/nodes/shader/functions/onward/ow_getterrainlowresalbedo.h"
+import "shaders/MRender/MR_ViewConstants.h"
+import "shaders/nodes/shader/functions/unpack normal.h"
+import "shaders/nodes/shader/functions/onward/lighting/ow_fullgroundbaselighting.h"
+import "shaders/nodes/shader/functions/onward/lighting/ow_groundfog.h"
+pixel
+{
+	MR_Sampler2D BaseColor : MR_Texture0 {
+		texture = "onward/baked/textures/default_b.dds",
+	} <label = "Base Color", pinId = 102>;
+	MR_Sampler2D Normal : MR_Texture1 {
+		texture = "onward/baked/textures/default_n.dds",
+	} <pinId = 103>;
+	MR_Sampler2D Material : MR_Texture2 {
+		texture = "onward/baked/textures/default_m.dds",
+	} <pinId = 104>;
+	struct CustomData {
+		float myStartFade <default = 500, label = "StartFade", pinId = 107>;
+		float myEndFade <default = 400, label = "EndFade", pinId = 108>;
+	};
+	main(out float4 colorOut : MR_Color0, 
+		float3 Gfx_UnflattenedWorldPos : Gfx_UnflattenedWorldPos0, 
+		float2 Gfx_UV : Gfx_UV0, CustomData customData : Gfx_CustomData0, 
+		float3 Gfx_WorldSpacePos : Gfx_WorldSpacePos0, 
+		float3x3 Gfx_TangentToWorld : Gfx_TangentToWorld0, 
+		Gfx_LightingDataStruct Gfx_LightingData : Gfx_LightingData0, 
+		float4 MR_FragCoord : MR_FragCoord, float Gfx_AlphaRef : Gfx_AlphaRef0)
+	{
+		float3 GetPlanetPosition_59 = GetPlanetPosition();
+		float3 sub_71 = Gfx_UnflattenedWorldPos - GetPlanetPosition_59;
+		float3 normalize_76 = normalize(sub_71);
+		float3 OW_GetTerrainLowResAlbedo_78 = OW_GetTerrainLowResAlbedo(normalize_76);
+		float4 sample_84 = MR_Sample(BaseColor, Gfx_UV);
+		float3 combine_92 = float3(sample_84.x, sample_84.y, sample_84.z);
+		float3 sub_72 = Gfx_WorldSpacePos - MR_ViewConstants.LODCameraPosition;
+		float length_77 = length(sub_72);
+		float smoothStep_94 = smoothstep(customData.myStartFade, customData.myEndFade, length_77);
+		float3 smear_96 = float3(smoothStep_94, smoothStep_94, smoothStep_94);
+		float3 lerp_100 = lerp(OW_GetTerrainLowResAlbedo_78, combine_92, smear_96);
+		float4 sample_86 = MR_Sample(Normal, Gfx_UV);
+		float3 normal_90;
+		float ambientOcclusion_90;
+		UnpackNormalAndAO(sample_86, normal_90, ambientOcclusion_90);
+		float3 transform_93 = MR_Transform(Gfx_TangentToWorld, normal_90);
+		float4 sample_85 = MR_Sample(Material, Gfx_UV);
+		float lerp_97 = lerp(float(0.99), sample_85.y, smoothStep_94);
+		float lerp_98 = lerp(float(0), sample_85.x, smoothStep_94);
+		float3 aLightOut_101;
+		OW_FullBaseGroundLighting(aLightOut_101, lerp_100, transform_93, float(1), lerp_97, lerp_98, ambientOcclusion_90, Gfx_LightingData);
+		float3 aColor_103 = aLightOut_101;
+		OW_GroundFog(aColor_103, Gfx_WorldSpacePos, MR_FragCoord);
+		if (sample_84.w < Gfx_AlphaRef) discard;
+		float4 result_105 = float4(aColor_103, sample_84.w);
+		colorOut = result_105;
+	}
+}

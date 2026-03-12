@@ -1,0 +1,24 @@
+pixel
+{
+	MR_Sampler2D BaseColor : MR_Texture0 {
+		texture = "onward/baked/textures/default_b.dds",
+	} <label = "Base Color", pinId = 102>;
+	struct CustomData {
+		float myEmissionIntensity <default = 500, label = "Emission Intensity", pinId = 106>;
+		float myPulseSpeed <default = 1, label = "Pulse Speed ", pinId = 114>;
+		float3 myEmissioncolor <config = { type = "ColorBox", }, default = 0 0 0, label = "Emission color", pinId = 133>;
+		float myGradientnr <default = 0, label = "Gradient nr", pinId = 136>;
+	};
+	main(out float4 colorOut : MR_Color0, float2 Gfx_UV : Gfx_UV0, 
+		CustomData customData : Gfx_CustomData0, float Gfx_AlphaRef : Gfx_AlphaRef0, 
+		float3 Gfx_CameraSpacePos : Gfx_CameraSpacePos0)
+	{
+		float4 sample_85 = MR_Sample(BaseColor, Gfx_UV);
+		float3 truncate_89 = float3(sample_85.xyz);
+		float3 mul_93 = truncate_89 * customData.myEmissioncolor;
+		float4 truncate_97 = float4(mul_93.xyz, 1);
+		if (truncate_97.w < Gfx_AlphaRef) discard;
+		float4 depthResult = float4(Gfx_CameraSpacePos.z, 0, 0, truncate_97.w);
+		colorOut = depthResult;
+	}
+}

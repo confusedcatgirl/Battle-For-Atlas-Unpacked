@@ -1,0 +1,64 @@
+<emission = true, shaderType = "Object", keywords = { "LIGHT_FROM_GROUND", "IS_MAIN_PLANET", "GFX_FORWARD_SHADER", }, >
+import "shaders/nodes/shader/functions/unpack normal.h"
+import "shaders/nodes/shader/functions/onward/lighting/ow_fullgroundbaselighting.h"
+import "shaders/nodes/shader/functions/ow emissive intensity multiplier.h"
+import "shaders/nodes/shader/functions/onward/lighting/ow_groundfog.h"
+pixel
+{
+	MR_Sampler2D BaseColor : MR_Texture0 {
+		texture = "onward/baked/textures/default_b.dds",
+	} <label = "Base Color", pinId = 102>;
+	MR_Sampler2D Normal : MR_Texture1 {
+		texture = "onward/baked/textures/default_n.dds",
+	} <pinId = 103>;
+	MR_Sampler2D Material : MR_Texture2 {
+		texture = "onward/baked/textures/default_m.dds",
+	} <pinId = 104>;
+	MR_Sampler2D Gradient : MR_Texture3 {
+		wrap = clamp,
+	} <pinId = 107>;
+	struct CustomData {
+		float myLength <config = { max = 2, min = 0, type = "Slider", }, default = 0, label = "Length", pinId = 108>;
+		float myEmissionIntensity <default = 1, label = "Emission Intensity", pinId = 109>;
+	};
+	float3 SelectColor(in float3 aColorA, in float3 aColorB, in bool aCond)
+	{
+		return aCond ? aColorA : aColorB;
+	}
+	main(out float4 colorOut : MR_Color0, float2 Gfx_UV : Gfx_UV0, 
+		float3x3 Gfx_TangentToWorld : Gfx_TangentToWorld0, 
+		Gfx_LightingDataStruct Gfx_LightingData : Gfx_LightingData0, 
+		CustomData customData : Gfx_CustomData0, float2 Gfx_UV1 : Gfx_UV1, 
+		float3 Gfx_WorldSpacePos : Gfx_WorldSpacePos0, 
+		float4 MR_FragCoord : MR_FragCoord, float Gfx_AlphaRef : Gfx_AlphaRef0)
+	{
+		float4 sample_87 = MR_Sample(BaseColor, Gfx_UV);
+		float3 combine_94 = float3(sample_87.x, sample_87.y, sample_87.z);
+		float4 sample_89 = MR_Sample(Normal, Gfx_UV);
+		float3 normal_92;
+		float ambientOcclusion_92;
+		UnpackNormalAndAO(sample_89, normal_92, ambientOcclusion_92);
+		float3 transform_95 = MR_Transform(Gfx_TangentToWorld, normal_92);
+		float4 sample_88 = MR_Sample(Material, Gfx_UV);
+		float3 aLightOut_97;
+		OW_FullBaseGroundLighting(aLightOut_97, combine_94, transform_95, float(1), sample_88.y, sample_88.x, ambientOcclusion_92, Gfx_LightingData);
+		float sub_93 = customData.myLength - Gfx_UV1.y;
+		float saturate_96 = saturate(sub_93);
+		float2 combine_99 = float2(saturate_96, float(0.5));
+		float4 sample_100 = MR_Sample(Gradient, combine_99);
+		float3 combine_102 = float3(sample_100.x, sample_100.y, sample_100.z);
+		float3 smear_86 = float3(customData.myEmissionIntensity, customData.myEmissionIntensity, customData.myEmissionIntensity);
+		float3 mul_104 = combine_102 * smear_86;
+		float4 truncate_105 = float4(mul_104.xyz, 1);
+		float4 OWEmissiveIntensityMultiplier_107 = OWEmissiveIntensityMultiplier(truncate_105);
+		float3 truncate_109 = float3(OWEmissiveIntensityMultiplier_107.xyz);
+		float3 SelectColor_111 = SelectColor(truncate_109, mul_104, true);
+		float3 add_113 = aLightOut_97 + SelectColor_111;
+		float3 aColor_115 = add_113;
+		OW_GroundFog(aColor_115, Gfx_WorldSpacePos, MR_FragCoord);
+		float mul_103 = sample_87.w * sample_100.w;
+		if (mul_103 < Gfx_AlphaRef) discard;
+		float4 result_117 = float4(aColor_115, mul_103);
+		colorOut = result_117;
+	}
+}

@@ -1,0 +1,121 @@
+<shaderType = "Vertex">
+import "shaders/nodes/shader/functions/getplanetposition.h"
+import "shaders/nodes/shader/functions/onward/ow_getterrainlowresradius.h"
+import "shaders/nodes/shader/functions/onward/planet/ow_waterconstants.h"
+import "shaders/modules/graphics/environment.h"
+import "shaders/nodes/shader/functions/onward/ow_getforcefield.h"
+import "shaders/MRender/MR_ViewConstants.h"
+vertex
+{
+	struct CustomData {
+		float myForceMax <default = 4, label = "Force Max", pinId = 103>;
+		float myForceStiffness <default = 0.5, label = "Force Stiffness", pinId = 104>;
+		float myForceStartHeight <default = 2, label = "Force Start Height", pinId = 107>;
+		float myVerticleNoiseSpeed <default = 0.4, label = "Verticle Noise Speed", pinId = 105>;
+		float myVerticalNoiseStrength <default = 0.05, label = "Vertical Noise Strength", pinId = 106>;
+	};
+	float3x3 axisAngleMatrix(float3 axis, float angle)
+	{
+		float c = cos(angle);
+		 float s = sin(angle);
+		 float t = 1 - c;
+		 float x = axis.x;
+		 float y = axis.y;
+		 float z = axis.z;
+		 return MR_RowMatrix(
+		     float3(t*x*x + c, t*x*y - z*s, t*x*z + y*s),
+		     float3(t*x*y + z*s, t*y*y + c, t*y*z - x*s),
+		     float3(t*x*z - y*s, t*y*z + x*s, t*z*z + c)
+		 );
+	}
+	void WorldSpaceModifier(inout float3 Gfx_WorldSpacePos : Gfx_WorldSpacePos, 
+		float3 Gfx_ModelSpacePos : Gfx_ModelSpacePos0, 
+		CustomData customData : Gfx_CustomData0, float2 Gfx_UV1 : Gfx_UV1, 
+		float3x4 Gfx_ObjectToWorldMatrix : Gfx_ObjectToWorldMatrix0)
+	{
+		float3 combine_34 = float3(Gfx_UV1.x, float(0), Gfx_UV1.y);
+		float3 transform_36 = MR_Transform(Gfx_ObjectToWorldMatrix, combine_34);
+		float3 sub_38 = Gfx_WorldSpacePos - transform_36;
+		float3 GetPlanetPosition_0 = GetPlanetPosition();
+		float3 add_35 = GetPlanetPosition_0 + float3(1e-05, 0, 0);
+		float3 sub_37 = transform_36 - add_35;
+		float3 normalize_39 = normalize(sub_37);
+		float OW_GetTerrainLowResRadius_40 = OW_GetTerrainLowResRadius(normalize_39);
+		float aRadius_19;
+		OW_GetWaterConstants(aRadius_19);
+		float max_41 = max(OW_GetTerrainLowResRadius_40, aRadius_19);
+		float3 combine_43 = float3(max_41, max_41, max_41);
+		float3 mul_45 = normalize_39 * combine_43;
+		float3 add_47 = GetPlanetPosition_0 + mul_45;
+		float3 add_50 = sub_38 + add_47;
+		float aRadius_20;
+		OW_GetWaterConstants(aRadius_20);
+		float max_42 = max(OW_GetTerrainLowResRadius_40, aRadius_20);
+		float3 combine_44 = float3(max_42, max_42, max_42);
+		float truncate_46 = float(combine_44.x);
+		float add_49 = truncate_46 + float(1);
+		float3 smear_55 = float3(add_49, add_49, add_49);
+		float3 mul_61 = normalize_39 * smear_55;
+		float3 add_65 = GetPlanetPosition_0 + mul_61;
+		float3 add_48 = GetPlanetPosition_0 + mul_45;
+		float3 sub_69 = add_65 - add_48;
+		float3 add_71 = sub_69 + float3(0.001, 0, 0);
+		float3 normalize_72 = normalize(add_71);
+		float3 GetPlanetPosition_3 = GetPlanetPosition();
+		float3 sub_51 = add_48 - GetPlanetPosition_3;
+		float3 normalize_57 = normalize(sub_51);
+		float3 mul_56 = sub_51 * float3(45.2313, 21.6451, 0.541);
+		float add_66 = mul_56.x + mul_56.y;
+		float add_67 = add_66 + mul_56.z;
+		float mul_74 = Gfx_Environment.time * customData.myVerticleNoiseSpeed;
+		float add_79 = add_67 + mul_74;
+		float sin_80 = sin(add_79);
+		float mul_81 = sin_80 * customData.myVerticalNoiseStrength;
+		float3 smear_82 = float3(mul_81, mul_81, mul_81);
+		float3 mul_83 = normalize_57 * smear_82;
+		float3 sub_53 = add_48 - GetPlanetPosition_3;
+		float3 OW_GetForceField_59 = OW_GetForceField(sub_53);
+		float3 add_84 = mul_83 + OW_GetForceField_59;
+		float3 add_85 = add_84 + float3(0, 0, 0.001);
+		float3 normalize_87 = normalize(add_85);
+		float3 cross_89 = cross(normalize_72, normalize_87);
+		float3 normalize_92 = normalize(cross_89);
+		float dot_90 = dot(normalize_72, normalize_87);
+		float acos_93 = acos(dot_90);
+		float length_86 = length(add_84);
+		float div_88 = length_86 / customData.myForceMax;
+		float saturate_91 = saturate(div_88);
+		float mul_94 = saturate_91 * customData.myForceStiffness;
+		float mul_95 = acos_93 * mul_94;
+		float3x3 axisAngleMatrix_96 = axisAngleMatrix(normalize_92, mul_95);
+		float3 sub_52 = add_50 - add_48;
+		float3 transform_97 = MR_Transform(axisAngleMatrix_96, sub_52);
+		float3 sub_98 = transform_97 - sub_52;
+		float max_75 = max(float(0.001), customData.myForceStartHeight);
+		float smoothStep_76 = smoothstep(float(0), max_75, Gfx_ModelSpacePos.y);
+		float4 combine_77 = float4(smoothStep_76, smoothStep_76, smoothStep_76, smoothStep_76);
+		float3 truncate_78 = float3(combine_77.xyz);
+		float3 mul_99 = sub_98 * truncate_78;
+		float3 add_100 = mul_99 + add_50;
+		float3 sub_101 = add_100 - add_48;
+		float3 normalize_102 = normalize(sub_101);
+		float length_58 = length(sub_52);
+		float3 smear_63 = float3(length_58, length_58, length_58);
+		float3 mul_103 = normalize_102 * smear_63;
+		float3 add_104 = mul_103 + add_48;
+		float3 sub_54 = add_48 - MR_ViewConstants.LODCameraPosition;
+		float length_60 = length(sub_54);
+		float smoothStep_64 = smoothstep(float(602), float(300), length_60);
+		float saturate_68 = saturate(smoothStep_64);
+		float3 smear_70 = float3(saturate_68, saturate_68, saturate_68);
+		float3 lerp_105 = lerp(add_50, add_104, smear_70);
+		Gfx_WorldSpacePos = lerp_105;
+	}
+	main(float3x4 Gfx_ObjectToWorldMatrix : Gfx_ObjectToWorldMatrix0, 
+		float2 Gfx_UV1 : Gfx_UV1, CustomData customData : Gfx_CustomData0, 
+		float3 Gfx_ModelSpacePos : Gfx_ModelSpacePos0, 
+		inout float3 Gfx_WorldSpacePos : Gfx_WorldSpacePos <modifier = "WorldSpaceModifier">)
+	{
+		// dummy comment so the shader writer does save this out
+	}
+}

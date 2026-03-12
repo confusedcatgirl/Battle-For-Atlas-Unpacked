@@ -1,0 +1,129 @@
+<shaderType = "UI", >
+import "shaders/modules/graphics/drawer/drawer.h"
+import "shaders/modules/graphics/environment.h"
+blend {
+	writeMask = rgba,
+	src = 1,
+	src.a = 0,
+}
+pixel
+{
+	MR_Sampler2D Diffuse : MR_Texture0 <pinId = 102>;
+	MR_Sampler2D NoiseTexture : MR_Texture1 {
+		texture = "onward/baked/textures/FX/fx_probe_noise_flat_b.dds",
+		wrap = clamp clamp repeat,
+	} <label = "Noise Texture", pinId = 106>;
+	struct CustomData {
+		float4 myColour <default = 1 1 1 1, label = "Colour", pinId = 103>;
+		float myNoiseIdle <default = 1, label = "Noise Idle", pinId = 115>;
+		float myAlphaTransition <default = 0.5, label = "Alpha Transition", pinId = 118>;
+		float myTransitionSpeed <default = 1, label = "Transition Speed", pinId = 119>;
+		float myTime <default = 0, label = "Time", pinId = 123>;
+		float myNoiseTransition <default = 2, label = "Noise Transition", pinId = 124>;
+		float myNoiseIdleFrequency <default = 1, label = "Noise Idle Frequency", pinId = 127>;
+	};
+	float transition_scroll(float t, float y, float s)
+	{
+		if (t < 3.14159/(s*2) && t > -3.14159/(s*2)){
+		return y - sin(t*s);
+		}
+		else{
+		return 0.;
+		}
+	}
+	float ramp(float y, float start, float end)
+	{
+		float inside = step(start, y) - step(end, y);
+		float fact = (y-start)/(end-start)*inside;
+		return (1. - fact) * inside;
+	}
+	float inv_ramp(float y, float start, float end)
+	{
+		float inside = step(end, y) - step(start, y);
+		float fact = (y-start)/(end-start)*inside;
+		return (1. - fact) * inside;
+	}
+	float4 invert(float4 v)
+	{
+		v.xyz = (-1)*v.xyz + 1;
+		v.w = 1;
+		return v;
+	}
+	float noise_prep(float y, float t, float s)
+	{
+		return y + (t)/4. - sin(t*s*.1 + sin(t*0.5));
+	}
+	float mult_all(float x, float y, float z, float s)
+	{
+		return x*y*z*s;
+	}
+	float transition_scroll_n(float t, float y, float s)
+	{
+		if (t < 3.14159/(s*2) && t > -3.14159/(s*2)){
+		return y - sin(t*s);
+		}
+		else{
+		return 0.;
+		}
+	}
+	float mult_all_3(float x, float y, float z)
+	{
+		return x*y*z;
+	}
+	float2 color_noise(float2 uv, float t, float s, float dist)
+	{
+		uv.x = uv.x + (t*s*dist);
+		return uv;
+	}
+	float4 change_alpha(float t, float4 color)
+	{
+		color.w = color.w - t;
+		return color;
+	}
+	main(out float4 colorOut : MR_Color0, CustomData customData : Gfx_CustomData0, 
+		float2 Gfx_UV1 : Gfx_UV1, float2 Gfx_UV : Gfx_UV0)
+	{
+		float transition_scroll_88 = transition_scroll(customData.myTime, Gfx_UV1.y, customData.myTransitionSpeed);
+		float ramp_92 = ramp(transition_scroll_88, float(0.5), float(1));
+		float inv_ramp_93 = inv_ramp(transition_scroll_88, float(0.5), float(0));
+		float add_98 = ramp_92 + inv_ramp_93;
+		float mul_103 = add_98 * float(1);
+		float mul_107 = mul_103 * customData.myAlphaTransition;
+		float2 combine_77 = float2(Gfx_UV1.x, Gfx_UV1.y);
+		float4 sample_91 = MR_Sample(NoiseTexture, combine_77);
+		float4 invert_97 = invert(sample_91);
+		float2 truncate_102 = float2(invert_97.xy);
+		float dot_106 = dot(truncate_102, float2(12.9898, 78.233));
+		float sin_109 = sin(dot_106);
+		float mul_110 = sin_109 * float(43758.5);
+		float add_112 = frac(mul_110) + float(-0.5);
+		float div_113 = add_112 / float(2);
+		float2 combine_78 = float2(Gfx_Environment.time, Gfx_UV.y);
+		float dot_79 = dot(combine_78, float2(12.9898, 78.233));
+		float sin_80 = sin(dot_79);
+		float mul_81 = sin_80 * float(43758.5);
+		float add_83 = frac(mul_81) + float(-0.5);
+		float div_84 = add_83 / float(2);
+		float noise_prep_90 = noise_prep(Gfx_UV1.y, Gfx_Environment.time, customData.myNoiseIdle);
+		float mod_96 = fmod(noise_prep_90, customData.myNoiseIdleFrequency);
+		float ramp_100 = ramp(mod_96, float(0.4), float(0.6));
+		float inv_ramp_101 = inv_ramp(mod_96, float(0.4), float(0.2));
+		float add_105 = ramp_100 + inv_ramp_101;
+		float mul_108 = float(1) * add_105;
+		float mult_all_114 = mult_all(div_113, div_84, mul_108, customData.myNoiseIdle);
+		float transition_scroll_n_89 = transition_scroll_n(customData.myTime, Gfx_UV1.y, customData.myTransitionSpeed);
+		float ramp_94 = ramp(transition_scroll_n_89, float(0.5), float(1));
+		float inv_ramp_95 = inv_ramp(transition_scroll_n_89, float(0.5), float(0));
+		float add_99 = ramp_94 + inv_ramp_95;
+		float mul_104 = add_99 * customData.myNoiseTransition;
+		float mult_all_3_115 = mult_all_3(mul_104, div_113, div_84);
+		float add_116 = mult_all_114 + mult_all_3_115;
+		float2 color_noise_117 = color_noise(Gfx_UV, add_116, float(0.5), float(1));
+		float4 sample_118 = MR_Sample(Diffuse, color_noise_117);
+		float4 mul_119 = customData.myColour * sample_118;
+		float4 change_alpha_120 = change_alpha(mul_107, mul_119);
+		float4 finalColor = vec4(0);
+		finalColor = BlendColor(change_alpha_120, float(0));
+		colorOut = finalColor;
+	}
+}

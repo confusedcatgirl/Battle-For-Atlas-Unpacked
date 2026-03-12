@@ -1,0 +1,86 @@
+<keywords = { "LIGHT_FROM_SPACE", "ISNT_MAIN_PLANET", "GFX_DEFERRED_SHADER", }, >
+import "shaders/modules/graphics/deferred_data.h"
+import "shaders/modules/graphics/normal_encode.h"
+import "shaders/nodes/shader/functions/unpack normal.h"
+pixel
+{
+	MR_Sampler2D BaseColor : MR_Texture0 {
+		texture = "onward/baked/textures/default_b.dds",
+	} <label = "Base Color", pinId = 102>;
+	MR_Sampler2D BaseNormal : MR_Texture1 {
+		texture = "onward/baked/textures/default_n.dds",
+	} <label = "Base Normal", pinId = 103>;
+	MR_Sampler2D BaseMaterial : MR_Texture2 {
+		texture = "onward/baked/textures/default_m.dds",
+	} <label = "Base Material", pinId = 104>;
+	MR_Sampler2D DepositColor : MR_Texture3 {
+		texture = "onward/baked/textures/default_b.dds",
+	} <label = "Deposit Color", pinId = 111>;
+	MR_Sampler2D DepositNormal : MR_Texture4 {
+		texture = "onward/baked/textures/default_n.dds",
+	} <label = "Deposit Normal", pinId = 113>;
+	MR_Sampler2D DepositMaterial : MR_Texture5 {
+		texture = "onward/baked/textures/default_m.dds",
+	} <label = "Deposit Material", pinId = 112>;
+	struct CustomData {
+		float3 myDepositColorTint <config = { type = "ColorBox", }, default = 1 1 1, label = "Deposit Color Tint", pinId = 110>;
+		float myDepositTilingU <default = 1, label = "Deposit Tiling U", pinId = 118>;
+		float myDepositTilingV <default = 1, label = "Deposit Tiling V", pinId = 119>;
+		float myBlendOpacity <config = { max = 1, min = 0, type = "Slider", }, default = 3.3, label = "Blend Opacity", pinId = 108>;
+		float myBlendconstrast <config = { max = 20, min = 1, type = "Slider", }, default = 4.7, label = "Blend constrast", pinId = 109>;
+		float myBlendcoverage <config = { max = 1, min = 0, type = "Slider", }, default = 1, label = "Blend coverage", pinId = 116>;
+	};
+	main(bool MR_IsFrontFace : MR_IsFrontFace, 
+		out Gfx_DeferredData deferredOut : Gfx_Deferred, float2 Gfx_UV : Gfx_UV0, 
+		CustomData customData : Gfx_CustomData0, 
+		float3 Gfx_WorldSpaceNormal : Gfx_WorldSpaceNormal0, 
+		float Gfx_AlphaRef : Gfx_AlphaRef0, 
+		float3x3 Gfx_TangentToWorld : Gfx_TangentToWorld0)
+	{
+		float4 sample_110 = MR_Sample(BaseColor, Gfx_UV);
+		float3 truncate_116 = float3(sample_110.xyz);
+		float2 combine_108 = float2(customData.myDepositTilingU, customData.myDepositTilingV);
+		float2 mul_109 = Gfx_UV * combine_108;
+		float4 sample_113 = MR_Sample(DepositColor, mul_109);
+		float3 truncate_118 = float3(sample_113.xyz);
+		float3 mul_122 = truncate_118 * customData.myDepositColorTint;
+		float dot_98 = dot(float3(0, 1, 0), Gfx_WorldSpaceNormal);
+		float saturate_100 = saturate(dot_98);
+		float add_124 = customData.myBlendcoverage + saturate_100;
+		float pow_126 = pow(add_124, customData.myBlendconstrast);
+		float saturate_128 = saturate(pow_126);
+		float mul_130 = customData.myBlendOpacity * saturate_128;
+		float saturate_132 = saturate(mul_130);
+		float3 smear_136 = float3(saturate_132, saturate_132, saturate_132);
+		float3 lerp_141 = lerp(truncate_116, mul_122, smear_136);
+		float4 truncate_147 = float4(lerp_141.xyz, 1);
+		float3 combine_154 = float3(truncate_147.x, truncate_147.y, truncate_147.z);
+		deferredOut.color = combine_154;
+		float4 sample_111 = MR_Sample(BaseMaterial, Gfx_UV);
+		float4 sample_115 = MR_Sample(DepositMaterial, mul_109);
+		float4 smear_135 = float4(saturate_132, saturate_132, saturate_132, saturate_132);
+		float4 lerp_140 = lerp(sample_111, sample_115, smear_135);
+		deferredOut.roughness = lerp_140.y;
+		deferredOut.metalness = lerp_140.x;
+		float4 sample_112 = MR_Sample(BaseNormal, Gfx_UV);
+		float3 normal_117;
+		float ambientOcclusion_117;
+		UnpackNormalAndAO(sample_112, normal_117, ambientOcclusion_117);
+		float4 sample_114 = MR_Sample(DepositNormal, mul_109);
+		float3 normal_119;
+		float ambientOcclusion_119;
+		UnpackNormalAndAO(sample_114, normal_119, ambientOcclusion_119);
+		float lerp_137 = lerp(ambientOcclusion_117, ambientOcclusion_119, saturate_132);
+		deferredOut.ao = lerp_137;
+		deferredOut.opacity = float(1);
+		if (truncate_147.w < Gfx_AlphaRef) discard;
+		float3 transform_120 = MR_Transform(Gfx_TangentToWorld, normal_117);
+		float3 transform_123 = MR_Transform(Gfx_TangentToWorld, normal_119);
+		float3 smear_134 = float3(saturate_132, saturate_132, saturate_132);
+		float3 lerp_139 = lerp(transform_120, transform_123, smear_134);
+		float3 flippedNormal = lerp_139;
+		if (!MR_IsFrontFace)
+		    flippedNormal = -flippedNormal;
+		deferredOut.worldNormal = flippedNormal;
+	}
+}

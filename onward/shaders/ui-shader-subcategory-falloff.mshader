@@ -1,0 +1,49 @@
+<shaderType = "UI", >
+import "shaders/modules/graphics/drawer/drawer.h"
+blend {
+	writeMask = rgba,
+	src = 1,
+	src.a = 0,
+}
+pixel
+{
+	MR_Sampler2D Texture : MR_Texture0 <pinId = 101>;
+	struct CustomData {
+		float myBottomFalloff <config = { max = 1, min = 0, tooltip = "Adjust the sharpness of the bottom falloff", type = "Slider", }, default = 0.870968, label = "Bottom Falloff", pinId = 104>;
+		float myBottomOffset <default = 0, label = "Bottom Offset", pinId = 105>;
+		float myTopFalloff <default = 0, label = "Top Falloff", pinId = 107>;
+		float myTopOffset <default = 0, label = "Top Offset", pinId = 106>;
+	};
+	main(out float4 colorOut : MR_Color0, int UI_RenderType : UI_RenderType1, 
+		float2 Gfx_UV : Gfx_UV0, float4 Gfx_Color : Gfx_Color0, 
+		float2 Gfx_UV2 : Gfx_UV2, CustomData customData : Gfx_CustomData0)
+	{
+		float4 sample_39 = GetColorInfo(Texture, Gfx_UV, In.UI_RenderType);
+		float4 mul_40 = sample_39 * Gfx_Color;
+		float sub_43 = Gfx_UV2.y - customData.myTopOffset;
+		float gradientVariable49;
+		gradientVariable49 = 0.000000;
+		gradientVariable49 = lerp(gradientVariable49, 1.000000, saturate((sub_43 - 0.000000) / 0.500000));
+		float mul_46 = customData.myTopFalloff * float(50);
+		float sub_47 = float(50) - mul_46;
+		float mul_51 = gradientVariable49 * sub_47;
+		float add_53 = gradientVariable49 + mul_51;
+		float clamp_55 = clamp(add_53, float(0), float(1));
+		float add_42 = Gfx_UV2.y + customData.myBottomOffset;
+		float gradientVariable48;
+		gradientVariable48 = 1.000000;
+		gradientVariable48 = lerp(gradientVariable48, 0.000000, saturate((add_42 - 0.500000) / 0.500000));
+		float mul_44 = customData.myBottomFalloff * float(50);
+		float sub_45 = float(50) - mul_44;
+		float mul_50 = gradientVariable48 * sub_45;
+		float add_52 = gradientVariable48 + mul_50;
+		float clamp_54 = clamp(add_52, float(0), float(1));
+		float mul_56 = clamp_55 * clamp_54;
+		float clamp_57 = clamp(mul_56, float(0), float(1));
+		float mul_58 = clamp_57 * mul_40.w;
+		float4 combine_59 = float4(mul_40.x, mul_40.y, mul_40.z, mul_58);
+		float4 finalColor = vec4(0);
+		finalColor = BlendColor(combine_59, float(0));
+		colorOut = finalColor;
+	}
+}

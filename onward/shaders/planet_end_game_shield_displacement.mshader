@@ -1,0 +1,145 @@
+<shaderType = "Object", keywords = { "GFX_FORWARD_SHADER", }, >
+import "shaders/modules/graphics/ssr_common.h"
+import "shaders/nodes/shader/functions/cliptoframebufferuv.h"
+import "shaders/modules/graphics/environment.h"
+import "shaders/nodes/shader/functions/unpack normal.h"
+import "shaders/MRender/MR_ViewConstants.h"
+pixel
+{
+	MR_Sampler2D Visibilitymap : MR_Texture0 <label = "Visibility map", pinId = 117>;
+	MR_Sampler2D Sampler_90 : MR_Texture1 {
+		texture = "onward/baked/textures/heatdistortion_n.dds",
+	};
+	MR_Sampler2D Sampler_108 : MR_Texture2 {
+		texture = "onward/baked/textures/shield_pattern_noise_b.dds",
+	};
+	struct CustomData {
+		float4 myColor <config = { type = "ColorBox", }, default = 0 1 0.854993 0.87451, label = "Color", pinId = 107>;
+		float myEmission <default = 50, label = "Emission", pinId = 108>;
+		float myAnimationspeed <default = 0, label = "Animationspeed", pinId = 112>;
+		float myRelativedistance <default = 0.002, label = "Relative distance", pinId = 113>;
+		float myvisiblerange <default = 0.1, label = "visible range", pinId = 109>;
+		float myFalloff <config = { max = 0.99, min = 0, type = "Slider", }, default = 0.443886, label = "Falloff", pinId = 110>;
+		float myAlpha <config = { max = 1, min = 0, type = "Slider", }, default = 0, label = "Alpha", pinId = 111>;
+		float myMinimalAlphaBlend <config = { max = 2, min = 0, }, default = 0, label = "Minimal Alpha Blend", pinId = 120>;
+		float myHDS <default = 0.1, label = "HDS", pinId = 121>;
+		float mydisplacementspeed <default = 0.1, label = "displacement speed", pinId = 122>;
+		float myDisplacement_maptiling <default = 1, label = "Displacement_map tiling", pinId = 123>;
+		float myDistortionoffset <config = { max = 10, min = -10, type = "Slider", }, default = 0, label = "Distortion offset", pinId = 124>;
+		float myDensity <config = { type = "Slider", }, default = 0.5, label = "Density", pinId = 128>;
+		float myHue <config = { type = "Slider", }, default = 0, label = "Hue", pinId = 129>;
+	};
+	void MY_SampleEquirectangularTextureNoSeams(MR_Sampler2D aDistortionTexture, MR_Sampler2D aElectricityTexture, 
+		float2 aNoiseTiling, float2 aElectricTiling, float2 aElectricDistortionOffset, 
+		float2 aElectricOffset, float distance, float3 aDirection, out float4 result3)
+	{
+		float4 uv;
+		uv.x = atan2( aDirection.z, aDirection.x );
+		uv.x += MR_PI * 2.0 * step( uv.x, 0.0 );
+		uv.yw = acos( aDirection.y );
+		uv.z = atan2( aDirection.z, abs( aDirection.x ) );
+		uv /= float4( MR_PI * 2.0, MR_PI, MR_PI * 2.0, MR_PI );
+
+		float4 uv2 = uv;
+		float4 uv3 = uv;
+
+		uv.x *= aNoiseTiling.x;
+		uv.yw *= aNoiseTiling.yy;
+		uv.xy += aElectricDistortionOffset;
+
+		uv3.x = (aElectricTiling.x * uv3.x) + aElectricOffset.x;
+
+		float4 result1 =  MR_SampleGrad( aDistortionTexture, uv.xy, ddx( uv.zw ), ddy( uv.zw ) );
+
+		result1.x *= saturate(uv.y);
+
+		float1 nd =  result1.y * 2.0f - 1.0f;
+		uv3.x += nd * 0.01f; 
+		uv3.yw = ((aElectricTiling.yy * uv3.yw) + aElectricOffset.yy) + result1.x * 0.3f;
+
+		float4 electric1 = MR_SampleGrad( aElectricityTexture, uv3.xy, ddx( uv3.zw ), ddy( uv3.zw ) );
+		float4 electric2 = MR_SampleGrad( aElectricityTexture, uv3.xy + aElectricOffset * 2.0f, ddx( uv3.zw ), ddy( uv3.zw ) );
+
+		float prox =  max(electric2.x, distance);
+		result3 =  (electric1 * prox) + (result1.x * 0.02);
+		result3.w = result1.x;
+	}
+	main(out float4 colorOut : MR_Color0, float4 Gfx_ClipPosition : Gfx_ClipPosition0, 
+		float2 Gfx_UV : Gfx_UV0, CustomData customData : Gfx_CustomData0, 
+		float3 Gfx_WorldSpacePos : Gfx_WorldSpacePos0, 
+		float3 Gfx_ModelSpacePos : Gfx_ModelSpacePos0)
+	{
+		float2 combine_119 = float2(Gfx_ClipPosition.x, Gfx_ClipPosition.y);
+		float2 smear_120 = float2(Gfx_ClipPosition.w, Gfx_ClipPosition.w);
+		float2 div_123 = combine_119 / smear_120;
+		float2 ClipToFramebufferUV_125 = ClipToFramebufferUV(div_123);
+		float2 combine_135 = float2(customData.myDisplacement_maptiling, customData.myDisplacement_maptiling);
+		float2 mul_136 = Gfx_UV * combine_135;
+		float mul_134 = Gfx_Environment.time * customData.mydisplacementspeed;
+		float2 smear_144 = float2(frac(mul_134), frac(mul_134));
+		float2 mul_147 = float2(0.1, -0.1) * smear_144;
+		float2 add_150 = mul_136 + mul_147;
+		float4 sample_152 = MR_Sample(Sampler_90, add_150);
+		float3 normal_155;
+		float ambientOcclusion_155;
+		UnpackNormalAndAO(sample_152, normal_155, ambientOcclusion_155);
+		float2 mul_148 = float2(-0.2, 0.3) * smear_144;
+		float2 add_151 = mul_136 + mul_148;
+		float4 sample_153 = MR_Sample(Sampler_90, add_151);
+		float3 normal_156;
+		float ambientOcclusion_156;
+		UnpackNormalAndAO(sample_153, normal_156, ambientOcclusion_156);
+		float3 add_158 = normal_155 + normal_156;
+		float4 combine_162 = float4(add_158.x, add_158.y, add_158.z, float(1));
+		float4 combine_133 = float4(customData.myHDS, customData.myHDS, customData.myHDS, customData.myHDS);
+		float4 mul_164 = combine_162 * combine_133;
+		float2 truncate_166 = float2(mul_164.xy);
+		float2 add_168 = ClipToFramebufferUV_125 + truncate_166;
+		float2 saturate_173 = saturate(add_168);
+		float4 sample_177 = MR_Sample(SSR_FramebufferEarly, saturate_173);
+		float4 combine_130 = float4(customData.myEmission, customData.myEmission, customData.myEmission, customData.myEmission);
+		float4 mul_138 = combine_130 * customData.myColor;
+		float2 combine_143 = float2(float(0.1), customData.myDistortionoffset);
+		float mul_131 = Gfx_Environment.time * customData.myAnimationspeed;
+		float2 combine_139 = float2(float(0), mul_131);
+		float4 transform_121 = MR_Transform(MR_ViewConstants.cameraToWorld, float4(0, 0, 0, 1));
+		float3 truncate_124 = float3(transform_121.xyz);
+		float3 sub_126 = truncate_124 - Gfx_WorldSpacePos;
+		float length_127 = length(sub_126);
+		float mul_141 = customData.myRelativedistance * float(0.001);
+		float mul_154 = length_127 * mul_141;
+		float sub_142 = float(1) - customData.myFalloff;
+		float mul_145 = customData.myvisiblerange * sub_142;
+		float remap_157 = float(1) + saturate((mul_154 - customData.myvisiblerange) / (mul_145 - customData.myvisiblerange)) * (float(0) - float(1));
+		float mul_159 = float(0) * remap_157;
+		float clamp_161 = clamp(mul_159, float(0), float(1));
+		float remap_163 = clamp_161 + saturate((mul_154 - customData.myvisiblerange) / (mul_145 - customData.myvisiblerange)) * (float(1) - clamp_161);
+		float3 normalize_109 = normalize(Gfx_ModelSpacePos);
+		float4 result3_165;
+		MY_SampleEquirectangularTextureNoSeams(Sampler_108, Visibilitymap, float2(12, 6), float2(3, 2), combine_143, combine_139, remap_163, normalize_109, result3_165);
+		float lerp_171 = lerp(result3_165.y, result3_165.z, customData.myDensity);
+		float remap_122 = float(0) + saturate((Gfx_ModelSpacePos.y - float(200)) / (float(0) - float(200))) * (float(1) - float(0));
+		float mul_146 = remap_122 * customData.myAlpha;
+		float sub_149 = float(1) - mul_146;
+		float remap_175 = float(0) + saturate((lerp_171 - sub_149) / (float(1) - sub_149)) * (float(1) - float(0));
+		float mul_170 = result3_165.x * customData.myHue;
+		float add_172 = result3_165.y + mul_170;
+		float mul_176 = add_172 * remap_163;
+		float lerp_178 = lerp(remap_175, mul_176, remap_163);
+		float mul_169 = result3_165.x * result3_165.w;
+		float mul_174 = mul_169 * customData.myHue;
+		float add_179 = lerp_178 + mul_174;
+		float mul_180 = add_179 * float(1);
+		float4 smear_182 = float4(mul_180, mul_180, mul_180, mul_180);
+		float4 mul_184 = mul_138 * smear_182;
+		float4 combine_129 = float4(customData.myEmission, customData.myEmission, customData.myEmission, customData.myEmission);
+		float4 mul_137 = customData.myColor * combine_129;
+		float4 add_185 = mul_184 + mul_137;
+		float clamp_181 = clamp(mul_180, customData.myMinimalAlphaBlend, float(1));
+		float4 smear_183 = float4(clamp_181, clamp_181, clamp_181, clamp_181);
+		float4 lerp_186 = lerp(sample_177, add_185, smear_183);
+		float3 truncate_188 = float3(lerp_186.xyz);
+		float4 result_190 = float4(truncate_188, 1);
+		colorOut = result_190;
+	}
+}

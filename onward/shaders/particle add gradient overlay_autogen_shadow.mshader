@@ -1,0 +1,29 @@
+<keywords = { "GFX_SHADOW_SHADER", }, >
+pixel
+{
+	MR_Sampler2D Texture : MR_Texture0 <pinId = 101>;
+	MR_Sampler2D Texture2 : MR_Texture1 <label = "Texture 2", pinId = 138>;
+	struct CustomData {
+		float myIntensity <default = 1, label = "Intensity", pinId = 118>;
+		float myAlpha <default = 1, label = "Alpha", pinId = 121>;
+		float2 myTextureScale <default = 0 0, label = "Texture Scale", pinId = 133>;
+	};
+	main(out float4 colorOut : MR_Color0, CustomData customData : Gfx_CustomData0, 
+		float2 Gfx_UV : Gfx_UV0, float Gfx_AlphaRef : Gfx_AlphaRef0)
+	{
+		float4 smear_59 = float4(customData.myAlpha, customData.myAlpha, customData.myAlpha, customData.myAlpha);
+		float3 combine_62 = float3(smear_59.x, smear_59.y, smear_59.z);
+		float2 add_54 = Gfx_UV + float2(0, 0);
+		float2 mul_64 = add_54 * customData.myTextureScale;
+		float4 sample_69 = MR_Sample(Texture2, frac(mul_64));
+		float3 combine_75 = float3(sample_69.x, sample_69.y, sample_69.z);
+		float4 sample_67 = MR_Sample(Texture, mul_64);
+		float3 combine_73 = float3(sample_67.x, sample_67.y, sample_67.z);
+		float3 mul_77 = combine_75 * combine_73;
+		float3 mul_79 = combine_62 * mul_77;
+		float truncate_81 = float(mul_79.x);
+		if (truncate_81 < Gfx_AlphaRef) discard;
+		float4 shadowResult = float4(0.0, 0.0, 0.0, truncate_81);
+		colorOut = shadowResult;
+	}
+}

@@ -1,0 +1,82 @@
+<shaderType = "Object", keywords = { "GFX_FORWARD_SHADER", }, >
+import "shaders/modules/graphics/ssr_common.h"
+import "shaders/nodes/shader/functions/cliptoframebufferuv.h"
+import "shaders/modules/graphics/environment.h"
+import "shaders/nodes/shader/functions/unpack normal.h"
+pixel
+{
+	MR_Sampler2D BaseColor : MR_Texture0 {
+		texture = "onward/baked/textures/default_b.dds",
+	} <label = "Base Color", pinId = 102>;
+	MR_Sampler2D Sampler_91 : MR_Texture1 {
+		texture = "onward/baked/textures/heatdistortion_n.dds",
+	};
+	MR_Sampler2D Sampler_87 : MR_Texture2 {
+		texture = "onward/baked/textures/tiling_noise_cloud.dds",
+	};
+	MR_Sampler2D Sampler_102 : MR_Texture3 {
+		texture = "onward/baked/textures/layered_noise_b.dds",
+	};
+	struct CustomData {
+		float4 myemissioncolor <config = { type = "ColorBox", }, default = 0 0 0 0, label = "emission color", pinId = 107>;
+		float2 myuvtiling <default = 0 0, label = "uv tiling", pinId = 108>;
+		float mySpeed <default = 1, label = "Speed", pinId = 109>;
+		float myEmissionIntensity <default = 0, label = "Emission Intensity", pinId = 106>;
+	};
+	main(out float4 colorOut : MR_Color0, float4 Gfx_ClipPosition : Gfx_ClipPosition0, 
+		float2 Gfx_UV : Gfx_UV0, CustomData customData : Gfx_CustomData0, 
+		float4 Gfx_Color : Gfx_Color0)
+	{
+		float2 combine_112 = float2(Gfx_ClipPosition.x, Gfx_ClipPosition.y);
+		float2 smear_113 = float2(Gfx_ClipPosition.w, Gfx_ClipPosition.w);
+		float2 div_118 = combine_112 / smear_113;
+		float2 ClipToFramebufferUV_122 = ClipToFramebufferUV(div_118);
+		float2 combine_116 = float2(float(2), float(2));
+		float2 mul_120 = Gfx_UV * combine_116;
+		float mul_115 = Gfx_Environment.time * float(0.02);
+		float2 smear_123 = float2(frac(mul_115), frac(mul_115));
+		float2 mul_125 = float2(0.1, -0.1) * smear_123;
+		float2 add_129 = mul_120 + mul_125;
+		float4 sample_132 = MR_Sample(Sampler_91, add_129);
+		float3 normal_135;
+		float ambientOcclusion_135;
+		UnpackNormalAndAO(sample_132, normal_135, ambientOcclusion_135);
+		float2 mul_126 = float2(-0.2, 0.3) * smear_123;
+		float2 add_130 = mul_120 + mul_126;
+		float4 sample_133 = MR_Sample(Sampler_91, add_130);
+		float3 normal_136;
+		float ambientOcclusion_136;
+		UnpackNormalAndAO(sample_133, normal_136, ambientOcclusion_136);
+		float3 add_138 = normal_135 + normal_136;
+		float4 combine_140 = float4(add_138.x, add_138.y, add_138.z, float(1));
+		float4 combine_114 = float4(float(0.1), float(0.1), float(0.1), float(0.1));
+		float4 mul_141 = combine_140 * combine_114;
+		float2 truncate_142 = float2(mul_141.xy);
+		float2 add_143 = ClipToFramebufferUV_122 + truncate_142;
+		float2 saturate_144 = saturate(add_143);
+		float4 sample_145 = MR_Sample(SSR_FramebufferEarly, saturate_144);
+		float2 mul_117 = Gfx_UV * float2(1, 1);
+		float4 sample_121 = MR_Sample(Sampler_102, mul_117);
+		float remap_127 = float(0.5) + saturate((sample_121.x - float(0)) / (float(1) - float(0))) * (float(1) - float(0.5));
+		float remap_128 = float(0.9) + saturate((sample_121.z - float(0)) / (float(1) - float(0))) * (float(1) - float(0.9));
+		float2 combine_131 = float2(remap_127, remap_128);
+		float2 mul_134 = Gfx_UV * combine_131;
+		float mul_149 = Gfx_Environment.time * customData.mySpeed;
+		float add_153 = mul_134.x + mul_149;
+		float add_154 = mul_134.y + mul_149;
+		float2 combine_155 = float2(add_153, add_154);
+		float4 sample_156 = MR_Sample(Sampler_87, combine_155);
+		float remap_158 = float(0.1) + saturate((sample_156.x - float(0.4)) / (float(1) - float(0.4))) * (float(1) - float(0.1));
+		float mul_159 = customData.myEmissionIntensity * remap_158;
+		float4 combine_160 = float4(mul_159, mul_159, mul_159, mul_159);
+		float4 mul_161 = customData.myemissioncolor * combine_160;
+		float4 mul_162 = mul_161 * Gfx_Color;
+		float2 mul_148 = Gfx_UV * customData.myuvtiling;
+		float4 sample_150 = MR_Sample(BaseColor, mul_148);
+		float4 combine_152 = float4(sample_150.z, sample_150.z, sample_150.z, sample_150.z);
+		float4 lerp_163 = lerp(sample_145, mul_162, combine_152);
+		float3 truncate_165 = float3(lerp_163.xyz);
+		float4 result_167 = float4(truncate_165, 1);
+		colorOut = result_167;
+	}
+}

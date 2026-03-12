@@ -1,0 +1,26 @@
+<emission = true, shaderType = "Object", keywords = { "GFX_FORWARD_SHADER", }, >
+blend {
+	src = 1,
+	dest = 1,
+}
+pixel
+{
+	MR_Sampler2D Texture : MR_Texture0 <pinId = 101>;
+	struct CustomData {
+		float myIntensity <default = 0, label = "Intensity", pinId = 102>;
+		float4 myColor <default = 0 0 0 0, label = "Color", pinId = 103>;
+	};
+	main(out float4 colorOut : MR_Color0, float2 Gfx_UV : Gfx_UV0, 
+		CustomData customData : Gfx_CustomData0, float2 Gfx_UV1 : Gfx_UV1)
+	{
+		float4 sample_51 = MR_Sample(Texture, Gfx_UV);
+		float4 combine_49 = float4(customData.myIntensity, customData.myIntensity, customData.myIntensity, customData.myIntensity);
+		float4 mul_50 = customData.myColor * combine_49;
+		float4 mul_52 = sample_51 * mul_50;
+		float3 truncate_53 = float3(mul_52.xyz);
+		float3 smear_46 = float3(Gfx_UV1.x, Gfx_UV1.x, Gfx_UV1.x);
+		float3 mul_54 = truncate_53 * smear_46;
+		float4 result_55 = float4(mul_54, float(1));
+		colorOut = result_55;
+	}
+}

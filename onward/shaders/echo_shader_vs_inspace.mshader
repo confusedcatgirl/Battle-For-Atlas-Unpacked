@@ -1,0 +1,25 @@
+<shaderType = "Vertex">
+import "shaders/modules/graphics/environment.h"
+vertex
+{
+	struct CustomData {
+		float myJitter <default = 25, label = "Jitter", pinId = 101>;
+		float myCompensateForFlattening <default = 0, label = "Compensate For Flattening", pinId = 102>;
+	};
+	void ModelSpaceModifier(inout float3 Gfx_ModelSpacePos : Gfx_ModelSpacePos, 
+		CustomData customData : Gfx_CustomData0)
+	{
+		float mul_31 = customData.myJitter * float(0.390349);
+		float mul_32 = Gfx_Environment.time * mul_31;
+		float sin_33 = sin(mul_32);
+		float mul_35 = floor(sin_33) * float(0.1);
+		float3 combine_36 = float3(float(0), mul_35, float(0));
+		float3 add_37 = combine_36 + Gfx_ModelSpacePos;
+		Gfx_ModelSpacePos = add_37;
+	}
+	main(CustomData customData : Gfx_CustomData0, 
+		inout float3 Gfx_ModelSpacePos : Gfx_ModelSpacePos <modifier = "ModelSpaceModifier">)
+	{
+		// dummy comment so the shader writer does save this out
+	}
+}

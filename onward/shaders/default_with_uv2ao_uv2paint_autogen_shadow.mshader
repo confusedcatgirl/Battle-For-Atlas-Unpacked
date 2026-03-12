@@ -1,0 +1,20 @@
+<keywords = { "LIGHT_FROM_GROUND", "IS_MAIN_PLANET", "GFX_SHADOW_SHADER", }, >
+pixel
+{
+	MR_Sampler2D BaseColor : MR_Texture0 {
+		texture = "onward/baked/textures/default_b.dds",
+	} <label = "Base Color", pinId = 102>;
+	struct CustomData {
+		float myIntensity <default = 0, label = "Intensity", pinId = 108>;
+		float myPaintRoughness <default = 1, label = "PaintRoughness", pinId = 111>;
+		float myOverridePaintRoughness <default = 0.75, label = "OverridePaintRoughness", pinId = 112>;
+	};
+	main(CustomData customData : Gfx_CustomData, out float4 colorOut : MR_Color0, 
+		float2 Gfx_UV : Gfx_UV0, float Gfx_AlphaRef : Gfx_AlphaRef0)
+	{
+		float4 sample_107 = MR_Sample(BaseColor, Gfx_UV);
+		if (sample_107.w < Gfx_AlphaRef) discard;
+		float4 shadowResult = float4(0.0, 0.0, 0.0, sample_107.w);
+		colorOut = shadowResult;
+	}
+}

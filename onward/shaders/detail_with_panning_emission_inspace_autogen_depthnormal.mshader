@@ -1,0 +1,28 @@
+pixel
+{
+	MR_Sampler2D BaseColor : MR_Texture0 {
+		texture = "onward/baked/textures/default_b.dds",
+	} <label = "Base Color", pinId = 102>;
+	struct CustomData {
+		float3 myPulseDirection <default = -1 -1 1, label = "Pulse Direction", pinId = 110>;
+		float myEmissionIntensity <default = 500, label = "Emission Intensity", pinId = 106>;
+		float myPulseTiling <default = 1, label = "Pulse Tiling", pinId = 117>;
+		float myPulseSpeed <default = 1, label = "Pulse Speed ", pinId = 114>;
+		float myFaceNormal <config = { max = 1, min = 0, }, default = 0, label = "Face Normal", pinId = 121>;
+		float myPulseWidth <config = { max = 1, min = 0, type = "Slider", }, default = 0, label = "Pulse Width", pinId = 122>;
+		float mySmooth <config = { max = 1, min = 0, }, default = 0, label = "Smooth", pinId = 124>;
+		float2 myDetailScale <default = 30 30, label = "Detail Scale", pinId = 126>;
+		float myStrength <default = 0, label = "Strength", pinId = 128>;
+		float myAjustDistance <default = 0, label = "Ajust Distance", pinId = 129>;
+		float myFalloffCurve <default = 0, label = "Falloff Curve", pinId = 130>;
+	};
+	main(CustomData customData : Gfx_CustomData, out float4 colorOut : MR_Color0, 
+		float2 Gfx_UV : Gfx_UV0, float Gfx_AlphaRef : Gfx_AlphaRef0, 
+		float3 Gfx_CameraSpacePos : Gfx_CameraSpacePos0)
+	{
+		float4 sample_130 = MR_Sample(BaseColor, Gfx_UV);
+		if (sample_130.w < Gfx_AlphaRef) discard;
+		float4 depthResult = float4(Gfx_CameraSpacePos.z, 0, 0, sample_130.w);
+		colorOut = depthResult;
+	}
+}

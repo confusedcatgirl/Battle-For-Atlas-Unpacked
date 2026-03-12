@@ -1,0 +1,70 @@
+<emission = true, shaderType = "Object", keywords = { "LIGHT_FROM_SPACE", "ISNT_MAIN_PLANET", "GFX_FORWARD_SHADER", }, >
+import "shaders/nodes/shader/functions/unpack normal.h"
+import "shaders/nodes/shader/functions/onward/lighting/ow_fullspacebaselighting.h"
+import "shaders/MRender/MR_ViewConstants.h"
+import "shaders/nodes/shader/functions/ow emissive intensity multiplier.h"
+import "shaders/nodes/shader/functions/onward/lighting/ow_spacefog.h"
+pixel
+{
+	MR_Sampler2D BaseColor : MR_Texture0 {
+		texture = "onward/baked/textures/default_b.dds",
+	} <label = "Base Color", pinId = 102>;
+	MR_Sampler2D Normal : MR_Texture1 {
+		texture = "onward/baked/textures/default_n.dds",
+	} <pinId = 103>;
+	MR_Sampler2D Material : MR_Texture2 {
+		texture = "onward/baked/textures/default_m.dds",
+	} <pinId = 104>;
+	MR_Sampler2D EmissiveGradient : MR_Texture3 {
+		wrap = clamp,
+	} <label = "Emissive Gradient", pinId = 110>;
+	struct CustomData {
+		float4 myColour <config = { type = "ColorBox", }, default = 1 1 1 1, label = "Colour", pinId = 107>;
+		float myEmissionIntensity <default = 1, label = "Emission Intensity", pinId = 108>;
+		float myEmissionIntensity2 <default = 0, label = "Emission Intensity 2", pinId = 111>;
+		float myMinDistance <default = 0, label = "Min Distance", pinId = 112>;
+		float myMaxDistance <default = 0, label = "Max Distance", pinId = 113>;
+	};
+	float3 SelectColor(in float3 aColorA, in float3 aColorB, in bool aCond)
+	{
+		return aCond ? aColorA : aColorB;
+	}
+	main(out float4 colorOut : MR_Color0, CustomData customData : Gfx_CustomData0, 
+		float2 Gfx_UV : Gfx_UV0, float3x3 Gfx_TangentToWorld : Gfx_TangentToWorld0, 
+		Gfx_LightingDataStruct Gfx_LightingData : Gfx_LightingData0, 
+		float3 Gfx_WorldSpacePos : Gfx_WorldSpacePos0, 
+		float4 MR_FragCoord : MR_FragCoord, float Gfx_AlphaRef : Gfx_AlphaRef0)
+	{
+		float4 sample_95 = MR_Sample(BaseColor, Gfx_UV);
+		float4 mul_98 = customData.myColour * sample_95;
+		float3 combine_107 = float3(mul_98.x, mul_98.y, mul_98.z);
+		float4 sample_97 = MR_Sample(Normal, Gfx_UV);
+		float3 normal_100;
+		float ambientOcclusion_100;
+		UnpackNormalAndAO(sample_97, normal_100, ambientOcclusion_100);
+		float3 transform_104 = MR_Transform(Gfx_TangentToWorld, normal_100);
+		float4 sample_96 = MR_Sample(Material, Gfx_UV);
+		float3 aLightOut_109;
+		OW_FullBaseSpaceLighting(aLightOut_109, combine_107, transform_104, float(1), sample_96.y, sample_96.x, ambientOcclusion_100, Gfx_LightingData);
+		float2 combine_101 = float2(sample_96.z, float(0.5));
+		float4 sample_105 = MR_Sample(EmissiveGradient, combine_101);
+		float3 sub_86 = MR_ViewConstants.LODCameraPosition - Gfx_WorldSpacePos;
+		float length_89 = length(sub_86);
+		float remap_102 = float(0) + saturate((length_89 - customData.myMinDistance) / (customData.myMaxDistance - customData.myMinDistance)) * (float(1) - float(0));
+		float saturate_106 = saturate(remap_102);
+		float lerp_110 = lerp(customData.myEmissionIntensity, customData.myEmissionIntensity2, saturate_106);
+		float4 smear_111 = float4(lerp_110, lerp_110, lerp_110, lerp_110);
+		float4 mul_112 = sample_105 * smear_111;
+		float3 truncate_114 = float3(mul_112.xyz);
+		float4 truncate_116 = float4(truncate_114.xyz, 1);
+		float4 OWEmissiveIntensityMultiplier_118 = OWEmissiveIntensityMultiplier(truncate_116);
+		float3 truncate_120 = float3(OWEmissiveIntensityMultiplier_118.xyz);
+		float3 SelectColor_122 = SelectColor(truncate_120, truncate_114, true);
+		float3 add_124 = aLightOut_109 + SelectColor_122;
+		float3 aColor_126 = add_124;
+		OW_SpaceFog(aColor_126, Gfx_WorldSpacePos, MR_FragCoord);
+		if (float(1) < Gfx_AlphaRef) discard;
+		float4 result_128 = float4(aColor_126, float(1));
+		colorOut = result_128;
+	}
+}

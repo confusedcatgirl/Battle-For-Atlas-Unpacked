@@ -1,0 +1,132 @@
+<shaderType = "Vertex">
+import "shaders/modules/graphics/environment.h"
+import "shaders/MRender/MR_ViewConstants.h"
+vertex
+{
+	struct CustomData {
+		float3 myWindDirection <default = 1 0 0, label = "Wind Direction", pinId = 108>;
+		float myWindSpeed <default = 1, label = "Wind Speed", pinId = 101>;
+		float myMainBendFalloff <default = 0.01, label = "Main Bend Falloff", pinId = 102>;
+		float myMainBendSpeed <default = 1, label = "Main Bend Speed", pinId = 103>;
+		float myMainBendStrength <default = 1, label = "Main Bend Strength", pinId = 104>;
+		float myBranchBendSpeed <default = 1, label = "Branch Bend Speed", pinId = 105>;
+		float myBranchBendStrength <default = 1, label = "Branch Bend Strength", pinId = 109>;
+		float3 myBranchBendSinPhase <default = 1 1 1, label = "Branch Bend Sin Phase", pinId = 111>;
+		float myEdgeBendSpeed <default = 1, label = "Edge Bend Speed", pinId = 106>;
+		float myEdgeBendStrength <default = 1, label = "Edge Bend Strength", pinId = 107>;
+		float3 myEdgeBendSinPhase <default = 1 1 1, label = "Edge Bend Sin Phase", pinId = 110>;
+	};
+	float3 TriangleWave(float3 x)
+	{
+		return abs( frac( x + 0.5 ) * 2.0 - 1.0 );
+	}
+	float3 SmoothCurve(float3 x)
+	{
+		return x * x *( 3.0 - 2.0 * x );
+	}
+	float2 GetYScale(float3x4 modelToWorld)
+	{
+		return float2(length(MR_GetXAxis(modelToWorld).xyz), length(MR_GetYAxis(modelToWorld).xyz));
+	}
+	float3x4 billboard52(float4x4 worldToCam, float3 pos)
+	{
+		float3 ct = MR_GetXAxis(worldToCam).xyz;
+		float3 cb = MR_GetYAxis(worldToCam).xyz;
+		float3 cn = MR_GetZAxis(worldToCam).xyz;
+		float3x4 m2 = MR_RowMatrix(float4(ct, pos.x), float4(cb ,pos.y), float4(cn ,pos.z));
+		return m2;
+	}
+	void ModelSpaceModifier(inout float3 Gfx_ModelSpacePos : Gfx_ModelSpacePos, 
+		float3x4 Gfx_ObjectToWorldMatrix : Gfx_ObjectToWorldMatrix0, 
+		float2 Gfx_UV2 : Gfx_UV2, float2 Gfx_UV1 : Gfx_UV1, 
+		float3 Gfx_ModelSpaceNormal : Gfx_ModelSpaceNormal0, 
+		float4 Gfx_Color : Gfx_Color0, CustomData customData : Gfx_CustomData0)
+	{
+		float length_36 = length(Gfx_ModelSpacePos);
+		float mul_78 = length_36 * customData.myMainBendFalloff;
+		float add_85 = mul_78 + float(1);
+		float mul_88 = add_85 * add_85;
+		float mul_90 = mul_88 * mul_88;
+		float sub_91 = mul_90 - mul_88;
+		float3 combine_93 = float3(sub_91, sub_91, sub_91);
+		float mul_66 = Gfx_Environment.time * customData.myWindSpeed;
+		float3 combine_73 = float3(mul_66, mul_66, mul_66);
+		float3 mul_81 = combine_73 * customData.myWindDirection;
+		float3 smear_67 = float3(customData.myMainBendSpeed, customData.myMainBendSpeed, customData.myMainBendSpeed);
+		float3 mul_74 = smear_67 * float3(1, 1, 1);
+		float3 mul_82 = mul_81 * mul_74;
+		float3 TriangleWave_86 = TriangleWave(mul_82);
+		float3 SmoothCurve_89 = SmoothCurve(TriangleWave_86);
+		float3 saturate_92 = saturate(SmoothCurve_89);
+		float3 mul_94 = saturate_92 * float3(1, 1, 1);
+		float3 mul_95 = mul_94 * float3(1, 1, 1);
+		float3 mul_96 = combine_93 * mul_95;
+		float3 smear_68 = float3(customData.myMainBendStrength, customData.myMainBendStrength, customData.myMainBendStrength);
+		float3 smear_52 = float3(Gfx_Color.w, Gfx_Color.w, Gfx_Color.w);
+		float3 mul_84 = smear_68 * smear_52;
+		float3 mul_97 = mul_96 * mul_84;
+		float3 add_98 = Gfx_ModelSpacePos + mul_97;
+		float3 clamp_80 = clamp(customData.myBranchBendSinPhase, float3(0.001, 0.001, 0.001), float3(65536, 65536, 65536));
+		float3 div_99 = add_98 / clamp_80;
+		float mul_69 = Gfx_Environment.time * customData.myBranchBendSpeed;
+		float3 smear_75 = float3(mul_69, mul_69, mul_69);
+		float3 add_100 = div_99 + smear_75;
+		float3 smear_50 = float3(Gfx_Color.y, Gfx_Color.y, Gfx_Color.y);
+		float3 add_101 = add_100 + smear_50;
+		float3 TriangleWave_102 = TriangleWave(add_101);
+		float3 SmoothCurve_103 = SmoothCurve(TriangleWave_102);
+		float3 saturate_104 = saturate(SmoothCurve_103);
+		float3 mul_105 = saturate_104 * float3(0, 1, 0);
+		float3 smear_70 = float3(customData.myBranchBendStrength, customData.myBranchBendStrength, customData.myBranchBendStrength);
+		float3 smear_51 = float3(Gfx_Color.z, Gfx_Color.z, Gfx_Color.z);
+		float3 mul_83 = smear_70 * smear_51;
+		float3 mul_87 = mul_83 * float3(1, 1, 1);
+		float3 mul_106 = mul_105 * mul_87;
+		float3 add_107 = add_98 + mul_106;
+		float3 clamp_79 = clamp(customData.myEdgeBendSinPhase, float3(0.001, 0.001, 0.001), float3(65536, 65536, 65536));
+		float3 div_108 = add_107 / clamp_79;
+		float mul_71 = Gfx_Environment.time * customData.myEdgeBendSpeed;
+		float3 smear_76 = float3(mul_71, mul_71, mul_71);
+		float3 add_109 = div_108 + smear_76;
+		float3 smear_49 = float3(Gfx_Color.y, Gfx_Color.y, Gfx_Color.y);
+		float3 add_110 = add_109 + smear_49;
+		float3 mul_111 = add_110 * customData.myWindDirection;
+		float3 TriangleWave_112 = TriangleWave(mul_111);
+		float3 SmoothCurve_113 = SmoothCurve(TriangleWave_112);
+		float3 smear_72 = float3(customData.myEdgeBendStrength, customData.myEdgeBendStrength, customData.myEdgeBendStrength);
+		float3 mul_77 = smear_72 * float3(1, 0, 1);
+		float3 mul_114 = SmoothCurve_113 * mul_77;
+		float3 smear_54 = float3(Gfx_Color.x, Gfx_Color.x, Gfx_Color.x);
+		float add_53 = Gfx_Color.x + Gfx_Color.y;
+		float3 smear_58 = float3(add_53, add_53, add_53);
+		float3 mul_59 = smear_54 * smear_58;
+		float3 mul_62 = mul_59 * Gfx_ModelSpaceNormal;
+		float3 mul_64 = mul_62 * float3(0.25, 0.25, 0.25);
+		float3 mul_115 = mul_114 * mul_64;
+		float3 add_116 = add_107 + mul_115;
+		float3 combine_55 = float3(Gfx_UV1.x, Gfx_UV2.x, Gfx_UV1.y);
+		float3 sub_117 = add_116 - combine_55;
+		float2 GetYScale_48 = GetYScale(Gfx_ObjectToWorldMatrix);
+		float3 combine_61 = float3(GetYScale_48.x, GetYScale_48.y, float(1));
+		float3 mul_118 = sub_117 * combine_61;
+		Gfx_ModelSpacePos = mul_118;
+	}
+	void ObjectToWorldModifier(inout float3x4 Gfx_GeneratedObjectToWorldMatrix : Gfx_GeneratedObjectToWorldMatrix, 
+		float2 Gfx_UV2 : Gfx_UV2, float2 Gfx_UV1 : Gfx_UV1, 
+		float3x4 Gfx_ObjectToWorldMatrix : Gfx_ObjectToWorldMatrix0)
+	{
+		float3 combine_56 = float3(Gfx_UV1.x, Gfx_UV2.x, Gfx_UV1.y);
+		float3 transform_60 = MR_Transform(Gfx_ObjectToWorldMatrix, combine_56);
+		float3x4 billboard52_63 = billboard52(MR_ViewConstants.worldToCamera, transform_60);
+		Gfx_GeneratedObjectToWorldMatrix = billboard52_63;
+	}
+	main(CustomData customData : Gfx_CustomData0, float4 Gfx_Color : Gfx_Color0, 
+		float3 Gfx_ModelSpaceNormal : Gfx_ModelSpaceNormal0, float2 Gfx_UV1 : Gfx_UV1, 
+		float2 Gfx_UV2 : Gfx_UV2, 
+		float3x4 Gfx_ObjectToWorldMatrix : Gfx_ObjectToWorldMatrix0, 
+		inout float3 Gfx_ModelSpacePos : Gfx_ModelSpacePos <modifier = "ModelSpaceModifier">, 
+		inout float3x4 Gfx_GeneratedObjectToWorldMatrix : Gfx_GeneratedObjectToWorldMatrix <modifier = "ObjectToWorldModifier">)
+	{
+		// dummy comment so the shader writer does save this out
+	}
+}

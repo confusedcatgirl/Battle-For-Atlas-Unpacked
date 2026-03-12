@@ -1,0 +1,23 @@
+import "shaders/modules/graphics/deferred_data.h"
+import "shaders/modules/graphics/normal_encode.h"
+pixel
+{
+	MR_SamplerCube PlanetCubemap : MR_Texture0 <label = "Planet Cubemap", pinId = 101>;
+	main(bool MR_IsFrontFace : MR_IsFrontFace, 
+		out Gfx_DeferredData deferredOut : Gfx_Deferred, 
+		float3 Gfx_ModelSpacePos : Gfx_ModelSpacePos0, 
+		float3 Gfx_WorldSpaceNormal : Gfx_WorldSpaceNormal0)
+	{
+		float3 normalize_29 = normalize(Gfx_ModelSpacePos);
+		float4 sample_32 = MR_Sample(PlanetCubemap, normalize_29);
+		float3 truncate_33 = float3(sample_32.xyz);
+		deferredOut.color = truncate_33;
+		deferredOut.roughness = float(1);
+		deferredOut.metalness = float(0);
+		deferredOut.ao = float(0.5);
+		float3 flippedNormal = Gfx_WorldSpaceNormal;
+		if (!MR_IsFrontFace)
+		    flippedNormal = -flippedNormal;
+		deferredOut.worldNormal = flippedNormal;
+	}
+}

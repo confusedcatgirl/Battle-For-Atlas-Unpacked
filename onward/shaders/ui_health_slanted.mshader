@@ -1,0 +1,121 @@
+<shaderType = "UI", >
+import "shaders/modules/graphics/drawer/drawer.h"
+blend {
+	writeMask = rgba,
+	src = 1,
+	src.a = 0,
+}
+pixel
+{
+	struct CustomData {
+		float3 myColor <default = 0.5 0.5 0.5, label = "Color", pinId = 106>;
+		float2 myScale <default = 1 1, label = "Scale", pinId = 102>;
+		float myStep <default = 0.5, label = "Step", pinId = 104>;
+		float mySmooth <default = 0.2, label = "Smooth", pinId = 105>;
+		float myAngle <default = 0, label = "Angle", pinId = 107>;
+		float myXSmoothOffset <default = 0.2, label = "XSmooth Offset", pinId = 108>;
+		float myOpacity <default = 1, label = "Opacity", pinId = 110>;
+	};
+	main(out float4 colorOut : MR_Color0, float2 Gfx_UV : Gfx_UV0, 
+		CustomData customData : Gfx_CustomData0)
+	{
+		float smoothStep_104 = smoothstep(float(0.1), float(1), Gfx_UV.y);
+		float mul_111 = customData.mySmooth * customData.myXSmoothOffset;
+		float add_120 = float(0.1) + mul_111;
+		float2 mul_107 = customData.myScale * Gfx_UV;
+		float2 sub_116 = mul_107 - float2(0.5, 0.5);
+		float sinAngle_136 = sin(customData.myAngle);
+		float cosAngle_136 = cos(customData.myAngle);
+		float2x2 rotMat_136 = { cosAngle_136, -sinAngle_136, sinAngle_136, cosAngle_136 };
+		float2 rot2d_136 = MR_Transform(rotMat_136, sub_116);
+		float2 add_146 = rot2d_136 + float2(0.5, 0.5);
+		float smoothStep_159 = smoothstep(float(0.1), add_120, add_146.x);
+		float mul_110 = customData.mySmooth * customData.myXSmoothOffset;
+		float mul_119 = mul_110 * float(0.5);
+		float sub_135 = float(0.9) - mul_119;
+		float add_134 = float(0.9) + mul_119;
+		float smoothStep_160 = smoothstep(sub_135, add_134, add_146.x);
+		float sub_165 = float(1) - smoothStep_160;
+		float mul_168 = smoothStep_159 * sub_165;
+		float sub_128 = float(1) - customData.mySmooth;
+		float smoothStep_143 = smoothstep(sub_128, float(1), Gfx_UV.y);
+		float smoothStep_127 = smoothstep(customData.mySmooth, float(0), Gfx_UV.y);
+		float add_150 = smoothStep_143 + smoothStep_127;
+		float sub_156 = float(1) - add_150;
+		float mul_171 = mul_168 * sub_156;
+		float smoothStep_174 = smoothstep(float(0), float(0.5), mul_171);
+		float mul_178 = smoothStep_104 * smoothStep_174;
+		float mul_183 = mul_178 * float(0.25);
+		float4 smear_187 = float4(mul_183, mul_183, mul_183, mul_183);
+		float3 mul_125 = customData.myColor * float3(1, 1, 1.5);
+		float3 mul_126 = mul_125 * float3(1, 0.75, 1.25);
+		float3 smear_105 = float3(smoothStep_104, smoothStep_104, smoothStep_104);
+		float3 lerp_149 = lerp(mul_125, mul_126, smear_105);
+		float mul_113 = customData.mySmooth * customData.myXSmoothOffset;
+		float add_122 = float(0.1) + mul_113;
+		float2 mul_108 = customData.myScale * Gfx_UV;
+		float2 sub_117 = mul_108 - float2(0.5, 0.5);
+		float sinAngle_137 = sin(customData.myAngle);
+		float cosAngle_137 = cos(customData.myAngle);
+		float2x2 rotMat_137 = { cosAngle_137, -sinAngle_137, sinAngle_137, cosAngle_137 };
+		float2 rot2d_137 = MR_Transform(rotMat_137, sub_117);
+		float2 add_147 = rot2d_137 + float2(0.5, 0.5);
+		float smoothStep_161 = smoothstep(float(0.1), add_122, add_147.x);
+		float remap_133 = float(0.1) + saturate((customData.myStep - float(0)) / (float(1) - float(0))) * (float(0.9) - float(0.1));
+		float mul_112 = customData.mySmooth * customData.myXSmoothOffset;
+		float mul_121 = mul_112 * float(0.5);
+		float sub_140 = remap_133 - mul_121;
+		float add_139 = remap_133 + mul_121;
+		float smoothStep_162 = smoothstep(sub_140, add_139, add_147.x);
+		float sub_166 = float(1) - smoothStep_162;
+		float mul_169 = smoothStep_161 * sub_166;
+		float sub_130 = float(1) - customData.mySmooth;
+		float smoothStep_144 = smoothstep(sub_130, float(1), Gfx_UV.y);
+		float smoothStep_129 = smoothstep(customData.mySmooth, float(0), Gfx_UV.y);
+		float add_151 = smoothStep_144 + smoothStep_129;
+		float sub_157 = float(1) - add_151;
+		float mul_172 = mul_169 * sub_157;
+		float smoothStep_175 = smoothstep(float(0), float(0.5), mul_172);
+		float sub_177 = smoothStep_174 - smoothStep_175;
+		float3 smear_181 = float3(sub_177, sub_177, sub_177);
+		float3 lerp_185 = lerp(lerp_149, float3(0, 0, 0), smear_181);
+		float mul_182 = sub_177 * float(0.5);
+		float sub_186 = smoothStep_174 - mul_182;
+		float mul_189 = sub_186 * float(1.15);
+		float saturate_179 = saturate(smoothStep_175);
+		float mul_115 = customData.mySmooth * customData.myXSmoothOffset;
+		float add_124 = float(0.1) + mul_115;
+		float2 mul_109 = customData.myScale * Gfx_UV;
+		float2 sub_118 = mul_109 - float2(0.5, 0.5);
+		float sinAngle_138 = sin(customData.myAngle);
+		float cosAngle_138 = cos(customData.myAngle);
+		float2x2 rotMat_138 = { cosAngle_138, -sinAngle_138, sinAngle_138, cosAngle_138 };
+		float2 rot2d_138 = MR_Transform(rotMat_138, sub_118);
+		float2 add_148 = rot2d_138 + float2(0.5, 0.5);
+		float smoothStep_163 = smoothstep(float(0.1), add_124, add_148.x);
+		float mul_114 = customData.mySmooth * customData.myXSmoothOffset;
+		float mul_123 = mul_114 * float(0.5);
+		float sub_142 = remap_133 - mul_123;
+		float add_141 = remap_133 + mul_123;
+		float smoothStep_164 = smoothstep(sub_142, add_141, add_148.x);
+		float sub_167 = float(1) - smoothStep_164;
+		float mul_170 = smoothStep_163 * sub_167;
+		float sub_132 = float(1) - customData.mySmooth;
+		float smoothStep_145 = smoothstep(sub_132, float(1), Gfx_UV.y);
+		float smoothStep_131 = smoothstep(customData.mySmooth, float(0), Gfx_UV.y);
+		float add_152 = smoothStep_145 + smoothStep_131;
+		float sub_158 = float(1) - add_152;
+		float mul_173 = mul_170 * sub_158;
+		float smoothStep_176 = smoothstep(float(0), float(0.5), mul_173);
+		float saturate_180 = saturate(smoothStep_176);
+		float sub_184 = saturate_179 - saturate_180;
+		float mul_188 = sub_184 * smoothStep_175;
+		float add_190 = mul_189 + mul_188;
+		float mul_191 = customData.myOpacity * add_190;
+		float4 combine_192 = float4(lerp_185, mul_191);
+		float4 add_193 = smear_187 + combine_192;
+		float4 finalColor = vec4(0);
+		finalColor = BlendColor(add_193, float(0));
+		colorOut = finalColor;
+	}
+}

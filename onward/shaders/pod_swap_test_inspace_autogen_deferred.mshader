@@ -1,0 +1,50 @@
+import "shaders/modules/graphics/deferred_data.h"
+import "shaders/modules/graphics/normal_encode.h"
+import "shaders/nodes/shader/functions/unpack normal.h"
+pixel
+{
+	MR_Sampler2D BaseColor : MR_Texture0 {
+		texture = "onward/baked/textures/default_b.dds",
+	} <label = "Base Color", pinId = 102>;
+	MR_Sampler2D Normal : MR_Texture1 {
+		texture = "onward/baked/textures/default_n.dds",
+	} <pinId = 103>;
+	MR_Sampler2D Material : MR_Texture2 {
+		texture = "onward/baked/textures/default_m.dds",
+	} <pinId = 104>;
+	struct CustomData {
+		float myUVOffset <default = 0, label = "UV Offset", pinId = 107>;
+		float myEmissiveMultiplier <default = 1, label = "Emissive Multiplier", pinId = 108>;
+	};
+	main(bool MR_IsFrontFace : MR_IsFrontFace, 
+		out Gfx_DeferredData deferredOut : Gfx_Deferred <emission = true,>, 
+		float2 Gfx_UV : Gfx_UV0, CustomData customData : Gfx_CustomData0, 
+		float Gfx_AlphaRef : Gfx_AlphaRef0, 
+		float3x3 Gfx_TangentToWorld : Gfx_TangentToWorld0)
+	{
+		float add_63 = Gfx_UV.y + customData.myUVOffset;
+		float2 combine_66 = float2(Gfx_UV.x, add_63);
+		float4 sample_68 = MR_Sample(BaseColor, combine_66);
+		float3 combine_70 = float3(sample_68.x, sample_68.y, sample_68.z);
+		float3 smear_71 = float3(sample_68.w, sample_68.w, sample_68.w);
+		float3 mul_73 = combine_70 * smear_71;
+		deferredOut.color = mul_73;
+		float3 smear_60 = float3(customData.myEmissiveMultiplier, customData.myEmissiveMultiplier, customData.myEmissiveMultiplier);
+		float3 mul_72 = combine_70 * smear_60;
+		deferredOut.emission = mul_72;
+		float4 sample_61 = MR_Sample(Material, Gfx_UV);
+		deferredOut.roughness = sample_61.y;
+		deferredOut.metalness = sample_61.x;
+		float4 sample_62 = MR_Sample(Normal, Gfx_UV);
+		float3 normal_65;
+		float ambientOcclusion_65;
+		UnpackNormalAndAO(sample_62, normal_65, ambientOcclusion_65);
+		deferredOut.ao = ambientOcclusion_65;
+		if (sample_68.w < Gfx_AlphaRef) discard;
+		float3 transform_67 = MR_Transform(Gfx_TangentToWorld, normal_65);
+		float3 flippedNormal = transform_67;
+		if (!MR_IsFrontFace)
+		    flippedNormal = -flippedNormal;
+		deferredOut.worldNormal = flippedNormal;
+	}
+}

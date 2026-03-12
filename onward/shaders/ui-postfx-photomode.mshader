@@ -1,0 +1,86 @@
+<shaderType = "UI", >
+import "shaders/modules/graphics/drawer/drawer.h"
+import "shaders/nodes/shader/functions/framebuffer color.h"
+import "shaders/nodes/shader/ui/ui blit effect fullscreen uv.h"
+blend {
+	writeMask = rgba,
+	src = 1,
+	src.a = 0,
+}
+pixel
+{
+	struct CustomData {
+		float myTemperature <default = 0, label = "Temperature", pinId = 107>;
+		float myTint <default = 0, label = "Tint", pinId = 108>;
+		float myOffset <default = 0, label = "Offset", pinId = 109>;
+		float mySaturation <default = 1, label = "Saturation", pinId = 110>;
+		float myVignetteStrength <default = 0, label = "Vignette Strength", pinId = 111>;
+		float myBarHeight <default = 0, label = "BarHeight", pinId = 115>;
+	};
+	float3 vibrance(float3 color, float vibrance)
+	{
+		float3 output;
+		if(vibrance<0.0){
+		float avg = dot(color, float3(0.3, 0.6, 0.1));
+		output = lerp(color, float3(avg,avg,avg),  abs(float3(vibrance,vibrance,vibrance))); 
+		}
+		else
+		{
+		float3 coefLuma = float3(0.212656, 0.715158, 0.072186);
+		float luma = dot(coefLuma, color);
+
+		float max_color = max(color.r, max(color.g, color.b)); 
+		float min_color = min(color.r, min(color.g, color.b)); 
+
+		float color_saturation = max(max_color - min_color,0.0); 
+
+		float3 coeffVibrance = float3(float3(1.0,1.0,1.0) * float3(vibrance,vibrance,vibrance));
+		output = lerp(luma, color, 1.0 + (coeffVibrance * (1.0 - (sign(coeffVibrance) * color_saturation))));
+		}
+
+		return output;
+	}
+	float VignetteStrength(float len, float vignetteOffset, float vignetteScale, float vignetteExponent, 
+		float vignetteStrength)
+	{
+		float t = saturate(max(pow(max(vignetteOffset - len, 0) * vignetteScale, vignetteExponent),0));
+		float vignetteStr = 1 - vignetteStrength*(1-t);
+		return vignetteStr;
+	}
+	main(out float4 colorOut : MR_Color0, CustomData customData : Gfx_CustomData0, 
+		float4 MR_FragCoord : MR_FragCoord, float4 Gfx_ClipPosition : Gfx_ClipPosition0)
+	{
+		float3 smear_33 = float3(customData.myOffset, customData.myOffset, customData.myOffset);
+		float3 GetFramebufferColor_14 = GetFramebufferColor(MR_FragCoord);
+		float add_36 = GetFramebufferColor_14.x + customData.myTemperature;
+		float max_41 = max(add_36, float(0));
+		float add_37 = GetFramebufferColor_14.y + customData.myTint;
+		float max_42 = max(add_37, float(0));
+		float sub_38 = GetFramebufferColor_14.z - customData.myTemperature;
+		float max_43 = max(sub_38, float(0));
+		float3 combine_47 = float3(max_41, max_42, max_43);
+		float3 mul_51 = smear_33 * combine_47;
+		float3 vibrance_53 = vibrance(mul_51, customData.mySaturation);
+		float2 UIGetBlitEffectFullscreenUV_13 = UIGetBlitEffectFullscreenUV(Gfx_ClipPosition);
+		float2 mul_28 = UIGetBlitEffectFullscreenUV_13 * float2(2, 2);
+		float2 sub_30 = mul_28 - float2(1, 1);
+		float length_31 = length(sub_30);
+		float VignetteStrength_44 = VignetteStrength(length_31, float(1.8), float(1.1), float(0.7), customData.myVignetteStrength);
+		float3 smear_48 = float3(VignetteStrength_44, VignetteStrength_44, VignetteStrength_44);
+		float3 mul_54 = vibrance_53 * smear_48;
+		float2 combine_34 = float2(float(0), customData.myBarHeight);
+		float2 UIGetBlitEffectFullscreenUV_12 = UIGetBlitEffectFullscreenUV(Gfx_ClipPosition);
+		float2 step_39 = step(combine_34, UIGetBlitEffectFullscreenUV_12);
+		float mul_49 = step_39.x * step_39.y;
+		float2 sub_27 = float2(1, 1) - UIGetBlitEffectFullscreenUV_12;
+		float2 step_35 = step(combine_34, sub_27);
+		float mul_46 = step_35.x * step_35.y;
+		float mul_50 = mul_49 * mul_46;
+		float3 smear_52 = float3(mul_50, mul_50, mul_50);
+		float3 mul_55 = mul_54 * smear_52;
+		float4 combine_56 = float4(mul_55, float(1));
+		float4 finalColor = vec4(0);
+		finalColor = BlendColor(combine_56, float(0));
+		colorOut = finalColor;
+	}
+}

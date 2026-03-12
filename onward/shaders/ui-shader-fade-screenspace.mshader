@@ -1,0 +1,52 @@
+<shaderType = "UI", >
+import "shaders/modules/graphics/drawer/drawer.h"
+import "shaders/nodes/shader/functions/screen position.h"
+blend {
+	writeMask = rgba,
+	src = 1,
+	src.a = 0,
+}
+pixel
+{
+	MR_Sampler2D Texture : MR_Texture0 <pinId = 101>;
+	struct CustomData {
+		float4 myVisibleBounds <default = 100 100 700 500, label = "Visible Bounds", pinId = 104>;
+		float myFadeSize <default = 50, label = "Fade Size", pinId = 102>;
+	};
+	main(out float4 colorOut : MR_Color0, int UI_RenderType : UI_RenderType1, 
+		float2 Gfx_UV : Gfx_UV0, float4 Gfx_Color : Gfx_Color0, 
+		CustomData customData : Gfx_CustomData0, float4 MR_FragCoord : MR_FragCoord)
+	{
+		float4 sample_29 = GetColorInfo(Texture, Gfx_UV, In.UI_RenderType);
+		float4 mul_35 = sample_29 * Gfx_Color;
+		float sub_24 = customData.myVisibleBounds.x - customData.myFadeSize;
+		float2 ScreenPosition_12 = ScreenPosition(MR_FragCoord);
+		float smoothStep_30 = smoothstep(sub_24, customData.myVisibleBounds.x, ScreenPosition_12.x);
+		float sub_25 = customData.myVisibleBounds.y - customData.myFadeSize;
+		float smoothStep_31 = smoothstep(sub_25, customData.myVisibleBounds.y, ScreenPosition_12.y);
+		float mul_38 = smoothStep_30 * smoothStep_31;
+		float add_26 = customData.myVisibleBounds.z + customData.myFadeSize;
+		float smoothStep_32 = smoothstep(customData.myVisibleBounds.z, add_26, ScreenPosition_12.x);
+		float sub_36 = float(1) - smoothStep_32;
+		float add_27 = customData.myVisibleBounds.w + customData.myFadeSize;
+		float smoothStep_33 = smoothstep(customData.myVisibleBounds.w, add_27, ScreenPosition_12.y);
+		float sub_37 = float(1) - smoothStep_33;
+		float mul_41 = sub_36 * sub_37;
+		float mul_42 = mul_38 * mul_41;
+		float4 combine_28 = float4(-customData.myFadeSize, -customData.myFadeSize, customData.myFadeSize, customData.myFadeSize);
+		float4 add_34 = customData.myVisibleBounds + combine_28;
+		float step_43 = step(add_34.x, ScreenPosition_12.x);
+		float step_45 = step(ScreenPosition_12.x, add_34.z);
+		float mul_47 = step_43 * step_45;
+		float step_44 = step(add_34.y, ScreenPosition_12.y);
+		float step_46 = step(ScreenPosition_12.y, add_34.w);
+		float mul_48 = step_44 * step_46;
+		float mul_49 = mul_47 * mul_48;
+		float mul_50 = mul_42 * mul_49;
+		float mul_51 = mul_50 * mul_35.w;
+		float4 combine_52 = float4(mul_35.xyz, mul_51);
+		float4 finalColor = vec4(0);
+		finalColor = BlendColor(combine_52, float(0));
+		colorOut = finalColor;
+	}
+}

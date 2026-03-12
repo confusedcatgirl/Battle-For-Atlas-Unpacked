@@ -1,0 +1,868 @@
+include modules/core/audio/audio.fruit
+
+AmbienceThemeData myAmbienceThemeData
+{
+	mySamplingMaxDistance 175.0
+	myVolumeAtMinSampleDistance 1.0
+	myVolumeAtMaxSampleDistance 0.0
+	mySmallRoomRadius 10.0
+	myMediumRoomRadius 20.0
+	myLargeRoomRadius 30.0
+	myAmbienceThemes
+	{
+		AmbienceTheme AMB_Themes_Planet_01_Oasis
+		{
+			myID 0x0017ff00
+			myAudioRotationalEvents
+			{
+			}
+			myAudioNonRotationalEvents
+			{
+				AudioEvent Planet_01_Oasis_RFX
+				{
+					myGuid 4E78E270F97F6884A67E84078776BD80
+				}
+				AudioEvent Planet_01_Oasis_Pad
+				{
+					myGuid 43BA1F4FD6C8F6613A5267F152BA5695
+				}
+			}
+			myAuxBusOne
+			{
+				myGuid 00000000000000000000000000000000
+			}
+			myIsCompactTheme FALSE
+			myRequiredBank
+			{
+				myGuid 4AF731DC8313E97E2CB09E5E4300C3A5
+			}
+		}
+		AmbienceTheme AMB_Themes_Planet_01_Sand
+		{
+			myID 0x001700ff
+			myAudioRotationalEvents
+			{
+			}
+			myAudioNonRotationalEvents
+			{
+				AudioEvent Planet_01_Sand_RFX
+				{
+					myGuid 43422F7772D8AC731A8B3A5A1FA7D3BA
+				}
+				AudioEvent Planet_01_Sand_Pad
+				{
+					myGuid 4EBBB15BE9E08E69033AE99CB86D4E8D
+				}
+			}
+			myAuxBusOne
+			{
+				myGuid 00000000000000000000000000000000
+			}
+			myIsCompactTheme FALSE
+			myRequiredBank
+			{
+				myGuid 4AF731DC8313E97E2CB09E5E4300C3A5
+			}
+		}
+		AmbienceTheme AMB_Themes_Planet_01_Water
+		{
+			myID 0x0017ffff
+		}
+		AmbienceTheme AMB_Themes_Planet_02_Marsh
+		{
+			myID 0x002300ff
+			myAudioRotationalEvents
+			{
+				AudioEvent "TEST MARSH"
+				{
+					myGuid 4563548C9AB417F7B2B794F2CE397794
+				}
+			}
+			myAudioNonRotationalEvents
+			{
+			}
+			myRequiredBank
+			{
+				myGuid 00000000000000000000000000000000
+			}
+		}
+		AmbienceTheme AMB_Themes_Planet_02_Water
+		{
+			myID 0x0023ff00
+			myAudioRotationalEvents
+			{
+				AudioEvent "TEST WATER"
+				{
+					myGuid 4FDD9FFD2BEF4763B984584921FE7097
+				}
+			}
+			myAudioNonRotationalEvents
+			{
+			}
+			myRequiredBank
+			{
+				myGuid 00000000000000000000000000000000
+			}
+		}
+		AmbienceTheme AMB_Themes_Planet_03_Plains
+		{
+			myID 0x002dff00
+			myAudioNonRotationalEvents
+			{
+				AudioEvent Planet_03_Plains_Pad
+				{
+					myGuid 4A121C9E7E0D9D787207440AA46BA995
+				}
+				AudioEvent Planet_03_Grass_RFX
+				{
+					myGuid 425B1F3CF9F6BC0418DE9D628789B581
+				}
+			}
+			myRequiredBank
+			{
+				myGuid 48A47FADEF0D6C94BB8CF505D2AE43A9
+			}
+		}
+		AmbienceTheme AMB_Themes_Planet_03_Forest
+		{
+			myID 0x002d00ff
+			myAudioNonRotationalEvents
+			{
+				AudioEvent Planet_03_Forest_Pad
+				{
+					myGuid 493C6207A3B020EAB2BEAF15BF2A659F
+				}
+				AudioEvent Planet_03_Forest_RFX
+				{
+					myGuid 44D611C2AE42DAF546F461E2166599B6
+				}
+			}
+			myRequiredBank
+			{
+				myGuid 48A47FADEF0D6C94BB8CF505D2AE43A9
+			}
+		}
+		AmbienceTheme AMB_Themes_Planet_03_Water
+		{
+			myID 0x002dffff
+			myAudioRotationalEvents
+			{
+			}
+			myAudioNonRotationalEvents
+			{
+				AudioEvent Planet_03_Water_Pad
+				{
+					myGuid 456E35BA5F6641E578AEDBBD3BA8C3A7
+				}
+				AudioEvent Planet_03_Water_RFX
+				{
+					myGuid 4A03E07414D62DBDB47010DD1DAA2EA3
+				}
+			}
+			myRequiredBank
+			{
+				myGuid 48A47FADEF0D6C94BB8CF505D2AE43A9
+			}
+		}
+		AmbienceTheme AMB_Themes_Planet_04_Spores
+		{
+			myID 0x0037ff00
+			myAudioRotationalEvents
+			{
+			}
+			myAudioNonRotationalEvents
+			{
+				AudioEvent Planet_04_Spores_RFX
+				{
+					myGuid 4DCB12F3C725DEADD7CD12B3BE8AEF93
+				}
+				AudioEvent Planet_04_Spores_Pad
+				{
+					myGuid 4923A3E4E438B1AB2076FE274E2C969B
+				}
+			}
+			myAuxBusOne
+			{
+				myGuid 44495AA6DE3CE48D9B983A08B6C2CFA1
+			}
+			myRequiredBank
+			{
+				myGuid 4A5BBBC724BF8262D2F7A257ACFA80BB
+			}
+		}
+		AmbienceTheme AMB_Themes_Planet_04_Rock
+		{
+			myID 0x003700ff
+			myAudioRotationalEvents
+			{
+			}
+			myAudioNonRotationalEvents
+			{
+				AudioEvent Planet_04_Rock_RFX
+				{
+					myGuid 493870196CDF8CC0388FC00F8E400D9C
+				}
+				AudioEvent Planet_04_Rock_Pad
+				{
+					myGuid 4817DE74646F23510BD3955A28D460A9
+				}
+			}
+			myRequiredBank
+			{
+				myGuid 4A5BBBC724BF8262D2F7A257ACFA80BB
+			}
+		}
+		AmbienceTheme AMB_Themes_Planet_04_Water
+		{
+			myID 0x0037ffff
+			myAudioRotationalEvents
+			{
+			}
+			myAudioNonRotationalEvents
+			{
+				AudioEvent Planet_04_Water_RFX
+				{
+					myGuid 429E3845F26DFB1F225CF677868DFF8D
+				}
+				AudioEvent Planet_04_Water_Pad
+				{
+					myGuid 4ACDEE8D65FA0BD8D8C2759986155DB9
+				}
+			}
+			myRequiredBank
+			{
+				myGuid 4A5BBBC724BF8262D2F7A257ACFA80BB
+			}
+		}
+		AmbienceTheme AMB_Themes_Planet_05_IcePeaks
+		{
+			myID 0x0041ff00
+			myAudioRotationalEvents
+			{
+			}
+			myAudioNonRotationalEvents
+			{
+				AudioEvent Rfx
+				{
+					myGuid 4DA56F2A775384912F04F37964B8DFBC
+				}
+				AudioEvent Pad
+				{
+					myGuid 47EF3840AC250B6A2EF3F5767AB8AD9D
+				}
+			}
+			myRequiredBank
+			{
+				myGuid 4DE1C8203DAD2FE288CDF753A1789FA2
+			}
+		}
+		AmbienceTheme AMB_Themes_Planet_05_IceValley
+		{
+			myID 0x004100ff
+			myAudioRotationalEvents
+			{
+			}
+			myAudioNonRotationalEvents
+			{
+				AudioEvent Rfx
+				{
+					myGuid 428034051BD23709A0E457F3113A5FA4
+				}
+				AudioEvent Pad
+				{
+					myGuid 48D768BA8D44FF09294695CC4CE242A2
+				}
+			}
+			myRequiredBank
+			{
+				myGuid 4DE1C8203DAD2FE288CDF753A1789FA2
+			}
+		}
+		AmbienceTheme AMB_Themes_Planet_05_IceLake
+		{
+			myID 0x0041ffff
+			myAudioRotationalEvents
+			{
+			}
+			myAudioNonRotationalEvents
+			{
+				AudioEvent Rfx
+				{
+					myGuid 4CB3371C87475E7B6A2CB891BE3FD18E
+				}
+				AudioEvent Pad
+				{
+					myGuid 4CCCB62AA146185BF8B5F5B3A25CBAB6
+				}
+			}
+			myRequiredBank
+			{
+				myGuid 4DE1C8203DAD2FE288CDF753A1789FA2
+			}
+		}
+		AmbienceTheme AMB_Themes_Planet_06_Biome1
+		{
+			myID 0x0046ff00
+		}
+		AmbienceTheme AMB_Themes_Planet_06_Biome2
+		{
+			myID 0x004600ff
+		}
+		AmbienceTheme AMB_Themes_Planet_07_RockPlains
+		{
+			myID 0x004bff00
+			myAudioRotationalEvents
+			{
+			}
+			myAudioNonRotationalEvents
+			{
+				AudioEvent Rfx
+				{
+					myGuid 00000000000000000000000000000000
+				}
+				AudioEvent Pad
+				{
+					myGuid 4C350A744D5DF8B394D2591CEDA527B9
+				}
+			}
+			myAuxBusOne
+			{
+				myGuid 00000000000000000000000000000000
+			}
+			myRequiredBank
+			{
+				myGuid 4BDB74E383BD4AC8F224036DAE3D7B9F
+			}
+		}
+		AmbienceTheme AMB_Themes_Planet_07_CrystalPlains
+		{
+			myID 0x004b00ff
+			myAudioRotationalEvents
+			{
+			}
+			myAudioNonRotationalEvents
+			{
+				AudioEvent Rfx
+				{
+					myGuid 4D56DF9F3BD1959A82E7F857919A4887
+				}
+				AudioEvent Pad
+				{
+					myGuid 44D6CC34F7B7C44975BB0B2C25B1C98A
+				}
+			}
+			myAuxBusOne
+			{
+				myGuid 00000000000000000000000000000000
+			}
+			myRequiredBank
+			{
+				myGuid 4BDB74E383BD4AC8F224036DAE3D7B9F
+			}
+		}
+		AmbienceTheme AMB_Themes_Planet_07_Canyons
+		{
+			myID 0x004bffff
+			myAudioRotationalEvents
+			{
+			}
+			myAudioNonRotationalEvents
+			{
+				AudioEvent Rfx
+				{
+					myGuid 46D4EEA535D19DAB85E55BADCF9D3EB5
+				}
+				AudioEvent Pad
+				{
+					myGuid 44F04A54885B1C95EE59DDA2B08B33AF
+				}
+			}
+			myRequiredBank
+			{
+				myGuid 4BDB74E383BD4AC8F224036DAE3D7B9F
+			}
+		}
+		AmbienceTheme AMB_Themes_Planet_08_ForestHills
+		{
+			myID 0x0050ff00
+			myAudioRotationalEvents
+			{
+			}
+			myAudioNonRotationalEvents
+			{
+				AudioEvent Planet_08_ForestHills_RFX
+				{
+					myGuid 4901E7E93544CBD9A8B3549F89BB42BE
+				}
+				AudioEvent Planet_08_ForestHills_QuadPad
+				{
+					myGuid 4589586BBBDF516B4DCDC474882C2181
+				}
+			}
+			myRequiredBank
+			{
+				myGuid 426BDCC72F043AA2222E9A936CA89F90
+			}
+		}
+		AmbienceTheme AMB_Themes_Planet_08_OpenHills
+		{
+			myID 0x005000ff
+			myAudioRotationalEvents
+			{
+			}
+			myAudioNonRotationalEvents
+			{
+				AudioEvent Planet_08_OpenHills_RFX
+				{
+					myGuid 4DBA56B6176CD480C0F55E809BACC2A8
+				}
+				AudioEvent Planet_08_OpenHills_QuadPad
+				{
+					myGuid 4956EA5995DCB246AE8CDEFF0F90098D
+				}
+			}
+			myRequiredBank
+			{
+				myGuid 426BDCC72F043AA2222E9A936CA89F90
+			}
+		}
+		AmbienceTheme AMB_Themes_Planet_08_Swamp
+		{
+			myID 0x0050ffff
+			myAudioRotationalEvents
+			{
+			}
+			myAudioNonRotationalEvents
+			{
+				AudioEvent AMB_Planet_08_Swamp_DefineRFX
+				{
+					myGuid 46A0AFC50BBD8B25C8C6D99CA35CE78C
+				}
+				AudioEvent AMB_Planet_08_Swamp_QuadPad
+				{
+					myGuid 464E3D9927B1F1955AB7118CEC843388
+				}
+			}
+			myRequiredBank
+			{
+				myGuid 426BDCC72F043AA2222E9A936CA89F90
+			}
+		}
+		AmbienceTheme AMB_Themes_Planet_09_HighElevation
+		{
+			myID 0x0055ff00
+		}
+		AmbienceTheme AMB_Themes_Planet_09_LowElevation
+		{
+			myID 0x005500ff
+		}
+		AmbienceTheme AMB_Themes_Planet_10_FungalPools
+		{
+			myID 0x005aff00
+		}
+		AmbienceTheme AMB_Themes_Planet_10_FungalForest
+		{
+			myID 0x005a00ff
+		}
+		AmbienceTheme AMB_Themes_Planet_11_Biome1
+		{
+			myID 0x005fff00
+		}
+		AmbienceTheme AMB_Themes_Planet_11_Biome2
+		{
+			myID 0x005f00ff
+		}
+		AmbienceTheme AMB_Themes_Planet_12_Biome1
+		{
+			myID 0x0061ff00
+			myAudioRotationalEvents
+			{
+				AudioEvent "New AudioEvent (0)"
+				{
+					myGuid 4147BDA68A9CFCDC922D64060685028E
+				}
+			}
+		}
+		AmbienceTheme AMB_Themes_Planet_12_Biome2
+		{
+			myID 0x006100ff
+			myAudioRotationalEvents
+			{
+				AudioEvent "New AudioEvent (0)"
+				{
+					myGuid 46F70557DAA0059C267FF6D17447BFAC
+				}
+			}
+		}
+		AmbienceTheme AMB_Themes_Planet_13_Biome1
+		{
+			myID 0x0064ff00
+		}
+		AmbienceTheme AMB_Themes_Planet_13_Biome2
+		{
+			myID 0x006400ff
+		}
+		AmbienceTheme AMB_Themes_Planet_14_Desert
+		{
+			myID 0x0069ff00
+			myAudioRotationalEvents
+			{
+			}
+			myAudioNonRotationalEvents
+			{
+				AudioEvent Planet_14_Desert_Pad
+				{
+					myGuid 46A6111C1AE77CE46B6076CDACE3CCB4
+				}
+				AudioEvent Planet_14_Desert_DefineRFX
+				{
+					myGuid 4371D74757518BFC578A08F961C5C29E
+				}
+			}
+			myRequiredBank
+			{
+				myGuid 4E1A5B5E5BEC28ABEBD051C52E2A51B6
+			}
+		}
+		AmbienceTheme AMB_Themes_Planet_14_Crater
+		{
+			myID 0x006900ff
+			myAudioRotationalEvents
+			{
+			}
+			myAudioNonRotationalEvents
+			{
+				AudioEvent Planet_14_Crater_Pad
+				{
+					myGuid 43FF023D463E11B2F81D140BA527398E
+				}
+				AudioEvent Planet_14_Crater_DefineRFX
+				{
+					myGuid 46D1C1C93BFD1A509B988C30A59424AE
+				}
+			}
+			myRequiredBank
+			{
+				myGuid 4E1A5B5E5BEC28ABEBD051C52E2A51B6
+			}
+		}
+		AmbienceTheme AMB_Themes_Planet_15_Plains
+		{
+			myID 0x006bff00
+			myAudioRotationalEvents
+			{
+			}
+			myAudioNonRotationalEvents
+			{
+				AudioEvent Planet_15_Plains_RFX
+				{
+					myGuid 4371D74757518BFC578A08F961C5C29E
+				}
+				AudioEvent Planet_15_Plains_Pad
+				{
+					myGuid 46A6111C1AE77CE46B6076CDACE3CCB4
+				}
+			}
+			myRequiredBank
+			{
+				myGuid 490B67713C6541236C9F1B93084191B8
+			}
+		}
+		AmbienceTheme AMB_Themes_Planet_15_RockFormation
+		{
+			myID 0x006b00ff
+			myAudioRotationalEvents
+			{
+			}
+			myAudioNonRotationalEvents
+			{
+				AudioEvent Planet_15_RockFormation_RFX
+				{
+					myGuid 46D1C1C93BFD1A509B988C30A59424AE
+				}
+				AudioEvent Planet_15_RockFormation_Pad
+				{
+					myGuid 43FF023D463E11B2F81D140BA527398E
+				}
+			}
+			myRequiredBank
+			{
+				myGuid 490B67713C6541236C9F1B93084191B8
+			}
+		}
+		AmbienceTheme AMB_Themes_Planet_15_AcidLake
+		{
+			myID 0x006bffff
+			myAudioRotationalEvents
+			{
+			}
+			myAudioNonRotationalEvents
+			{
+				AudioEvent Planet_15_AcidLake_RFX
+				{
+					myGuid 4DC17936DCE8D28630270531196798A8
+				}
+				AudioEvent Planet_15_AcidLake_Pad
+				{
+					myGuid 4CEB5D87D0678D219A9E9B3E43E548B9
+				}
+			}
+			myRequiredBank
+			{
+				myGuid 490B67713C6541236C9F1B93084191B8
+			}
+		}
+		AmbienceTheme AMB_Themes_Planet_16_Biome1
+		{
+			myID 0x006eff00
+		}
+		AmbienceTheme AMB_Themes_Planet_16_Biome2
+		{
+			myID 0x006e00ff
+		}
+		AmbienceTheme AMB_Themes_Planet_17_CryoVolcano
+		{
+			myID 0x0071ff00
+		}
+		AmbienceTheme AMB_Themes_Planet_17_FrozenLake
+		{
+			myID 0x007100ff
+		}
+		AmbienceTheme AMB_Themes_Planet_18_Biome1
+		{
+			myID 0x0076ff00
+			myAudioRotationalEvents
+			{
+			}
+			myAudioNonRotationalEvents
+			{
+				AudioEvent "Test Volume Modifier"
+				{
+					myGuid 4FE44E53638826E5E6E5BD9D09C8A4B1
+				}
+			}
+		}
+		AmbienceTheme AMB_Themes_Planet_18_Biome2
+		{
+			myID 0x007600ff
+		}
+		AmbienceTheme AMB_Themes_Moon_01_Biome1
+		{
+			myID 0x00bdff00
+			myAudioNonRotationalEvents
+			{
+				AudioEvent Moon_01_Biome_01_RFX
+				{
+					myGuid 00000000000000000000000000000000
+				}
+				AudioEvent Moon_01_Biome_01_Pad
+				{
+					myGuid 473800252AC7C11DE51287E6D4854786
+				}
+			}
+			myRequiredBank
+			{
+				myGuid 00000000000000000000000000000000
+			}
+		}
+		AmbienceTheme AMB_Themes_Space_AsteroidField
+		{
+			myID 0x00ff1900
+			myAudioNonRotationalEvents
+			{
+				AudioEvent "Asteroid Field Ambience"
+				{
+					myGuid 438A0138B150AFBC16DB2B94E46104A5
+				}
+			}
+			myIsOutdoorTheme FALSE
+			myRequiredBank
+			{
+				myGuid 4963C1F7ED218968D18C876EB7A6F5B7
+			}
+		}
+		AmbienceTheme AMB_Themes_Space_Dreadnaught
+		{
+			myID 0x00ff2200
+			myAudioNonRotationalEvents
+			{
+				AudioEvent "Dreadnaught Ambience"
+				{
+					myGuid 43ED010E8507CED8BA2830D96195D282
+				}
+			}
+			myIsOutdoorTheme FALSE
+			myRequiredBank
+			{
+				myGuid 4963C1F7ED218968D18C876EB7A6F5B7
+			}
+		}
+		AmbienceTheme AMB_Themes_VolumeModifier_Mushroom
+		{
+			myID 0x00ffff19
+			myAudioRotationalEvents
+			{
+				AudioEvent VolumeModifier_RFX_Mushroom
+				{
+					myGuid 4CA7A3EA52F3FD3886BFB55CA18D4CBD
+				}
+			}
+			myAuxBusOne
+			{
+				myGuid 00000000000000000000000000000000
+			}
+			myIsOutdoorTheme FALSE
+		}
+		AmbienceTheme AMB_Themes_VolumeModifier_OnBoard
+		{
+			myID 0x00ffff23
+			myAuxBusOne
+			{
+				myGuid 00000000000000000000000000000000
+			}
+			myIsOutdoorTheme FALSE
+		}
+		AmbienceTheme AMB_Themes_VolumeModifier_Forest
+		{
+			myID 0x00ffff2d
+			myAuxBusOne
+			{
+				myGuid 00000000000000000000000000000000
+			}
+			myIsOutdoorTheme FALSE
+		}
+		AmbienceTheme AMB_Themes_VolumeModifier_Goldrush
+		{
+			myID 0x00ffff37
+			myAudioNonRotationalEvents
+			{
+				AudioEvent VolumeModifier_RFX_Goldrush
+				{
+					myGuid 44244C62FB47BBA2A8CC36FAA0965885
+				}
+			}
+			myIsOutdoorTheme FALSE
+		}
+		AmbienceTheme AMB_Themes_VolumeModifier_Shipwreck
+		{
+			myID 0x00ff2300
+			myAudioNonRotationalEvents
+			{
+				AudioEvent Interior
+				{
+					myGuid 419ECECD32433A320649F6B3F5C0AB9D
+				}
+			}
+			myIsOutdoorTheme FALSE
+		}
+		AmbienceTheme AMB_Themes_VolumeModifier_Race_04_Construct_RFX
+		{
+			myID 0x00503800
+			myAudioNonRotationalEvents
+			{
+				AudioEvent "Construct RFX"
+				{
+					myGuid 49DCAE9104A809A2D50E4974AE45C19E
+				}
+			}
+			myIsOutdoorTheme FALSE
+		}
+		AmbienceTheme AMB_Themes_VolumeModifier_Race_04_Construct_RockTunnel
+		{
+			myID 0x00503813
+			myAudioNonRotationalEvents
+			{
+				AudioEvent "Construct Rock Tunnel"
+				{
+					myGuid 47EAD63E5CF9E66C5C99278CFE744893
+				}
+			}
+			myIsOutdoorTheme FALSE
+		}
+		AmbienceTheme AMB_Themes_VolumeModifier_Race_04_Construct_FireTunnel
+		{
+			myID 0x00503823
+			myAudioNonRotationalEvents
+			{
+				AudioEvent "Construct Fire Tunnel"
+				{
+					myGuid 4DE38076D448383911B9A2A5A422CFB7
+				}
+			}
+			myIsOutdoorTheme FALSE
+		}
+		AmbienceTheme AMB_Themes_VolumeModifier_Race_01_Chasm_RFX
+		{
+			myID 0x00501400
+			myAudioNonRotationalEvents
+			{
+				AudioEvent "Chasm RFX"
+				{
+					myGuid 4DCA8D74D860A68765C2FD80FBD5C583
+				}
+			}
+			myIsOutdoorTheme FALSE
+		}
+		AmbienceTheme AMB_Themes_VolumeModifier_Race_01_Chasm_RockTunnel
+		{
+			myID 0x00501414
+			myAudioNonRotationalEvents
+			{
+				AudioEvent "Chasm Tunnel"
+				{
+					myGuid 4C8183BF0DCB1232E27DA5DBB0D10C94
+				}
+			}
+			myIsOutdoorTheme FALSE
+		}
+		AmbienceTheme AMB_Themes_VolumeModifier_Race_02_Eden_RFX
+		{
+			myID 0x00502300
+			myAudioNonRotationalEvents
+			{
+				AudioEvent "Eden RFX"
+				{
+					myGuid 43A883EAEA548FDD46226FF90804E9AF
+				}
+			}
+			myIsOutdoorTheme FALSE
+		}
+		AmbienceTheme AMB_Themes_VolumeModifier_Race_02_Eden_Cloth
+		{
+			myID 0x00502314
+			myAudioNonRotationalEvents
+			{
+				AudioEvent "Eden Cloth"
+				{
+					myGuid 44FD6FA69F1A281F8567A35665DA4CBC
+				}
+			}
+			myIsOutdoorTheme FALSE
+		}
+		AmbienceTheme AMB_Themes_VolumeModifier_Race_03_Relic_RFX
+		{
+			myID 0x00503200
+			myAudioNonRotationalEvents
+			{
+				AudioEvent "Relic RFX"
+				{
+					myGuid 4252FD88BFA65B7970E982C8BBDC2DBA
+				}
+			}
+			myIsOutdoorTheme FALSE
+		}
+		AmbienceTheme AMB_Themes_VolumeModifier_Race_03_Relic_Interior
+		{
+			myID 0x00503214
+			myAudioNonRotationalEvents
+			{
+				AudioEvent "Relic Interior"
+				{
+					myGuid 40FFD20C9CAF075D05682E750759B1B6
+				}
+			}
+			myIsOutdoorTheme FALSE
+		}
+	}
+}
+

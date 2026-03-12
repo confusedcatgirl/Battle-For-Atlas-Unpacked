@@ -1,0 +1,22 @@
+<decal = true, decalblendcolor = true, deferreddecal = true, shaderType = "Object", keywords = { "GFX_FORWARD_SHADER", }, >
+blend {}
+pixel
+{
+	MR_Sampler2D BaseColor : MR_Texture0 {
+		texture = "onward/baked/textures/default_b.dds",
+	} <label = "Base Color", pinId = 102>;
+	struct CustomData {
+		float2 myUVOffset <default = 0 0, label = "UV Offset", pinId = 101>;
+		float myAlpha <default = 0, label = "Alpha", pinId = 103>;
+	};
+	main(out float4 colorOut : MR_Color0, CustomData customData : Gfx_CustomData0, 
+		float2 Gfx_UV : Gfx_UV0, float Gfx_AlphaRef : Gfx_AlphaRef0)
+	{
+		float2 add_40 = customData.myUVOffset + Gfx_UV;
+		float4 sample_41 = MR_Sample(BaseColor, add_40);
+		float mul_46 = customData.myAlpha * sample_41.w;
+		if (mul_46 < Gfx_AlphaRef) discard;
+		float4 result_48 = float4(float3(0, 0, 0), mul_46);
+		colorOut = result_48;
+	}
+}
