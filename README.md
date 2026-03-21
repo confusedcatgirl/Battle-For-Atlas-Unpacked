@@ -10,6 +10,8 @@ cin_act3.bk2, cin_act4.bk2, cin_act1a.bk2, cin_act5.bk2, cin_act2b.bk2, bnk_sfx.
 
 That being said, it seems like there are file remnants of the switch edition.
 
+WARNING: The while repo takes up around 32 Gigabytes of total Data. Please ensure that you have at least 60 GB available on your harddrive.
+
 ## Todo
 
 - Upload remaining Files in Onward
