@@ -1,0 +1,70 @@
+enum CollisionMaterialType
+{
+	Default
+	Bone
+	Character
+	Cloth
+	Crystal
+	DeflectiveMetal
+	Galla_Shield
+	Hard_Surface
+	Ice
+	Loose_Surface
+	Metal
+	Player
+	Player_Shield
+	Skin
+	Vegetation
+	Viscous_Liquid
+	Vortex_Shield
+	Water
+	Wood
+	Deflective_Ability_Shield
+	Deflective_Player_Shield
+	Weakpoint
+	Platformer
+	Electrum
+}
+
+class CollisionMaterial < uid=auto >
+{
+	locstring myUIName "UNSCRIPTED"
+	CollisionMaterialType myType "Default"
+	color myColor 0x64ffffff
+	
+	float myFragmentHealthLight 100
+	float myFragmentHealthMedium 300
+	float myFragmentHealthHeavy 1000
+	float myHoleSize 1
+	float myHoleDepthMod 1
+	float myHoleRandomness 0
+	float myHoleSizeRandomness 0
+	float myHolePunchThroughLength 2
+	float myHoleTextureSize 1
+	float myBulletDamageModifier 1
+	float myExplosionDamageModifier 1
+	file myHoleInteriorShader "onward/shaders/planet/sun.mshader"
+	file myHoleInteriorTexture1 ""
+	file myHoleInteriorTexture2 ""
+	file myHoleInteriorTexture3 ""
+	file myHoleInteriorTexture4 ""
+	file myFragmentShatterParticleEffect
+	file myFragmentReleaseParticleEffect
+	file myFragmentReleaseCheapParticleEffect
+	float myFragmentReleaseCheapRange 50
+	float myFragmentReleaseCheapMaxNonCheap 3
+	float myFragmentReleaseCheapTimeIntervall 1
+	float myInnerMaterialDepth 1000
+	uid   myInnerMaterial
+	float myExplosionHoleResistance -1
+	bool myUseGlassDestruction
+	
+	float myDensity 1000
+	float myFriction 0.5
+	float myRestitution 0
+	
+	float myObstructionFactor 1.0
+	
+	bool myBulletTransparent
+	bool myLosTransparent
+}

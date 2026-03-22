@@ -1,0 +1,44 @@
+enum FontStyleName // This must be kept up-to-date with presetfontstyles.juice
+{
+	"Regular Font Style"
+	"Bold Font Style"
+	"Caption Font Style"
+	"Modelica Medium Font Style"
+	"Modelica Bold Font Style"
+	"Modelica Extra Bold Font Style"
+	"Modelica Black Font Style"
+	"Ubisoft Sans Regular Font Style"
+	"Ubisoft Sans Bold Font Style"
+	"Modelica Credits Bold Font Style"
+	"Modelica Credits Extra Bold Font Style"
+	"Roboto Regular Font Style"
+	"Roboto Bold Font Style"
+	"Wardish Bold Font Style"
+}
+enum FontScaling // This must be kept up-to-date with the enum in Gfx_Font.h
+{
+	FixedSmall
+	DistanceField
+}
+
+
+// CW: Updating this will require MC_FontPreset in MR_FontManager.h to be updated
+class PresetFont
+{
+	float myFontSize 16.0
+	int myLetterSpacing 0
+	int myWordSpacing 0
+	int myLineSpacing 0
+	bool myUseKerning TRUE
+	bool myUseMonospacedNumbers FALSE	
+	FontScaling myFontScaling FixedSmall
+	int myBorder 0
+	FontStyleName myFontStyle "Regular Font Style"
+	bool myIsChatFont FALSE
+	bool myIsSubtitlePresetFont FALSE	
+}
+
+list PresetFonts
+{
+	PresetFont
+}

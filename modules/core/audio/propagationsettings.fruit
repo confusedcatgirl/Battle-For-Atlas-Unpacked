@@ -1,0 +1,68 @@
+
+class PropagationListenerSettings
+{
+	float myListenerDistanceThreshold
+	float myListenerOffsetY
+	bool  myListenerAtPlayerPos
+}
+
+class PropagationSourceSettings
+{
+	float mySourceDistanceThreshold
+	float myDirectVsPathFactor
+	float myElevationObstructionPercent
+	float myObstructionBlendTimeSeconds
+	float myPerceptionDistance
+	float myCompleteObstructionDistance
+	bool  myUseRepositioning
+}
+
+class Propagation2ListenerSettings
+{
+	float myListenerDistanceThreshold
+	float myListenerOffsetY
+	float myListenerObstructionBlendDistance
+	bool myListenerAtPlayerPosition
+}
+
+class Propagation2QuerySourceSettings
+{
+	float myElevationCost
+	float myDirectVsPathCost
+	float myObstructionBlendTime
+}
+
+class Propagation2TuningSettings
+{
+	float myTimeToRegenerateSectors
+	float myTimeToRegenerateListenerSector
+	int myNumberOfSectorsPerGridDimension
+	float mySectorGridSize
+	int myMaxNumberOfStreamingSetRebuildsPerUpdate
+	int myMaxNumberOfRunningGenerators
+	float myQueryStartPointCombiningTolerance
+	float myQueryStartPointCombiningMinDistanceFromListener
+	float myQueryStartPointCombiningDistanceScale
+	int myMaxNumberOfRunningPathfinders
+}
+
+class Propagation2SectorGenerationTuningSettings
+{
+	float myHighQualityAABBHeight
+	float myLowQualityAABBHeight
+	float myHighQualityCellWidth
+	float myLowQualityCellWidth
+	float myHighQualityCharacterSize
+	float myLowQualityCharacterSize
+	int myMaxMergingIterations
+	int myIterationsStabilizationThreshold
+}
+
+class Propagation2PathfinderTuningSettings
+{
+	float myDistanceToMoveStartPosition
+	int myMaxNumberOfPathfindAttempts
+	float myDistanceToMoveAfterFailedPathfind
+	int myMaxNumberOfIterations
+	float myCharacterSize
+}

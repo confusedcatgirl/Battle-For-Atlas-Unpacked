@@ -1,0 +1,60 @@
+list GameFileList
+{
+	file
+}
+
+class PrefabIODefinition
+{
+	string myDefinitionName
+	file myIOFruit
+}
+
+list PrefabIODefinitionList
+{
+	PrefabIODefinition
+}
+
+// class which contain game specific information of a prefab enum for any game based on MassTech
+class GamePrefabType
+{
+	string myPrefabTypeName             // Name of the prefab enum
+	string myPrefabTypeGameFolder       // Path to game folder to scan for prefabs of this enum for the game to load
+	file myPrefabIOFruit                // Path to fruit config for IO	
+	file myPrefabGraphTemplate          // Path to template for new graphs of this type
+}
+
+list GamePrefabTypesList
+{
+	GamePrefabType
+}
+
+list PlatformFileExtensionList
+{
+	string
+}
+
+class PlatformDefinition
+{
+	string myUIName
+	string myDataRoot
+	string myParent
+	PlatformFileExtensionList myFileExtensions
+}
+
+list PlatformDefinitionList
+{
+	PlatformDefinition
+}
+
+// Game root juice for any game based on MassTech
+class GameRoot
+{
+	locstring myGameName // Name of the game
+	PlatformDefinitionList myPlatformDefinitionList // Lists all valid target platforms
+	PrefabIODefinitionList myPrefabIODefinitionList // The named list of fruit configs for IO
+	GamePrefabTypesList myGamePrefabTypesList // List with all valid prefab types for this game
+	GameFileList myGameConfigFiles // List with all extra config files needed by this game
+	GameFileList myGameConfigFilesKeepInMemory // List with all extra config files to keep in memory after cleanup.
+	string myBinkSubtitleFolder // Folder where all bink subtitle packages are stored
+}
+

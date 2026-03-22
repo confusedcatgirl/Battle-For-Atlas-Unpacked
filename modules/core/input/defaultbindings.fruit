@@ -1,0 +1,113 @@
+// Must match enum declared in Core_InputDefaultBinding.h
+enum SpecialKeys
+{
+	None
+	
+	F1
+	F2
+	F3
+	F4
+	F5
+	F6
+	F7
+	F8
+	F9
+	F10
+	F11
+	F12
+	
+	Backspace
+	Tab
+	Space
+
+	Up
+	Down
+	Left
+	Right
+	
+	Numlock
+	Scrolllock
+	Pause
+	Home
+	End
+	Pagedown
+	Pageup
+	Insert
+	Delete
+	
+	Escape
+	Enter
+
+	Tilde
+	
+	LCTRL
+	RCTRL
+}
+
+enum GamePadButtons
+{
+	None
+	
+	DPad_Up
+	DPad_Down
+	DPad_Left
+	DPad_Right
+	Button_Start
+	Button_Select
+	LeftThumb
+	RightThumb
+	Button_A
+	Button_B
+	Button_X
+	Button_Y
+	Button_L1
+	Button_R1
+	Button_L2
+	Button_R2
+	LeftStick_X
+	LeftStick_Y
+	RightStick_X
+	RightStick_Y
+	Roll
+	Pitch
+}
+
+enum KeyModifiers
+{
+	None
+	Alt
+	Ctrl
+	Shift
+	ShiftCtrl
+	AltCtrl
+	AltShift
+	AltShiftCtrl
+}
+
+enum DeviceType
+{
+	Keyboard
+	Mouse
+	Gamepad
+}
+
+class DefaultKeyBinding
+{
+	int myActionIndex 0
+	bool myIsAlt false
+	
+	DeviceType myDevice Keyboard
+	KeyModifiers myModifiers None
+	SpecialKeys mySpecialKey None
+	GamePadButtons myGamePadButton None
+	
+	int myKeyScanCode
+	string myKey
+	int myButtonIndex -1
+	bool myNegativeAxis false
+}
+
+list DefaultKeyBindings
+{
+	DefaultKeyBinding
+}
