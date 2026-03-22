@@ -1,8 +1,11 @@
 # Battle-For-Atlas-Unpacked
 
-All the data unpacked from the SDFTOC File from the PC Version of Starlink: Battle for Atlas.
+## IMPORTANT!
 
-IMPORTANT NOTICE: As of right now, there is a set of files I have not included, due to their sheer sizes. I will figure something out with LFS and add those too.
+1. I am currently repushing all files. Might take a while.
+2. I am going to have to build up LFS again.
+
+All the data unpacked from the SDFTOC File from the PC Version of Starlink: Battle for Atlas.
 
 These files are:
 
