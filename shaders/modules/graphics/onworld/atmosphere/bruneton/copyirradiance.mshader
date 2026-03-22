@@ -1,0 +1,23 @@
+import "shaders/modules/graphics/onworld/atmosphere/bruneton/common.h"
+
+computeParameters
+{
+    numThreads 16 16 1
+}
+
+MR_RWTexture2D<float4> RWIrradianceTexture2D : MR_RW_Texture0;
+MR_Sampler2D DeltaETexture : MR_Texture1 { filter = linear, wrap = clamp };
+
+compute
+{
+    constants : MR_ConstantBuffer0
+    {
+        float2 const_TargetSize;
+    }
+
+    main( in uint3 dispatchThreadId : MR_DispatchThreadId )
+    {
+        float2 uv = (dispatchThreadId.xy + float2(0.5f, 0.5f)) / const_TargetSize;
+        RWIrradianceTexture2D[dispatchThreadId.xy] = MR_SampleLod0(DeltaETexture, uv) + MR_SampleLod0(IrradianceTexture, uv);
+    }
+}

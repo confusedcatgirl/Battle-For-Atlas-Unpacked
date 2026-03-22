@@ -1,0 +1,93 @@
+constants : MR_ConstantBuffer0
+{
+	float4x4 WorldMatrix;
+    int MaskCount;
+}
+
+vertex
+{
+    import "shaders/MRender/MR_ViewConstants.h"
+
+	in
+	{
+		float3 position;
+		float3 uv;
+	}
+
+	out
+	{
+        float2 uv;
+	}
+
+	main(out float4 clipPos : MR_Position)
+	{
+        Out.uv = In.uv.xy;
+
+        float4 worldPos = MR_Transform( WorldMatrix, In.position );
+		clipPos = MR_Transform( MR_ViewConstants.worldToClip, worldPos );
+	}
+}
+
+pixel
+{
+	MR_Sampler2D mask0 : MR_Texture0 { wrap = clamp };
+    MR_Sampler2D mask1 : MR_Texture1 { wrap = clamp };
+    MR_Sampler2D mask2 : MR_Texture2 { wrap = clamp };
+    MR_Sampler2D mask3 : MR_Texture3 { wrap = clamp };
+    
+    MR_Sampler2D top0 : MR_Texture4 { wrap = clamp };
+    MR_Sampler2D top1 : MR_Texture5 { wrap = clamp };
+    MR_Sampler2D top2 : MR_Texture6 { wrap = clamp };
+    MR_Sampler2D top3 : MR_Texture7 { wrap = clamp };
+
+	in
+	{
+		float2 uv;
+	}
+
+	main(out float4 colorOut : MR_Color)
+	{
+        float factor0 = 0;
+        float factor1 = 0;
+        float factor2 = 0;
+        float factor3 = 0;
+        
+        float4 color0 = float4( 0, 0, 0, 0 );
+        float4 color1 = float4( 0, 0, 0, 0 );
+        float4 color2 = float4( 0, 0, 0, 0 );
+        float4 color3 = float4( 0, 0, 0, 0 );
+        
+        if( MaskCount > 0 )
+        {
+            factor0 = MR_Sample( mask0, In.uv ).x;
+            color0 = MR_Sample( top0, In.uv );
+        }
+            
+        if( MaskCount > 1 )
+        {
+            factor1 = MR_Sample( mask1, In.uv ).x;
+            color1 = MR_Sample( top1, In.uv );
+        }
+            
+        if( MaskCount > 2 )
+        {
+            factor2 = MR_Sample( mask2, In.uv ).x;
+            color2 = MR_Sample( top2, In.uv );
+        }
+            
+        if( MaskCount > 3 )
+        {
+            factor3 = MR_Sample( mask3, In.uv ).x;
+            color3 = MR_Sample( top3, In.uv );
+        }
+        
+        colorOut = (factor0 * color0)
+                 + (factor1 * color1)
+                 + (factor2 * color2)
+                 + (factor3 * color3);
+        colorOut.a = 1;
+        
+        //Gamma correction
+        colorOut = pow( colorOut, 1 / 2.2 );
+	}
+}

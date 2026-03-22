@@ -1,0 +1,25 @@
+computeParameters
+{
+	numThreads 8 8 1,
+}
+
+import "shaders/modules/graphics/light_shafts/light_shafts.h"
+import "shaders/MRender/MR_ViewConstants.h"
+
+compute
+{
+	MR_Sampler2D Depth : MR_Texture0 { filter = point, wrap = clamp };
+
+	MR_RWTexture3D< float > Output : MR_RW_Texture0;
+
+	main( in uint3 threadIdWithinDispatch : MR_DispatchThreadId )
+	{
+@ifndef GFX_NO_SHADOWS
+		float4 z4 = MR_SampleGather( Depth, float2(threadIdWithinDispatch.xy) * DepthScale + DepthScale * 0.5 );
+		float minZ = min(min(z4.x, z4.y), min(z4.z, z4.w));
+		float maxDepth = MR_ZToLinearDepth(minZ);
+
+		RayMarch3D( NumSamples, Output, threadIdWithinDispatch.xy, maxDepth );
+@endif
+	}
+}

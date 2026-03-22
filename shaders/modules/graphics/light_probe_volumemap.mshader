@@ -1,0 +1,129 @@
+import "shaders/nodes/Shader/Functions/Lighting/GI.h"
+import "shaders/modules/graphics/environment_constants.h"
+
+computeParameters
+{
+    numThreads 8 8 8,
+}
+
+compute
+{
+	// Volume map that we're writing to, can be either the outdoor or the indoor one
+	
+	MR_RWTexture3D< float3 > VolumeMap : MR_RW_Texture0;
+	
+    struct SLitProbe
+    {
+        float3 myIrradiance[6];
+    };
+	
+	struct SectorData
+	{
+		float4 SectorBBMin;
+		float4 SectorBBMax;
+		uint4 NumVoxels;
+		int4 VoxelOffset;
+	};
+
+    MR_StructuredBuffer< SLitProbe > LitProbes : MR_Buffer0;
+    MR_StructuredBuffer< SProbeConstants > ProbeConstants : MR_Buffer1;
+    MR_Buffer< uint > VoxelProbeIndices : MR_Buffer2;
+
+    constants : MR_ConstantBuffer0
+    {
+        float3 UVScale;
+        float3 UVOffset;
+		float2 IndoorOutdoor;
+		float MaxSectors;
+		float4 AmbientLightLevelUp;
+		float4 AmbientLightLevelDown;
+		int DebugMissingProbes;
+    }
+
+    main( uint3 threadIdWithinDispatch : MR_DispatchThreadId )
+    {
+        const uint ourMaxNumProbesPerVoxel = 16;
+        const uint ourMaxProbesPerSector = 1000;
+        const uint ourMaxSectors = MaxSectors;
+        const int3 ourVoxelMapSize = int3(16,16,16);
+     // const int3 ourVoxelMapSize = int3(32,16,32);
+
+        uint3 volumemapVoxelIndex = threadIdWithinDispatch;
+		
+        // World position of texel
+        float3 voxelPosition = float3( volumemapVoxelIndex ) * UVScale + UVOffset;
+		
+		float totalWeight = 0.00001;
+		float3 defaultColors[6];
+		
+		for(int i = 0; i < 6; i++)
+		{
+			float lerpValue = i == 1 ? 0 : i == 4 ? 1 : 0.5f;
+			defaultColors[i] = lerp( AmbientLightLevelDown.rgb, AmbientLightLevelUp.rgb, lerpValue ) * totalWeight * IndoorOutdoor.x;
+		}
+		if(DebugMissingProbes)
+		{
+			for(int i = 0; i < 6; i++)
+			{
+				defaultColors[i] = float3(2,0,2) * totalWeight;
+			}
+		}
+		
+		float3 totalIrradiance[6] = 
+				{ defaultColors[0], defaultColors[1], defaultColors[2]
+				, defaultColors[3], defaultColors[4], defaultColors[5]
+				};
+						
+		uint voxelIdx = (volumemapVoxelIndex.z * ourVoxelMapSize.y + volumemapVoxelIndex.y) * ourVoxelMapSize.x + volumemapVoxelIndex.x;
+
+		for(uint a=0;a<ourMaxNumProbesPerVoxel;++a)
+		{
+			uint rawProbeIdx = VoxelProbeIndices[voxelIdx * ourMaxNumProbesPerVoxel + a];
+			if(rawProbeIdx == 0xffff)
+				break;
+
+			uint sectorIdx = rawProbeIdx >> 10;
+			uint sectorProbeIdx = rawProbeIdx & 0x03ff;
+			uint sectorOffset = sectorIdx * ourMaxProbesPerSector;
+			uint probeIndex = sectorOffset + sectorProbeIdx;
+
+			SLitProbe litProbe = LitProbes[ probeIndex ];
+			SProbeConstants probeConstants = ProbeConstants[ probeIndex ];
+
+			// Compute weights
+			float3 dist = abs( voxelPosition - probeConstants.Position.xyz );
+
+			//float3 weight = 1 / max( float3( 0.0001, 0.0001, 0.0001 ), dst );
+
+			float fWeight = 1/(max(0.00001, dist.x*dist.x + dist.y*dist.y + dist.z*dist.z));//weight.x * weight.y * weight.z;
+
+						
+			if(IndoorOutdoor.y)
+			{
+				float outdoor = f16tof32(probeConstants.IsIndoorOutdoor >> 16);
+				totalWeight += outdoor * fWeight;
+				for(int i = 0; i < 6; i++)
+					totalIrradiance[i] += outdoor * litProbe.myIrradiance[i] * fWeight;
+			}
+			else
+			{
+				float indoor = f16tof32(probeConstants.IsIndoorOutdoor);
+				totalWeight += indoor * fWeight;
+				for(int i = 0; i < 6; i++)
+					totalIrradiance[i] += indoor * litProbe.myIrradiance[i] * fWeight;
+			}
+		}
+
+		float normalizeFactor = 1.0 / totalWeight;
+		
+		for(int i = 0; i < 6; i++)
+		{
+			totalIrradiance[i] *= normalizeFactor;
+			
+			uint3 pixelIndex = threadIdWithinDispatch;
+			pixelIndex.z += ourVoxelMapSize.z * i + IndoorOutdoor.y * ourVoxelMapSize.z * 6;
+			VolumeMap[ pixelIndex ] = totalIrradiance[i];
+		}
+		
+    }
+}

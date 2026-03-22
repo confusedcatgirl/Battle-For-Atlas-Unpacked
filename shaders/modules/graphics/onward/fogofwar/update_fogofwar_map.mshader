@@ -1,0 +1,165 @@
+import "shaders/modules/graphics/onward/fogofwar/fogofwar.h"
+import "shaders/nodes/Shader/Functions/CartesianToSphericalCoords.h"
+import "shaders/modules/graphics/environment.h"
+
+computeParameters
+{
+	numThreads 8 8 1
+}
+
+@ifndef CLEAR
+
+	struct VisionInfo
+	{
+		float3 myPosition;
+		float mySize;
+	};
+
+	MR_ByteBuffer RawVisionInfoList : MR_Buffer0;
+
+	VisionInfo GetVisionInfo( int aIndex )
+	{
+		const uint dataIndex = aIndex * (1 * 16); // 1 float4
+		float4 v0 = asfloat(RawVisionInfoList.Load4(dataIndex + (0 * 16)));
+
+		VisionInfo visionInfo;
+		visionInfo.myPosition = v0.xyz;
+		visionInfo.mySize = v0.w;
+		return visionInfo;
+	}
+
+@endif
+
+@ifdef PACKED
+
+	MR_RWTexture2DArray<uint> RWCubeMap : MR_RW_Texture0;
+
+@else
+
+	MR_RWTexture2DArray<float> RWCubeMapOld : MR_RW_Texture0;
+	MR_RWTexture2DArray<float> RWCubeMapNew : MR_RW_Texture1;
+
+@endif // PACKED
+
+compute
+{
+@ifndef CLEAR
+	constants : MR_ConstantBuffer0
+	{
+		float2 constTargetSize;
+
+		float constMinRadius;
+		float constMaxRadius;
+
+		int constViewerInfoCount;
+	}
+
+	float SphericalDistanceToProjectedPoint(float3 position, float3 pointPosition)
+	{
+		return acos(dot(normalize(position), normalize(pointPosition)));
+	}
+
+	float GetVisibilityValue(float3 cartesianPos)
+	{
+		float visibility = 0.0f;
+
+		for (int i = 0; (i < constViewerInfoCount) && (visibility < 1.0f); ++i)
+		{
+			const VisionInfo visionInfo = GetVisionInfo( i );
+			float distanceToPoint = SphericalDistanceToProjectedPoint(cartesianPos, visionInfo.myPosition) * constMinRadius;
+			visibility = max(visibility, 1.0f - smoothstep(0.6f * visionInfo.mySize, 1.4f * visionInfo.mySize, distanceToPoint));
+			visibility *= saturate(5.0f * smoothstep(constMaxRadius, constMinRadius, length(visionInfo.myPosition)));
+		}
+
+		return visibility;	// should always be 0 or 1, never inbetween
+	}
+
+@else
+	constants : MR_ConstantBuffer0
+	{
+		float2 constTargetSize;
+	}
+@endif // CLEAR
+
+	void ComputeCubeMaps(float3 aPosPlanetSpace, uint3 aCubeCoords)
+	{
+	@ifndef CLEAR
+
+		float visibility = GetVisibilityValue(aPosPlanetSpace);
+
+		@ifdef PACKED
+
+			uint packedValue = RWCubeMap[aCubeCoords];
+
+			const float old = max3(f16tof32(packedValue), visibility, 0.0);
+
+			packedValue = f32tof16(old);                              // <--- will end up being R
+			packedValue = packedValue | (f32tof16(visibility) << 16); // <--- Will end up being G
+
+			RWCubeMap[aCubeCoords] = packedValue;
+
+		@else
+				RWCubeMapOld[aCubeCoords] = max3(RWCubeMapOld[aCubeCoords], visibility, 0.0);
+				RWCubeMapNew[aCubeCoords] = visibility;
+
+		@endif // PACKED
+	@else
+
+		@ifdef PACKED
+			RWCubeMap[aCubeCoords] = 0;
+		@else
+			RWCubeMapOld[aCubeCoords] = 0.0;
+			RWCubeMapNew[aCubeCoords] = 0.0;
+		@endif // PACKED
+
+	@endif // CLEAR
+	}
+
+
+	main( in uint3 dispatchThreadId : MR_DispatchThreadId )
+	{
+		const uint3 pixelCoords = TransformDispatchCoordsToPixelCoords(dispatchThreadId, constTargetSize.y);
+		const float2 uv = pixelCoords.xy / constTargetSize;
+
+		{
+			const float3 posPlanetSpace = TransformUVFacePosXToUnitSpherePos(uv);
+			const uint3 cubeCoords = uint3(pixelCoords.xy, 0);
+			ComputeCubeMaps(posPlanetSpace, cubeCoords);
+		}
+
+		{
+			const float3 posPlanetSpace = TransformUVFaceNegXToUnitSpherePos(uv);
+			const uint3 cubeCoords = uint3(pixelCoords.xy, 1);
+
+			ComputeCubeMaps(posPlanetSpace, cubeCoords);
+		}
+
+		{
+			const float3 posPlanetSpace = TransformUVFacePosYToUnitSpherePos(uv);
+			const uint3 cubeCoords = uint3(pixelCoords.xy, 2);
+
+			ComputeCubeMaps(posPlanetSpace, cubeCoords);
+		}
+
+		{
+			const float3 posPlanetSpace = TransformUVFaceNegYToUnitSpherePos(uv);
+			const uint3 cubeCoords = uint3(pixelCoords.xy, 3);
+
+			ComputeCubeMaps(posPlanetSpace, cubeCoords);
+		}
+
+		{
+			const float3 posPlanetSpace = TransformUVFacePosZToUnitSpherePos(uv);
+			const uint3 cubeCoords = uint3(pixelCoords.xy, 4);
+
+			ComputeCubeMaps(posPlanetSpace, cubeCoords);
+		}
+
+		{
+			const float3 posPlanetSpace = TransformUVFaceNegZToUnitSpherePos(uv);
+			const uint3 cubeCoords = uint3(pixelCoords.xy, 5);
+
+			ComputeCubeMaps(posPlanetSpace, cubeCoords);
+		}
+	}
+}

@@ -1,0 +1,80 @@
+import "shaders/MRender/MR_ViewConstants.h"
+import "shaders/modules/graphics/downscale.h"
+
+MR_Sampler2D<float> DepthBufferZ : MR_DepthBufferZ { filter = point point, anisotropy = 0, wrap = clamp };
+
+@ifndef NO_QUARTER_DEPTH
+MR_RWTexture2D<float> QuarterDepthOut : MR_RW_Texture0;
+@endif
+
+@ifdef OUTPUT_MIN_Z_HEIGHT
+// ONWARD++
+import "shaders/modules/graphics/onworld/planet_flattening.h"
+// ONWARD++
+
+MR_RWTexture2D<float> MinZOut : MR_RW_Texture1;
+MR_RWTexture2D<float> MinHeightOut : MR_RW_Texture2;
+@endif
+
+MR_RWTexture2D<float> DepthOut : MR_RW_Texture3;
+
+constants : MR_ConstantBuffer0
+{
+	float ZScale;
+}
+
+computeParameters
+{
+	numThreads 8 8 1
+}
+
+compute main(uint3 dtid : MR_DispatchThreadId)
+{
+	float2 pixel = MR_ViewConstants.viewportMin + dtid.xy * 2 + int2(1, 1);
+	float4 zvalues = SafeGather4_1(DepthBufferZ, MR_ViewConstants.framebufferSize,
+		pixel, MR_ViewConstants.viewportMin, MR_ViewConstants.viewportMax);
+
+	const float flt_max = 3.40282347E+38F;
+
+	float4 depthValues;
+	depthValues.x = zvalues.x > 0 ? MR_ZToLinearDepth(zvalues.x) : flt_max;
+	depthValues.y = zvalues.y > 0 ? MR_ZToLinearDepth(zvalues.y) : flt_max;
+	depthValues.z = zvalues.z > 0 ? MR_ZToLinearDepth(zvalues.z) : flt_max;
+	depthValues.w = zvalues.w > 0 ? MR_ZToLinearDepth(zvalues.w) : flt_max;
+
+	float quarterDepth = depthValues.w;
+
+	{
+		uint2 px00 = dtid.xy*2 + MR_ViewConstants.viewportMin;
+		uint2 px10 = px00 + uint2(1,0);
+		uint2 px11 = px00 + uint2(1,1);
+		uint2 px01 = px00 + uint2(0,1);
+
+		DepthOut[px01] = depthValues.x;
+		DepthOut[px11] = depthValues.y;
+		DepthOut[px10] = depthValues.z;
+		DepthOut[px00] = depthValues.w;
+	}
+
+@ifndef NO_QUARTER_DEPTH
+	QuarterDepthOut[dtid.xy] = quarterDepth;
+@endif
+
+@ifdef OUTPUT_MIN_Z_HEIGHT
+	float minZ = min(min3(zvalues.x, zvalues.y, zvalues.z), zvalues.w);
+	MinZOut[dtid.xy] = minZ * ZScale;
+
+	float minHeight = 100000;
+	if (minZ > 0)
+	{
+		float2 bottomPixelClip = MR_PixelToClip(pixel + float2(0,1));
+		float maxDepth = max(max(depthValues.x, depthValues.y), max(depthValues.z, depthValues.w));
+		
+		// ONWARD++
+		float3 unflattenedPos = MR_ClipToWorld(bottomPixelClip, maxDepth);
+		minHeight = length(unflattenedPos - OW_ViewConstants.flatteningParams.myPlanetCenter);
+		// ONWARD++
+	}
+	MinHeightOut[dtid.xy] = minHeight;
+@endif
+}

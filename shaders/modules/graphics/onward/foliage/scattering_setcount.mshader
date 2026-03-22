@@ -1,0 +1,16 @@
+
+computeParameters
+{
+    numThreads 1 1 1
+}
+
+MR_RWBuffer< uint > CounterBufferW : MR_RW_Buffer6;
+
+compute main(uint3 dtid : MR_DispatchThreadId)
+{
+	CounterBufferW[0] = 0;
+	CounterBufferW[1] = 0;
+	CounterBufferW[2] = 0;
+	CounterBufferW[3] = 0;
+	CounterBufferW[4] = 0;
+}

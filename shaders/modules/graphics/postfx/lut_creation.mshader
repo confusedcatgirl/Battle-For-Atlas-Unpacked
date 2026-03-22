@@ -1,0 +1,85 @@
+MR_RWTexture3D<float3> Output : MR_RW_Texture0;
+
+computeParameters
+{
+	numThreads 8 8 1,
+}
+
+compute
+{
+@ifdef USE_3DSAMPLER
+	MR_Sampler3D<float3> LUTTexture1 : MR_Texture0 { wrap = clamp };
+	MR_Sampler3D<float3> LUTTexture2 : MR_Texture1 { wrap = clamp };
+	MR_Sampler3D<float3> LUTTexture3 : MR_Texture2 { wrap = clamp };
+	MR_Sampler3D<float3> LUTTexture4 : MR_Texture3 { wrap = clamp };
+	MR_Sampler3D<float3> LUTTexture5 : MR_Texture4 { wrap = clamp };
+	MR_Sampler3D<float3> LUTTexture6 : MR_Texture5 { wrap = clamp };
+	MR_Sampler3D<float3> LUTTexture7 : MR_Texture6 { wrap = clamp };
+	MR_Sampler3D<float3> LUTTexture8 : MR_Texture7 { wrap = clamp };
+	MR_Sampler3D<float3> LUTTexture9 : MR_Texture8 { wrap = clamp };
+@else
+	MR_Sampler2D<float3> LUTTexture1 : MR_Texture0 { wrap = clamp };
+	MR_Sampler2D<float3> LUTTexture2 : MR_Texture1 { wrap = clamp };
+	MR_Sampler2D<float3> LUTTexture3 : MR_Texture2 { wrap = clamp };
+	MR_Sampler2D<float3> LUTTexture4 : MR_Texture3 { wrap = clamp };
+	MR_Sampler2D<float3> LUTTexture5 : MR_Texture4 { wrap = clamp };
+	MR_Sampler2D<float3> LUTTexture6 : MR_Texture5 { wrap = clamp };
+	MR_Sampler2D<float3> LUTTexture7 : MR_Texture6 { wrap = clamp };
+	MR_Sampler2D<float3> LUTTexture8 : MR_Texture7 { wrap = clamp };
+	MR_Sampler2D<float3> LUTTexture9 : MR_Texture8 { wrap = clamp };
+@endif
+
+	constants : MR_ConstantBuffer0
+	{
+		float LUTWeight1;
+		float LUTWeight2;
+		float LUTWeight3;
+		float LUTWeight4;
+		float LUTWeight5;
+		float LUTWeight6;
+		float LUTWeight7;
+		float LUTWeight8;
+		float LUTWeight9;
+	}
+
+	main(in uint3 threadIdWithinDispatch : MR_DispatchThreadId)
+	{
+	@ifdef USE_3DSAMPLER
+		uint3 offset = threadIdWithinDispatch;
+	@else
+		uint2 offset = uint2(threadIdWithinDispatch.x + (threadIdWithinDispatch.z * 32), threadIdWithinDispatch.y);
+	@endif
+		float3 lutSum = vec3(0);
+
+		if (LUTWeight1 > 0)
+			lutSum += LUTWeight1 * MR_SampleTexelLod0(LUTTexture1, offset);
+		if (LUTWeight2 > 0)
+			lutSum += LUTWeight2 * MR_SampleTexelLod0(LUTTexture2, offset);
+		if (LUTWeight3 > 0)
+			lutSum += LUTWeight3 * MR_SampleTexelLod0(LUTTexture3, offset);
+	
+	@ifdef USE_LUT6
+		
+		if (LUTWeight4 > 0)
+			lutSum += LUTWeight4 * MR_SampleTexelLod0(LUTTexture4, offset);
+		if (LUTWeight5 > 0)
+			lutSum += LUTWeight5 * MR_SampleTexelLod0(LUTTexture5, offset);
+		if (LUTWeight6 > 0)
+			lutSum += LUTWeight6 * MR_SampleTexelLod0(LUTTexture6, offset);
+	
+		@ifdef USE_LUT9
+
+			if (LUTWeight7 > 0)
+				lutSum += LUTWeight7 * MR_SampleTexelLod0(LUTTexture7, offset);
+			if (LUTWeight8 > 0)
+				lutSum += LUTWeight8 * MR_SampleTexelLod0(LUTTexture8, offset);
+			if (LUTWeight9 > 0)
+				lutSum += LUTWeight9 * MR_SampleTexelLod0(LUTTexture9, offset);
+				
+		@endif
+	
+	@endif
+	
+		Output[threadIdWithinDispatch] = lutSum;
+	}
+}

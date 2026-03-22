@@ -1,0 +1,28 @@
+@include "shaders/modules/graphics/postfx/pixel_in.h"
+@include "shaders/modules/graphics/deferred/light.h"
+
+pixel
+{
+	main(out float4 colorOut : MR_Color0,
+@ifdef SSR_OR_SSS
+		out float4 ssParamOut0 : MR_Color1,
+@endif
+@ifdef SSR_AND_SSS
+		out float4 ssParamOut1 : MR_Color2,
+@endif
+		float4 fc : MR_FragCoord)
+	{
+@ifndef SSR_OR_SSS
+		float4 ssParamOut0;
+@endif
+@ifndef SSR_AND_SSS
+		float4 ssParamOut1;
+@endif
+
+		DeferredComplete(colorOut.xyz, ssParamOut0.xyz, ssParamOut1.xyz, int2(fc.xy));
+
+		colorOut.w = 1;
+		ssParamOut0.w = 1;
+		ssParamOut1.w = 1;
+	}
+}

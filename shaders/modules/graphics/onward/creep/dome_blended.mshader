@@ -1,0 +1,89 @@
+import "shaders/modules/graphics/onworld/planet_flattening.h"
+import "shaders/modules/graphics/onward/gi/ground_fog.h"
+
+import "shaders/MRender/MR_ViewConstants.h"
+import "shaders/MRender/MR_DepthBuffer.h"
+
+MR_Buffer<float4> InstanceData : MR_InstanceData;
+
+blend { src = 1, dest = 0, func = + }
+
+vertex
+{
+	in
+	{
+		stream 0
+		{
+			float4<RGBA_SNORM16> Gfx_Pos;
+		}
+		stream 1
+		{
+			float4<RGBA_UNORM8> Gfx_Normal;
+			float4<RGBA_UNORM8> Gfx_Tangent;
+			float2<RG_SNORM16>  Gfx_UV0;
+		}
+	}
+
+	out
+	{
+		float3 worldPos;
+		float worldDepth;
+	}
+
+	main(out float4 clipPos : MR_Position, in uint instanceId : MR_InstanceId)
+	{
+		const float4 instanceData = InstanceData[ instanceId ];
+
+		float3 position = In.Gfx_Pos.xyz * In.Gfx_Pos.w * 32768;
+		position =  instanceData.xyz + normalize( position ) * instanceData.w;
+
+		float3 flattenedPosition = position;
+		OW_SFT_ApplyFlatteningLocal( flattenedPosition, OW_ViewConstants.flatteningParams.myPlanet, OW_DEFAULT_CATEGORY );
+		flattenedPosition += OW_ViewConstants.flatteningParams.myPlanet.xyz;
+		Out.worldPos = flattenedPosition;
+		clipPos = MR_Transform( MR_ViewConstants.worldToClip, flattenedPosition );
+		Out.worldDepth = clipPos.w;
+	}
+}
+
+pixel
+{
+	MR_Sampler2D Framebuffer : MR_Framebuffer0 { wrap = clamp, filter = point };
+
+	MR_Sampler2D OffscreenTexture : MR_Texture0;
+
+	in
+	{
+		float3 worldPos;
+		float worldDepth;
+	}
+
+	main(out float4 outColor : MR_Color, float4 fc : MR_FragCoord)
+	{
+		const float2 clip2 = MR_PixelToClip( fc.xy );
+
+		float softness = 1.0;
+		{
+			float sampledDepth = MR_SampleLod0( Depthbuffer, MR_ClipToFramebufferUV( clip2 ) ).x;
+			float softnessDistance = sampledDepth - In.worldDepth;
+			softness = saturate( softnessDistance * 0.01 );
+		}
+
+
+		float2 uv = clip2 * float2(0.5f, -0.5f) + float2(0.5f, 0.5f);
+		float4 fromTexture = MR_Sample(OffscreenTexture, uv).x;
+		{
+			outColor.rgb = lerp( float3(1,0.5,0), float3(1,1,1), smoothstep( 1, 0.1, fromTexture.x ) );
+			outColor.a = smoothstep( 0.3, 0.4, fromTexture.x ) * softness;
+		}
+
+		// light and fog
+		{
+			const OW_FogVolume3DCoords fogCoords = OW_GroundFog_GetCoordsFromPos( In.worldPos );
+			outColor.rgb *= MR_SampleLod0( PlanetLightVolume, float3( fogCoords.my2D.myUV, fogCoords.myW ) ).rgb;
+			OW_Fog_Apply( outColor.rgb, OW_GroundFog_GetFromCoords( fogCoords ) );
+		}
+
+		outColor.rgb = lerp( MR_SampleTexelLod0( Framebuffer, fc.xy ).rgb, outColor.rgb, outColor.a );
+	}
+}

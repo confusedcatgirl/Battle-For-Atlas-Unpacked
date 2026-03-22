@@ -1,0 +1,248 @@
+import "shaders/MRender/MR_ViewConstants.h"
+import "shaders/modules/graphics/shadows.h"
+import "shaders/modules/graphics/lights.h"
+import "shaders/modules/graphics/fog_compute.h"
+
+MR_RWTexture3D<float4> RWFogTexture3D : MR_RW_Texture0;
+
+MR_Buffer Tiles : MR_Buffer0;
+MR_Buffer Volumes : MR_Buffer1;
+MR_ByteBuffer VolumeRangeBySliceTile : MR_Buffer5;
+
+MR_Sampler3D<float> Noise3D : MR_Texture0 { filter = linear point };
+MR_Sampler3D<float3> FogGIVolume : MR_Texture1 { filter = linear point, wrap = clamp, anisotropy = 0 };
+
+@ifdef REPROJECT
+MR_Sampler3D LastFrameTexture3D : MR_Texture2 { wrap = clamp, filter = linear, anisotropy = 0 };
+@endif
+
+@ifndef NO_GROUND_FOG
+MR_Sampler2D<float> GroundHeight : MR_Texture3 { wrap = clamp, filter = point, anisotropy = 0 };
+MR_Sampler2D GroundFogTexture { texture = "rogue/baked/art/effects/smoke/sba_fog_01_d.dds", anisotropy = 0 };
+@endif
+
+@ifdef SNOWWIND_FOG
+MR_Sampler2D<float2> FogWindSpeed : MR_Texture4 { wrap = clamp, anisotropy = 0 };
+@endif
+
+computeParameters
+{
+	numThreads 8 8 1
+}
+
+void GetVolumeProperties(float3 pos, inout float4 colorPMInOut, inout float indoorInOut, uint sliceTile)
+{
+@ifndef NO_VOLUMES
+	uint t = VolumeRangeBySliceTile.Load(sliceTile*4);
+	uint firstVolume = t & 0xffff;
+	uint numVolumes = t >> 16;
+
+	for (uint i=0; i<numVolumes; ++i)
+	{
+		uint index = (firstVolume + i)*3;
+		float3 center = Volumes[index+0].xyz;
+		float radius = Volumes[index+0].w;
+		float3 scale = Volumes[index+1].xyz;
+		float indoor = Volumes[index+1].w;
+		float4 colorPM = Volumes[index+2];
+
+		float3 delta = pos - center;
+		float d = length(delta * scale);
+		float t = saturate(1-d/radius);
+
+		colorPMInOut += colorPM * t;
+
+		if (indoor >= 0)
+			indoorInOut = lerp(indoorInOut, indoor, t);
+	}
+@endif
+}
+
+void GetGroundFog(float3 pos, inout float4 colorPMInOut, inout float indoorInOut, float distanceThisStep, float windNoiseFade)
+{
+@ifndef NO_GROUND_FOG
+	float trueHeightRange = 0.5;
+	float heightRange = max(0.5, distanceThisStep * 0.5);
+
+	float t = saturate((GroundFogHeight + heightRange - pos.y) / heightRange);
+	if (t > 0)
+	{
+		float rangeScaleAlpha = trueHeightRange / heightRange;
+		t *= GroundFogAlpha * (1-indoorInOut) * rangeScaleAlpha * rangeScaleAlpha;
+
+		float scale = 0.04;
+		float2 uv = (pos.xz - Gfx_Environment.accumulatedWind.xy) * scale;
+		t *= MR_SampleLod0(GroundFogTexture, uv).y * windNoiseFade + (1-windNoiseFade) * 0.5;
+
+		colorPMInOut += vec4(t);
+	}
+@endif
+}
+
+compute
+{
+	main(uint3 dispatchThreadId : MR_DispatchThreadId, uint3 groupId : MR_GroupId)
+	{
+@ifdef REPROJECT
+		float3 jitter = Jitter.xyz;
+@else
+		float3 jitter = vec3(0);
+@endif
+
+		float2 uv = (float2(dispatchThreadId.xy) + vec2(0.5) + jitter.xy) / LightVolumeSize.xy;
+		float2 clip2 = (uv - vec2(0.5)) * float2(2,-2);
+		float2 fc = MR_ClipToPixel(clip2);
+
+		float3 camNearPos = MR_ClipToCamera(clip2, 1);
+		float3 worldCameraPos = MR_GetPos(MR_ViewConstants.cameraToWorld).xyz;
+		float3 worldNearPos = MR_Transform(MR_ViewConstants.cameraToWorld, camNearPos).xyz;
+		float3 toNear = normalize(worldNearPos - worldCameraPos);
+
+		float lastDepth = Near;
+		float4 accumulatedFog = vec4(0);
+
+		float range = LightVolumeSize.w;
+
+		uint tileIndex2D = groupId.x + NumVolumeTilesPerLine * groupId.y;
+		uint endSlice = TileData2D.Load(tileIndex2D*4);
+
+		for (uint i=0; i<uint(LightVolumeSize.z); ++i)
+		{
+			if (i >= endSlice)
+			{
+				RWFogTexture3D[int3(dispatchThreadId.xy, i)] = float4(accumulatedFog.xyz, 1 - accumulatedFog.w);
+				continue;
+			}
+
+			float v_last = (i - 0.5 + jitter.z) / LightVolumeSize.z;
+			float v_mid = (i + 0.5 + jitter.z) / LightVolumeSize.z;
+			float depth = Near + pow(saturate(v_mid), InvDistributionGamma3D) * range;
+
+			float sampleDepth = depth;
+			float3 fromCamera = sampleDepth * toNear;
+			float3 pos = worldCameraPos + fromCamera;
+
+@ifdef GFX_NO_INDOOR
+			float indoor_float = 0;
+@else
+			float indoor_float = MR_SampleLod0(IndoorVolume, float3(uv, v_last));
+@endif
+
+			float distanceThisStep = depth - lastDepth;
+
+			float windNoiseFade = 1;
+@ifdef SNOWWIND_FOG
+			float2 topDownUv = (pos.xz - myFogWindTopDownCenter)*float2(1,-1)*myFogWindInvSize+0.5;
+			float2 windSpeed = MR_SampleLod0(FogWindSpeed, topDownUv);
+				
+			windNoiseFade = saturate(windSpeed.x*myNominalWindSpeedInv*1.5-0.3);
+@endif
+
+			float4 colPM = vec4(0);
+			GetVolumeProperties(pos, colPM, indoor_float, i/8);
+			GetGroundFog(pos, colPM, indoor_float, distanceThisStep, windNoiseFade);
+
+			float outdoorAlpha = Alpha * (1 - indoor_float);
+			if (fromCamera.y > Height)
+				outdoorAlpha *= (Height*2 - fromCamera.y) / Height;
+
+			float indoorAlpha = IndoorAlpha * indoor_float;
+
+			colPM += vec4(outdoorAlpha + indoorAlpha);
+			float alpha = colPM.a;
+
+			// noise
+			{
+				float windScale = -0.01;
+				float tiling1 = 0.0037;
+				float tiling2 = 0.02;
+
+				if (indoorAlpha > outdoorAlpha)
+				{
+					windScale = -0.0019;
+					tiling1 = 0.005;
+					tiling2 = 0.01;
+				}
+
+				float3 wind = float3(Gfx_Environment.accumulatedWind.x, 0, Gfx_Environment.accumulatedWind.y) * windScale;
+
+				float noise3d1 = MR_SampleLod0(Noise3D, pos * tiling1 + wind) - 0.5;
+				float noise = noise3d1*4;
+
+				float noise2range = 10;
+				if (depth < noise2range)
+				{
+					float noise3d2 = MR_SampleLod0(Noise3D, pos * tiling2 + wind * 1.9) - 0.5;
+
+					float t = saturate(depth / noise2range);
+					noise += noise3d2 * (1-t*t) * 10;
+				}
+@ifdef SNOWWIND_FOG
+				noise *= windNoiseFade;
+@endif
+
+				alpha *= max(0.0, 1 + noise * NoiseStrength);
+			}
+
+			alpha = saturate(alpha);
+
+			float3 light = MR_SampleTexelLod0(LightVolume, uint3(dispatchThreadId.xy, max(i-1, 0))); // -1 to reduce light shining through walls
+			float3 gi = MR_SampleLod0(FogGIVolume, float3(uv, v_mid));
+			light = lerp(gi, light, vec3(Scattering));
+
+			float alphaLocal = saturate(1.0 - pow(1.0 - alpha, distanceThisStep));
+			float alphaThisStepFinal = saturate(alphaLocal * (1.0 - accumulatedFog.a));
+
+			if (colPM.w)
+				accumulatedFog += float4(light * colPM.xyz / colPM.w, 1) * alphaThisStepFinal;
+
+			float4 fog = float4(accumulatedFog.rgb, 1-accumulatedFog.a);
+
+@ifdef REPROJECT
+			if (ThisFrameAlpha < 1.0)
+			{
+				float2 uv = (float2(dispatchThreadId.xy) + vec2(0.5)) / LightVolumeSize.xy;
+				float2 clip2 = (uv - vec2(0.5)) * float2(2,-2);
+
+				float3 camNearPos = MR_ClipToCamera(clip2, 1);
+				float3 worldCameraPos = MR_GetPos(MR_ViewConstants.cameraToWorld).xyz;
+				float3 worldNearPos = MR_Transform(MR_ViewConstants.cameraToWorld, camNearPos).xyz;
+				float3 toNear = normalize(worldNearPos - worldCameraPos);
+
+				float v_mid = (i + 0.5) / LightVolumeSize.z;
+				float depth = Near + pow(saturate(v_mid), InvDistributionGamma3D) * range;
+
+				float sampleDepth = depth;
+				float3 fromCamera = sampleDepth * toNear;
+				float3 pos = worldCameraPos + fromCamera;
+
+				float4 lastFrameCSPos = MR_Transform(LastFrameMatrix, pos);
+				lastFrameCSPos /= lastFrameCSPos.w;
+
+				float3 lastFrameCamPos = MR_GetPos(LastFrameMatrix).xyz;
+
+				float4 clip = MR_Transform(MR_ViewConstants.cameraToClip, lastFrameCSPos);
+				clip2 = clip.xy / clip.w;
+
+// 				float dist = length(pos - lastFrameCamPos);
+				float dist = depth;
+
+				float3 fog3coord = float3(clip2 * float2(0.5, -0.5) + vec2(0.5), pow(saturate((dist - MR_ViewConstants.near) / Gfx_Environment.fog3DMaxRange), Gfx_Environment.fog3DDistributionGamma));
+
+				float thisFrameAlpha = ThisFrameAlpha;
+				if (abs(clip2.x) >= 1 || abs(clip2.y) >= 1)
+					thisFrameAlpha = 1;
+
+				float4 lastFrame = MR_SampleLod0(LastFrameTexture3D, fog3coord);
+//				lastFrame = MR_SampleTexelLod0(LastFrameTexture3D, int3(dispatchThreadId.xy, i));
+
+				fog = lerp(lastFrame, fog, ThisFrameAlpha);
+			}
+@endif
+
+			RWFogTexture3D[int3(dispatchThreadId.xy, i)] = fog;
+
+			lastDepth = depth;
+		}
+	}
+}

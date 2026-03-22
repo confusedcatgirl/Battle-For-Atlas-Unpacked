@@ -1,0 +1,153 @@
+import "shaders/modules/graphics/onward/gi/fog/fog_integration.h"
+import "shaders/modules/graphics/onward/gi/space_fog.h"
+
+@ifdef OGI_COSMIC_DUST
+import "shaders/modules/graphics/environment.h"
+MR_Sampler3D CosmicDustTexture : MR_Texture6 { filter = linear point, wrap = clamp };
+MR_Sampler3D<float> Noise3D : MR_Texture8 { filter = linear point, anisotropy = 0 };
+@endif // OGI_COSMIC_DUST
+
+computeParameters
+{
+	numThreads 8 8 1
+}
+
+compute
+{
+	main(uint3 dispatchThreadId : MR_DispatchThreadId)
+	{
+		if (any(dispatchThreadId.xy >= constIntegrationSize.xy))
+			return;
+
+		uint3 cellId = uint3(dispatchThreadId.xy,0);
+
+		float4 currSlice = 0;
+		float4 nextSlice;
+
+		@ifdef OGI_FOG_REPROJECT
+			const float3 jitter = constJitter.xyz;
+		@else
+			const float3 jitter = 0;
+		@endif // OGI_FOG_REPROJECT
+
+		float3 cameraPos = OW_FogVolume_GetCameraPos( );
+		const float2 uv = OW_FogVolume_GetUVFromThreadID( dispatchThreadId, jitter, constIntegrationInvSize );
+		const float3 camPosToNear = OW_FogVolume_GetCameraPosToNearDir( cameraPos, uv );
+
+		@ifdef OGI_COSMIC_DUST
+			float previousDepth = OW_FogConstantBuffer.myGalaxy.myNear;
+		@endif // OGI_COSMIC_DUST
+
+		const float4 tileData = OW_Fog_Tiles_GetData( dispatchThreadId, constTileToThread, constIntegrationSize );
+		const uint earlyZOut = OW_FogVolume_GetEarlyZOut( OW_FogConstantBuffer.myGalaxy, camPosToNear, uv, constIntegrationSize, tileData );
+		float4 output = vec4( 0.0 );
+
+		uint maxZ = constIntegrationSize.z; // optimize this
+		for (;cellId.z<maxZ;++cellId.z)
+		{
+			if (cellId.z > earlyZOut) // early out?
+			{
+				IntegratedVolumeRW[ cellId ] = output;
+				continue;
+			}
+
+			const float time = saturate(OW_FogVolume_GetRangeFromThreadID( cellId, jitter, constIntegrationInvSize ));
+			float depth = OW_FogConstantBuffer.myGalaxy.myNear + pow( time, OW_FogConstantBuffer.myGalaxy.myInvDistributionPower ) * OW_FogConstantBuffer.myGalaxy.myDistributionRange;
+			float3 position = cameraPos + ( camPosToNear * depth ); // absolute position
+
+			//---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+			@ifdef OGI_COSMIC_DUST
+				float _noise = 0.0;
+				@ifndef OGI_COSMIC_DUST_NOISE
+
+					@ifdef OGI_FOG_PAUSE_NOISE
+						float currentTime = 0.0;
+					@else
+						float currentTime = Gfx_Environment.time;
+					@endif // OGI_FOG_PAUSE_NOISE
+
+					const float3 noisePosition = position + MR_ViewConstants.basisSegment.xyz * MR_ViewConstants.basisSegment.w;
+
+					const float speed = 0.5;
+					const float3 wind = float3( speed, 0, speed ) * ( currentTime * 0.01 );
+
+					@ifndef OGI_COSMIC_DUST_NOISY_UV
+
+						const float frequency = 0.5;
+						const float amplitude = 4.0;
+
+						_noise = MR_SampleLod0( Noise3D,
+							Gfx_Environment.worldScale * noisePosition * OW_FogConstantBuffer.myGalaxy.myInvDistributionRange * frequency + wind ) - 0.5;
+						_noise *= amplitude;
+
+						position += _noise * ( 1000.0 * Gfx_Environment.worldScale );
+
+						_noise = 0.0;
+
+					@else
+
+						const float frequency = 1.0;
+						const float amplitude = 1.0;
+
+						_noise = MR_SampleLod0( Noise3D,
+							Gfx_Environment.worldScale * noisePosition * OW_FogConstantBuffer.myGalaxy.myInvDistributionRange * frequency + wind );
+						_noise *= amplitude;
+
+					@endif // OGI_COSMIC_DUST_NOISY_UV
+
+				@endif // OGI_COSMIC_DUST_NOISE
+
+				float3 volumePos = saturate( position * OW_GIConstants.myGalaxy.myVolumeInvSize + OW_GIConstants.myGalaxy.myVolumeBias );
+				volumePos.z = clamp( volumePos.z, OW_GIConstants.myGalaxy.myVolumeRange.z, OW_GIConstants.myGalaxy.myVolumeRange.w );
+				float4 fogVolume = MR_SampleLod0( CosmicDustTexture, volumePos ) * (1.0 - _noise);
+
+			@endif // OGI_COSMIC_DUST
+			//---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+			@ifdef OGI_FOG_REPROJECT
+
+				float lastFrameAlpha = 0.0;
+				const OW_FogVolume3DCoords coords = OW_SpaceFog_GetTransfromedCoords( OW_VolumetricFog_GetReprojectionCoords( position, depth, lastFrameAlpha ) );
+				float4 lastFrameIntegration = MR_SampleLod0( LastFrameIntegrationSampler, float3( coords.my2D.myUV, coords.myW ) );
+
+			@endif // OGI_FOG_REPROJECT
+
+@ifdef OGI_IS_BAKING_GALAXY
+			float3 litMedia = vec3( 0.0 );
+			float2 property = vec2( 0.0 );
+@else
+			float3 litMedia = LitMediaTexture[ cellId ];
+			float2 property = PropertyTexture[ cellId ];
+@endif // OGI_IS_BAKING_GALAXY
+
+		@ifdef OGI_COSMIC_DUST
+
+			float attenuation = time * time;
+			attenuation *= attenuation;
+			attenuation = ( 1.0 - attenuation );
+			fogVolume *= attenuation;
+
+			fogVolume.a *= ( depth - previousDepth ) * 0.001f;
+
+			litMedia += fogVolume.rgb;
+			property.x += fogVolume.a;
+
+			previousDepth = depth;
+
+		@endif // OGI_COSMIC_DUST
+
+			nextSlice = OW_FogIntegration_GetOptical( litMedia, property );
+			currSlice = OW_FogIntegration_Accumulate( currSlice, nextSlice );
+
+			output = OW_FogIntegration_GetOutput( currSlice );
+
+			@ifdef OGI_FOG_REPROJECT
+				output = lerp( output, lastFrameIntegration, lastFrameAlpha );
+			@endif // OGI_FOG_REPROJECT
+
+			IntegratedVolumeRW[ cellId ] = output;
+		}
+
+		IntegratedLookupRW[ cellId.xy ] = output;
+	}
+}

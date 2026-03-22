@@ -1,0 +1,93 @@
+@include "shaders/modules/graphics/postfx/vertex.mshaders"
+@include "shaders/modules/graphics/postfx/pixel_in.h"
+@include "shaders/modules/graphics/gpuparticles/gpuparticles.h"
+@include "shaders/nodes/Shader/Functions/GetWeatherMask.h"
+import "shaders/MRender/MR_DepthBuffer.h"
+
+@ifdef MATERIAL_OVERRIDE
+import "shaders/nodes/Shader/Functions/Lighting/Material Override.h"
+@endif
+
+MR_Texture2D GBuffer_Color_MinReflection			: MR_Texture0;
+MR_Texture2D GBuffer_Normal							: MR_Texture1;
+MR_Texture2D GBuffer_Roughness_Metalness_Opacity_AO	: MR_Texture2;
+
+@ifdef SNOW_DECALS
+	MR_Texture2D SnowDecalTexture						: MR_SnowDecal;
+@endif
+
+pixel
+{
+	float GetEarlyAlpha(uint2 pixel, float3 normal_up)
+	{
+		float3 n = Gfx_DecodeNormal_UNorm(MR_SampleTexelLod0(GBuffer_Normal, pixel).xyz);
+		//return saturate(dot(n, normal_up) * 1);
+		return saturate(smoothstep(NormalMinY,1.0,dot(n, normal_up)));
+	}
+	main(float4 fc : MR_FragCoord, out float4 mrt0 : MR_Color0,
+@ifdef SNOW_WRITE_TO_NORMAL
+	out float4 mrt1 : MR_Color1 , out float4 mrt2 : MR_Color2
+@else
+	out float4 mrt2 : MR_Color1
+@endif
+	)
+	{
+		uint2 pixel = fc.xy;
+
+		mrt0 = MR_SampleTexelLod0(GBuffer_Color_MinReflection, pixel);
+@ifndef SNOW_WRITE_TO_NORMAL
+		float4 mrt1;
+@endif
+		mrt1 = MR_SampleTexelLod0(GBuffer_Normal, pixel);
+
+		mrt2 = MR_SampleTexelLod0(GBuffer_Roughness_Metalness_Opacity_AO, pixel);
+
+		float3 normal_up = MR_TransformNormal(MR_ViewConstants.worldToCamera, float3(0,1,0));
+
+		uint stencil = MR_SampleStencilTexelLod0(StencilTexture, fc.xy);
+
+@ifndef SNOW_RENDER_IN_PLACE
+		bool boolmask = !(stencil & Gfx_Stencil_Indoor) && (stencil & Gfx_Stencil_NoSnowMask) != Gfx_Stencil_NoSnowMask;
+		if (boolmask)
+@endif
+		{
+			float mask = UnpackWeatherMask(stencil);
+
+			float depth = MR_SampleTexelLod0(Depthbuffer, fc.xy).x;
+
+			float2 clip2 = MR_PixelToClip(fc.xy);
+			float3 pos = MR_ClipToWorld(clip2, depth);
+
+			Gfx_DeferredData data;
+			Gfx_MRTToDeferred(data, mrt0, mrt1, mrt2);
+
+@ifdef MATERIAL_OVERRIDE
+			MaterialOverride_WeatherMask(mask);
+@endif
+
+			float3 normal = data.worldNormal;
+			
+			float3 snowDecalNormal = float3(0,0,0);
+			float snowNormalBlend = 0;
+			float snowMeltingFactor = 0;
+@ifdef SNOW_DECALS
+			float4 snowSample = MR_SampleTexelLod0(SnowDecalTexture, fc.xy);
+			
+			float yValue = 1 - saturate(snowSample.x*snowSample.x + snowSample.y*snowSample.y);
+			
+			yValue = sqrt(max(0.00001, yValue));
+				
+			snowDecalNormal = normalize(float3(snowSample.x, yValue, snowSample.y));
+			snowNormalBlend = snowSample.z;
+			snowMeltingFactor = snowSample.w;
+@endif			
+			if (ModifyGBuffer(data, pos, depth, normal, mask, snowDecalNormal, snowNormalBlend, snowMeltingFactor))
+				Gfx_DeferredToMRT(data, mrt0, mrt1, mrt2);
+@ifdef SNOW_RENDER_IN_PLACE
+			else
+				discard;
+@endif
+		}
+	}
+}
+

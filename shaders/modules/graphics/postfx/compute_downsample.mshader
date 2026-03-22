@@ -1,0 +1,42 @@
+computeParameters
+{
+	numThreads 8 8 1
+}
+
+compute
+{
+	MR_Sampler2D<float3> Input : MR_Texture0 { wrap = clamp };
+	MR_RWTexture2D<float4> Result : MR_RW_Texture0;
+
+	constants : MR_ConstantBuffer15
+	{
+		float2 texelSize;
+		float2 uvOffset;
+		float2 uvMin;
+		float2 uvMax;
+	}
+
+	main(uint3 DTid : MR_DispatchThreadId)
+	{
+		float3 col = vec3(0);
+
+		@ifdef GFX_DOWNSAMPLE_4X
+			uint2 SampleUL = DTid.xy << 2;
+			
+			float2 uvStart = ((float2(SampleUL) + vec2(1.0f)) * texelSize) + uvOffset;
+			float2 offset = vec2(0.0f);
+			
+			col += MR_SampleLod0(Input, clamp(uvStart, uvMin, uvMax));
+			col += MR_SampleLod0(Input, clamp(uvStart + texelSize * float2(2.0f, 0.0f), uvMin, uvMax));
+			col += MR_SampleLod0(Input, clamp(uvStart + texelSize * float2(0.0f, 2.0f), uvMin, uvMax));
+			col += MR_SampleLod0(Input, clamp(uvStart + texelSize * float2(2.0f, 2.0f), uvMin, uvMax));
+			col *= 0.25f;
+		@else
+			uint2 SampleUL = DTid.xy << 1;			
+			float2 uvStart = ((float2(SampleUL) + vec2(1.0f)) * texelSize) + uvOffset;
+			col = MR_SampleLod0(Input, clamp(uvStart, uvMin, uvMax));
+		@endif
+
+		Result[DTid.xy] = float4(col, 0);
+	}
+}

@@ -1,0 +1,24 @@
+
+computeParameters
+{
+	numThreads 1 1 1
+}
+
+MR_Buffer< uint > ActiveCounter : MR_Buffer0;
+
+MR_RWBuffer< uint > VisibleCounter : MR_RW_Buffer0;
+MR_RWBuffer< uint > CullingArguments : MR_RW_Buffer1;
+
+compute main(uint3 dtid : MR_DispatchThreadId)
+{
+	CullingArguments[0] = (ActiveCounter[0]+63)/64;
+	CullingArguments[1] = 1;
+	CullingArguments[2] = 1;
+
+	VisibleCounter[0] = 0;
+	VisibleCounter[1] = 0;
+	VisibleCounter[2] = 1;
+	VisibleCounter[3] = 0;
+	VisibleCounter[4] = 0;
+	VisibleCounter[5] = 0;
+}

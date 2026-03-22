@@ -1,0 +1,48 @@
+import "shaders/modules/graphics/postfx/hdr/hdr.h"
+
+computeParameters
+{
+	numThreads 8 8 1
+}
+
+compute
+{
+	MR_RWTexture2D<float4> Result : MR_RW_Texture0;
+
+	constants : MR_ConstantBuffer2
+	{
+		float2 myTargetTexelSize;
+		float2 myColorUVOffset;
+		float2 myColorUVMin;
+		float2 myColorUVMax;
+		float2 myColorUVScale;
+		uint2 myPixelOffset;
+		uint2 myMaxDispatchSize;
+	}
+
+	float LinearToSRGB(float aLinearColor)
+	{
+		return aLinearColor > 0.0031308f ? 1.055f * pow(aLinearColor, 1.0f / 2.4f) - 0.055f : 12.92f * aLinearColor;
+	}
+
+	main(uint3 DTid : MR_DispatchThreadId)
+	{
+		if((DTid.x < myMaxDispatchSize.x) && (DTid.y < myMaxDispatchSize.y))
+		{
+			float2 uv = ((float2(DTid.xy) + vec2(0.5f)) * myTargetTexelSize);
+			float2 colorUv = myColorUVOffset + uv * myColorUVScale;
+			uint2 pixel = DTid.xy + myPixelOffset;
+			float3 color = CalculateFinalColor(colorUv, myColorUVMin, myColorUVMax, uv, (float2)pixel);
+
+			color = float3(LinearToSRGB(color.x), LinearToSRGB(color.y), LinearToSRGB(color.z));
+
+			@ifndef GFX_HDR_DISABLE
+				@ifdef GFX_HDR_DITHER
+					color += (MR_SampleTexelLod0(DitherNoise, DTid.xy & 0xf).xyz - 0.5) / 255.0;
+				@endif
+			@endif
+
+			Result[pixel] = float4(color, 1);
+		}
+	}
+}

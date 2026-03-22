@@ -1,0 +1,274 @@
+//import "shaders/modules/graphics/onworld/planet_decal.h"
+
+constants : MR_ConstantBuffer0
+{
+    float4   const_TextureTransform;
+    float4x4 const_ToLocalTransform;
+    float4   const_DecalAABB_Radius_Min;
+    float4   const_DecalAABB_Radius_Max;
+
+	float4x4 const_ToUVTransform;
+}
+
+// http://xboxforums.create.msdn.com/forums/p/30443/172880.aspx
+
+void OW_Util_GetTriangleNormal(
+	in float3 pos1,
+	in float2 uv1,
+	in float3 pos2,
+	in float2 uv2,
+	in float3 pos3,
+	in float2 uv3,
+	out float3 normalOut,
+	out float4 tangentOut
+)
+{
+	float3 normal1 = normalize(pos3 - pos1);
+	float3 normal2 = normalize(pos2 - pos1);
+	normalOut = normalize( cross(normal1, normal2) );
+
+	float x1 = pos2.x - pos1.x;
+	float x2 = pos3.x - pos1.x;
+	float y1 = pos2.y - pos1.y;
+	float y2 = pos3.y - pos1.y;
+	float z1 = pos2.z - pos1.z;
+	float z2 = pos3.z - pos1.z;
+
+	float u1 = uv2.x - uv1.x;
+	float u2 = uv3.x - uv1.x;
+	float v1 = uv2.y - uv1.y;
+	float v2 = uv3.y - uv1.y;
+
+	float r = 1.0f / (u1 * v2 - u2 * v1);  
+	float3 udir = float3((v2 * x1 - v1 * x2) * r, (v2 * y1 - v1 * y2) * r, (v2 * z1 - v1 * z2) * r);  
+	float3 vdir = float3((u1 * x2 - u2 * x1) * r, (u1 * y2 - u2 * y1) * r, (u1 * z2 - u2 * z1) * r);  
+
+	float3 tangent = udir - normalOut * dot(normalOut, udir);  
+	tangentOut.xyz = normalize(tangent);
+
+	float tangentdir = (dot(cross(normalOut, udir), vdir) <= 0.0f) ? 1.0f : -1.0f; 
+	tangentOut.w = tangentdir;
+}
+
+void OW_Util_GetTriangleNormalSum(
+	in float3 pos1,
+	in float2 uv1,
+	in float3 pos2,
+	in float2 uv2,
+	in float3 pos3,
+	in float2 uv3,
+	inout float3 nOut,
+	inout float4 tOut
+)
+{
+	float3 n;
+	float4 t;
+
+	OW_Util_GetTriangleNormal( pos1, uv1, pos2, uv2, pos3, uv3, n, t );
+
+	nOut += n;
+	tOut.xyz += t.xyz;
+	tOut.w = t.w; // what to do here?
+}
+
+void OW_Util_GenerateTerrainVertex(in float2 xy
+// terrain's parameters
+	, MR_Sampler2D heightmapSampler, in float4 toUVTransform, in float4x4 toCubeTransform, in float minRadius, in float maxRadius
+// results
+	, out float3 posOut
+	, out float3 uvOut
+)
+{
+	uvOut.xy = float2(toUVTransform.x, toUVTransform.y) + xy * float2(toUVTransform.z, toUVTransform.w);
+	uvOut.z = 0.0f;
+
+	posOut = float3(uvOut.x*2.0f-1.0f, 0.0f, 1.0f-uvOut.y*2.0f);
+	posOut = MR_Transform(toCubeTransform, float4(posOut, 1)).xyz;
+	posOut = normalize(posOut);
+
+	float height = MR_SampleLod( heightmapSampler, uvOut.xy, 0.0 ).x;
+	posOut *= lerp( minRadius, maxRadius, height );
+}
+
+void OW_Util_GenerateTerrainTangentSpace(in float2 xy, in float2 spacing, in bool useUVTransform, in float4x4 optionalUVTransform
+// terrain's parameters
+	, MR_Sampler2D heightmapSampler, in float4 toUVTransform, in float4x4 toCubeTransform, in float minRadius, in float maxRadius
+// results
+	, out float3 nOut
+	, out float4 tOut
+)
+{
+	float3 mainVertexPos, mainVertexUV;
+	OW_Util_GenerateTerrainVertex( xy, heightmapSampler, toUVTransform, toCubeTransform, minRadius, maxRadius, mainVertexPos, mainVertexUV );
+
+	float3 pos[8], uv[8];
+	OW_Util_GenerateTerrainVertex( xy + float2(-spacing.x, -spacing.y), heightmapSampler, toUVTransform, toCubeTransform, minRadius, maxRadius, pos[0], uv[0] );
+	OW_Util_GenerateTerrainVertex( xy + float2(      0.0f, -spacing.y), heightmapSampler, toUVTransform, toCubeTransform, minRadius, maxRadius, pos[1], uv[1] );
+	OW_Util_GenerateTerrainVertex( xy + float2( spacing.x, -spacing.y), heightmapSampler, toUVTransform, toCubeTransform, minRadius, maxRadius, pos[2], uv[2] );
+	OW_Util_GenerateTerrainVertex( xy + float2(-spacing.x,       0.0f), heightmapSampler, toUVTransform, toCubeTransform, minRadius, maxRadius, pos[3], uv[3] );
+	// main
+	OW_Util_GenerateTerrainVertex( xy + float2( spacing.x,       0.0f), heightmapSampler, toUVTransform, toCubeTransform, minRadius, maxRadius, pos[4], uv[4] );
+	OW_Util_GenerateTerrainVertex( xy + float2(-spacing.x,  spacing.y), heightmapSampler, toUVTransform, toCubeTransform, minRadius, maxRadius, pos[5], uv[5] );
+	OW_Util_GenerateTerrainVertex( xy + float2(      0.0f,  spacing.y), heightmapSampler, toUVTransform, toCubeTransform, minRadius, maxRadius, pos[6], uv[6] );
+	OW_Util_GenerateTerrainVertex( xy + float2( spacing.x,  spacing.y), heightmapSampler, toUVTransform, toCubeTransform, minRadius, maxRadius, pos[7], uv[7] );
+
+	if (useUVTransform)
+	{
+		uv[0] = MR_Transform( optionalUVTransform, pos[0] ).xyz;
+		uv[1] = MR_Transform( optionalUVTransform, pos[1] ).xyz;
+		uv[2] = MR_Transform( optionalUVTransform, pos[2] ).xyz;
+		uv[3] = MR_Transform( optionalUVTransform, pos[3] ).xyz;
+		mainVertexUV = MR_Transform( optionalUVTransform, mainVertexPos ).xyz;
+		uv[4] = MR_Transform( optionalUVTransform, pos[4] ).xyz;
+		uv[5] = MR_Transform( optionalUVTransform, pos[5] ).xyz;
+		uv[6] = MR_Transform( optionalUVTransform, pos[6] ).xyz;
+		uv[7] = MR_Transform( optionalUVTransform, pos[7] ).xyz;
+	}
+
+	// generate tangent space for each triangle
+	float3 n = 0;
+	float4 t = 0;
+
+	OW_Util_GetTriangleNormalSum( mainVertexPos, mainVertexUV.xy, pos[0], uv[0].xy, pos[1], uv[1].xy, n, t );
+	OW_Util_GetTriangleNormalSum( mainVertexPos, mainVertexUV.xy, pos[1], uv[1].xy, pos[2], uv[2].xy, n, t );
+	OW_Util_GetTriangleNormalSum( mainVertexPos, mainVertexUV.xy, pos[2], uv[2].xy, pos[4], uv[4].xy, n, t );
+	OW_Util_GetTriangleNormalSum( mainVertexPos, mainVertexUV.xy, pos[4], uv[4].xy, pos[7], uv[7].xy, n, t );
+	OW_Util_GetTriangleNormalSum( mainVertexPos, mainVertexUV.xy, pos[7], uv[7].xy, pos[6], uv[6].xy, n, t );
+	OW_Util_GetTriangleNormalSum( mainVertexPos, mainVertexUV.xy, pos[6], uv[6].xy, pos[5], uv[5].xy, n, t );
+	OW_Util_GetTriangleNormalSum( mainVertexPos, mainVertexUV.xy, pos[5], uv[5].xy, pos[3], uv[3].xy, n, t );
+	OW_Util_GetTriangleNormalSum( mainVertexPos, mainVertexUV.xy, pos[3], uv[3].xy, pos[0], uv[0].xy, n, t );
+
+	nOut.xyz = normalize( n );
+	tOut.xyz = normalize( t.xyz );
+	tOut.w = t.w; // what to do here?
+}
+
+vertex
+{
+	MR_Sampler2D HeightmapSampler : MR_Texture0 { filter = linear, wrap = clamp };
+
+	in
+	{
+		float2 pos;
+		float2 inc;
+		float4 valid;
+	}
+
+	out
+	{
+		float2 vertexPos2D;
+		float3 normal;
+		float2 uv;
+		float4 tangent;
+
+		float intersection;
+
+		float4 clipPos : MR_Position;
+	}
+
+	float3 Get3DPosition(in float2 xy )
+	{
+		float3 position;
+
+		float3 ignoredUV = 0;
+		OW_Util_GenerateTerrainVertex( xy
+			, HeightmapSampler, const_TextureTransform, const_ToLocalTransform, const_DecalAABB_Radius_Min.w, const_DecalAABB_Radius_Max.w
+			, position, ignoredUV );
+
+		return position;
+	}
+
+	int ProcessQuad(float4x3 quad)
+	{
+		// make a small bounding box for the quad
+		float3 aabbMin = min( quad[0], min( quad[1], min( quad[2], quad[3] )));
+		float3 aabbMax = max( quad[0], max( quad[1], max( quad[2], quad[3] )));
+
+		int result = 1;
+		for (int i=0; i<3; ++i)
+		{
+			float inter_min = max( aabbMin[i], const_DecalAABB_Radius_Min[i] );
+			float inter_max = min( aabbMax[i], const_DecalAABB_Radius_Max[i] );
+			if ((inter_max - inter_min) < -0.04f)
+			{
+				result *= 0;
+			}
+		}
+		return result;
+	}
+
+	main()
+	{
+		Out.clipPos = float4(In.pos.x, In.pos.y, 0, 1);
+
+		const float2 rtSize = float2(2.0f, 2.0f) / In.inc + float2(1.0f, 1.0f);
+		Out.clipPos.xy *= 1.0f - (1.0f / rtSize);
+
+		Out.vertexPos2D = In.pos;
+		float3 position = Get3DPosition( In.pos );
+		Out.uv = MR_Transform(const_ToUVTransform, position).xy;
+
+		OW_Util_GenerateTerrainTangentSpace( In.pos, In.inc, false, const_ToUVTransform
+			, HeightmapSampler, const_TextureTransform, const_ToLocalTransform, const_DecalAABB_Radius_Min.w, const_DecalAABB_Radius_Max.w
+			, Out.normal, Out.tangent );
+
+		float4x3 quad;
+
+		int intersection = 0;
+		if (In.valid.x > 0)
+		{
+			quad[0] = Get3DPosition( In.pos + float2(-1.0f, -1.0f) * In.inc );
+			quad[1] = Get3DPosition( In.pos + float2(-1.0f,  0.0f) * In.inc );
+			quad[2] = Get3DPosition( In.pos + float2( 0.0f, -1.0f) * In.inc );
+			quad[3] = Get3DPosition( In.pos + float2( 0.0f,  0.0f) * In.inc );
+			intersection |= (ProcessQuad(quad) << 0);
+		}
+		if (In.valid.y > 0)
+		{
+			quad[0] = Get3DPosition( In.pos + float2( 0.0f, -1.0f) * In.inc );
+			quad[1] = Get3DPosition( In.pos + float2( 0.0f,  0.0f) * In.inc );
+			quad[2] = Get3DPosition( In.pos + float2( 1.0f, -1.0f) * In.inc );
+			quad[3] = Get3DPosition( In.pos + float2( 1.0f,  0.0f) * In.inc );
+			intersection |= (ProcessQuad(quad) << 1);
+		}
+		if (In.valid.z > 0)
+		{
+			quad[0] = Get3DPosition( In.pos + float2(-1.0f,  0.0f) * In.inc );
+			quad[1] = Get3DPosition( In.pos + float2(-1.0f,  1.0f) * In.inc );
+			quad[2] = Get3DPosition( In.pos + float2( 0.0f,  0.0f) * In.inc );
+			quad[3] = Get3DPosition( In.pos + float2( 0.0f,  1.0f) * In.inc );
+			intersection |= (ProcessQuad(quad) << 2);
+		}
+		if (In.valid.w > 0)
+		{
+			quad[0] = Get3DPosition( In.pos + float2( 0.0f,  0.0f) * In.inc );
+			quad[1] = Get3DPosition( In.pos + float2( 0.0f,  1.0f) * In.inc );
+			quad[2] = Get3DPosition( In.pos + float2( 1.0f,  0.0f) * In.inc );
+			quad[3] = Get3DPosition( In.pos + float2( 1.0f,  1.0f) * In.inc );
+			intersection |= (ProcessQuad(quad) << 3);
+		}
+		Out.intersection = intersection;
+	}
+}
+
+pixel
+{
+	in
+	{
+		float2 vertexPos2D;
+		float3 normal;
+		float2 uv;
+		float4 tangent;
+
+		float intersection;
+	}
+
+	main(out float4 color0 : MR_Color0, out float4 color1 : MR_Color1, out float4 color2 : MR_Color2)
+	{
+		color0 = float4(In.vertexPos2D, In.uv);
+		color1 = float4(In.normal, In.intersection);
+		color2 = In.tangent;
+	}
+}
+
+

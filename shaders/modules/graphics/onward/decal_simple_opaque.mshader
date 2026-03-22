@@ -1,0 +1,25 @@
+import "shaders/modules/graphics/onward/decal_simple.h"
+
+blend {
+	writeMask = rgba,
+	src = 1,
+	dest = 0,
+}
+
+
+pixel
+{
+	MR_Sampler2D Albedo : MR_Texture0 { wrap = border };
+
+	in
+	{
+		float4 clipPos;
+		float3 camPos;
+	}
+
+	main(out float4 color : MR_Color, float4 fragCoord : MR_FragCoord)
+	{
+		float3 uv = GetDecalUV(fragCoord, color);
+		color *= MR_Sample(Albedo, uv.xy);
+	}
+}

@@ -1,0 +1,27 @@
+computeParameters
+{
+    numThreads 64 1 1,
+}
+
+compute
+{
+	struct SLitProbe
+    {
+        float3 Irradiance[6];
+    };
+
+	MR_RWStructuredBuffer< SLitProbe > LitProbes : MR_RW_Buffer0;
+	
+    main( uint3 threadIdWithinDispatch : MR_DispatchThreadId )
+    {
+		uint probeIndex = threadIdWithinDispatch.x;
+		
+		if(probeIndex >= 1000)
+			return;
+		
+		for(uint i = 0; i < 6; i++)
+		{
+			LitProbes[probeIndex].Irradiance[i] = float3(0,0,0);
+		}
+	}	
+}

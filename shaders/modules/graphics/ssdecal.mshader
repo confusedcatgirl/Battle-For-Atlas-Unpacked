@@ -1,0 +1,58 @@
+import "shaders/MRender/MR_ViewConstants.h"
+import "shaders/MRender/MR_DepthBuffer.h"
+
+constants : MR_ConstantBuffer0
+{
+	float4x4 Transform;
+	float4x4 UVMatrix;
+	float4 Color;
+}
+
+blend {}
+
+vertex
+{
+	in
+	{
+		float3 position;
+	}
+
+	out
+	{
+		float4 clipPos;
+		float3 camPos;
+	}
+
+	main(out float4 outClipPos : MR_Position)
+	{
+		float3 worldPos = MR_Transform(Transform, In.position).xyz;
+		
+		Out.camPos = MR_Transform(MR_ViewConstants.worldToCamera, worldPos).xyz;
+		Out.clipPos = MR_Transform(MR_ViewConstants.cameraToClip, Out.camPos);
+		outClipPos = Out.clipPos;
+	}
+}
+
+pixel
+{
+	MR_Sampler2D Diffuse : MR_Texture0 { wrap = border };
+
+	in
+	{
+		float4 clipPos;
+		float3 camPos;
+	}
+
+	main(out float4 color : MR_Color, float4 fragCoord : MR_FragCoord)
+	{
+		float depth = MR_SampleLod0(Depthbuffer, MR_PixelToFramebufferUV(fragCoord.xy)).x;
+
+		float3 cameraPosScaled = (In.camPos.xyz / In.camPos.z);
+		float3 cameraPos = cameraPosScaled * depth;
+
+		float3 worldSpace = MR_Transform(MR_ViewConstants.cameraToWorld, cameraPos).xyz;
+		float3 uv = MR_Transform(UVMatrix, worldSpace).xyz;
+
+		color = MR_Sample(Diffuse, uv.xy) * Color;
+	}
+}

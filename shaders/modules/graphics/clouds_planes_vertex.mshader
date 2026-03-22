@@ -1,0 +1,95 @@
+import "shaders/MRender/MR_ViewConstants.h"
+import "shaders/modules/graphics/clouds_planes.h"
+
+vertex
+{
+	in
+	{
+	@ifdef GFX_CLOUD_TOP
+		float x;
+		float z;
+	@else
+		float sideOffset;
+		float heightOffset;
+	@endif
+		stream 1 steprate=1
+		{
+			float distanceOffset;
+			float positionOffset;
+			float height;
+			float alpha;
+			float randomOffset;
+		}
+	}
+	
+	out
+	{
+		float3 worldPosition;
+		float3 uv3D;
+		float2 uv2D;
+		float alpha;
+	}
+	
+	main(out float4 clipPos : MR_Position)
+	{
+	@ifdef GFX_CLOUD_TOP
+		float x = In.x * In.distanceOffset + CameraPosition.x;
+		float y = In.height * CloudSize.y + CloudOffset.y;
+		float z = In.z * In.distanceOffset + CameraPosition.z;
+	@else
+		bool aboveCloud = CameraPosition.y > (CloudOffset.y + CloudSize.y);
+		@ifdef GFX_CLOUD_XDIR
+			float direction = (CameraPosition.x - In.positionOffset > 0.0) ? 1.0 : -1.0;
+			float skew = 0.0;
+			if (aboveCloud)
+				skew = (1.0 - In.heightOffset) * PlaneSkew * In.height;
+			else
+				skew = In.heightOffset * PlaneSkew * In.height;
+			float x = In.positionOffset + skew * direction;
+			float z = In.sideOffset * (In.distanceOffset - skew) + CameraPosition.z;
+		@endif
+		@ifdef GFX_CLOUD_ZDIR
+			float direction = (CameraPosition.z - In.positionOffset > 0.0) ? 1.0 : -1.0;
+			float skew = 0.0;
+			if (aboveCloud)
+				skew = (1.0 - In.heightOffset) * PlaneSkew * In.height;
+			else
+				skew = In.heightOffset * PlaneSkew * In.height;
+			float x = In.sideOffset * (In.distanceOffset - skew) + CameraPosition.x;
+			float z = In.positionOffset + skew * direction;
+		@endif
+		
+		float y = CloudOffset.y;
+		if (aboveCloud)
+			y += In.heightOffset * CloudSize.y + (1.0 - In.heightOffset) * (1.0 - In.height) * CloudSize.y;
+		else
+			y += In.heightOffset * In.height * CloudSize.y;
+	@endif
+				
+		Out.worldPosition = float3(x, y, z) + float3(WindOffset.x, 0.0, WindOffset.y);
+		
+		Out.uv3D = (float3(x, y, z) - CloudOffset) / CloudSize;
+		
+	@ifdef GFX_CLOUD_TOP
+		Out.uv2D = (Out.uv3D.xz + In.randomOffset) * NoiseScale2D.x + NoiseOffset2D;
+	@else
+		@ifdef GFX_CLOUD_XDIR
+			Out.uv2D = float2(Out.uv3D.z + In.randomOffset, Out.uv3D.y) * NoiseScale2D + float2(NoiseOffset2D.y, 0.0);
+		@endif
+		@ifdef GFX_CLOUD_ZDIR
+			Out.uv2D = float2(Out.uv3D.x + In.randomOffset, Out.uv3D.y) * NoiseScale2D + float2(NoiseOffset2D.x, 0.0);
+		@endif
+		Out.uv3D.y = Out.uv3D.y - 0.5 * NoiseScale.y + In.heightOffset * NoiseScale.y * In.height;
+	@endif
+			
+		float3 cameraPosition = MR_GetPos(MR_ViewConstants.cameraToWorld).xyz;
+		
+		float distance = length(Out.worldPosition - cameraPosition);
+		Out.alpha = In.alpha * (1.0 - smoothstep(30000, 32000, distance));
+		
+		float distance2d = length(Out.worldPosition.xz - cameraPosition.xz);
+		Out.worldPosition.y += (cos(distance2d / 50000.0) - 1.0) * 12000.0;
+		
+		clipPos = MR_Transform(MR_ViewConstants.worldToClip, Out.worldPosition);
+	}
+}

@@ -1,0 +1,20 @@
+import "shaders/MRender/MR_ViewConstants.h"
+
+@include "shaders/modules/graphics/postfx/pixel_in.h"
+@include "shaders/modules/graphics/normal_encode.h"
+
+pixel
+{
+	MR_Sampler2D Src : MR_Texture0  { filter = linear, wrap = clamp };
+
+	main(out float4 color : MR_Color0)
+	{
+		color = MR_SampleLod0(Src, In.uv0.xy);
+
+@ifdef NORMALS
+		float3 normalCS = Gfx_DecodeNormal_UNorm(color.xy);
+		float3 normalWS = MR_TransformNormal(MR_ViewConstants.cameraToWorld, normalCS);
+		color.xyz = saturate(normalWS * 0.5f + 0.5f);
+@endif//NORMALS
+	}
+}

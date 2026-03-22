@@ -1,0 +1,89 @@
+import "shaders/modules/graphics/onworld/planet_flattening.h"
+import "shaders/modules/graphics/environment.h"
+
+import "shaders/MRender/MR_ViewConstants.h"
+import "shaders/MRender/MR_DepthBuffer.h"
+
+MR_Buffer<float4> InstanceData : MR_InstanceData;
+
+MR_Sampler2D DomeTexture { texture = "onward/baked/textures/creep_cloud_b.dds" };
+
+blend { src = 1, dest = 1, func = max }
+
+constants : MR_ConstantBuffer0
+{
+	float4 constHalfSize;
+}
+
+vertex
+{
+	in
+	{
+		stream 0
+		{
+			float4<RGBA_SNORM16> Gfx_Pos;
+		}
+		stream 1
+		{
+			float4<RGBA_UNORM8> Gfx_Normal;
+			float4<RGBA_UNORM8> Gfx_Tangent;
+			float2<RG_SNORM16>  Gfx_UV0;
+		}
+	}
+
+	out
+	{
+		float worldDepth;
+		float attenuation;
+		float2 uv;
+	}
+
+	main(out float4 clipPos : MR_Position, in uint instanceId : MR_InstanceId)
+	{
+		const float4 instanceData = InstanceData[ instanceId ];
+
+		float3 position = In.Gfx_Pos.xyz * In.Gfx_Pos.w * 32768;
+		position =  instanceData.xyz + normalize( position ) * instanceData.w;
+
+		float3 flattenedPosition = position;
+		OW_SFT_ApplyFlatteningLocal( flattenedPosition, OW_ViewConstants.flatteningParams.myPlanet, OW_DEFAULT_CATEGORY );
+		flattenedPosition += OW_ViewConstants.flatteningParams.myPlanet.xyz;
+		clipPos = MR_Transform( MR_ViewConstants.worldToClip, flattenedPosition );
+		Out.worldDepth = clipPos.w;
+
+		float2 uv = In.Gfx_UV0 - vec2(0.5);
+
+		{
+			float sinVal, cosVal;
+			sincos(Gfx_Environment.time * 0.1, sinVal, cosVal);
+			Out.uv.x = uv.x * cosVal - uv.y * sinVal;
+			Out.uv.y = uv.y * cosVal + uv.x * sinVal;
+		}
+
+		Out.uv += vec2(0.5);
+
+		float3 Gfx_WS_Normal = In.Gfx_Normal.xyz * 2.0 - 1.0;
+		Out.attenuation = dot( Gfx_WS_Normal, normalize( MR_GetPos( MR_ViewConstants.cameraToWorld ).xyz - flattenedPosition ) );
+	}
+}
+
+pixel
+{
+	in
+	{
+		float worldDepth;
+		float attenuation;
+		float2 uv;
+	}
+
+	main(out float4 outColor : MR_Color, float4 fc : MR_FragCoord)
+	{
+		{
+			float2 clip2 = ( fc.xy - constHalfSize.xy ) * constHalfSize.zw;
+			float sampledDepth = MR_SampleLod0( Depthbuffer, MR_ClipToFramebufferUV( clip2 ) ).x;
+			clip( sampledDepth - In.worldDepth );
+		}
+
+		outColor = In.attenuation * (MR_Sample( DomeTexture, In.uv * 4 ).xxxx * 0.5 + 0.5);
+	}
+}

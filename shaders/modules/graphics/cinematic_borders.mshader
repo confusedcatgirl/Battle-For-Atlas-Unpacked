@@ -1,0 +1,25 @@
+vertex
+{
+	in
+	{
+		float4 clipCoord;
+	}
+
+	main(out float4 position : MR_Position)
+	{
+		position = float4(In.clipCoord.xyz, 1);
+	}
+}
+
+pixel
+{
+	constants : MR_ConstantBuffer0
+	{
+		float4 BorderColor;	
+	}
+	
+	main(out float4 outColor : MR_Color0)
+	{
+		outColor = BorderColor;
+	}
+}

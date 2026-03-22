@@ -1,0 +1,39 @@
+import "shaders/modules/graphics/gpuparticles/gpuparticles_common.h"
+
+import "shaders/modules/graphics/onworld/harvester/harvester_territory.h"
+import "shaders/nodes/shader/functions/onward/OW_GetTerrainLowResHeight.h"
+import "shaders/modules/graphics/onworld/onworld_environment.h"
+
+computeParameters
+{
+    numThreads 64 1 1
+}
+
+MR_RWStructuredBuffer< SParticleSpawnVolume > SpawnVolumes : MR_RW_Buffer0;
+
+compute
+{
+    constants : MR_ConstantBuffer1
+    {
+        float const_SpawnVolsCount;
+        float const_Padding;
+        float2 const_PlanetRadii;
+    }
+
+    float GetTerrainLowResRadius( in float3 aPosition )
+    {
+        return lerp( const_PlanetRadii.x, const_PlanetRadii.y, OW_GetTerrainLowResHeight( aPosition ) );
+    }
+
+    main( in uint3 dispatchThreadId : MR_DispatchThreadId )
+    {
+        if (dispatchThreadId.x >= const_SpawnVolsCount)
+            return;
+
+        float3 position = SpawnVolumes[dispatchThreadId.x].myPosition;
+        const float lowResRadius = GetTerrainLowResRadius(position);
+        const float3 displacedPosition = (lowResRadius + SpawnVolumes[dispatchThreadId.x].myVolumeSize.y) * normalize(position);
+
+        SpawnVolumes[dispatchThreadId.x].myPosition = displacedPosition;
+    }
+}

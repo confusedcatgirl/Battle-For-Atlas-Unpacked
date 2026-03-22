@@ -1,0 +1,19 @@
+import "shaders/modules/graphics/environment_constants.h"
+
+MR_RWTexture3D< float3 > FallbackTexture : MR_RW_Texture0;
+
+computeParameters
+{
+	numThreads 64 1 1
+}
+
+compute main(uint3 threadIdWithinDispatch : MR_DispatchThreadId)
+{
+	uint3 fallbackIndex = threadIdWithinDispatch;
+	if (fallbackIndex.x >= 6)
+		return;
+	
+	uint3 pixelIndex = uint3(0, 0, fallbackIndex.x);
+		
+	FallbackTexture[pixelIndex] = Gfx_Environment.GIDirections[fallbackIndex.x].rgb;
+}

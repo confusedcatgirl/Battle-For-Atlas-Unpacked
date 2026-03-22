@@ -1,0 +1,77 @@
+import "shaders/MRender/MR_ViewConstants.h"
+import "shaders/MRender/MR_DepthBuffer.h"
+
+MR_Texture2D<float3> Color : MR_Texture0;
+MR_Texture2D<float3> MetalColor : MR_Texture1;
+MR_RWTexture2D<float3> Output : MR_RW_Texture0;
+
+constants : MR_ConstantBuffer0
+{
+	uint Type;
+}
+
+computeParameters
+{
+	numThreads 8 8 1
+}
+
+compute main(uint3 dtid : MR_DispatchThreadId)
+{
+	uint2 pixel = dtid.xy + MR_ViewConstants.viewportMin;
+	float3 col = MR_SampleTexelLod0(Color, pixel);
+	float metalness = MR_SampleTexelLod0(MetalColor, pixel).y;
+	float depth = MR_SampleTexelLod0(DepthBufferZ, pixel);
+
+	if(depth == 0.0)
+	{
+		col = vec3(0.0);
+	}
+	else
+	{
+		if(Type == 0)
+		{
+			if(metalness > 0.0 && metalness < 1.0)
+				col = float3(1.0, 0.0, 1.0);
+			else
+				col.x = col.z = col.y = metalness;
+		}
+		else
+		{
+			float3 outCol = vec3(0.0);
+
+			if(Type == 1)
+			{
+				float limit = lerp(0.03, 0, metalness);
+
+				if(col.x < limit)
+					outCol.x = 1.0;
+
+				if(col.y < limit)
+					outCol.y = 1.0;
+
+				if(col.z < limit)
+					outCol.z = 1.0;
+			}
+			else
+			{
+				float limit = lerp(0.97, 1, metalness);
+
+				if(col.x > limit)
+					outCol.x = 1.0;
+
+				if(col.y > limit)
+					outCol.y = 1.0;
+
+				if(col.z > limit)
+					outCol.z = 1.0;
+			}
+
+			if(outCol.x == 0.0 && outCol.y == 0.0 && outCol.z == 0.0)
+				outCol = col * 0.2;
+
+			col = outCol;
+		}
+	}
+
+	Output[pixel] = col;
+}

@@ -1,0 +1,90 @@
+computeParameters
+{
+@ifdef THREADS_1
+	numThreads 1 1 1,
+@endif
+@ifdef THREADS_4
+	numThreads 2 2 1,
+@endif
+@ifdef THREADS_16
+	numThreads 4 4 1,
+@endif
+@ifdef THREADS_64
+	numThreads 8 8 1,
+@endif
+@ifdef THREADS_256
+	numThreads 16 16 1,
+@endif
+@ifdef THREADS_1024
+	numThreads 32 32 1,
+@endif
+}
+
+compute
+{
+	constants : MR_ConstantBuffer0
+	{
+		uint NumThreadGroupsX;
+		uint LoopCount;
+		uint unused1;
+		uint unused2;
+	}
+	MR_RWBuffer<uint> WriteBuffer : MR_RW_Buffer0;
+	
+	main(uint3 dispatchThreadId : MR_DispatchThreadId, uint3 groupThreadId : MR_GroupThreadId)
+	{
+	@ifdef THREADS_1
+		uint xMax = 32;
+		uint yMax = 32;
+	@endif
+	@ifdef THREADS_4
+		uint xMax = 16;
+		uint yMax = 16;
+	@endif
+	@ifdef THREADS_16
+		uint xMax = 8;
+		uint yMax = 8;
+	@endif
+	@ifdef THREADS_64
+		uint xMax = 4;
+		uint yMax = 4;
+	@endif
+	@ifdef THREADS_256
+		uint xMax = 2;
+		uint yMax = 2;
+	@endif
+	@ifdef THREADS_1024
+		uint xMax = 1;
+		uint yMax = 1;
+	@endif
+		
+		uint xBase = groupThreadId.x * xMax;
+		uint yBase = groupThreadId.y * yMax;
+		
+    	uint tileIndex = (dispatchThreadId.x + dispatchThreadId.y * NumThreadGroupsX) * (32 * 32);
+		
+		[loop]
+		for (uint y = 0; y < yMax; ++y)
+		{
+			[loop]
+			for (uint x = 0; x < xMax; ++x)
+			{
+				float xf = float(x + xBase);
+				float yf = float(y + yBase);
+				
+				float a = sin(xf * 0.5);
+				float b = cos(yf * -0.5);
+				float c = sin(cos(a*b));
+				float d = 2.0 + c;
+				float e = sqrt(d);
+				
+				[loop]
+				for (int i = 0; i < LoopCount; ++i)
+					e = sin(cos(e));
+				float f = xf + yf * xMax + e * 0.0001f;
+				
+    			WriteBuffer[tileIndex + (x + xBase) + (y + yBase)*xMax] = f;
+			}
+		}
+	}
+}

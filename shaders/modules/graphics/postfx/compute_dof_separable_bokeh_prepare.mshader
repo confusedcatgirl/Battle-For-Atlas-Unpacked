@@ -1,0 +1,35 @@
+import "shaders/modules/graphics/postfx/dof_separable_bokeh.h"
+
+import "shaders/MRender/MR_ViewConstants.h"
+
+computeParameters
+{
+	numThreads 8 8 1
+}
+
+compute
+{
+	@include "shaders/modules/graphics/postfx/compute_in.h"
+
+	main(uint3 DTid : MR_DispatchThreadId)
+	{
+		float2 uv0 = GetUV0(DTid);
+		float2 uv1 = GetUV1(DTid);
+	
+		float coc = GetAbsCoC(uv1, In.uv1Min, In.uv1Max, SeparableBokeh.UVOffset0, SeparableBokeh.UVOffset1);
+		coc += GetAbsCoC(uv1, In.uv1Min, In.uv1Max, -SeparableBokeh.UVOffset0, -SeparableBokeh.UVOffset1);
+	
+		coc *= 0.5;
+
+		coc = max(0.00001, coc);
+
+	@ifdef SEPERABLE_BOKEH_HALFRES		
+		float3 src = MR_SampleLod0(ColorLinear, uv0).xyz;
+	@else
+		float3 src = MR_SampleLod0(Color, uv0).xyz;
+	@endif
+
+		Result0[DTid.xy + In.destTexelOffset0] = float4(src, coc);
+	}
+}
+	

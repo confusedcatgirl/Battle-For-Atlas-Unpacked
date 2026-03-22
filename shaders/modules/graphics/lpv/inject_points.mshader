@@ -1,0 +1,63 @@
+blend {
+	src = 1,
+	dest = 1,
+	writeMask = rgba
+}
+
+constants : MR_ConstantBuffer0
+{
+	float4x4 WorldToLPV;
+	float Resolution;
+	float Scale;
+}
+
+vertex
+{
+	in {
+		float3 worldPos;
+		float3 emission;
+	}
+
+	out {
+		float3 Color;
+	}
+
+	main(out float4 pos : MR_Position)
+	{
+		float4 destPos = MR_Transform(WorldToLPV, In.worldPos);
+
+		float3 uv3 = (destPos.xyz + vec3(1)) * 0.5;
+		if (dot(abs(uv3 - saturate(uv3)), vec3(1)))
+		{
+			pos = float4(-100, -100, 0, 1);
+			Out.Color = vec4(0);
+		}
+		else
+		{
+			Out.Color = In.emission * Scale;
+
+			float slice = floor(uv3.z * Resolution);
+			float2 destuv = float2(uv3.x, (uv3.y + slice) / Resolution);
+
+			pos = float4((destuv - vec2(0.5)) * float2(2, -2), 0, 1);
+		}
+	}
+}
+
+pixel
+{
+	in {
+		float3 Color;
+	}
+
+	main(
+		out float4 aRedOut : MR_Color0,
+		out float4 aGreenOut : MR_Color1,
+		out float4 aBlueOut : MR_Color2,
+	)
+	{
+		aRedOut = float4(0,0,0, In.Color.x);
+		aGreenOut = float4(0,0,0, In.Color.y);
+		aBlueOut = float4(0,0,0, In.Color.z);
+	}
+}

@@ -1,0 +1,26 @@
+import "shaders/modules/graphics/onworld/atmosphere/bruneton/common.h"
+
+computeParameters
+{
+    numThreads 32 32 1
+}
+
+MR_RWTexture2D<float4> RWDeltaETexture2D : MR_RW_Texture0;
+
+compute
+{
+    constants : MR_ConstantBuffer0
+    {
+        float2 const_TargetSize;
+    }
+
+    main( in uint3 dispatchThreadId : MR_DispatchThreadId )
+    {
+        const uint3 pixelCoords = GetPixelCoords(dispatchThreadId, const_TargetSize.y);
+
+        const float r = IrradianceR(pixelCoords.y, const_TargetSize.y);
+        const float muS = IrradianceMuS(pixelCoords.x, const_TargetSize.x);
+
+        RWDeltaETexture2D[pixelCoords.xy] = float4(Transmittance(r, muS) * max(muS, 0.0), 0.0);
+    }
+}

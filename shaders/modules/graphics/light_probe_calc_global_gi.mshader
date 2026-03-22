@@ -1,0 +1,78 @@
+import "shaders/nodes/Shader/Functions/Lighting/GI.h"
+import "shaders/modules/graphics/environment_constants.h"
+
+struct SLitProbe
+{
+        float3 myIrradiance[6];
+};
+	
+MR_StructuredBuffer< SLitProbe > LitProbes : MR_Buffer0;
+MR_StructuredBuffer< SProbeConstants > ProbeConstants : MR_Buffer1;
+MR_Buffer LastFrameDefaultGI : MR_Buffer2;
+
+MR_RWBuffer<float4> Output : MR_RW_Buffer0;
+
+constants : MR_ConstantBuffer0
+{
+	float4 CameraParams;
+	float4 Contributions;
+	int4 ProbeIdxs;
+}
+
+computeParameters
+{
+	numThreads 1 1 1
+}
+
+compute main(uint3 qfc : MR_DispatchThreadId)
+{
+	const uint ourMaxProbesPerSector = 1000;
+
+	const float3 cameraPos = CameraParams.xyz;
+	float cameraDistance = length(cameraPos);
+	float3 cameraDir = cameraPos * rcp(cameraDistance);
+	float3 cameraOnGround = cameraDir * OW_Planet_GetBaseGroundRadius();
+	float heightAttenuation = 1.0f - OW_Space_GetInfluence(OW_Planet_GetBaseGroundRadius(), cameraDistance);
+
+	float totalContrib = 0.0001;
+	
+	float4 outputColors[6];
+	
+	for(int i = 0; i < 6; ++i)
+	{
+		outputColors[i] = float4(0,0,0,1);
+	}
+
+	for(int a=0;a<4;++a)
+	{
+		uint rawProbeIdx = ProbeIdxs[a];
+		uint sectorIdx = rawProbeIdx >> 10;
+		uint sectorProbeIdx = rawProbeIdx & 0x03ff;
+		uint sectorOffset = sectorIdx * ourMaxProbesPerSector;
+		uint probeIndex = sectorOffset + sectorProbeIdx;
+		float contribution = Contributions[a];
+
+		SLitProbe litProbe = LitProbes[ probeIndex ];
+		SProbeConstants probeConstants = ProbeConstants[ probeIndex ];
+
+		for(int i = 0; i < 6; ++i)
+		{
+			outputColors[i] += float4(litProbe.myIrradiance[i], 1.0f) * contribution;
+		}
+
+		totalContrib += contribution;
+	}
+
+	for(int i = 0; i < 6; ++i)
+	{
+		outputColors[i] /= totalContrib;
+	}
+
+	Output[0] = lerp(LastFrameDefaultGI[0], outputColors[0], 0.25f);
+	Output[1] = lerp(LastFrameDefaultGI[1], outputColors[1], 0.25f);
+	Output[2] = lerp(LastFrameDefaultGI[2], outputColors[2], 0.25f);
+	Output[3] = lerp(LastFrameDefaultGI[3], outputColors[3], 0.25f);
+	Output[4] = lerp(LastFrameDefaultGI[4], outputColors[4], 0.25f);
+	Output[5] = lerp(LastFrameDefaultGI[5], outputColors[5], 0.25f);
+	Output[6] = heightAttenuation * smoothstep(0.0001, 0.0002, totalContrib) * CameraParams.w;
+}

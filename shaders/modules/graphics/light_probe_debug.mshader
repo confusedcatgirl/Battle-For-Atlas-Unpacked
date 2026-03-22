@@ -1,0 +1,122 @@
+vertex
+{
+	import "shaders/MRender/MR_ViewConstants.h"
+	import "shaders/nodes/Shader/Functions/Apply Planet Transforms To Vertex.h"
+
+	in
+	{
+		float4 xyz;
+		float3 normal;
+		float4<BGRA_UNORM8> color;
+
+		stream 1 steprate=1
+		{
+			float4 position_size;
+			float3 instanceColor;
+			uint probeIndex;
+		}
+	}
+
+	out
+	{
+		float3 normal;
+		float3 color;
+		uint probeIndex;
+	}
+
+	main(out float4 clipPos : MR_Position)
+	{
+		float3 n = normalize(In.normal);
+		float3 pos = In.position_size.xyz + n * In.position_size.w;
+		pos = ApplyAllPlanetTransformsToVertex(pos);
+		clipPos = MR_Transform(MR_ViewConstants.worldToClip, pos);
+
+		Out.normal = n;
+		Out.color = In.instanceColor;
+		Out.probeIndex = In.probeIndex;
+	}
+}
+
+pixel
+{
+	MR_SamplerCube CubeMap : MR_Texture0;
+
+@ifndef OGI_CUBEMAP_ONLY
+
+	struct SGIProbe
+	{
+		float3 myIrradiance[6];
+	};
+
+	MR_StructuredBuffer< SGIProbe > GIProbes : MR_Buffer0;
+
+@endif // OGI_CUBEMAP_ONLY
+
+	constants : MR_ConstantBuffer0
+	{
+		float MipLevel;
+		float Indoor;
+		float Outdoor;
+	}
+
+	in
+	{
+		float3 normal;
+		float3 color;
+		uint probeIndex;
+	}
+
+	main(out float4 outColor : MR_Color)
+	{
+		float3 basisDirections [] =
+		{
+			float3(  1.0,  0.0,  0.0 ),
+			float3(  0.0,  1.0,  0.0 ),
+			float3(  0.0,  0.0,  1.0 ),
+			float3( -1.0,  0.0,  0.0 ),
+			float3(  0.0, -1.0,  0.0 ),
+			float3(  0.0,  0.0, -1.0 )
+		};
+
+		float3 directionColors [6];
+		for( uint i = 0; i < 6; ++i )
+		{
+			directionColors[i]  = max(In.color,0);
+@ifndef OGI_CUBEMAP_ONLY
+			directionColors[i] += GIProbes[ In.probeIndex ].myIrradiance[i];
+@endif // OGI_CUBEMAP_ONLY
+		}
+
+		outColor = max(MR_SampleLod(CubeMap, In.normal, MipLevel), vec4(0));
+
+		float totalWeight = 0;
+		float3 totalColor = float3(0,0,0);
+
+		for( uint i = 0; i < 6; ++i )
+		{
+			float d = saturate( dot( basisDirections[i], normalize( In.normal ) ) );
+			d = pow(d, 2);
+
+			float weight = d;
+			float3 color = directionColors[i];
+
+			totalWeight += weight;
+			totalColor += color * weight;
+		}
+
+		totalColor /= max( 0.0001, totalWeight );
+
+		outColor.rgb += totalColor.rgb;
+/*
+		for( uint i = 0; i < 6; ++i )
+		{
+			if( dot( normalize( basisDirections[i] ), normalize( In.normal ) ) > 0.99 )
+				outColor.rgb = directionColors[i];
+			else if( dot( normalize( basisDirections[i] ), normalize( In.normal ) ) > 0.987 )
+				outColor.rgb = float3(0,0,0);
+		}
+*/
+
+		outColor = max( 0, outColor );
+	}
+}

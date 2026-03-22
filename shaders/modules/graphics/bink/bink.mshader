@@ -1,0 +1,64 @@
+vertex
+{
+	in
+	{
+		float2 position;
+		float2 texCoords;
+	}
+
+	out
+	{
+		float2 texCoords;
+	}
+
+	main(out float4 clipPos : MR_Position)
+	{
+	  Out.texCoords = In.texCoords;
+		
+		clipPos = float4(In.position, 0, 1);
+	}
+}
+
+pixel
+{
+	MR_Sampler2D YPlane : MR_Texture0;
+	MR_Sampler2D cRPlane : MR_Texture1;
+	MR_Sampler2D cBPlane : MR_Texture2;
+@ifdef BINK_HAS_ALPHA
+	MR_Sampler2D APlane : MR_Texture3;
+@endif
+
+	in
+	{
+		float2 texCoords;
+	}
+
+	main(out float4 color : MR_Color)
+	{
+@ifdef BINK2
+		float4 crc = float4(1.402, -0.71414, 0, 0);
+		float4 crb = float4(0, -0.34414,  1.772, 0);
+		float4 adj = float4(-0.701, 0.52914, -0.886, 0);
+		float4 yc  = float4(1,1,1,1);
+@else
+		float4 crc = float4(1.595794678, -0.813476563, 0, 0);
+		float4 crb = float4(0, -0.391448975, 2.017822266, 0);
+		float4 adj = float4(-0.870, 0.529, -1.0816, 0);
+		float4 yc  = float4(1.164123535,1.164123535,1.164123535, 0);
+@endif
+
+		float Y = MR_Sample( YPlane, In.texCoords ).x;
+   		float cR = MR_Sample( cRPlane, In.texCoords ).x;
+   		float cB = MR_Sample( cBPlane, In.texCoords ).x;
+
+		float4 p = yc * Y + crc * cR + crb * cB + adj;
+
+@ifdef BINK_HAS_ALPHA
+		p.w = MR_Sample( APlane, In.texCoords ).x;
+@else
+   		p.w = 1;
+@endif
+
+		color = p;
+	}
+}

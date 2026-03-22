@@ -1,0 +1,116 @@
+import "shaders/MRender/MR_ViewConstants.h"
+import "shaders/modules/graphics/shadows.h"
+
+import "shaders/modules/graphics/onworld/planet_base.h"
+import "shaders/modules/graphics/onworld/functions/RaySphereIntersection.h"
+import "shaders/modules/graphics/onworld/env_constants.h"
+
+MR_Sampler2D DownsampledDepth : MR_Texture1 { filter = point, wrap = clamp };
+
+constants : MR_ConstantBuffer7
+{
+	uint const_NumSamples;
+
+	float const_MinDepth;
+	float const_MaxDepth;
+
+	float const_ExtraShadowing;
+
+	float4 const_PosDepthWeight[64];
+}
+
+computeParameters
+{
+	numThreads 64 1 1
+}
+
+float GetMinMaxDepth( in float2 aUV )
+{
+	float4 z4 = MR_SampleGather( DownsampledDepth, aUV );
+	float minZ = min( min( z4.x, z4.y ), min( z4.z, z4.w ) );
+
+	return min( MR_ZToLinearDepth( minZ ), const_MaxDepth );
+}
+
+float3 GetWorldPosition(in float3 aPos)
+{
+	float minMaxDepth = GetMinMaxDepth( aPos.xy * float2(0.5, -0.5) + vec2(0.5) );
+	return MR_ClipToWorld( aPos.xy, lerp( const_MinDepth, minMaxDepth, aPos.z ) );
+}
+
+compute
+{
+	MR_RWBuffer<float> OutputW : MR_RW_Buffer0;
+	MR_Buffer<float> OutputR : MR_Buffer5;
+
+	main(uint3 dispatchThreadId : MR_DispatchThreadId)
+	{
+		if (dispatchThreadId.x >= const_NumSamples)
+			return;
+
+		float shadowFactor = 0;
+		if (dispatchThreadId.x >= 2)
+		{
+			const float3 worldPos = GetWorldPosition( const_PosDepthWeight[ dispatchThreadId.x ].xyz );
+			shadowFactor = GetShadowFactor( worldPos, vec2(0) ).x;
+		}
+
+		if (dispatchThreadId.x == 1)
+		{
+			shadowFactor = 1;
+
+@ifdef IN_SPACE
+
+			float3 camPos = OW_PlanetConstants.const_CameraPos.xyz;
+			float3 sunPos = OW_PlanetConstants.const_RelativeSunPosition.xyz;
+			float3 sunDir = normalize(sunPos - camPos);
+
+			float2 interGround = OW_RaySphereIntersection( camPos, sunDir, OW_PlanetConstants.const_PlanetRadii.x );
+
+			if ((interGround.y >= interGround.x && interGround.y > 0.0))
+			{
+				float factor = abs(interGround.y - interGround.x) / OW_PlanetConstants.const_PlanetRadii.x;
+				shadowFactor = 1.0 - saturate(factor);
+			}
+
+			shadowFactor = lerp( shadowFactor, 1.0, MR_OnworldEnvironmentConstants.groundLerpFactor.x );
+
+@endif // IN_SPACE
+		}
+
+@ifdef FIRST_ITERATION
+
+		OutputW[dispatchThreadId.x] = shadowFactor;
+
+@else
+
+		OutputW[dispatchThreadId.x] = lerp(OutputR[dispatchThreadId.x], shadowFactor, 0.05);
+
+@endif // FIRST_ITERATION
+
+		MR_GroupMemoryBarrierSync();
+
+		if (dispatchThreadId.x == 0)
+		{
+			float s = 0;
+			float w = 0;
+
+			for (uint i = 2; i < const_NumSamples; ++i)
+			{
+				const float weight = const_PosDepthWeight[dispatchThreadId.x].w;
+
+				s += weight * OutputW[i];
+				w += weight;
+			}
+
+			s /= w;
+
+			s *= s;
+			s *= s;
+			s *= s;
+
+			s = max( min( OutputW[1] * s, 1.0 ), 0.0 ); // saturate but turns nans into 1 (on all plateforms)
+			OutputW[0] = s * const_ExtraShadowing;
+		}
+	}
+}

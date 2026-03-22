@@ -1,0 +1,39 @@
+import "shaders/modules/graphics/gpuparticles/gpuparticles_common.h"
+import "shaders/modules/graphics/normal_encode.h"
+import "shaders/MRender/MR_ViewConstants.h"
+import "shaders/Math/intersect.h"
+
+import "shaders/modules/graphics/onworld/planet_flattening.h"
+
+computeParameters
+{
+	numThreads 64 1 1
+}
+
+compute
+{
+	MR_RWStructuredBuffer< SParticleSpawnVolume > SpawnVolumes : MR_RW_Buffer0;
+
+	// Check The Parametric Line section
+	// http://geomalgorithms.com/a02-_lines.html
+	float DistanceFromCameraToSpawnVol(float3 spawnVolPos, float spawnVolWidth)
+	{
+		const float3 cameraPosition = MR_GetPos(MR_ViewConstants.cameraToWorld).xyz;
+		const float3 spawnVolToCamera = cameraPosition - spawnVolPos;
+		const float3 dir = normalize(spawnVolPos - myPlanetPos);
+
+		return max(0.0f, length(spawnVolToCamera - (dot(spawnVolToCamera, dir) * dir)) - spawnVolWidth);
+	}
+
+	main(uint3 DTid : MR_DispatchThreadId )
+	{
+		if (DTid.x >= mySpawnVolsCount)
+			return;
+
+		float3 spawnVolPos = SpawnVolumes[DTid.x].myPosition + myPlanetPos;
+		OW_SFT_ApplyAll(spawnVolPos, OW_DEFAULT_CATEGORY);
+
+		const float spawnVolWidth = SpawnVolumes[DTid.x].myVolumeSize.x;
+		SpawnVolumes[DTid.x].myDistanceToCamera = DistanceFromCameraToSpawnVol(spawnVolPos, spawnVolWidth);
+	}
+}

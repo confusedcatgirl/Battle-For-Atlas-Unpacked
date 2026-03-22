@@ -1,0 +1,35 @@
+import "shaders/modules/graphics/onward/pm/pm.h"
+
+computeParameters
+{
+	numThreads 64 1 1
+}
+
+constants : MR_ConstantBuffer0
+{
+	uint constMaxCount;
+}
+
+MR_RWStructuredBuffer< OGfx_Particulate > ParticleData : MR_RW_Buffer0;
+
+MR_RWBuffer< uint > DeathItems : MR_RW_Buffer1;
+MR_RWBuffer< uint > DeathCount : MR_RW_Buffer2;
+
+compute main(uint3 dtid : MR_DispatchThreadId)
+{
+	const uint index = dtid.x;
+
+	if (index == 0)
+	{
+		DeathCount[ 0 ] = constMaxCount;
+		DeathCount[ 1 ] = 0;
+	}
+
+	if (index < constMaxCount)
+	{
+		DeathItems[ index ] = index;
+
+		ParticleData[ index ] = (OGfx_Particulate) 0;
+		OGfx_PM_SetDead( ParticleData[ index ] );
+	}
+}

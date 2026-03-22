@@ -1,0 +1,37 @@
+MR_Texture2D Input : MR_Texture0;
+MR_RWBuffer<uint> Result : MR_RW_Buffer0;
+
+constants : MR_ConstantBuffer0
+{
+	int2 Min;
+	int2 Max;
+	int Mip;
+}
+
+computeParameters
+{
+	numThreads 16 16 1
+}
+
+compute
+{
+	const uint TileSize = 32;
+	
+	main(uint Gidx : MR_GroupIndex, uint3 DTid : MR_DispatchThreadId)
+	{
+		float diff = 0.0;
+		int2 pixel = Min + DTid.xy * 2;
+		if(pixel.x < Max.x - 1 && pixel.y < Max.y - 1)
+		{
+			float4 nw = MR_SampleTexelLod(Input, clamp(pixel + int2(0, 0), Min, Max-1), Mip).xyzw;
+			float4 ne = MR_SampleTexelLod(Input, clamp(pixel + int2(1, 0), Min, Max-1), Mip).xyzw;
+			float4 sw = MR_SampleTexelLod(Input, clamp(pixel + int2(0, 1), Min, Max-1), Mip).xyzw;
+			float4 se = MR_SampleTexelLod(Input, clamp(pixel + int2(1, 1), Min, Max-1), Mip).xyzw;
+			float4 mean = (nw + ne + sw + se) * 0.25;
+			float4 diff4 = abs(nw - mean) + abs(ne - mean) + abs(sw - mean) + abs(se - mean);
+			diff = dot(diff4, float4(1.0, 1.0, 1.0, 1.0));
+		}
+		
+		if(diff > 0.0) MR_AtomicAdd(Result[Gidx], 1);
+	}
+}

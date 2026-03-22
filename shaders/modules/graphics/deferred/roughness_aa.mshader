@@ -1,0 +1,27 @@
+@include "shaders/modules/graphics/postfx/pixel_in.h"
+@include "shaders/modules/graphics/deferred/roughness_aa.h"
+@include "shaders/modules/graphics/deferred/ssr.h"
+
+blend {
+	writeMask = r,
+	src = src.a,
+	dest = 1-src.a,
+}
+
+constants RAA : MR_ConstantBuffer2
+{
+	float AlphaScale;
+}
+
+pixel
+{
+	main(out float4 colorOut : MR_Color0, float4 fc : MR_FragCoord)
+	{
+		int2 pixel = int2(fc.xy);
+
+		float r = GetRoughnessAA(MRT1, pixel);
+		float alpha = saturate(r * RAA.AlphaScale);
+
+		colorOut = float4(1,0,0, alpha);
+	}
+}

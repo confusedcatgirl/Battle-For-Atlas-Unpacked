@@ -1,0 +1,31 @@
+MR_Sampler2D<float> Input : MR_Texture0 { filter = linear point, wrap = clamp };
+MR_RWTexture2D<float> Output : MR_RW_Texture0;
+
+computeParameters
+{
+	numThreads 8 8 1
+}
+
+constants : MR_ConstantBuffer15
+{
+	float2 Scale;
+	float2 Offset;
+}
+
+compute main(uint3 dtid : MR_DispatchThreadId)
+{
+	float2 uv = dtid.xy * Scale + Offset;
+	float4 z4 = MR_SampleGather(Input, uv);
+
+	int i = 0;
+	float z = 0;
+
+	if (i == 0)
+		z = max(max(z4.x, z4.y), max(z4.z, z4.w));
+	else if (i == 1)
+		z = min(min(z4.x, z4.y), min(z4.z, z4.w));
+	else if (i == 2)
+		z = dot(z4, vec4(0.25));
+
+	Output[dtid.xy] = z;
+}

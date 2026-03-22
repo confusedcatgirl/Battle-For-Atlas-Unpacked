@@ -1,0 +1,42 @@
+@include "shaders/modules/graphics/deferred/ssr2.h"
+@include "shaders/modules/graphics/deferred/ssr2_resolve.h"
+
+MR_RWTexture2D<float3> Output_RGB : MR_RW_Texture0;
+MR_RWTexture2D<float2> Output_DistanceAlpha : MR_RW_Texture1;
+
+computeParameters
+{
+	numThreads 8 8 1
+}
+
+compute main(uint3 dtid : MR_DispatchThreadId, uint3 groupId : MR_GroupId)
+{
+@ifdef SSR2_CLASSIFY_TILES
+	bool tileUsed = Light_RadiusAlpha[groupId.xy/2].x != 0;
+@else
+	bool tileUsed = true;
+@endif
+
+	float2 ffc = dtid.xy + vec2(0.5) + MR_ViewConstants.viewportPos;
+@ifdef SSR2_QUARTER_RAYS
+	uint2 hitpx = dtid.xy/2;
+@else
+	uint2 hitpx = dtid.xy;
+@endif
+
+	if (tileUsed)
+	{
+		float3 color;
+		float alpha;
+		float distanceToHit;
+		ResolveSSR(color, alpha, distanceToHit, ffc, hitpx);
+
+		Output_RGB[ffc.xy] = color;
+		Output_DistanceAlpha[ffc.xy] = float2(distanceToHit, alpha);
+	}
+	else
+	{
+		Output_RGB[ffc.xy] = vec3(0);
+		Output_DistanceAlpha[ffc.xy] = vec2(0);
+	}
+}

@@ -1,0 +1,63 @@
+blend {
+	src = 1,
+	dest = 1,
+	writeMask = rgba
+}
+
+import "shaders/modules/graphics/lpv/inject.h"
+import "shaders/modules/graphics/normal_encode.h"
+
+vertex
+{
+	in {
+		float2<RG_UNORM16> positionPacked;
+	}
+
+	out {
+		float4 occlusionSH;
+	}
+
+	main(out float4 pos : MR_Position)
+	{
+		float2 uv = (In.positionPacked.xy * 65535.0 + vec2(0.5)) / ViewportSize;
+
+		float2 srcuv = uv * SrcUVScale + SrcUVOffset;
+		float depth = MR_SampleLod0(Depth, srcuv).x;
+
+		float3 camNormal = Gfx_DecodeNormal_UNorm(MR_SampleLod0(DepthNormal, srcuv).yz);
+		float3 normal = MR_TransformNormal(CamToWorld, camNormal);
+
+		float2 clip2 = (uv - vec2(0.5)) * float2(2, -2);
+		float4 clip4 = float4(clip2, depth, 1);
+
+		float4 destPos = MR_Transform(SrcToLPV, clip4);
+
+		float3 uv3 = (destPos.xyz + vec3(1)) * 0.5;
+		if (dot(abs(uv3 - saturate(uv3)), vec3(1)) || depth <= 0.0 || depth >= 1.0)
+		{
+			pos = float4(-100, -100, 0, 1);
+			Out.occlusionSH = vec4(0);
+		}
+		else
+		{
+			Out.occlusionSH = float4(normal * 0.5, 0.5) * Scale;
+
+			float slice = floor(uv3.z * Resolution + 0.5);
+			float2 destuv = float2(uv3.x, (uv3.y + slice) / Resolution);
+
+			pos = float4((destuv - vec2(0.5)) * float2(2, -2), 0, 1);
+		}
+	}
+}
+
+pixel
+{
+	in {
+		float4 occlusionSH;
+	}
+
+	main(out float4 aColorOut : MR_Color)
+	{
+		aColorOut = In.occlusionSH;
+	}
+}

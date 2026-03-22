@@ -1,0 +1,26 @@
+@include "shaders/modules/graphics/postfx/pixel_in.h"
+import "shaders/modules/graphics/onworld/gi/lookup_sky_colour.h"
+
+constants : MR_ConstantBuffer2
+{
+	float4   const_planetsCenter;
+    float4x4 const_faceTransform;
+}
+
+pixel
+{
+    main(out float4 colorOut : MR_Color0)
+    {
+		float2 pos2D = float2(In.uv0.x * 2.0f - 1.0f, In.uv0.y * -2.0f + 1.0f);
+		float3 pos3D = MR_Transform(const_faceTransform, float4(pos2D, 1, 0)).xyz;
+		float3 eyeDir = normalize( pos3D );
+		eyeDir = MR_TransformNormal( MR_ViewConstants.cameraToWorld, eyeDir );
+		float3 eyePos = ( MR_ViewConstants.LODCameraPosition - const_planetsCenter.xyz );
+
+		float4 backgroundColor = float4(0,0,0,1);
+		backgroundColor.rgb = 0;//OW_SpaceFog_GetFogColor( eyeDir );
+		backgroundColor.rgb *= 0;//OW_SpaceFog_GetFarPlaneStrength( );
+		OW_SkyModel_GetSkyColorFromInside( colorOut, eyePos, eyeDir, false );
+		colorOut = colorOut + backgroundColor * colorOut.a;
+    }
+}

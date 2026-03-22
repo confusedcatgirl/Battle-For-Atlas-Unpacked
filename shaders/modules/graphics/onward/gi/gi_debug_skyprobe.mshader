@@ -1,0 +1,51 @@
+import "shaders/modules/graphics/onward/gi/gi_sampling.h"
+import "shaders/modules/graphics/onward/gi/sky_sampling.h"
+
+constants : MR_ConstantBuffer0
+{
+	float4 constPositionSize;
+}
+
+vertex
+{
+	import "shaders/MRender/MR_ViewConstants.h"
+
+	import "shaders/nodes/Shader/Functions/Apply Planet Transforms To Vertex.h"
+
+	in
+	{
+		float4 xyz;
+		float3 normal;
+		float4<BGRA_UNORM8> color;
+	}
+
+	out
+	{
+		float3 color;
+	}
+
+	main(out float4 clipPos : MR_Position)
+	{
+		float3 normal = normalize( In.normal );
+		float3 pos = constPositionSize.xyz + normal * constPositionSize.w;
+		pos = ApplyAllPlanetTransformsToVertex( pos );
+		clipPos = MR_Transform( MR_ViewConstants.worldToClip, pos );
+
+		normal = OW_GI_TransformDirection( normalize( constPositionSize.xyz ), normal );
+		float4 skyColor = OW_Sky_SampleProbe( normal );
+		Out.color = skyColor.rgb * skyColor.a;
+	}
+}
+
+pixel
+{
+	in
+	{
+		float3 color;
+	}
+
+	main(out float4 outColor : MR_Color)
+	{
+		outColor = float4( In.color, 1.0f );
+	}
+}

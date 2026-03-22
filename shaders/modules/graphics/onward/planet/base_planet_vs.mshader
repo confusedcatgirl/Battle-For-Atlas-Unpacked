@@ -1,0 +1,52 @@
+import "shaders/modules/graphics/onworld/planet_crust_vs.h"
+
+vertex
+{
+	in
+	{
+		float3 position;
+	}
+
+	out
+	{
+		float3 sphereNormal;
+		float3 worldPos;
+		float3 worldPosForMapping;  // that's the world post without morphing
+		float2 uv;
+		float2 uv2;
+@ifdef CALCULATE_CYLINDERTBN
+		float3 sphereTangent;
+		float3 sphereBitangent;
+		float2 cylinderUV;
+@endif
+@ifdef OUTPUT_CAMPOS
+        float3 camPos;
+@endif // OUTPUT_CAMPOS
+	}
+
+	main(out float4 outClipPos : MR_Position)
+	{
+		float3 camPos;
+		OW_Planet_VS( In.position.xz,
+			camPos,
+			Out.sphereNormal,
+			Out.worldPos,
+			Out.worldPosForMapping,
+			Out.uv.xy,
+			Out.uv2.xy
+@ifdef CALCULATE_CYLINDERTBN
+			,
+			Out.sphereTangent,
+			Out.sphereBitangent,
+			Out.cylinderUV
+@endif
+			);
+
+	@ifdef OUTPUT_CAMPOS
+		Out.camPos = camPos;
+	@endif // OUTPUT_CAMPOS
+
+		outClipPos = Planet_CameraToClipSpace(camPos);
+	}
+}
+

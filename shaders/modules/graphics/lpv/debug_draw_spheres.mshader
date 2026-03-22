@@ -1,0 +1,85 @@
+vertex
+{
+	import "shaders/MRender/MR_ViewConstants.h"
+
+	MR_Sampler2DArray SHTexture : MR_Texture0 { filter = point };
+
+	constants : MR_ConstantBuffer0
+	{
+		float4 Scale;
+		float RedOffset;
+		float GreenOffset;
+		float BlueOffset;
+	}
+
+	in
+	{
+		float4 xyz;
+		float3 normal;
+		float4<BGRA_UNORM8> color;
+
+		stream 1 steprate=1
+		{
+			float4 position_size;
+			float4 texcoord;
+		}
+	}
+
+	out
+	{
+		float3 color;
+		float3 normal;
+		float4 red;
+		float4 green;
+		float4 blue;
+	}
+
+	main(out float4 clipPos : MR_Position)
+	{
+		float3 n = normalize(In.normal);
+		float3 pos = In.position_size.xyz + n * In.position_size.w;
+		clipPos = MR_Transform(MR_ViewConstants.worldToClip, pos);
+
+		float3 tc = In.texcoord.xyz;
+
+		Out.red = MR_SampleLod0(SHTexture, tc + float3(0,0,RedOffset)) * Scale;
+		Out.green = MR_SampleLod0(SHTexture, tc + float3(0,0,GreenOffset)) * Scale;
+		Out.blue = MR_SampleLod0(SHTexture, tc + float3(0,0,BlueOffset)) * Scale;
+
+		float4 normal4 = float4(n, 1);
+		Out.color.r = dot(normal4, Out.red);
+		Out.color.g = dot(normal4, Out.green);
+		Out.color.b = dot(normal4, Out.blue);
+		Out.color = max(Out.color, vec3(0));
+		Out.normal = n;
+	}
+}
+
+pixel
+{
+	constants : MR_ConstantBuffer0
+	{
+		float MipLevel;
+	}
+
+	in
+	{
+		float3 color;
+		float3 normal;
+		float4 red;
+		float4 green;
+		float4 blue;
+	}
+
+	main(out float4 color : MR_Color)
+	{
+		color = float4(In.color, 1);
+
+		if (dot(normalize(In.red.xyz), normalize(In.normal)) > 0.99)
+			color.x += 5 * length(In.red.xyz);
+		if (dot(normalize(In.green.xyz), normalize(In.normal)) > 0.99)
+			color.y += 5 * length(In.green.xyz);
+		if (dot(normalize(In.blue.xyz), normalize(In.normal)) > 0.99)
+			color.z += 5 * length(In.blue.xyz);
+	}
+}

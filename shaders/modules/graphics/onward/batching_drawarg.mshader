@@ -1,0 +1,17 @@
+import "shaders/modules/graphics/onward/batching_culling.h"
+
+computeParameters
+{
+	numThreads 1 1 1
+}
+
+MR_RWBuffer< uint > DrawArgBufferOut : MR_RW_Buffer0;
+
+compute main(uint3 dtid : MR_DispatchThreadId)
+{
+	DrawArgBufferOut[ 0 ] = constIndexCount;
+	DrawArgBufferOut[ 1 ] = 0; // instanceCount
+	DrawArgBufferOut[ 2 ] = constStartIndex;
+	DrawArgBufferOut[ 3 ] = 0;
+	DrawArgBufferOut[ 4 ] = 0;
+}

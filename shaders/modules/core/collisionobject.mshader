@@ -1,0 +1,73 @@
+import "shaders/modules/graphics/onward/flattening.h"
+import "shaders/modules/graphics/onward/flattening_funcs.h"
+import "shaders/MRender/MR_ViewConstants.h"
+
+
+constants : MR_ConstantBuffer0
+{
+	float4x4 ModelToWorld;
+	float4x4 WorldToClip;
+	float4 Color;
+	float4x4 WorldToCamera;
+	OGFX_FlatteningParams Flattening;
+}
+
+vertex
+{
+	in
+	{
+		float3 position;
+		float3 normal;
+	}
+	
+	out
+	{
+		float3 normal;
+	}
+
+	main( out float4 outPosition : MR_Position )
+	{
+		float4 pos = MR_Transform(ModelToWorld, float4(In.position,1));
+		if (OW_Flattening_IsActive(Flattening))
+			OW_Flattening_Apply(Flattening, pos.xyz);
+		outPosition = MR_Transform( WorldToClip, pos );
+		Out.normal = MR_Transform( ModelToWorld, float4(In.normal,0)).xyz;
+	}
+}
+
+pixel
+{
+	in
+	{
+		float3 normal;
+	}
+	
+	main( out float3 outColor : MR_Color )
+	{
+		float3 l1dir = float3(0.0f,0.0f,1.0f);
+		float3 l2dir = float3(0.0f,0.0f,-1.0f)*0.5f;
+		float3 l3dir = float3(0.0f,1.0f,0.0f)*0.9f;
+		float3 l4dir = float3(0.0f,-1.0f,0.0f)*0.8f;
+		float3 l5dir = float3(1.0f,0.0f,0.0f)*0.7f;
+		float3 l6dir = float3(-1.0f,0.0f,0.0f)*0.6f;
+		
+		float3 l1col = float3(0.6f,0.6f,0.55f);
+		float3 l2col = float3(0.6f,0.6f,0.65f);
+		float3 l3col = float3(0.6f,0.55f,0.6f);
+		float3 l4col = float3(0.6f,0.65f,0.6f);
+		float3 l5col = float3(0.55f,0.6f,0.6f);
+		float3 l6col = float3(0.65f,0.6f,0.6f);
+		float3 amb = float3(0.35f,0.35f,0.35f);
+		
+		float3 light = saturate(l1col* saturate(dot(l1dir,In.normal)) 
+							+ l2col*saturate(dot(l2dir,In.normal)) 
+							+ l3col*saturate(dot(l3dir,In.normal)) 
+							+ l4col*saturate(dot(l4dir,In.normal)) 
+							+ l5col*saturate(dot(l5dir,In.normal)) 
+							+ l6col*saturate(dot(l6dir,In.normal)) 
+							+ amb);
+		
+        outColor = Color.xyz*light;
+        outColor = max( 0, outColor );
+	}
+}

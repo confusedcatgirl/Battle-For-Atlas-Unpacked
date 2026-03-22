@@ -1,0 +1,82 @@
+import "shaders/modules/graphics/onworld/planet_base.h"
+import "shaders/modules/graphics/onworld/planet_flattening.h"
+
+vertex
+{
+	import "shaders/MRender/MR_ViewConstants.h"
+
+	in
+	{
+		float4 xyz;
+		float3 normal;
+		float4<BGRA_UNORM8> color;
+
+		stream 1 steprate=1
+		{
+			float4 transform1;
+			float4 transform2;
+			float4 transform3;
+			float4<BGRA_UNORM8> color1;
+			float4<BGRA_UNORM8> color2;
+			float4<BGRA_UNORM8> unused1;
+			float4<BGRA_UNORM8> unused2;
+		}
+	}
+
+	out
+	{
+		float3 normal;
+		float4 color1;
+		float4 color2;
+	}
+
+	main(out float4 position : MR_Position)
+	{
+		float4 meshlocal = float4(In.xyz.xyz,1);
+		float4 world = meshlocal;
+		world.x = dot(meshlocal, In.transform1);
+		world.y = dot(meshlocal, In.transform2);
+		world.z = dot(meshlocal, In.transform3);
+		world.w = 1;
+
+
+@ifdef FLATTENING
+		OW_SFT_ApplyOld(world.xyz);
+@endif // FLATTENING
+
+		position = MR_Transform(MR_ViewConstants.worldToClip, world);
+@ifdef NOCLIP		
+		position.z = max(position.z, 0.0f);
+@endif // NOCLIP
+
+		// MSV:DW - normal transform is wrong and gets distorted by scaling
+		float3 n;
+		n.x = dot(In.normal, In.transform1.xyz);
+		n.y = dot(In.normal, In.transform2.xyz);
+		n.z = dot(In.normal, In.transform3.xyz);
+		n = normalize(n);
+
+		Out.color1 = In.color1;
+		Out.color2 = In.color2;
+		Out.normal = n;
+	}
+}
+
+pixel
+{
+	in
+	{
+		float3 normal;
+		float4 color1;
+		float4 color2;
+	}
+
+	main(out float4 color : MR_Color)
+	{
+		float3 light = normalize(float3(2,3,-1));
+		float3 normal = normalize(In.normal);
+		float n_dot_l = dot(normal, light);
+		color = lerp(In.color2, In.color1, 0.5 + 0.5*n_dot_l);
+		color.rgb *= color.a;
+	}
+}

@@ -1,0 +1,26 @@
+@include "shaders/modules/graphics/snow/snowwind_common.h"
+
+computeParameters
+{
+	numThreads 8 8 1
+}
+
+compute
+{
+	MR_Texture2D<float2> OldWind : MR_Texture0;
+	MR_RWTexture2D<float2> NewWind : MR_RW_Texture0;
+
+	main(uint3 DTid : MR_DispatchThreadId )
+	{
+		int2 id = DTid.xy;
+		float2 wind = float2(0,0);
+		int2 oldPos = id + float2(1,-1) * myCamMoveOffset;
+
+		if(oldPos.x > 0 && oldPos.y > 0 && oldPos.x < SimSize && oldPos.y < SimSize)
+		{
+			wind = OldWind[oldPos];
+		}
+		
+		NewWind[id] = wind;
+	}
+}

@@ -1,0 +1,178 @@
+import "shaders/nodes/Shader/Functions/Onward/OW_SampleEquirectangularTextureLOD0.h"
+
+computeParameters
+{
+	numThreads 8 8 1,
+}
+
+compute
+{
+	MR_RWTexture2D<float4> Destination : MR_RW_Texture0;
+	MR_Sampler2D<float4> Source : MR_Texture0 { filter = point, wrap = clamp };
+
+	constants : MR_ConstantBuffer0
+	{
+		int2 Size;
+		float4x4 FaceMatrix;
+	}
+
+	const float c_x0 = -1.0;
+	const float c_x1 =  0.0;
+	const float c_x2 =  1.0;
+	const float c_x3 =  2.0;
+
+	float4 CubicLagrange (float4 A, float4 B, float4 C, float4 D, float t)
+	{
+		return
+		A * (
+			(t - c_x1) / (c_x0 - c_x1) *
+			(t - c_x2) / (c_x0 - c_x2) *
+			(t - c_x3) / (c_x0 - c_x3)
+		) +
+		B *
+		(
+			(t - c_x0) / (c_x1 - c_x0) *
+			(t - c_x2) / (c_x1 - c_x2) *
+			(t - c_x3) / (c_x1 - c_x3)
+		) +
+		C *
+		(
+			(t - c_x0) / (c_x2 - c_x0) *
+			(t - c_x1) / (c_x2 - c_x1) *
+			(t - c_x3) / (c_x2 - c_x3)
+		) +
+		D *
+		(
+			(t - c_x0) / (c_x3 - c_x0) *
+			(t - c_x1) / (c_x3 - c_x1) *
+			(t - c_x2) / (c_x3 - c_x2)
+		);
+	}
+
+	float4 BicubicLagrangeTextureSample(float2 P, float2 aTextureSize, float2 aOnePixel, float2 aTwoPixels)
+	{
+		float2 pixel = P * aTextureSize + 0.5;
+
+		float2 fract = frac(pixel);
+		pixel = floor(pixel) / aTextureSize - float2(aOnePixel * 0.5);
+
+		float4 C00 = MR_SampleLod0(Source, pixel + float2(-aOnePixel.x ,-aOnePixel.y));
+		float4 C10 = MR_SampleLod0(Source, pixel + float2( 0.0         ,-aOnePixel.y));
+		float4 C20 = MR_SampleLod0(Source, pixel + float2( aOnePixel.x ,-aOnePixel.y));
+		float4 C30 = MR_SampleLod0(Source, pixel + float2( aTwoPixels.x,-aOnePixel.y));
+
+		float4 C01 = MR_SampleLod0(Source, pixel + float2(-aOnePixel.x , 0.0));
+		float4 C11 = MR_SampleLod0(Source, pixel + float2( 0.0         , 0.0));
+		float4 C21 = MR_SampleLod0(Source, pixel + float2( aOnePixel.x , 0.0));
+		float4 C31 = MR_SampleLod0(Source, pixel + float2( aTwoPixels.x, 0.0));
+
+		float4 C02 = MR_SampleLod0(Source, pixel + float2(-aOnePixel.x , aOnePixel.y));
+		float4 C12 = MR_SampleLod0(Source, pixel + float2( 0.0         , aOnePixel.y));
+		float4 C22 = MR_SampleLod0(Source, pixel + float2( aOnePixel.x , aOnePixel.y));
+		float4 C32 = MR_SampleLod0(Source, pixel + float2( aTwoPixels.x, aOnePixel.y));
+
+		float4 C03 = MR_SampleLod0(Source, pixel + float2(-aOnePixel.x , aTwoPixels.y));
+		float4 C13 = MR_SampleLod0(Source, pixel + float2( 0.0         , aTwoPixels.y));
+		float4 C23 = MR_SampleLod0(Source, pixel + float2( aOnePixel.x , aTwoPixels.y));
+		float4 C33 = MR_SampleLod0(Source, pixel + float2( aTwoPixels.x, aTwoPixels.y));
+
+		float4 CP0X = CubicLagrange(C00, C10, C20, C30, fract.x);
+		float4 CP1X = CubicLagrange(C01, C11, C21, C31, fract.x);
+		float4 CP2X = CubicLagrange(C02, C12, C22, C32, fract.x);
+		float4 CP3X = CubicLagrange(C03, C13, C23, C33, fract.x);
+
+		return CubicLagrange(CP0X, CP1X, CP2X, CP3X, fract.y);
+	}
+
+	float4 CubicHermite (float4 A, float4 B, float4 C, float4 D, float t)
+	{
+		float t2 = t*t;
+		float t3 = t*t*t;
+		float4 a = -A/2.0 + (3.0*B)/2.0 - (3.0*C)/2.0 + D/2.0;
+		float4 b = A - (5.0*B)/2.0 + 2.0*C - D / 2.0;
+		float4 c = -A/2.0 + C/2.0;
+		float4 d = B;
+
+		return a*t3 + b*t2 + c*t + d;
+	}
+
+	float4 BicubicHermiteTextureSample(float2 P, float2 aTextureSize, float2 aOnePixel, float2 aTwoPixels)
+	{
+		float2 pixel = P * aTextureSize + 0.5;
+
+		float2 fract = frac(pixel);
+		pixel = floor(pixel) / aTextureSize - float2(aOnePixel * 0.5);
+
+		float4 C00 = MR_SampleLod0(Source, pixel + float2(-aOnePixel.x ,-aOnePixel.y));
+		float4 C10 = MR_SampleLod0(Source, pixel + float2( 0.0         ,-aOnePixel.y));
+		float4 C20 = MR_SampleLod0(Source, pixel + float2( aOnePixel.x ,-aOnePixel.y));
+		float4 C30 = MR_SampleLod0(Source, pixel + float2( aTwoPixels.x,-aOnePixel.y));
+
+		float4 C01 = MR_SampleLod0(Source, pixel + float2(-aOnePixel.x , 0.0));
+		float4 C11 = MR_SampleLod0(Source, pixel + float2( 0.0         , 0.0));
+		float4 C21 = MR_SampleLod0(Source, pixel + float2( aOnePixel.x , 0.0));
+		float4 C31 = MR_SampleLod0(Source, pixel + float2( aTwoPixels.x, 0.0));
+
+		float4 C02 = MR_SampleLod0(Source, pixel + float2(-aOnePixel.x , aOnePixel.y));
+		float4 C12 = MR_SampleLod0(Source, pixel + float2( 0.0         , aOnePixel.y));
+		float4 C22 = MR_SampleLod0(Source, pixel + float2( aOnePixel.x , aOnePixel.y));
+		float4 C32 = MR_SampleLod0(Source, pixel + float2( aTwoPixels.x, aOnePixel.y));
+
+		float4 C03 = MR_SampleLod0(Source, pixel + float2(-aOnePixel.x , aTwoPixels.y));
+		float4 C13 = MR_SampleLod0(Source, pixel + float2( 0.0         , aTwoPixels.y));
+		float4 C23 = MR_SampleLod0(Source, pixel + float2( aOnePixel.x , aTwoPixels.y));
+		float4 C33 = MR_SampleLod0(Source, pixel + float2( aTwoPixels.x, aTwoPixels.y));
+
+		float4 CP0X = CubicHermite(C00, C10, C20, C30, fract.x);
+		float4 CP1X = CubicHermite(C01, C11, C21, C31, fract.x);
+		float4 CP2X = CubicHermite(C02, C12, C22, C32, fract.x);
+		float4 CP3X = CubicHermite(C03, C13, C23, C33, fract.x);
+
+		return CubicHermite(CP0X, CP1X, CP2X, CP3X, fract.y);
+	}
+
+	float4 BilinearTextureSample (float2 P, float2 aTextureSize, float2 aOnePixel)
+	{
+		float2 pixel = P * aTextureSize + 0.5;
+
+		float2 fract = frac(pixel);
+		pixel = floor(pixel) / aTextureSize - float2(aOnePixel * 0.5);
+
+		float4 C11 = MR_SampleLod0(Source, pixel + float2( 0.0         , 0.0));
+		float4 C21 = MR_SampleLod0(Source, pixel + float2( aOnePixel.x , 0.0));
+		float4 C12 = MR_SampleLod0(Source, pixel + float2( 0.0         , aOnePixel.y));
+		float4 C22 = MR_SampleLod0(Source, pixel + float2( aOnePixel.x , aOnePixel.y));
+
+		float4 x1 = lerp(C11, C21, fract.x);
+		float4 x2 = lerp(C12, C22, fract.x);
+		return lerp(x1, x2, fract.y);
+	}
+
+	main(in uint3 dispatchThreadId : MR_DispatchThreadId)
+	{
+		if( dispatchThreadId.x >= Size.x || dispatchThreadId.y >= Size.y )
+			return;
+
+		const float3 directionFaceSpace = float3(dispatchThreadId.xy - ((Size - int2(1,1)) * 0.5f), ((Size.x - 1) * 0.5f));
+
+		float4 color;
+		{
+			const float3 sampleDirection = normalize(MR_Transform(FaceMatrix, float4(directionFaceSpace, 1.0f))).xyz;
+
+			float2 uv;
+			{
+				uv.x = atan2( sampleDirection.z, sampleDirection.x );
+				uv.x += MR_PI * 2.0 * step( uv.x, 0.0 );
+				uv.y = acos( sampleDirection.y );
+				uv.y += MR_PI * 2.0 * step( uv.y, 0.0 );
+				uv /= float2( MR_PI * 2.0, MR_PI );
+			}
+
+			float2 onePixel = 1.0 / Size;
+			color = BicubicHermiteTextureSample(uv, Size, onePixel, onePixel * 2.0);
+		}
+
+		const int2 position = int2(dispatchThreadId.x, Size.y - dispatchThreadId.y - 1);
+		Destination[position] =  color;
+	}
+}

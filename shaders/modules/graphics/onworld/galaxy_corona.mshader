@@ -1,0 +1,81 @@
+import "shaders/MRender/MR_ViewConstants.h"
+import "shaders/modules/graphics/onworld/onworld_environment.h"
+import "shaders/modules/graphics/onward/gi/space_fog_far.h"
+
+import "shaders/nodes/shader/functions/onward/OW_GetSunBodyIntensityMultiplier.h"
+
+constants : MR_ConstantBuffer0
+{
+	float4 const_xyzPosition_wRadius;
+}
+
+vertex
+{
+	in
+	{
+		float2 offset;
+	}
+
+	out
+	{
+		float4 xyzColor_wSize;
+		float4 xyPos_zwMiddle;
+	}
+
+	main(out float4 clipPos : MR_Position)
+	{
+		Out.xyzColor_wSize.xyz = float3(1,1,1);
+		Out.xyzColor_wSize.w = const_xyzPosition_wRadius.w * 3.5f;
+		float3 position = const_xyzPosition_wRadius.xyz;
+
+		float3 worldPosition = position;
+		float3 camPos = MR_Transform(MR_ViewConstants.worldToCamera, worldPosition).xyz;
+		Out.xyPos_zwMiddle.zw = camPos.xy;
+		camPos.xy += In.offset * Out.xyzColor_wSize.w;
+		Out.xyPos_zwMiddle.xy = camPos.xy;
+
+		clipPos = MR_Transform(MR_ViewConstants.cameraToClip, camPos);
+@ifdef OGFX_INFINITELY_FAR
+		clipPos.z = 0;
+@endif // OGFX_INFINITELY_FAR
+	}
+}
+
+pixel
+{
+	in
+	{
+		float4 xyzColor_wSize;
+		float4 xyPos_zwMiddle;
+	}
+
+	main(out float4 outColor : MR_Color, float4 fragCoord : MR_FragCoord)
+	{
+		outColor = float4(0, 0, 0, 0);
+	//	outColor.a = 1.0f;
+    //
+	//	const float2 uv = abs( (In.xyPos_zwMiddle.xy - In.xyPos_zwMiddle.zw) / In.xyzColor_wSize.w );
+    //
+	//	const float f = 2.0;//a1.8f / 6.0f;
+	//	outColor.rgb = saturate(1.0f - 2.0f * pow(( pow(uv.x*2.0f, f)
+	//	                                 + pow(uv.x+uv.y*1.7f, f)
+	//	                                 + pow(abs(uv.x-uv.y*1.7f), f) ) / 3.0f, 1.4f / f));
+	//	outColor.rgb *= outColor.rgb;
+	//	outColor.rgb *= outColor.rgb;
+	//	outColor.rgb *= OW_GetSunBodyIntensityMultiplier( );
+    //
+	//@ifdef OGFX_SIMPLIFIED_FOG
+    //
+	//	const float3 camPos = MR_GetPos( MR_ViewConstants.cameraToWorld ).xyz;
+	//	float3 worldPos = MR_ClipToWorld( MR_PixelToClip( fragCoord.xy ), 1 );
+	//	float3 fogColor = OW_SpaceFog_GetFar( normalize( worldPos - camPos ) ).rgb;
+    //
+	//@else
+    //
+	//	float3 fogColor = OW_SpaceFog_GetFarFromLookupHQ( OW_FogVolume_GetCoordsFC( fragCoord ), fragCoord.xy ).rgb;
+    //
+	//@endif // OGFX_SIMPLIFIED_FOG
+    //
+	//	outColor.rgb = max( outColor.rgb, 0 ) * fogColor * 35000.0f;
+	}
+}

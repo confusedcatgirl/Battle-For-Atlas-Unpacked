@@ -1,0 +1,28 @@
+import "shaders/modules/graphics/onworld/env_constants.h"
+import "shaders/modules/graphics/onward/gi/gi_sampling_no_direction.h"
+
+computeParameters
+{
+    numThreads 2 1 1
+}
+
+compute
+{
+	MR_RWBuffer<float4> Output : MR_RW_Buffer0;
+
+	float3 SampleAvgGI( float3 worldPosition, bool indoor )
+	{
+		float3 planetGI = OW_GI_SampleFallback_NoDirection( OW_GIConstants.myPlanet.myFallback );
+		planetGI = OW_GI_SamplePlanet_NoDirection( worldPosition, planetGI );
+		float3 galaxyGI = OW_GI_SampleFallback_NoDirection( OW_GIConstants.myGalaxy.myFallback );
+		galaxyGI = OW_GI_SampleGalaxy_NoDirection( worldPosition, galaxyGI );
+
+		return lerp( galaxyGI, planetGI, MR_OnworldEnvironmentConstants.groundLerpFactor.x );
+	}
+
+	main(uint3 dtid : MR_DispatchThreadId)
+	{
+		float3 gi = SampleAvgGI(MR_ViewConstants.LODCameraPosition, dtid.x != 0);
+		Output[dtid.x] = float4(gi, 0);
+	}
+}

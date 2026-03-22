@@ -1,0 +1,45 @@
+import "shaders/modules/graphics/smaa/SMAA.h"
+
+vertex
+{
+	in
+	{
+		float4 clipCoord_quadCoord;
+		float4 uv0_uv1;
+		float4 uv0Min_uv0Max;
+		float4 uv1Min_uv1Max;
+	}
+
+	out
+	{
+		float2 uv;
+		float2 pixcoord;
+		float4 offsets[3];
+	}
+
+	main(out float4 position : MR_Position)
+	{
+		float4 pos = float4(In.clipCoord_quadCoord.xy, 0,1);
+		Out.uv = In.uv0_uv1.xy;
+		SMAABlendingWeightCalculationVS(pos, position, Out.uv, Out.pixcoord, Out.offsets);
+	}
+}
+
+pixel
+{
+	in
+	{
+		float2 uv;
+		float2 pixcoord;
+		float4 offsets[3];
+	}
+
+	MR_Sampler2D edgesTex : MR_Texture0 { filter = linear, wrap = clamp };
+	MR_Sampler2D areaTex { texture = "textures/AreaTexDX9.dds",	filter = linear, wrap = clamp };
+	MR_Sampler2D searchTex { texture = "textures/SearchTex.dds", filter = point, wrap = clamp };
+	
+	main(out float4 outColor : MR_Color)
+	{
+		outColor = SMAABlendingWeightCalculationPS(In.uv, In.pixcoord, In.offsets, edgesTex, areaTex, searchTex, int4(0,0,0,0));
+	}
+}

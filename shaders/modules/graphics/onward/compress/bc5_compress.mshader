@@ -1,0 +1,32 @@
+@include "shaders/modules/graphics/onward/compress/compress_common.h"
+
+computeParameters
+{
+	numThreads 8 8 1
+}
+
+compute
+{
+	MR_RWTexture2D<uint4> DstTex : MR_RW_Texture0;
+	MR_Sampler2D<float2> SrcTex : MR_Texture0;
+
+	main(uint3 DTid : MR_DispatchThreadId )
+	{
+		uint2 id = DTid.xy;
+
+		float block[16];
+		float blockA[16];
+		for(int y=0;y<4;++y)
+			for(int x=0;x<4;++x)
+			{
+				block[y*4+x] = MR_SampleTexelLod0(SrcTex, id*4+int2(x,y)).r;
+				blockA[y*4+x] = MR_SampleTexelLod0(SrcTex, id*4+int2(x,y)).g;
+			}
+
+		uint4 result;
+		result.xy = CompressBC4Block(block);
+		result.zw = CompressBC4Block(blockA);
+
+		DstTex[id] = result;
+	}
+}

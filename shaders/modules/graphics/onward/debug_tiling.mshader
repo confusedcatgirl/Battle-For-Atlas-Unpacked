@@ -1,0 +1,28 @@
+
+vertex
+{
+	in
+	{
+		float4 clipCoord;
+		float4 uv0_uv1;
+		float4 uv0Min_uv0Max;
+		float4 uv1Min_uv1Max;
+	}
+
+	out
+	{
+	}
+
+	main(out float4 position : MR_Position)
+	{
+		position = float4(In.clipCoord.xyz, 1);
+	}
+}
+
+pixel
+{
+	main(out float4 outColor : MR_Color)
+	{
+		outColor = float4(10,10,0,0);
+	}
+}

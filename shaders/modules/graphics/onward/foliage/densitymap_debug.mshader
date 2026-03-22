@@ -1,0 +1,71 @@
+import "shaders/MRender/MR_ViewConstants.h"
+
+import "shaders/modules/graphics/onworld/planet_base.h"
+import "shaders/modules/graphics/onworld/planet_flattening.h"
+import "shaders/nodes/shader/functions/onward/OW_GetGrassMask.h"
+import "shaders/nodes/shader/functions/onward/OW_GetTerrainLowResHeight.h"
+
+MR_Buffer< uint > InstanceCountBuffer : MR_Buffer0;
+
+constants : MR_ConstantBuffer0
+{
+	float3 constPlanetPos;
+
+	float constDrawDistance;
+
+	float constMinRadius;
+	float constMaxRadius;
+}
+
+vertex
+{
+	in
+	{
+		float4 vertex;
+	}
+
+	out
+	{
+		float4 color;
+	}
+
+	main(out float4 clipPos : MR_Position)
+	{
+		float3 dir = normalize( In.vertex.xyz );
+
+		float height = OW_GetTerrainLowResHeight(dir);
+		height = lerp( constMinRadius, constMaxRadius, height );
+
+		float3 worldPosition = constPlanetPos + dir * height * 1.0001f;
+		OW_SFT_ApplyAll(worldPosition, OW_DEFAULT_CATEGORY);
+		clipPos = MR_Transform(MR_ViewConstants.worldToClip, worldPosition);
+
+		uint index = (uint) In.vertex.w;
+
+		const uint vtxIndex = ( index % 3 );
+		const uint triIndex = ( index / 3 );
+
+		uint counters = InstanceCountBuffer.Load( triIndex );
+		float4 densitySample = OW_GetGrassMaskLod0( dir );
+		densitySample = saturate( densitySample ) * float4( 100.f, 100.f, 100.f, 1.f );
+		Out.color = float4( densitySample.rgb, ( counters == 0 ? 0.0f : 1.0f ) );
+
+		float3 camVector = worldPosition - MR_ViewConstants.LODCameraPosition;
+		float distanceToCam = dot( camVector, camVector );
+		Out.color.a *= 1.0f - smoothstep( constDrawDistance * 0.5f, constDrawDistance, distanceToCam );
+	}
+}
+
+pixel
+{
+	in
+	{
+		float4 color;
+	}
+
+	main(out float4 outColor : MR_Color, bool MR_IsFrontFace : MR_IsFrontFace)
+	{
+		clip( MR_IsFrontFace ? -1.0f : 1.0f );
+		outColor = In.color;
+	}
+}

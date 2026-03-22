@@ -1,0 +1,84 @@
+import "shaders/modules/graphics/onworld/functions/RaySphereIntersection.h"
+import "shaders/modules/graphics/onworld/functions/HorizonFactors.h"
+
+import "shaders/MRender/MR_ViewConstants.h"
+import "shaders/modules/graphics/onworld/gi/sky_sample.h"
+
+MR_RWStructuredBuffer<float4x4> Output : MR_RW_Buffer0;
+
+constants : MR_ConstantBuffer0
+{
+	float4 const_PlanetsCenter;
+
+    float4 const_SkyBaseColorZ;
+    float4 const_SkyBaseColorH;
+
+    float const_SkyBaseColorShift;
+    float const_SkyBaseColorDecay;
+    float const_FreeFloat0;
+    float const_FreeFloat1;
+
+    float4 const_SunColorMul;
+    float4 const_SunColorAdd;
+}
+
+computeParameters
+{
+	numThreads 32 16 1, // if you change this, change the divisions below
+}
+
+compute
+{		
+	main(in uint3 threadIdWithinDispatch : MR_DispatchThreadId)
+	{
+		uint outIdx = ( threadIdWithinDispatch.y * 32 + threadIdWithinDispatch.x );
+
+		float a = ( threadIdWithinDispatch.y / 15.0f );
+		float z = ( threadIdWithinDispatch.x / 31.0f );
+
+		z = (z * 2.0f - 1.0f);
+
+		float r = sqrt(1.0f - z * z);
+		float p = a * (3.1415926535897932384626433f * 2.0f);
+		float x = r * cos(p);
+		float y = r * sin(p);
+
+		float3 eyeDir = float3(x, y, z);
+		float3 eyePos = MR_ViewConstants.LODCameraPosition - const_PlanetsCenter.xyz;
+
+		const float radius = OW_Planet_GetMinTerrainRadius();
+		float remappingRadius = 6360.0f;
+
+		float4 fakePosDirR;
+		float3 remappedCamPos = OW_SkyModel_RemapPosition( eyePos, fakePosDirR.xyz, fakePosDirR.w );
+		float3 fakePos = eyePos + eyeDir * radius * 0.1f;
+		OW_SkyModel_RemapPosition( fakePos, fakePosDirR.xyz, fakePosDirR.w );
+		const float3 sunDir = OW_SkyModel_GetToSunDirection( eyePos );
+
+		float4 skyColor = vec4(0.0f);
+		float4 sunColor = vec4(0.0f);
+
+		sunColor.rgb = OW_SkyModel_GetSunColor( fakePos, sunDir ) * MR_BrunetonAtmConstants.const_ISun;
+		sunColor.rgb *= const_SunColorMul.rgb;
+		sunColor.rgb += const_SunColorAdd.rgb;
+
+		sunColor.a = 1.0f; // weight instead of alpha
+
+		float2 inter = OW_RaySphereIntersection( remappedCamPos.xyz, eyeDir, remappingRadius );
+		if (inter.x >= inter.y || inter.x < 0.0f) // can we actually see the sky?
+		{
+			float4 domeColor = OW_Sky_GetBaseDomeColor_Relative( eyePos, eyeDir, radius,
+			                                                     const_SkyBaseColorZ,
+			                                                     const_SkyBaseColorH,
+			                                                     const_SkyBaseColorShift,
+			                                                     const_SkyBaseColorDecay );
+
+			skyColor.rgb = OW_SkyModel_GetAtmosphereColor( eyePos, eyeDir, sunDir );
+			skyColor.rgb /= MR_BrunetonAtmConstants.const_ISun.xxx;
+			skyColor.rgb += domeColor.rgb;
+			skyColor.a = 1.0f; // weight instead of alpha
+		}
+
+		Output[outIdx] = MR_ColumnMatrix( skyColor, sunColor, vec4(0), vec4(0) );
+	}
+}

@@ -1,0 +1,44 @@
+@include "shaders/modules/graphics/deferred/light.h"
+
+MR_RWTexture2D<float3> Output_Light : MR_RW_Texture0;
+MR_RWTexture2D<float3> Output_Param0 : MR_RW_Texture1;
+MR_RWTexture2D<float3> Output_Param1 : MR_RW_Texture2;
+
+computeParameters
+{
+	numThreads 8 8 1
+}
+
+compute main(uint3 dtid : MR_DispatchThreadId, uint3 gid : MR_GroupId)
+{
+	uint x = gid.x / 8;
+	uint y = gid.y / 8;
+	Gfx_GetTileData_IndexOverride = x + y * Gfx_LightingEnvironment.TileLightsNumXTiles;
+
+	uint2 ifc = MR_ViewConstants.viewportMin + dtid.xy;
+//	if (ifc.x <= MR_ViewConstants.viewportMax.x && ifc.y <= MR_ViewConstants.viewportMax.y)
+	{
+		float3 colorOut = vec3(0);
+		float3 ssParamOut0;
+		float3 ssParamOut1;
+		bool write = DeferredComplete(colorOut, ssParamOut0, ssParamOut1, ifc);
+
+@ifdef GFX_DEFERRED_COMPUTE_ALWAYS_WRITE_LIGHT
+		Output_Light[ifc] = Light_RGB[ifc] + colorOut;
+@endif
+
+		if (write)
+		{
+@ifndef GFX_DEFERRED_COMPUTE_ALWAYS_WRITE_LIGHT
+			Output_Light[ifc] = Light_RGB[ifc] + colorOut;
+@endif
+
+@ifdef SSR_OR_SSS
+			Output_Param0[ifc] = ssParamOut0;
+@endif
+@ifdef SSR_AND_SSS
+			Output_Param1[ifc] = ssParamOut1;
+@endif
+		}
+	}
+}

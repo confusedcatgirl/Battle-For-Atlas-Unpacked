@@ -1,0 +1,31 @@
+
+MR_Buffer<float4> InstanceData : MR_InstanceData;
+MR_Buffer<uint> InstanceDataIndices : OW_InstanceDataIndices;
+import "shaders/modules/graphics/onward/batching.h"
+
+vertex
+{
+	import "shaders/MRender/MR_ViewConstants.h"
+
+	in
+	{
+		float2 offset;
+	}
+
+	main(out float4 clipPos : MR_Position, in uint instanceId : MR_InstanceId)
+	{
+		float3x4 objectToWorld = OW_Batching_GetMatrix( InstanceDataIndices, instanceId );
+
+		float3 camPos = MR_Transform( MR_ViewConstants.worldToCamera, MR_GetPos( objectToWorld ) ).xyz;
+		camPos.xy += In.offset * myBatchRadius * length( MR_GetXAxis( objectToWorld ) );
+		clipPos = MR_Transform( MR_ViewConstants.cameraToClip, camPos );
+	}
+}
+
+pixel
+{
+	main(out float4 outColor : MR_Color)
+	{
+		outColor = float4(10,0,0,1);
+	}
+}

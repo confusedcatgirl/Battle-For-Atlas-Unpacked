@@ -1,0 +1,90 @@
+import "shaders/modules/graphics/onward/pm/pm.h"
+import "shaders/modules/graphics/onward/pm/planet/update.h"
+import "shaders/modules/graphics/onward/pm/planet/emitter.h"
+
+computeParameters
+{
+	numThreads 64 1 1
+}
+
+constants : MR_ConstantBuffer0
+{
+	uint constMaxParticleCount;
+	float constDeltaTime;
+}
+
+MR_RWStructuredBuffer< OGfx_Particulate > ParticleInOut : MR_RW_Buffer0;
+
+MR_RWBuffer< uint > AliveItems : MR_RW_Buffer1;
+MR_RWBuffer< uint > AliveCount : MR_RW_Buffer2;
+MR_RWBuffer< uint > DeathItems : MR_RW_Buffer3;
+MR_RWBuffer< uint > DeathCount : MR_RW_Buffer4;
+
+const int constGraxConfig = 3;
+const int constDomeConfig = 2;
+
+compute main(uint3 dtid : MR_DispatchThreadId)
+{
+	if (dtid.x >= constMaxParticleCount)
+		return;
+
+	OGfx_Particulate data = ParticleInOut[ dtid.x ];
+	if (OGfx_PM_IsDead( data ))
+		return;
+
+	uint index = OGfx_PM_GetLocalIndex( data );
+	OGfx_PM_EmitterProps props = OGfx_PM_GetEmitterProps( index );
+
+	data.myAge += constDeltaTime;
+	if (data.myAge > props.myMaxAge)
+	{
+		OGfx_PM_SetDead( data );
+		MR_AtomicAdd( DeathCount[ 0 ], 1, index );
+		DeathItems[ index ] = dtid.x;
+	}
+	else
+	{
+		const float3 oldPosition = data.myPosition;
+
+		float3 velocity = normalize(oldPosition);
+		data.myPosition = oldPosition + velocity * constDeltaTime;
+
+		float height = length( data.myPosition );
+		float terrainHeight = lerp( constPlanetRadii.x, constPlanetRadii.y, OW_GetTerrainLowResHeight( data.myPosition ) );
+
+		bool kill = false;
+		if (props.myConfig == constGraxConfig)
+		{
+			data.myPosition += data.myVelocity;
+		}
+		else if (props.myConfig == constDomeConfig)
+		{
+			data.myVelocity.y = length( data.myPosition ) - constPlanetRadii.x;
+		}
+		else
+		{
+			data.myPosition = data.myPosition * rcp(height) * (terrainHeight + props.myMaxSize * 0.1);
+			height = terrainHeight;
+			kill = distance( data.myPosition,  props.myPositionRadius.xyz ) > props.myPositionRadius.w;
+		}
+
+		if (height < terrainHeight)
+		{
+			data.myPosition = data.myPosition * rcp(height) * terrainHeight;
+			height = terrainHeight;
+		}
+
+		if (kill)
+		{
+			OGfx_PM_SetDead( data );
+			MR_AtomicAdd( DeathCount[ 0 ], 1, index );
+			DeathItems[ index ] = dtid.x;
+		}
+		else
+		{
+			MR_AtomicAdd( AliveCount[ 0 ], 1, index );
+			AliveItems[ index ] = dtid.x;
+		}
+	}
+	ParticleInOut[ dtid.x ] = data;
+}

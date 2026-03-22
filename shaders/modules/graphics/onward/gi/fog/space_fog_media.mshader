@@ -1,0 +1,103 @@
+import "shaders/modules/graphics/onward/gi/fog/fog_shared.h"
+import "shaders/modules/graphics/onward/gi/fog/fog_media_shared.h"
+import "shaders/modules/graphics/onward/gi/space_fog.h"
+
+import "shaders/modules/graphics/environment.h"
+
+computeParameters
+{
+	numThreads 8 8 1
+}
+
+compute
+{
+	main(uint3 dispatchThreadId : MR_DispatchThreadId)
+	{
+		if (any(dispatchThreadId.xy >= constColorVolumeSize.xy))
+			return;
+
+		@ifdef OGI_FOG_REPROJECT
+			const float3 jitter = constJitter.xyz;
+		@else
+			const float3 jitter = 0;
+		@endif // OGI_FOG_REPROJECT
+
+		//---------------------------------------------------------------------------------------------------------------------------------------
+		// Transform thread ID into ray from camera
+		float3 cameraPos = OW_FogVolume_GetCameraPos( );
+		const float2 uv = OW_FogVolume_GetUVFromThreadID( dispatchThreadId, jitter, constColorVolumeInvSize );
+		const float3 camPosToNear = OW_FogVolume_GetCameraPosToNearDir( cameraPos, uv );
+		//---------------------------------------------------------------------------------------------------------------------------------------
+
+		const float range = OW_FogConstantBuffer.myGalaxy.myDistributionRange;
+		const float scale = constColorVolumeInvSize.z;
+
+		uint maxZ = constColorVolumeSize.z; // optimize this
+		float previousDepth = OW_FogConstantBuffer.myGalaxy.myNear;
+
+		const float4 tileData = OW_Fog_Tiles_GetData( dispatchThreadId, constTileToThread, constColorVolumeSize );
+		const uint earlyZOut = OW_FogVolume_GetEarlyZOut( OW_FogConstantBuffer.myGalaxy, camPosToNear, uv, constColorVolumeSize, tileData );
+
+		OW_FogColor_Media accumulatedMedia = (OW_FogColor_Media) 0;
+
+		uint3 cell = dispatchThreadId;
+		for (;cell.z<maxZ;++cell.z)
+		{
+			if (cell.z > earlyZOut) // early out?
+			{
+				FogMediaVolumeRW[ cell ] = accumulatedMedia.myColorXYZAnisotropyW;
+				PropertyVolumeRW[ cell ] = accumulatedMedia.myScatteringXAbsorptionY;
+				continue;
+			}
+
+			const float time = OW_FogVolume_GetRangeFromThreadID( cell, jitter, constColorVolumeInvSize );
+
+			const float depth = OW_FogConstantBuffer.myGalaxy.myNear + pow( time, OW_FogConstantBuffer.myGalaxy.myInvDistributionPower ) * range;
+
+			//-----------------------------------------------------------------------------------------------------------------------------------
+			// Determine world position and unflatten it
+			float3 position = cameraPos + ( camPosToNear * depth ); // absolute position
+			//-----------------------------------------------------------------------------------------------------------------------------------
+
+			//-----------------------------------------------------------------------------------------------------------------------------------
+			// Add main fog
+			{
+				OW_FogColor_Media mainMedia;
+				mainMedia.myColorXYZAnisotropyW = float4( OW_FogConstantBuffer.myGalaxy.myReflectance, OW_FogConstantBuffer.myGalaxy.myAnisotropy );
+				mainMedia.myScatteringXAbsorptionY = OW_FogConstantBuffer.myGalaxy.myScatteringAbsorption.xz;
+				OW_FogColor_SetMedia( accumulatedMedia, mainMedia );
+			}
+			//-----------------------------------------------------------------------------------------------------------------------------------
+
+			//-----------------------------------------------------------------------------------------------------------------------------------
+			// Add fog volumes
+			OW_FogColor_AddVolumes( position, accumulatedMedia, 0.5f );
+			//-----------------------------------------------------------------------------------------------------------------------------------
+
+			OW_FogColor_Normalize( accumulatedMedia );
+			accumulatedMedia.myScatteringXAbsorptionY *= (depth - previousDepth);
+
+			@ifdef OGI_FOG_REPROJECT
+
+				float lastFrameAlpha = 0.0;
+				const OW_FogVolume3DCoords coords = OW_SpaceFog_GetTransfromedCoords( OW_VolumetricFog_GetReprojectionCoords( position, depth, lastFrameAlpha ) );
+
+				const float4 lastFrameMedia = MR_SampleLod0( LastFrameFogMediaSampler, float3( coords.my2D.myUV, coords.myW ) );
+				accumulatedMedia.myColorXYZAnisotropyW =
+						lerp( accumulatedMedia.myColorXYZAnisotropyW,
+						lastFrameMedia, lastFrameAlpha );
+
+				const float2 lastFrameProps = MR_SampleLod0( LastFramePropertySampler, float3( coords.my2D.myUV, coords.myW ) );
+				accumulatedMedia.myScatteringXAbsorptionY =
+						lerp( accumulatedMedia.myScatteringXAbsorptionY,
+						lastFrameProps, lastFrameAlpha );
+
+			@endif // OGI_FOG_REPROJECT
+
+			FogMediaVolumeRW[ cell ] = accumulatedMedia.myColorXYZAnisotropyW;
+			PropertyVolumeRW[ cell ] = accumulatedMedia.myScatteringXAbsorptionY;
+
+			previousDepth = depth;
+		}
+	}
+}

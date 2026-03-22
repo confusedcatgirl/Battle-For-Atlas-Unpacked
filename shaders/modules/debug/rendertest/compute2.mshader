@@ -1,0 +1,43 @@
+computeParameters
+{
+	numThreads 6 1 1,
+}
+
+struct InputStruct
+{
+	float3 position;
+	uint dummy;
+	float2 uv;
+	int3 dummy2;
+	float3 whatever;
+};
+
+struct OutputStruct
+{
+	float2 position;
+	float2 uv;
+};
+
+compute
+{
+	constants : MR_ConstantBuffer0
+	{
+		float Scale;
+	}
+	
+	MR_StructuredBuffer<InputStruct> InputBuffer : MR_Buffer0;
+	MR_RWStructuredBuffer<OutputStruct> WriteBuffer : MR_RW_Buffer0;
+	MR_RWBuffer<float> WriteVertexBuffer : MR_RW_Buffer1;
+	
+	main(in uint3 dispatchThreadId : MR_DispatchThreadId)
+	{
+		float3 pos = InputBuffer[dispatchThreadId.x].position * Scale;
+		WriteBuffer[dispatchThreadId.x].position = pos.xy;
+		WriteBuffer[dispatchThreadId.x].uv = InputBuffer[dispatchThreadId.x].uv;
+		
+		WriteVertexBuffer[dispatchThreadId.x * 4] = pos.x;
+		WriteVertexBuffer[dispatchThreadId.x * 4 + 1] = pos.y;
+		WriteVertexBuffer[dispatchThreadId.x * 4 + 2] = InputBuffer[dispatchThreadId.x].uv.x;
+		WriteVertexBuffer[dispatchThreadId.x * 4 + 3] = InputBuffer[dispatchThreadId.x].uv.y;
+	}
+}

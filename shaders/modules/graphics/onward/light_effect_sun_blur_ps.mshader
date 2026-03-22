@@ -1,0 +1,37 @@
+import "shaders/modules/graphics/onward/light_effect_sun_blur.h"
+
+vertex
+{
+	in
+	{
+		float4 clipCoord;
+
+		float4 uv0_uv1;
+		float4 uv0Min_uv0Max;
+		float4 uv1Min_uv1Max;
+	}
+
+	out
+	{
+		float2 offset;
+	}
+
+	main(out float4 position : MR_Position)
+	{
+		position = float4(In.clipCoord.xyz, 1);
+		Out.offset = In.uv0_uv1.xy - constBlurCenter;
+	}
+}
+
+pixel
+{
+	in
+	{
+		float2 offset;
+	}
+
+	main(out float4 outColor : MR_Color)
+	{
+		OW_RadialBlur(In.offset, outColor);
+	}
+}

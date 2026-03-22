@@ -1,0 +1,23 @@
+@include "shaders/modules/graphics/postfx/pixel_in.h"
+import "shaders/modules/graphics/onworld/gi/lookup_ground.h"
+
+import "shaders/modules/graphics/onworld/planet_crust_cylindrical_uv.h"
+
+pixel
+{
+	main(out float4 colorOut0 : MR_Color0)
+	{
+		float In_VertexHeight = 0.0f;
+		const float3 In_WorldPosition = GetWorldPosition( In.uv0, In_VertexHeight );
+		const float3 In_SphereNormal = normalize( In_WorldPosition );
+		const float3 In_VertexNormal = GetWorldNormal( In.uv0, In_WorldPosition );
+		const float4 In_SplatTexture = MR_SampleLod(SplatMapTexture, In.uv0, 0.0);
+		
+		float2 In_CylinderUV = 0.0f;
+		float3 In_SphereTangent = 0.0f;
+		float3 In_SphereBitangent = 0.0f;
+		OW_CalculateCylinderTBN(In_SphereNormal, In_SphereTangent, In_SphereBitangent, In_CylinderUV);
+
+		colorOut0 = vec4(0);
+	}
+}

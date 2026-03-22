@@ -1,0 +1,58 @@
+import "shaders/modules/graphics/onward/pm/pm.h"
+import "shaders/modules/graphics/onward/pm/galaxy/update.h"
+import "shaders/modules/graphics/onward/pm/galaxy/emitter.h"
+
+computeParameters
+{
+	numThreads 64 1 1
+}
+
+constants : MR_ConstantBuffer0
+{
+	float3 constRadius;
+	int constPosition;
+}
+
+MR_RWStructuredBuffer< OGfx_Particulate > ParticulateData : MR_RW_Buffer0;
+
+MR_RWBuffer< uint > AliveItems : MR_RW_Buffer1;
+MR_RWBuffer< uint > AliveCount : MR_RW_Buffer2;
+MR_RWBuffer< uint > DeathItems : MR_RW_Buffer3;
+MR_RWBuffer< uint > DeathCount : MR_RW_Buffer4;
+
+void Emit( in uint aIndex )
+{
+	OGfx_Particulate data = (OGfx_Particulate) 0;
+
+	uint globalIndex = 0;
+	MR_AtomicAdd( DeathCount[ 1 ], 1, globalIndex );
+	OGfx_PM_SetLocalIndex( data, constPosition );
+
+	const uint randomIndex = globalIndex % OGfx_GP_RandomNumber_Count;
+	OGfx_PM_SetRandomIndex( data, randomIndex );
+	float4 random = OGfx_GP_RandomNumbers[ randomIndex ];
+
+	OGfx_PM_EmitterProps props = OGfx_PM_GetEmitterProps( constPosition );
+
+	data.myPosition = random.xyz * (constRadius.x - props.myMaxSize);
+	data.myVelocity = random.xyz * (constRadius.x * 0.04);
+
+	ParticulateData[ aIndex ] = data;
+}
+
+compute main(uint3 dtid : MR_DispatchThreadId)
+{
+	const uint emissionCount = DeathCount[ 2 ];
+	if (dtid.x >= emissionCount)
+		return;
+
+	uint index = 0;
+	MR_AtomicAdd( DeathCount[0], -1, index );
+	if (index > 0)
+	{
+		uint particleIndex = DeathItems[ index - 1 ];
+		Emit( particleIndex );
+		MR_AtomicAdd( AliveCount[ 0 ], 1, index );
+		AliveItems[ index ] = particleIndex;
+	}
+}

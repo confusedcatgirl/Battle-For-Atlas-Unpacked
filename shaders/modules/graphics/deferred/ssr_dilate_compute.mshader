@@ -1,0 +1,197 @@
+@include "shaders/modules/graphics/deferred/ssr.h"
+
+import "shaders/modules/graphics/temporal_aa.h"
+
+float3 GetDilated(float2 qfc, inout float3 normalOut, inout float2 radiusAlphaOut)
+{
+	float maxRadius = MR_SampleTexelLod0(DownscaledMaxRadius, qfc.xy / MaxRadiusScale).x * 255;
+	if (!maxRadius)
+		return vec3(10);
+
+	float3 centerLight = MR_SampleTexelLod0(Light_RGB, qfc.xy);
+	float2 centerRadiusAlpha = MR_SampleTexelLod0(Light_RadiusAlpha, qfc.xy);
+	float centerDepth = MR_SampleTexelLod0(Depth, qfc.xy);
+	float3 centerNormal = Gfx_DecodeNormal_UNorm(MR_SampleTexelLod0(Normal, qfc.xy).xyz);
+
+	float centerRadius;
+	float centerAlpha;
+	float centerSign;
+	DecodeRadiusAlpha(centerRadius, centerAlpha, centerSign, centerRadiusAlpha);
+
+	float centerWeight = GetPackedNormalWeightFactor(vec3(0), vec3(0));
+	float weightSum = centerWeight;
+	float4 colorSum = float4(centerLight.xyz, 1) * (weightSum * centerAlpha);
+	float radiusSum = centerRadius * weightSum;
+	float alphaSum = centerAlpha * weightSum;
+	float3 normalSum = centerNormal * weightSum;
+
+// SSRv1 quality is not acceptable with 4-tap	
+//@ifdef SSR_TEMPORAL_8_TAP
+	const uint numOffsets = 8;
+	float2 offsets[numOffsets] = {
+		float2(-1,-1),
+		float2(-1, 0),
+		float2(-1, 1),
+		float2( 0, 1),
+		float2( 1, 1),
+		float2( 1, 0),
+		float2( 1,-1),
+		float2( 0,-1),
+	};
+//@else
+//	const uint numOffsets = 4;
+//	float2 offsets[numOffsets] = {
+//		float2(-1,-1),
+//		float2(-1, 1),
+//		float2( 1, 1),
+//		float2( 1,-1),
+//	};
+//@endif
+
+@ifdef SSR
+	float3 lightMin = vec3(10000);
+	float3 lightMax = vec3(-10000);
+
+	float radiusMin = 10000;
+	float radiusMax = -10000;
+
+	float alphaMin = 10000;
+
+	float allAlphaMin = 10000;
+	float allAlphaMax = -10000;
+
+	float3 normalMin = vec3(10000);
+	float3 normalMax = vec3(-10000);
+@endif
+
+	float nvisiblesurrounding = 0;
+	for (int i=0; i<numOffsets; ++i)
+	{
+		float2 qpixel = qfc.xy + offsets[i];
+		qpixel = min(qpixel, SSRViewport.pixelMax);
+		qpixel = max(qpixel, SSRViewport.pixelMin);
+
+		float2 light_ra = MR_SampleTexelLod0(Light_RadiusAlpha, qpixel);
+
+		float radius;
+		float alpha;
+		float sign_;
+		DecodeRadiusAlpha(radius, alpha, sign_, light_ra);
+
+		float3 normal = Gfx_DecodeNormal_UNorm(MR_SampleTexelLod0(Normal, qpixel).xyz);
+		float weight = GetPackedNormalWeightFactor(normal, centerNormal);
+
+@ifdef SSS
+		weight *= saturate(1 + centerSign * sign_);
+@endif
+
+		float3 light = MR_SampleTexelLod0(Light_RGB, qpixel);
+		float3 noiseLight = RGB2YCoCg(light);
+
+		colorSum += float4(light.xyz, 1) * (weight * alpha);
+		radiusSum += radius * weight;
+		alphaSum += alpha * weight;
+		normalSum += normal * weight;
+		weightSum += weight;
+
+@ifdef SSR
+		if (saturate(1 + centerSign * sign_))
+		{
+			if (alpha)
+			{
+				lightMin = min(lightMin, noiseLight);
+				lightMax = max(lightMax, noiseLight);
+
+				radiusMin = min(radiusMin, radius);
+				radiusMax = max(radiusMax, radius);
+
+				alphaMin = min(alphaMin, alpha);
+
+				normalMin = min(normalMin, normal);
+				normalMax = max(normalMax, normal);
+
+				++nvisiblesurrounding;
+			}
+
+			allAlphaMin = min(allAlphaMin, alpha);
+			allAlphaMax = max(allAlphaMax, alpha);
+		}
+@endif
+	}
+
+	float3 colorAvg = colorSum.xyz / max(0.001, colorSum.w);
+	float radiusAvg = radiusSum / weightSum;
+	float alphaAvg = alphaSum / weightSum;
+	normalOut = normalSum / weightSum;
+
+@ifdef SSR
+	if (centerSign >= 0)
+	{
+		if (lightMin.x <= lightMax.x)
+		{
+			float3 color = RGB2YCoCg(centerLight.xyz);
+			float radius = centerRadius;
+			float alpha = centerAlpha;
+
+@ifdef SSR_TEMPORAL_SMOOTHING
+			float2 motionVector = MR_SampleTexelLod0(MotionVectors, qfc.xy * 2.0).xy;
+			float2 olduv = (qfc.xy + 0.5) * SSR.quarterPixelToLastFrameUVScale + motionVector * SSR.quarterClipToLastFrameUVScale;
+
+			float3 oldLight = MR_SampleLod0(OldLight_RGB, olduv).xyz;
+			if (IsValid(oldLight))
+			{
+				float2 oldRadiusAlpha = MR_SampleLod0(OldLight_RadiusAlpha, olduv).xy;
+
+				float oldRadius;
+				float oldAlpha;
+				float oldSign;
+				DecodeRadiusAlpha(oldRadius, oldAlpha, oldSign, oldRadiusAlpha);
+
+				color = lerp(RGB2YCoCg(oldLight.xyz), color, SSR.thisFrameAlpha);
+				radius = lerp(oldRadius, radius, SSR.thisFrameAlpha);
+				alpha = lerp(oldAlpha, alphaAvg, SSR.thisFrameAlpha);
+			}
+@endif
+
+			colorAvg = YCoCg2RGB(clamp(color, lightMin, lightMax));
+			radiusAvg = clamp(radius, radiusMin, radiusMax);
+			alphaAvg = clamp(alpha, allAlphaMin, allAlphaMax);
+			normalOut = clamp(centerNormal, normalMin, normalMax);
+		}
+		else
+		{
+			colorAvg = vec3(0);
+			alphaAvg = 0;
+			radiusAvg = 0;
+		}
+	}
+@endif
+
+	radiusAlphaOut = EncodeRadiusAlpha(radiusAvg, alphaAvg, centerSign);
+	return colorAvg;
+}
+
+MR_RWTexture2D<float3> ColorOut : MR_RW_Texture0;
+MR_RWTexture2D<float2> RadiusAlphaOut : MR_RW_Texture1;
+
+@ifdef SSR_DILATE_NORMALS
+MR_RWTexture2D<float3> NormalOut : MR_RW_Texture2;
+@endif
+
+computeParameters
+{
+	numThreads 8 8 1
+}
+
+compute main(uint3 dtid : MR_DispatchThreadId)
+{
+	float3 normalOut = vec3(0);
+	float2 radiusAlphaOut = vec2(0);
+
+	ColorOut[dtid.xy] = GetDilated(dtid.xy, normalOut, radiusAlphaOut);
+	RadiusAlphaOut[dtid.xy] = radiusAlphaOut;
+
+@ifdef SSR_DILATE_NORMALS
+	NormalOut[dtid.xy] = normalOut;
+@endif
+}

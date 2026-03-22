@@ -1,0 +1,12 @@
+import "shaders/modules/graphics/postfx/composite.h"
+
+@include "shaders/modules/graphics/postfx/pixel_in.h"
+
+pixel
+{
+	main(out float4 outColor : MR_Color, float4 fragCoord : MR_FragCoord)
+	{
+		outColor.xyz = FinalComposite(In.uv0, In.uv0Min, In.uv0Max, In.uv1, In.uv1Min, In.uv1Max, fragCoord.xy);
+		outColor.w = 1.0;
+	}
+}

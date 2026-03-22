@@ -1,0 +1,293 @@
+import "shaders/modules/graphics/onward/functions/RayAABBIntersection.h"
+
+import "shaders/nodes/shader/functions/onward/OW_GetTerrainLowResHeight.h"
+import "shaders/nodes/shader/functions/onward/OW_GetTerrainLowResAlbedo.h"
+
+import "shaders/modules/graphics/onward/functions/SphericalToCubicPointEx.h"
+
+import "shaders/nodes/shader/functions/onward/OW_GetGrassMask.h"
+
+constants : MR_ConstantBuffer0
+{
+	float4   const_transformPos;
+	float4x4 const_transformInv;
+
+	float3   const_aabbMin;
+	float    const_planetMinRadius;
+	float3   const_aabbMax;
+	float    const_planetMaxRadius;
+
+	float3   const_cubeAABBMin;
+	float    const_free1;
+	float3   const_cubeAABBMax;
+	float    const_free2;
+}
+
+struct TriangleData
+{
+	float3 a;
+	float3 b;
+	float3 c;
+	int dataIndex;
+};
+
+MR_Buffer< uint > InstanceCountBuffer : MR_Buffer9;
+
+@ifndef USE_APPEND_BUFFER
+	@ifndef FIRST_ITERATION
+		MR_Buffer< uint > CounterBufferR : MR_Buffer5;
+	@endif // FIRST_ITERATION
+	MR_RWBuffer< uint > CounterBufferW : MR_RW_Buffer6;
+@endif // USE_APPEND_BUFFER
+
+@ifdef FIRST_ITERATION
+
+computeParameters
+{
+    numThreads 20 1 1
+}
+
+constants : MR_ConstantBuffer1
+{
+	float4 const_baseTriangleA[20];
+	float4 const_baseTriangleB[20];
+	float4 const_baseTriangleC[20];
+	int const_baseDataStride;
+}
+
+@else
+
+computeParameters
+{
+	numThreads 64 1 1
+}
+
+@ifdef USE_APPEND_BUFFER
+constants : MR_ConstantBuffer1
+{
+	uint const_numTriangles;
+}
+@endif // USE_APPEND_BUFFER
+
+MR_StructuredBuffer< TriangleData > TrianglesIn : MR_Buffer0;
+
+@endif // !FIRST_ITERATION
+
+constants : MR_ConstantBuffer2
+{
+	int const_dataStride;
+}
+
+@ifndef LAST_ITERATION
+
+@ifdef USE_APPEND_BUFFER
+MR_AppendBuffer< TriangleData > TrianglesOut : MR_AppendBuffer0;
+@else
+MR_RWStructuredBuffer< TriangleData > TrianglesOut : MR_RW_Buffer0;
+@endif // USE_APPEND_BUFFER
+
+@else
+
+//	MR_Sampler2D GroundTexture0 : MR_Texture1 { filter = linear, wrap = clamp };
+//	MR_Sampler2D GroundTexture1 : MR_Texture2 { filter = linear, wrap = clamp };
+
+struct BunchData
+{
+	int4 instanceCount;
+	float4 attribs1[3];
+	float4 attribs2[3];
+	float4 attribs3[3];
+};
+
+@ifdef USE_APPEND_BUFFER
+MR_AppendBuffer< BunchData > BunchesOut : MR_AppendBuffer0;
+@else
+MR_RWStructuredBuffer< BunchData > BunchesOut : MR_RW_Buffer0;
+@endif // USE_APPEND_BUFFER
+
+@endif // LAST_ITERATION
+
+void Split( in TriangleData aTriangle, out TriangleData someTriangles[4] )
+{
+	const float3 ab = normalize(aTriangle.a + aTriangle.b);
+	const float3 bc = normalize(aTriangle.b + aTriangle.c);
+	const float3 ca = normalize(aTriangle.c + aTriangle.a);
+
+	const int baseIndex = aTriangle.dataIndex + 1;
+
+	someTriangles[0].a = aTriangle.a;
+	someTriangles[0].b = ab;
+	someTriangles[0].c = ca;
+	someTriangles[0].dataIndex = baseIndex;
+
+	someTriangles[1].a = ab;
+	someTriangles[1].b = aTriangle.b;
+	someTriangles[1].c = bc;
+	someTriangles[1].dataIndex = baseIndex + const_dataStride * 1;
+
+	someTriangles[2].a = ca;
+	someTriangles[2].b = bc;
+	someTriangles[2].c = aTriangle.c;
+	someTriangles[2].dataIndex = baseIndex + const_dataStride * 2;
+
+	someTriangles[3].a = ab;
+	someTriangles[3].b = bc;
+	someTriangles[3].c = ca;
+	someTriangles[3].dataIndex = baseIndex + const_dataStride * 3;
+}
+
+float4 MakePlane( in float3 aNormal, in float3 aPoint )
+{
+	float4 plane;
+	plane.xyz = aNormal;
+	plane.w = -(aNormal.x*aPoint.x+aNormal.y*aPoint.y+aNormal.z*aPoint.z);
+	return plane;
+}
+
+bool CullTriangle( in TriangleData aTri, out float3 aCenterOut )
+{
+	aCenterOut = normalize( aTri.a + aTri.b + aTri.c );
+
+	float4 plane[4];
+	plane[0] = MakePlane( -normalize( cross( aTri.a, aTri.b-aTri.a ) ), aTri.a );
+	plane[1] = MakePlane( -normalize( cross( aTri.a, aTri.a-aTri.c ) ), aTri.a );
+	plane[2] = MakePlane( -normalize( cross( aTri.b, aTri.c-aTri.b ) ), aTri.b );
+	plane[3] = MakePlane( aCenterOut, vec3(0) );
+
+	for (int i = 0; i < 4; ++i)
+	{
+		const float x = (plane[i].x >= 0.0f ? const_cubeAABBMax.x : const_cubeAABBMin.x);
+		const float y = (plane[i].y >= 0.0f ? const_cubeAABBMax.y : const_cubeAABBMin.y);
+		const float z = (plane[i].z >= 0.0f ? const_cubeAABBMax.z : const_cubeAABBMin.z);
+		const float dist = ( x * plane[i].x + y * plane[i].y + z * plane[i].z + plane[i].w );
+		if (dist < 0.0f)
+		{
+			return true;
+		}
+	}
+
+	return false;
+}
+
+bool CullPosition( in TriangleData aTri, in float3 aCenter, out float aDistance )
+{
+	float exitTime;
+	OW_RayAABBIntersection( /*vec3(0.0f),*/ aCenter, const_cubeAABBMin, const_cubeAABBMax, aDistance, exitTime );
+	return aDistance > exitTime;
+}
+
+@ifdef LAST_ITERATION
+
+void OutputVertex( in float3 aVertex, in int dataIndex, out float4 someAttribsOut1, out float4 someAttribsOut2, out float4 someAttribsOut3 )
+{
+//	float3 ignored;
+//	float3 cube = OW_SphericalPointToCubicEx( aVertex, const_transformPos.xyz, ignored );
+//	cube = MR_Transform( const_transformInv, float4( cube, 1.0f ) ).xyz;
+//	float2 uv = cube.xz * float2(0.5f, -0.5f) + float2(0.5f, 0.5f);
+
+//	const float4 ground0 = MR_SampleLod0(GroundTexture0, uv);
+//	const float4 ground1 = MR_SampleLod0(GroundTexture1, uv);
+
+//	const float height = ground1.x;
+	const float height = OW_GetTerrainLowResHeight( aVertex );
+	someAttribsOut1.xyz = aVertex * lerp( const_planetMinRadius, const_planetMaxRadius, height );
+	someAttribsOut1.w = dataIndex;
+
+	someAttribsOut2.xyz = OW_GetTerrainLowResAlbedo( aVertex );
+
+	someAttribsOut3 = OW_GetGrassMaskLod0( aVertex );
+	someAttribsOut2.w = max( someAttribsOut3.x, max( someAttribsOut3.y, max( someAttribsOut3.z, someAttribsOut3.w ) ) );
+}
+
+@endif // LAST_ITERATION
+
+void OutputTriangle( in TriangleData aTri )
+{
+	float3 center;
+	if (CullTriangle( aTri, center ))
+		return;
+
+	const uint instanceCount = InstanceCountBuffer.Load( aTri.dataIndex );
+	if (instanceCount == 0)
+		return;
+
+@ifndef LAST_ITERATION
+
+@ifdef USE_APPEND_BUFFER
+	TrianglesOut.Append( aTri );
+@else
+	uint index;
+	MR_AtomicAdd( CounterBufferW[0], 1U, index );
+	TrianglesOut[ index ] = aTri;
+@endif // USE_APPEND_BUFFER
+
+@else
+
+	float dist;
+	if (CullPosition( aTri, center, dist ))
+		return;
+
+	BunchData bunchData;
+
+	bunchData.instanceCount.x = ((instanceCount      ) & 255);
+	bunchData.instanceCount.y = ((instanceCount >>  8) & 255);
+	bunchData.instanceCount.z = ((instanceCount >> 16) & 255);
+	bunchData.instanceCount.w = ((instanceCount >> 24) & 255);
+
+	OutputVertex( aTri.a, aTri.dataIndex, bunchData.attribs1[0], bunchData.attribs2[0], bunchData.attribs3[0] );
+	OutputVertex( aTri.b, aTri.dataIndex, bunchData.attribs1[1], bunchData.attribs2[1], bunchData.attribs3[1] );
+	OutputVertex( aTri.c, aTri.dataIndex, bunchData.attribs1[2], bunchData.attribs2[2], bunchData.attribs3[2] );
+
+@ifdef USE_APPEND_BUFFER
+	BunchesOut.Append( bunchData );
+@else
+	uint index;
+	MR_AtomicAdd( CounterBufferW[0], 1U, index );
+	BunchesOut[ index ] = bunchData;
+
+	MR_AtomicAdd( CounterBufferW[1], bunchData.instanceCount.x );
+	MR_AtomicAdd( CounterBufferW[2], bunchData.instanceCount.y );
+	MR_AtomicAdd( CounterBufferW[3], bunchData.instanceCount.z );
+	MR_AtomicAdd( CounterBufferW[4], bunchData.instanceCount.w );
+@endif // USE_APPEND_BUFFER
+
+@endif // LAST_ITERATION
+}
+
+compute main(uint3 dtid : MR_DispatchThreadId, uint groupIdx : MR_GroupIndex)
+{
+	bool isValidTriangle = true;
+
+@ifndef FIRST_ITERATION
+
+	@ifdef USE_APPEND_BUFFER
+		isValidTriangle = isValidTriangle && dtid.x < const_numTriangles;
+	@else
+		isValidTriangle = isValidTriangle && dtid.x < CounterBufferR[0];
+	@endif // USE_APPEND_BUFFER
+@endif // FIRST_ITERATION
+
+	if (!isValidTriangle)
+		return;
+
+@ifdef FIRST_ITERATION
+
+	TriangleData parent; // root
+	parent.a = const_baseTriangleA[ dtid.x ].xyz;
+	parent.b = const_baseTriangleB[ dtid.x ].xyz;
+	parent.c = const_baseTriangleC[ dtid.x ].xyz;
+	parent.dataIndex = const_baseDataStride * dtid.x;
+@else
+
+	const TriangleData parent = TrianglesIn[ dtid.x ];
+
+@endif // FIRST_ITERATION
+
+	TriangleData children[4];
+	Split( parent, children );
+
+	OutputTriangle( children[0] );
+	OutputTriangle( children[1] );
+	OutputTriangle( children[2] );
+	OutputTriangle( children[3] );
+}

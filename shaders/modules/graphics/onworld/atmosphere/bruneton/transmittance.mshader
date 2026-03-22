@@ -1,0 +1,49 @@
+import "shaders/modules/graphics/onworld/atmosphere/bruneton/common.h"
+
+computeParameters
+{
+    numThreads 8 8 1
+}
+
+MR_RWTexture2D<float4> RWTransmittanceTexture2D : MR_RW_Texture0;
+
+compute
+{
+    constants : MR_ConstantBuffer0
+    {
+        float2 const_TargetSize;
+
+         // Number of samples taken to compute the optical depth
+        int const_Samples;
+    }
+
+    float OpticalDepthPrecompute(float H, float r, float mu)
+    {
+        float result = 0.0;
+        float dx = PlanetAtm_RayIntersect(r, mu) / float(const_Samples);
+        float xi = 0.0;
+        float yi = exp(-(r - MR_BrunetonAtmConstants.const_Rg) / H);
+        for (int i = 1; i <= const_Samples; ++i) 
+        {
+            float xj = float(i) * dx;
+            float yj = exp(-(sqrt(r * r + xj * xj + 2.0 * xj * r * mu) - MR_BrunetonAtmConstants.const_Rg) / H);
+            result += (yi + yj) / 2.0 * dx;
+            xi = xj;
+            yi = yj;
+        }
+        return mu < -sqrt(1.0 - (MR_BrunetonAtmConstants.const_Rg / r) * (MR_BrunetonAtmConstants.const_Rg / r)) ? 1e9 : result;
+    }
+
+    main( in uint3 dispatchThreadId : MR_DispatchThreadId )
+    {
+        const uint3 pixelCoords = GetPixelCoords(dispatchThreadId, const_TargetSize.y);
+        const float2 uv = pixelCoords.xy / const_TargetSize;
+        const float r = TransmittanceR(uv.y);
+        const float muS = TransmittanceMu(uv.x);
+
+        float3 opticalDepth = MR_BrunetonAtmConstants.const_BetaR * OpticalDepthPrecompute(MR_BrunetonAtmConstants.const_HR, r, muS) + 
+                              (MR_BrunetonAtmConstants.const_BetaMSca / 0.9) * OpticalDepthPrecompute(MR_BrunetonAtmConstants.const_HM, r, muS);
+
+        RWTransmittanceTexture2D[pixelCoords.xy] = float4(exp(-opticalDepth), 0.0f);
+    }
+}

@@ -1,0 +1,58 @@
+
+@include "shaders/modules/graphics/postfx/pixel_in.h"
+@include "shaders/MRender/MR_ViewConstants.h"
+
+pixel
+{
+	constants : MR_ConstantBuffer0
+	{
+		float4 ScanLines[16];
+		float2 EffectStrengths;
+		float2 Aberrations;
+		float2 NoiseTexOffset;
+		uint2 ViewportMin;
+		uint RenderTargetScale;
+		uint Seed;
+		uint LineOffset;
+	}
+
+	MR_Sampler2D DepthTex : MR_Texture0;
+	MR_Sampler2D ColorTex : MR_Texture1;
+	MR_Sampler2D ScanlineTex : MR_Texture2;
+	MR_Sampler2D NoiseTex : MR_Texture3 { wrap = repeat };
+
+	main( out float4 outColor : MR_Color, float4 fc : MR_FragCoord )
+	{
+		float2 samplePos = uint2( fc.xy ) - ViewportMin;
+//		samplePos /= RenderTargetScale;
+		float4 noiseSample = MR_SampleLod0( NoiseTex, samplePos / MR_ViewConstants.viewportSize + NoiseTexOffset*0);
+		float4 scanlineSample = MR_SampleTexelLod0( ScanlineTex, float2(samplePos.y, 0) );
+		float4 scanlineSample2 = MR_SampleTexelLod0( ScanlineTex, float2(samplePos.y+noiseSample.y*40-20, 0) );
+		float4 orgSample = MR_SampleTexelLod0( ColorTex, samplePos );
+
+		float xOffset = scanlineSample2.x * noiseSample.x;
+		samplePos.x += xOffset * MR_ViewConstants.viewportSize.x;
+
+		float4 color = MR_SampleTexelLod0( ColorTex, samplePos );
+		color += orgSample * float4(0,0.3,0.7,0.7) * (1-color.w);
+		color.xyz *= color.w;
+		float orgStr = min(1,color.w * 20);
+
+		float4 extraSample = MR_SampleTexelLod0( ColorTex, samplePos+float2(Aberrations.x,0) );
+		extraSample.rgb *= extraSample.w;
+		color += extraSample * float4(1,0,0,0.01+extraSample.x*2) * (1-orgStr);
+
+		float4 extraSample2 = MR_SampleTexelLod0( ColorTex, samplePos+float2(Aberrations.y,0) );
+		extraSample2.rgb *= extraSample2.w;
+		color += extraSample2 * float4(0,1,0,0.01+extraSample.y*2) * (1-orgStr);
+
+		color *= scanlineSample.y;
+		color = saturate(color);
+		//color.rgb = noiseSample.rgb;
+		//color.w = 1;
+		if( color.w < 0.001 )
+			discard;
+
+		outColor = saturate( color );
+	}
+}

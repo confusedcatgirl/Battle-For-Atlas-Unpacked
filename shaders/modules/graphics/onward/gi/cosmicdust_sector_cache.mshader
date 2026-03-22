@@ -1,0 +1,39 @@
+import "shaders/modules/graphics/onward/gi/gi_constants.h"
+import "shaders/modules/graphics/onward/gi/cosmicdust_struct.h"
+
+computeParameters
+{
+	numThreads 64 1 1,
+}
+compute
+{
+	MR_ByteBuffer RawDataIn : MR_Buffer0;
+
+	constants : MR_ConstantBuffer0
+	{
+		uint constStructSize;
+
+		uint constStart;
+		uint constCount;
+	}
+
+	MR_RWStructuredBuffer< OGI_CosmicDustProbeData > ProbeDataOut : MR_RW_Buffer0;
+
+	main(in uint dispatchThreadId : MR_DispatchThreadId)
+	{
+		const uint byteOffset = ( dispatchThreadId * constStructSize );
+
+		if (dispatchThreadId < constCount)
+		{
+			OGI_CosmicDustProbeData probe;
+
+			probe.myCenterRadius  = asfloat( RawDataIn.Load4( byteOffset + 0  ) );
+
+			probe.myColorDensity1 = asfloat( RawDataIn.Load4( byteOffset + 16 ) );
+			probe.myColorDensity2 = asfloat( RawDataIn.Load4( byteOffset + 32 ) );
+
+			ProbeDataOut[ constStart + dispatchThreadId ] = probe;
+		}
+	}
+
+}

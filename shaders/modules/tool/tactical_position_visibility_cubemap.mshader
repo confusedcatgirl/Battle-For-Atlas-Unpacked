@@ -1,0 +1,41 @@
+constants : MR_ConstantBuffer0
+{
+	float4x4 ObjectWorldMatrix;
+	float4x4 WorldViewProjMatrix;
+	float3 EyePosition;
+}
+
+vertex
+{
+	in
+	{
+		float3 position;
+		float3 normal;
+	}
+
+	out
+	{
+		float3 position;
+	}
+
+	main(out float4 clipPos : MR_Position)
+	{
+		float4 worldPosition = MR_Transform(ObjectWorldMatrix, float4(In.position, 1));
+		Out.position = worldPosition.xyz;
+		clipPos = MR_Transform(WorldViewProjMatrix, worldPosition);
+	}
+}
+
+pixel
+{
+	in
+	{
+		float3 position;
+	}
+
+	main(out float3 color : MR_Color)
+	{
+		float distance = length(In.position - EyePosition);
+		color.r = (distance / 255.0);
+	}
+}

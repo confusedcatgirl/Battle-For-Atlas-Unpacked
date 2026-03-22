@@ -1,0 +1,64 @@
+import "shaders/modules/graphics/smaa/SMAA.h"
+
+vertex
+{
+	in
+	{
+		float4 clipCoord_quadCoord;
+		float4 uv0_uv1;
+		float4 uv0Min_uv0Max;
+		float4 uv1Min_uv1Max;
+	}
+
+	out
+	{
+		float2 uv;
+		float4 offsets[3];
+	}
+
+	main(out float4 position : MR_Position)
+	{
+		float4 pos = float4(In.clipCoord_quadCoord.xy, 0,1);
+		Out.uv = In.uv0_uv1.xy;
+		SMAAEdgeDetectionVS(pos, position, Out.uv, Out.offsets);
+	}
+}
+
+pixel
+{
+	in
+	{
+		float2 uv;
+		float4 offsets[3];
+	}
+
+	MR_Sampler2D colorTex : MR_Texture0 { filter = linear, wrap = clamp };
+	
+	@ifdef SMAA_PREDICATION
+		MR_Sampler2D depthbuffer : MR_DepthTexture { filter = linear, wrap = clamp };
+	@endif
+	@ifdef GFX_SMAA_DEPTH_EDGE_DETECTION
+		MR_Sampler2D depthbuffer : MR_DepthTexture { filter = linear, wrap = clamp };
+	@endif
+
+	main(out float4 outColor : MR_Color)
+	{
+	@ifdef GFX_SMAA_DEPTH_EDGE_DETECTION
+		outColor = SMAADepthEdgeDetectionPS(In.uv, In.offsets, depthbuffer);
+	@endif
+	@ifdef GFX_SMAA_LUMA_EDGE_DETECTION
+		@ifdef SMAA_PREDICATION
+			outColor = SMAALumaEdgeDetectionPS(In.uv, In.offsets, colorTex, depthbuffer);
+		@else
+			outColor = SMAALumaEdgeDetectionPS(In.uv, In.offsets, colorTex);
+		@endif
+	@endif
+	@ifdef GFX_SMAA_COLOR_EDGE_DETECTION
+		@ifdef SMAA_PREDICATION
+			outColor = SMAAColorEdgeDetectionPS(In.uv, In.offsets, colorTex, depthbuffer);
+		@else
+			outColor = SMAAColorEdgeDetectionPS(In.uv, In.offsets, colorTex);
+		@endif
+	@endif
+	}
+}

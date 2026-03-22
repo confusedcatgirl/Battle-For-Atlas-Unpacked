@@ -1,0 +1,136 @@
+@ifdef SSR
+	@define USE_FLATTENED_SSR
+@endif // SSR
+
+import "shaders/modules/graphics/onward/deferred/light_shared.h"
+
+MR_RWTexture2D<float3> Output_Light  : MR_RW_Texture0;
+MR_RWTexture2D<float3> Output_Param0 : MR_RW_Texture1;
+MR_RWTexture2D<float3> Output_Param1 : MR_RW_Texture2;
+MR_RWTexture2D<float3> Output_Param2 : MR_RW_Texture3;
+
+@ifdef OGFX_DEFERRED_COMPUTE_TILED
+MR_ByteBuffer TileCoordinates : MR_Buffer0;
+@endif // OGFX_DEFERRED_COMPUTE_TILED
+
+computeParameters
+{
+	numThreads 8 8 1
+}
+
+compute main(uint3 dtid : MR_DispatchThreadId, uint3 gid : MR_GroupId)
+{
+@ifdef OGFX_DEFERRED_COMPUTE_TILED
+
+	const uint packedTileCoords = TileCoordinates.Load(gid.z * 4);
+
+	uint2 tileCoords;
+	tileCoords.x = packedTileCoords & 0xffff;
+	tileCoords.y = packedTileCoords >> 16;
+
+	uint2 pixel = tileCoords + dtid.xy;
+
+	uint x = (tileCoords.x - MR_ViewConstants.viewportMin.x) / 64; // tile size
+	uint y = (tileCoords.y - MR_ViewConstants.viewportMin.y) / 64; // tile size
+
+	Gfx_GetTileData_IndexOverride = x + y * Gfx_LightingEnvironment.TileLightsNumXTiles;
+
+@else
+
+	uint x = gid.x / 8; // group size
+	uint y = gid.y / 8; // group size
+
+	Gfx_GetTileData_IndexOverride = x + y * Gfx_LightingEnvironment.TileLightsNumXTiles;
+
+	uint2 pixel = MR_ViewConstants.viewportMin + dtid.xy;
+
+@endif // OGFX_DEFERRED_COMPUTE_TILED
+
+	const float2 fc = pixel;
+
+	float4 ssOut0 = 0;
+	float4 ssOut1 = 0;
+	float4 ssOutN = 0;
+
+	float3 light = 0;
+
+	const float depth = MR_SampleTexelLod0(Depth, pixel).x;
+
+	bool write = depth < MAX_LINEAR_DEPTH;
+	if (write)
+	{
+		float3 pos = MR_ClipToWorld(MR_PixelToClip(fc.xy), depth);
+		Gfx_LightingDataStruct ld = Gfx_GetLightingData(pos, float4(fc.xy, 0, depth));
+		@ifdef COSMOS_ONLY
+			ld.isUnflatten = true;
+		@endif // COSMOS_ONLY
+
+		const float4 currentSphere = OW_Planet_GetCurrentGroundSphere();
+
+		OW_SunLitPixel sunLitPixel;
+		OW_InitPositionContext( sunLitPixel.myPosCtx, ld.worldPosition, currentSphere, ld.isUnflatten, ld.isUnflatten );
+
+		bool isProcessed = false;
+	@ifndef COSMOS_ONLY
+
+		if (!sunLitPixel.myPosCtx.myIsPosInSpace)
+		{
+		@ifndef NO_LIGHTING
+			DeferredComplete( sunLitPixel, ld, light, ssOut0.rgb, ssOut1.rgb, ssOutN.rgb, pixel );
+		@endif // NO_LIGHTING
+
+			isProcessed = true;
+		}
+		else
+		{
+	@ifdef PLANET_ONLY
+			write = false;
+	@endif // PLANET_ONLY
+		}
+
+	@endif // COSMOS_ONLY
+
+	@ifndef PLANET_ONLY
+
+		if (!isProcessed)
+		{
+		@ifndef NO_LIGHTING
+			DeferredComplete( sunLitPixel, ld, light, ssOut0.rgb, ssOut1.rgb, ssOutN.rgb, pixel );
+		@endif // NO_LIGHTING
+
+			isProcessed = true;
+		}
+
+	@endif // PLANET_ONLY
+
+	}
+
+	if (write)
+	{
+		Output_Light[pixel] = MR_SampleTexelLod0(Light_RGB, pixel).rgb + light;
+
+	@ifdef SSR_OR_SSS
+		Output_Param0[pixel] = ssOut0.rgb;
+		@ifdef SSR_AND_SSS
+			Output_Param1[pixel] = ssOut1.rgb;
+			@ifdef USE_FLATTENED_SSR
+				Output_Param2[pixel] = ssOutN.rgb;
+			@endif // USE_FLATTENED_SSR
+		@else
+			@ifdef USE_FLATTENED_SSR
+				Output_Param1[pixel] = ssOutN.rgb;
+			@endif // USE_FLATTENED_SSR
+		@endif // SSR_AND_SSS
+	@else
+		@ifdef USE_FLATTENED_SSR
+			Output_Param0[pixel] = ssOutN.rgb;
+		@endif // USE_FLATTENED_SSR
+	@endif // SSR_OR_SSS
+	}
+@ifdef OGFX_DEFERRED_COMPUTE_ALWAYS_WRITE_LIGHT
+	else
+	{
+		Output_Light[pixel] = MR_SampleTexelLod0(Light_RGB, pixel).rgb;
+	}
+@endif // OGFX_DEFERRED_COMPUTE_ALWAYS_WRITE_LIGHT
+}

@@ -1,0 +1,42 @@
+blend {
+	src = 1,
+	dest = 1,
+	writeMask = rgba
+}
+
+MR_Sampler2DArray SHTex : MR_Texture0 { anisotropy = 0, wrap = border, border = 0 0 0 0, filter = point };
+
+vertex
+{
+	in {
+		float2 pos;
+	}
+
+	out {
+		float2 uv;
+	}
+
+	main(out float4 pos : MR_Position)
+	{
+		pos = float4(In.pos, 0, 1);
+		Out.uv = In.pos * float2(0.5, -0.5) + vec2(0.5);
+	}
+}
+
+pixel
+{
+	in {
+		float2 uv;
+	}
+
+	main(
+		out float4 aRedOut : MR_Color0,
+		out float4 aGreenOut : MR_Color1,
+		out float4 aBlueOut : MR_Color2,
+	)
+	{
+		aRedOut = MR_SampleLod0(SHTex, float3(In.uv, 0));
+		aGreenOut = MR_SampleLod0(SHTex, float3(In.uv, 1));
+		aBlueOut = MR_SampleLod0(SHTex, float3(In.uv, 2));
+	}
+}

@@ -1,0 +1,42 @@
+
+computeParameters
+{
+	numThreads 8 8 1,
+}
+
+compute
+{
+	MR_RWTexture2D< float4 > Downsampled : MR_RW_Texture0;
+
+	MR_Sampler2D Source : MR_Texture0;
+
+	constants : MR_ConstantBuffer0
+	{
+		uint2 SourceSize;
+		uint2 TargetSize;
+		uint MipIndex;
+	}
+
+	main( in uint3 threadIdWithinDispatch : MR_DispatchThreadId )
+	{
+		uint2 outputPixel = threadIdWithinDispatch.xy;
+
+		float2 scale = float2( SourceSize ) / float2( TargetSize );
+
+		uint2 startOffset = uint2( scale * float2( outputPixel ) );
+		uint2 endOffset = startOffset + uint2( ceil( scale ) );
+
+		float3 color = float3( 0,0,0 );
+		for( uint y = startOffset.y; y < endOffset.y; ++y )
+		{
+			for( uint x = startOffset.x; x < endOffset.x; ++x )
+			{
+				color += MR_SampleTexelLod( Source, uint2( x, y ), MipIndex ).rgb;
+			}
+		}
+
+		color /= float( ( endOffset.x - startOffset.x ) * ( endOffset.y - startOffset.y ) );
+
+		Downsampled[ outputPixel ] = float4( color, 1 );
+	}
+}

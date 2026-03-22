@@ -1,0 +1,38 @@
+import "shaders/MRender/MR_ViewConstants.h"
+
+MR_RWTexture2D<float3> QuarterNormalOut : MR_RW_Texture0;
+
+@ifdef OUTPUT_FULL_NORMAL
+MR_RWTexture2D<float3> NormalOut : MR_RW_Texture1;
+@endif
+
+MR_Texture2D<float3> Normal : MR_Texture0;
+
+computeParameters
+{
+	numThreads 8 8 1
+}
+
+compute main(uint3 dtid : MR_DispatchThreadId)
+{
+	uint2 px00 = dtid.xy*2 + MR_ViewConstants.viewportMin;
+
+	float3 n00 = Normal[px00];
+
+	QuarterNormalOut[dtid.xy] = n00;
+
+@ifdef OUTPUT_FULL_NORMAL
+	uint2 px10 = px00 + uint2(1,0);
+	uint2 px11 = px00 + uint2(1,1);
+	uint2 px01 = px00 + uint2(0,1);
+
+	float3 n10 = Normal[px10];
+	float3 n11 = Normal[px11];
+	float3 n01 = Normal[px01];
+
+	NormalOut[px00] = n00;
+	NormalOut[px10] = n10;
+	NormalOut[px11] = n11;
+	NormalOut[px01] = n01;
+@endif
+}

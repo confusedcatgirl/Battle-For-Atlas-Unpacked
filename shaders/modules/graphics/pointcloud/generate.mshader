@@ -1,0 +1,230 @@
+
+computeParameters
+{
+	numThreads 128 1 1,
+}
+
+compute
+{
+	constants : MR_ConstantBuffer0
+	{
+		float3 Color;
+		uint NumberOfPoints;
+		float3 Color2;
+		uint NumberOfTriangles;
+		float3 CloudCenter;
+		uint BaseVertex;
+		float3 GridSpacing;
+		uint NumberOfDissolves;
+		float Jittering;
+		float PostGridJittering;
+	}
+
+	MR_RWStructuredBuffer< float3 > Points  : MR_RW_Buffer0;
+	MR_RWBuffer< float4 > Colors  : MR_RW_Buffer1;
+	MR_RWBuffer< float4 > Normals : MR_RW_Buffer2;
+
+	struct SVertex
+	{
+		float3 Position;
+		float3 Normal;
+		float Lighting;
+	};
+
+	MR_Buffer< uint > Indices : MR_Buffer0;
+	MR_StructuredBuffer< SVertex > Vertices : MR_Buffer1;
+	MR_ByteBuffer Dissolves : MR_Buffer2;
+
+	struct SDissolve
+	{
+		float3 Position;
+		float Radius;
+		float3 Direction;
+		float Directed;
+		float Strength;
+		float ClusterGranularity;
+		float IndividualDissolve;
+		float FalloffTangent0;
+		float FalloffTangent1;
+	};
+
+	SDissolve GetDissolve(uint index)
+	{
+		SDissolve ret;
+
+		uint i = index * (4 * 16);
+
+		float4 t = asfloat(Dissolves.Load4(i + (0 * 16)));
+		ret.Position = t.xyz;
+		ret.Radius = t.w;
+
+		t = asfloat(Dissolves.Load4(i + (1 * 16)));
+		ret.Direction = t.xyz;
+		ret.Directed = t.w;
+
+		t = asfloat(Dissolves.Load4(i + (2 * 16)));
+		ret.Strength = t.x;
+		ret.ClusterGranularity = t.y;
+		ret.IndividualDissolve = t.z;
+		ret.FalloffTangent0 = t.w;
+
+		t = asfloat(Dissolves.Load4(i + (3 * 16)));
+		ret.FalloffTangent1 = t.x;
+
+		return ret;
+	}
+
+	// MC_Random_XOR128 from MC_Random.h
+	struct SRandom
+	{
+		uint x[4];
+	};
+
+	uint SimpleRandom( uint number )
+	{
+		return number * 69069 + 362437;
+	}
+
+	void SetSeed( out SRandom random, uint seed )
+	{
+		random.x[0] = SimpleRandom( seed );
+		random.x[1] = SimpleRandom( random.x[0] );
+		random.x[2] = SimpleRandom( random.x[1] );
+		random.x[3] = SimpleRandom( random.x[2] );
+	}
+
+	uint NextUInt32( inout SRandom random )
+	{
+		uint t = random.x[0] ^ ( random.x[0] << 11 );
+		random.x[0] = random.x[1];
+		random.x[1] = random.x[2];
+		random.x[2] = random.x[3];
+		random.x[3] = ( random.x[3] ^ ( random.x[3] >> 19 ) ) ^ ( t ^ ( t >> 8 ) );
+		return random.x[3];
+	}
+
+	float Next01( inout SRandom random )
+	{
+		uint rnd = 0x3f800000 | ( NextUInt32( random ) & 0x7fffff );
+		return asfloat( rnd ) - 1;
+	}
+
+	float Simple01( uint number )
+	{
+		uint rnd = 0x3f800000 | ( SimpleRandom( number ) & 0x7fffff );
+		return asfloat( rnd ) - 1;
+	}
+
+	float Contiguous01( inout uint number )
+	{
+		number = SimpleRandom( number );
+		uint rnd = 0x3f800000 | ( number & 0x7fffff );
+		return asfloat( rnd ) - 1;
+	}
+
+	float HermiteInterpolation( float t, float tangent0, float tangent1 )
+	{
+		float t2 = t * t;
+		float t3 = t2 * t;
+
+		return	2 * t3 - 3 * t2 + 1 +
+				( t3 - 2 * t2 + t ) * tangent0 +
+				( t3 - t2 ) * tangent1;
+	}
+
+	main( in uint3 threadIdWithinDispatch : MR_DispatchThreadId )
+	{
+		uint pointIndex = threadIdWithinDispatch.x;
+
+		SRandom random;
+		SetSeed( random, pointIndex );
+
+		uint triangleIndex = NextUInt32( random ) % NumberOfTriangles;
+
+		float3 vertexWeights;
+		vertexWeights.x = pow( Next01( random ), 1.7 );
+		vertexWeights.y = Next01( random ) * ( 1 - vertexWeights.x );
+		vertexWeights.z = 1 - vertexWeights.x - vertexWeights.y;
+
+		float3 interpolatedPos = float3( 0,0,0 );
+		float interpolatedLighting = 0;
+		float3 interpolatedNormal = float3( 0,0,0 );
+		for( uint polyVert = 0; polyVert < 3; ++polyVert )
+		{
+			uint vertexIndex = Indices[ triangleIndex * 3 + polyVert ] - BaseVertex;
+			
+			SVertex vertex = Vertices[ vertexIndex ];
+
+			interpolatedPos += vertex.Position * vertexWeights[ polyVert ];
+			interpolatedLighting += vertex.Lighting * vertexWeights[ polyVert ];
+			interpolatedNormal += vertex.Normal * vertexWeights[ polyVert ];
+		}
+
+		float3 color = lerp( Color2, Color, interpolatedLighting );
+
+		uint pointIndexRand = pointIndex;
+
+		float3 individualDissolveDir = float3( 0,0,0 );
+		{
+			individualDissolveDir = normalize( float3( Contiguous01( pointIndexRand ), Contiguous01( pointIndexRand ), Contiguous01( pointIndexRand ) ) - 0.5 );
+		}
+
+		for( uint dissolveIndex = 0; dissolveIndex < NumberOfDissolves; ++dissolveIndex )
+		{
+			SDissolve dissolve = GetDissolve( dissolveIndex );
+
+			float3 flooredCluster = floor( interpolatedPos / dissolve.ClusterGranularity );
+			uint3 clusterIndex3 = abs( flooredCluster );
+			uint clusterIndex = clusterIndex3.x + clusterIndex3.y * 1000 + clusterIndex3.z * 1000000;
+
+			float3 clusterCenter = ( flooredCluster + float( 0.5 ).xxx ) * dissolve.ClusterGranularity;
+
+			float3 toSphere = dissolve.Position - clusterCenter;
+			float l = dot( toSphere, toSphere );
+
+			if( l < ( dissolve.Radius * dissolve.Radius ) )
+			{
+				float dissolveStrength = HermiteInterpolation( sqrt( l ) / dissolve.Radius, dissolve.FalloffTangent0, dissolve.FalloffTangent1 );
+
+				float normPointIndex = float( pointIndex ) / float( NumberOfPoints );
+
+				float clusterWeight = Simple01( clusterIndex ) * 1.5 + 0.5;
+				float3 clusterDirection = normalize( clusterCenter - CloudCenter );
+
+				float3 clusterVec = normalize( lerp( clusterDirection, dissolve.Direction, dissolve.Directed ) );
+				float3 individualVec = normalize( lerp( individualDissolveDir, dissolve.Direction, dissolve.Directed ) );
+
+				float3 offset = clusterVec * clusterWeight;
+				offset += individualVec * normPointIndex * dissolve.IndividualDissolve;
+				offset *= dissolveStrength * dissolve.Strength;
+
+				interpolatedPos += offset;
+			}
+		}
+
+		// Jitter
+		{
+			interpolatedPos += ( float3( Contiguous01( pointIndexRand ), Contiguous01( pointIndexRand ), Contiguous01( pointIndexRand ) ) * 2 - 1 ) * Jittering;
+		}
+
+		// Grid
+		uint postGridJitterRand = pointIndexRand;
+		if( GridSpacing.x > 0 && GridSpacing.y > 0 && GridSpacing.z > 0 )
+		{
+			float3 floored = floor( interpolatedPos / GridSpacing + 0.5 );
+			interpolatedPos = floored * GridSpacing;
+			
+			uint3 index3 = abs( floored );
+			postGridJitterRand = index3.x + index3.y * 1000 + index3.z * 1000000;
+		}
+		
+		// Post Grid Jitter
+		{
+			interpolatedPos += ( float3( Contiguous01( postGridJitterRand ), Contiguous01( postGridJitterRand ), Contiguous01( postGridJitterRand ) ) * 2 - 1 ) * PostGridJittering;
+		}
+
+		Points[ pointIndex ] = interpolatedPos;
+		Colors[ pointIndex ] = float4( color, 1 );
+		Normals[ pointIndex ] = float4( interpolatedNormal, 0 );
+	}
+}

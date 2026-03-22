@@ -1,0 +1,30 @@
+import "shaders/MRender/MR_ViewConstants.h"
+
+pixel
+{
+	MR_Sampler2D CollisionMaterialsSampler				: MR_Texture2 { mutable = true, filter = point };
+	
+	constants : MR_ConstantBuffer2
+	{
+		float2 minCoord;
+		float2 maxCoord;
+		float4 matColors[128];
+	}
+	
+	main(out float4 color : MR_Color0, float dummyToGetPosition01 : Gfx_Height, float3 worldPosition : Gfx_WorldSpacePos)
+	{
+		if (worldPosition.x < minCoord.x || worldPosition.z < minCoord.y || worldPosition.x > maxCoord.x || worldPosition.z > maxCoord.y )
+		{
+			color = float4(1.0f, 1.0f, 1.0f, 1.0f);
+		}
+		else
+		{
+			float2 uv;
+			uv.x = (worldPosition.x - minCoord.x)/(maxCoord.x - minCoord.x);
+			uv.y = (worldPosition.z - minCoord.y)/(maxCoord.y - minCoord.y);
+			
+			int tex = MR_Sample(CollisionMaterialsSampler, uv).x*255;
+			color = matColors[tex];
+		}
+	}
+}

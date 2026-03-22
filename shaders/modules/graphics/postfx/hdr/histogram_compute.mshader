@@ -1,0 +1,76 @@
+MR_Texture2D Sampler : MR_Texture0;
+MR_RWBuffer<uint> Histogram : MR_RW_Buffer0;
+
+constants : MR_ConstantBuffer0
+{
+	float4 ColorWeights;
+	uint2 ViewportMin;
+	uint2 ViewportMax;
+	float MinLuminance;
+	float MaxLuminance;
+	int NumLoopsY;
+	int Scale;
+}
+
+computeParameters
+{
+	numThreads 32 32 1
+}
+
+compute
+{
+	const uint TileSize = 32;
+
+	global groupshared uint localHistogram[];
+
+	main(uint3 dispatchThreadId : MR_DispatchThreadId, uint groupIndex : MR_GroupIndex)
+	{
+		{
+			// Initialize local histogram in parallel
+
+			// Parallelism:
+			//   - Within threadgroup:  SIMD lanes map to histogram bins
+			//   - Between threadgroups: Each threadgroup has own histogram
+			localHistogram[groupIndex] = 0;
+		}
+
+		MR_GroupMemoryBarrierSync();
+
+		uint xi=0;
+		for (uint yi=0; yi<NumLoopsY; ++yi)
+		{
+			// Build histogram in parallel
+
+			// Parallelism:
+			//   - Within threadgroup:   SIMD lanes map to pixels in image tile
+			//   - Between threadgroups: Each threadgroup maps to image tile
+
+			uint2 pixel = ViewportMin + (dispatchThreadId.xy + uint2(xi, yi) * TileSize) * Scale;
+			if (pixel.x < ViewportMax.x && pixel.y < ViewportMax.y)
+			{
+				float3 col = MR_SampleTexelLod0(Sampler, pixel).xyz;
+				float lum = dot(col, ColorWeights.xyz);
+				float l2 = log2(lum);
+
+				int bin = int((l2 - MinLuminance) * (TileSize * TileSize) / (MaxLuminance - MinLuminance));
+				bin = clamp(bin, 0, 1023);
+
+				MR_AtomicAdd(localHistogram[bin], 1U);
+			}
+		}
+
+		MR_GroupMemoryBarrierSync();
+
+		{
+			// Use per-threadgroup scalar code to atomically merge all on-chip histograms into 
+			// single histogram in global memory.
+
+			// Parallelism
+			//  - Within threadgroup:   SIMD lanes map to histogram elements
+			//  - Between threadgroups: Each threadgroup writing to single global histogram
+
+			if (localHistogram[groupIndex] > 0)
+				MR_AtomicAdd(Histogram[groupIndex], localHistogram[groupIndex]);
+		}
+	}
+}

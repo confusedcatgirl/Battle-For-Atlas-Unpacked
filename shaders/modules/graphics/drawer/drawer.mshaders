@@ -1,0 +1,86 @@
+import "shaders/modules/graphics/drawer/drawer.h"
+
+pixel MR_Sampler2D texture0 : MR_Texture0;
+
+blend {
+	src = 1,
+	dest = 1-src.a,
+}
+
+vertex in
+{
+	float4 xyzw;
+	float4<NATIVE_ARGB_UNORM8> color;
+	float4<BGRA_UNORM8> misc;
+	float2 uv0;
+	float2 uv1;
+	float2 uv2;
+	float2 edgeuv;
+}
+
+vertex out
+{
+	float4 unClipPos;
+	float4 color;
+	float4 uv01;
+	float2 uv2;
+	float3 edgeuv;
+	float additive;
+	nointerpolation int renderType;
+}
+
+vertex main(out float4 clip4 : MR_Position)
+{
+	int transformIndex = ourTransformMatrixOverride < 256 ? ourTransformMatrixOverride : int(In.misc.b * 255.0);
+	int renderType = int(In.misc.a * 255.0);
+
+	float4 unClip4 = TransformPoint(transformIndex, In.xyzw.xyz);
+	clip4 = viewportPixelToClip(unClip4);
+
+	float perspectiveCorrect = lerp(1.0f, clip4.w, ourUsesPerspectiveCorrect);
+
+	Out.unClipPos = unClip4;
+	Out.uv01.xy = In.uv0;
+	Out.uv01.zw = In.uv1;
+	Out.uv2 = In.uv2;
+	Out.edgeuv.xy = In.edgeuv * perspectiveCorrect;
+	Out.edgeuv.z = perspectiveCorrect;
+	Out.additive = In.misc.r;
+	Out.color = In.color;
+	Out.renderType = renderType;
+}
+
+
+pixel main(out float4 outColor : MR_Color, float4 fragCoord : MR_FragCoord)
+{
+@ifdef REPLACEMENT_SHADER
+	REPLACEMENT_SHADER
+@else
+
+	clipping(In.unClipPos);
+	discardIfStencilContainsBits(fragCoord);
+
+	float2 uv0 = In.uv01.xy;
+	float2 uv1 = In.uv01.zw;
+	float2 uv2 = In.uv2;
+	float4 color = In.color;
+	float additive = In.additive;
+	int renderType = In.renderType;
+
+	float4 resultcolor = float4(0,0,0,0);
+	float edgeAlpha = SoftEdgeAlpha(In.edgeuv.xy/In.edgeuv.z);
+	
+@ifdef PIXEL_SNIPPET
+	PIXEL_SNIPPET
+@else
+	float4 tex0mul = GetColorInfo(texture0, uv0, In.renderType);	
+	resultcolor = tex0mul * color;
+@endif
+
+	// Edge Alpha is our UI Anti-Aliasing solution. All colors alpha needs to be multiplied with it. It adjusts the 1-pixel inner border.
+	resultcolor.a *= edgeAlpha;
+
+	outColor = BlendColor(resultcolor, additive);
+@endif
+}
+

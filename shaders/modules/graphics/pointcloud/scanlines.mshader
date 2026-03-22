@@ -1,0 +1,84 @@
+@include "shaders/MRender/MR_ViewConstants.h"
+
+computeParameters
+{
+	numThreads 64 1 1,
+}
+
+compute
+{
+	constants : MR_ConstantBuffer0
+	{
+		float4 ScanLines[16];
+		float2 EffectStrengths;
+		float2 Aberrations;
+		float2 NoiseTexOffset;
+		uint2 ViewportMin;
+		uint RenderTargetScale;
+		uint Seed;
+		uint LineOffset;
+	}
+
+	MR_RWTexture2D< float4 > ScanlinesTex  : MR_RW_Texture0;
+
+	// MC_Random_XOR128 from MC_Random.h
+	struct SRandom
+	{
+		uint x[4];
+	};
+
+	uint SimpleRandom( uint number )
+	{
+		return number * 69069 + 362437;
+	}
+
+	void SetSeed( out SRandom random, uint seed )
+	{
+		random.x[0] = SimpleRandom( seed );
+		random.x[1] = SimpleRandom( random.x[0] );
+		random.x[2] = SimpleRandom( random.x[1] );
+		random.x[3] = SimpleRandom( random.x[2] );
+	}
+
+	uint NextUInt32( inout SRandom random )
+	{
+		uint t = random.x[0] ^ ( random.x[0] << 11 );
+		random.x[0] = random.x[1];
+		random.x[1] = random.x[2];
+		random.x[2] = random.x[3];
+		random.x[3] = ( random.x[3] ^ ( random.x[3] >> 19 ) ) ^ ( t ^ ( t >> 8 ) );
+		return random.x[3];
+	}
+
+	float Next01( inout SRandom random )
+	{
+		uint rnd = 0x3f800000 | ( NextUInt32( random ) & 0x7fffff );
+		return asfloat( rnd ) - 1;
+	}
+
+	main( in uint3 threadIdWithinDispatch : MR_DispatchThreadId )
+	{
+		int lineNum = threadIdWithinDispatch.x;
+		if(lineNum >= MR_ViewConstants.viewportSize.y)
+			return;
+
+		SRandom rand;
+		SetSeed(rand, Seed+lineNum);
+
+		float sampleLine = float(lineNum)/MR_ViewConstants.viewportSize.y;
+		float xOffset = 0;
+		for(int a=0;a<16;++a)
+		{
+			float pos = ScanLines[a].x;
+			float strength = ScanLines[a].y * 0.025  * EffectStrengths.x;
+			float dist = min(abs(sampleLine - pos*0.5), abs(sampleLine - pos*0.5-0.5));
+			if(dist < ScanLines[a].z*0.5)
+			{
+				xOffset += strength * ((Next01(rand)*0.4+0.8)) ;
+			}
+		}
+
+		float disable = (((lineNum+LineOffset)>>2)&1) * EffectStrengths.y;
+		ScanlinesTex[threadIdWithinDispatch.xy] = float4(xOffset,1-disable,0,1);
+	}
+}

@@ -1,0 +1,71 @@
+import "shaders/modules/graphics/onward/gi/fog/fog_shared.h"
+import "shaders/modules/graphics/onward/gi/fog/fog_light_shared.h"
+import "shaders/modules/graphics/onward/gi/space_fog.h"
+import "shaders/modules/graphics/onward/gi/gi_sampling.h"
+
+import "shaders/nodes/Shader/Functions/Onward/Lighting/OW_SpaceGI.h"
+
+@ifdef OGI_FOG_USE_SUN_SHADOW
+import "shaders/modules/graphics/shadows.h"
+@endif // OGI_FOG_USE_SUN_SHADOW
+
+import "shaders/modules/graphics/onward/gi/fog/space_fog_light_sun.h"
+
+computeParameters
+{
+	numThreads 8 8 1
+}
+
+@ifdef OGI_FOG_USE_SHADE_FACTOR
+MR_Buffer< float > ShadeFactorBuffer : MR_Buffer5;
+@endif // OGI_FOG_USE_SHADE_FACTOR
+
+compute
+{
+	main(uint3 dispatchThreadId : MR_DispatchThreadId)
+	{
+		if (any(dispatchThreadId.xyz >= constLightVolumeSize.xyz))
+			return;
+
+		const float4 colorXYZAnisotropyW = FogMediaTexture[ dispatchThreadId ];
+
+		float3 cameraPos = OW_FogVolume_GetCameraPos( );
+		const float2 uv = OW_FogVolume_GetUVFromThreadID( dispatchThreadId, vec3( 0.0 ), constLightVolumeInvSize );
+		const float3 camPosToNear = OW_FogVolume_GetCameraPosToNearDir( cameraPos, uv );
+
+		const float time = OW_FogVolume_GetRangeFromThreadID( dispatchThreadId, vec3( 0.0 ), constLightVolumeInvSize );
+		float depth = OW_FogConstantBuffer.myGalaxy.myNear + pow( time, OW_FogConstantBuffer.myGalaxy.myInvDistributionPower )
+				* OW_FogConstantBuffer.myGalaxy.myDistributionRange;
+
+		float3 pos = cameraPos + camPosToNear * depth;
+
+		//-------------------------------------------------------------------------------------------------------------------------------------------------
+		// Ambient
+		float3 radiance = OW_Space_GI( camPosToNear, pos );
+		//-------------------------------------------------------------------------------------------------------------------------------------------------
+		// + Sun light (sunny side)
+
+		float3 shadowFactor = vec3( 1 );
+
+	@ifdef OGI_FOG_USE_SUN_SHAFTS
+		shadowFactor = OW_FogLight_GetLightShafts( uv, depth );
+	@endif // OGI_FOG_USE_SUN_SHAFTS
+	@ifdef OGI_FOG_USE_SUN_SHADOW
+		shadowFactor = GetShadowFactor( pos, OW_FogVolume_GetClipFromUV( uv ) );
+	@endif // OGI_FOG_USE_SUN_SHADOW
+
+	@ifdef OGI_FOG_USE_SHADE_FACTOR
+		shadowFactor *= ShadeFactorBuffer[0];
+	@endif // OGI_FOG_USE_SHADE_FACTOR
+
+		float anisotropy = colorXYZAnisotropyW.w;
+		radiance += OW_SpaceFog_GetSunLight( pos, camPosToNear, anisotropy, shadowFactor );
+		//-------------------------------------------------------------------------------------------------------------------------------------------------
+
+		anisotropy *= 0.5f; // reduce aliasing
+		radiance += OW_FogLight_GetLocalLights( pos, camPosToNear, anisotropy );
+
+		FogLightVolumeRW[ dispatchThreadId ] = radiance;
+		LitMediaVolumeRW[ dispatchThreadId ] = radiance * colorXYZAnisotropyW.xyz;
+	}
+}

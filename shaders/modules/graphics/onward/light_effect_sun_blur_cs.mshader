@@ -1,0 +1,20 @@
+import "shaders/modules/graphics/onward/light_effect_sun_blur.h"
+
+computeParameters
+{
+	numThreads 8 8 1
+}
+
+compute
+{
+	MR_RWTexture2D< float4 > Ouput : MR_RW_Texture0;
+
+	main( uint3 dispatchThreadId : MR_DispatchThreadId )
+	{
+		if (any(dispatchThreadId.xy >= constSize.xy))
+			return;
+
+		float2 uv = (dispatchThreadId.xy + vec2(0.5)) * constInvSize.xy;
+		OW_RadialBlur( uv - constBlurCenter, Ouput[dispatchThreadId.xy]);
+	}
+}

@@ -1,0 +1,51 @@
+import "shaders/modules/graphics/onward/tag_masking.h"
+
+vertex
+{
+	in
+	{
+		stream 0
+		{
+			float4<RGBA_SNORM16> Gfx_Pos;
+			float4<RGBA_UNORM8>  Gfx_BlendWeight;
+			uint4<RGBA_UINT8>    Gfx_BoneIndices;
+		}
+		stream 1
+		{
+			float4<RGBA_UNORM8> Gfx_Normal;
+			float4<RGBA_UNORM8> Gfx_Tangent;
+			float2<RG_SNORM16>  Gfx_UV0;
+		}
+	}
+
+	out
+	{
+		float4 csPos : MR_Position;
+		float3 wsPos;
+		float2 uv;
+	}
+
+	main()
+	{
+		const uint Gfx_FirstBone = 0;
+
+		// 4 skinning bones version
+		float3x4 objectToWorldMatrix = MR_RowMatrix(float4(1,0,0,0), float4(0,1,0,0), float4(0,0,1,0));
+		objectToWorldMatrix[0]  = Bones.myTransforms[Gfx_FirstBone + In.Gfx_BoneIndices[0] * 3 + 0] * In.Gfx_BlendWeight[0];
+		objectToWorldMatrix[0] += Bones.myTransforms[Gfx_FirstBone + In.Gfx_BoneIndices[1] * 3 + 0] * In.Gfx_BlendWeight[1];
+		objectToWorldMatrix[0] += Bones.myTransforms[Gfx_FirstBone + In.Gfx_BoneIndices[2] * 3 + 0] * In.Gfx_BlendWeight[2];
+		objectToWorldMatrix[0] += Bones.myTransforms[Gfx_FirstBone + In.Gfx_BoneIndices[3] * 3 + 0] * In.Gfx_BlendWeight[3];
+		objectToWorldMatrix[1]  = Bones.myTransforms[Gfx_FirstBone + In.Gfx_BoneIndices[0] * 3 + 1] * In.Gfx_BlendWeight[0];
+		objectToWorldMatrix[1] += Bones.myTransforms[Gfx_FirstBone + In.Gfx_BoneIndices[1] * 3 + 1] * In.Gfx_BlendWeight[1];
+		objectToWorldMatrix[1] += Bones.myTransforms[Gfx_FirstBone + In.Gfx_BoneIndices[2] * 3 + 1] * In.Gfx_BlendWeight[2];
+		objectToWorldMatrix[1] += Bones.myTransforms[Gfx_FirstBone + In.Gfx_BoneIndices[3] * 3 + 1] * In.Gfx_BlendWeight[3];
+		objectToWorldMatrix[2]  = Bones.myTransforms[Gfx_FirstBone + In.Gfx_BoneIndices[0] * 3 + 2] * In.Gfx_BlendWeight[0];
+		objectToWorldMatrix[2] += Bones.myTransforms[Gfx_FirstBone + In.Gfx_BoneIndices[1] * 3 + 2] * In.Gfx_BlendWeight[1];
+		objectToWorldMatrix[2] += Bones.myTransforms[Gfx_FirstBone + In.Gfx_BoneIndices[2] * 3 + 2] * In.Gfx_BlendWeight[2];
+		objectToWorldMatrix[2] += Bones.myTransforms[Gfx_FirstBone + In.Gfx_BoneIndices[3] * 3 + 2] * In.Gfx_BlendWeight[3];
+		//-------------------------------
+
+		OW_TAGMask_VertexFunc(In.Gfx_Pos, In.Gfx_UV0, objectToWorldMatrix, Out.wsPos, Out.uv, Out.csPos);
+	}
+}
+

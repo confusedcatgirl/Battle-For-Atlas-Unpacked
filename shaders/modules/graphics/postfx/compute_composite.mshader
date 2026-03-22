@@ -1,0 +1,41 @@
+import "shaders/modules/graphics/postfx/composite.h"
+
+computeParameters
+{
+	numThreads 8 8 1
+}
+
+compute
+{
+	MR_RWTexture2D<float4> Result : MR_RW_Texture0;
+
+	constants : MR_ConstantBuffer1
+	{
+		float2 myTargetTexelSize;
+		float2 myUV0Offset;
+		float2 myUV0Min;
+		float2 myUV0Max;
+		float2 myUV0Scale;
+		float2 myUV1Offset;
+		float2 myUV1Min;
+		float2 myUV1Max;
+		float2 myUV1Scale;
+		float2 myPixelOffset;
+		uint2 myMaxDispatchSize;
+	}
+
+	main(uint3 DTid : MR_DispatchThreadId)
+	{
+		if((DTid.x < myMaxDispatchSize.x) && (DTid.y < myMaxDispatchSize.y))
+		{
+			float2 uv = ((float2(DTid.xy) + vec2(0.5f)) * myTargetTexelSize);
+			float2 uv0 = myUV0Offset + uv * myUV0Scale;
+			float2 uv1 = myUV1Offset + uv * myUV1Scale;
+
+			uint2 pixel = DTid.xy + myPixelOffset;
+			float3 color = FinalComposite(uv0, myUV0Min, myUV0Max, uv1, myUV1Min, myUV1Max, (float2)pixel);
+
+			Result[pixel] = float4(color, 1);
+		}
+	}
+}

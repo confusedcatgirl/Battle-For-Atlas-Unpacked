@@ -1,0 +1,23 @@
+import "shaders/nodes/Shader/Functions/Sample Weather Mask.h"
+
+computeParameters
+{
+	numThreads 64 1 1,
+}
+
+compute
+{		
+	constants : MR_ConstantBuffer0
+	{
+		uint numPoints;
+	}
+
+	MR_Buffer< float2 > 				Points : MR_Buffer0;
+	MR_RWStructuredBuffer< float3 > 	Output : MR_RW_Buffer0;
+		
+	main( in uint3 threadIdWithinDispatch : MR_DispatchThreadId )
+	{
+		if (threadIdWithinDispatch.x < numPoints)
+			Output[threadIdWithinDispatch.x] = SampleWeatherMask( Points[threadIdWithinDispatch.x] );
+	}
+}

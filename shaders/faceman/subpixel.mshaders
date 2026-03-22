@@ -1,0 +1,18 @@
+pixel
+{
+	in
+	{
+		float4 color0;
+		float4 color1;
+		float4 color2;
+		float4 usage;
+		float2 uv;
+	}
+
+	MR_Sampler2D sampler1 : MR_Texture1 { filter = point, mutable = true };
+
+	main(out float4 color : MR_Color0)
+	{
+		color = MR_Sample(sampler1, In.uv)*In.color0.a;
+	}
+}

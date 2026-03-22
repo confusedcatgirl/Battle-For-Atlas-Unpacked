@@ -1,0 +1,35 @@
+import "shaders/modules/graphics/onward/decal_simple.h"
+
+vertex
+{
+	in
+	{
+		float3 position;
+	}
+
+	out
+	{
+		float4 clipPos;
+		float3 camPos;
+	}
+
+	main(out float4 outClipPos : MR_Position)
+	{
+		const float3 visualOffset = MR_ViewConstants.basisSegment.w * (DecalEntity.mySegment.xyz - MR_ViewConstants.basisSegment.xyz);
+
+		float4x4 objectToWorldMatrix = DecalEntity.myTransform;
+		objectToWorldMatrix[0] += float4(0, 0, 0, visualOffset[0]);
+		objectToWorldMatrix[1] += float4(0, 0, 0, visualOffset[1]);
+		objectToWorldMatrix[2] += float4(0, 0, 0, visualOffset[2]);
+
+		float3 worldPos = MR_Transform((float3x3)objectToWorldMatrix, In.position).xyz;
+
+		float3 baseP = MR_GetPos(DecalEntity.myTransform).xyz;
+		OW_SFT_ApplyTmp(baseP);
+		worldPos += baseP;
+
+		Out.camPos = MR_Transform(MR_ViewConstants.worldToCamera, worldPos).xyz;
+		Out.clipPos = MR_Transform(MR_ViewConstants.cameraToClip, Out.camPos);
+		outClipPos = Out.clipPos;
+	}
+}

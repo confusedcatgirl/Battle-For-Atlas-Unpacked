@@ -1,0 +1,56 @@
+import "shaders/MRender/MR_ViewConstants.h"
+import "shaders/modules/graphics/environment.h"
+import "shaders/modules/graphics/clouds_planes.h"
+
+pixel
+{
+	MR_Sampler3D CloudTexture0 : MR_Texture0 { wrap = repeat repeat border, border = 0 0 0 0 };
+	MR_Sampler3D CloudTexture1 : MR_Texture1 { wrap = repeat repeat border, border = 0 0 0 0 };
+	MR_Sampler2D Noise : MR_Texture2;
+	
+	float PhaseFunc(float aCos, float aCos2, float aG, float aG2)
+	{
+		//return (3.0f / 4.0f) * (1.0f + aCos2);
+		return (3.0*(1.0-aG2))/(2.0*(2.0+aG2)) * ((1.0 + aCos2) / pow(1.0 + aG2 - 2.0 * aG * aCos, 1.5));
+	}
+	
+	in
+	{
+		float3 worldPosition;
+		float3 uv3D;
+		float2 uv2D;
+		float alpha;
+	}
+		
+	main(out float4 color : MR_Color, float4 MR_FragCoord : MR_FragCoord)
+	{
+		float3 noise = MR_Sample(Noise, In.uv2D).xyz - 0.5;
+		float3 uv = In.uv3D + noise * NoiseScale;
+			
+		float4 cloudData = lerp(MR_SampleLod0(CloudTexture0, uv.xzy), MR_SampleLod0(CloudTexture1, uv.xzy), CloudLerp);
+		float density = saturate(cloudData.x * In.alpha);
+		cloudData.yzw = cloudData.yzw / (cloudData.x + 0.000001);
+		
+		float3 toCamera = MR_GetPos(MR_ViewConstants.cameraToWorld).xyz - In.worldPosition;
+		float3 viewDir = normalize(toCamera);
+		Gfx_DirectionalLight sun = Gfx_GetShadowLight();
+		float cos = dot(sun.toLightDirection, viewDir);
+		float cos2 = cos * cos;
+		
+		float3 skyLight = cloudData.w * SkylightColor;
+		float directLight = cloudData.y * (DirectLightFactor * PhaseFunc(cos, cos2, CloudG, CloudG*CloudG) + DirectLightBase);
+		float scatteringLight = cloudData.z * FakeScatteringFactor;
+		
+		color.rgb = sun.emission * (directLight + scatteringLight) + skyLight + CloudAmbient;
+		color.rgb = Gfx_Fog2(color.rgb, toCamera, length(toCamera));
+		color.rgb *= density;
+		
+		color.a = density;
+		
+		//color.rgb = vec3(1.0) * density;
+		//color.r = fmod((In.uv2D.x), 1.0) * density;
+		//color.gb = vec2(0.0);
+		//color.a = 1;
+		//color.rgba = float4(0,0,0,1);
+	}
+}

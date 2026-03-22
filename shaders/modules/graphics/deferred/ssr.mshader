@@ -1,0 +1,20 @@
+@include "shaders/modules/graphics/postfx/pixel_in.h"
+
+pixel
+{
+	@include "shaders/modules/graphics/deferred/ssr_calculate.h"
+
+	main(out float4 colorOut : MR_Color0, out float4 radiusAlphaOut : MR_Color1, float4 qfc : MR_FragCoord)
+	{
+		qfc.xy = floor(qfc.xy);
+		float4 ffc = float4(qfc.xy * 2 + SSR.viewportOffset, qfc.zw);
+
+		float radius;
+		float alpha;
+		float sign_;
+		CalculateSSR(colorOut.xyz, radius, alpha, sign_, ffc.xy, qfc.xy);
+
+		colorOut.w = 1;
+		radiusAlphaOut = float4(EncodeRadiusAlpha(radius, alpha, sign_), 0, 1);
+	}
+}

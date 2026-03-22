@@ -1,0 +1,74 @@
+
+import "shaders/MRender/MR_ViewConstants.h"
+import "shaders/modules/graphics/environment.h"
+import "shaders/modules/graphics/lighting_data.h"
+
+constants : MR_ConstantBuffer0
+{
+    float3 Color;
+    float Rotation;
+    float Scale;
+    float Height;
+    float FogBias;
+    float FogExponent;
+}
+
+vertex
+{
+	in
+	{
+		float4<RGBA_SNORM8> position;
+	}
+
+	out
+	{
+		float3 fromCameraToDome_norm;
+	}
+
+	main( out float4 outPosition : MR_Position )
+	{
+        float3 cameraPosition = MR_GetPos(MR_ViewConstants.cameraToWorld).xyz;
+        float3 worldPosition = In.position.xyz + cameraPosition;
+        worldPosition.y += Height;
+		outPosition = MR_Transform( MR_ViewConstants.worldToClip, float4( worldPosition, 1 ) );
+		outPosition.z = outPosition.w; // artificially push out skydome to far z
+		
+        Out.fromCameraToDome_norm = In.position.xyz;
+	}
+}
+
+pixel
+{
+    MR_Sampler2D Texture : MR_Texture0;
+
+	in
+	{
+		float3 fromCameraToDome_norm;
+	}
+	
+	main( out float3 outColor : MR_Color, float4 fc : MR_FragCoord )
+	{
+        float3 fromDomeToCamera_norm = -normalize( In.fromCameraToDome_norm );
+
+        // Compute UV
+        float pi = 3.1415926535897932384626433832795;
+        float2 uv;
+        uv.x = ( atan2( fromDomeToCamera_norm.x, fromDomeToCamera_norm.z ) + Rotation ) / ( 2 * pi );
+        uv.y = ( asin( fromDomeToCamera_norm.y ) + pi * 0.5 ) / pi * 2;
+
+        // Sample texture
+		float3 textureColor = MR_Sample( Texture, uv ).rgb;
+
+        outColor = textureColor * Color;
+
+        // Scale color
+        outColor *= Scale;
+
+        // Fog
+		Gfx_LightingDataStruct ld = Gfx_GetLightingDataDummy( vec3(0), fc.xy, 100000);
+        float3 fogColor = Gfx_Fog3( outColor, fromDomeToCamera_norm * MR_ViewConstants.far, MR_ViewConstants.far, true, ld, false, vec2(0), true );
+        outColor = lerp(outColor, fogColor, pow(saturate(fromDomeToCamera_norm.y + FogBias), FogExponent));
+
+        outColor = max( 0, outColor );
+	}
+}

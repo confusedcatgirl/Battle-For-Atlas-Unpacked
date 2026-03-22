@@ -1,0 +1,70 @@
+computeParameters
+{
+	numThreads 64 1 1,
+}
+
+compute
+{
+	MR_Buffer<float4> PositionBuffer : MR_Buffer0;
+	MR_Sampler2D InputTexture : MR_Texture0 { wrap = clamp };
+
+	MR_RWBuffer<float4> Destination : MR_RW_Buffer0;
+@ifndef OGFX_FIRST
+	MR_Buffer<float4> InputBuffer : MR_Buffer1;
+@endif // OGFX_FIRST
+
+	constants : MR_ConstantBuffer0
+	{
+		int SampleCount;
+	}
+
+	constants : MR_ConstantBuffer1
+	{
+		float4 Color;
+
+		float3 Center;
+		float3 Extent;
+	}
+ 
+	float SimpleBellCurve( float aCenter, float aWidth, float aX )
+	{
+		aX = abs(aX - aCenter);
+
+		if (aX > aWidth || aWidth <= 0)
+		{
+			return 0.0;
+		}
+		aX /= aWidth;
+
+		aX *= aX; // bigger bell
+		aX *= aX; // bigger bell
+
+		return 1.0 - aX*aX*(3.0-2.0*aX);
+	}
+
+	main(in uint3 dispatchThreadId : MR_DispatchThreadId)
+	{
+		if( dispatchThreadId.x >= SampleCount )
+			return;
+
+		const uint position = dispatchThreadId.x;
+
+		float3 lookupUV = PositionBuffer[position].xyz;
+		lookupUV -= Center;
+		lookupUV /= Extent;
+		lookupUV = saturate(lookupUV * vec3(0.5) + vec3(0.5));
+
+		lookupUV.x = 1.0f - lookupUV.x; // as the script
+
+		const float4 lookup = MR_SampleLod0(InputTexture, lookupUV.xz);
+
+		float4 color = Color * lookup.b;
+		color *= SimpleBellCurve( (lookup.r+lookup.g)*0.5f, (lookup.r-lookup.g)*0.5f, lookupUV.y );
+
+@ifdef OGFX_FIRST
+		Destination[position] = color;
+@else
+		Destination[position] = InputBuffer[position] + color;
+@endif // OGFX_FIRST
+	}
+}

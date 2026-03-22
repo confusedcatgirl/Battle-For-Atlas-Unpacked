@@ -1,0 +1,54 @@
+import "shaders/MRender/MR_ViewConstants.h"
+import "shaders/modules/graphics/onward/gi/gi_volume.h"
+import "shaders/modules/graphics/onward/gi/irradiance_volume_update.h"
+
+MR_Buffer< uint > VoxelToProbeIn : MR_Buffer0;
+
+computeParameters
+{
+	numThreads 8 8 8
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+@ifndef OGI_FORCE_FALLBACK
+MR_StructuredBuffer< OGI_IrradianceProbeData > ProbeDataIn : MR_Buffer1;
+@endif // OGI_FORCE_FALLBACK
+
+compute
+{
+	// -----------------------------------------------------------------------------------------------------------------------------------------------
+	//
+	// -----------------------------------------------------------------------------------------------------------------------------------------------
+	main(uint3 dispatchThreadId : MR_DispatchThreadId)
+	{
+		const uint3 voxelIdx = dispatchThreadId;
+
+@ifdef OGI_FORCE_FALLBACK
+		@ifdef OGI_MERGE_VOLUME_BASES
+			const uint3 _voxelIdx = uint3(voxelIdx.x, voxelIdx.y, constVoxelCount.z+voxelIdx.z);
+			VolumeTextureRW0[ _voxelIdx ] = constFallback[ 0 ].xyz;
+			VolumeTextureRW0[  voxelIdx ] = constFallback[ 1 ].xyz;
+			VolumeTextureRW1[ _voxelIdx ] = constFallback[ 2 ].xyz;
+			VolumeTextureRW1[  voxelIdx ] = constFallback[ 3 ].xyz;
+			VolumeTextureRW2[ _voxelIdx ] = constFallback[ 4 ].xyz;
+			VolumeTextureRW2[  voxelIdx ] = constFallback[ 5 ].xyz;
+		@else
+			VolumeTextureRW0[ voxelIdx ] = constFallback[ 0 ].xyz;
+			VolumeTextureRW1[ voxelIdx ] = constFallback[ 1 ].xyz;
+			VolumeTextureRW2[ voxelIdx ] = constFallback[ 2 ].xyz;
+			VolumeTextureRW3[ voxelIdx ] = constFallback[ 3 ].xyz;
+			VolumeTextureRW4[ voxelIdx ] = constFallback[ 4 ].xyz;
+			VolumeTextureRW5[ voxelIdx ] = constFallback[ 5 ].xyz;
+		@endif // OGI_MERGE_VOLUME_BASES
+@else
+		UpdateVolume( voxelIdx, VoxelToProbeIn, ProbeDataIn );
+@endif // OGI_FORCE_FALLBACK
+	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// EOF
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

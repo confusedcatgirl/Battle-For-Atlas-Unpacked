@@ -1,0 +1,17 @@
+@include "shaders/modules/graphics/postfx/pixel_in.h"
+
+blend {
+	src = 1,
+	dest = 0,
+	writeMask = rgba
+}
+
+pixel
+{
+	MR_Texture2D Src : MR_Texture0;
+
+	main(out float4 color : MR_Color0, float4 fc : MR_FragCoord)
+	{
+		color = MR_SampleTexelLod0(Src, fc.xy);
+	}
+}

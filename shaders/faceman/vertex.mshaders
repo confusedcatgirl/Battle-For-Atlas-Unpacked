@@ -1,0 +1,39 @@
+vertex
+{
+	in
+	{
+		float4 pos;
+		float4<NATIVE_ARGB_UNORM8> color0;
+		float4<NATIVE_ARGB_UNORM8> color1;
+		float4<NATIVE_ARGB_UNORM8> color2;
+		float4<NATIVE_ARGB_UNORM8> usage;
+	}
+
+	out
+	{
+		float4 color0;
+		float4 color1;
+		float4 color2;
+		float4 usage;
+		float2 uv;
+	}
+
+	constants Viewport : MR_ConstantBuffer0
+	{
+		float2 bias;
+		float2 scale;
+	}
+
+	main(out float4 clipPos : MR_Position)
+	{
+		float2 pos = In.pos.xy;
+		pos = Viewport.bias + pos * Viewport.scale;
+		clipPos = float4(pos,0,1);
+
+		Out.color0 = In.color0;
+		Out.color1 = In.color1;
+		Out.color2 = In.color2;
+		Out.usage = In.usage;
+		Out.uv = In.pos.zw;
+	}
+}

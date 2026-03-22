@@ -1,0 +1,87 @@
+constants : MR_ConstantBuffer0
+{
+	float4 Color;
+	float2 Position;
+	float Scale;
+	float Depth;
+	float UseDynamicTexture;
+}
+
+MR_Texture2D StaticTexture
+{
+	texture = "modules/debug/rendertest/test2.dds",
+};
+
+MR_Sampler2D DynamicTexture : MR_Texture0;
+
+vertex
+{
+	in
+	{
+		float2 pos;
+		float2 uv;
+		
+@ifdef INSTANCING
+		stream 1 steprate=1
+		{
+			float2 posOffset;
+			float offset;
+			float time;
+		}
+		stream 2 steprate=2
+		{
+			float4 color;
+		}
+@endif
+	}
+
+	out
+	{
+		float2 uv;
+@ifdef INSTANCING
+		float4 color;
+@endif
+	}
+
+	main(out float4 clipPos : MR_Position)
+	{
+		Out.uv = In.uv;
+		
+@ifdef INSTANCING
+		float2 pos = float2(In.offset * cos(In.time), In.offset * sin(In.time));
+		clipPos = float4(In.pos.xy * Scale + In.posOffset + pos, Depth, 1.0);
+		Out.color = In.color;
+@else
+		clipPos = float4(In.pos.xy * Scale + Position, Depth, 1.0);
+@endif
+	}
+}
+
+pixel
+{
+	in
+	{
+		float2 uv;
+@ifdef INSTANCING
+		float4 color;
+@endif
+	}
+
+	main(out float4 outColor : MR_Color)
+	{
+		float4 tex;
+		if (UseDynamicTexture != 0.0)
+			tex = MR_SampleLod(DynamicTexture, In.uv, (Position.x + 0.4) * 10.0);
+		else
+			tex = MR_SampleTexelLod0(StaticTexture, In.uv*1024.0);
+			
+@ifdef INSTANCING
+		outColor.rgb = In.color.rgb * tex.rgb;
+@else
+		outColor.rgb = Color.rgb * tex.rgb;
+@endif
+		//outColor.rg = In.uv;
+		//outColor.b = 0.0;
+		outColor.a = 1.0;
+	}
+}

@@ -1,0 +1,51 @@
+computeParameters
+{
+	numThreads 64 1 1,
+}
+
+compute
+{
+	MR_Buffer<float4> PositionBuffer : MR_Buffer0;
+	MR_Sampler3D InputTexture : MR_Texture0 { wrap = clamp };
+
+	MR_RWBuffer<float4> Destination : MR_RW_Buffer0;
+@ifndef OGFX_FIRST
+	MR_Buffer<float4> InputBuffer : MR_Buffer1;
+@endif // OGFX_FIRST
+
+	constants : MR_ConstantBuffer0
+	{
+		int SampleCount;
+	}
+
+	constants : MR_ConstantBuffer1
+	{
+		float3 Center;
+		float ColorScale;
+		float3 Extent;
+		float AlphaScale;
+	}
+
+	main(in uint3 dispatchThreadId : MR_DispatchThreadId)
+	{
+		if( dispatchThreadId.x >= SampleCount )
+			return;
+
+		uint position = dispatchThreadId.x;
+		float3 samplePosition = PositionBuffer[position].xyz;
+		samplePosition -= Center.xyz;
+		samplePosition /= Extent.xyz;
+		samplePosition = clamp(samplePosition, vec3(-1), vec3(1));
+		samplePosition = samplePosition * vec3(0.5) + vec3(0.5);
+
+		const float3 uvw = samplePosition.xyz;
+		float4 color = MR_SampleLod0(InputTexture, uvw);
+		color *= float4(ColorScale.xxx, AlphaScale.x);
+
+@ifdef OGFX_FIRST
+		Destination[position] = color;
+@else
+		Destination[position] = InputBuffer[position] + color;
+@endif // OGFX_FIRST
+	}
+}

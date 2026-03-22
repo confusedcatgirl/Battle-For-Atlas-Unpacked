@@ -1,0 +1,11 @@
+@include "shaders/modules/graphics/postfx/pixel_in.h"
+
+pixel
+{
+	MR_Sampler2D HeightMapTexture : MR_Texture0 { filter = point, wrap = clamp };
+
+	main(out float4 colorOut0 : MR_Color0)
+	{
+		colorOut0 = MR_SampleLod0(HeightMapTexture, In.uv0).xxxx;
+	}
+}

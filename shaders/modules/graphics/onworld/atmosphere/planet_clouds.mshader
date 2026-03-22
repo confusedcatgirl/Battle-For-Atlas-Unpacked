@@ -1,0 +1,89 @@
+import "shaders/modules/graphics/onworld/onworld_environment.h"
+
+import "shaders/modules/graphics/onworld/atmosphere/bruneton/atmosphere.h"
+import "shaders/modules/graphics/onworld/atmosphere/planet_sky.h"
+import "shaders/modules/graphics/onward/gi/space_fog.h"
+import "shaders/modules/graphics/onworld/planet_flattening.h"
+
+import "shaders/modules/graphics/onworld/sun_color.h"
+
+import "shaders/MRender/MR_StencilTexture.h"
+
+constants : MR_ConstantBuffer0
+{
+	float4x4 const_RotationMatrix;
+}
+
+// NOTE this shader assumes BELOW_CLOUDS is not defined
+vertex
+{
+	in
+	{
+		float3 vertex;
+	}
+
+	out
+	{
+		float3 position;
+	}
+
+	main(out float4 outClipPos : MR_Position)
+	{
+		float3 vertexPosition = MR_Transform(const_RotationMatrix, float4(normalize(In.vertex.xyz), 0)).xyz;
+
+@ifdef SPACE
+		float3 worldPos = vertexPosition * Atm_GetRadius(OW_PlanetConstants.const_SkySphere.w) + OW_PlanetConstants.const_SkySphere.xyz;
+@else
+		const float atmosphereRadius = OW_Planet_GetAtmosphereRadius();
+		const float playgroundRadius = OW_Planet_GetMinTransitionRegionRadius();
+		const float cameraDistance = OW_Planet_GetCameraRadius();
+
+		const float transitionFactor = 1.0f - min(((cameraDistance - playgroundRadius) / (atmosphereRadius - playgroundRadius)), 1.0f);
+		float3 worldPos = vertexPosition * lerp(Atm_GetSmoothedRadius(), atmosphereRadius, transitionFactor) + OW_Planet_GetPosition();
+		OW_SFT_ApplyAll(worldPos, 0);
+@endif // SPACE
+
+		outClipPos = Planet_WorldToClipSpace(worldPos);
+
+		Out.position = worldPos;
+	}
+}
+
+pixel
+{
+	in
+	{
+		float3 position;
+	}
+
+	main(out float4 color : MR_Color, float4 fragCoord : MR_FragCoord)
+	{
+		color = 0.0f;
+
+		const float2 positionCS = MR_PixelToClip(fragCoord.xy);
+		const float3 origin = OW_Planet_GetCameraPos();
+		const float3 destination = In.position - OW_Planet_GetPosition();
+		const float3 direction = normalize(destination - origin);
+		const float3 sunDirection = OW_Sun_GetPlanetToSunDir();
+
+		const float3 sunIntensity = MR_OnworldEnvironmentConstants.inSpaceSunLightIntensity;
+		const float4 atmosphereColor = AtmosphereRimColor(origin, direction, sunDirection, sunIntensity);
+		const float atmosphereBrightness = length(atmosphereColor.rgb);
+
+		const float4 cloudsColor = OW_Sky_GetCloudsColorFromSpace(origin, direction, In.position, destination, atmosphereBrightness);
+
+		{
+			const float4 fog = OW_SpaceFog_GetFromCoords( OW_SpaceFog_GetCoordsFromPos( In.position ) );
+
+@ifndef RIM_ENABLED
+			color.rgb = (atmosphereColor.rgb + cloudsColor.rgb * cloudsColor.a) * fog.a + 
+						fog.rgb * (1.0f - OW_FAKE_PLANET_TRANSMITTANCE_FROM_SPACE * (1.0f - cloudsColor.a));
+			color.a = (1.0f - cloudsColor.a) * OW_FAKE_PLANET_TRANSMITTANCE_FROM_SPACE;
+
+@else
+			color.rgb = atmosphereColor.rgb * fog.a;
+			color.a = 1.0f;
+@endif
+		}
+	}
+}

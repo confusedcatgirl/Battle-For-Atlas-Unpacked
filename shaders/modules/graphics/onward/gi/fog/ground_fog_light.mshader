@@ -1,0 +1,126 @@
+import "shaders/modules/graphics/onward/gi/fog/fog_shared.h"
+import "shaders/modules/graphics/onward/gi/fog/fog_light_shared.h"
+
+import "shaders/modules/graphics/onward/gi/ground_fog.h"
+import "shaders/modules/graphics/onworld/planet_flattening.h"
+import "shaders/modules/graphics/environment.h"
+
+import "shaders/modules/graphics/onward/creep/creep_constants.h"
+import "shaders/modules/graphics/onward/creep/creep_funcs.h"
+
+@ifdef OGI_FOG_USE_SUN_SHADOW
+import "shaders/modules/graphics/shadows.h"
+@endif // OGI_FOG_USE_SUN_SHADOW
+
+import "shaders/modules/graphics/onworld/sun_color.h"
+
+MR_Texture3D<float3> GroundGITexture : MR_Texture1;
+
+computeParameters
+{
+	numThreads 8 8 1
+}
+
+@ifdef OGI_FOG_USE_SHADE_FACTOR
+MR_Buffer< float > ShadeFactorBuffer : MR_Buffer5;
+@endif // OGI_FOG_USE_SHADE_FACTOR
+
+MR_RWBuffer< uint > CoverageOutput : MR_RW_Buffer1;
+
+//---------------------------------------------------------------------------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------------------------------------------------------------------------
+
+float3 OW_GroundFog_GetSunLight( in float3 aPos, in float3 aViewDir, in float anAnisotropy, in float3 aShadowFactor )
+{
+	float3 sunEmission = MR_OnworldEnvironmentConstants.onPlanetSunLightColor.rgb * aShadowFactor;
+	sunEmission *= OW_FogConstantBuffer.myPlanet.mySunIntensity; // fog scale factor
+	const float3 toSun = OW_PlanetConstants.const_PlanetToSunPosition.xyz;
+
+	return sunEmission * OW_FogLight_GetSunLightPhase( toSun, aViewDir, anAnisotropy );
+}
+
+compute
+{
+	main(uint3 dispatchThreadId : MR_DispatchThreadId)
+	{
+		if (any(dispatchThreadId.xyz >= constLightVolumeSize.xyz))
+			return;
+
+		float3 cameraPos = OW_FogVolume_GetCameraPos( );
+
+		const float2 uv = OW_FogVolume_GetUVFromThreadID( dispatchThreadId, vec3( 0.0 ), constLightVolumeInvSize );
+		const float3 camPosToNear = OW_FogVolume_GetCameraPosToNearDir( cameraPos, uv );
+
+		const float time = OW_FogVolume_GetRangeFromThreadID( dispatchThreadId, vec3( 0.0 ), constLightVolumeInvSize );
+		float depth = OW_FogConstantBuffer.myPlanet.myNear + pow( time, OW_FogConstantBuffer.myPlanet.myInvDistributionPower )
+				* OW_FogConstantBuffer.myPlanet.myDistributionRange;
+
+		float3 pos = cameraPos + camPosToNear * depth;
+
+		float4 colorXYZAnisotropyW = FogMediaTexture[ dispatchThreadId ];
+
+		//-------------------------------------------------------------------------------------------------------------------------------------------------
+		// Ambient
+		float3 radiance = GroundGITexture[ dispatchThreadId ];
+		//-------------------------------------------------------------------------------------------------------------------------------------------------
+		// + Sun light (sunny side)
+
+		float3 shadowFactor = vec3( 1 );
+
+	@ifdef OGI_FOG_USE_SUN_SHAFTS
+		shadowFactor = OW_FogLight_GetLightShafts( uv, depth );
+	@endif // OGI_FOG_USE_SUN_SHAFTS
+	@ifdef OGI_FOG_USE_SUN_SHADOW
+		shadowFactor = GetShadowFactor( pos, OW_FogVolume_GetClipFromUV( uv ) );
+	@endif // OGI_FOG_USE_SUN_SHADOW
+
+		shadowFactor *= OW_Sun_GetAttenuation( MR_OnworldEnvironmentConstants.adjustedDirLightDir,
+			OW_Planet_GetCameraDir( ) );
+
+	@ifdef OGI_FOG_USE_SHADE_FACTOR
+		shadowFactor *= ShadeFactorBuffer[0];
+	@endif // OGI_FOG_USE_SHADE_FACTOR
+
+		float anisotropy = colorXYZAnisotropyW.w;
+		radiance += OW_GroundFog_GetSunLight( pos, camPosToNear, anisotropy, shadowFactor );
+
+		//-------------------------------------------------------------------------------------------------------------------------------------------------
+		// + Sun light (night side)
+		radiance += MR_OnworldEnvironmentConstants.onPlanetNightAmbientColor.rgb;
+		//-------------------------------------------------------------------------------------------------------------------------------------------------
+
+	@ifndef OGI_FOG_NO_CREEPS
+		const bool hasCreep = OW_Fog_Tiles_HasCreep(
+				OW_Fog_Tiles_GetData(dispatchThreadId, constTileToThread, constLightVolumeSize));
+		[branch]
+		if (hasCreep)
+		{
+			const float3 creepRadiance = OGFX_CREEP_IRRADIANCE + OGFX_CREEP_RADIANCE / (4.0 * MR_PI); // scattered sun light
+
+			float3 unflattenedPos = pos - OW_ViewConstants.flatteningParams.myPlanetCenter;
+			OW_SFT_ApplyUnflatteningLocal( unflattenedPos );
+
+			float harvesterMask = MR_SampleLod0( PlanetGndColorGICubemap, unflattenedPos ).a;
+
+			float cameraHarvesterMask = MR_OnworldEnvironmentConstants.inCreepFactor;
+
+			harvesterMask = OW_Creep_GetZoneAirFactor( harvesterMask, unflattenedPos );
+			harvesterMask = max( cameraHarvesterMask, harvesterMask );
+			radiance = lerp( radiance, creepRadiance, harvesterMask );
+
+			if (constHasCoverageCheck)
+			{
+				float scale = 65536.0;
+				scale *= saturate( dot( constCoverageCheck.xyz, camPosToNear ) - 0.99 ) * 100.0;
+				MR_AtomicMax( CoverageOutput[0], (uint) ( harvesterMask * scale ) );
+			}
+		}
+	@endif // !OGI_FOG_NO_CREEPS
+
+		anisotropy *= 0.5f; // reduce aliasing
+		radiance += OW_FogLight_GetLocalLights( pos, camPosToNear, anisotropy );
+
+		FogLightVolumeRW[ dispatchThreadId ] = radiance;
+		LitMediaVolumeRW[ dispatchThreadId ] = radiance * colorXYZAnisotropyW.xyz;
+	}
+}

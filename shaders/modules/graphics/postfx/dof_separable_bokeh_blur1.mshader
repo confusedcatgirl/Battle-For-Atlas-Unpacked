@@ -1,0 +1,13 @@
+@include "shaders/modules/graphics/postfx/pixel_in.h"
+import "shaders/modules/graphics/postfx/dof_separable_bokeh.h"
+
+pixel
+{
+	main(out float4 color0 : MR_Color0, out float4 color1 : MR_Color1)
+	{
+		color0 = Blur(Color0, In.uv0, In.uv0Min, In.uv0Max, SeparableBokeh.UVOffset0);
+		color1 = Blur(Color0, In.uv0, In.uv0Min, In.uv0Max, SeparableBokeh.UVOffset1);
+
+		color1 = (color0 + color1) * 0.5;
+	}
+}

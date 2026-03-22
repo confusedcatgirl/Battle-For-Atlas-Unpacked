@@ -1,0 +1,91 @@
+constants Blur : MR_ConstantBuffer0
+{
+	float3 up;
+	float3 direction3d;
+	float3 direction2d;
+	float lod;
+	uint numSamples;
+	float4 offsetsAndWeights[16];
+}
+
+vertex
+{
+	in
+	{
+		float2 clipPos;
+		float3 direction;
+		float alpha;
+		float lod;
+	}
+
+	out
+	{
+		float3 direction;
+	}
+
+	main(out float4 clipPos : MR_Position)
+	{
+		clipPos = float4(In.clipPos, 0,1);
+		Out.direction = In.direction;
+	}
+}
+
+pixel
+{
+	MR_SamplerCube CubeMap : MR_Texture0 { filter = point, wrap = clamp };
+
+	in
+	{
+		float3 direction;
+	}
+
+	void EnsureValid(inout float4 sum)
+	{
+		bool3 valid = sum.xyz >= 0 && sum.xyz < 100000.0;
+		if(!(valid.x && valid.y && valid.z) || (sum.w == 0.0f))
+			sum = float4(0, 0, 0, 1);
+	}
+	
+	float4 SampleFace(float3 vertexDir, uint index, float offsetSign)
+	{
+		float3 dir = vertexDir + Blur.direction3d * Blur.offsetsAndWeights[index].y * offsetSign;
+		float3 col = max(MR_SampleLod(CubeMap, dir, Blur.lod).xyz, vec3(0));
+
+		float weight = Blur.offsetsAndWeights[index].x;
+		weight /= pow(dot(dir, dir), 1.5);
+
+		return float4(col, 1) * weight;
+	}
+
+	float4 SampleSphere(float3 vertexDir, uint index, float offsetSign)
+	{
+		float3 right = normalize(cross(vertexDir, Blur.up));
+		float3 up = normalize(cross(right, vertexDir));
+		float3 vdir = normalize(cross(up, right));
+		float3x3 rot = MR_ColumnMatrix(right, up, vdir);
+
+		float3 offset = MR_Transform(rot, Blur.direction2d * Blur.offsetsAndWeights[index].y * offsetSign);
+		float3 dir = vdir + offset;
+
+		float3 col = max(MR_SampleLod(CubeMap, dir, Blur.lod).xyz, vec3(0));
+
+		float weight = Blur.offsetsAndWeights[index].x;
+
+		return float4(col, 1) * weight;
+	}
+
+	main(out float4 color : MR_Color)
+	{
+		float4 sum = SampleSphere(In.direction, 0, 0);
+
+		for (uint i=1; i<Blur.numSamples; ++i)
+		{
+			sum += SampleSphere(In.direction, i, 1);
+			sum += SampleSphere(In.direction, i, -1);
+		}
+		
+		EnsureValid(sum);
+
+		color = sum / sum.w;
+	}
+}

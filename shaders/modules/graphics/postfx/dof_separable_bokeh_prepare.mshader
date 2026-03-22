@@ -1,0 +1,23 @@
+@include "shaders/modules/graphics/postfx/pixel_in.h"
+import "shaders/modules/graphics/postfx/dof_separable_bokeh.h"
+
+pixel
+{
+	main(out float4 color : MR_Color)
+	{
+		float coc = GetAbsCoC(In.uv1, In.uv1Min, In.uv1Max, SeparableBokeh.UVOffset0, SeparableBokeh.UVOffset1);
+		coc += GetAbsCoC(In.uv1, In.uv1Min, In.uv1Max, -SeparableBokeh.UVOffset0, -SeparableBokeh.UVOffset1);
+		coc *= 0.5;
+
+		coc = max(0.00001, coc);
+
+	@ifdef SEPERABLE_BOKEH_HALFRES		
+		float3 src = MR_SampleLod0(ColorLinear, In.uv0).xyz;
+	@else
+		float3 src = MR_SampleLod0(Color, In.uv0).xyz;
+	@endif
+
+		color = float4(src, coc);
+	}
+}
+	

@@ -1,0 +1,54 @@
+constants Blur : MR_ConstantBuffer0
+{
+	float3 up;
+	float3 direction3d;
+	float3 direction2d;
+	float lod;
+	uint numSamples;
+	float4 offsetsAndWeights[16];
+}
+
+vertex
+{
+	in
+	{
+		float2 clipPos;
+		float3 direction;
+		float alpha;
+		float lod;
+	}
+
+	out
+	{
+		float3 direction;
+		float alpha;
+		float lod;
+	}
+
+	main(out float4 clipPos : MR_Position)
+	{
+		clipPos = float4(In.clipPos, 0,1);
+		Out.direction = In.direction;
+		Out.alpha = In.alpha;
+		Out.lod = In.lod;
+	}
+}
+
+blend {}
+pixel
+{
+	MR_SamplerCube CubeMap : MR_Texture0 { filter = point };
+
+	in
+	{
+		float3 direction;
+		float alpha;
+		float lod;
+	}
+
+	main(out float4 color : MR_Color)
+	{
+		color.rgb = MR_SampleLod(CubeMap, In.direction, In.lod).rgb;
+		color.a = In.alpha;
+	}
+}

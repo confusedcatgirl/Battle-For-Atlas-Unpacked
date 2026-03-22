@@ -1,0 +1,28 @@
+blend {}
+
+vertex
+{
+	import "shaders/MRender/MR_ViewConstants.h"
+
+	in {
+		float4 pos;
+	}
+
+	main(out float4 cp : MR_Position)
+	{
+		cp = MR_Transform(MR_ViewConstants.worldToClip, In.pos.xyz);
+	}
+}
+
+pixel
+{
+	constants : MR_ConstantBuffer0
+	{
+		float4 Color;
+	}
+
+	main(out float4 color : MR_Color)
+	{
+		color = Color;
+	}
+}

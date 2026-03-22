@@ -1,0 +1,133 @@
+import "shaders/modules/graphics/lights.h"
+import "shaders/modules/graphics/lighting_data.h"
+import "shaders/modules/graphics/environment.h"
+import "shaders/modules/graphics/shadows.h"
+import "shaders/MRender/MR_ViewConstants.h"
+import "shaders/nodes/Shader/Functions/Lighting/Complete (Transmission, Envmap, Improved Blinn-Phong).h"
+import "shaders/nodes/Shader/Functions/Lighting/Color Metalness to Diffuse Spec.h"
+import "shaders/nodes/Shader/Functions/Unpack Normal.h"
+
+@ifdef MATERIAL_OVERRIDE
+import "shaders/nodes/Shader/Functions/Lighting/Material Override.h"
+@endif
+
+@include "shaders/modules/graphics/grass2.h"
+
+vertex
+{
+	out
+	{
+		float2 uv;
+		float4 light;
+		float4 fog;
+	}
+
+	main(out float4 clipPos : MR_Position)
+	{
+		float4 corner = In.corner;
+		float4 misc = In.misc;
+		float3 normal = normalize(In.normal.xyz - 0.5);
+
+		float atlasIndex = misc.b * 255;
+		float direction = misc.g * 3.141592 * 2;
+		float scale = 0.25 + misc.r;
+
+		float2 size = ImagesData[uint(atlasIndex * 2)].xy;
+		float4 tcrect = ImagesData[uint(atlasIndex * 2 + 1)];
+		float2 tcpos = tcrect.xy;
+		float2 tcsize = tcrect.zw;
+
+		float2 offset = float2(corner.x - 0.5, corner.y) * size * scale;
+		if (direction > 0.5)
+			offset.x *= -1;
+
+		float3 origin = In.position;
+
+		float3 camPos = MR_Transform(MR_ViewConstants.worldToCamera, origin).xyz;
+		camPos.xy += offset;
+		float3 position = MR_Transform(MR_ViewConstants.cameraToWorld, camPos).xyz;
+		clipPos = MR_Transform(MR_ViewConstants.worldToClip, position);
+
+		float distance = length(camPos.xyz);
+		float fade = 1 - (clipPos.w - StartFadeDistance) / (MaxDistance - StartFadeDistance);
+
+		float alpha = saturate(fade);
+		clipPos = lerp(float4(-10, -10, -1000, 1), clipPos, vec4(saturate((fade - 0.01) * 100000)));
+
+		Out.uv = tcpos + tcsize * In.corner.xy;
+		Out.light.w = alpha;
+		float top = In.corner.y;
+		float3 groundNormal = normal;
+
+		float4 fragCoord = float4(MR_ClipToPixel(clipPos.xy / clipPos.w), clipPos.zw);
+
+		float3 vertexToCamera = MR_GetPos(MR_ViewConstants.cameraToWorld).xyz - In.position;
+
+		Gfx_LightingDataStruct ld = Gfx_GetLightingData(In.position, fragCoord);
+
+		float3 fog0 = Gfx_Fog(vec3(0), ld);
+		float3 fog1 = Gfx_Fog(vec3(1), ld);
+
+		float diff = fog1.x - fog0.x;
+		float fogalpha = 1.0 - diff;
+
+		Out.fog.w = fogalpha;
+		Out.fog.xyz = fog0 / max(fogalpha, 0.000001);
+
+		{
+			float4 materialtex = MR_SampleLod(Material, Out.uv, 6);
+
+			float roughness = materialtex.g;
+			float opacity = materialtex.r;
+
+			float3 nxdir = MR_GetXAxis(MR_ViewConstants.cameraToWorld).xyz;
+			float3 nydir = float3(0,1,0);
+			float3 nzdir = normalize(cross(nydir, nxdir));
+
+			float4 normaltex = MR_SampleLod(Normal, Out.uv, 6);
+
+			float ao = normaltex.z * lerp(0.5, 0.7, top);
+			float3 normal = nzdir;
+
+			float3 color = Color0;
+			color *= GetTerrainLODColor(origin);
+
+@ifdef MATERIAL_OVERRIDE
+			MaterialOverride_Diffuse(color);
+			MaterialOverride_Roughness(roughness);
+			MaterialOverride_AO(ao);
+@endif
+
+			Gfx_LightingDataStruct ld = Gfx_GetLightingData(position, fragCoord);
+
+			GrassComplete(Out.light.xyz, normal, color, opacity, vec3(0), roughness, ao, -0.0003, ld, 0, groundNormal);
+		}
+	}
+}
+
+pixel
+{
+	in
+	{
+		float2 uv;
+		float4 light;
+		float4 fog;
+	}
+
+	main(out float4 color : MR_Color, float4 fragCoord : MR_FragCoord)
+	{
+		ourForceDisableScreenspaceShadows = true;
+
+		color = MR_Sample(Color, In.uv);
+		if (color.a < 0.3)
+			discard;
+
+@ifdef MATERIAL_OVERRIDE
+		MaterialOverride_Diffuse(color.xyz);
+@endif
+
+		color *= In.light;
+
+		color.xyz = lerp(color.xyz, In.fog.xyz, In.fog.w);
+	}
+}

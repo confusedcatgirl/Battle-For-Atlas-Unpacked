@@ -1,0 +1,16 @@
+MR_RWBuffer<uint> Histogram : MR_RW_Buffer0;
+
+computeParameters
+{
+	numThreads 32 32 1
+}
+
+compute
+{
+	const uint TileSize = 32;
+
+	main(uint groupIndex : MR_GroupIndex)
+	{
+		Histogram[groupIndex] = 0;
+	}
+}

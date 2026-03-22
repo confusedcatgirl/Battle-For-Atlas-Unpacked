@@ -1,0 +1,28 @@
+computeParameters
+{
+	numThreads 64 1 1
+}
+
+compute
+{
+@ifdef SPAWN_VOLS
+	MR_StructuredBuffer< SParticleSpawnVolume > SpawnVolumes : MR_Buffer0;
+@endif
+
+    MR_RWStructuredBuffer< SCommonData > CommonData : MR_RW_Buffer0;
+    MR_RWStructuredBuffer< SParticleData > ParticleData : MR_RW_Buffer1;
+
+	main(uint3 DTid : MR_DispatchThreadId )
+	{
+		if (DTid.x > CommonData[0].myNumParticlesToCreate)
+			return;
+
+		int index = (DTid.x + CommonData[0].myFirstParticleToCreate) % myMaxParticles;
+
+@ifdef SPAWN_VOLS
+		CreateParticles(index, CommonData[0], SpawnVolumes, ParticleData[index]);
+@else
+		CreateParticles(index, CommonData[0], ParticleData[index]);
+@endif
+	}
+}

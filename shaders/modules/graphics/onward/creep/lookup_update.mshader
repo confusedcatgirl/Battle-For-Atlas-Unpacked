@@ -1,0 +1,83 @@
+import "shaders/modules/graphics/onworld/harvester/harvester_territory.h"
+import "shaders/nodes/shader/functions/onward/OW_GetTerrainLowResHeight.h"
+
+import "shaders/modules/graphics/onward/creep/creep_funcs_ex.h"
+
+computeParameters
+{
+	numThreads 8 8 1
+}
+
+@ifdef OGFX_FULL_UPDATE
+MR_RWTexture2DArray<float4> RWCubeMap1 : MR_RW_Texture0;
+MR_RWTexture2DArray<float4> RWCubeMap2 : MR_RW_Texture1;
+@else
+MR_RWTexture2DArray<float4> RWCubeMap3 : MR_RW_Texture2;
+@endif // OGFX_FULL_UPDATE
+
+MR_SamplerCube GICubeMap : MR_Texture0;
+
+constants : MR_ConstantBuffer0
+{
+	float2 constTextureSize;
+	float2 constInvTextureSize;
+	float constSafeZone;
+}
+
+compute
+{
+	void ComputeCubeMaps(float3 aPos, uint3 aCubeCoords)
+	{
+		const int4 zone = OW_Creep_WithinZone( aPos, constSafeZone );
+
+		@ifdef OGFX_FULL_UPDATE
+			const float height = OW_GetTerrainLowResHeight( aPos );
+			RWCubeMap1[ aCubeCoords ] = float4( MR_SampleLod0( GICubeMap, aPos ).xyz, ( zone[3] == 0 ? 1.0 : -height ) );
+			RWCubeMap2[ aCubeCoords ] = saturate( float4( zone[0], zone[1], zone[2], zone[3] ) / 255.0 );
+		@else
+			RWCubeMap3[ aCubeCoords ] = saturate( float4( zone[0], zone[1], zone[2], zone[3] ) / 255.0 );
+		@endif // OGFX_FULL_UPDATE
+	}
+
+	main( in uint3 dispatchThreadId : MR_DispatchThreadId )
+	{
+		const uint3 pixelCoords = TransformDispatchCoordsToPixelCoords(dispatchThreadId, constTextureSize.y);
+		const float2 uv = pixelCoords.xy * constInvTextureSize + vec2(0.5) * constInvTextureSize;
+
+		{
+			const float3 posPlanetSpace = TransformUVFacePosXToUnitSpherePos(uv);
+			const uint3 cubeCoords = uint3(pixelCoords.xy, 0);
+			ComputeCubeMaps(posPlanetSpace, cubeCoords);
+		}
+
+		{
+			const float3 posPlanetSpace = TransformUVFaceNegXToUnitSpherePos(uv);
+			const uint3 cubeCoords = uint3(pixelCoords.xy, 1);
+			ComputeCubeMaps(posPlanetSpace, cubeCoords);
+		}
+
+		{
+			const float3 posPlanetSpace = TransformUVFacePosYToUnitSpherePos(uv);
+			const uint3 cubeCoords = uint3(pixelCoords.xy, 2);
+			ComputeCubeMaps(posPlanetSpace, cubeCoords);
+		}
+
+		{
+			const float3 posPlanetSpace = TransformUVFaceNegYToUnitSpherePos(uv);
+			const uint3 cubeCoords = uint3(pixelCoords.xy, 3);
+			ComputeCubeMaps(posPlanetSpace, cubeCoords);
+		}
+
+		{
+			const float3 posPlanetSpace = TransformUVFacePosZToUnitSpherePos(uv);
+			const uint3 cubeCoords = uint3(pixelCoords.xy, 4);
+			ComputeCubeMaps(posPlanetSpace, cubeCoords);
+		}
+
+		{
+			const float3 posPlanetSpace = TransformUVFaceNegZToUnitSpherePos(uv);
+			const uint3 cubeCoords = uint3(pixelCoords.xy, 5);
+			ComputeCubeMaps(posPlanetSpace, cubeCoords);
+		}
+	}
+}

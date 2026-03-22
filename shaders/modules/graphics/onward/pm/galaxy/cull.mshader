@@ -1,0 +1,74 @@
+import "shaders/modules/graphics/onward/pm/pm.h"
+import "shaders/modules/graphics/onward/pm/constants.h"
+import "shaders/modules/graphics/onward/pm/galaxy/emitter.h"
+import "shaders/MRender/MR_ViewConstants.h"
+import "shaders/modules/graphics/onworld/planet_flattening.h"
+
+import "shaders/modules/graphics/onward/gi/space_fog.h"
+
+computeParameters
+{
+	numThreads 64 1 1
+}
+
+constants : MR_ConstantBuffer0
+{
+	float4 constPlane;
+}
+
+
+MR_Buffer< uint > ActiveCount : MR_Buffer0;
+MR_Buffer< uint > ActiveList : MR_Buffer1;
+
+MR_StructuredBuffer< OGfx_Particulate > ParticlesIn : MR_Buffer5;
+MR_RWBuffer< uint > VisibleList1    : MR_RW_Buffer0;
+MR_RWBuffer< uint > VisibleCounter : MR_RW_Buffer1;
+MR_RWBuffer< float4 > VisibleList2    : MR_RW_Buffer2;
+
+compute main(uint3 dtid : MR_DispatchThreadId)
+{
+	if (dtid.x >= ActiveCount[0])
+		return;
+
+	uint index;
+	index = ActiveList[ dtid.x ];
+
+	OGfx_Particulate data = ParticlesIn[ index ];
+
+	// flatten position
+	float3 flattenedPosition = data.myPosition;
+	const float3 particuleDir = normalize( flattenedPosition );
+	OGfx_PM_EmitterProps props = OGfx_PM_GetEmitterProps( OGfx_PM_GetLocalIndex( data ) );
+	float3 offset = MR_ViewConstants.basisSegment.w * (props.mySegment.xyz - MR_ViewConstants.basisSegment.xyz);
+	offset += props.myOffset.xyz;
+	flattenedPosition += offset;
+
+	float4 particleSize = vec4(-50.0);
+
+	float4 side;
+	side.w = dot( flattenedPosition, MR_ViewConstants.topPlane.xyz    ) + MR_ViewConstants.topPlane.w;
+	side.z = dot( flattenedPosition, MR_ViewConstants.bottomPlane.xyz ) + MR_ViewConstants.bottomPlane.w;
+	side.x = dot( flattenedPosition, MR_ViewConstants.rightPlane.xyz  ) + MR_ViewConstants.rightPlane.w;
+	side.y = dot( flattenedPosition, MR_ViewConstants.leftPlane.xyz   ) + MR_ViewConstants.leftPlane.w;
+	if (any(side < particleSize) || (dot( flattenedPosition, MR_ViewConstants.nearPlane.xyz ) < -MR_ViewConstants.nearPlane.w))
+	{
+		return;
+	}
+
+	uint visibleIndex;
+	MR_AtomicAdd( VisibleCounter[0], 1, visibleIndex );
+
+	VisibleList1[ visibleIndex ] = index;
+
+	const OW_FogVolume3DCoords fogCoords = OW_SpaceFog_GetCoordsFromPos( flattenedPosition );
+	const float4 fog = OW_SpaceFog_GetFromCoords( fogCoords );
+	const float3 lighting = MR_SampleLod0( SpaceLightVolume, float3( fogCoords.my2D.myUV, fogCoords.myW ) ).rgb;
+
+	const float dist = abs(dot( MR_ViewConstants.LODDistancePlane.xyz, flattenedPosition ) + MR_ViewConstants.LODDistancePlane.w );
+	VisibleList2[ index * OGFX_PM_VIEW_DATA_SIZE + 0 ] = float4( flattenedPosition, dist );
+	const float angle = dot( particuleDir, normalize( flattenedPosition - MR_ViewConstants.LODCameraPosition ));
+	VisibleList2[ index * OGFX_PM_VIEW_DATA_SIZE + 1 ] = float4( lighting, smoothstep( -0.75, -0.25, angle ) );
+	VisibleList2[ index * OGFX_PM_VIEW_DATA_SIZE + 2 ] = fog;
+
+	MR_AtomicAdd( VisibleCounter[1], 6, visibleIndex );
+}

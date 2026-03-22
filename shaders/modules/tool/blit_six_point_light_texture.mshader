@@ -1,0 +1,35 @@
+blend {}
+vertex
+{
+	in
+	{
+		float2 pos;
+		float2 tc;
+	}
+	out
+	{
+		float2 tc;
+	}
+	main(out float4 pos : MR_Position)
+	{
+		pos = float4(In.pos, 0,1);
+		Out.tc = In.tc;
+	}
+}
+pixel
+{
+	MR_Sampler2D Positive : MR_Texture0 { filter = point };
+	MR_Sampler2D Negative : MR_Texture1 { filter = point };
+	in
+	{
+		float2 tc;
+	}
+	main(out float4 color0 : MR_Color0, out float4 color1 : MR_Color1)
+	{
+		float4 positive = MR_Sample(Positive, In.tc);
+		float4 negative = MR_Sample(Negative, In.tc);
+
+		color0 = positive;
+		color1 = float4(negative.xyz, positive.w);
+	}
+}

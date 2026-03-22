@@ -1,0 +1,43 @@
+constants : MR_ConstantBuffer0
+{
+	float4x4 WorldMatrix;
+}
+
+vertex
+{
+    import "shaders/MRender/MR_ViewConstants.h"
+
+	in
+	{
+		float3 position;
+		float3 uv;
+	}
+
+	out
+	{
+        float2 uv;
+	}
+
+	main(out float4 clipPos : MR_Position)
+	{
+        Out.uv = In.uv.xy;
+
+        float4 worldPos = MR_Transform( WorldMatrix, In.position );
+		clipPos = MR_Transform( MR_ViewConstants.worldToClip, worldPos );
+	}
+}
+
+pixel
+{
+	MR_Sampler2D sampler0 : MR_Texture0 { filter = point };
+
+	in
+	{
+		float2 uv;
+	}
+
+	main(out float4 colorOut : MR_Color)
+	{
+		colorOut = MR_Sample( sampler0, In.uv );
+	}
+}

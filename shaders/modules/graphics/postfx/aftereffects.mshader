@@ -1,0 +1,24 @@
+@include "shaders/modules/graphics/postfx/pixel_in.h"
+
+constants : MR_ConstantBuffer0
+{
+	float myFade;
+	float mySaturation;
+}
+
+MR_Sampler2D BackBuffer : MR_Texture0 { filter = point, wrap = clamp };
+
+pixel
+{
+	main(out float4 result : MR_Color)
+	{
+		float3 color = MR_SampleLod0(BackBuffer, In.uv0).rgb;
+		const float3 lumWeights = float3(0.2126, 0.7152, 0.072);
+
+		color = lerp(dot(lumWeights, color).xxx, color, mySaturation);
+		color = lerp(vec3(0), color, myFade);
+		
+			
+		result = float4(color, 0);
+	}
+}

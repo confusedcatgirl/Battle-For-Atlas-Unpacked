@@ -1,0 +1,40 @@
+@include "shaders/modules/graphics/postfx/pixel_in.h"
+
+pixel
+{
+@ifdef MAXDEPTH
+	MR_Texture2DMS<float4> DepthNormal : MR_Texture0;
+@else
+	MR_Texture2D DepthNormal : MR_Texture0;
+@endif
+
+	main(out float4 depth : MR_Color0, out float4 normal : MR_Color1, float4 fc : MR_FragCoord)
+	{
+@ifdef MAXDEPTH
+		float3 depthNormal = vec3(0);
+		depthNormal = MR_SampleTexelLod0MS(DepthNormal, fc.xy, 0).xyz;
+@ifdef MS2
+		int numSamples = 2;
+@else
+@ifdef MS4
+		int numSamples = 4;
+@else
+@ifdef MS8
+		int numSamples = 8;
+@endif
+@endif
+@endif
+		for (int i=1; i<numSamples; ++i)
+		{
+			float3 t = MR_SampleTexelLod0MS(DepthNormal, fc.xy, i).xyz;
+			if (t.x > depthNormal.x)
+				depthNormal = t;
+		}
+@else
+		float3 depthNormal = MR_SampleTexelLod0(DepthNormal, fc.xy).xyz;
+@endif
+
+		depth = float4(depthNormal.x, 0,0,0);
+		normal = float4(depthNormal.yz * 0.5 + 0.5, 0,0);
+	}
+}

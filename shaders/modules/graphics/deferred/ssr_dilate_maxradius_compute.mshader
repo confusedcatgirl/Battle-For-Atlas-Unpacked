@@ -1,0 +1,32 @@
+@include "shaders/modules/graphics/deferred/ssr.h"
+
+MR_RWTexture2D<float> Output : MR_RW_Texture0;
+
+computeParameters
+{
+	numThreads 8 8 1
+}
+
+compute main(uint3 dtid : MR_DispatchThreadId)
+{
+	float maxRadius = 0;
+
+	float2 offsets[] = {
+		float2(-1,-1),
+		float2(-1, 0),
+		float2(-1, 1),
+		float2( 0, 1),
+		float2( 0, 0),
+		float2( 0,-1),
+		float2( 1,-1),
+		float2( 1, 0),
+		float2( 1, 1),
+	};
+	for (int i=0; i<9; ++i)
+	{
+		float radius = MR_SampleTexelLod0(Light_RadiusAlpha, dtid.xy + offsets[i]).x;
+		maxRadius = max(maxRadius, radius);
+	}
+
+	Output[dtid.xy] = maxRadius;
+}

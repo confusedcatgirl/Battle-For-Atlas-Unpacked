@@ -1,0 +1,54 @@
+constants : MR_ConstantBuffer0
+{
+	float4x4 WorldViewProjMatrix;
+	int TonemappingMode;
+	int MipLevel;
+	float Gamma;
+	float2 RangeValues;
+	float4x4 ColorMatrix;
+	float4 AlphaAdd;
+}
+
+vertex
+{
+	in
+	{
+		float4 position;
+		float4 normal;
+	}
+
+	out
+	{
+		float3 normal;
+	}
+
+	main(out float4 clipPos : MR_Position)
+	{
+		clipPos = MR_Transform(WorldViewProjMatrix, In.position.xyz);
+		Out.normal = In.normal.xyz;
+	}
+}
+
+pixel
+{
+	MR_SamplerCube SamplerCubeMap : MR_Texture0 { mutable = true };
+
+	in
+	{
+		float3 normal;
+	}
+
+	main(out float4 color : MR_Color)
+	{
+		color = MR_SampleLod(SamplerCubeMap, In.normal, MipLevel);
+		color = MR_Transform(ColorMatrix, color) + AlphaAdd;
+		color.rgb = (color.rgb - vec3(RangeValues.x)) / (RangeValues.y - RangeValues.x);
+		color = max(color, vec4(0));
+
+		if (TonemappingMode == 1)
+			color.rgb = color.rgb / (color.rgb + vec3(1));
+
+		color.rgb = pow(color.rgb, vec3(Gamma));
+		color = saturate(color);
+	}
+}

@@ -1,0 +1,40 @@
+@include "shaders/modules/graphics/material_override.h"
+import "shaders/modules/graphics/deferred_data.h"
+
+MR_Texture2D GBuffer_Color_MinReflection			: MR_Texture0;
+MR_Texture2D GBuffer_Normal							: MR_Texture1;
+MR_Texture2D GBuffer_Roughness_Metalness_Opacity_AO	: MR_Texture2;
+
+blend {
+	src = 1,
+	dest = 0,
+	writeMask = rgba
+}
+
+pixel
+{
+	main(float4 fc : MR_FragCoord, out float4 mrt0 : MR_Color0, out float4 mrt2 : MR_Color1)
+	{
+		uint2 pixel = fc.xy;
+
+		mrt0 = MR_SampleTexelLod0(GBuffer_Color_MinReflection, pixel);
+		float4 mrt1 = MR_SampleTexelLod0(GBuffer_Normal, pixel);
+		mrt2 = MR_SampleTexelLod0(GBuffer_Roughness_Metalness_Opacity_AO, pixel);
+
+		Gfx_DeferredData data;
+		Gfx_MRTToDeferred(data, mrt0, mrt1, mrt2);
+
+@ifdef MATERIAL_OVERRIDE
+		MaterialOverride_Diffuse(data.color);
+		MaterialOverride_Opacity(data.opacity);
+		MaterialOverride_Roughness(data.roughness);
+		MaterialOverride_Metalness(data.metalness);
+		MaterialOverride_MinReflection(data.minReflection);
+		MaterialOverride_AO(data.ao);
+		MaterialOverride_Transmission(data.opacity);
+@endif
+
+		Gfx_DeferredToMRT(data, mrt0, mrt1, mrt2);
+	}
+}
+

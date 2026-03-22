@@ -1,0 +1,63 @@
+import "shaders/MRender/MR_ViewConstants.h"
+import "shaders/modules/graphics/clouds_planes.h"
+
+constants : MR_ConstantBuffer1
+{
+	float2 CoordScale;
+	float YScale;
+	float CosAngle;
+	float Pow;
+}
+	
+vertex
+{
+	in
+	{
+		float3 pos;
+		float3 dir;
+	}
+	
+	out
+	{
+		float3 worldPosition;
+		float3 direction;
+	}
+	
+	main(out float4 clipPos : MR_Position)
+	{
+		float3 worldPosition = In.pos;
+		
+		clipPos = MR_Transform(MR_ViewConstants.worldToClip, worldPosition);
+		
+		Out.worldPosition = worldPosition;
+		Out.direction = In.dir;
+	}
+}
+
+pixel
+{
+	MR_Sampler2D InputTexture0 : MR_Texture0 { filter = point, wrap = clamp };
+	
+	in
+	{
+		float3 worldPosition;
+		float3 direction;
+	}
+		
+	main(out float4 color : MR_Color, out float4 secondaryColor : MR_SecondaryColor, float4 MR_FragCoord : MR_FragCoord)
+	{
+		float3 cameraPosition = MR_GetPos(MR_ViewConstants.cameraToWorld).xyz;
+		float3 camToVertex = In.worldPosition - cameraPosition;
+		camToVertex.y *= YScale;
+		float3 camToVertexDir = normalize(camToVertex);
+		
+		float lerpFactor = smoothstep(CosAngle, 1.0, dot(camToVertexDir, In.direction));
+		lerpFactor = 1.0 - pow(1.0 - lerpFactor, Pow);
+		
+		color = MR_SampleLod0(InputTexture0, MR_FragCoord.xy * CoordScale);
+		secondaryColor = float4(0, 0, 0, lerpFactor);
+		
+		//secondaryColor = float4(0, 0, 0, 1);
+		//color = float4(lerpFactor, 0, 0, 1);
+	}
+}
