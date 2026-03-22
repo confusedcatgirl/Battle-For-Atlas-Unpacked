@@ -1,0 +1,31 @@
+include ./template_pod.mplayermod
+include ./tuning/mod_tuning_master.juice
+
+PlayerMod mod_operator_weaponcore_l2 < uid=C91BB5515980D71900133CCC5143FB2F > : template_pod
+{
+	myAttributeMods
+	{
+		AttributeMod "Fire Rate"
+		{
+			myType Ability_FireRate
+			myAddValue = Operator_WeaponCore_l2_Firerate
+			myPercentageValue 0.0
+		}
+		AttributeMod Energy
+		{
+			myType Ability_Energy
+			myMultValue = Operator_WeaponCore_l2_Energy
+		}
+		AttributeMod UI_Weapon_FireRate
+		{
+			myType UI_Weapon_FireRate
+			myAddValue = Operator_WeaponCore_l2_Firerate
+		}
+		AttributeMod UI_Weapon_Energy
+		{
+			myType UI_Weapon_Energy
+			myMultValue = Operator_WeaponCore_l2_Energy
+		}
+	}
+}
+

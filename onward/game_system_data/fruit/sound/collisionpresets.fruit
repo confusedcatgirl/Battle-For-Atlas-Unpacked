@@ -1,0 +1,67 @@
+include "modules/core/audio/audio.fruit"
+
+enum CollisionSoundType
+{
+	Default
+	Bone
+	Cloth
+	Crystal
+	Hard_Surface
+	Ice
+	Loose_Surface
+	Metal
+	Player
+	Skin
+	Vegetation
+	Viscous_Liquid
+	Water
+	Wood
+}
+
+class CollisionSoundPreset < uid=auto >
+{
+	locstring myUIName "UNSCRIPTED"
+	
+	AudioSwitch myObjectMaterialSwitch
+	AudioSwitch mySurfaceMaterialSwitch
+	
+	float myDistanceToListener 50
+	float myImpactVelocityThreshold 0.7
+	float myRollVelocityThreshold 10
+	float myDeltaVelocityThreshold 0.1
+	float myMassThreshold 0.5
+	
+	int myCollisionImpactEffectMultipleAmount 4
+	int myCollisionImpactEffectMultipleCooldown 10
+	int myCollisionImpactEffectMultipleTime 150
+	
+	int myCollisionImpactEffectSingleCooldown 100
+}
+
+list CollisionSoundPresets
+{
+	CollisionSoundPreset*
+}
+
+class CollisionSoundSettings
+{
+	AudioRTPC myVelocityRTPC
+	AudioRTPC myDeltaVelocityRTPC
+	AudioRTPC myWeightRTPC
+	
+	AudioEvent myCollisionImpactEvent
+	AudioEvent myCollisionSlideEvent
+	AudioEvent myCollisionStopEvent
+
+	AudioSwitch mySingleImpactSwitch
+	AudioSwitch myMultiImpactSwitch
+	
+	int myImpactSoundEmitterPoolSize
+	int mySlideSoundEmitterPoolSize
+	
+	float myImpactSoundEmitterMinDistance
+	
+	int myDefaultPresetIndex
+	
+	CollisionSoundPresets myCollisionSoundPresets
+}

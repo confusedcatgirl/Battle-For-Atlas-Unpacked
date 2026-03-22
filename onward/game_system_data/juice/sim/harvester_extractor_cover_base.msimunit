@@ -1,0 +1,37 @@
+include "onward/game system data/fruit/sim/simunit.fruit"
+
+SimUnit harvester_extractor_cover_base < uid=C92F4D3F59A812DD000001885E4A8E8B >
+{
+	myControlGraph ""
+	myFaction Harvester
+	myCategory Cover
+	mySubCategory None
+	myMaxHealth 1000.0
+	myRadius 16.0
+	mySpeed 0.0
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo Satellite < uid=C92F4D3F5A82031300001D1518CE370A >
+		{
+			myCountMin 1
+			myCountMax 1
+			myIgnoreNavMesh TRUE
+			myIgnoreTerrain TRUE
+			mySpawnOutsideZone TRUE
+			myElementSpawnInfo
+			{
+				SimUnitElementSpawnInfo Corruption
+				{
+					myEntityFile "onward/entity templates/harvester_extractor_corruption.mentitytemplate"
+				}
+			}
+		}
+	}
+	mySaveable FALSE
+	mySpawnOutsideZone TRUE
+	myNapTime 0.5
+	myUnkillableType Invulnerable
+	myUnkillableUntilEvent ReceivedExtractorMission
+	myPostEventUnkillableType UnkillableGameSide
+}
+

@@ -1,0 +1,43 @@
+include "onward/game system data/fruit/ui/Collection/databasesubcategory.fruit"
+include "onward/game system data/fruit/ai/npc.fruit"
+
+enum CriteriaType
+{
+	None
+	NPC_Engaged
+	Low_Health
+	Planet_Status
+	No_Mount
+}
+
+class CriteriaRecommendation < uid=auto >
+{
+	varmap myLocalizedDescription < bhv="localization" >
+	string mySprite < default = "mySpriteId = -455779427, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-placeholder.spritesheet\"" bhv="sprite" >
+	BaseDatabaseEntry* myDatabaseEntry
+}
+
+list CriteriaRecommendations
+{
+	CriteriaRecommendation
+}
+
+class Criteria < uid=auto >
+{
+	varmap myLocalizedDescription < bhv="localization" >
+	string mySprite < default = "mySpriteId = -455779427, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-placeholder.spritesheet\"" bhv="sprite" >
+	CriteriaType myCriteriaType
+	NPCType myEngagedNPCType
+	CriteriaRecommendations myRecommendations
+}
+
+list CriteriaPool
+{
+	Criteria*
+}
+
+class PlanetCriteriaPool
+{
+	uid myPlanetUID
+	CriteriaPool myCriterias
+}

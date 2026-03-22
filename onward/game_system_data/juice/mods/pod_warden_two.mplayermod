@@ -1,0 +1,48 @@
+include ./template_pod.mplayermod
+
+float "Fire Rate" = Warden_Weapon_Relic_2_FireRate
+float "XP Bonus" = Warden_Weapon_Relic_2_Experience
+
+PlayerMod pod_warden_two < uid=A08A88CF583C7FF10000004C2AE648B9 > : template_pod
+{
+	myAttributeMods
+	{
+		AttributeMod "Fire Rate"
+		{
+			myType Ability_FireRate
+			myAddValue = "Fire Rate"
+		}
+		AttributeMod "UI Fire Rate"
+		{
+			myType UI_Weapon_FireRate
+			myAddValue = "Fire Rate"
+		}
+		AttributeMod ElectrumDrop
+		{
+			myType PickupBonus_Health
+			myAddValue = Warden_Weapon_Relic_2_ElectrumDrop
+		}
+		AttributeMod NavigationXP
+		{
+			myType Player_NavigationXPBonus
+			myPercentageValue = "XP Bonus"
+		}
+		AttributeMod AssistanceXP
+		{
+			myType Player_AssistanceXPBonus
+			myPercentageValue = "XP Bonus"
+		}
+		AttributeMod CombatXP
+		{
+			myType Player_CombatXPBonus
+			myPercentageValue = "XP Bonus"
+		}
+		AttributeMod ExplorationXP
+		{
+			myType Player_ExplorationXPBonus
+			myPercentageValue = "XP Bonus"
+		}
+	}
+	myIsAgentMod TRUE
+}
+

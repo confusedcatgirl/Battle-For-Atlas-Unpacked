@@ -1,0 +1,21 @@
+include ./templates/template_l5.juice
+include "onward/game system data/juice/mods/mod_fire_weaponcore_l5.mplayermod"
+
+Enhancement fireweaponcore_l5 < uid=C91BB5515982255F0008831C380E589D > : "Level 5"
+{
+	myLocalizedName "contextComment = \"[Placeholder - do not translate]\nName for Level 5 version of Fire Weapon Core mod, which boosts effectiveness of Heat-type weapons\", description = \"\", enabled = true, guid = #C91BB5515982255F0008831B0F233FDC, lineVersion = 2, maxLength = 21, text = \"Scorching Ammo V\""
+	myLocalizedDescription "contextComment = \"laceholder - do not translate]\nDescription for level 4 version of Fire Weapon Core mod, which can only be equipped to Heat-type weapons and greatly boosts damage, rate of fire, and adds a chance that shooting a damaged target will drop a health regenerating pickup. The modded weapon will apply both Fire (damage over time) and Sunder (defense break / damage multiplier) status effects on targets.\", description = \"enhancement-dscription-fire-weapon-core-5\", enabled = true, guid = #9E6AFEDA59D253C900A86086CB0A2304, lineVersion = 2, maxLength = 136, text = \"+30% Damage\n+50 Fire Rate\n+Heals for 20% of Damage done\n+Apply Fire & Overheat\nEquip on Heat type weapons\""
+	myIconSprite "mySpriteId = -1236023428, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-mods-weapon-core.spritesheet\""
+	myPartFlavor Heat
+	myMod < uid=C91BB551598226BF000883981E79D67B > = mod_fire_weaponcore_l5
+	myEnhancementType WeaponCore
+	myEnhancementTrackType FireWeaponCore
+	myDamageAffectors
+	{
+		DamageAffector_DamageToHealth "Damage to Health"
+		{
+			myDamageToHealthRatio = Fire_WeaponCore_l5_DmgToHealth
+		}
+	}
+}
+

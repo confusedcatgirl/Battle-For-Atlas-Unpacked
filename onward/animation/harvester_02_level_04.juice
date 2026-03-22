@@ -1,0 +1,1156 @@
+include "onward/game system data/fruit/animation/animsys.fruit"
+
+SpecializationList mySpecializations
+{
+}
+
+FileList mySubsystems
+{
+}
+
+MotionPose "Ready (Idle OOC)"
+{
+	myStateName Ready
+	myAnimModes Speed_Idle;MoveStyle_Default;MoveStyle_Polluted;
+	myAnimsOut "GTR_To Down FL;GTR_To Down FR;GTR_To Air Phase;GTR_To Plant Extractor;GTR_To Down BL;GTR_To Down BR;TR_OOC Idle To Walk;TR_OOC Idle To IC Idle;GTR_To Nova Infusion;GTR_To Rear Left Stomp P1;GTR_To Rear Right Stomp P1;GTR_To Front Left Stomp P1;GTR_To Front Right Stomp P1;GTR_To P2 Down;GTR_To Rear Left Stomp;GTR_To Rear Right Stomp;GTR_To Front Left Stomp;GTR_To Front Right Stomp;"
+}
+
+OneshotMotionStateWithModes "TurnOnSpot (OOC)" < uid=4A8282B95849CB6700000475E7825947 >
+{
+	myEnabled TRUE
+	myStateName "TurnOnSpot (OOC)"
+	myTotalDuration 9.013333
+	myDistance 0.0
+	myAnimationDuration 9.333333
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.0
+	myAnimsOut "GTR_To Down FL;GTR_To Down FR;GTR_To Air Phase;GTR_To Plant Extractor;GTR_To Down BL;GTR_To Down BR;GTR_To Nova Infusion;GTR_To Rear Left Stomp P1;GTR_To Rear Right Stomp P1;GTR_To Front Left Stomp P1;GTR_To Front Right Stomp P1;GTR_To P2 Down;GTR_To Rear Left Stomp;GTR_To Rear Right Stomp;GTR_To Front Left Stomp;GTR_To Front Right Stomp;"
+	myAnimCommand StaticTurn
+	myDisplacementAngle 0.0
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;MoveStyle_Default;MoveStyle_Polluted;
+}
+
+MotionPose "Ready (Walk OOC)"
+{
+	myStateName Ready
+	myAnimModes Speed_Walk;MoveStyle_Default;MoveStyle_Polluted;
+	myAnimsOut "GTR_To Down FL;GTR_To Down FR;GTR_To Air Phase;GTR_To Plant Extractor;GTR_To Down BL;GTR_To Down BR;TR_OOC Walk To Idle;TR_OOC Walk To IC Walk;TR_OOC Walk To IC Idle;GTR_To Nova Infusion;GTR_To Rear Left Stomp P1;GTR_To Rear Right Stomp P1;GTR_To Front Left Stomp P1;GTR_To Front Right Stomp P1;TR_OOC Walk To Spawning;GTR_To P2 Down;GTR_To Rear Left Stomp;GTR_To Rear Right Stomp;GTR_To Front Left Stomp;GTR_To Front Right Stomp;"
+}
+
+OneshotMotionStateWithModes "Die (Normal)" < uid=4A8282B95849CB67000004783E3F3C54 >
+{
+	myEnabled TRUE
+	myStateName Die
+	myTotalDuration 11.946667
+	myDistance 34.259823
+	myAnimationDuration 12.266666
+	myAnimationDistance 34.259823
+	myHorizontalDistance 34.259823
+	myVerticalDisplacement -0.000057
+	myAnimsOut "GTR_To Down FL;GTR_To Down FR;GTR_To Air Phase;GTR_To Plant Extractor;GTR_To Down BL;GTR_To Down BR;GTR_To Nova Infusion;GTR_To Rear Left Stomp P1;GTR_To Rear Right Stomp P1;GTR_To Front Left Stomp P1;GTR_To Front Right Stomp P1;GTR_To P2 Down;GTR_To Rear Left Stomp;GTR_To Rear Right Stomp;GTR_To Front Left Stomp;GTR_To Front Right Stomp;"
+	myAnimCommand Die
+	myDisplacementAngle 83.179222
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;MoveStyle_Default;MoveStyle_InCombat;MoveStyle_Polluted;
+}
+
+MotionPose "FrontLeft Down"
+{
+	myStateName "FrontLeft Down"
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;MoveStyle_Default;MoveStyle_InCombat;MoveStyle_Polluted;
+	myAnimsOut "GTR_From Down FL;GTR_To Down FR;GTR_To Air Phase;GTR_To Down BL;GTR_To Down BR;GTR_To Nova Infusion;GTR_To Plant Extractor;GTR_To Rear Left Stomp P1;GTR_To Rear Right Stomp P1;GTR_To Front Right Stomp P1;GTR_To Front Left Stomp P1;GTR_To P2 Down;GTR_To Rear Left Stomp;GTR_To Rear Right Stomp;GTR_To Front Right Stomp;GTR_To Front Left Stomp;"
+}
+
+TransitionMotionState "GTR_From Down FL" < uid=4A8282B95849CB6700000479CB8212B5 >
+{
+	myEnabled TRUE
+	myTotalDuration 4.113333
+	myDistance 0.0
+	myAnimationDuration 4.433333
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.0
+	myAnimsOut "Ready (Idle OOC);Ready (Walk OOC);Ready (Idle IC);Ready (Run IC);TurnOnSpot (OOC);Die (Normal);Die (From Infusion);FrontRight Down;TurnOnSpot (IC);Spawning (OOC);Spawning (IC);Air Phase;BackLeft Down;BackRight Down;EnterWorld;Nova Infusion;Plant Extractor OOC;Plant Extractor IC;RearLeft Stomp P1;RearRight Stomp P1;FrontRight Stomp P1;FrontLeft Stomp P1;Enrage;Phase2 Down;RearLeft Stomp;RearRight Stomp;FrontRight Stomp;FrontLeft Stomp;Death Pose;Taunt;"
+	myDisplacementAngle 0.0
+	myRotationAngle 0.0
+	myIsGlobalTransition TRUE
+	myGlobalTransitionPriority 0
+}
+
+TransitionMotionState "GTR_To Down FL" < uid=4A8282B95849CB670000047A68763B7B >
+{
+	myEnabled TRUE
+	myTotalDuration 2.68
+	myDistance 0.0
+	myAnimationDuration 3.0
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.0
+	myAnimsOut "FrontLeft Down;"
+	myDisplacementAngle 0.0
+	myRotationAngle 0.0
+	myIsGlobalTransition TRUE
+	myGlobalTransitionPriority 0
+}
+
+MotionPose "FrontRight Down"
+{
+	myStateName "FrontRight Down"
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;MoveStyle_Default;MoveStyle_InCombat;MoveStyle_Polluted;
+	myAnimsOut "GTR_To Down FL;GTR_From Down FR;GTR_To Air Phase;GTR_To Down BL;GTR_To Down BR;GTR_To Nova Infusion;GTR_To Plant Extractor;GTR_To Rear Left Stomp P1;GTR_To Rear Right Stomp P1;GTR_To Front Right Stomp P1;GTR_To Front Left Stomp P1;GTR_To P2 Down;GTR_To Rear Left Stomp;GTR_To Rear Right Stomp;GTR_To Front Right Stomp;GTR_To Front Left Stomp;"
+}
+
+TransitionMotionState "GTR_From Down FR" < uid=4A8282B95849CB670000047B85647979 >
+{
+	myEnabled TRUE
+	myTotalDuration 4.113333
+	myDistance 0.0
+	myAnimationDuration 4.433333
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.0
+	myAnimsOut "FrontLeft Down;Ready (Idle OOC);Ready (Walk OOC);Ready (Idle IC);Ready (Run IC);TurnOnSpot (OOC);Die (Normal);Die (From Infusion);TurnOnSpot (IC);Spawning (OOC);Spawning (IC);Air Phase;BackLeft Down;BackRight Down;EnterWorld;Nova Infusion;Plant Extractor OOC;Plant Extractor IC;RearLeft Stomp P1;RearRight Stomp P1;FrontRight Stomp P1;FrontLeft Stomp P1;Enrage;Phase2 Down;RearLeft Stomp;RearRight Stomp;FrontRight Stomp;FrontLeft Stomp;Death Pose;Taunt;"
+	myDisplacementAngle 0.0
+	myRotationAngle 0.0
+	myIsGlobalTransition TRUE
+	myGlobalTransitionPriority 0
+}
+
+TransitionMotionState "GTR_To Down FR" < uid=4A8282B95849CB670000047C427E281D >
+{
+	myEnabled TRUE
+	myTotalDuration 2.68
+	myDistance 0.0
+	myAnimationDuration 3.0
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.0
+	myAnimsOut "FrontRight Down;"
+	myDisplacementAngle 0.0
+	myRotationAngle 0.0
+	myIsGlobalTransition TRUE
+	myGlobalTransitionPriority 0
+}
+
+OneshotMotionStateWithModes "TurnOnSpot (IC)" < uid=4A8282B95849CB67000004892A6CF571 >
+{
+	myEnabled TRUE
+	myStateName "TurnOnSpot (IC)"
+	myTotalDuration 4.55
+	myDistance 0.0
+	myAnimationDuration 4.87
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.0
+	myAnimsOut "GTR_To Down FL;GTR_To Down FR;GTR_To Air Phase;GTR_To Plant Extractor;GTR_To Down BL;GTR_To Down BR;GTR_To Nova Infusion;GTR_To Rear Left Stomp P1;GTR_To Rear Right Stomp P1;GTR_To Front Left Stomp P1;GTR_To Front Right Stomp P1;GTR_To P2 Down;GTR_To Rear Left Stomp;GTR_To Rear Right Stomp;GTR_To Front Left Stomp;GTR_To Front Right Stomp;"
+	myAnimCommand StaticTurn
+	myDisplacementAngle 0.0
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;MoveStyle_InCombat;
+}
+
+MotionPose "Ready (Idle IC)"
+{
+	myStateName Ready
+	myAnimModes Speed_Idle;MoveStyle_InCombat;
+	myAnimsOut "GTR_To Down FL;GTR_To Down FR;GTR_To Air Phase;GTR_To Plant Extractor;GTR_To Down BL;GTR_To Down BR;TR_IC Idle To OOC Idle;TR_IC Idle To IC Walk;GTR_To Nova Infusion;GTR_To Rear Left Stomp P1;GTR_To Rear Right Stomp P1;GTR_To Front Left Stomp P1;GTR_To Front Right Stomp P1;GTR_To P2 Down;GTR_To Rear Left Stomp;GTR_To Rear Right Stomp;GTR_To Front Left Stomp;GTR_To Front Right Stomp;"
+}
+
+MotionPose "Ready (Run IC)"
+{
+	myStateName Ready
+	myAnimModes Speed_Run;MoveStyle_InCombat;
+	myAnimsOut "GTR_To Down FL;GTR_To Down FR;GTR_To Air Phase;GTR_To Plant Extractor;GTR_To Down BL;GTR_To Down BR;TR_IC Walk To OOC Walk;TR_IC Walk To IC Idle;GTR_To Nova Infusion;GTR_To Rear Left Stomp P1;GTR_To Rear Right Stomp P1;GTR_To Front Left Stomp P1;GTR_To Front Right Stomp P1;GTR_To P2 Down;GTR_To Rear Left Stomp;GTR_To Rear Right Stomp;GTR_To Front Left Stomp;GTR_To Front Right Stomp;"
+}
+
+MotionPose "Air Phase"
+{
+	myStateName "Air Phase"
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;MoveStyle_Default;MoveStyle_InCombat;MoveStyle_Polluted;
+	myAnimsOut "GTR_To Down FL;GTR_From Air Phase;GTR_To Down FR;GTR_To Down BL;GTR_To Down BR;GTR_To Nova Infusion;GTR_To Plant Extractor;GTR_To Rear Left Stomp P1;GTR_To Rear Right Stomp P1;GTR_To Front Right Stomp P1;GTR_To Front Left Stomp P1;GTR_To P2 Down;GTR_To Rear Left Stomp;GTR_To Rear Right Stomp;GTR_To Front Right Stomp;GTR_To Front Left Stomp;"
+}
+
+TransitionMotionState "GTR_To Air Phase" < uid=4A8282B95851B9D5000B2206AD0E9C72 >
+{
+	myEnabled TRUE
+	myTotalDuration 2.013333
+	myDistance 0.0
+	myAnimationDuration 2.333333
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.0
+	myAnimsOut "Air Phase;"
+	myDisplacementAngle 0.0
+	myRotationAngle 0.0
+	myIsGlobalTransition TRUE
+	myGlobalTransitionPriority 0
+}
+
+TransitionMotionState "GTR_From Air Phase" < uid=4A8282B95851B9D5000B2207DE5082DE >
+{
+	myEnabled TRUE
+	myTotalDuration 8.346667
+	myDistance 0.0
+	myAnimationDuration 8.666667
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.0
+	myAnimsOut "FrontLeft Down;FrontRight Down;Ready (Idle OOC);Ready (Walk OOC);Ready (Idle IC);Ready (Run IC);TurnOnSpot (OOC);Die (Normal);Die (From Infusion);TurnOnSpot (IC);Spawning (OOC);Spawning (IC);BackLeft Down;BackRight Down;EnterWorld;Nova Infusion;Plant Extractor OOC;Plant Extractor IC;RearLeft Stomp P1;RearRight Stomp P1;FrontRight Stomp P1;FrontLeft Stomp P1;Enrage;Phase2 Down;RearLeft Stomp;RearRight Stomp;FrontRight Stomp;FrontLeft Stomp;Death Pose;Taunt;"
+	myDisplacementAngle 0.0
+	myRotationAngle 0.0
+	myIsGlobalTransition TRUE
+	myGlobalTransitionPriority 0
+}
+
+TransitionMotionState "GTR_To Plant Extractor" < uid=4A8282B95851B9D5000B22089FF44E4D >
+{
+	myEnabled FALSE
+	myTotalDuration 0.0
+	myDistance 0.0
+	myAnimationDuration 0.0
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.0
+	myAnimsOut "Plant Extractor OOC;Plant Extractor IC;"
+	myDisplacementAngle 0.0
+	myRotationAngle 0.0
+	myIsGlobalTransition TRUE
+	myGlobalTransitionPriority 0
+}
+
+TransitionMotionState "GTR_From Plant Extractor" < uid=4A8282B95851B9D5000B22091E107DB6 >
+{
+	myEnabled FALSE
+	myTotalDuration 0.0
+	myDistance 0.0
+	myAnimationDuration 0.0
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.0
+	myAnimsOut "FrontLeft Down;FrontRight Down;Air Phase;Plant Extractor IC;Ready (Idle OOC);Ready (Walk OOC);Ready (Idle IC);Ready (Run IC);TurnOnSpot (OOC);Die (Normal);Die (From Infusion);TurnOnSpot (IC);Spawning (OOC);Spawning (IC);BackLeft Down;BackRight Down;EnterWorld;Nova Infusion;RearLeft Stomp P1;RearRight Stomp P1;FrontRight Stomp P1;FrontLeft Stomp P1;Enrage;Phase2 Down;RearLeft Stomp;RearRight Stomp;FrontRight Stomp;FrontLeft Stomp;Death Pose;Taunt;Plant Extractor OOC;"
+	myDisplacementAngle 0.0
+	myRotationAngle 0.0
+	myIsGlobalTransition TRUE
+	myGlobalTransitionPriority 0
+}
+
+MotionPose "BackLeft Down"
+{
+	myStateName "BackLeft Down"
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;MoveStyle_Default;MoveStyle_InCombat;MoveStyle_Polluted;
+	myAnimsOut "GTR_To Down FL;GTR_From Down BL;GTR_To Down FR;GTR_To Air Phase;GTR_To Plant Extractor;GTR_To Down BR;GTR_To Nova Infusion;GTR_To Rear Left Stomp P1;GTR_To Rear Right Stomp P1;GTR_To Front Right Stomp P1;GTR_To Front Left Stomp P1;GTR_To P2 Down;GTR_To Rear Left Stomp;GTR_To Rear Right Stomp;GTR_To Front Right Stomp;GTR_To Front Left Stomp;"
+}
+
+TransitionMotionState "GTR_From Down BL" < uid=4A8282B95852BD5A000002FF9C80704D >
+{
+	myEnabled TRUE
+	myTotalDuration 4.913333
+	myDistance 0.0
+	myAnimationDuration 5.233333
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.0
+	myAnimsOut "FrontLeft Down;FrontRight Down;Air Phase;Plant Extractor OOC;Plant Extractor IC;Ready (Idle OOC);Ready (Walk OOC);Ready (Idle IC);Ready (Run IC);TurnOnSpot (OOC);Die (Normal);Die (From Infusion);TurnOnSpot (IC);Spawning (OOC);Spawning (IC);BackRight Down;EnterWorld;Nova Infusion;RearLeft Stomp P1;RearRight Stomp P1;FrontRight Stomp P1;FrontLeft Stomp P1;Enrage;Phase2 Down;RearLeft Stomp;RearRight Stomp;FrontRight Stomp;FrontLeft Stomp;Death Pose;Taunt;"
+	myDisplacementAngle 0.0
+	myRotationAngle 0.0
+	myIsGlobalTransition TRUE
+	myGlobalTransitionPriority 0
+}
+
+TransitionMotionState "GTR_To Down BL" < uid=4A8282B95852BD5A000003000CD2353F >
+{
+	myEnabled TRUE
+	myTotalDuration 3.546667
+	myDistance 0.0
+	myAnimationDuration 3.866667
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.0
+	myAnimsOut "BackLeft Down;"
+	myDisplacementAngle 0.0
+	myRotationAngle 0.0
+	myIsGlobalTransition TRUE
+	myGlobalTransitionPriority 0
+}
+
+MotionPose "BackRight Down"
+{
+	myStateName "BackRight Down"
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;MoveStyle_Default;MoveStyle_InCombat;MoveStyle_Polluted;
+	myAnimsOut "GTR_To Down FL;GTR_From Down BR;GTR_To Down FR;GTR_To Air Phase;GTR_To Plant Extractor;GTR_To Down BL;GTR_To Nova Infusion;GTR_To Rear Left Stomp P1;GTR_To Rear Right Stomp P1;GTR_To Front Right Stomp P1;GTR_To Front Left Stomp P1;GTR_To P2 Down;GTR_To Rear Left Stomp;GTR_To Rear Right Stomp;GTR_To Front Right Stomp;GTR_To Front Left Stomp;"
+}
+
+TransitionMotionState "GTR_From Down BR" < uid=4A8282B95852BD5A0000030113BC561D >
+{
+	myEnabled TRUE
+	myTotalDuration 4.913333
+	myDistance 0.0
+	myAnimationDuration 5.233333
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.0
+	myAnimsOut "FrontLeft Down;FrontRight Down;Air Phase;Plant Extractor OOC;Plant Extractor IC;BackLeft Down;Ready (Idle OOC);Ready (Walk OOC);Ready (Idle IC);Ready (Run IC);TurnOnSpot (OOC);Die (Normal);Die (From Infusion);TurnOnSpot (IC);Spawning (OOC);Spawning (IC);EnterWorld;Nova Infusion;RearLeft Stomp P1;RearRight Stomp P1;FrontRight Stomp P1;FrontLeft Stomp P1;Enrage;Phase2 Down;RearLeft Stomp;RearRight Stomp;FrontRight Stomp;FrontLeft Stomp;Death Pose;Taunt;"
+	myDisplacementAngle 0.0
+	myRotationAngle 0.0
+	myIsGlobalTransition TRUE
+	myGlobalTransitionPriority 0
+}
+
+TransitionMotionState "GTR_To Down BR" < uid=4A8282B95852BD5A00000302580CC511 >
+{
+	myEnabled TRUE
+	myTotalDuration 3.546667
+	myDistance 0.0
+	myAnimationDuration 3.866667
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.0
+	myAnimsOut "BackRight Down;"
+	myDisplacementAngle 0.0
+	myRotationAngle 0.0
+	myIsGlobalTransition TRUE
+	myGlobalTransitionPriority 0
+}
+
+TransitionMotionState "TR_OOC Walk To Idle" < uid=4A8282B9586C02EC0128296AFF7000E5 >
+{
+	myEnabled TRUE
+	myTotalDuration 6.013333
+	myDistance 49.615173
+	myAnimationDuration 6.333333
+	myAnimationDistance 49.615173
+	myHorizontalDistance 49.615173
+	myVerticalDisplacement -0.000057
+	myAnimsOut "Ready (Idle OOC);TurnOnSpot (OOC);"
+	myDisplacementAngle -0.000044
+	myRotationAngle 0.0
+	myIsGlobalTransition FALSE
+	myGlobalTransitionPriority 0
+}
+
+TransitionMotionState "TR_OOC Walk To IC Walk" < uid=4A8282B9586C02EC0128296B390C990B >
+{
+	myEnabled TRUE
+	myTotalDuration 2.546667
+	myDistance 45.782803
+	myAnimationDuration 2.866667
+	myAnimationDistance 45.782803
+	myHorizontalDistance 45.782799
+	myVerticalDisplacement -0.000057
+	myAnimsOut "Ready (Run IC);"
+	myDisplacementAngle -0.000041
+	myRotationAngle 0.0
+	myIsGlobalTransition FALSE
+	myGlobalTransitionPriority 0
+}
+
+TransitionMotionState "TR_OOC Idle To Walk" < uid=4A8282B9586C0414012829AAEE035381 >
+{
+	myEnabled TRUE
+	myTotalDuration 6.546667
+	myDistance 42.985519
+	myAnimationDuration 6.866667
+	myAnimationDistance 42.985519
+	myHorizontalDistance 42.983807
+	myVerticalDisplacement 0.383783
+	myAnimsOut "Ready (Walk OOC);"
+	myDisplacementAngle 0.000008
+	myRotationAngle 6.203649
+	myIsGlobalTransition FALSE
+	myGlobalTransitionPriority 0
+}
+
+TransitionMotionState "TR_OOC Idle To IC Idle" < uid=4A8282B9586C0414012829AB9FC6F585 >
+{
+	myEnabled TRUE
+	myTotalDuration 2.713333
+	myDistance 0.0
+	myAnimationDuration 3.033333
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.0
+	myAnimsOut "Ready (Idle IC);"
+	myDisplacementAngle 0.0
+	myRotationAngle 0.0
+	myIsGlobalTransition FALSE
+	myGlobalTransitionPriority 0
+}
+
+TransitionMotionState "TR_IC Walk To OOC Walk" < uid=4A8282B9586C0414012829AC9F68999F >
+{
+	myEnabled TRUE
+	myTotalDuration 2.346667
+	myDistance 54.42548
+	myAnimationDuration 2.666667
+	myAnimationDistance 54.42548
+	myHorizontalDistance 54.425476
+	myVerticalDisplacement -0.000057
+	myAnimsOut "Ready (Walk OOC);"
+	myDisplacementAngle -0.000036
+	myRotationAngle 0.0
+	myIsGlobalTransition FALSE
+	myGlobalTransitionPriority 0
+}
+
+TransitionMotionState "TR_IC Walk To IC Idle" < uid=4A8282B9586C0414012829AD222B625C >
+{
+	myEnabled TRUE
+	myTotalDuration 1.346667
+	myDistance 39.869305
+	myAnimationDuration 1.666667
+	myAnimationDistance 39.869305
+	myHorizontalDistance 39.869305
+	myVerticalDisplacement -0.000057
+	myAnimsOut "Ready (Idle IC);"
+	myDisplacementAngle -0.000052
+	myRotationAngle 0.0
+	myIsGlobalTransition FALSE
+	myGlobalTransitionPriority 0
+}
+
+TransitionMotionState "TR_IC Idle To OOC Idle" < uid=4A8282B9586C0414012829AED640A2C3 >
+{
+	myEnabled TRUE
+	myTotalDuration 4.68
+	myDistance 0.0
+	myAnimationDuration 5.0
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.0
+	myAnimsOut "Ready (Idle OOC);"
+	myDisplacementAngle 0.0
+	myRotationAngle 0.0
+	myIsGlobalTransition FALSE
+	myGlobalTransitionPriority 0
+}
+
+TransitionMotionState "TR_IC Idle To IC Walk" < uid=4A8282B9586C0414012829AF7E820F53 >
+{
+	myEnabled TRUE
+	myTotalDuration 1.346667
+	myDistance 43.648132
+	myAnimationDuration 1.666667
+	myAnimationDistance 43.648132
+	myHorizontalDistance 43.648129
+	myVerticalDisplacement -0.000057
+	myAnimsOut "Ready (Run IC);"
+	myDisplacementAngle -0.000037
+	myRotationAngle 0.0
+	myIsGlobalTransition FALSE
+	myGlobalTransitionPriority 0
+}
+
+TransitionMotionState "TR_EnterWorld To OOC Idle" < uid=4A8282B9586C078001282A4CF0AB7035 >
+{
+	myEnabled TRUE
+	myTotalDuration 4.68
+	myDistance 0.0
+	myAnimationDuration 5.0
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.0
+	myAnimsOut "Ready (Idle OOC);Ready (Walk OOC);"
+	myDisplacementAngle 0.0
+	myRotationAngle 0.0
+	myIsGlobalTransition FALSE
+	myGlobalTransitionPriority 0
+}
+
+OneshotMotionStateWithModes EnterWorld < uid=4A8282B958868E64000004F476258908 >
+{
+	myEnabled TRUE
+	myStateName EnterWorld
+	myTotalDuration 1.68
+	myDistance 9.080952
+	myAnimationDuration 2.0
+	myAnimationDistance 9.080952
+	myHorizontalDistance 9.080952
+	myVerticalDisplacement -0.000004
+	myAnimsOut "GTR_To Down FL;GTR_To Down FR;GTR_To Air Phase;GTR_To Plant Extractor;GTR_To Down BL;GTR_To Down BR;TR_EnterWorld To OOC Idle;GTR_To Nova Infusion;GTR_To Rear Left Stomp P1;GTR_To Rear Right Stomp P1;GTR_To Front Left Stomp P1;GTR_To Front Right Stomp P1;GTR_To P2 Down;GTR_To Rear Left Stomp;GTR_To Rear Right Stomp;GTR_To Front Left Stomp;GTR_To Front Right Stomp;"
+	myAnimCommand EnterWorld
+	myDisplacementAngle -2.310997
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;MoveStyle_Default;MoveStyle_InCombat;MoveStyle_Polluted;
+}
+
+MotionPose "Nova Infusion"
+{
+	myStateName "Nova Infusion"
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;MoveStyle_Default;MoveStyle_InCombat;MoveStyle_Polluted;
+	myAnimsOut "Die (From Infusion);GTR_To Down FL;GTR_From Nova Infusion;GTR_To Down FR;GTR_To Air Phase;GTR_To Plant Extractor;GTR_To Down BL;GTR_To Down BR;TR_Nova To Die;GTR_To Rear Left Stomp P1;GTR_To Rear Right Stomp P1;GTR_To Front Right Stomp P1;GTR_To Front Left Stomp P1;GTR_To P2 Down;GTR_To Rear Left Stomp;GTR_To Rear Right Stomp;GTR_To Front Right Stomp;GTR_To Front Left Stomp;"
+}
+
+TransitionMotionState "GTR_From Nova Infusion" < uid=4A8282B958ED397101B52549717A11F1 >
+{
+	myEnabled TRUE
+	myTotalDuration 3.713333
+	myDistance 0.000232
+	myAnimationDuration 4.033333
+	myAnimationDistance 0.000232
+	myHorizontalDistance 0.000232
+	myVerticalDisplacement 0.0
+	myAnimsOut "FrontLeft Down;FrontRight Down;Air Phase;Plant Extractor OOC;Plant Extractor IC;BackLeft Down;BackRight Down;Ready (Idle OOC);Ready (Walk OOC);Ready (Idle IC);Ready (Run IC);TurnOnSpot (OOC);Die (Normal);Die (From Infusion);TurnOnSpot (IC);Spawning (OOC);Spawning (IC);EnterWorld;RearLeft Stomp P1;RearRight Stomp P1;FrontRight Stomp P1;FrontLeft Stomp P1;Enrage;Phase2 Down;RearLeft Stomp;RearRight Stomp;FrontRight Stomp;FrontLeft Stomp;Death Pose;Taunt;"
+	myDisplacementAngle 170.89267
+	myRotationAngle 0.0
+	myIsGlobalTransition TRUE
+	myGlobalTransitionPriority 0
+}
+
+LayerMotionState "Omega Left"
+{
+	myLayerName "Omega Left"
+	myTotalDuration 7.946666
+	myIsLoop FALSE
+	mySupportedStatesAndPoses "Nova Infusion;"
+}
+
+LayerMotionState "Omega Right"
+{
+	myLayerName "Omega Right"
+	myTotalDuration 7.946666
+	myIsLoop FALSE
+	mySupportedStatesAndPoses "Nova Infusion;"
+}
+
+TransitionMotionState "GTR_To Nova Infusion" < uid=4A8282B958EEA3B0000002C60B284EEE >
+{
+	myEnabled TRUE
+	myTotalDuration 4.013333
+	myDistance 0.000198
+	myAnimationDuration 4.333333
+	myAnimationDistance 0.000198
+	myHorizontalDistance 0.000198
+	myVerticalDisplacement 0.0
+	myAnimsOut "Nova Infusion;"
+	myDisplacementAngle -9.211027
+	myRotationAngle 0.0
+	myIsGlobalTransition TRUE
+	myGlobalTransitionPriority 0
+}
+
+TransitionMotionState "TR_OOC Walk To IC Idle" < uid=4A8282B958F62D65004808D90EC83E54 >
+{
+	myEnabled FALSE
+	myTotalDuration 0.0
+	myDistance 0.0
+	myAnimationDuration 0.0
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.0
+	myAnimsOut "Ready (Idle IC);TurnOnSpot (IC);"
+	myDisplacementAngle 0.0
+	myRotationAngle 0.0
+	myIsGlobalTransition FALSE
+	myGlobalTransitionPriority 0
+}
+
+OneshotMotionStateWithModes "Plant Extractor OOC" < uid=4A8282B9596E31EA00487A33B835F2B8 >
+{
+	myStateName "Plant Extractor OOC"
+	myTotalDuration 8.68
+	myDistance 0.0
+	myAnimationDuration 9.0
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.0
+	myAnimsOut "GTR_To Down FL;GTR_From Plant Extractor;GTR_To Down FR;GTR_To Air Phase;GTR_To Plant Extractor;GTR_To Down BL;GTR_To Down BR;GTR_To Nova Infusion;GTR_To Rear Left Stomp P1;GTR_To Rear Right Stomp P1;GTR_To Front Right Stomp P1;GTR_To Front Left Stomp P1;GTR_To P2 Down;GTR_To Rear Left Stomp;GTR_To Rear Right Stomp;GTR_To Front Right Stomp;GTR_To Front Left Stomp;"
+	myAnimCommand "Plant Extractor"
+	myDisplacementAngle -172.874985
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;MoveStyle_Default;MoveStyle_Polluted;
+}
+
+OneshotMotionStateWithModes "Plant Extractor IC" < uid=4A8282B9596E329C000001FDFFFBC046 >
+{
+	myStateName "Plant Extractor IC"
+	myTotalDuration 8.68
+	myDistance 0.0
+	myAnimationDuration 9.0
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.0
+	myAnimsOut "GTR_To Down FL;GTR_From Plant Extractor;GTR_To Down FR;GTR_To Air Phase;GTR_To Plant Extractor;GTR_To Down BL;GTR_To Down BR;GTR_To Nova Infusion;GTR_To Rear Left Stomp P1;GTR_To Rear Right Stomp P1;GTR_To Front Right Stomp P1;GTR_To Front Left Stomp P1;GTR_To P2 Down;GTR_To Rear Left Stomp;GTR_To Rear Right Stomp;GTR_To Front Right Stomp;GTR_To Front Left Stomp;"
+	myAnimCommand "Plant Extractor"
+	myDisplacementAngle 0.0
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;MoveStyle_InCombat;
+}
+
+OneshotMotionStateWithModes "Die (From Infusion)" < uid=4A8282B959FA29C4005EE8DD45F8E4A3 >
+{
+	myEnabled TRUE
+	myStateName Die
+	myTotalDuration 11.946667
+	myDistance 34.262928
+	myAnimationDuration 12.266666
+	myAnimationDistance 34.262928
+	myHorizontalDistance 34.262928
+	myVerticalDisplacement -0.000057
+	myAnimsOut "GTR_To Down FL;GTR_To Down FR;GTR_To Air Phase;GTR_To Plant Extractor;GTR_To Down BL;GTR_To Down BR;GTR_To Nova Infusion;GTR_To Rear Left Stomp P1;GTR_To Rear Right Stomp P1;GTR_To Front Left Stomp P1;GTR_To Front Right Stomp P1;GTR_To P2 Down;GTR_To Rear Left Stomp;GTR_To Rear Right Stomp;GTR_To Front Left Stomp;GTR_To Front Right Stomp;"
+	myAnimCommand Die
+	myDisplacementAngle 83.113243
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;MoveStyle_Default;MoveStyle_InCombat;MoveStyle_Polluted;
+}
+
+TransitionMotionState "TR_Nova To Die" < uid=4A8282B959FA2A0B005EE8F84B91FAA9 >
+{
+	myEnabled FALSE
+	myTotalDuration 0.0
+	myDistance 0.0
+	myAnimationDuration 0.0
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.0
+	myAnimsOut "Die (From Infusion);"
+	myDisplacementAngle 0.0
+	myRotationAngle 0.0
+	myIsGlobalTransition FALSE
+	myGlobalTransitionPriority 0
+}
+
+TransitionMotionState "GTR_To Rear Left Stomp" < uid=4A8282B95A0208730023CEAEF2FDE840 >
+{
+	myEnabled TRUE
+	myTotalDuration 1.28
+	myDistance 0.0
+	myAnimationDuration 1.6
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.0
+	myAnimsOut "RearLeft Stomp;"
+	myDisplacementAngle 0.0
+	myRotationAngle 0.0
+	myIsGlobalTransition TRUE
+	myGlobalTransitionPriority 0
+}
+
+TransitionMotionState "GTR_To Rear Right Stomp" < uid=4A8282B95A0208730023CEAFEC43EC3C >
+{
+	myEnabled TRUE
+	myTotalDuration 1.28
+	myDistance 0.0
+	myAnimationDuration 1.6
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.0
+	myAnimsOut "RearRight Stomp;"
+	myDisplacementAngle 0.0
+	myRotationAngle 0.0
+	myIsGlobalTransition TRUE
+	myGlobalTransitionPriority 0
+}
+
+TransitionMotionState "GTR_To Front Left Stomp" < uid=4A8282B95A0208730023CEB0D3FF6F71 >
+{
+	myEnabled TRUE
+	myTotalDuration 0.713333
+	myDistance 0.0
+	myAnimationDuration 1.033333
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.0
+	myAnimsOut "FrontLeft Stomp;"
+	myDisplacementAngle 0.0
+	myRotationAngle 0.0
+	myIsGlobalTransition TRUE
+	myGlobalTransitionPriority 0
+}
+
+TransitionMotionState "GTR_To Front Right Stomp" < uid=4A8282B95A0208730023CEB1B7ADDB32 >
+{
+	myEnabled TRUE
+	myTotalDuration 0.713333
+	myDistance 0.0
+	myAnimationDuration 1.033333
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.0
+	myAnimsOut "FrontRight Stomp;"
+	myDisplacementAngle 0.0
+	myRotationAngle 0.0
+	myIsGlobalTransition TRUE
+	myGlobalTransitionPriority 0
+}
+
+TransitionMotionState "GTR_From Rear Left Stomp" < uid=4A8282B95A0208730023CEB2AA0F9A6F >
+{
+	myEnabled TRUE
+	myTotalDuration 2.213333
+	myDistance 0.0
+	myAnimationDuration 2.533333
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.0
+	myAnimsOut "FrontLeft Down;FrontRight Down;Air Phase;Plant Extractor OOC;Plant Extractor IC;BackLeft Down;BackRight Down;Nova Infusion;RearLeft Stomp P1;RearRight Stomp P1;FrontLeft Stomp P1;FrontRight Stomp P1;Phase2 Down;RearRight Stomp;FrontLeft Stomp;FrontRight Stomp;Ready (Idle OOC);Ready (Walk OOC);Ready (Idle IC);Ready (Run IC);TurnOnSpot (OOC);Die (Normal);Die (From Infusion);TurnOnSpot (IC);Spawning (OOC);Spawning (IC);EnterWorld;Enrage;Death Pose;Taunt;"
+	myDisplacementAngle 0.0
+	myRotationAngle 0.0
+	myIsGlobalTransition TRUE
+	myGlobalTransitionPriority 0
+}
+
+TransitionMotionState "GTR_From Rear Right Stomp" < uid=4A8282B95A0208730023CEB359DEA11E >
+{
+	myEnabled TRUE
+	myTotalDuration 2.213333
+	myDistance 0.0
+	myAnimationDuration 2.533333
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.0
+	myAnimsOut "FrontLeft Down;FrontRight Down;Air Phase;Plant Extractor OOC;Plant Extractor IC;BackLeft Down;BackRight Down;Nova Infusion;RearLeft Stomp P1;RearRight Stomp P1;FrontLeft Stomp P1;FrontRight Stomp P1;Phase2 Down;RearLeft Stomp;FrontLeft Stomp;FrontRight Stomp;Ready (Idle OOC);Ready (Walk OOC);Ready (Idle IC);Ready (Run IC);TurnOnSpot (OOC);Die (Normal);Die (From Infusion);TurnOnSpot (IC);Spawning (OOC);Spawning (IC);EnterWorld;Enrage;Death Pose;Taunt;"
+	myDisplacementAngle 0.0
+	myRotationAngle 0.0
+	myIsGlobalTransition TRUE
+	myGlobalTransitionPriority 0
+}
+
+TransitionMotionState "GTR_From Front Left Stomp" < uid=4A8282B95A0208730023CEB47172C9B3 >
+{
+	myEnabled TRUE
+	myTotalDuration 2.68
+	myDistance 0.0
+	myAnimationDuration 3.0
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.0
+	myAnimsOut "FrontLeft Down;FrontRight Down;Air Phase;Plant Extractor OOC;Plant Extractor IC;BackLeft Down;BackRight Down;Nova Infusion;RearLeft Stomp P1;RearRight Stomp P1;FrontLeft Stomp P1;FrontRight Stomp P1;Phase2 Down;RearLeft Stomp;RearRight Stomp;FrontRight Stomp;Ready (Idle OOC);Ready (Walk OOC);Ready (Idle IC);Ready (Run IC);TurnOnSpot (OOC);Die (Normal);Die (From Infusion);TurnOnSpot (IC);Spawning (OOC);Spawning (IC);EnterWorld;Enrage;Death Pose;Taunt;"
+	myDisplacementAngle 0.0
+	myRotationAngle 0.0
+	myIsGlobalTransition TRUE
+	myGlobalTransitionPriority 0
+}
+
+TransitionMotionState "GTR_From Front Right Stomp" < uid=4A8282B95A0208730023CEB5A8DFF8E4 >
+{
+	myEnabled TRUE
+	myTotalDuration 2.68
+	myDistance 0.0
+	myAnimationDuration 3.0
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.0
+	myAnimsOut "FrontLeft Down;FrontRight Down;Air Phase;Plant Extractor OOC;Plant Extractor IC;BackLeft Down;BackRight Down;Nova Infusion;RearLeft Stomp P1;RearRight Stomp P1;FrontLeft Stomp P1;FrontRight Stomp P1;Phase2 Down;RearLeft Stomp;RearRight Stomp;FrontLeft Stomp;Ready (Idle OOC);Ready (Walk OOC);Ready (Idle IC);Ready (Run IC);TurnOnSpot (OOC);Die (Normal);Die (From Infusion);TurnOnSpot (IC);Spawning (OOC);Spawning (IC);EnterWorld;Enrage;Death Pose;Taunt;"
+	myDisplacementAngle 0.0
+	myRotationAngle 0.0
+	myIsGlobalTransition TRUE
+	myGlobalTransitionPriority 0
+}
+
+MotionPose "RearLeft Stomp"
+{
+	myStateName "RearLeft Stomp"
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;MoveStyle_Default;MoveStyle_InCombat;MoveStyle_Polluted;
+	myAnimsOut "GTR_To Down FL;GTR_From Rear Left Stomp;GTR_To Down FR;GTR_To Air Phase;GTR_To Plant Extractor;GTR_To Down BL;GTR_To Down BR;GTR_To Nova Infusion;GTR_To Rear Left Stomp P1;GTR_To Rear Right Stomp P1;GTR_To Front Left Stomp P1;GTR_To Front Right Stomp P1;TR_To P2 Down;GTR_To P2 Down;GTR_To Rear Right Stomp;GTR_To Front Left Stomp;GTR_To Front Right Stomp;"
+}
+
+MotionPose "RearRight Stomp"
+{
+	myStateName "RearRight Stomp"
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;MoveStyle_Default;MoveStyle_InCombat;MoveStyle_Polluted;
+	myAnimsOut "GTR_To Down FL;GTR_From Rear Right Stomp;GTR_To Down FR;GTR_To Air Phase;GTR_To Plant Extractor;GTR_To Down BL;GTR_To Down BR;GTR_To Nova Infusion;GTR_To Rear Left Stomp P1;GTR_To Rear Right Stomp P1;GTR_To Front Left Stomp P1;GTR_To Front Right Stomp P1;TR_To P2 Down;GTR_To P2 Down;GTR_To Rear Left Stomp;GTR_To Front Left Stomp;GTR_To Front Right Stomp;"
+}
+
+MotionPose "FrontRight Stomp"
+{
+	myStateName "FrontRight Stomp"
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;MoveStyle_Default;MoveStyle_InCombat;MoveStyle_Polluted;
+	myAnimsOut "GTR_To Down FL;GTR_From Front Right Stomp;GTR_To Down FR;GTR_To Air Phase;GTR_To Plant Extractor;GTR_To Down BL;GTR_To Down BR;GTR_To Nova Infusion;GTR_To Rear Left Stomp P1;GTR_To Rear Right Stomp P1;GTR_To Front Left Stomp P1;GTR_To Front Right Stomp P1;TR_To P2 Down;GTR_To P2 Down;GTR_To Rear Left Stomp;GTR_To Rear Right Stomp;GTR_To Front Left Stomp;"
+}
+
+MotionPose "FrontLeft Stomp"
+{
+	myStateName "FrontLeft Stomp"
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;MoveStyle_Default;MoveStyle_InCombat;MoveStyle_Polluted;
+	myAnimsOut "GTR_To Down FL;GTR_From Front Left Stomp;GTR_To Down FR;GTR_To Air Phase;GTR_To Plant Extractor;GTR_To Down BL;GTR_To Down BR;GTR_To Nova Infusion;GTR_To Rear Left Stomp P1;GTR_To Rear Right Stomp P1;GTR_To Front Left Stomp P1;GTR_To Front Right Stomp P1;TR_To P2 Down;GTR_To P2 Down;GTR_To Rear Left Stomp;GTR_To Rear Right Stomp;GTR_To Front Right Stomp;"
+}
+
+OneshotMotionStateWithModes "Spawning (IC)" < uid=4A8282B95A1C8CF703D021139CB8A141 >
+{
+	myEnabled TRUE
+	myStateName Spawning
+	myTotalDuration 6.8
+	myDistance 0.0
+	myAnimationDuration 7.4
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.0
+	myAnimsOut "GTR_To Down FL;GTR_To Down FR;GTR_To Air Phase;GTR_To Plant Extractor;GTR_To Down BL;GTR_To Down BR;GTR_To Nova Infusion;GTR_To Rear Left Stomp P1;GTR_To Rear Right Stomp P1;GTR_To Front Left Stomp P1;GTR_To Front Right Stomp P1;GTR_To P2 Down;GTR_To Rear Left Stomp;GTR_To Rear Right Stomp;GTR_To Front Left Stomp;GTR_To Front Right Stomp;"
+	myAnimCommand Spawning
+	myDisplacementAngle 0.0
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;MoveStyle_InCombat;
+}
+
+OneshotMotionStateWithModes "Spawning (OOC)" < uid=4A8282B95A1C8CF703D021142109CF78 >
+{
+	myEnabled TRUE
+	myStateName Spawning
+	myTotalDuration 9.733333
+	myDistance 0.0
+	myAnimationDuration 10.333333
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.0
+	myAnimsOut "GTR_To Down FL;GTR_To Down FR;GTR_To Air Phase;GTR_To Plant Extractor;GTR_To Down BL;GTR_To Down BR;GTR_To Nova Infusion;GTR_To Rear Left Stomp P1;GTR_To Rear Right Stomp P1;GTR_To Front Left Stomp P1;GTR_To Front Right Stomp P1;GTR_To P2 Down;GTR_To Rear Left Stomp;GTR_To Rear Right Stomp;GTR_To Front Left Stomp;GTR_To Front Right Stomp;"
+	myAnimCommand Spawning
+	myDisplacementAngle 0.0
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;MoveStyle_Default;MoveStyle_Polluted;
+}
+
+LayerMotionState Phase4_TailAim
+{
+	myLayerName Phase4_TailAim
+	myTotalDuration 0.0
+	myIsLoop TRUE
+	mySupportedStatesAndPoses "TurnOnSpot (IC);Ready (Idle IC);Nova Infusion;"
+}
+
+OneshotMotionState Enrage < uid=4A8282B95A343E5B0630A417C8C25229 >
+{
+	myEnabled TRUE
+	myStateName Enrage
+	myTotalDuration 2.68
+	myDistance 0.0
+	myAnimationDuration 3.0
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.000004
+	myAnimsOut "GTR_To Down FL;GTR_To Down FR;GTR_To Air Phase;GTR_To Plant Extractor;GTR_To Down BL;GTR_To Down BR;GTR_To Nova Infusion;GTR_To Rear Left Stomp P1;GTR_To Rear Right Stomp P1;GTR_To Front Left Stomp P1;GTR_To Front Right Stomp P1;GTR_To P2 Down;GTR_To Rear Left Stomp;GTR_To Rear Right Stomp;GTR_To Front Left Stomp;GTR_To Front Right Stomp;"
+	myAnimCommand Enrage
+	myDisplacementAngle 0.0
+}
+
+MotionPose "Phase2 Down"
+{
+	myStateName "Phase2 Down"
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;MoveStyle_Default;MoveStyle_InCombat;MoveStyle_Polluted;
+	myAnimsOut "GTR_To Down FL;GTR_From P2 Down;GTR_To Down FR;GTR_To Air Phase;GTR_To Plant Extractor;GTR_To Down BL;GTR_To Down BR;GTR_To Nova Infusion;GTR_To Rear Left Stomp P1;GTR_To Rear Right Stomp P1;GTR_To Front Left Stomp P1;GTR_To Front Right Stomp P1;GTR_To Rear Left Stomp;GTR_To Rear Right Stomp;GTR_To Front Right Stomp;GTR_To Front Left Stomp;"
+}
+
+TransitionMotionState "GTR_From P2 Down" < uid=4A8282B95A3BFBA9000022DAB2DB1A3D >
+{
+	myEnabled TRUE
+	myTotalDuration 2.68
+	myDistance 15.544347
+	myAnimationDuration 3.0
+	myAnimationDistance 15.544347
+	myHorizontalDistance 15.544347
+	myVerticalDisplacement 0.000004
+	myAnimsOut "FrontLeft Down;FrontRight Down;Air Phase;Plant Extractor OOC;Plant Extractor IC;BackLeft Down;BackRight Down;Nova Infusion;RearLeft Stomp P1;RearRight Stomp P1;FrontLeft Stomp P1;FrontRight Stomp P1;Ready (Idle OOC);Ready (Walk OOC);Ready (Idle IC);Ready (Run IC);TurnOnSpot (OOC);Die (Normal);Die (From Infusion);TurnOnSpot (IC);Spawning (OOC);Spawning (IC);EnterWorld;Enrage;RearLeft Stomp;RearRight Stomp;FrontRight Stomp;FrontLeft Stomp;Death Pose;Taunt;"
+	myDisplacementAngle 0.000036
+	myRotationAngle 0.0
+	myIsGlobalTransition TRUE
+	myGlobalTransitionPriority 0
+}
+
+TransitionMotionState "TR_OOC Walk To Spawning" < uid=4A8282B95A3BFC640000230E9F685A6C >
+{
+	myEnabled TRUE
+	myTotalDuration 7.88
+	myDistance 82.153214
+	myAnimationDuration 8.2
+	myAnimationDistance 82.153214
+	myHorizontalDistance 82.153214
+	myVerticalDisplacement -0.000057
+	myAnimsOut "Spawning (OOC);"
+	myDisplacementAngle -0.000008
+	myRotationAngle 0.0
+	myIsGlobalTransition FALSE
+	myGlobalTransitionPriority 0
+}
+
+TransitionMotionState "TR_To P2 Down" < uid=4A8282B95A3C0B2100001F34B813C5E3 >
+{
+	myEnabled TRUE
+	myTotalDuration 2.246667
+	myDistance 0.000043
+	myAnimationDuration 2.566667
+	myAnimationDistance 0.000043
+	myHorizontalDistance 0.000043
+	myVerticalDisplacement 0.0
+	myAnimsOut "Phase2 Down;"
+	myDisplacementAngle -90.0
+	myRotationAngle 0.0
+	myIsGlobalTransition FALSE
+	myGlobalTransitionPriority 0
+}
+
+TransitionMotionState "GTR_To P2 Down" < uid=4A8282B95A3C0B2100001F35398574D9 >
+{
+	myEnabled TRUE
+	myTotalDuration 2.246667
+	myDistance 0.000043
+	myAnimationDuration 2.566667
+	myAnimationDistance 0.000043
+	myHorizontalDistance 0.000043
+	myVerticalDisplacement 0.0
+	myAnimsOut "Phase2 Down;"
+	myDisplacementAngle -90.0
+	myRotationAngle 0.0
+	myIsGlobalTransition TRUE
+	myGlobalTransitionPriority 0
+}
+
+TransitionMotionState "TR_Stomp P1 To Down BL" < uid=4A8282B95A3C1B3500A8826481F216A7 >
+{
+	myEnabled TRUE
+	myTotalDuration 3.546667
+	myDistance 0.0
+	myAnimationDuration 3.866667
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.0
+	myAnimsOut "BackLeft Down;"
+	myDisplacementAngle 0.0
+	myRotationAngle 0.0
+	myIsGlobalTransition FALSE
+	myGlobalTransitionPriority 0
+}
+
+TransitionMotionState "TR_Stomp P1 To Down BR" < uid=4A8282B95A3C1B3500A882655148D964 >
+{
+	myEnabled TRUE
+	myTotalDuration 3.546667
+	myDistance 0.0
+	myAnimationDuration 3.866667
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.0
+	myAnimsOut "BackRight Down;"
+	myDisplacementAngle 0.0
+	myRotationAngle 0.0
+	myIsGlobalTransition FALSE
+	myGlobalTransitionPriority 0
+}
+
+TransitionMotionState "TR_Stomp P1 To Down FL" < uid=4A8282B95A3C1B3500A88266A164D7F9 >
+{
+	myEnabled TRUE
+	myTotalDuration 3.146667
+	myDistance 0.0
+	myAnimationDuration 3.466667
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.0
+	myAnimsOut "FrontLeft Down;"
+	myDisplacementAngle 0.0
+	myRotationAngle 0.0
+	myIsGlobalTransition FALSE
+	myGlobalTransitionPriority 0
+}
+
+TransitionMotionState "TR_Stomp P1 To Down FR" < uid=4A8282B95A3C1B3500A882678C8961F4 >
+{
+	myEnabled TRUE
+	myTotalDuration 3.146667
+	myDistance 0.0
+	myAnimationDuration 3.466667
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.0
+	myAnimsOut "FrontRight Down;"
+	myDisplacementAngle 0.0
+	myRotationAngle 0.0
+	myIsGlobalTransition FALSE
+	myGlobalTransitionPriority 0
+}
+
+MotionPose "FrontLeft Stomp P1"
+{
+	myStateName "FrontLeft Stomp P1"
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;MoveStyle_Default;MoveStyle_InCombat;MoveStyle_Polluted;
+	myAnimsOut "GTR_To Down FL;GTR_From Front Left Stomp P1;TR_Stomp P1 To Down FL;GTR_To Down FR;GTR_To Air Phase;GTR_To Plant Extractor;GTR_To Down BL;GTR_To Down BR;GTR_To Nova Infusion;GTR_To Rear Left Stomp P1;GTR_To Rear Right Stomp P1;GTR_To Front Right Stomp P1;GTR_To P2 Down;GTR_To Rear Left Stomp;GTR_To Rear Right Stomp;GTR_To Front Right Stomp;GTR_To Front Left Stomp;"
+}
+
+MotionPose "FrontRight Stomp P1"
+{
+	myStateName "FrontRight Stomp P1"
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;MoveStyle_Default;MoveStyle_InCombat;MoveStyle_Polluted;
+	myAnimsOut "GTR_To Down FL;GTR_From Front Right Stomp P1;GTR_To Down FR;TR_Stomp P1 To Down FR;GTR_To Air Phase;GTR_To Plant Extractor;GTR_To Down BL;GTR_To Down BR;GTR_To Nova Infusion;GTR_To Rear Left Stomp P1;GTR_To Rear Right Stomp P1;GTR_To Front Left Stomp P1;GTR_To P2 Down;GTR_To Rear Left Stomp;GTR_To Rear Right Stomp;GTR_To Front Right Stomp;GTR_To Front Left Stomp;"
+}
+
+MotionPose "RearRight Stomp P1"
+{
+	myStateName "RearRight Stomp P1"
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;MoveStyle_Default;MoveStyle_InCombat;MoveStyle_Polluted;
+	myAnimsOut "GTR_To Down FL;GTR_From Rear Right Stomp P1;GTR_To Down FR;GTR_To Air Phase;GTR_To Plant Extractor;GTR_To Down BL;GTR_To Down BR;TR_Stomp P1 To Down BR;GTR_To Nova Infusion;GTR_To Rear Left Stomp P1;GTR_To Front Left Stomp P1;GTR_To Front Right Stomp P1;GTR_To P2 Down;GTR_To Rear Left Stomp;GTR_To Rear Right Stomp;GTR_To Front Right Stomp;GTR_To Front Left Stomp;"
+}
+
+MotionPose "RearLeft Stomp P1"
+{
+	myStateName "RearLeft Stomp P1"
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;MoveStyle_Default;MoveStyle_InCombat;MoveStyle_Polluted;
+	myAnimsOut "GTR_To Down FL;GTR_From Rear Left Stomp P1;GTR_To Down FR;GTR_To Air Phase;GTR_To Plant Extractor;GTR_To Down BL;TR_Stomp P1 To Down BL;GTR_To Down BR;GTR_To Nova Infusion;GTR_To Rear Right Stomp P1;GTR_To Front Left Stomp P1;GTR_To Front Right Stomp P1;GTR_To P2 Down;GTR_To Rear Left Stomp;GTR_To Rear Right Stomp;GTR_To Front Right Stomp;GTR_To Front Left Stomp;"
+}
+
+TransitionMotionState "GTR_From Front Right Stomp P1" < uid=4A8282B95A3C1B3500A882689DDF19EC >
+{
+	myEnabled TRUE
+	myTotalDuration 3.513333
+	myDistance 0.0
+	myAnimationDuration 3.833333
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.0
+	myAnimsOut "FrontLeft Down;FrontRight Down;Air Phase;Plant Extractor OOC;Plant Extractor IC;BackLeft Down;BackRight Down;Nova Infusion;RearLeft Stomp P1;RearRight Stomp P1;FrontLeft Stomp P1;Ready (Idle OOC);Ready (Walk OOC);Ready (Idle IC);Ready (Run IC);TurnOnSpot (OOC);Die (Normal);Die (From Infusion);TurnOnSpot (IC);Spawning (OOC);Spawning (IC);EnterWorld;Enrage;Phase2 Down;RearLeft Stomp;RearRight Stomp;FrontRight Stomp;FrontLeft Stomp;Death Pose;Taunt;"
+	myDisplacementAngle 0.0
+	myRotationAngle 0.0
+	myIsGlobalTransition TRUE
+	myGlobalTransitionPriority 0
+}
+
+TransitionMotionState "GTR_From Front Left Stomp P1" < uid=4A8282B95A3C1B3500A882698A4B70CA >
+{
+	myEnabled TRUE
+	myTotalDuration 3.513333
+	myDistance 0.0
+	myAnimationDuration 3.833333
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.0
+	myAnimsOut "FrontLeft Down;FrontRight Down;Air Phase;Plant Extractor OOC;Plant Extractor IC;BackLeft Down;BackRight Down;Nova Infusion;RearLeft Stomp P1;RearRight Stomp P1;FrontRight Stomp P1;Ready (Idle OOC);Ready (Walk OOC);Ready (Idle IC);Ready (Run IC);TurnOnSpot (OOC);Die (Normal);Die (From Infusion);TurnOnSpot (IC);Spawning (OOC);Spawning (IC);EnterWorld;Enrage;Phase2 Down;RearLeft Stomp;RearRight Stomp;FrontRight Stomp;FrontLeft Stomp;Death Pose;Taunt;"
+	myDisplacementAngle 0.0
+	myRotationAngle 0.0
+	myIsGlobalTransition TRUE
+	myGlobalTransitionPriority 0
+}
+
+TransitionMotionState "GTR_From Rear Right Stomp P1" < uid=4A8282B95A3C1B3500A8826A0D17A565 >
+{
+	myEnabled TRUE
+	myTotalDuration 3.013333
+	myDistance 0.0
+	myAnimationDuration 3.333333
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.0
+	myAnimsOut "FrontLeft Down;FrontRight Down;Air Phase;Plant Extractor OOC;Plant Extractor IC;BackLeft Down;BackRight Down;Nova Infusion;RearLeft Stomp P1;FrontLeft Stomp P1;FrontRight Stomp P1;Ready (Idle OOC);Ready (Walk OOC);Ready (Idle IC);Ready (Run IC);TurnOnSpot (OOC);Die (Normal);Die (From Infusion);TurnOnSpot (IC);Spawning (OOC);Spawning (IC);EnterWorld;Enrage;Phase2 Down;RearLeft Stomp;RearRight Stomp;FrontRight Stomp;FrontLeft Stomp;Death Pose;Taunt;"
+	myDisplacementAngle 0.0
+	myRotationAngle 0.0
+	myIsGlobalTransition TRUE
+	myGlobalTransitionPriority 0
+}
+
+TransitionMotionState "GTR_From Rear Left Stomp P1" < uid=4A8282B95A3C1B3500A8826BCA56E3F2 >
+{
+	myEnabled TRUE
+	myTotalDuration 3.013333
+	myDistance 0.0
+	myAnimationDuration 3.333333
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.0
+	myAnimsOut "FrontLeft Down;FrontRight Down;Air Phase;Plant Extractor OOC;Plant Extractor IC;BackLeft Down;BackRight Down;Nova Infusion;RearRight Stomp P1;FrontLeft Stomp P1;FrontRight Stomp P1;Ready (Idle OOC);Ready (Walk OOC);Ready (Idle IC);Ready (Run IC);TurnOnSpot (OOC);Die (Normal);Die (From Infusion);TurnOnSpot (IC);Spawning (OOC);Spawning (IC);EnterWorld;Enrage;Phase2 Down;RearLeft Stomp;RearRight Stomp;FrontRight Stomp;FrontLeft Stomp;Death Pose;Taunt;"
+	myDisplacementAngle 0.0
+	myRotationAngle 0.0
+	myIsGlobalTransition TRUE
+	myGlobalTransitionPriority 0
+}
+
+TransitionMotionState "GTR_To Front Right Stomp P1" < uid=4A8282B95A3C1B3500A8826CAF23932D >
+{
+	myEnabled TRUE
+	myTotalDuration 0.946667
+	myDistance 0.0
+	myAnimationDuration 1.266667
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.0
+	myAnimsOut "FrontRight Stomp P1;"
+	myDisplacementAngle 0.0
+	myRotationAngle 0.0
+	myIsGlobalTransition TRUE
+	myGlobalTransitionPriority 0
+}
+
+TransitionMotionState "GTR_To Front Left Stomp P1" < uid=4A8282B95A3C1B3500A8826D7E3F6B23 >
+{
+	myEnabled TRUE
+	myTotalDuration 0.946667
+	myDistance 0.0
+	myAnimationDuration 1.266667
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.0
+	myAnimsOut "FrontLeft Stomp P1;"
+	myDisplacementAngle 0.0
+	myRotationAngle 0.0
+	myIsGlobalTransition TRUE
+	myGlobalTransitionPriority 0
+}
+
+TransitionMotionState "GTR_To Rear Right Stomp P1" < uid=4A8282B95A3C1B3500A8826ECEB3D50C >
+{
+	myEnabled TRUE
+	myTotalDuration 1.946667
+	myDistance 0.0
+	myAnimationDuration 2.266667
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.0
+	myAnimsOut "RearRight Stomp P1;"
+	myDisplacementAngle 0.0
+	myRotationAngle 0.0
+	myIsGlobalTransition TRUE
+	myGlobalTransitionPriority 0
+}
+
+TransitionMotionState "GTR_To Rear Left Stomp P1" < uid=4A8282B95A3C1B3500A8826FB387F65B >
+{
+	myEnabled TRUE
+	myTotalDuration 1.946667
+	myDistance 0.0
+	myAnimationDuration 2.266667
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.0
+	myAnimsOut "RearLeft Stomp P1;"
+	myDisplacementAngle 0.0
+	myRotationAngle 0.0
+	myIsGlobalTransition TRUE
+	myGlobalTransitionPriority 0
+}
+
+OneshotMotionStateWithModes "Death Pose" < uid=4A8282B95A4BB67D00001FC7F185CE3B >
+{
+	myEnabled TRUE
+	myStateName "Death Pose"
+	myTotalDuration 12.266666
+	myDistance 34.259823
+	myAnimationDuration 12.266666
+	myAnimationDistance 34.259823
+	myHorizontalDistance 34.259823
+	myVerticalDisplacement -0.000057
+	myAnimsOut "GTR_To Down FL;GTR_To Down FR;GTR_To Air Phase;GTR_To Plant Extractor;GTR_To Down BL;GTR_To Down BR;GTR_To Nova Infusion;GTR_To Rear Left Stomp P1;GTR_To Rear Right Stomp P1;GTR_To Front Left Stomp P1;GTR_To Front Right Stomp P1;GTR_To P2 Down;GTR_To Rear Left Stomp;GTR_To Rear Right Stomp;GTR_To Front Left Stomp;GTR_To Front Right Stomp;"
+	myAnimCommand "Death Pose"
+	myDisplacementAngle 83.179222
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;MoveStyle_Default;MoveStyle_InCombat;MoveStyle_Polluted;
+}
+
+LayerMotionState Phase3_TailAim
+{
+	myLayerName Phase3_TailAim
+	myTotalDuration 0.0
+	myIsLoop TRUE
+	mySupportedStatesAndPoses "Air Phase;"
+}
+
+LayerMotionState "Enter Combat Flinch"
+{
+	myLayerName "Enter Combat Flinch"
+	myTotalDuration 1.58
+	myIsLoop FALSE
+	mySupportedStatesAndPoses "Ready (Idle OOC);Ready (Walk OOC);Spawning (OOC);Taunt;"
+}
+
+OneshotMotionStateWithModes Taunt < uid=4A8282B95A5D31C200001ED4D97ABD59 >
+{
+	myEnabled TRUE
+	myStateName Taunt
+	myTotalDuration 5.266667
+	myDistance 0.0
+	myAnimationDuration 5.866667
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.0
+	myAnimsOut "GTR_To Down FL;GTR_To Down FR;GTR_To Air Phase;GTR_To Plant Extractor;GTR_To Down BL;GTR_To Down BR;GTR_To Nova Infusion;GTR_To Rear Left Stomp P1;GTR_To Rear Right Stomp P1;GTR_To Front Left Stomp P1;GTR_To Front Right Stomp P1;GTR_To P2 Down;GTR_To Rear Left Stomp;GTR_To Rear Right Stomp;GTR_To Front Left Stomp;GTR_To Front Right Stomp;"
+	myAnimCommand Taunt
+	myDisplacementAngle 0.0
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;MoveStyle_Default;MoveStyle_InCombat;MoveStyle_Polluted;
+}
+

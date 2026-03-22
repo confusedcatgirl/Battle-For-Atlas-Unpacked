@@ -1,0 +1,964 @@
+include "onward/game system data/fruit/rulesystem/criteriabank.fruit"
+
+CriteriaBank selected_opportunity_Criteria < uid=3BC8B70A581B9F200000004BCFB72DCC >
+{
+	myDescription "Criteria dealing with the Selected Opportunity"
+	myOasisAIElementTypeID 37
+	myIntCriteria
+	{
+		Int_Criterion "Selected OnItTarget is in Combat" < uid=3BC8B70A582BA3E10000004B288F8DCD >
+		{
+			compareType EqualToMax
+			myDescription "Selected Opportunity's On It Target is in combat."
+			myOasisAIElementID 795
+			label Selected_Opportunity_OnItInCombat
+			maxValue 1
+		}
+		Int_Criterion "Selected OnItTarget is Simulated" < uid=3BC8B70A582BA3E10000004C95C3AE7A >
+		{
+			compareType EqualToMax
+			myDescription "Selected Opportunity's On It Target is simulated"
+			myOasisAIElementID 796
+			label Selected_Opportunity_OnItIsRealized
+		}
+		Int_Criterion "Selected OnItTarget is Realized" < uid=3BC8B70A582BA3E10000004DB86026B5 >
+		{
+			compareType EqualToMax
+			myDescription "Selected Opportunity's On It Target is realized"
+			myOasisAIElementID 797
+			label Selected_Opportunity_OnItIsRealized
+			maxValue 1
+		}
+		Int_Criterion "Selected OnItTarget Faction is Allied" < uid=3BC8B70A582DFD150000004DA8537E04 >
+		{
+			compareType EqualToMax
+			myDescription "Selected OnItTarget Faction is Allied"
+			myOasisAIElementID 907
+			label Selected_Opportunity_OnIt_Is_Allied
+			maxValue 1
+		}
+		Int_Criterion "Selected OnItTarget Faction is not Allied" < uid=3BC8B70A582DFD150000004EF85CD432 >
+		{
+			compareType EqualToMax
+			myDescription "Selected OnItTarget Faction is not Allied"
+			myOasisAIElementID 908
+			label Selected_Opportunity_OnIt_Is_Allied
+		}
+		Int_Criterion "Selected OnItTarget is A Group" < uid=3BC8B70A582DFDCE000000517E1564D4 >
+		{
+			compareType GreaterThanMin
+			myDescription "Selected OnItTarget is A Group"
+			myOasisAIElementID 909
+			label Selected_Opportunity_OnIt_Total_Entity_Count
+			minValue 1
+		}
+		Int_Criterion "Selected OnItRequester is in Combat" < uid=3BC8B70A582BA3E10000004EC27D6C9E >
+		{
+			compareType EqualToMax
+			myDescription "Selected Opportunity's On It Requester is in combat"
+			myOasisAIElementID 798
+			label Selected_Opportunity_RequesterInCombat
+			maxValue 1
+		}
+		Int_Criterion "Selected OnItRequester is Realized" < uid=3BC8B70A582BA3E10000004F96C870F9 >
+		{
+			compareType EqualToMax
+			myDescription "Selected Opportunity's On It Requester is realized"
+			myOasisAIElementID 799
+			label Selected_Opportunity_RequesterIsRealized
+			maxValue 1
+		}
+		Int_Criterion "Selected OnItRequester is Simulated" < uid=3BC8B70A582BA3E1000000501EF0AC24 >
+		{
+			compareType EqualToMax
+			myDescription "Selected Opportunity's On It Requester is simulated"
+			myOasisAIElementID 800
+			label Selected_Opportunity_RequesterIsRealized
+		}
+		Int_Criterion "Selected OnItRequester Faction is Allied" < uid=3BC8B70A582DFCC60000004B8FBB5D80 >
+		{
+			compareType EqualToMax
+			myDescription "Selected OnItRequester Faction is Allied"
+			myOasisAIElementID 910
+			label Selected_Opportunity_Requester_Is_Allied
+			maxValue 1
+		}
+		Int_Criterion "Selected OnItRequester Faction is not Allied" < uid=3BC8B70A582DFCC60000004CF8430F0E >
+		{
+			compareType EqualToMax
+			myDescription "Selected OnItRequester Faction is not Allied"
+			myOasisAIElementID 911
+			label Selected_Opportunity_Requester_Is_Allied
+		}
+		Int_Criterion "Selected OnItThirdParty Faction is Allied" < uid=3BC8B70A582DFD630000004FAD5EC1E4 >
+		{
+			compareType EqualToMax
+			myDescription "Selected OnItThirdParty Faction is Allied"
+			myOasisAIElementID 912
+			label Selected_Opportunity_ThirdParty_Is_Allied
+			maxValue 1
+		}
+		Int_Criterion "Selected OnItThirdParty Faction is not Allied" < uid=3BC8B70A582DFD63000000504D85903E >
+		{
+			compareType EqualToMax
+			myDescription "Selected OnItThirdParty Faction is not Allied"
+			myOasisAIElementID 913
+			label Selected_Opportunity_ThirdParty_Is_Allied
+		}
+		Int_Criterion "Selected OnItThirdParty is in Combat" < uid=3BC8B70A582E004A0000005260F6D260 >
+		{
+			compareType EqualToMax
+			myDescription "Selected Opportunity's ThirdParty is in combat."
+			myOasisAIElementID 914
+			label Selected_Opportunity_ThirdPartyInCombat
+			maxValue 1
+		}
+		Int_Criterion "Selected OnItThirdParty is Simulated" < uid=3BC8B70A582E004A000000533BFC6E7B >
+		{
+			compareType EqualToMax
+			myDescription "Selected Opportunity's ThirdParty is simulated"
+			myOasisAIElementID 915
+			label Selected_Opportunity_ThirdPartyIsRealized
+		}
+		Int_Criterion "Selected OnItThirdParty is Realized" < uid=3BC8B70A582E004A000000545A990D5A >
+		{
+			compareType EqualToMax
+			myDescription "Selected Opportunity's ThirdParty is realized"
+			myOasisAIElementID 916
+			label Selected_Opportunity_ThirdPartyIsRealized
+			maxValue 1
+		}
+		Int_Criterion "Selected OnItThirdParty is A Group" < uid=3BC8B70A582E004A00000057819B65B0 >
+		{
+			compareType GreaterThanMin
+			myDescription "Selected ThirdParty is A Group"
+			myOasisAIElementID 917
+			label Selected_Opportunity_ThirdParty_Total_Entity_Count
+			minValue 1
+		}
+		Int_Criterion "Selected OnitTarget Subcategory Variant is 00" < uid=E9A11135599B3BF6000221D9FE29DC8F >
+		{
+			compareType EqualToMax
+			myOasisAIElementID 2314
+			label Selected_Opportunity_OnIt_SubCategory_Variant
+		}
+		Int_Criterion "Selected OnitTarget Subcategory Variant is 01" < uid=E9A11135599B3E1400025BBA6ED8F155 >
+		{
+			compareType EqualToMax
+			myOasisAIElementID 2315
+			label Selected_Opportunity_OnIt_SubCategory_Variant
+			maxValue 1
+		}
+		Int_Criterion "Selected OnitTarget Subcategory Variant is 02" < uid=E9A11135599B3E1400025BBBC4C48929 >
+		{
+			compareType EqualToMax
+			myOasisAIElementID 2316
+			label Selected_Opportunity_OnIt_SubCategory_Variant
+			maxValue 2
+		}
+		Int_Criterion "Selected OnitTarget Subcategory Variant is 03" < uid=E9A11135599B3E1400025BBC74B9F89A >
+		{
+			compareType EqualToMax
+			myOasisAIElementID 2317
+			label Selected_Opportunity_OnIt_SubCategory_Variant
+			maxValue 3
+		}
+		Int_Criterion "Selected OnitTarget Subcategory Variant is 04" < uid=E9A11135599B3E1400025BBDC5479235 >
+		{
+			compareType EqualToMax
+			myOasisAIElementID 2318
+			label Selected_Opportunity_OnIt_SubCategory_Variant
+			maxValue 4
+		}
+		Int_Criterion "Selected OnitTarget Subcategory Variant is 05" < uid=E9A11135599B3E1400025BBE6CBC8191 >
+		{
+			compareType EqualToMax
+			myOasisAIElementID 2319
+			label Selected_Opportunity_OnIt_SubCategory_Variant
+			maxValue 5
+		}
+		Int_Criterion "Selected OnitTarget Subcategory Variant is 06" < uid=E9A11135599B3E1400025BBF8CD1C0EE >
+		{
+			compareType EqualToMax
+			myOasisAIElementID 2320
+			label Selected_Opportunity_OnIt_SubCategory_Variant
+			maxValue 6
+		}
+		Int_Criterion "Selected OnitTarget Subcategory Variant is 07" < uid=E9A11135599B3E1400025BC0371784C6 >
+		{
+			compareType EqualToMax
+			myOasisAIElementID 2321
+			label Selected_Opportunity_OnIt_SubCategory_Variant
+			maxValue 7
+		}
+		Int_Criterion "Selected OnitTarget Subcategory Variant is 08" < uid=E9A11135599B3E1400025BC1CE386E2B >
+		{
+			compareType EqualToMax
+			myOasisAIElementID 2322
+			label Selected_Opportunity_OnIt_SubCategory_Variant
+			maxValue 8
+		}
+		Int_Criterion "Selected OnitTarget Subcategory Variant is 09" < uid=E9A11135599B3E1400025BC24600CE74 >
+		{
+			compareType EqualToMax
+			myOasisAIElementID 2323
+			label Selected_Opportunity_OnIt_SubCategory_Variant
+			maxValue 9
+		}
+		Int_Criterion "Selected OnitTarget Subcategory Variant is 10" < uid=E9A11135599B3E1400025BC344D4A0EA >
+		{
+			compareType EqualToMax
+			myOasisAIElementID 2324
+			label Selected_Opportunity_OnIt_SubCategory_Variant
+			maxValue 10
+		}
+		Int_Criterion "Selected OnitTarget Subcategory Variant is 11" < uid=E9A11135599B3E1400025BC4CF6E2D02 >
+		{
+			compareType EqualToMax
+			myOasisAIElementID 2325
+			label Selected_Opportunity_OnIt_SubCategory_Variant
+			maxValue 11
+		}
+		Int_Criterion "Selected OnitTarget Subcategory Variant is 12" < uid=E9A11135599B3E1400025BC5C22A4BF2 >
+		{
+			compareType EqualToMax
+			myOasisAIElementID 2326
+			label Selected_Opportunity_OnIt_SubCategory_Variant
+			maxValue 12
+		}
+		Int_Criterion "Selected OnitTarget Subcategory Variant is 13" < uid=E9A11135599B3E1400025BC682194EAD >
+		{
+			compareType EqualToMax
+			myOasisAIElementID 2327
+			label Selected_Opportunity_OnIt_SubCategory_Variant
+			maxValue 13
+		}
+		Int_Criterion "Selected OnitTarget Subcategory Variant is 14" < uid=E9A11135599B3E1400025BC7632B7DF4 >
+		{
+			compareType EqualToMax
+			myOasisAIElementID 2328
+			label Selected_Opportunity_OnIt_SubCategory_Variant
+			maxValue 14
+		}
+		Int_Criterion "Selected OnitTarget Subcategory Variant is 15" < uid=E9A11135599B3E1400025BC8DD934AAE >
+		{
+			compareType EqualToMax
+			myOasisAIElementID 2329
+			label Selected_Opportunity_OnIt_SubCategory_Variant
+			maxValue 15
+		}
+		Int_Criterion "Selected OnitTarget Subcategory Variant is 16" < uid=E9A11135599B3E1400025BC94D76FF35 >
+		{
+			compareType EqualToMax
+			myOasisAIElementID 2330
+			label Selected_Opportunity_OnIt_SubCategory_Variant
+			maxValue 16
+		}
+		Int_Criterion "Selected OnitTarget Subcategory Variant is 17" < uid=E9A11135599B3E1400025BCA0552BC10 >
+		{
+			compareType EqualToMax
+			myOasisAIElementID 2331
+			label Selected_Opportunity_OnIt_SubCategory_Variant
+			maxValue 17
+		}
+		Int_Criterion "Selected OnitTarget Subcategory Variant is 18" < uid=E9A11135599B3E1400025BCB3DAEA593 >
+		{
+			compareType EqualToMax
+			myOasisAIElementID 2332
+			label Selected_Opportunity_OnIt_SubCategory_Variant
+			maxValue 18
+		}
+		Int_Criterion "Selected OnitTarget Subcategory Variant is 19" < uid=E9A11135599B3E1400025BCC7A2F5EB2 >
+		{
+			compareType EqualToMax
+			myOasisAIElementID 2333
+			label Selected_Opportunity_OnIt_SubCategory_Variant
+			maxValue 19
+		}
+		Int_Criterion "Selected OnitTarget Subcategory Variant is 20" < uid=E9A11135599B3E1400025BCD805A8995 >
+		{
+			compareType EqualToMax
+			myOasisAIElementID 2334
+			label Selected_Opportunity_OnIt_SubCategory_Variant
+			maxValue 20
+		}
+		Int_Criterion "Selected OnitTarget Subcategory Variant is 21" < uid=E9A11135599B3E1400025BCE107817B2 >
+		{
+			compareType EqualToMax
+			myOasisAIElementID 2335
+			label Selected_Opportunity_OnIt_SubCategory_Variant
+			maxValue 21
+		}
+		Int_Criterion "Selected OnitTarget Subcategory Variant is 99" < uid=4A79E0E45AD7A7B800001D9418C97A5F >
+		{
+			compareType EqualToMax
+			myOasisAIElementID 3306
+			label Selected_Opportunity_OnIt_SubCategory_Variant
+			maxValue 99
+		}
+		Int_Criterion "Selected OnitTarget Subcategory Variant is Less Than 99" < uid=4A79E0E45AD8EA7000001D81A983C031 >
+		{
+			myOasisAIElementID 3307
+			label Selected_Opportunity_OnIt_SubCategory_Variant
+			maxValue 99
+		}
+		Int_Criterion "Selected OnitTarget Pickup Count is Less Than 1" < uid=4A79E0E45B4F7B6200002215660A0D06 >
+		{
+			myOasisAIElementID 3491
+			label Selected_Opportunity_Delivery_Player_Pickup_Count
+			maxValue 1
+		}
+	}
+	myFloatCriteria
+	{
+		Float_Criterion "Selected OnItTarget Charge is Below 100%" < uid=4A79E0E45B72EB8F00002206661046FB >
+		{
+			myScope Target
+			myDescription "Selected OnIt's Target is less than fully charged"
+			myOasisAIElementID 3519
+			label Charge_Percent
+			maxValue 100.0
+		}
+	}
+	myStringCriteria
+	{
+		String_Criterion "Selected OnItTarget Faction is Unaligned" < uid=3BC8B70A581BA51600000054B0C1175C >
+		{
+			myDescription "Target of Selected OnIt is unaligned Faction"
+			myOasisAIElementID 755
+			label Selected_Opportunity_OnItFaction
+			value Unaligned
+		}
+		String_Criterion "Selected OnItTarget Faction is Harvester" < uid=3BC8B70A581BA51600000055E009B74A >
+		{
+			myDescription "Target of Selected OnIt is Harvester Faction"
+			myOasisAIElementID 756
+			label Selected_Opportunity_OnItFaction
+			value Harvester
+		}
+		String_Criterion "Selected OnItTarget Faction is Predator" < uid=3BC8B70A581BA51600000056D3A85F40 >
+		{
+			myDescription "Target of Selected OnIt is Predator Faction"
+			myOasisAIElementID 757
+			label Selected_Opportunity_OnItFaction
+			value Predator
+		}
+		String_Criterion "Selected OnItTarget Faction is Prey" < uid=3BC8B70A581BA51600000057E5FC7BB4 >
+		{
+			myDescription "Target of Selected OnIt is Prey Faction"
+			myOasisAIElementID 758
+			label Selected_Opportunity_OnItFaction
+			value Prey
+		}
+		String_Criterion "Selected OnItTarget Faction is Expedition" < uid=3BC8B70A581BA516000000585D3FEBA0 >
+		{
+			myDescription "Target of Selected OnIt is Expedition Faction"
+			myOasisAIElementID 759
+			label Selected_Opportunity_OnItFaction
+			value Expedition
+		}
+		String_Criterion "Selected OnItTarget Faction is Outlaw" < uid=3BC8B70A581BA51600000059F021B4AA >
+		{
+			myDescription "Target of Selected OnIt is Outlaw Faction"
+			myOasisAIElementID 760
+			label Selected_Opportunity_OnItFaction
+			value Outlaw
+		}
+		String_Criterion "Selected OnItTarget Faction is Prospector" < uid=3BC8B70A581BA5160000005A61E2A7B1 >
+		{
+			myDescription "Target of OnIt is Prospector Faction"
+			myOasisAIElementID 761
+			label Selected_Opportunity_OnItFaction
+			value Prospector
+		}
+		String_Criterion "Selected OnItTarget Category is NPC" < uid=3BC8B70A581BA5160000005B67C551E2 >
+		{
+			myDescription "Target of Selected OnIt is NPC Category"
+			myOasisAIElementID 762
+			label Selected_Opportunity_OnItCategory
+			value NPC
+		}
+		String_Criterion "Selected OnItRequester Faction is Unaligned" < uid=3BC8B70A581BA5160000005CC505D451 >
+		{
+			myDescription "Selected Opportunity Requester's Category is Unaligned"
+			myOasisAIElementID 763
+			label Selected_Opportunity_RequesterFaction
+			value Unaligned
+		}
+		String_Criterion "Selected OnItRequester Faction is Expedition" < uid=3BC8B70A581BA5160000005D387CACBF >
+		{
+			myDescription "Selected Opportunity Requester's Category is Expedition"
+			myOasisAIElementID 764
+			label Selected_Opportunity_RequesterFaction
+			value Expedition
+		}
+		String_Criterion "Selected OnItRequester Faction is Prospector" < uid=3BC8B70A581BA5160000005E4CD75B2E >
+		{
+			myDescription "Selected Opportunity Requester's Category is Prospector"
+			myOasisAIElementID 765
+			label Selected_Opportunity_RequesterFaction
+			value Prospector
+		}
+		String_Criterion "Selected OnItRequester Category is Outpost" < uid=3BC8B70A581BA5160000005F01D05917 >
+		{
+			myDescription "Selected Opportunity Requester's Category is Outpost"
+			myOasisAIElementID 766
+			label Selected_Opportunity_RequesterCategory
+			value Outpost
+		}
+		String_Criterion "Selected OnItRequester Category is NPC" < uid=3BC8B70A582BA6EA00000051A71C74C1 >
+		{
+			myDescription "Selected Opportunity Requester's Category is NPC"
+			myOasisAIElementID 801
+			label Selected_Opportunity_RequesterCategory
+			value NPC
+		}
+		String_Criterion "Selected OnItRequester Category is Worker" < uid=3BC8B70A582BA6EA000000528E2CE520 >
+		{
+			myDescription "Selected Opportunity Requester's Category is Worker"
+			myOasisAIElementID 802
+			label Selected_Opportunity_RequesterSubCategory
+			value Worker
+		}
+		String_Criterion "Selected OnItRequester Category is Defender" < uid=3BC8B70A582BA6EA000000535BB603A4 >
+		{
+			myDescription "Selected Opportunity Requester's Category is Defender"
+			myOasisAIElementID 803
+			label Selected_Opportunity_RequesterSubCategory
+			value Defender
+		}
+		String_Criterion "Selected OnItRequester Category is DefenseBase" < uid=3BC8B70A582BA6EA00000054C0BC157A >
+		{
+			myDescription "Selected Opportunity Requester's Category is DefenseBase"
+			myOasisAIElementID 804
+			label Selected_Opportunity_RequesterSubCategory
+			value DefenseBase
+		}
+		String_Criterion "Selected OnItRequester Category is MiningCenter" < uid=3BC8B70A582BA6EA000000558442CBD0 >
+		{
+			myDescription "Selected Opportunity Requester's Category is MiningCenter"
+			myOasisAIElementID 805
+			label Selected_Opportunity_RequesterSubCategory
+			value MiningCenter
+		}
+		String_Criterion "Selected OnItRequester Category is ObservationDeck" < uid=3BC8B70A582BA6EA000000566DAE3B9D >
+		{
+			myDescription "Selected Opportunity Requester's Category is ObservationDeck"
+			myOasisAIElementID 806
+			label Selected_Opportunity_RequesterSubCategory
+			value ObservationDeck
+		}
+		String_Criterion "Selected OnItRequester Category is ResearchBase" < uid=3BC8B70A582BA6EA0000005786EEBEAF >
+		{
+			myDescription "Selected Opportunity Requester's Category is ResearchBase"
+			myOasisAIElementID 807
+			label Selected_Opportunity_RequesterSubCategory
+			value ResearchBase
+		}
+		String_Criterion "Selected OnItTarget Category is Worker" < uid=3BC8B70A582BA6EA00000058A6D97CCD >
+		{
+			myDescription "Selected Opportunity On It Target's Category is Worker"
+			myOasisAIElementID 808
+			label Selected_Opportunity_OnItSubCategory
+			value Worker
+		}
+		String_Criterion "Selected OnItTarget Category is Defender" < uid=3BC8B70A582BA6EA0000005934573F8D >
+		{
+			myDescription "Selected Opportunity On It Target's Category is Defender"
+			myOasisAIElementID 809
+			label Selected_Opportunity_OnItSubCategory
+			value Defender
+		}
+		String_Criterion "Selected OnItTarget Category is Extractor" < uid=3BC8B70A582BA6EA0000005A28399849 >
+		{
+			myDescription "Selected Opportunity On It Target's Category is Extractor"
+			myOasisAIElementID 810
+			label Selected_Opportunity_OnItCategory
+			value Extractor
+		}
+		String_Criterion "Selected OnItTarget Category is Prime" < uid=3BC8B70A582BA6EA0000005BDBD14027 >
+		{
+			myDescription "Selected Opportunity On It Target's Category is Prime"
+			myOasisAIElementID 811
+			label Selected_Opportunity_OnItCategory
+			value Prime
+		}
+		String_Criterion "Selected OnItTarget Category is DefenseBase" < uid=3BC8B70A582BA6EA0000005CB6837084 >
+		{
+			myDescription "Selected Opportunity On It Target's Category is DefenseBase"
+			myOasisAIElementID 812
+			label Selected_Opportunity_OnItSubCategory
+			value DefenseBase
+		}
+		String_Criterion "Selected OnItTarget Category is MiningCenter" < uid=3BC8B70A582BA6EA0000005D3BA59A8E >
+		{
+			myDescription "Selected Opportunity On It Target's Category is MiningCenter"
+			myOasisAIElementID 813
+			label Selected_Opportunity_OnItSubCategory
+			value MiningCenter
+		}
+		String_Criterion "Selected OnItTarget Category is ObservationDeck" < uid=3BC8B70A582BA6EA0000005EDFBAB663 >
+		{
+			myDescription "Selected Opportunity On It Target's Category is ObservationDeck"
+			myOasisAIElementID 814
+			label Selected_Opportunity_OnItSubCategory
+			value ObservationDeck
+		}
+		String_Criterion "Selected OnItTarget Category is ResearchBase" < uid=3BC8B70A582BA6EA0000005F8E3B05CB >
+		{
+			myDescription "Selected Opportunity On It Target's Category is ResearchBase"
+			myOasisAIElementID 815
+			label Selected_Opportunity_OnItSubCategory
+			value ResearchBase
+		}
+		String_Criterion "Selected OnItTarget Category is Outpost" < uid=E9A11135594C37F00000004B0997A1E7 >
+		{
+			myDescription "Selected Opportunity On It Target's Category is Outpost"
+			myOasisAIElementID 2027
+			label Selected_Opportunity_OnItCategory
+			value Outpost
+		}
+		String_Criterion "Selected OnItThirdParty Category is Worker" < uid=3BC8B70A582E004A0000005813FA5B04 >
+		{
+			myDescription "Selected Opportunity ThirdParty's Category is Worker"
+			myOasisAIElementID 918
+			label Selected_Opportunity_ThirdPartySubCategory
+			value Worker
+		}
+		String_Criterion "Selected OnItThirdParty Category is Defender" < uid=3BC8B70A582E004A00000059637D975B >
+		{
+			myDescription "Selected Opportunity ThirdParty's Category is Defender"
+			myOasisAIElementID 919
+			label Selected_Opportunity_ThirdPartySubCategory
+			value Defender
+		}
+		String_Criterion "Selected OnItThirdParty Category is Extractor" < uid=3BC8B70A582E004A0000005A58309A07 >
+		{
+			myDescription "Selected Opportunity ThirdParty's Category is Extractor"
+			myOasisAIElementID 920
+			label Selected_Opportunity_ThirdPartyCategory
+			value Extractor
+		}
+		String_Criterion "Selected OnItThirdParty Category is Prime" < uid=3BC8B70A582E004A0000005B02DCC254 >
+		{
+			myDescription "Selected Opportunity ThirdParty's Category is Prime"
+			myOasisAIElementID 921
+			label Selected_Opportunity_ThirdPartyCategory
+			value Prime
+		}
+		String_Criterion "Selected OnItThirdParty Category is NPC" < uid=3BC8B70A582E004A0000005CC33F9B70 >
+		{
+			myDescription "Selected Opportunity ThirdParty's Category is NPC"
+			myOasisAIElementID 922
+			label Selected_Opportunity_ThirdPartyCategory
+			value NPC
+		}
+		String_Criterion "Selected OnItThirdParty Category is Resource" < uid=3BC8B70A582E004A0000005D4C770B03 >
+		{
+			myDescription "Selected Opportunity ThirdParty's Category is Resource"
+			myOasisAIElementID 923
+			label Selected_Opportunity_ThirdPartyCategory
+			value Resource
+		}
+		String_Criterion "Selected OnItThirdParty Category is DefenseBase" < uid=3BC8B70A582E004A0000005E904B4028 >
+		{
+			myDescription "Selected Opportunity ThirdParty's Category is DefenseBase"
+			myOasisAIElementID 924
+			label Selected_Opportunity_ThirdPartySubCategory
+			value DefenseBase
+		}
+		String_Criterion "Selected OnItThirdParty Category is MiningCenter" < uid=3BC8B70A582E004A0000005F7461FE17 >
+		{
+			myDescription "Selected Opportunity ThirdParty's Category is MiningCenter"
+			myOasisAIElementID 925
+			label Selected_Opportunity_ThirdPartySubCategory
+			value MiningCenter
+		}
+		String_Criterion "Selected OnItThirdParty Category is ObservationDeck" < uid=3BC8B70A582E004A000000604BBA0FF0 >
+		{
+			myDescription "Selected Opportunity ThirdParty's Category is ObservationDeck"
+			myOasisAIElementID 926
+			label Selected_Opportunity_ThirdPartySubCategory
+			value ObservationDeck
+		}
+		String_Criterion "Selected OnItThirdParty Category is ResearchBase" < uid=3BC8B70A582E004A00000061BF613A97 >
+		{
+			myDescription "Selected Opportunity ThirdParty's Category is ResearchBase"
+			myOasisAIElementID 927
+			label Selected_Opportunity_ThirdPartySubCategory
+			value ResearchBase
+		}
+		String_Criterion "Selected OnItThirdParty Faction is Harvester" < uid=3BC8B70A582E004A0000006275E16753 >
+		{
+			myDescription "Target of Selected OnIt is Harvester Faction"
+			myOasisAIElementID 928
+			label Selected_Opportunity_ThirdPartyFaction
+			value Harvester
+		}
+		String_Criterion "Selected OnItRequester Category is ExtractorCore" < uid=4A79E0E4583468F800000DE09A295D16 >
+		{
+			myScope Global
+			myDescription "Selected Opportunity Requester's Category is ExtractorCore"
+			myOasisAIElementID 970
+			label Selected_Opportunity_RequesterCategory
+			value ExtractorCore
+		}
+		String_Criterion "Selected OnItTarget Category is ExtractorCore" < uid=4A79E0E4583468F800000DE121B620DC >
+		{
+			myScope Global
+			myDescription "Selected Opportunity Target's Category is ExtractorCore"
+			myOasisAIElementID 971
+			label Selected_Opportunity_OnItCategory
+			value ExtractorCore
+		}
+		String_Criterion "Selected OnItThirdParty Category is ExtractorCore" < uid=4A79E0E4583468F800000DE2ADDD5305 >
+		{
+			myScope Global
+			myDescription "Selected Opportunity Third Party's Category is ExtractorCore"
+			myOasisAIElementID 972
+			label Selected_Opportunity_ThirdPartyCategory
+			value ExtractorCore
+		}
+		String_Criterion "Selected OnItRequester Category is PrimeCore" < uid=4A79E0E4583469D500000DE31CCB8C2A >
+		{
+			myDescription "Selected Opportunity Requester's Category is PrimeCore"
+			myOasisAIElementID 973
+			label Selected_Opportunity_RequesterCategory
+			value PrimeCore
+		}
+		String_Criterion "Selected OnItTarget Category is PrimeCore" < uid=4A79E0E4583469D500000DE4CCDAA348 >
+		{
+			myDescription "Selected Opportunity Target's Category is PrimeCore"
+			myOasisAIElementID 974
+			label Selected_Opportunity_OnItCategory
+			value PrimeCore
+		}
+		String_Criterion "Selected OnItThirdParty Category is PrimeCore" < uid=4A79E0E4583469D500000DE55CFACACF >
+		{
+			myDescription "Selected Opportunity Third Party's Category is PrimeCore"
+			myOasisAIElementID 975
+			label Selected_Opportunity_ThirdPartyCategory
+			value PrimeCore
+		}
+		String_Criterion "Selected OnItRequester Category is Minerals" < uid=4A79E0E4583EDBDC0000004BC0B5D39A >
+		{
+			myDescription "Selected Opportunity Requester's Category is Minerals"
+			myOasisAIElementID 1027
+			label Selected_Opportunity_RequesterSubCategory
+			value Minerals
+		}
+		String_Criterion "Selected OnItTarget Category is Minerals" < uid=4A79E0E4583EDBDC0000004C2EF31536 >
+		{
+			myDescription "Selected Opportunity Target's Category is Minerals"
+			myOasisAIElementID 1028
+			label Selected_Opportunity_OnItSubCategory
+			value Minerals
+		}
+		String_Criterion "Selected OnItThirdParty Category is Minerals" < uid=4A79E0E4583EDBDC0000004D68C12751 >
+		{
+			myDescription "Selected Opportunity Third Party's Category is Minerals"
+			myOasisAIElementID 1029
+			label Selected_Opportunity_OnItSubCategory
+			value Minerals
+		}
+		String_Criterion "Selected OnItTarget SubCategory is WardenRuin" < uid=1E68E535595D0497000000C6FB0B6AEE >
+		{
+			myScope Target
+			myDescription "Selected OnItTarget SubCategory is WardenRuin"
+			myOasisAIElementID 2095
+			label Selected_Opportunity_OnItSubCategory
+			value WardenRuin
+		}
+		String_Criterion "Selected OnItThirdParty SubCategory is WardenRuin" < uid=1E68E535595D0497000000C7D3CA3FD2 >
+		{
+			myScope ThirdParty
+			myDescription "Selected OnItThirdParty SubCategory is WardenRuin"
+			myOasisAIElementID 2096
+			label Selected_Opportunity_ThirdPartySubCategory
+			value WardenRuin
+		}
+		String_Criterion "Selected OnItRequester SubCategory is ObservatoryTower" < uid=1E68E53559821F2F0002F754C3AF1415 >
+		{
+			myDescription "Selected OnItRequester SubCategory is ObservatoryTower"
+			myOasisAIElementID 2200
+			label Selected_Opportunity_RequesterSubCategory
+			value ObservatoryTower
+		}
+		String_Criterion "Selected OnItRequester SubCategory is RepairStation" < uid=1E68E53559821F2F0002F755934B322E >
+		{
+			myDescription "Selected OnItRequester SubCategory is RepairStation"
+			myOasisAIElementID 2201
+			label Selected_Opportunity_RequesterSubCategory
+			value RepairStation
+		}
+		String_Criterion "Selected OnItRequester SubCategory is ElectrumHopper" < uid=1E68E53559821F2F0002F7565C749658 >
+		{
+			myDescription "Selected OnItRequester SubCategory is ElectrumHopper"
+			myOasisAIElementID 2202
+			label Selected_Opportunity_RequesterSubCategory
+			value ElectrumHopper
+		}
+		String_Criterion "Selected OnItRequester SubCategory is Watchtower" < uid=1E68E53559821F2F0002F757A48C942D >
+		{
+			myDescription "Selected OnItRequester SubCategory is Watchtower"
+			myOasisAIElementID 2203
+			label Selected_Opportunity_RequesterSubCategory
+			value Watchtower
+		}
+		String_Criterion "Selected OnItRequester SubCategory is InfusedElectrumBomb" < uid=1E68E53559821FF4000000366A9CC783 >
+		{
+			myDescription "Selected OnItRequester SubCategory is InfusedElectrumBomb"
+			myOasisAIElementID 2204
+			label Selected_Opportunity_RequesterSubCategory
+			value InfusedElectrumBomb
+		}
+		String_Criterion "Selected OnItTarget SubCategory is InfusedElectrum" < uid=AA5A6408599131470000000BF111C4EB >
+		{
+			myDescription "Selected Opportunity On It Target's Category is Defender"
+			myOasisAIElementID 2231
+			label Selected_Opportunity_OnItSubCategory
+			value InfusedElectrum
+		}
+		String_Criterion "Selected OnItTarget SubCategory is MineralSample" < uid=AA5A6408599131470000000C2807D9C0 >
+		{
+			myDescription "Selected Opportunity On It Target's Category is Defender"
+			myOasisAIElementID 2232
+			label Selected_Opportunity_OnItSubCategory
+			value MineralSample
+		}
+		String_Criterion "Selected OnItTarget SubCategory is RareMineralSample" < uid=AA5A6408599131470000000D5E6805EA >
+		{
+			myDescription "Selected Opportunity On It Target's Category is Defender"
+			myOasisAIElementID 2233
+			label Selected_Opportunity_OnItSubCategory
+			value RareMineralSample
+		}
+		String_Criterion "Selected OnItTarget SubCategory is GoldRushEquipment" < uid=AA5A6408599131470000000EC5EA873C >
+		{
+			myDescription "Selected Opportunity On It Target's Category is Defender"
+			myOasisAIElementID 2234
+			label Selected_Opportunity_OnItSubCategory
+			value GoldRushEquipment
+		}
+		String_Criterion "Selected OnItTarget SubCategory is RareFlora" < uid=E9A11135599B3BF6000221DA0CD7B313 >
+		{
+			myOasisAIElementID 2336
+			label Selected_Opportunity_OnItSubCategory
+			value RareFlora
+		}
+		String_Criterion "Selected OnItTarget Affinity is Heat" < uid=4A79E0E459CBC8B000000039D764D92D >
+		{
+			myScope Global
+			myOasisAIElementID 2513
+			label Selected_Opportunity_OnItAffinity
+			value Fire
+		}
+		String_Criterion "Selected OnItTarget Affinity is Cold" < uid=4A79E0E459CBC8B00000003AA0D6D3E2 >
+		{
+			myOasisAIElementID 2514
+			label Selected_Opportunity_OnItAffinity
+			value Ice
+		}
+		String_Criterion "Selected OnItTarget Affinity is Crush" < uid=4A79E0E459CBC8B00000003BEA986F32 >
+		{
+			myOasisAIElementID 2515
+			label Selected_Opportunity_OnItAffinity
+			value Crush
+		}
+		String_Criterion "Selected OnItTarget Affinity is None" < uid=4A79E0E459CD0A930000003D41414F2D >
+		{
+			myOasisAIElementID 2518
+			label Selected_Opportunity_OnItAffinity
+			value None
+		}
+		String_Criterion "Selected OnItActivity is Attack" < uid=3BC8B70A581BA5160000004D1C0D310C >
+		{
+			myDescription "Selected Opportunity is Attack"
+			myOasisAIElementID 748
+			label Selected_Opportunity_ActivityType
+			value Attack
+		}
+		String_Criterion "Selected OnItActivity is Defend" < uid=3BC8B70A581BA5160000004E2C21C179 >
+		{
+			myDescription "Selected Opportunity is Defend"
+			myOasisAIElementID 749
+			label Selected_Opportunity_ActivityType
+			value Defend
+		}
+		String_Criterion "Selected OnItActivity is Pickup" < uid=3BC8B70A581BA5160000004F5A8E507C >
+		{
+			myDescription "Selected Opportunity is Pickup"
+			myOasisAIElementID 750
+			label Selected_Opportunity_ActivityType
+			value Pickup
+		}
+		String_Criterion "Selected OnItActivity is Deliver" < uid=3BC8B70A581BA516000000506C19F7FE >
+		{
+			myDescription "Selected Opportunity is Deliver"
+			myOasisAIElementID 751
+			label Selected_Opportunity_ActivityType
+			value Deliver
+		}
+		String_Criterion "Selected OnItActivity is Find" < uid=3BC8B70A581BA5160000005119E92E20 >
+		{
+			myDescription "Selected Opportunity is Find"
+			myOasisAIElementID 752
+			label Selected_Opportunity_ActivityType
+			value Find
+		}
+		String_Criterion "Selected OnItActivity is Repair" < uid=3BC8B70A581BA516000000523BE10E6D >
+		{
+			myDescription "Selected Opportunity is Repair"
+			myOasisAIElementID 753
+			label Selected_Opportunity_ActivityType
+			value Repair
+		}
+		String_Criterion "Selected OnItActivity is Interact" < uid=3BC8B70A581BA5160000005313C4B4DD >
+		{
+			myDescription "Selected Opportunity is Interact"
+			myOasisAIElementID 754
+			label Selected_Opportunity_ActivityType
+			value Interact
+		}
+		String_Criterion "Selected OnItActivity is DeliverStructure" < uid=F2C5C69259B81CC800000195E5492FA1 >
+		{
+			myOasisAIElementID 2433
+			label Selected_Opportunity_ActivityType
+			value DeliverStructure
+		}
+		String_Criterion "Selected OnItActivity is DeliverAnalyzer" < uid=F2C5C69259B81CC8000001961CBF8436 >
+		{
+			myOasisAIElementID 2434
+			label Selected_Opportunity_ActivityType
+			value DeliverAnalyzer
+		}
+		String_Criterion "Selected OnItActivity is not DeliverAnalyzer" < uid=0A1D74E75BA2AABD0000242E93ABBCF3 >
+		{
+			myOasisAIElementID 3528
+			label Selected_Opportunity_ActivityType
+			value DeliverAnalyzer
+			notEqual TRUE
+		}
+		String_Criterion "Selected OnItActivity is DeliverBomb" < uid=F2C5C69259B81CC800000197950146CD >
+		{
+			myOasisAIElementID 2435
+			label Selected_Opportunity_ActivityType
+			value DeliverBomb
+		}
+		String_Criterion "Selected OnItActivity is Survive" < uid=F2C5C69259B81CC8000001982F78E51F >
+		{
+			myOasisAIElementID 2436
+			label Selected_Opportunity_ActivityType
+			value Survive
+		}
+		String_Criterion "Selected OnItActivity is Solve" < uid=813F3F3A59D3F059000000357161B7C3 >
+		{
+			myOasisAIElementID 2525
+			label Selected_Opportunity_ActivityType
+			value Solve
+		}
+		String_Criterion "Selected OnItActivity is Build Outpost" < uid=813F3F3A59D3F059000000364C4EAB76 >
+		{
+			myOasisAIElementID 2526
+			label Selected_Opportunity_ActivityType
+			value BuildOutpost
+		}
+		String_Criterion "Selected OnItTarget SubCategory is RaiderGiant" < uid=813F3F3A5A3432A400001DD20587B09F >
+		{
+			myOasisAIElementID 2894
+			label Selected_Opportunity_OnItSubCategory
+			value RaiderGiant
+		}
+		String_Criterion "Selected OnItRequester Category is Equinox" < uid=4A79E0E45A996CE500001B58F2BA94B4 >
+		{
+			myDescription "Selected OnItRequester Category is Equinox"
+			myOasisAIElementID 3142
+			label Selected_Opportunity_RequesterCategory
+			value Equinox
+		}
+		String_Criterion "Selected OnItTarget SubCategory is MineralSampleRare" < uid=1E68E5355ACF79B80000B38D667C1639 >
+		{
+			myDescription "Selected OnItTarget SubCategory is MineralSampleRare"
+			myOasisAIElementID 3301
+			label Selected_Opportunity_OnItSubCategory
+			value MineralSampleRare
+		}
+		String_Criterion "SelectedOnItTarget Subcategory is Fauna_01" < uid=4A79E0E45AE2206C00001D77F4BB1370 >
+		{
+			myOasisAIElementID 3309
+			label Selected_Opportunity_OnItSubCategory
+			value Fauna_01
+		}
+		String_Criterion "SelectedOnItTarget Subcategory is Fauna_02" < uid=4A79E0E45AE2208F00001D7833909E01 >
+		{
+			myOasisAIElementID 3310
+			label Selected_Opportunity_OnItSubCategory
+			value Fauna_02
+		}
+		String_Criterion "SelectedOnItTarget Subcategory is Fauna_03" < uid=4A79E0E45AE2208F00001D7932E69903 >
+		{
+			myOasisAIElementID 3311
+			label Selected_Opportunity_OnItSubCategory
+			value Fauna_03
+		}
+		String_Criterion "Selected OnItActivity is Liberate" < uid=AA5A640800000000EFA100D949127647 >
+		{
+			myOasisAIElementID 3364
+			label Selected_Opportunity_ActivityType
+			value Liberate
+		}
+		String_Criterion "Selected OnItActivity is Deliver Battery" < uid=AA5A640800000000744741EA49127647 >
+		{
+			myOasisAIElementID 3367
+			label Selected_Opportunity_ActivityType
+			value DeliverBattery
+		}
+		String_Criterion "Selected OnItActivity is Raid" < uid=4A79E0E45B2C08680000205D9F23BAD1 >
+		{
+			myOasisAIElementID 3432
+			value Siege
+		}
+		String_Criterion "Selected OnItActivity is DisableDefences" < uid=4A79E0E45B2D4B6800002060D90B6E8C >
+		{
+			myOasisAIElementID 3435
+			label OnIt_Opportunity_ActivityType
+			value DisableDefense
+		}
+		String_Criterion "Selected OnItTarget SubCategory is not Infection" < uid=4A79E0E45B44F00B00002225A6732E8C >
+		{
+			myOasisAIElementID 3463
+			label Selected_Opportunity_OnItSubCategory
+			value Infection
+			notEqual TRUE
+		}
+	}
+	myPlaceholderCriteria
+	{
+		Placeholder_Criterion ZZ_NoJuiceFile_ZZ_selected_opportunity_Criteria < uid=AA5A6408595B9E590000000E557227AF >
+		{
+			myDescription "Cut and paste this Placeholder_Criterion, and rename it to the appropriate int/float/string type in the appropriate bank."
+			myOasisAIElementID 2090
+		}
+		Placeholder_Criterion "ZZ_selected opportunity criteria.mcriteriabank_OasisID_37" < uid=C6D8AD8CF80B59A89BE09FBDC7FDEC7E >
+		{
+			myDescription "Cut and paste this Placeholder_Criterion, and rename it to the appropriate int/float/string type in the appropriate bank."
+			myOasisAIElementID 2090
+		}
+		Placeholder_Criterion "Selected OnItTarget SubCategory is MineralsRare" < uid=C6D8AD8CF80B59A89BE09FBD79E46E94 >
+		{
+			myDescription "Selected OnItTarget SubCategory is MineralsRare"
+			myOasisAIElementID 3300
+		}
+		Placeholder_Criterion "Selected OnItTarget Charge is Below 100%" < uid=AA5A640800000000A475D83F49127647 >
+		{
+			myDescription "Selected OnIt's Target is less than fully charged"
+			myOasisAIElementID 3519
+		}
+		Placeholder_Criterion "Selected OnItActivity is not DeliverAnalyzer" < uid=AA5A6408000000005A832C8549127647 >
+		{
+			myDescription "Cut and paste this Placeholder_Criterion, and rename it to the appropriate int/float/string type in the appropriate bank."
+			myOasisAIElementID 3528
+		}
+	}
+}
+

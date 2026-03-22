@@ -1,0 +1,72 @@
+include "onward/game system data/fruit/sim/simunit.fruit"
+
+//
+// Base class for calculating LootDropTable from a SimProxy
+//
+class SimProxyRewardLogic < abstract = 1 >
+{
+	SimUnit* mySimUnitAsset
+}
+
+list SimProxyRewardLogicList
+{
+	SimProxyRewardLogic
+}
+
+//
+// Default Logic, map a simUnitAsset directly to a single LootDropTable
+//
+class SimProxyRewardLogic_Default : SimProxyRewardLogic
+{
+	string myLootDropTable		< bhv="LootDropTableSelector" >
+}
+
+class SimProxyRewardLogic_LootDropTableProxy : SimProxyRewardLogic
+{
+	string myLootDropTableProxy		< bhv="LootDropTableProxySelector" >
+}
+
+class PlanetToLootDrop
+{
+	uid myPlanetUID				< bhv = asset assettype = level >
+	string myLootDropTable		< bhv="LootDropTableSelector" >
+}
+
+list PlanetToLootDropList
+{
+	PlanetToLootDrop
+}
+
+//
+// Logic for calculating LootDropTable based on the planet it's on
+//
+class SimProxyRewardLogic_Planet : SimProxyRewardLogic
+{
+	PlanetToLootDropList myPlanetToLootDropLookup
+}
+
+// Not a list of Ref since I want to leave this open to adding info
+class SimProxyRewardChildLookup
+{
+	SimProxyRewardLogic* myAssociatedLogic
+}
+
+list SimProxyRewardChildLookupList
+{
+	SimProxyRewardChildLookup
+}
+
+//
+// Logic for calculating LootDropTable based on what another SimUnit would spawn
+// Used for ShipWreck_Space_Medium which gives loot via outlaw_chest, which in turn has its own lookup
+// or anything else using the same pattern
+//
+class SimProxyRewardLogic_Association : SimProxyRewardLogic
+{
+	SimProxyRewardChildLookupList myChildren
+}
+
+class SimProxyRewardLookup
+{
+	SimProxyRewardLogicList myLookups
+}

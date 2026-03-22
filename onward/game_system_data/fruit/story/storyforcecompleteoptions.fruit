@@ -1,0 +1,19 @@
+include "onward/game system data/fruit/sim/simunit.fruit"
+include "onward/game system data/fruit/story/storyevent.fruit"
+include "onward/game system data/fruit/progression/challenge_types.fruit"
+
+class StoryBeatData_ForceCompleteOptions
+{
+	bool myEnabled FALSE
+	bool myEvaluateOnce FALSE < tooltip="If true, we only try to force complete this beat a single time" >
+	SimUnit* myCompleteOnSolveSimAsset
+	uid myCompleteOnSolvePlanet < bhv = asset assettype = level >
+	GameToStoryEvent myCompleteOnGameToStoryEvent NONE
+	SimUnit* myCompleteOnSimUnitExists
+	uid myCompleteOnSimUnitExistsPlanet < bhv = asset assettype = level >
+	bool myCheckNotExistsInstead FALSE
+	StoryEvent myCompleteOnStoryEvent NewGame
+	StoryEvent myCompleteOnNoStoryEvent NewGame
+	ChallengeType myCompleteOnChallenge None
+	ChallengeType myCompleteOnNoChallenge None
+}

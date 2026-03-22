@@ -1,0 +1,92 @@
+enum OGame_FirmwareUpdateStatus
+{
+	NotAvailable
+	Available
+	InProgress
+	AwaitingReboot
+
+	Error_ReconnectTimeout
+	Error_Disappeared
+
+	Error_CRCFailed
+	Error_MD5Failed
+	Error_NotInitialized
+	Error_WrongChunk
+	Error_IncorrectSize
+	Error_Underrun
+	Error_Overrun
+	Error_FlashBusy
+	Error_FlashPageProtected
+	Error_FlashErase
+	Error_FlashTimeout
+}
+
+enum OGame_MountState
+{
+	Disconnected
+	Connected
+	Debug_Error
+	Error_FuturePart
+	Error_UnknownPart
+	Error_TamperingDetected
+	Error_ElectricalIssue
+	Error_ManufacturingDefect
+	Error_ConsoleIncompatible
+}
+
+enum OGame_UIPlatformType
+{
+	PS4
+	XboxOne
+	Switch
+	PC
+}
+
+class FirmwareUpdateError
+{
+	OGame_FirmwareUpdateStatus myUpdateStatus
+	varmap myTitle < bhv="localization" >
+	varmap myMessage < bhv="localization" >
+	string myErrorCode < default = "IT5-FR13D" >
+}
+
+list FirmwareUpdateErrorList
+{
+	FirmwareUpdateError
+}
+
+class FirmwareUpdateErrors
+{
+	FirmwareUpdateError myFallBackError
+	FirmwareUpdateErrorList myErrorList
+}
+
+class ToySwapMessage
+{
+	OGame_UIPlatformType myPlatformType
+	varmap myText < bhv="localization" >
+}
+
+list ToySwapMessageList
+{
+	ToySwapMessage
+}
+
+class FirmwareToySwapError
+{
+	OGame_MountState myMountState
+	varmap myTitle < bhv="localization" >
+	ToySwapMessageList myErrorList
+	string myErrorCode < default = "IT5-FR13D" >
+}
+
+list FirmwareToySwapErrorList
+{
+	FirmwareToySwapError
+}
+
+class FirmwareToySwapErrors
+{
+	FirmwareToySwapError myFallBackError
+	FirmwareToySwapErrorList myMessages
+}

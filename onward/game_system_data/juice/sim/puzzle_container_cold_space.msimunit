@@ -1,0 +1,23 @@
+include ./puzzle_container_base.msimunit
+
+SimUnit puzzle_container_cold_space < uid=2453D28658DD09EC000000ED403DE53E > : puzzle_container_base
+{
+	myControlGraph onward/simworld/control/puzzle_container_space.msimunitcontrolgraph
+	myCategory Puzzle
+	mySubCategory ChestMod
+	mySubCategoryVariant 2
+	myAffinityType Ice
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo InteractablePickup < uid=CC9485AB59C1ABAF0001982EA02393D9 >
+		{
+			myCountMin 1
+			myCountMax 1
+			myIgnoreNavMesh TRUE
+			myIgnoreTerrain TRUE
+			myEntityFile "onward/entity templates/ld_puzzle_container_cold_space.mentitytemplate"
+		}
+	}
+	myNapTime 0.1
+}
+

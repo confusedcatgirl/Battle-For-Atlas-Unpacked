@@ -1,0 +1,61 @@
+enum ImpactCategory
+{
+	None
+	ExtraSmall
+	Small
+	Medium
+	Large
+	ExtraLarge
+}
+
+class ImpactSettings
+{
+	float myMomentumDamageThresholdMassMultiplier 21.0 	    < tooltip="Any relative momentums over this value * OurMass will cause impact damage" >
+	float myMomentumReactionThresholdMassMultiplier 21.0 	< tooltip="Any relative momentums over this value * OurMass will cause impact reaction" >
+	float myImpactDamageRatio 1.0						    < tooltip="How much damage to take based on the ratio of Relative momentum to Threshold. ie: Threshold is 50, Relative momentum is 100, ratio is 2:1. So take 2 x ImpactDamage" >
+	float myStaticMultiplier 3.0						    < tooltip="Multiplier for impacts with static objects" >
+	float myDynamicMultiplier 1.0						    < tooltip="Multiplier for impacts with dynamic objects" >
+	float myGlancingAngleMin 90.0                           < tooltip="At this value, should be 0% of force" >
+	float myGlancingAngleMax 0.0                            < tooltip="At this value, should be 100% of force" >
+	float myMinimumMassThreshold 0.0					    < tooltip="Minimum mass necessary for impacts to register" >
+	bool  myScaleByTimeMultiplier true					    < tooltip="Scale total impact by time multiplier" >
+	bool  myInvertImpactReactionNormal false                < tooltop="Whether or not we invert the reaction normal for collision impacts" >
+	bool  myReactToTerrainImpacts false						< tooltop="Whether to react to terrain impacts or not (non-flying AI should not)" >
+}
+
+
+class VisualImpactSettings
+{
+	float			myMinValue 0
+	float			myMaxValue 100
+
+	float			myImpactLinearLerpIn 5
+	float			myImpactAngularLerpIn 5
+
+	float			myImpactLinearLerpOut 5
+	float			myImpactAngularLerpOut 5
+
+
+	float			myLinearStrengthMin 0.05
+	float			myLinearStrengthMax 0.2
+
+	float			myAngularStrengthMin 0.5
+	float			myAngularStrengthMax 2
+
+	float			myImpactMaxDistance 1
+	float			myImpactMaxYaw 20
+	float			myImpactMaxPitch 20
+	float			myImpactMaxRoll 25
+
+	float			myPostImpactReductionTime 0
+	float			myPostImpactReductionMin 0.3
+	float			myPostImpactIgnoreTime 0.3
+
+	bool			myUseFixedMass FALSE
+	float			myFixedMass 10000	
+	bool			myUseAlignMethod FALSE
+	bool			myAllowNegativeAlign TRUE
+
+	string			myLinearImpactCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.5 -0.5, }, outTangents = { 0.5 0.5, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }" < bhv=inputgraph >
+	string			myAngularImpactCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.5 -0.5, }, outTangents = { 0.5 0.5, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }" < bhv=inputgraph >
+}

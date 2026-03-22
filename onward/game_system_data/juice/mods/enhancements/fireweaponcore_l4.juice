@@ -1,0 +1,21 @@
+include ./templates/template_l4.juice
+include "onward/game system data/juice/mods/mod_fire_weaponcore_l4.mplayermod"
+
+Enhancement fireweaponcore_l4 < uid=C91BB5515982255800088318D2BCB4D9 > : "Level 4"
+{
+	myLocalizedName "contextComment = \"[Placeholder - do not translate]\nName for Level 4 version of Fire Weapon Core mod, which boosts effectiveness of Heat-type weapons\", description = \"\", enabled = true, guid = #C91BB5515982255800088317443D2A2D, lineVersion = 2, maxLength = 22, text = \"Scorching Ammo IV\""
+	myLocalizedDescription "contextComment = \"Placeholder - do not translate]\nDescription for level 4 version of Fire Weapon Core mod, which can only be equipped to Heat-type weapons and greatly boosts damage, rate of fire, and adds a chance that shooting a damaged target will drop a health regenerating pickup\", description = \"enhancement-dscription-fire-weapon-core-4\", enabled = true, guid = #9E6AFEDA59D257E600A8608CF61BC1C8, lineVersion = 2, maxLength = 136, text = \"+23% Damage\n+50 Fire Rate\n+Heals for 10% of Damage done\n+Apply Fire & Overheat\nEquip on Heat type weapons\""
+	myIconSprite "mySpriteId = -1236023428, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-mods-weapon-core.spritesheet\""
+	myPartFlavor Heat
+	myMod < uid=C91BB551598225580008831996F9DF1C > = mod_fire_weaponcore_l4
+	myEnhancementType WeaponCore
+	myEnhancementTrackType FireWeaponCore
+	myDamageAffectors
+	{
+		DamageAffector_DamageToHealth "Damage to Health"
+		{
+			myDamageToHealthRatio = Fire_WeaponCore_l4_DmgToHealth
+		}
+	}
+}
+

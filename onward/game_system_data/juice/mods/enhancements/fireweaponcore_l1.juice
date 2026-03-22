@@ -1,0 +1,21 @@
+include ./templates/template_l1.juice
+include "onward/game system data/juice/mods/mod_fire_weaponcore_l1.mplayermod"
+
+Enhancement fireweaponcore_l1 < uid=C91BB551598225390008830EC7E32F72 > : "Level 1"
+{
+	myLocalizedName "contextComment = \"[Placeholder - do not translate]\nName for Level 1 version of Fire Weapon Core mod, which boosts effectiveness of Heat-type weapons\", description = \"\", enabled = true, guid = #C91BB551598225390008830DD2112778, lineVersion = 2, maxLength = 21, text = \"Scorching Ammo I\""
+	myLocalizedDescription "contextComment = \"[Placeholder - do not translate]\nDescription for level 1 version of Fire Weapon Core mod, which can only be equipped to Heat-type weapons and boosts damage output\", description = \"enhancement-dscription-fire-weapon-core-1\", enabled = true, guid = #9E6AFEDA59D257FB00A8609E118BF33D, lineVersion = 2, maxLength = 88, text = \"+10% Damage\n+Heals for 10% of Damage done\nEquip on Heat type weapons\""
+	myIconSprite "mySpriteId = -1236023428, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-mods-weapon-core.spritesheet\""
+	myPartFlavor Heat
+	myMod < uid=C91BB551598225390008830FC1AC6B96 > = mod_fire_weaponcore_l1
+	myEnhancementType WeaponCore
+	myEnhancementTrackType FireWeaponCore
+	myDamageAffectors
+	{
+		DamageAffector_DamageToHealth "Damage to Health"
+		{
+			myDamageToHealthRatio = Fire_WeaponCore_l1_DmgToHealth
+		}
+	}
+}
+

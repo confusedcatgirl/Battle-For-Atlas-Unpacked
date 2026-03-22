@@ -1,0 +1,647 @@
+include "onward/game system data/juice/rulesystem/rulesbank.juice"
+
+RulesBank arena_rulesbank < uid=0A1D74E75C37960B0000003A2DD229E1 >
+{
+	myRules
+	{
+		Rule "Arena High Score Beaten" < uid=600A30F35C40A4930000003AAC82A151 >
+		{
+			myRuleConcept ON_ARENA_EVENT_SCORE_FINALIZED
+			myCriteriaList
+			{
+				uid "Arena HighScore Beaten" 600A30F35C3FA2550000003A7ED3C487
+			}
+			myPayloads
+			{
+				uid "Arena High Score Beaten - VO" 600A30F35C40A47600000038612B06B7
+			}
+		}
+		Rule "Arena Match Start - Agility (Laserdrome)" < uid=2290993C5C4B545200000046936B71E1 >
+		{
+			myRuleConcept ON_ARENA_EVENT_BEGIN
+			myCriteriaList
+			{
+				uid "Arena Mode is Agility_Trial" 0A1D74E75C37C1E10000003A7CE8F8B6
+				uid "StorySection is NOT OutlawSideStory_2" 2290993C5C6435CB000003A8D81A9AFC
+			}
+			myPayloads
+			{
+				uid "Arena Match Start - Agility (Laserdrome) VO" 2290993C5C4B302B0000003810D5F8EE
+			}
+		}
+		Rule "Arena Match Start - Boss (Champion Battle)" < uid=2290993C5C4B5452000000474C11CDCE >
+		{
+			myRuleConcept ON_ARENA_EVENT_BEGIN
+			myCriteriaList
+			{
+				uid "Arena Mode is Boss" 0A1D74E75C37C1E10000003B7EB1F78D
+				uid "StorySection is NOT OutlawSideStory_3" 2290993C5C6435CB000003A96C76D932
+			}
+			myPayloads
+			{
+				uid "Arena Match Start - Boss (Champion Battle) VO" 2290993C5C4B302B0000003A77C79860
+			}
+		}
+		Rule "Arena Match Start - Challenge (Gauntlet)" < uid=0A1D74E75C3799AB001AB13A2735C9E3 >
+		{
+			myRuleConcept ON_ARENA_EVENT_BEGIN
+			myCriteriaList
+			{
+				uid "Arena Mode is Gauntlet" 0A1D74E75C37C1E100000039D95A514E
+			}
+			myPayloads
+			{
+				uid "Arena Match Start - Challenge (Gauntlet) VO" 0A1D74E75C37975C0005C0C1C10C4964
+			}
+		}
+		Rule "Arena Match Start - Survival (Brawl)" < uid=0A1D74E75C37C2900000003C066A9CE3 >
+		{
+			myRuleConcept ON_ARENA_EVENT_BEGIN
+			myCriteriaList
+			{
+				uid "Arena Mode is Survival" 0A1D74E75C37C1E100000038B9583F7F
+				uid "StorySection is NOT OutlawSideStory_1" 2290993C5C6435CB000003A7F3A712BF
+			}
+			myPayloads
+			{
+				uid "Arena Match Start - Survival (Brawl) VO" 0A1D74E75C37C2FE0000003D0DB16D41
+			}
+		}
+		Rule "Arena Reward Earned (Brawl)" < uid=600A30F35C3FA3F90000004092EDD157 >
+		{
+			myRuleConcept ON_ARENA_EVENT_COMPLETED
+			myCriteriaList
+			{
+				uid "Arena Reward Earned" 600A30F35C3FA2260000003879E46526
+				uid "Za Outlaw Story not in Arena Brawl" 600A30F35C4F85E400000039464EE623
+				uid "Arena Mode is Survival" 0A1D74E75C37C1E100000038B9583F7F
+			}
+			myPayloads
+			{
+				uid "Arena Reward Earned (Audience) - VO" 600A30F35C3FA31C0000003C3D0067CA
+			}
+		}
+		Rule "Arena Reward Earned (Laserdome)" < uid=600A30F35C5078040084F010116126B6 >
+		{
+			myRuleConcept ON_ARENA_EVENT_COMPLETED
+			myCriteriaList
+			{
+				uid "Arena Reward Earned" 600A30F35C3FA2260000003879E46526
+				uid "Za Outlaw Story not in Arena Laserdome" 600A30F35C5073240000942904DF411E
+				uid "Arena Mode is Agility_Trial" 0A1D74E75C37C1E10000003A7CE8F8B6
+			}
+			myPayloads
+			{
+				uid "Arena Reward Earned (Audience) - VO" 600A30F35C3FA31C0000003C3D0067CA
+			}
+		}
+		Rule "Arena Reward Earned (Champion)" < uid=600A30F35C5078040084F011408F708B >
+		{
+			myRuleConcept ON_ARENA_EVENT_COMPLETED
+			myCriteriaList
+			{
+				uid "Arena Reward Earned" 600A30F35C3FA2260000003879E46526
+				uid "Za Outlaw Story not in Arena Champion" 600A30F35C5073240000942BD77C106F
+				uid "Arena Mode is Boss" 0A1D74E75C37C1E10000003B7EB1F78D
+			}
+			myPayloads
+			{
+				uid "Arena Reward Earned (Audience) - VO" 600A30F35C3FA31C0000003C3D0067CA
+			}
+		}
+		Rule "Arena Reward Earned (Gaunlet)" < uid=600A30F35C5078040084F01268221A3D >
+		{
+			myRuleConcept ON_ARENA_EVENT_COMPLETED
+			myCriteriaList
+			{
+				uid "Arena Reward Earned" 600A30F35C3FA2260000003879E46526
+				uid "New uid (1)" 0A1D74E75C37C1E100000039D95A514E
+			}
+			myPayloads
+			{
+				uid "Arena Reward Earned (Audience) - VO" 600A30F35C3FA31C0000003C3D0067CA
+			}
+		}
+		Rule "Arena Wave 1 Complete - GAUNTLET" < uid=2290993C5C82868100000039C018CE89 >
+		{
+			myRuleConcept ON_ARENA_WAVE_COMPLETED
+			myCriteriaList
+			{
+				uid "Arena Wave 1" 0A1D74E75C33D15A0000003A8E2F6A90
+				uid "Arena Mode is Gauntlet" 0A1D74E75C37C1E100000039D95A514E
+				uid "Arena Tier is Survival" 0A1D74E75C8195A300000038E66ECF48
+			}
+			myPayloads
+			{
+				uid "Arena Wave 1 Complete VO" 0A1D74E75C3795C9000000387E71630C
+			}
+		}
+		Rule "Arena Wave 1 Complete - BRAWL & LASERDROME" < uid=0A1D74E75C37960B0000003B8E34D851 >
+		{
+			myRuleConcept ON_ARENA_WAVE_COMPLETED
+			myCriteriaList
+			{
+				uid "Arena Wave 1" 0A1D74E75C33D15A0000003A8E2F6A90
+				uid "Arena Mode is NOT Gauntlet" 2290993C5C828529000000381EA9DD2F
+			}
+			myPayloads
+			{
+				uid "Arena Wave 1 Complete VO" 0A1D74E75C3795C9000000387E71630C
+			}
+		}
+		Rule "Arena Wave 2 Complete - BRAWL" < uid=2290993C5C58611A0000003C2D124FCA >
+		{
+			myRuleConcept ON_ARENA_WAVE_COMPLETED
+			myCriteriaList
+			{
+				uid "Arena Wave 2" 0A1D74E75C33D15A0000003B51997FB3
+				uid "Arena Mode is Survival" 0A1D74E75C37C1E100000038B9583F7F
+				uid "Arena Mode is NOT Gauntlet" 2290993C5C828529000000381EA9DD2F
+			}
+			myPayloads
+			{
+				uid "Arena Wave 2 Complete - BRAWL VO" 2290993C5C58600B00000038AF537B72
+			}
+		}
+		Rule "Arena Wave 3 Complete - BRAWL" < uid=2290993C5C58611A0000003D390C8B40 >
+		{
+			myRuleConcept ON_ARENA_WAVE_COMPLETED
+			myCriteriaList
+			{
+				uid "Arena Wave 3" 0A1D74E75C33D15A0000003C8D7543F0
+				uid "Arena Mode is Survival" 0A1D74E75C37C1E100000038B9583F7F
+				uid "Arena Mode is NOT Gauntlet" 2290993C5C828529000000381EA9DD2F
+			}
+			myPayloads
+			{
+				uid "Arena Wave 3 Complete - BRAWL VO" 2290993C5C58600B0000003AEC40890C
+			}
+		}
+		Rule "Arena Wave 4 Complete - BRAWL" < uid=2290993C5C58611A0000003ED1EC6D84 >
+		{
+			myRuleConcept ON_ARENA_WAVE_COMPLETED
+			myCriteriaList
+			{
+				uid "Arena Wave 4" 2290993C5C5862210000003FB951BDC0
+				uid "Arena Mode is Survival" 0A1D74E75C37C1E100000038B9583F7F
+				uid "StorySection is NOT OutlawSideStory_1" 2290993C5C6435CB000003A7F3A712BF
+				uid "Arena Mode is NOT Gauntlet" 2290993C5C828529000000381EA9DD2F
+			}
+			myPayloads
+			{
+				uid "Arena Wave 4 Complete - BRAWL VO" 2290993C5C4B302B0000003E54338223
+			}
+		}
+		Rule "Arena Wave 2 Complete - LASERDROME" < uid=2290993C5C4B5F550000004801B15E60 >
+		{
+			myRuleConcept ON_ARENA_WAVE_COMPLETED
+			myCriteriaList
+			{
+				uid "Arena Wave 2" 0A1D74E75C33D15A0000003B51997FB3
+				uid "Arena Mode is Agility_Trial" 0A1D74E75C37C1E10000003A7CE8F8B6
+				uid "Arena Mode is NOT Gauntlet" 2290993C5C828529000000381EA9DD2F
+			}
+			myPayloads
+			{
+				uid "Arena Wave 2 Complete VO" 2290993C5C4B302B0000003C70D3F3AD
+			}
+		}
+		Rule "Arena Wave 3 Complete - LASERDROME" < uid=2290993C5C4B5F5500000049A20C0778 >
+		{
+			myRuleConcept ON_ARENA_WAVE_COMPLETED
+			myCriteriaList
+			{
+				uid "Arena Wave 3" 0A1D74E75C33D15A0000003C8D7543F0
+				uid "Arena Mode is Agility_Trial" 0A1D74E75C37C1E10000003A7CE8F8B6
+				uid "StorySection is NOT OutlawSideStory_2" 2290993C5C6435CB000003A8D81A9AFC
+				uid "Arena Mode is NOT Gauntlet" 2290993C5C828529000000381EA9DD2F
+			}
+			myPayloads
+			{
+				uid "Arena Wave 3 Complete VO" 2290993C5C4B302B0000003E54338223
+			}
+		}
+		Rule "Player Chilled - Arena" < uid=2290993C5C4B5F550000004A6A208EA1 >
+		{
+			myRuleConcept ON_STATUSEFFECT_REACTION
+			myCriteriaList
+			{
+				uid "Instigator Faction Is Player" F2C5C6925767FAEB0000000520B9FAB2
+				uid "Instigator is Affected by Chill" 813F3F3A59EFB1FF00000038C8B5339E
+				uid "Is In Arena" 0A1D74E75C365FDF000000386E1796D9
+			}
+			myPayloads
+			{
+				uid "Player Chilled - Arena VO" 2290993C5C4B6B4D000000381FAB0938
+			}
+		}
+		Rule "Player Downed - Arena" < uid=2290993C5C4B5F550000004BA89D4196 >
+		{
+			myRuleConcept ON_DEATH
+			myCriteriaList
+			{
+				uid "Target Faction Is Player" F2C5C6925767FAEB00000006332B93AC
+				uid "Is In Arena" 0A1D74E75C365FDF000000386E1796D9
+			}
+			myPayloads
+			{
+				uid "Player Downed - Arena VO" 2290993C5C4B6B4D00000039348F568E
+			}
+		}
+		Rule "Player Equipped a New Ship (1st Occurrence) - Arena" < uid=2290993C5C4B5F550000004C235448BB >
+		{
+			myRuleConcept Undefined
+			myCriteriaList
+			{
+				uid "Is In Arena" 0A1D74E75C365FDF000000386E1796D9
+				uid "Is Not in Arena Results Screen" 0A1D74E75C704D26000000395A0A76E2
+			}
+			myPayloads
+			{
+				uid "Player Equipped a New Ship (1st Occurrence) - Arena VO" 2290993C5C4B3989000000408751FFF9
+			}
+		}
+		Rule "Player Equipped a New Ship - Arena" < uid=2290993C5C4B64F60000004DE1A1BC6E >
+		{
+			myRuleConcept ON_PART_ADDED
+			myCriteriaList
+			{
+				uid "Is In Arena" 0A1D74E75C365FDF000000386E1796D9
+				uid "Part Attached Hull" 600A30F35C4B6511000000390E68B2A3
+				uid "Is Not in Arena Results Screen" 0A1D74E75C704D26000000395A0A76E2
+			}
+			myPayloads
+			{
+				uid "Player Equipped a New Ship - Arena VO" 2290993C5C4B398900000042B0D17024
+			}
+		}
+		Rule "Player Equipped a New Weapon - Arena" < uid=0A1D74E75C37C43A0000004113D920D7 >
+		{
+			myRuleConcept ON_PART_ADDED
+			myCriteriaList
+			{
+				uid "Is In Arena" 0A1D74E75C365FDF000000386E1796D9
+				uid "Part Attached Pod" 600A30F35C4B645A000000383429897C
+				uid "Is Not in Arena Results Screen" 0A1D74E75C704D26000000395A0A76E2
+			}
+			myPayloads
+			{
+				uid "Player Equipped a New Weapon - Arena VO" 0A1D74E75C37C40F0000003FC75B9DCF
+			}
+		}
+		Rule "Player Fire - Arena" < uid=2290993C5C4B64F60000004E8F9A737D >
+		{
+			myRuleConcept ON_STATUSEFFECT_REACTION
+			myCriteriaList
+			{
+				uid "Instigator Faction Is Player" F2C5C6925767FAEB0000000520B9FAB2
+				uid "Instigator is Affected by Fire" 813F3F3A59EFB1FF0000003656FBFE48
+				uid "Is In Arena" 0A1D74E75C365FDF000000386E1796D9
+			}
+			myPayloads
+			{
+				uid "Player Fire - Arena VO" 2290993C5C4B6B4D0000003AD799C93E
+			}
+		}
+		Rule "Player Flight - Arena" < uid=600A30F35C3F80C50000003A353EA338 >
+		{
+			myRuleConcept ON_FLIGHT
+			myCriteriaList
+			{
+				uid "Is In Arena" 0A1D74E75C365FDF000000386E1796D9
+				uid "Instigator Faction Is Player" F2C5C6925767FAEB0000000520B9FAB2
+				uid "Target Faction Is Player" F2C5C6925767FAEB00000006332B93AC
+			}
+			myPayloads
+			{
+				uid "Player Flight - Arena VO" 600A30F35C3F808D0000003864CFF44A
+			}
+		}
+		Rule "Player Frozen - Arena" < uid=2290993C5C4B6EFA000000427A193A9D >
+		{
+			myRuleConcept ON_STATUSEFFECT_REACTION
+			myCriteriaList
+			{
+				uid "Instigator Faction Is Player" F2C5C6925767FAEB0000000520B9FAB2
+				uid "Instigator is Affected by Freeze" 813F3F3A59EFB1FF00000039831B17CF
+				uid "Is In Arena" 0A1D74E75C365FDF000000386E1796D9
+			}
+			myPayloads
+			{
+				uid "Player Frozen - Arena VO" 2290993C5C4B6B4D0000003B524A263E
+			}
+		}
+		Rule "Player Gravity Well - Arena" < uid=2290993C5C4B6EFA0000004361D393EC >
+		{
+			myRuleConcept ON_STATUSEFFECT_REACTION
+			myCriteriaList
+			{
+				uid "Instigator Faction Is Player" F2C5C6925767FAEB0000000520B9FAB2
+				uid "Instigator is Affected by Gravity" 813F3F3A59EFB1FF0000003A0A9BB05A
+				uid "Is In Arena" 0A1D74E75C365FDF000000386E1796D9
+			}
+			myPayloads
+			{
+				uid "Player Gravity Well - Arena VO" 2290993C5C4B6B4D0000003C15EF0786
+			}
+		}
+		Rule "Player Hit by Laser - Arena" < uid=2290993C5C4B6EFA00000044E059AF3C >
+		{
+			myRuleConcept ON_DAMAGE
+			myCriteriaList
+			{
+				uid "Target Faction Is Player" F2C5C6925767FAEB00000006332B93AC
+				uid "Instigator Ability is Heavy Laser" 9543058059B98FD300000197F21481A3
+				uid "Is In Arena" 0A1D74E75C365FDF000000386E1796D9
+			}
+		}
+		Rule "Player Low Health - Arena" < uid=2290993C5C4B6EFA0000004544FF598F >
+		{
+			myRuleConcept ON_DAMAGE
+			myCriteriaList
+			{
+				uid "Target Faction Is Player" F2C5C6925767FAEB00000006332B93AC
+				uid "Target Health Is Low" 1E68E53558F51D380004D39BD7D17FC5
+				uid "Is In Arena" 0A1D74E75C365FDF000000386E1796D9
+			}
+			myPayloads
+			{
+				uid "Player Low Health - Arena VO" 2290993C5C4B6B4D0000003E4253FAE7
+			}
+		}
+		Rule "Player Ragdolled - Arena" < uid=600A30F35C3F7A0C0000003ABC844A38 >
+		{
+			myRuleConcept ON_RAGDOLL
+			myCriteriaList
+			{
+				uid "Is In Arena" 0A1D74E75C365FDF000000386E1796D9
+				uid "Instigator Faction Is Player" F2C5C6925767FAEB0000000520B9FAB2
+				uid "Target Faction Is Player" F2C5C6925767FAEB00000006332B93AC
+			}
+			myPayloads
+			{
+				uid "Player Ragdolled - Arena VO" 600A30F35C3F796A00000038E99F3008
+			}
+		}
+		Rule "Player Stasis - Arena" < uid=2290993C5C4B6FC900000046F7814E5F >
+		{
+			myRuleConcept ON_STATUSEFFECT_REACTION
+			myCriteriaList
+			{
+				uid "Instigator Faction Is Player" F2C5C6925767FAEB0000000520B9FAB2
+				uid "Instigator is Affected by Stasis" 813F3F3A59EFB1FF0000003BB4BEA5F0
+				uid "Is In Arena" 0A1D74E75C365FDF000000386E1796D9
+			}
+			myPayloads
+			{
+				uid "Player Stasis - Arena VO" 2290993C5C4B6B4D0000003F412B5F45
+			}
+		}
+		Rule "Player Sundered - Arena" < uid=2290993C5C4B6FC9000000470A30EFB0 >
+		{
+			myRuleConcept ON_STATUSEFFECT_REACTION
+			myCriteriaList
+			{
+				uid "Instigator Faction Is Player" F2C5C6925767FAEB0000000520B9FAB2
+				uid "Instigator is Affected by Sunder" 813F3F3A59EFB1FF00000037BF603F76
+				uid "Is In Arena" 0A1D74E75C365FDF000000386E1796D9
+			}
+			myPayloads
+			{
+				uid "Player Sundered - Arena VO" 2290993C5C4B6B4D000000402C95B3D1
+			}
+		}
+		Rule "Arena Pilot Psych-Up - CHASE" < uid=2290993C5C4B744C0000004A64BEC113 >
+		{
+			myRuleConcept ON_BARK_FINISHED
+			myCriteriaList
+			{
+				uid "BarkTag was ArenaStart" 2290993C5C868382000000385836B7B0
+				uid "Global Pilot is Chase" F2C5C69257E055F80000010B2BDD0EC0
+			}
+			myPayloads
+			{
+				uid "Arena Pilot Psych-Up - CHASE VO" 2290993C5C4B744800000048273D8185
+			}
+		}
+		Rule "Arena Pilot Psych-Up - ELI" < uid=2290993C5C4B85D700000065824CCCE1 >
+		{
+			myRuleConcept ON_BARK_FINISHED
+			myCriteriaList
+			{
+				uid "BarkTag was ArenaStart" 2290993C5C868382000000385836B7B0
+				uid "Global Pilot is Eli" 3BC8B70A57F2CE49000000598F2A9124
+			}
+			myPayloads
+			{
+				uid "Arena Pilot Psych-Up - ELI VO" 2290993C5C4B7CF40000004B22846A58
+			}
+		}
+		Rule "Arena Pilot Psych-Up - FERN" < uid=2290993C5C4B85D7000000660DD681CA >
+		{
+			myRuleConcept ON_BARK_FINISHED
+			myCriteriaList
+			{
+				uid "BarkTag was ArenaStart" 2290993C5C868382000000385836B7B0
+				uid "Global Pilot is Fern" 3BC8B70A57F2CE820000005AD0A7E1E4
+			}
+			myPayloads
+			{
+				uid "Arena Pilot Psych-Up - FERN VO" 2290993C5C4B7CF40000004DADB37F8B
+			}
+		}
+		Rule "Arena Pilot Psych-Up - GALLA" < uid=2290993C5C4B85D7000000672B1104AE >
+		{
+			myRuleConcept ON_BARK_FINISHED
+			myCriteriaList
+			{
+				uid "BarkTag was ArenaStart" 2290993C5C868382000000385836B7B0
+				uid "Global Pilot is Galla" 3BC8B70A57F2CEE80000005B636A98FF
+			}
+			myPayloads
+			{
+				uid "Arena Pilot Psych-Up - GALLA VO" 2290993C5C4B7CF40000004FB27E33D6
+			}
+		}
+		Rule "Arena Pilot Psych-Up - HAYWIRE" < uid=2290993C5C4B85D70000006835949E18 >
+		{
+			myRuleConcept ON_BARK_FINISHED
+			myCriteriaList
+			{
+				uid "BarkTag was ArenaStart" 2290993C5C868382000000385836B7B0
+				uid "Global Pilot is Haywire" 3BC8B70A57F2CEE80000005C89AE5543
+			}
+			myPayloads
+			{
+				uid "Arena Pilot Psych-Up - HAYWIRE VO" 2290993C5C4B7CF40000005107AA6A33
+			}
+		}
+		Rule "Arena Pilot Psych-Up - HUNTER" < uid=2290993C5C4B85D700000069D15B778F >
+		{
+			myRuleConcept ON_BARK_FINISHED
+			myCriteriaList
+			{
+				uid "BarkTag was ArenaStart" 2290993C5C868382000000385836B7B0
+				uid "Global Pilot is Hunter" 3BC8B70A57F2CF080000005D52D656E3
+			}
+			myPayloads
+			{
+				uid "Arena Pilot Psych-Up - HUNTER VO" 2290993C5C4B7CF400000053BD93A4D5
+			}
+		}
+		Rule "Arena Pilot Psych-Up - JUDGE" < uid=2290993C5C4B85D70000006A683A64BF >
+		{
+			myRuleConcept ON_BARK_FINISHED
+			myCriteriaList
+			{
+				uid "BarkTag was ArenaStart" 2290993C5C868382000000385836B7B0
+				uid "Global Pilot is Judge" E9A111355B0C748800001DD1E107CBDF
+			}
+			myPayloads
+			{
+				uid "Arena Pilot Psych-Up - JUDGE VO" 2290993C5C4B7CF400000055406362B6
+			}
+		}
+		Rule "Arena Pilot Psych-Up - KHARL" < uid=2290993C5C4B85D70000006BCBAD2962 >
+		{
+			myRuleConcept ON_BARK_FINISHED
+			myCriteriaList
+			{
+				uid "BarkTag was ArenaStart" 2290993C5C868382000000385836B7B0
+				uid "Global Pilot is Kharl" 3BC8B70A57F2D0860000005EBD91359C
+			}
+			myPayloads
+			{
+				uid "Arena Pilot Psych-Up - KHARL VO" 2290993C5C4B7CF400000057187CCED0
+			}
+		}
+		Rule "Arena Pilot Psych-Up - LEVI" < uid=2290993C5C4B85D70000006C5A580A51 >
+		{
+			myRuleConcept ON_BARK_FINISHED
+			myCriteriaList
+			{
+				uid "BarkTag was ArenaStart" 2290993C5C868382000000385836B7B0
+				uid "Global Pilot is Levi" F2C5C69257E055F80000010EB395EAF7
+			}
+			myPayloads
+			{
+				uid "Arena Pilot Psych-Up - LEVI VO" 2290993C5C4B7CF40000005934A5FEBD
+			}
+		}
+		Rule "Arena Pilot Psych-Up - MASON" < uid=2290993C5C4B85D70000006D50B5E99A >
+		{
+			myRuleConcept ON_BARK_FINISHED
+			myCriteriaList
+			{
+				uid "BarkTag was ArenaStart" 2290993C5C868382000000385836B7B0
+				uid "Global Pilot is Mason" F2C5C69257E055F80000010D2B9B1048
+			}
+			myPayloads
+			{
+				uid "Arena Pilot Psych-Up - MASON VO" 2290993C5C4B7CF40000005BB94B0D84
+			}
+		}
+		Rule "Arena Pilot Psych-Up - RANKOR" < uid=2290993C5C4B85D70000006EEB1160AF >
+		{
+			myRuleConcept ON_BARK_FINISHED
+			myCriteriaList
+			{
+				uid "BarkTag was ArenaStart" 2290993C5C868382000000385836B7B0
+				uid "Global Pilot is Rancor" 3BC8B70A57F2D0F00000005F8A0BEFB1
+			}
+			myPayloads
+			{
+				uid "Arena Pilot Psych-Up - RANKOR VO" 2290993C5C4B7CF40000005D8F1C68B3
+			}
+		}
+		Rule "Arena Pilot Psych-Up - RAZOR" < uid=2290993C5C4B85D70000006F4955A296 >
+		{
+			myRuleConcept ON_BARK_FINISHED
+			myCriteriaList
+			{
+				uid "BarkTag was ArenaStart" 2290993C5C868382000000385836B7B0
+				uid "Global Pilot is Razor" 3BC8B70A57F2D0F00000006071F4B7FE
+			}
+			myPayloads
+			{
+				uid "Arena Pilot Psych-Up - RAZOR VO" 2290993C5C4B7CF40000005FD3D7EC7F
+			}
+		}
+		Rule "Arena Pilot Psych-Up - SHAID" < uid=2290993C5C4B85D700000070D3C5236F >
+		{
+			myRuleConcept ON_BARK_FINISHED
+			myCriteriaList
+			{
+				uid "BarkTag was ArenaStart" 2290993C5C868382000000385836B7B0
+				uid "Global Pilot is Shaid" 3BC8B70A57F2D11D000000619175966D
+			}
+			myPayloads
+			{
+				uid "Arena Pilot Psych-Up - SHAID VO" 2290993C5C4B7CF400000061927C5FB1
+			}
+		}
+		Rule "Arena Pilot Psych-Up - STARTAIL" < uid=2290993C5C4B85D7000000712CC3F9B4 >
+		{
+			myRuleConcept ON_BARK_FINISHED
+			myCriteriaList
+			{
+				uid "BarkTag was ArenaStart" 2290993C5C868382000000385836B7B0
+				uid "Global Pilot is Startail" 3BC8B70A57F2D16A0000006370DF6973
+			}
+			myPayloads
+			{
+				uid "Arena Pilot Psych-Up - STARTAIL VO" 2290993C5C4B7CF400000063430CBDBB
+			}
+		}
+		Rule "Arena Turret - Damage Resisted" < uid=2290993C5C5C94B20000003873BB1625 >
+		{
+			myRuleConcept ON_BLOCKED_BY_SHIELD
+			myCriteriaList
+			{
+				uid "Is In Arena" 0A1D74E75C365FDF000000386E1796D9
+				uid "Instigator Faction Is Outlaw" D1E9B2CB5755C3ED000000890F3A4580
+				uid "Instigator Category Is NPC" D1E9B2CB5755BF5600000087A7D52B39
+				uid "Instigator SubCategory is ArenaParticipant" 2290993C5C6480430000003BD4C8B1AB
+				uid "Instigator SubCategory Variant is 50" 2290993C5C647EB80000003852257E02
+			}
+			myPayloads
+			{
+				uid DamageResisted 2B55C72B5BC8A23E0000003813289D4F
+			}
+		}
+		Rule "Arena Turret - Damage Dealt to Player" < uid=2290993C5C5C94B200000039DF86A553 >
+		{
+			myRuleConcept ON_DAMAGE
+			myCriteriaList
+			{
+				uid "Target Faction Is Player" F2C5C6925767FAEB00000006332B93AC
+				uid "Is In Arena" 0A1D74E75C365FDF000000386E1796D9
+				uid "Instigator Faction Is Outlaw" D1E9B2CB5755C3ED000000890F3A4580
+				uid "Instigator Category Is NPC" D1E9B2CB5755BF5600000087A7D52B39
+				uid "Instigator SubCategory is ArenaParticipant" 2290993C5C6480430000003BD4C8B1AB
+				uid "Instigator SubCategory Variant is 50" 2290993C5C647EB80000003852257E02
+			}
+			myPayloads
+			{
+				uid PlayerTookDamaged 2B55C72B5BC8EBEE0000003921DCA40B
+			}
+		}
+		Rule "Arena Turret - Player Parried Turret" < uid=2290993C5C5C94B20000003ADA352793 >
+		{
+			myRuleConcept ON_PARRY_STRIKE
+			myCriteriaList
+			{
+				uid "Instigator Faction Is Player" F2C5C6925767FAEB0000000520B9FAB2
+				uid "Is In Arena" 0A1D74E75C365FDF000000386E1796D9
+				uid "Target Faction Is Outlaw" D1E9B2CB5755C3ED0000008AC7F39169
+				uid "Target SubCategory is ArenaParticipant" 2290993C5C6480430000003C721EC67E
+				uid "Instigator SubCategory Variant is 50" 2290993C5C647EB80000003852257E02
+			}
+			myPayloads
+			{
+				uid "Player Parried Hard Turret" 954305805BE1EAEB000002D7C786688B
+			}
+		}
+	}
+}
+

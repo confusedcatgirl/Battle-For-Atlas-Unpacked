@@ -1,0 +1,40 @@
+include "onward/game system data/fruit/sim/simunit.fruit"
+
+SimUnit space_ship_wreck_outlaw_squad < uid=6D25F4C65AFB40BD00B01DE9F8F2EC53 >
+{
+	myUIName "contextComment = \"The UI Name for the outlaw defender spawned near a ship wreck (in space)\", description = \"uiname-outlaw-defender\", enabled = true, guid = #6D25F4C65AFB40BD00B01DE87B682B36, lineVersion = 0, maxLength = 20, text = \"Outlaw Defender\""
+	myBehavior onward/simworld/behavior/generic_reinforcement.msimunitbtgraph
+	myFaction Outlaw
+	myCategory NPC
+	mySubCategory Defender
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo outlaw_defender_space < uid=6D25F4C65AFB40BD00B01DEA208C9655 >
+		{
+			myCountMin 3
+			myCountMax 4
+			myElementSpawnInfo
+			{
+				SimUnitElementSpawnInfo outlaw_defender_space
+				{
+					myEntityFile "onward/game system data/juice/ai/npc/outlaw_defender.mnpc"
+				}
+			}
+			mySpaceSettings
+			{
+				mySpawnFormation AmbushPlayer
+				myFormationFlightDist 10.0
+			}
+			myEnsurePhysicsClearance TRUE
+		}
+	}
+	mySaveable FALSE
+	mySkillLevelCoefficients
+	{
+		myPlanetActMultiplier 1
+		myParentLevelMultiplier 0
+		myParentSkillLevelMultiplier 0
+		myUnitLevelMultiplier 0
+	}
+}
+

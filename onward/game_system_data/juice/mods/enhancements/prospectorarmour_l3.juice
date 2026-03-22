@@ -1,0 +1,22 @@
+include ./templates/template_l3.juice
+include "onward/game system data/juice/mods/mod_prospector_armour_l3.mplayermod"
+include "onward/game system data/juice/buffs/buff_prospector_armour_l5.mbuff"
+include ./impactaffectors/impact_affectors.juice
+
+Enhancement prospectorarmour_l3 < uid=C91BB5515980BF0D000000A64F7FA58E > : "Level 3"
+{
+	myLocalizedName "contextComment = \"[Placeholder - do not translate]\nName for level 3 version of a Ship Armor made by the Prospectors that gives broad-spectrum resistance and ground-pound like abilities when fighting on the ground. Can only be equipped on Prospector ships.\", description = \"\", enabled = true, guid = #C91BB5515980BF0D000000A5F7BF4C01, lineVersion = 1, maxLength = 30, text = \"Prospector Armor III\""
+	myLocalizedDescription "contextComment = \"[Placeholder - do not translate]\nDescription for level 3 version of a Ship Armor made by the Prospectors that gives broad-spectrum resistance and ground-pound like abilities when fighting on the ground. Can only be equipped on Prospector ships.\", description = \"enhancement-description-prospector-armour-3\", enabled = true, guid = #AB69C587747C4C219FA2CD50159A8E2E, lineVersion = 2, maxLength = 125, text = \"+50 Defense\n+15% Damage Resist\nParry Stuns for Longer | Stun on Impact\nKnock units back on Crash\""
+	myIconSprite "mySpriteId = 1758106709, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-mods-ship-armour.spritesheet\""
+	myIsHullEnhancement TRUE
+	myFactionType Prospector
+	myMod < uid=C91BB5515980BF0D000000A7236807F2 > = mod_prospector_armour_l3
+	myBuff < uid=939A35415AAAE55B001A713DF7A3F501 > = buff_prospector_armour_l5
+	myEnhancementType Armour
+	myEnhancementTrackType ProspectorArmour
+	myImpactAffectors
+	{
+		ImpactAffector_Stun "Stun On Impact" = "Stun on Impact"
+	}
+}
+

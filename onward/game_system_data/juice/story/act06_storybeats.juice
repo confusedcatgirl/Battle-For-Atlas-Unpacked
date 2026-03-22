@@ -1,0 +1,259 @@
+include ./actions_library.juice
+include "onward/game system data/fruit/input/gameinput.fruit"
+include "onward/game system data/fruit/ai/npc.fruit"
+include "onward/game system data/fruit/entity/faction.fruit"
+include "onward/game system data/fruit/ai/affinitytype.fruit"
+include "onward/game system data/fruit/unitprogression/unitxppayloadtype.fruit"
+include "onward/game system data/fruit/progression/challenge_types.fruit"
+include "onward/game system data/juice/sim/harvester_drake_grax.msimunit"
+include "onward/game system data/juice/sim/act_5_vortex_shield.msimunit"
+include "onward/game system data/juice/sim/harvester_drake_squad.msimunit"
+include ./objectives/objectives.juice
+
+StoryBeatData Act6_SEQ1_VictoryCinematic < uid=9FD9E81859F1026200000085D82C532A >
+{
+	myActStartFlag TRUE
+	myIsCheckpoint TRUE
+	myStoryDataActions
+	{
+		StoryDataAction_CompleteStoryEvent "Complete Story Event - Victory"
+		{
+			myStoryEvent Victory
+		}
+		StoryDataAction_Cinematic "Cinematic - Victory"
+		{
+			myNumBlackFramesOnCompletion 8
+			myCinematicFile onward/baked/videos/CIN_ACT6A.bk2
+		}
+		StoryDataAction_CompleteChallenge "Complete Challenge - Grax Defeated"
+		{
+			myChallengeToComplete DefeatGrax
+		}
+		StoryDataAction_SetObjective "Close Chapter 6"
+		{
+			myObjectiveData < uid=1EE141815AB1791500001BCD4DF6D586 > = Act5.Chapter6.Header
+			myObjectiveState Remove
+		}
+	}
+}
+
+StoryBeatData Act6_SEQ1_Credits < uid=9FD9E81859F1026200000086F5FA0816 >
+{
+	myStoryDataActions
+	{
+		StoryDataAction_AddFadeRequest "Fade to Black immediatelly"
+		{
+			myFadeRequestType Fade_Out
+		}
+		StoryDataAction_UIShowCredits "Credits Roll"
+		{
+		}
+		StoryDataAction_CompleteChallenge "Complete Game Challenge"
+		{
+			myChallengeToComplete Progression_CompleteGame
+		}
+		StoryDataAction_SendStoryToGameEvent "Send Open Credits Event"
+		{
+			myStoryToGameEvent UI_OpenCreditsMenu
+		}
+		StoryDataAction_WaitForGameToStoryEvent "Wait for Game To Story Event - Credits Finished"
+		{
+			myGameToStoryStoryEvent UI_CreditsFinishedPlaying
+		}
+		StoryDataAction_CompleteChallenge "Complete Challenge - Act 5 Complete"
+		{
+			myChallengeToComplete Act5Complete
+		}
+	}
+}
+
+StoryBeatData Act6_SEQ1_Setup < uid=9FD9E81859E4C98E0000021CFB538A48 >
+{
+	myActStartFlag FALSE
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_SetNumPrimes "Set Primes - 1"
+		{
+			myNumPrimes 1
+		}
+		StoryDataAction_SetPrimeTimeBetweenExtractors "Set Prime Time - 300"
+		{
+			myPrimeTimeBetweenExtractors 600.0
+		}
+		StoryDataAction_SetNumExtractors "Set Max Extractors - 24"
+		{
+			myNumExtractors 24
+		}
+		StoryDataAction_SetMaxExtractorLevel "Set Max Extractor Level - 4"
+		{
+			myMaxExtractorLevel 4
+		}
+		StoryDataAction_SetGameplayBounds "Clear Gameplay Bounds"
+		{
+		}
+		StoryDataAction_ResetRespawnCheckpoint "Reset Respawn Checkpoint"
+		{
+		}
+		StoryDataAction_SetGameAction "Enable Fast-Travel"
+		{
+			mySetGameActionList
+			{
+				SetGameAction "Enable Fast Travel"
+				{
+					myGameAction FastTravel
+					myEnabled TRUE
+				}
+			}
+		}
+	}
+}
+
+StoryBeatData Act6_SEQ1_Cinematic < uid=9FD9E81859E4CBD10000024D38BB8148 >
+{
+	myStoryDataActions
+	{
+		StoryDataAction_SetGameplayBounds "Set Gameplay Bounds - Galaxy"
+		{
+			myBoundsRadius 125000.0
+		}
+		StoryDataAction_CompleteStoryEvent "Complete Event - Act 6"
+		{
+			myStoryEvent Act06
+		}
+		StoryDataAction_Cinematic Cinematic
+		{
+			myNumBlackFramesOnCompletion 8
+			myCinematicFile onward/baked/videos/CIN_ACT6B.bk2
+		}
+		StoryDataAction_TeleportPlayer "Equinox Teleport"
+		{
+			myPlayer1Teleport
+			{
+				mySimUnitAssetPath "onward/game system data/juice/sim/onward_equinox_space.msimunit"
+				myTeleportOffset 0.0;-325.274994;375.239014
+				myTeleportRotation 0.0;0.0;0.0
+				myIsOffsetInLocalSpace TRUE
+			}
+			myPlayer2Teleport
+			{
+				mySimUnitAssetPath "onward/game system data/juice/sim/onward_equinox_space.msimunit"
+				myTeleportOffset 0.0;-315.274994;365.239014
+				myIsOffsetInLocalSpace TRUE
+			}
+		}
+		StoryDataAction_SetTarget "Clear Target"
+		{
+			myShowWaypoint FALSE
+		}
+		StoryDataAction_TransitionStorySection "Enter Story Section - Act 06"
+		{
+			myTransitionType Enter
+			myStorySection Act_06
+		}
+	}
+	myStoryDataActionSets
+	{
+	}
+}
+
+StoryBeatData Act6_SEQ1_SpawnInAtlas < uid=9FD9E81859E4C9FD0000024CAF162B56 >
+{
+	myStoryDataActions
+	{
+	}
+}
+
+StoryBeatData Act6_SEQ1_FadeFromWhite < uid=9FD9E81859E4CD9500000250F5E27FD1 >
+{
+	myStoryDataActions
+	{
+		StoryDataAction_AddFadeRequest "Fade From Black"
+		{
+			myFadeColor 0xff000000
+			myFadeTime 2.0
+		}
+		StoryDataAction_Wait "Wait while Fade"
+		{
+			mySecondsToWait 2.0
+		}
+	}
+	myStoryDataActionSets
+	{
+		StoryDataActionSet "Enable All UI" = "Enable All Screen UI Set"
+	}
+}
+
+StoryBeatData Act6_SEQ1_SetGameplayBounds < uid=9FD9E81859E4CF3100000255CDE97617 >
+{
+	myStoryDataActions
+	{
+	}
+}
+
+StoryBeatData Act6_SEQ2_Act6Start < uid=9FD9E81859E4CE49000002546478734D >
+{
+	myStoryDataActions
+	{
+		StoryDataAction_WaitForGameToStoryEvent "Wait Forever"
+		{
+			myGameToStoryStoryEvent Act_06_WaitForever
+		}
+	}
+}
+
+StoryBeatData Act6_SEQ2_PresentPopup < uid=9FD9E8185AC50EA300001CCA0F425C01 >
+{
+	myIsCheckpoint TRUE
+	myStoryDataActions
+	{
+		StoryDataAction_UIOpenConfirmationDialog "Act 6 Popup"
+		{
+			myConfirmationType Act6Intro
+		}
+		StoryDataAction_SetObjective "Set Objective - Save Atlas"
+		{
+			myObjectiveData < uid=D78CAF685C080C4300000038A580B3FC > = Act6.Chapter1.Header
+			myObjectiveState Active
+		}
+		StoryDataAction_SetObjective "Set Sub Objective - Alliance 100%"
+		{
+			myObjectiveData < uid=D78CAF685C080CC000019AFDF37B82FD > = Act6.Chapter1.Sub1
+			myObjectiveState Active
+		}
+	}
+}
+
+StoryBeatData Act6_SEQ2_SaveAtlas < uid=9FD9E8185B3526200000210DCA70EB94 >
+{
+	myStoryDataActions
+	{
+		StoryDataAction_WaitForAllianceLevel "Wait for Atlas Alliance 100%"
+		{
+			myObjectiveUID < uid=9FD9E8185B3526E300002122B77B82FD > = Act6.Chapter1.Sub1
+			myAllianceLevel 100
+		}
+	}
+}
+
+StoryBeatData Act6_SEQ2_AtlasSaved < uid=9FD9E8185B3526200000210E57E60FD8 >
+{
+	myStoryDataActions
+	{
+		StoryDataAction_SetObjective "Close Save Atlas"
+		{
+			myObjectiveData < uid=9FD9E8185B3526AA00002117CDF82E7C > = Act6.Chapter1.Header
+			myObjectiveState Remove
+		}
+		StoryDataAction_SetObjective "Objective - Keep Atlas Safe"
+		{
+			myObjectiveData < uid=954305805B8EC5690001B6BE903864FC > = Act6.Chapter2.Header
+			myObjectiveState Active
+		}
+		StoryDataAction_AwardLoot "Reward Player"
+		{
+			myLootDropName Alliance_All_Planets_100
+		}
+	}
+}
+

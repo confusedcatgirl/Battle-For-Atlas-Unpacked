@@ -1,0 +1,21 @@
+include ./template_pilot.mplayermod
+include "onward/game system data/juice/progression/pilot_tuning_master.juice"
+
+PlayerMod mod_perk_improved_last_stand_l1 < uid=C91BB55159A5C03A000000829F5C703D > : template_pilot
+{
+	myAttributeMods
+	{
+		AttributeMod "Improved Last Stand"
+		{
+			myType Health_MaxHealth
+			myPercentageValue = Improved_Last_Stand_l1_HealthIncrease
+		}
+		AttributeMod "Min Health"
+		{
+			myType Health_MinHealth
+			myPercentageValue = Improved_Last_Stand_l1_HealthIncrease
+		}
+	}
+	myIsAgentMod TRUE
+}
+

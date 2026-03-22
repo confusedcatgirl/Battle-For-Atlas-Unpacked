@@ -1,0 +1,22 @@
+include ./interestdefinitions.juice
+include "onward/game system data/juice/sim/player.msimunit"
+
+InterestSet "Player Space Interest" < uid=4A79E0E45B323C4C0000208E7A8EE2F3 >
+{
+	mySimUnit < uid=132A31715B3CEA630000223B0C83F3AD > = player
+	myUseOnlyInSpace TRUE
+	myInterestList
+	{
+		InterestPriorityBucket "Current Sector" < uid=4A79E0E45B323C4C0000208FDAD0FD1C >
+		{
+			myShuffleEqualWeights FALSE
+			myInterestList
+			{
+				InterestPriorityDynamic "Outlaw Outpost" < uid=4A79E0E45B323E760000209113595FD1 > : "Outlaw Outpost"
+				{
+				}
+			}
+		}
+	}
+}
+

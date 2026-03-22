@@ -1,0 +1,36 @@
+include ./base_turret.mnpc
+
+NPC base_faction_outpost_turret < uid=C92F4D3F59C299A7002EF6542DDADF98 > : base_turret
+{
+	myGraphObjectFile "onward/graph objects/prop/expedition_turret_02.mgraphobject"
+	myBehavior "onward/game system data/juice/ai/behavior/generic_faction_outpost_turret.mbehavior"
+	myIsInitiallyAggressive FALSE
+	myHealthConfig < uid=4A8282B959F8976000001DD6A503CCB4 > = "base_faction_outpost_turret Health"
+	myIsInvulnerable TRUE
+	mySunderReaction < uid=C92F4D3F5ABC0333003BDCCBA60108D2 > = NULLREFERENCE
+	myFireReaction < uid=C92F4D3F5ABC033F003BDCD6AD2C647F > = NULLREFERENCE
+	myChillReaction < uid=C92F4D3F5ABC033F003BDCD7C2F26CEE > = NULLREFERENCE
+	myFreezeReaction < uid=C92F4D3F5ABC033F003BDCD8FDE0D32C > = NULLREFERENCE
+	myStasisReaction < uid=C92F4D3F5ABC033F003BDCD924839ED0 > = NULLREFERENCE
+	myStasisOverloadReaction < uid=C92F4D3F5ABC033F003BDCDAEA4209A3 > = NULLREFERENCE
+	myGravityReaction < uid=C92F4D3F5ABC033F003BDCDBBB869D19 > = NULLREFERENCE
+	myEntangleReaction < uid=C92F4D3F5ABC033F003BDCDC400440F6 > = NULLREFERENCE
+	myAwarenessDistance 300.0
+	myNPCFaction Expedition
+	myBaseThreatProfile
+	{
+		myThreatPropagationRange 150.0
+		myPlayerBaseThreat 0.0
+	}
+	myActionThreatProfile
+	{
+		myActionThreatDecayDelay 8.0
+		myNonHostileDamageThreatMultiplier 0.2
+		myNonHostileActionThreatThreshold 300.0
+	}
+	myAIVisionConeTypeName FactionTurretVisionCone
+	myIsTargetable FALSE
+	myConstructionDuration 7.0
+	myDefaultNavigationType Invalid
+}
+

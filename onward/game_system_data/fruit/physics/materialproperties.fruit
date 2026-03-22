@@ -1,0 +1,40 @@
+include modules/core/physics/collisionmaterials.fruit
+
+class MaterialProperties
+{
+	CollisionMaterialType myMaterialType "Default"
+	float mySlipperiness 0.0
+	float myMuddiness 0.0
+	float myShakyness 0.0
+	float mySpeedBoost 0.0
+	float myTrampoline 0.0
+	float myBounciness 0.0
+    bool myIsOil FALSE
+	bool myDeflectProjectiles FALSE
+	float myDeflectionMaxPerturbation 0.0
+	bool myAllowFire TRUE
+	bool myAllowSunder TRUE
+	bool myAllowChill TRUE
+	bool myAllowFreeze TRUE
+	bool myAllowStasis TRUE
+	bool myAllowStasisOverload TRUE
+	bool myAllowGravity TRUE
+	float mySunderPerSecond 0.0
+	float myFirePerSecond 0.0
+	float myChillPerSecond 0.0
+	float myFreezePerSecond 0.0
+	float myStasisPerSecond 0.0
+	float myGravityPerSecond 0.0
+	float myCorrosionPerSecond 0.0
+}
+
+list MaterialPropertiesList
+{
+	MaterialProperties
+}
+
+class MaterialPropertiesPreset
+{
+	string myPresetName
+	MaterialPropertiesList myMaterialProperties
+}

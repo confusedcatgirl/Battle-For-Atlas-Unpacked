@@ -1,0 +1,244 @@
+include "onward/game system data/fruit/statuseffects/statuseffects.fruit"
+include "onward/game system data/fruit/bodypart.fruit"
+include "onward/game system data/fruit/ai/npctype.fruit"
+include "onward/game system data/fruit/entity/faction.fruit"
+include "onward/game system data/fruit/health/DamageTypes.fruit"
+include "onward/game system data/fruit/input/gameinput.fruit"
+include "onward/game system data/fruit/physics/volumecategories.fruit"
+
+class DamageAffector < abstract=1 >
+{
+}
+
+class DamageAffectorMultiplier : DamageAffector < abstract=1 >
+{
+	float myDamageMultiplier < tooltip="0-1" >
+}
+
+list DamageAffectorList
+{
+	DamageAffector
+}
+
+class DamageAffector_StatusEffect : DamageAffectorMultiplier
+{
+	StatusEffectType myStatusEffectType
+	bool myAnyStatusEffect false
+	StatusEffectTypeList myStatusEffectTypes
+}
+
+class DamageAffector_CloseRange : DamageAffectorMultiplier
+{
+	float myWithinMeters
+}
+
+class DamageAffector_LowHealth : DamageAffectorMultiplier
+{
+	float myLowHealthPercent < tooltip="0-1 : Under what percent does this affector become active?" >
+}
+
+class DamageAffector_BodyPart : DamageAffectorMultiplier
+{
+	BodyPartType myBodyPart
+}
+
+class DamageAffector_PlayerZoomed : DamageAffectorMultiplier
+{
+}
+
+class DamageAffector_Chance : DamageAffectorMultiplier
+{
+	float myChance < tooltip="0-1" >
+}
+
+class DamageAffector_Weakness : DamageAffectorMultiplier
+{
+}
+
+class DamageAffector_PlayerDamageBoostOnKill : DamageAffectorMultiplier
+{
+	float myDamageBoostTime < tooltip="seconds" >
+}
+
+class DamageAffector_FriendlyDamageBoost : DamageAffectorMultiplier
+{	
+	float myDistanceThreshold < tooltip="Maximum distance to player" >
+}
+
+class DamageAffector_FriendlyDamageResistance : DamageAffectorMultiplier
+{
+	float myDistanceThreshold < tooltip="Maximum distance to player" >
+}
+
+class DamageAffector_PodDamageBoostToNPCType : DamageAffectorMultiplier
+{	
+	NPCTypeList myNPCTypes
+}
+
+class DamageAffector_PodDamageBoostToEntityOfFaction : DamageAffectorMultiplier
+{	
+	FactionType myFaction
+}
+
+class DamageAffector_DamageToHealth : DamageAffector
+{
+	float myDamageToHealthRatio 1.0
+	bool myShouldHealPastSegment
+}
+
+class DamageAffector_DamageToEnergy : DamageAffector
+{
+	float myDamageToEnergyRatio 1.0
+}
+
+class DamageAffector_BodyPartStun : DamageAffector
+{
+	BodyPartType myBodyPart
+	float myChanceToStunPerDamage < tooltip="How much 'chance' for every point of damage" >
+	float myStunTime < tooltip="seconds" >
+}
+
+class DamageAffector_WeaknessStun : DamageAffector
+{
+	float myChanceToStunPerDamage < tooltip="How much 'chance' for every point of damage" >
+	float myStunTime < tooltip="seconds" >
+}
+
+class DamageAffector_EnableSeige : DamageAffector
+{	
+}
+
+class DamageAffector_StatusEffectLootDrop : DamageAffector
+{	
+	float myChanceToDropLoot < tooltip="0-1" >
+	string myLootDropTable < tooltip="Loot drop table" >
+	StatusEffectType myStatusEffectType
+}
+
+class DamageAffector_ShatterLootDrop : DamageAffector
+{		
+	string myLootDropTable < tooltip="Loot drop table" >
+}
+
+class DamageAffector_CauseStumble : DamageAffector
+{	
+	NPCTypeList myNPCTypes
+	float myChance < tooltip="0-1" >
+}
+
+class DamageAffector_SpawnProjectile : DamageAffector
+{
+	float myCooldown < tooltip="Minimum time after spawn before we even consider spawning a projectile again" >
+	float myChance < tooltip="0-1" >
+	float myInitialSpeed < tooltip="Initial speed of the projectile when spawned" >
+	float myLifetime < tooltip="Override how long the projectile should remain" >
+	file myEntityTemplate < bhv="asset" assettype="Entity Template" >
+	bool mySpawnAtTarget < tooltip="Initial projectile position is at the target" >
+	bool mySpawnAtPlayer < tooltip="Initial projectile position is at the player" >
+	bool myTrajectoryPlayerToTarget < tooltip="trajectory is the vector between the player and target" >
+
+}
+class DamageAffector_DamageBoostNearElectrumVein : DamageAffectorMultiplier
+{	
+}
+
+class DamageAffector_TargetInsideVolume : DamageAffectorMultiplier
+{
+	VolumeMitigationCategoryList myCategories
+}
+
+class DamageAffector_MitigateProjectileDamageInsideVolume : DamageAffectorMultiplier
+{
+	VolumeMitigationCategoryList myCategories
+}
+
+class DamageAffector_DamageFromManifestation : DamageAffectorMultiplier
+{
+	DamageType myDamageType
+}
+
+class DamageAffector_RecentCombo : DamageAffectorMultiplier
+{
+	float myDamageBoostTime
+}
+
+class DamageAffector_RecentCritical : DamageAffectorMultiplier
+{
+	float myDamageBoostTime
+}
+
+class DamageAffector_LastStand : DamageAffectorMultiplier
+{
+}
+
+class DamageAffector_SeigeModifier : DamageAffector
+{
+	float mySeigeModifier
+}
+
+class DamageAffector_CriticalModifier : DamageAffector
+{
+	float myCriticalModifier
+}
+
+class DamageAffector_DamageResistanceAroundAllies : DamageAffectorMultiplier
+{
+	
+}
+
+class DamageAffector_DamageBoostAroundAllies : DamageAffectorMultiplier
+{
+	
+}
+
+class DamageAffector_NPCType : DamageAffectorMultiplier
+{
+	NPCTypeList myNPCTypes
+}
+
+class DamageAffector_RamResistance : DamageAffectorMultiplier
+{
+	GameActionStateList myGameActionStates
+	bool myRequireAll FALSE
+}
+
+class DamageAffector_KillMultiplier : DamageAffectorMultiplier
+{
+}
+
+class DamageAffector_DamageBoostOnHeadshot : DamageAffectorMultiplier
+{
+	float myDamageBoostTime
+}
+
+class DamageAffector_FullHealth : DamageAffectorMultiplier
+{
+}
+
+class DamageAffector_BreakShield : DamageAffectorMultiplier
+{
+	float myCooldownTime < tooltip="how long the damage multiplier stays in effect" >
+}
+
+class DamageAffector_EquinoxUpgrade_IncreasedDurability : DamageAffectorMultiplier
+{
+}
+
+class DamageAffector_EquinoxUpgrade_IncreasedDamage : DamageAffectorMultiplier
+{
+}
+
+class DamageAffector_PrecisionStamina : DamageAffector
+{
+	float myAmount < tooltip="raw stamina amount" >
+}
+
+class DamageAffector_PrecisionEnergy : DamageAffector
+{
+	float myAmount < tooltip="raw energy amount" >
+}
+
+class DamageAffector_PlayerDamageBoostOnParry : DamageAffectorMultiplier
+{
+	float myDamageBoostTime < tooltip="seconds" >
+}

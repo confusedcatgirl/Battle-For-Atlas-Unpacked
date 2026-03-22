@@ -1,0 +1,35 @@
+include "onward/game system data/fruit/sim/simunit.fruit"
+
+SimUnit outlaw_mine < uid=6D25F4C659D6539800FBB60E03723C03 >
+{
+	myUIName "contextComment = \"UI name for outlaw mines - shown in the Database when selecting the entry on mines\", description = \"uiname-outlaw-mine\", enabled = true, guid = #9E6AFEDA5AB129B10002B7D275771BF3, lineVersion = 0, maxLength = 30, text = \"[Mine]\""
+	myFaction Outlaw
+	myCategory MinefieldSlot
+	mySubCategory MineSlot
+	mySubCategoryVariant 999
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo "Outlaw Mine" < uid=6D25F4C659D6567C012B3B6F8AF6676F >
+		{
+			myCountMin 2
+			myCountMax 3
+			myEntitySize 50.0
+			myElementSpawnInfo
+			{
+				SimUnitElementSpawnInfo Mine
+				{
+					myEntityFile "onward/entity templates/space_outlaw_mine.mentitytemplate"
+				}
+			}
+			myEnsurePhysicsClearance TRUE
+		}
+	}
+	mySaveable FALSE
+	myNapTime 5.0
+	myPreserveSpawnInfo TRUE
+	mySkillLevelCoefficients
+	{
+		myPlanetActMultiplier 1
+	}
+}
+

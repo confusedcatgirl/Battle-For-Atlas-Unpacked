@@ -1,0 +1,22 @@
+include ./templates/template_l2.juice
+include "onward/game system data/juice/mods/mod_sniper_weaponcore_l2.mplayermod"
+include ./damageaffectors/damage_affectors.juice
+
+Enhancement sniperweaponcore_l2 < uid=C91BB5515980DCE4007D17E97A410A9E > : "Level 2"
+{
+	myLocalizedName "contextComment = \"[Placeholder - do not translate]\nName for level 2 version of Sniper weapon core that extends range & lets players deal extra damage for aiming precisely\", description = \"\", enabled = true, guid = #C91BB5515980DCE4007D17E8FD1CED0B, lineVersion = 2, maxLength = 18, text = \"Expert Ammo II\""
+	myLocalizedDescription "contextComment = \"[Placeholder - do not translate]\nDescription for level 2 version of Sniper weapon core that extends range & lets players deal extra damage for aiming precisely\", description = \"enhancement-description-sniper-weapon-core-2\", enabled = true, guid = #9E6AFEDA59D808EC000000ED0A206610, lineVersion = 2, maxLength = 43, text = \"+45% Damage\n+20% Precision Damage\""
+	myIconSprite "mySpriteId = 44735081, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-mods-weapon-core.spritesheet\""
+	myMod < uid=C91BB5515980DCE4007D17EA69C03941 > = mod_sniper_weaponcore_l2
+	myEnhancementType WeaponCore
+	myEnhancementTrackType SniperWeaponCore
+	myDamageAffectors
+	{
+		DamageAffector_BodyPart "Headshot Damage"
+		{
+			myDamageMultiplier = Sniper_WeaponCore_l2_PrecisionDamage
+			myBodyPart Head
+		}
+	}
+}
+

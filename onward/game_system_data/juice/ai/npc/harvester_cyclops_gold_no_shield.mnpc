@@ -1,0 +1,136 @@
+include ./harvester_cyclops_base.mnpc
+include onward/skillscripts/npc_controller_context_harvester_cyclops_generic_dash.mskillscriptjuice
+include onward/skillscripts/npc_controller_context_harvester_cyclops_generic_jump.mskillscriptjuice
+include onward/skillscripts/harvester_cyclops_generic_gatling.mskillscriptjuice
+include onward/skillscripts/npc_controller_context_harvester_cyclops_generic_stumble.mskillscriptjuice
+include onward/skillscripts/npc_controller_context_harvester_cyclops_world_entry.mskillscriptjuice
+include onward/skillscripts/npc_ability_harvester_cyclops_heat_flameblast.mskillscriptjuice
+include onward/skillscripts/npc_ability_cyclops_generic_grenade.mskillscriptjuice
+include onward/skillscripts/npc_ability_cyclops_generic_heat_flameblast.mskillscriptjuice
+include onward/skillscripts/npc_ability_harvester_extractor_shockwave.mskillscriptjuice
+include onward/skillscripts/npc_controller_context_harvester_cyclops_gold_dead.mskillscriptjuice
+
+NPC harvester_cyclops_gold_no_shield < uid=B84764AD5B15B3AA000FD143813AE466 > : harvester_cyclops_base
+{
+	myUIName "contextComment = \"The UI Name for the Cyclops\", description = \"uiname-harvester-cyclops-gold\", enabled = true, guid = #B84764AD5B15B3AA000FD1427A71E1B2, lineVersion = 0, maxLength = 21, text = \"Flawless Cyclops\""
+	myGraphObjectFile "onward/graph objects/character/harvester_golden_cyclops_no_shield.mgraphobject"
+	myBehavior "onward/game system data/juice/ai/behavior/harvester_golden_cyclops.mbehavior"
+	myGibSettings
+	{
+		myLifetime 15.0
+		myInitialSpeed 40.0
+		myGibTemplates
+		{
+			file "New file (0)" "onward/entity templates/harvester_cyclops_forearm_GIBS.mentitytemplate"
+			file "New file (2)" "onward/entity templates/harvester_cyclops_hand_GIBS.mentitytemplate"
+			file "New file (3)" "onward/entity templates/harvester_cyclops_head_GIBS.mentitytemplate"
+			file "New file (0)" "onward/entity templates/harvester_cyclops_leftleg_GIBS.mentitytemplate"
+			file "New file (1)" "onward/entity templates/harvester_cyclops_shin_right_GIBS.mentitytemplate"
+			file "New file (2)" "onward/entity templates/harvester_cyclops_thigh_right_GIBS.mentitytemplate"
+			file "New file (3)" "onward/entity templates/harvester_cyclops_torso_GIBS.mentitytemplate"
+			file "New file (7)" "onward/entity templates/harvester_01_gun_gibs.mentitytemplate"
+			file "New file (8)" "onward/entity templates/harvester_01_headplate_gibs.mentitytemplate"
+			file "New file (9)" "onward/entity templates/harvester_04_shield_gibs.mentitytemplate"
+		}
+	}
+	myHealthConfig < uid=B84764AD5B15B3AA000FD144D569D9EE > = "harvester_cyclops_gold Health"
+	myOnlyAllowDamageFromBodyParts TRUE
+	mySunderReaction < uid=B84764AD5B15B3AA000FD145279FD4AE > = Base_Sunder
+	myFireReaction < uid=B84764AD5B15B3AA000FD146D216DD9E > = Heat_Infused_Cyclops_Fire
+	myChillReaction < uid=B84764AD5B15B3AA000FD14784590A6E > = Cold_Infused_Cyclops_Chill
+	myFreezeReaction < uid=B84764AD5B15B3AA000FD1481F6415A2 > = Cold_Infused_Cyclops_Freeze
+	myStasisReaction < uid=B84764AD5B15B3AA000FD149C6878844 > = Crush_Cyclops_Stasis
+	myStasisOverloadReaction < uid=B84764AD5B15B3AA000FD14AA2194727 > = Crush_Cyclops_StasisOverload
+	myGravityReaction < uid=B84764AD5B15B3AA000FD14BEE5F2370 > = Crush_Infused_Cyclops_Gravity
+	myEntangleReaction < uid=B84764AD5B15B3AA000FD14CD1A9F21C > = Base_Entangle
+	myAbilityDefinitions
+	{
+		NPCAbilityDefinition Gatling
+		{
+			myGameAction NPC_Ability1
+			mySkillScript < uid=B84764AD5B15B3AA000FD14D2B9685C5 > = harvester_cyclops_generic_gatling
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_harvester_cyclops_gold_gatling.juice"
+		}
+		NPCAbilityDefinition FlameBlast
+		{
+			myGameAction NPC_Ability2
+			mySkillScript < uid=B84764AD5B15B3AA000FD14E43DEDFEF > = npc_ability_cyclops_generic_heat_flameblast
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_harvester_cyclops_gold_flameblast.juice"
+		}
+		NPCAbilityDefinition Grenade
+		{
+			myGameAction NPC_Ability3
+			mySkillScript < uid=B84764AD5B15B3AA000FD14F548D3047 > = npc_ability_cyclops_generic_grenade
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_harvester_cyclops_gold_grenade_cold.juice"
+			myEnabled TRUE
+		}
+		NPCAbilityDefinition Shockwave
+		{
+			myGameAction NPC_Ability4
+			mySkillScript < uid=B84764AD5B15B3AA000FD150CA2A11D8 > = npc_ability_harvester_extractor_shockwave
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_harvester_golden_cyclops_shockwave.juice"
+		}
+	}
+	myControllerContextDefinitions
+	{
+		ControllerContextDefinition Dash
+		{
+			myContextType Dash
+			mySkillScript < uid=B84764AD5B15B3AA000FD151550D1DF5 > = npc_controller_context_harvester_cyclops_generic_dash
+		}
+		ControllerContextDefinition Leap
+		{
+			myContextType SuperJump
+			mySkillScript < uid=B84764AD5B15B3AA000FD152E099911C > = npc_controller_context_harvester_cyclops_generic_jump
+		}
+		ControllerContextDefinition Stumble
+		{
+			myContextType Stumble
+			mySkillScript < uid=B84764AD5B15B3AA000FD153DDAB8A40 > = npc_controller_context_harvester_cyclops_generic_stumble
+		}
+		ControllerContextDefinition "World Entry"
+		{
+			myContextType WorldEntry
+			mySkillScript < uid=B84764AD5B15B3AA000FD1544795E4FC > = npc_controller_context_harvester_cyclops_world_entry
+		}
+		ControllerContextDefinition Dead
+		{
+			myContextType Dead
+			mySkillScript < uid=B84764AD5B15B3AA000FD1557A4ABB4E > = npc_controller_context_harvester_cyclops_gold_dead
+		}
+	}
+	myResistanceSettings "onward/game system data/juice/ai/attributes/gold_affinity_resistance.juice"
+	myAttributeSettings "onward/game system data/juice/ai/attributes/harvester_cyclops_gold_attributes.juice"
+	myCrowdControlAttributeSettings "onward/game system data/juice/ai/attributes/crowd control tiers/npc_cc_tier5.juice"
+	myDropTableOnDamage ""
+	myDamageDropInterval 1.0
+	myDamageDropOnWeakness TRUE
+	myBreakElectrumOnWeakness TRUE
+	myAwarenessDistance 600.0
+	myPhysicsCapsuleHeight 5.0
+	myPhysicsCapsuleRadius 3.0
+	myPatternProfile < uid=B84764AD5B15B3AA000FD1565677D46A > = "Harvester Cyclops"
+	myDefaultMotionPattern < uid=B84764AD5B15B3AA000FD157D70FAD6E > = "Harvester Cyclops Default"
+	myAvoidanceRadius 3.0
+	myNPCFaction Harvester
+	myNPCType Harvester_Cyclops_Gold
+	myAnimSystemType Harvester_Cyclops
+	myThreatLevel 9.0
+	myWeapon
+	{
+		myWeaponType Gatling
+		myDamageType Cold
+	}
+	mySquadSettings "onward/game system data/juice/ai/squad/cyclops_squad_with_imps.juice"
+	myDefaultFootstepEvent 453207700794BDAE48E921B672B3A79D
+	myDamageReactionSettings "onward/game system data/juice/ai/reactions/damage_reactions_harvester_cyclops_gold.juice"
+	myHitReactionRules "onward/game system data/juice/ai/reactions/reaction_rules_npc_golden_cyclops.juice"
+	myOnDeathChallenge Death_CyclopsGolden
+	myOnDiscoveredChallenge Discover_CyclopsGolden
+	mySkillLevelOffset 0
+}
+

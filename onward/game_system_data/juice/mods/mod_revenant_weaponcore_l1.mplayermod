@@ -1,0 +1,71 @@
+include ./template_pod.mplayermod
+include ./tuning/mod_tuning_master.juice
+
+float "Weapon Damage" = Revenant_WeaponCore_l1_Damage
+
+PlayerMod mod_revenant_weaponcore_l1 < uid=939A35415AB56DEE004CE0B8CA426BFB > : template_pod
+{
+myAttributeMods
+	{
+		AttributeMod Cold
+		{
+			myType DMG_Cold
+			myMultValue 1.0
+			myPercentageValue = "Weapon Damage"
+		}
+		AttributeMod Crush
+		{
+			myType DMG_Crush
+			myMultValue 1.0
+			myPercentageValue = "Weapon Damage"
+		}
+		AttributeMod Float
+		{
+			myType DMG_Float
+			myMultValue 1.0
+			myPercentageValue = "Weapon Damage"
+		}
+		AttributeMod Heat
+		{
+			myType DMG_Heat
+			myMultValue 1.0
+			myPercentageValue = "Weapon Damage"
+		}
+		AttributeMod Kinetic
+		{
+			myType DMG_Kinetic
+			myMultValue 1.0
+			myPercentageValue = "Weapon Damage"
+		}
+		AttributeMod Max
+		{
+			myType DMG_Max
+			myMultValue 1.0
+			myPercentageValue = "Weapon Damage"
+		}
+		AttributeMod "Area Kinetic"
+		{
+			myType DMG_Area_Kinetic
+			myMultValue 1.0
+			myPercentageValue = "Weapon Damage"
+		}
+		AttributeMod "Area Cold"
+		{
+			myType DMG_Area_Cold
+			myMultValue 1.0
+			myPercentageValue = "Weapon Damage"
+		}
+		AttributeMod "Area Heat"
+		{
+			myType DMG_Area_Heat
+			myMultValue 1.0
+			myPercentageValue = "Weapon Damage"
+		}
+		AttributeMod UI_Weapon_Damage
+		{
+			myType UI_Weapon_Damage
+			myPercentageValue = "Weapon Damage"
+		}
+	}
+}
+

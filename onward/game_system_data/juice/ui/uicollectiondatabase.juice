@@ -1,0 +1,282 @@
+include "onward/game system data/fruit/ui/collection/database.fruit"
+
+DatabaseCategory Hangar
+{
+	myName "contextComment = \"[Placeholder - do not translate] Collection Menu entry for player's toy collection, listing all pilots, ships, weapons and their owned/unowned state\", description = \"\", enabled = true, guid = #63C8917A597B7CC9000000209D941026, lineVersion = 1, maxLength = 8, text = \"Fleet\"}"
+	mySubCategories
+	{
+		DatabaseSubCategory Pilots < uid=1ABBD50B589A3B8E00001E2B758D03E3 >
+		{
+			myLocalizedName "contextComment = \"[PLACEHOLDER - do not translate].\nThe name of the pilot subcategory in the hangar.\", description = \"database-category-hangar-subcategory-pilots\", enabled = true, guid = #1ABBD50B589A3B7500001E28AD3C8655, lineVersion = 0, maxLength = 10, text = \"Pilots\""
+			myJuiceFile ./Collection/pilots.juice
+			myCollectibleCategory Hangar
+			myCollectibleType Pilot
+		}
+		DatabaseSubCategory Hulls < uid=1ABBD50B589A3B8E00001E2C7D7316C7 >
+		{
+			myLocalizedName "contextComment = \"[PLACEHOLDER - do not translate].\nThe name of the ships subcategory in the hangar.\", description = \"database-category-hangar-subcategory-ships\", enabled = true, guid = #A08A88CF58A5F336000042E4D2F4F1A6, lineVersion = 0, maxLength = 8, text = \"Ships\""
+			myJuiceFile ./Collection/hulls.juice
+			myCollectibleCategory Hangar
+			myCollectibleType Ship
+		}
+		DatabaseSubCategory Pods < uid=1ABBD50B589A3B8E00001E2D203116D2 >
+		{
+			myLocalizedName "contextComment = \"[PLACEHOLDER - do not translate].\nThe name of the weapon subcategory in the hangar.\", description = \"database-category-hangar-subcategory-weapons\", enabled = true, guid = #A08A88CF58A5F344000042E776894843, lineVersion = 0, maxLength = 11, text = \"Weapons\""
+			myJuiceFile ./Collection/pods.juice
+			myCollectibleCategory Hangar
+			myCollectibleType Pod
+		}
+		DatabaseSubCategory "Hidden Toys" < uid=A08A88CF59691DF200008A6E40E307DE >
+		{
+			myLocalizedName "contextComment = \"[PLACEHOLDER - do not translate].\", description = \"\", enabled = true, guid = #A08A88CF59691DC700008A6BBD247430, lineVersion = 1, maxLength = 14, text = \"Hidden Toys\""
+			myJuiceFile ./collection/hiddentoys.juice
+			myCollectibleType Wing
+			myIsHidden TRUE
+		}
+	}
+}
+
+DatabaseCategory Technology
+{
+	myName "contextComment = \"[Placeholder - do not translate] Collection Menu entry for the Technology sub-database, containing info about gameplay elements including ships, dodge/block moves, elements/combos, and modding\", description = \"collection-name-technology\", enabled = true, guid = #9E6AFEDA5A711A1200001B01DAEA6B0F, lineVersion = 1, maxLength = 30, text = \"Tactical Data\""
+	myCollectibleCategory Technology
+	mySubCategories
+	{
+		DatabaseSubCategory "Mod Tech" < uid=9E6AFEDA5A73ADB400001BE1EC90C621 >
+		{
+			myLocalizedName "contextComment = \"[Placeholder - do not translate] Database category name for the section describing Starlink gameplay technology, including ship & weapon abilities, types of Mods (upgrades) the player can equip on their Ship & Weapons\", description = \"collectibles_database_subcategory_modTech\", enabled = true, guid = #9E6AFEDA5A73AD7C00001BDE72C696F1, lineVersion = 1, maxLength = 30, text = \"Technology\""
+			myJuiceFile ./Collection/modtech.juice
+			myCollectibleCategory Technology
+			myCollectibleType ModTech
+		}
+		DatabaseSubCategory "TAG Elements & Combos" < uid=9E6AFEDA5A711A5500001B04B2506D25 >
+		{
+			myLocalizedName "contextComment = \"[Placeholder - do not translate] Database category name for the section describing the Weapon elements (Fire, Overheat, Chill...) and Combos (Thermal Shock, Shatter...) the player can use\", description = \"collectibles_database_subcategory_tag\", enabled = true, guid = #9E6AFEDA5A26E6760006A13B30A5A58A, lineVersion = 0, maxLength = 30, text = \"Affinities\""
+			myJuiceFile ./Collection/elements.juice
+			myCollectibleCategory Technology
+			myCollectibleType TAGElements
+		}
+		DatabasePlanetSubCategory "Warden Relics" < uid=9E6AFEDA5A711A5500001B053B6BDA73 >
+		{
+			myLocalizedName "contextComment = \"[PLACEHOLDER - do not translate].\nThe name of the database subcategory that looks at Warden Relics (ex: mods).\", description = \"collectibles_database_subcategory_wardens\", enabled = true, guid = #A08A88CF59E7711100014CC789D4E922, lineVersion = 0, maxLength = 17, text = \"Warden Relics\""
+			myJuiceFile ./collection/warden_relics.juice
+			myCollectibleCategory Technology
+			myCollectibleType WardenRelics
+		}
+	}
+}
+
+DatabaseCategory "Enemy Intel"
+{
+	myName "contextComment = \"[Placeholder - do not translate] Collection Menu entry for the Legion sub-database, which includes information on each Legion enemy unit & structure the player encounters\", description = \"collection-name-legion\", enabled = true, guid = #9E6AFEDA5A6FA73500037B23ADF1458B, lineVersion = 0, maxLength = 21, text = \"Forgotten Legion\""
+	myCollectibleCategory LegionIntel
+	mySubCategories
+	{
+		DatabaseSubCategory Legion < uid=9E6AFEDA5A6FA8BF000F510F4C04003C >
+		{
+			myLocalizedName "contextComment = \"[Placeholder - do not translate] Name for database category describing enemy units and their role/history\", description = \"collectibles_database_subcategory_legion\", enabled = true, guid = #1ABBD50B584AD9F10000294E1E6EB8EA, lineVersion = 1, maxLength = 30, text = \"Forgotten Legion\""
+			myJuiceFile ./Collection/legion.juice
+			myCollectibleCategory LegionIntel
+			myCollectibleType Legion
+		}
+		DatabaseSubCategory Outlaws < uid=A08A88CF5BFEEDBE0001D638AAEB2D0C >
+		{
+			myLocalizedName "contextComment = \"The name for the database subcategory that addresses outlaw enemy units and their defeatability.\", description = \"collectibles_database_subcategory_outlaws\", enabled = true, guid = #A08A88CF5BFEEDA50001CDFE8388414F, lineVersion = 0, maxLength = 11, text = \"Outlaws\""
+			myJuiceFile ./Collection/outlaws_killable.juice
+			myCollectibleCategory LegionIntel
+			myCollectibleType Outlaws
+		}
+	}
+}
+
+DatabaseCategory Factions
+{
+	myName "contextComment = \"[Placeholder - do not translate] Collection Menu entry for the Alien Factions sub-database, which includes information on each alien group the player encounters (Expedition, Prospectors, Outlaws, Wardens)\", description = \"collection-name-factions\", enabled = true, guid = #9E6AFEDA5A6FA6CF0001480594CF112F, lineVersion = 0, maxLength = 18, text = \"Alien Factions\""
+	myCollectibleCategory Factions
+	mySubCategories
+	{
+		DatabaseSubCategory Wardens < uid=9E6AFEDA5A6FA8BF000F510B8CF527B3 >
+		{
+			myLocalizedName "contextComment = \"[PLACEHOLDER - do not translate] Database category name for the ancient alien faction, containing backstory for how they made Atlas the way it is.\", description = \"collectibles_database_subcategory_wardenFaction\", enabled = true, guid = #9E6AFEDA5A16101000017A9D86213028, lineVersion = 1, maxLength = 13, text = \"The Wardens\""
+			myJuiceFile ./Collection/wardens.juice
+			myCollectibleCategory Factions
+			myCollectibleType WardenFaction
+		}
+		DatabaseSubCategory Expedition < uid=9E6AFEDA5A6FA8BF000F510C24AAD109 >
+		{
+			myLocalizedName "contextComment = \"[Placeholder - do not translate] Name for database category describing the friendly Expedition faction, of scientists studying Atlas's history and native life\", description = \"collectibles_database_subcategory_expedition\", enabled = true, guid = #1ABBD50B584ADA5900002A159A7F6357, lineVersion = 1, maxLength = 30, text = \"Expedition\"}"
+			myJuiceFile ./Collection/expedition.juice
+			myCollectibleCategory Factions
+			myCollectibleType Expedition
+		}
+		DatabaseSubCategory Prospectors < uid=9E6AFEDA5A6FA8BF000F510D072FE7AA >
+		{
+			myLocalizedName "contextComment = \"[Placeholder - do not translate] Name for database category describing the friendly Prospector faction, of miners and fortress-builders, trying to build a safe & stable home in the Atlas system\", description = \"collectibles_database_subcategory_prospectors\", enabled = true, guid = #1ABBD50B584ADA5900002A17B9E12058, lineVersion = 1, maxLength = 30, text = \"Prospectors\""
+			myJuiceFile ./Collection/prospectors.juice
+			myCollectibleCategory Factions
+			myCollectibleType Prospector
+		}
+		DatabaseSubCategory Outlaws < uid=9E6AFEDA5A6FA8BF000F510E69E97A0D >
+		{
+			myLocalizedName "contextComment = \"[Placeholder - do not translate] Name for database category describing the hostile Outlaw faction, pirates who prey on space traffic and salvage from shipwrecks in the system.\", description = \"collectibles_database_subcategory_outlaws\", enabled = true, guid = #1ABBD50B584ADA5900002A1399471166, lineVersion = 1, maxLength = 30, text = \"Outlaws\""
+			myJuiceFile ./Collection/outlaws.juice
+			myCollectibleCategory Factions
+			myCollectibleType Outlaws
+		}
+	}
+}
+
+DatabaseCategory "Atlas System"
+{
+	myName "contextComment = '[Placeholder - do not translate] Collection Menu entry for the Atlas System sub-database, which includes information on each planet & space feature the player discovers. These items count toward the \"Discoveries\" checklist on each planet', description = \"collection-name-atlas-system\", enabled = true, guid = #9E6AFEDA5A6FA5ED0001258E5445BB59, lineVersion = 0, maxLength = 22, text = \"Atlas Discoveries\""
+	myCollectibleCategory Planets
+	mySubCategories
+	{
+		DatabaseSubCategory Space < uid=9E6AFEDA5A6FA8BF000F510A72C38D77 >
+		{
+			myLocalizedName "contextComment = \"[PLACEHOLDER - do not translate].\nThe name of the database subcategory that looks at Deep Space items.\", description = \"collectibles_database_subcategory_space\", enabled = true, guid = #A08A88CF5912093D0000004CB37E7177, lineVersion = 1, maxLength = 30, text = \"Space\""
+			myJuiceFile ./Collection/deep_space.juice
+			myCollectibleCategory Planets
+			myCollectibleType DeepSpace
+		}
+		DatabasePlanetSubCategory "Planet 01" < uid=9E6AFEDA5A6FA8BF000F5103EDF014D0 >
+		{
+			myLocalizedName "contextComment = \"[Placeholder - do not translate] Name for database category describing geography, history, and native life of the hot desert planet Kirite\", description = \"collectibles_database_subcategory_planet_01\", enabled = true, guid = #1ABBD50B584ADA7200002A1D93354C7B, lineVersion = 1, maxLength = 30, text = \"Kirite\""
+			myJuiceFile ./Collection/planet_01.juice
+			myCollectibleCategory Planets
+			myCollectibleType Planet_01
+			myPlanetFile "onward/game system data/juice/galaxies/planets/planet_01.juice"
+		}
+		DatabasePlanetSubCategory "Planet 03" < uid=9E6AFEDA5A6FA8BF000F5104CA0AC9F8 >
+		{
+			myLocalizedName "contextComment = \"[Placeholder - do not translate] Name for database category describing geography, history, and native life of the lush forest planet Haven (named for being hospitable)\", description = \"collectibles_database_subcategory_planet_03\", enabled = true, guid = #1ABBD50B584B029F00002A1220F9D452, lineVersion = 1, maxLength = 30, text = \"Haven\""
+			myJuiceFile ./Collection/planet_03.juice
+			myCollectibleCategory Planets
+			myCollectibleType Planet_03
+			myPlanetFile "onward/game system data/juice/galaxies/planets/planet_03.juice"
+		}
+		DatabasePlanetSubCategory "Planet 04" < uid=9E6AFEDA5A6FA8BF000F5105ABD120D8 >
+		{
+			myLocalizedName "contextComment = \"[Placeholder - do not translate] Name for database category describing geography, history, and native life of somber fungus planet Necrom (after Necro-, greek prefix for death)\", description = \"collectibles_database_subcategory_planet_04\", enabled = true, guid = #1ABBD50B584B029400002A0EBE31CE13, lineVersion = 1, maxLength = 30, text = \"Necrom\""
+			myJuiceFile ./Collection/planet_04.juice
+			myCollectibleCategory Planets
+			myCollectibleType Planet_04
+			myPlanetFile "onward/game system data/juice/galaxies/planets/planet_04.juice"
+		}
+		DatabasePlanetSubCategory "Planet 05" < uid=9E6AFEDA5A6FA8BF000F5106EC943326 >
+		{
+			myLocalizedName "contextComment = \"[Placeholder - do not translate] Name for database category describing geography, history, and native life of the frigid ice planet Tundria (after Tundra, an arctic biome)\", description = \"collectibles_database_subcategory_planet_05\", enabled = true, guid = #1ABBD50B584B029400002A0C03898090, lineVersion = 1, maxLength = 2, text = \"Tundria\""
+			myJuiceFile ./Collection/planet_05.juice
+			myCollectibleCategory Planets
+			myCollectibleType Planet_05
+			myPlanetFile "onward/game system data/juice/galaxies/planets/planet_05.juice"
+		}
+		DatabasePlanetSubCategory "Planet 07" < uid=9E6AFEDA5A6FA8BF000F510781AFECF0 >
+		{
+			myLocalizedName "contextComment = \"[Placeholder - do not translate] Name for database category describing geography, history, and native life of the musical crystal planet Sonatus (named for sound)\", description = \"collectibles_database_subcategory_planet_07\", enabled = true, guid = #1ABBD50B584B029400002A0A9358FCDA, lineVersion = 1, maxLength = 30, text = \"Sonatus\""
+			myJuiceFile ./Collection/planet_07.juice
+			myCollectibleCategory Planets
+			myCollectibleType Planet_07
+			myPlanetFile "onward/game system data/juice/galaxies/planets/planet_07.juice"
+		}
+		DatabasePlanetSubCategory "Planet 08" < uid=9E6AFEDA5A6FA8BF000F51081D76B034 >
+		{
+			myLocalizedName "contextComment = \"[Placeholder - do not translate] Name for database category describing geography, history, and native life of the gross infected planet Vylus (named for being vile, disgusting)\", description = \"collectibles_database_subcategory_planet_08\", enabled = true, guid = #1ABBD50B584B029300002A08DF151BFE, lineVersion = 1, maxLength = 30, text = \"Vylus\""
+			myJuiceFile ./Collection/planet_08.juice
+			myCollectibleCategory Planets
+			myCollectibleType Planet_08
+			myPlanetFile "onward/game system data/juice/galaxies/planets/planet_08.juice"
+		}
+		DatabasePlanetSubCategory "Planet 15" < uid=9E6AFEDA5A6FA8BF000F51093F8384A2 >
+		{
+			myLocalizedName "contextComment = \"[Placeholder - do not translate] Name for database category describing geography, history, and native life of the hot volcanic planet Ashar (named for ashes)\", description = \"collectibles_database_subcategory_planet_15\", enabled = true, guid = #1ABBD50B584B029300002A0621012B79, lineVersion = 1, maxLength = 30, text = \"Ashar\""
+			myJuiceFile ./Collection/planet_15.juice
+			myCollectibleCategory Planets
+			myCollectibleType Planet_15
+			myPlanetFile "onward/game system data/juice/galaxies/planets/planet_15.juice"
+		}
+		DatabasePlanetSubCategory "Blood Moon" < uid=BB73FD445BDC8DA4000A56D20806BA27 >
+		{
+			myLocalizedName "contextComment = \"[Placeholder - do not translate] Name for database category describing geography, history, and native life of the bloo moon\", description = \"collectibles_database_subcategory_moon_01\", enabled = true, guid = #BB73FD445BDC8D09000A27EEF69A4962, lineVersion = 0, maxLength = 16, text = \"Blood Moon\""
+			myJuiceFile ./collection/moon_01.juice
+			myCollectibleCategory Planets
+			myCollectibleType Moon_01
+			myPlanetFile "onward/game system data/juice/galaxies/planets/moon_01.juice"
+		}
+	}
+}
+
+DatabaseCategory Database
+{
+	myName "contextComment = \"[Placeholder - do not translate] Collection Menu entry for the Chronicles sub-database, which logs key events in the player's progress through the story.\", description = \"\", enabled = true, guid = #63C8917A597B7CDF000000263E51EC1B, lineVersion = 3, maxLength = 30, text = \"Chronicles\"}"
+	myCollectibleCategory Database
+	mySubCategories
+	{
+		DatabaseSubCategory Chronicles < uid=9E6AFEDA5A71194A000F52F27CC38450 >
+		{
+			myLocalizedName "contextComment = '[PLACEHOLDER - do not translate] Name for Database subcategory for \"Starlink Chronicles\" (journal of important story events)', description = \"collectibles_database_subcategory_chronicles\", enabled = true, guid = #9E6AFEDA5A7118ED000F4017CE218FA3, lineVersion = 0, maxLength = 16, text = \"Chronicles\""
+			myJuiceFile ./Collection/chronicles.juice
+			myCollectibleCategory Database
+			myCollectibleType Chronicles
+		}
+		DatabasePlanetSubCategory "Pilot Stories" < uid=A08A88CF5BA9266E0002E1571C706EB1 >
+		{
+			myLocalizedName "contextComment = \"Name of the database subcategory that allows the player to rewatch pilot story binks.\", description = \"collectibles_database_subcategory_pilotstories\", enabled = true, guid = #A08A88CF5BA926470002DEA1F355EFC2, lineVersion = 0, maxLength = 13, text = \"Dossiers\""
+			myJuiceFile ./Collection/pilotstories.juice
+			myCollectibleCategory Database
+			myCollectibleType PilotStories
+		}
+		DatabaseSubCategory "Faction Stories" < uid=A08A88CF5BFEFF340014AD9A70A58462 >
+		{
+			myLocalizedName "contextComment = \"The name of the database subcategory that allows players to revisit the faction stories introduced on the Blood Moon.\", description = \"collectibles_database_subcategory_factionstories\", enabled = true, guid = #A08A88CF5BFEFEF800149CADBD7973E7, lineVersion = 0, maxLength = 22, text = \"[Faction Stories]\""
+			myJuiceFile ./Collection/quests.juice
+			myCollectibleCategory Database
+			myCollectibleType FactionalStory
+		}
+		DatabaseSubCategory "Hidden for Starmap" < uid=63C8917A5A7B650F000584C1B802D46F >
+		{
+			myJuiceFile ./collection/starmap_reference.juice
+			myCollectibleCategory Database
+			myCollectibleType Starmap_Reference
+			myIsHidden TRUE
+		}
+		DatabaseSubCategory "Hidden for Pilot Stories" < uid=A08A88CF5B50EA9A0000E0379F992E86 >
+		{
+			myJuiceFile ./Collection/pilotstory_reference.juice
+			myCollectibleCategory Database
+			myCollectibleType PilotStory_Reference
+			myIsHidden TRUE
+		}
+	}
+}
+
+DatabaseCategory Activities
+{
+	myName "contextComment = \"The name for the 'Activities' Category of the Database, which at the time of writing includes the Arena and Races.\", description = \"collection-name-activities\", enabled = true, guid = #A08A88CF5BFEB36F00007A689B412022, lineVersion = 0, maxLength = 16, text = \"[Activities]\""
+	myCollectibleCategory Activities
+	mySubCategories
+	{
+		DatabasePlanetSubCategory Races < uid=A08A88CF5BFEB48200007A7A203EBAD9 >
+		{
+			myLocalizedName "contextComment = \"The name of the 'Races' Subcategory in the database.\", description = \"collectibles-database-subcategory-races\", enabled = true, guid = #A08A88CF5BFEB43700007A774BD995DC, lineVersion = 0, maxLength = 11, text = \"[Races]\""
+			myJuiceFile ./Collection/races.juice
+			myCollectibleCategory Activities
+			myCollectibleType Activities_Races
+		}
+		DatabaseSubCategory Arena < uid=A08A88CF5BFEBC6D00041FDAA7A8E6BC >
+		{
+			myLocalizedName "contextComment = \"The name of the 'Arena' Subcategory in the database.\", description = \"collectibles-database-subcategory-arena\", enabled = true, guid = #A08A88CF5BFEBC40000411C9A8DD34D6, lineVersion = 0, maxLength = 11, text = \"[Arena]\""
+			myJuiceFile ./Collection/arena.juice
+			myCollectibleCategory Activities
+			myCollectibleType Activities_Arena
+		}
+		DatabaseSubCategory Trophies < uid=A08A88CF5C2FBD7D0009DE91510F89A1 >
+		{
+			myLocalizedName "contextComment = \"The name of the trophies subcategory, which is an aggregate of all the trophies players can earn via the TU5 update.\", description = \"collectibles-database-subcategory-trophies\", enabled = true, guid = #A08A88CF5C2FBD380006F156984903DF, lineVersion = 0, maxLength = 16, text = \"[Trophies]\""
+			myJuiceFile ./Collection/trophies.juice
+			myCollectibleCategory Activities
+			myCollectibleType Trophies
+		}
+	}
+}
+

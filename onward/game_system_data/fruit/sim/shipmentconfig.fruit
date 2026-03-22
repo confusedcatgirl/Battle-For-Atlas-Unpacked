@@ -1,0 +1,43 @@
+include "onward/game system data/fruit/progression/points.fruit"
+include "onward/game system data/fruit/attributes/attributes.fruit"
+include "onward/game system data/fruit/sim/simunit.fruit"
+include "onward/game system data/fruit/entity/faction.fruit"
+
+list StringList
+{
+	string
+}
+
+class ShipmentBase < abstract = 1 >
+{
+	varmap myUIName < bhv="localization" >
+	float myShipmentTimer
+	AttributeType myTimerAttribute
+}
+
+class Shipment_Points : ShipmentBase
+{
+	AttributeType myAttributeType
+	ProgressionPointType myPointType
+}
+
+class LootTableAttribute
+{
+	string myLootTable
+	AttributeType myAttributeType
+}
+
+list LootTableAttributes
+{
+	LootTableAttribute
+}
+
+class Shipment_LootTable : ShipmentBase
+{
+	LootTableAttributes myLootTables
+}
+
+list ShipmentList
+{
+	ShipmentBase
+}

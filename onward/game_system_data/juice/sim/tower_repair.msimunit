@@ -1,0 +1,34 @@
+include ./tower_base.msimunit
+
+SimUnit tower_repair < uid=C92F4D3F58FE3605000004D63DAE66D3 > : tower_base
+{
+	myUIName "contextComment = \"[Placeholder - do not translate] HUD name shown when aiming at a Repair Station tower\", description = \"ui-target-tower-repair\", enabled = true, guid = #C92F4D3F59039BC801169D6685F7AC47, lineVersion = 0, maxLength = 18, text = \"Repair Station\""
+	myBehavior onward/simworld/behavior/tower_repair.msimunitbtgraph
+	myControlGraph onward/simworld/control/tower_repair.msimunitcontrolgraph
+	myFaction Expedition
+	mySubCategory RepairStation
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo tower_repair < uid=1E68E5355980CBA5000186A061CDA003 >
+		{
+			myCountMin 1
+			myCountMax 1
+			myEntitySize 4.0
+			myEntityFile ""
+			myElementSpawnInfo
+			{
+				SimUnitElementSpawnInfo tower_repair
+				{
+					myEntityFile "onward/entity templates/tower_repair.mentitytemplate"
+				}
+			}
+		}
+	}
+	myInterestSettings
+	{
+		myIsEnabled TRUE
+	}
+	myIconSprite "mySpriteId = -1574129550, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-outpost-inventory-faction-towers.spritesheet\""
+	myMissionTargetTexture onward/baked/textures/UI/icons/outpost_targets/outpost_target_sim_unit/ui-icon-outpost-target-repair-tower-research-base.dds
+}
+

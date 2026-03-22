@@ -1,0 +1,57 @@
+include ./template_pod.mplayermod
+
+float "Weapon Damage" = Gravity_WeaponCore_l2_Damage
+float "Weapon Range" = Gravity_WeaponCore_l2_Range
+
+PlayerMod mod_gravity_weaponcore_l2 < uid=C91BB55159822B59000884697975D063 > : template_pod
+{
+	myAttributeMods
+	{
+		AttributeMod Cold
+		{
+			myType DMG_Cold
+			myPercentageValue = "Weapon Damage"
+		}
+		AttributeMod Crush
+		{
+			myType DMG_Crush
+			myPercentageValue = "Weapon Damage"
+		}
+		AttributeMod Float
+		{
+			myType DMG_Float
+			myPercentageValue = "Weapon Damage"
+		}
+		AttributeMod Heat
+		{
+			myType DMG_Heat
+			myPercentageValue = "Weapon Damage"
+		}
+		AttributeMod Kinetic
+		{
+			myType DMG_Kinetic
+			myPercentageValue = "Weapon Damage"
+		}
+		AttributeMod "Weapon Range Space"
+		{
+			myType Weapon_Range_Space
+			myAddValue = "Weapon Range"
+		}
+		AttributeMod "Weapon Range"
+		{
+			myType Weapon_Range
+			myAddValue = "Weapon Range"
+		}
+		AttributeMod UI_Weapon_Damage
+		{
+			myType UI_Weapon_Damage
+			myPercentageValue = "Weapon Damage"
+		}
+		AttributeMod "UI Weapon Range"
+		{
+			myType UI_Weapon_Range
+			myAddValue = "Weapon Range"
+		}
+	}
+}
+

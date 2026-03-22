@@ -1,0 +1,32 @@
+include ./base_npc.juice
+
+Attributes "Inherited Resistances" = "Base Resistances"
+
+Attributes "Inherited Shatter Values" = "Base Shatter Values"
+
+Attributes General
+{
+	Attribute "Flying Target Height Threshold"
+	{
+		myType Range
+		myValue 10.0
+		myComment "Height off the ground at which a target is considered \"flying\" for combat purposes"
+	}
+}
+
+Attributes Behavior
+{
+	Attribute "Reinforcement Health Percent"
+	{
+		myType NPC_UserData1
+		myValue 0.5
+		myComment "Percent of health [0..1] at which reinforcement is triggered"
+	}
+	Attribute "Flee Shield Percent"
+	{
+		myType NPC_UserData2
+		myValue 0.0
+		myComment "Percent of health [0..1] at which flee is triggered"
+	}
+}
+

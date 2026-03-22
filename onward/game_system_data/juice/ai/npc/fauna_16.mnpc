@@ -1,0 +1,55 @@
+include ./fauna_major.mnpc
+include onward/skillscripts/npc_ability_fauna_shatter.mskillscriptjuice
+include onward/skillscripts/npc_ability_fauna_gatling.mskillscriptjuice
+include onward/skillscripts/npc_ability_fauna_knockback.mskillscriptjuice
+
+NPC fauna_16 < uid=D1E9B2CB5833220B000000C68764AF34 > : fauna_major
+{
+	myUIName_NonLocalized Manylegs
+	myGraphObjectFile "onward/graph objects/character/fauna_16.mgraphobject"
+	myBehavior "onward/game system data/juice/ai/behavior/fauna_01.mbehavior"
+	myAbilityDefinitions
+	{
+		NPCAbilityDefinition Shoot
+		{
+			myGameAction NPC_Ability1
+			mySkillScript < uid=C92F4D3F578CF19A016256EC8B2CF055 > = npc_ability_fauna_gatling
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_fauna_16_shoot.juice"
+		}
+		NPCAbilityDefinition Shatter
+		{
+			myGameAction NPC_Ability2
+			mySkillScript < uid=C92F4D3F578CF19A016256EC8B2CF055 > = npc_ability_fauna_shatter
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_fauna_shatter.juice"
+			myEnabled FALSE
+		}
+		NPCAbilityDefinition Knockback
+		{
+			myGameAction NPC_Ability4
+			mySkillScript < uid=93869D535A9EB95E00001CDAAFC2EEE2 > = npc_ability_fauna_knockback
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_fauna_16_knockback.juice"
+		}
+	}
+	myPhysicsCapsuleHeight 4.0
+	myPhysicsSupportHeight -3.5
+	myPhysicsCapsuleRadius 3.5
+	myPhysicsPusherCapsuleRadius 7.5
+	myPhysicsCapsuleOriented FALSE
+	myPhysicsPusherCapsule TRUE
+	myPhysicsCapsuleStart 0.0;8.0;2.5
+	myPhysicsCapsuleEnd 0.0;21.0;5.5
+	myGroundOrientationFraction 0.3
+	myPatternProfile < uid=4A8282B957F538E100000250C3B8EFB4 > = "Fauna 16"
+	myDefaultMotionPattern < uid=4A8282B957F538E100000251FDB1D673 > = "Fauna 16 Default"
+	myNPCType Fauna_16
+	myAnimSystemType Fauna_16
+	myLeggedness Quadruped
+	myDefaultFootstepEvent 468AE44DA4ECB7593224611D72D547B4
+	myOnDeathChallenge Death_Fauna16
+	myOnDiscoveredChallenge Discover_Fauna16
+	myFullyScannedChallenge FullyScan_Fauna16
+}
+

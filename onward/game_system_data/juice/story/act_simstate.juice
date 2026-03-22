@@ -1,0 +1,798 @@
+include "onward/game system data/fruit/story/storydataactions.fruit"
+include "onward/game system data/fruit/story/storydata.fruit"
+include "onward/game system data/juice/sim/harvester_prime.msimunit"
+include "onward/game system data/juice/sim/harvester_prime_slot.msimunit"
+include "onward/game system data/juice/sim/harvester_dreadnought.msimunit"
+
+StoryBeatData DreadnoughtSetup_Act3 < uid=93869D5359663C7900000A10037BA165 >
+{
+	myStoryDataActionSets
+	{
+		StoryDataActionSet DreadnoughtSetup_Act3
+		{
+			myStoryDataActions
+			{
+				StoryDataAction_SpawnSimUnitAtSlotUnit "Spawn Dreadnought B"
+				{
+					mySimUnitAsset < uid=2B55C72B594932630000004C824FE038 > = Dreadnought
+					myTargetUID 676E8E528ED284ACB750D4DAF7C442CA
+				}
+			}
+		}
+	}
+}
+
+StoryBeatData PrimePlanetSetup < uid=2B55C72B595B9FC60000004D6E8567FF >
+{
+	myStoryDataActionSets
+	{
+		StoryDataActionSet PrimePlanetSetup_Act1
+		{
+			myStoryDataActions
+			{
+				StoryDataAction_SetSpawnAssetBlockedOnPlanet planet_01
+				{
+					myShouldBlock TRUE
+					myPlanetUID 2B55C72B560154A200000053621E3961
+					mySimUnitAssetTargetPath "onward/game system data/juice/sim/harvester_prime.msimunit"
+				}
+				StoryDataAction_SetSpawnAssetBlockedOnPlanet planet_03
+				{
+					myShouldBlock TRUE
+					myPlanetUID 2B55C72B560BF25A00000071749BE491
+					mySimUnitAssetTargetPath "onward/game system data/juice/sim/harvester_prime.msimunit"
+				}
+				StoryDataAction_SetSpawnAssetBlockedOnPlanet planet_04
+				{
+					myShouldBlock TRUE
+					myPlanetUID CC9485AB560BFF1000000066C27E74E9
+					mySimUnitAssetTargetPath "onward/game system data/juice/sim/harvester_prime.msimunit"
+				}
+				StoryDataAction_SetSpawnAssetBlockedOnPlanet planet_05
+				{
+					myShouldBlock TRUE
+					myPlanetUID CC9485AB560D322B0000007B1A4D3320
+					mySimUnitAssetTargetPath "onward/game system data/juice/sim/harvester_prime.msimunit"
+				}
+				StoryDataAction_SetSpawnAssetBlockedOnPlanet planet_07
+				{
+					myShouldBlock TRUE
+					myPlanetUID CC9485AB560D7F0A00000059C377EB67
+					mySimUnitAssetTargetPath "onward/game system data/juice/sim/harvester_prime.msimunit"
+				}
+				StoryDataAction_SetSpawnAssetBlockedOnPlanet planet_08
+				{
+					myShouldBlock TRUE
+					myPlanetUID CC9485AB560D8193000001B70208D164
+					mySimUnitAssetTargetPath "onward/game system data/juice/sim/harvester_prime.msimunit"
+				}
+				StoryDataAction_SetSpawnAssetBlockedOnPlanet planet_15
+				{
+					myShouldBlock TRUE
+					myPlanetUID CC9485AB560DABE6000000B1513C7CDA
+					mySimUnitAssetTargetPath "onward/game system data/juice/sim/harvester_prime.msimunit"
+				}
+			}
+		}
+		StoryDataActionSet NumberOfPrimes
+		{
+			myStoryDataActions
+			{
+				StoryDataAction_SetNumPrimes "Number of Primes"
+				{
+				}
+				StoryDataAction_SetMaxPrimeLevel "Max Prime Level"
+				{
+					myMaxPrimeLevel 1
+				}
+				StoryDataAction_SetPrimeTimeBetweenExtractors PrimeTime
+				{
+					myPrimeTimeBetweenExtractors 900.0
+				}
+			}
+		}
+	}
+}
+
+StoryBeatData ExtractorSetup < uid=2B55C72B595B9FC60000004CAD225CE9 >
+{
+	myStoryDataActionSets
+	{
+		StoryDataActionSet Extractors
+		{
+			myStoryDataActions
+			{
+				StoryDataAction_SetNumExtractors "Max Extractors"
+				{
+					myNumExtractors 1
+				}
+				StoryDataAction_SetMaxExtractorLevel "Max Extractor Level"
+				{
+					myMaxExtractorLevel 1
+				}
+			}
+		}
+	}
+}
+
+StoryBeatData ProbeSetup < uid=2B55C72B595BA52900000057913E329B >
+{
+	myStoryDataActions
+	{
+	}
+	myStoryDataActionSets
+	{
+		StoryDataActionSet ProbeSetup
+		{
+			myStoryDataActions
+			{
+				StoryDataAction_SetSpawnAssetBlockedOnPlanet planet_01
+				{
+					myShouldBlock TRUE
+					myPlanetUID 2B55C72B560154A200000053621E3961
+					mySimUnitAssetTargetPath "onward/game system data/juice/sim/harvester_probe.msimunit"
+				}
+				StoryDataAction_SetSpawnAssetBlockedOnPlanet planet_03
+				{
+					myShouldBlock TRUE
+					myPlanetUID 2B55C72B560BF25A00000071749BE491
+					mySimUnitAssetTargetPath "onward/game system data/juice/sim/harvester_probe.msimunit"
+				}
+				StoryDataAction_SetSpawnAssetBlockedOnPlanet planet_04
+				{
+					myShouldBlock TRUE
+					myPlanetUID CC9485AB560BFF1000000066C27E74E9
+					mySimUnitAssetTargetPath "onward/game system data/juice/sim/harvester_probe.msimunit"
+				}
+				StoryDataAction_SetSpawnAssetBlockedOnPlanet planet_05
+				{
+					myShouldBlock TRUE
+					myPlanetUID CC9485AB560D322B0000007B1A4D3320
+					mySimUnitAssetTargetPath "onward/game system data/juice/sim/harvester_probe.msimunit"
+				}
+				StoryDataAction_SetSpawnAssetBlockedOnPlanet planet_07
+				{
+					myShouldBlock TRUE
+					myPlanetUID CC9485AB560D7F0A00000059C377EB67
+					mySimUnitAssetTargetPath "onward/game system data/juice/sim/harvester_probe.msimunit"
+				}
+				StoryDataAction_SetSpawnAssetBlockedOnPlanet planet_08
+				{
+					myShouldBlock TRUE
+					myPlanetUID CC9485AB560D8193000001B70208D164
+					mySimUnitAssetTargetPath "onward/game system data/juice/sim/harvester_probe.msimunit"
+				}
+				StoryDataAction_SetSpawnAssetBlockedOnPlanet planet_15
+				{
+					myShouldBlock TRUE
+					myPlanetUID CC9485AB560DABE6000000B1513C7CDA
+					mySimUnitAssetTargetPath "onward/game system data/juice/sim/harvester_probe.msimunit"
+				}
+			}
+		}
+	}
+}
+
+StoryBeatData BlockRaceHermit < uid=9FD9E81859B804A1000001B5E06DC145 >
+{
+	myStoryDataActionSets
+	{
+		StoryDataActionSet "Hermit Setup"
+		{
+			myStoryDataActions
+			{
+				StoryDataAction_SetSpawnAssetBlockedOnPlanet planet_01
+				{
+					myShouldBlock TRUE
+					myPlanetUID 2B55C72B560154A200000053621E3961
+					mySimUnitAssetTargetPath "onward/game system data/juice/sim/hermit_outpost.msimunit"
+				}
+				StoryDataAction_SetSpawnAssetBlockedOnPlanet planet_03
+				{
+					myShouldBlock TRUE
+					myPlanetUID 2B55C72B560BF25A00000071749BE491
+					mySimUnitAssetTargetPath "onward/game system data/juice/sim/hermit_outpost.msimunit"
+				}
+				StoryDataAction_SetSpawnAssetBlockedOnPlanet planet_04
+				{
+					myShouldBlock TRUE
+					myPlanetUID CC9485AB560BFF1000000066C27E74E9
+					mySimUnitAssetTargetPath "onward/game system data/juice/sim/hermit_outpost.msimunit"
+				}
+				StoryDataAction_SetSpawnAssetBlockedOnPlanet planet_05
+				{
+					myShouldBlock TRUE
+					myPlanetUID CC9485AB560D322B0000007B1A4D3320
+					mySimUnitAssetTargetPath "onward/game system data/juice/sim/hermit_outpost.msimunit"
+				}
+				StoryDataAction_SetSpawnAssetBlockedOnPlanet planet_07
+				{
+					myShouldBlock TRUE
+					myPlanetUID CC9485AB560D7F0A00000059C377EB67
+					mySimUnitAssetTargetPath "onward/game system data/juice/sim/hermit_outpost.msimunit"
+				}
+				StoryDataAction_SetSpawnAssetBlockedOnPlanet planet_08
+				{
+					myShouldBlock TRUE
+					myPlanetUID CC9485AB560D8193000001B70208D164
+					mySimUnitAssetTargetPath "onward/game system data/juice/sim/hermit_outpost.msimunit"
+				}
+				StoryDataAction_SetSpawnAssetBlockedOnPlanet planet_15
+				{
+					myShouldBlock TRUE
+					myPlanetUID CC9485AB560DABE6000000B1513C7CDA
+					mySimUnitAssetTargetPath "onward/game system data/juice/sim/hermit_outpost.msimunit"
+				}
+			}
+		}
+	}
+}
+
+StoryBeatData HarvesterProgression < uid=9FD9E81859E7A9700000018D544D1683 >
+{
+	myStoryDataActions
+	{
+		StoryDataAction_EnableSimUnitProgression "Disable Harvester Progression"
+		{
+			myFaction Harvester
+		}
+	}
+}
+
+StoryBeatSequence ACT1_Start_SimState < uid=9FD9E8185AB12C5B00001C0579DF7631 >
+{
+	myStoryBeats
+	{
+		StoryBeatData PrimePlanetSetup < uid=2B55C72B58E6658D000000D069D8BCAF > : PrimePlanetSetup
+		{
+		}
+		StoryBeatData ExtractorSetup < uid=2B55C72B595BA0180000004EB409DD06 > : ExtractorSetup
+		{
+		}
+		StoryBeatData ProbeSetup < uid=2B55C72B595BA6590000005B922CA4A1 > : ProbeSetup
+		{
+		}
+		StoryBeatData HermitSetup < uid=9FD9E81859B804D7000001B68E835BF4 > : BlockRaceHermit
+		{
+		}
+		StoryBeatData "Disable Harvester Progression" < uid=9FD9E81859E7A9700000018CD05FDD7E > : HarvesterProgression
+		{
+		}
+	}
+}
+
+StoryBeatSequence ACT2_SimState < uid=9FD9E8185AB12C5B00001C066FD17471 >
+{
+	myStoryBeats
+	{
+		StoryBeatData PrimePlanetSetup_Act2 < uid=2B55C72B595BA0A80000004FBCEF8BA0 > : PrimePlanetSetup
+		{
+			myStoryDataActionSets
+			{
+				StoryDataActionSet PrimePlanetSetup_Act2
+				{
+					myStoryDataActions
+					{
+						StoryDataAction_SetSpawnAssetBlockedOnPlanet planet_01
+						{
+							myShouldBlock TRUE
+							myPlanetUID 2B55C72B560154A200000053621E3961
+							mySimUnitAssetTargetPath "onward/game system data/juice/sim/harvester_prime.msimunit"
+						}
+						StoryDataAction_SetSpawnAssetBlockedOnPlanet planet_03
+						{
+							myShouldBlock TRUE
+							myPlanetUID 2B55C72B560BF25A00000071749BE491
+							mySimUnitAssetTargetPath "onward/game system data/juice/sim/harvester_prime.msimunit"
+						}
+						StoryDataAction_SetSpawnAssetBlockedOnPlanet planet_04
+						{
+							myShouldBlock TRUE
+							myPlanetUID CC9485AB560BFF1000000066C27E74E9
+							mySimUnitAssetTargetPath "onward/game system data/juice/sim/harvester_prime.msimunit"
+						}
+						StoryDataAction_SetSpawnAssetBlockedOnPlanet planet_05
+						{
+							myShouldBlock TRUE
+							myPlanetUID CC9485AB560D322B0000007B1A4D3320
+							mySimUnitAssetTargetPath "onward/game system data/juice/sim/harvester_prime.msimunit"
+						}
+						StoryDataAction_SetSpawnAssetBlockedOnPlanet planet_07
+						{
+							myShouldBlock TRUE
+							myPlanetUID CC9485AB560D7F0A00000059C377EB67
+							mySimUnitAssetTargetPath "onward/game system data/juice/sim/harvester_prime.msimunit"
+						}
+						StoryDataAction_SetSpawnAssetBlockedOnPlanet planet_08
+						{
+							myShouldBlock TRUE
+							myPlanetUID CC9485AB560D8193000001B70208D164
+							mySimUnitAssetTargetPath "onward/game system data/juice/sim/harvester_prime.msimunit"
+						}
+						StoryDataAction_SetSpawnAssetBlockedOnPlanet planet_15
+						{
+							myShouldBlock TRUE
+							myPlanetUID CC9485AB560DABE6000000B1513C7CDA
+							mySimUnitAssetTargetPath "onward/game system data/juice/sim/harvester_prime.msimunit"
+						}
+					}
+				}
+				StoryDataActionSet NumberOfPrimes
+				{
+					myStoryDataActions
+					{
+						StoryDataAction_SetNumPrimes "Number of Primes"
+						{
+							myNumPrimes 0
+						}
+						StoryDataAction_SetMaxPrimeLevel "Max Prime Level"
+						{
+							myMaxPrimeLevel 1
+						}
+						StoryDataAction_SetPrimeTimeBetweenExtractors PrimeTime
+						{
+						}
+					}
+				}
+			}
+		}
+		StoryBeatData ExtractorSetup_Act2 < uid=2B55C72B595BA0A80000005003954DC0 > : ExtractorSetup
+		{
+			myStoryDataActionSets
+			{
+				StoryDataActionSet Extractors
+				{
+					myStoryDataActions
+					{
+						StoryDataAction_SetNumExtractors "Max Extractors"
+						{
+							myNumExtractors 7
+						}
+						StoryDataAction_SetMaxExtractorLevel "Max Extractor Level"
+						{
+							myMaxExtractorLevel 2
+						}
+					}
+				}
+			}
+		}
+		StoryBeatData ProbeSetup_Act2 < uid=2B55C72B595BA6590000005C24F2B677 > : ProbeSetup
+		{
+			myStoryDataActionSets
+			{
+				StoryDataActionSet ProbeSetup_Act2
+				{
+					myStoryDataActions
+					{
+						StoryDataAction_SetSpawnAssetBlockedOnPlanet planet_01
+						{
+							myShouldBlock TRUE
+							myPlanetUID 2B55C72B560154A200000053621E3961
+							mySimUnitAssetTargetPath "onward/game system data/juice/sim/harvester_probe.msimunit"
+						}
+						StoryDataAction_SetSpawnAssetBlockedOnPlanet planet_03
+						{
+							myShouldBlock TRUE
+							myPlanetUID 2B55C72B560BF25A00000071749BE491
+							mySimUnitAssetTargetPath "onward/game system data/juice/sim/harvester_probe.msimunit"
+						}
+						StoryDataAction_SetSpawnAssetBlockedOnPlanet planet_04
+						{
+							myShouldBlock TRUE
+							myPlanetUID CC9485AB560BFF1000000066C27E74E9
+							mySimUnitAssetTargetPath "onward/game system data/juice/sim/harvester_probe.msimunit"
+						}
+						StoryDataAction_SetSpawnAssetBlockedOnPlanet planet_05
+						{
+							myShouldBlock TRUE
+							myPlanetUID CC9485AB560D322B0000007B1A4D3320
+							mySimUnitAssetTargetPath "onward/game system data/juice/sim/harvester_probe.msimunit"
+						}
+						StoryDataAction_SetSpawnAssetBlockedOnPlanet planet_07
+						{
+							myShouldBlock TRUE
+							myPlanetUID CC9485AB560D7F0A00000059C377EB67
+							mySimUnitAssetTargetPath "onward/game system data/juice/sim/harvester_probe.msimunit"
+						}
+						StoryDataAction_SetSpawnAssetBlockedOnPlanet planet_08
+						{
+							myShouldBlock TRUE
+							myPlanetUID CC9485AB560D8193000001B70208D164
+							mySimUnitAssetTargetPath "onward/game system data/juice/sim/harvester_probe.msimunit"
+						}
+						StoryDataAction_SetSpawnAssetBlockedOnPlanet planet_15
+						{
+							myShouldBlock TRUE
+							myPlanetUID CC9485AB560DABE6000000B1513C7CDA
+							mySimUnitAssetTargetPath "onward/game system data/juice/sim/harvester_probe.msimunit"
+						}
+					}
+				}
+			}
+		}
+		StoryBeatData SpawPrimes < uid=2B55C72B596F7DE7000019A1FF5B0E7A >
+		{
+		}
+		StoryBeatData "Enable Harvester Progression" < uid=9FD9E81859E7AB6E0000018E69DE46A0 >
+		{
+			myStoryDataActions
+			{
+				StoryDataAction_EnableSimUnitProgression "Enable Harvester Progression"
+				{
+					myIsEnabled TRUE
+					myFaction Harvester
+				}
+			}
+		}
+	}
+}
+
+StoryBeatSequence ACT3_SimState < uid=9FD9E8185AB12C5B00001C07E6BC3979 >
+{
+	myStoryBeats
+	{
+		StoryBeatData PrimePlanetSetup_Act3 < uid=2B55C72B595BA24200000051466A68D2 > : PrimePlanetSetup
+		{
+			myActStartFlag FALSE
+			myStoryDataActionSets
+			{
+				StoryDataActionSet PrimePlanetSetup_Act1
+				{
+					myStoryDataActions
+					{
+						StoryDataAction_SetSpawnAssetBlockedOnPlanet planet_01
+						{
+							myShouldBlock TRUE
+							myPlanetUID 2B55C72B560154A200000053621E3961
+							mySimUnitAssetTargetPath "onward/game system data/juice/sim/harvester_prime.msimunit"
+						}
+						StoryDataAction_SetSpawnAssetBlockedOnPlanet planet_03
+						{
+							myShouldBlock FALSE
+							myPlanetUID 2B55C72B560BF25A00000071749BE491
+							mySimUnitAssetTargetPath "onward/game system data/juice/sim/harvester_prime.msimunit"
+						}
+						StoryDataAction_SetSpawnAssetBlockedOnPlanet planet_04
+						{
+							myShouldBlock TRUE
+							myPlanetUID CC9485AB560BFF1000000066C27E74E9
+							mySimUnitAssetTargetPath "onward/game system data/juice/sim/harvester_prime.msimunit"
+						}
+						StoryDataAction_SetSpawnAssetBlockedOnPlanet planet_05
+						{
+							myShouldBlock TRUE
+							myPlanetUID CC9485AB560D322B0000007B1A4D3320
+							mySimUnitAssetTargetPath "onward/game system data/juice/sim/harvester_prime.msimunit"
+						}
+						StoryDataAction_SetSpawnAssetBlockedOnPlanet planet_07
+						{
+							myShouldBlock TRUE
+							myPlanetUID CC9485AB560D7F0A00000059C377EB67
+							mySimUnitAssetTargetPath "onward/game system data/juice/sim/harvester_prime.msimunit"
+						}
+						StoryDataAction_SetSpawnAssetBlockedOnPlanet planet_08
+						{
+							myShouldBlock FALSE
+							myPlanetUID CC9485AB560D8193000001B70208D164
+							mySimUnitAssetTargetPath "onward/game system data/juice/sim/harvester_prime.msimunit"
+						}
+						StoryDataAction_SetSpawnAssetBlockedOnPlanet planet_15
+						{
+							myShouldBlock TRUE
+							myPlanetUID CC9485AB560DABE6000000B1513C7CDA
+							mySimUnitAssetTargetPath "onward/game system data/juice/sim/harvester_prime.msimunit"
+						}
+					}
+				}
+				StoryDataActionSet NumberOfPrimes
+				{
+					myStoryDataActions
+					{
+						StoryDataAction_SetNumPrimes "Number of Primes"
+						{
+							myNumPrimes 1
+						}
+						StoryDataAction_SetMaxPrimeLevel "Max Prime Level"
+						{
+							myMaxPrimeLevel 3
+						}
+						StoryDataAction_SetPrimeTimeBetweenExtractors PrimeTime
+						{
+						}
+					}
+				}
+			}
+		}
+		StoryBeatData ExtractorSetup_Act3 < uid=2B55C72B595BA24200000052BC716CF4 > : ExtractorSetup
+		{
+			myStoryDataActionSets
+			{
+				StoryDataActionSet Extractors
+				{
+					myStoryDataActions
+					{
+						StoryDataAction_SetNumExtractors "Max Extractors"
+						{
+							myNumExtractors 9
+						}
+						StoryDataAction_SetMaxExtractorLevel "Max Extractor Level"
+						{
+							myMaxExtractorLevel 3
+						}
+					}
+				}
+			}
+		}
+		StoryBeatData ProbeSetup_Act3 < uid=2B55C72B595BA6590000005D2B810CA4 > : ProbeSetup
+		{
+			myStoryDataActionSets
+			{
+				StoryDataActionSet ProbeSetup
+				{
+					myStoryDataActions
+					{
+						StoryDataAction_SetSpawnAssetBlockedOnPlanet planet_01
+						{
+							myShouldBlock FALSE
+							myPlanetUID 2B55C72B560154A200000053621E3961
+							mySimUnitAssetTargetPath "onward/game system data/juice/sim/harvester_probe.msimunit"
+						}
+						StoryDataAction_SetSpawnAssetBlockedOnPlanet planet_03
+						{
+							myShouldBlock FALSE
+							myPlanetUID 2B55C72B560BF25A00000071749BE491
+							mySimUnitAssetTargetPath "onward/game system data/juice/sim/harvester_probe.msimunit"
+						}
+						StoryDataAction_SetSpawnAssetBlockedOnPlanet planet_04
+						{
+							myShouldBlock FALSE
+							myPlanetUID CC9485AB560BFF1000000066C27E74E9
+							mySimUnitAssetTargetPath "onward/game system data/juice/sim/harvester_probe.msimunit"
+						}
+						StoryDataAction_SetSpawnAssetBlockedOnPlanet planet_05
+						{
+							myShouldBlock FALSE
+							myPlanetUID CC9485AB560D322B0000007B1A4D3320
+							mySimUnitAssetTargetPath "onward/game system data/juice/sim/harvester_probe.msimunit"
+						}
+						StoryDataAction_SetSpawnAssetBlockedOnPlanet planet_07
+						{
+							myShouldBlock FALSE
+							myPlanetUID CC9485AB560D7F0A00000059C377EB67
+							mySimUnitAssetTargetPath "onward/game system data/juice/sim/harvester_probe.msimunit"
+						}
+						StoryDataAction_SetSpawnAssetBlockedOnPlanet planet_08
+						{
+							myShouldBlock FALSE
+							myPlanetUID CC9485AB560D8193000001B70208D164
+							mySimUnitAssetTargetPath "onward/game system data/juice/sim/harvester_probe.msimunit"
+						}
+						StoryDataAction_SetSpawnAssetBlockedOnPlanet planet_15
+						{
+							myShouldBlock FALSE
+							myPlanetUID CC9485AB560DABE6000000B1513C7CDA
+							mySimUnitAssetTargetPath "onward/game system data/juice/sim/harvester_probe.msimunit"
+						}
+					}
+				}
+			}
+		}
+		StoryBeatData "Spawn Primes" < uid=2B55C72B596F7DE7000019A2361D7847 >
+		{
+			myStoryDataActionSets
+			{
+				StoryDataActionSet "Spawn Haven Prime"
+				{
+					myStoryDataActions
+					{
+						StoryDataAction_SpawnSimUnitNearSimUnitAsset "Spawn Prime Near Prime Slot - Haven"
+						{
+							mySimUnitAsset < uid=9FD9E8185A5F75E200001B5082802869 > = harvester_prime
+							myDistance 100.0
+							myPlanetUID 2B55C72B560BF25A00000071749BE491
+							myTargetAsset < uid=9FD9E8185A5F75D900001B4FDDA54A57 > = harvester_prime_slot
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+StoryBeatSequence ACT4_SimState < uid=9FD9E8185AB12C5B00001C08B95C6BF1 >
+{
+	myStoryBeats
+	{
+		StoryBeatData PrimePlanetSetup_Act4 < uid=2B55C72B595BA29D000000537C034251 > : PrimePlanetSetup
+		{
+			myStoryDataActionSets
+			{
+				StoryDataActionSet PrimePlanetSetup_Act4
+				{
+					myStoryDataActions
+					{
+						StoryDataAction_SetSpawnAssetBlockedOnPlanet planet_01
+						{
+							myShouldBlock FALSE
+							myPlanetUID 2B55C72B560154A200000053621E3961
+							mySimUnitAssetTargetPath "onward/game system data/juice/sim/harvester_prime.msimunit"
+						}
+						StoryDataAction_SetSpawnAssetBlockedOnPlanet planet_03
+						{
+							myShouldBlock FALSE
+							myPlanetUID 2B55C72B560BF25A00000071749BE491
+							mySimUnitAssetTargetPath "onward/game system data/juice/sim/harvester_prime.msimunit"
+						}
+						StoryDataAction_SetSpawnAssetBlockedOnPlanet planet_04
+						{
+							myShouldBlock FALSE
+							myPlanetUID CC9485AB560BFF1000000066C27E74E9
+							mySimUnitAssetTargetPath "onward/game system data/juice/sim/harvester_prime.msimunit"
+						}
+						StoryDataAction_SetSpawnAssetBlockedOnPlanet planet_05
+						{
+							myShouldBlock FALSE
+							myPlanetUID CC9485AB560D322B0000007B1A4D3320
+							mySimUnitAssetTargetPath "onward/game system data/juice/sim/harvester_prime.msimunit"
+						}
+						StoryDataAction_SetSpawnAssetBlockedOnPlanet planet_07
+						{
+							myShouldBlock FALSE
+							myPlanetUID CC9485AB560D7F0A00000059C377EB67
+							mySimUnitAssetTargetPath "onward/game system data/juice/sim/harvester_prime.msimunit"
+						}
+						StoryDataAction_SetSpawnAssetBlockedOnPlanet planet_08
+						{
+							myShouldBlock FALSE
+							myPlanetUID CC9485AB560D8193000001B70208D164
+							mySimUnitAssetTargetPath "onward/game system data/juice/sim/harvester_prime.msimunit"
+						}
+						StoryDataAction_SetSpawnAssetBlockedOnPlanet planet_15
+						{
+							myShouldBlock FALSE
+							myPlanetUID CC9485AB560DABE6000000B1513C7CDA
+							mySimUnitAssetTargetPath "onward/game system data/juice/sim/harvester_prime.msimunit"
+						}
+					}
+				}
+				StoryDataActionSet NumberOfPrimes
+				{
+					myStoryDataActions
+					{
+						StoryDataAction_SetNumPrimes "Number of Primes"
+						{
+							myNumPrimes 1
+						}
+						StoryDataAction_SetMaxPrimeLevel "Max Prime Level"
+						{
+							myMaxPrimeLevel 4
+						}
+						StoryDataAction_SetPrimeTimeBetweenExtractors PrimeTime
+						{
+						}
+					}
+				}
+			}
+		}
+		StoryBeatData ExtractorSetup_Act4 < uid=2B55C72B595BA29D00000054D551FB5C > : ExtractorSetup
+		{
+			myStoryDataActionSets
+			{
+				StoryDataActionSet Extractors
+				{
+					myStoryDataActions
+					{
+						StoryDataAction_SetNumExtractors "Max Extractors"
+						{
+							myNumExtractors 11
+						}
+						StoryDataAction_SetMaxExtractorLevel "Max Extractor Level"
+						{
+							myMaxExtractorLevel 4
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+StoryBeatSequence ACT6_SimState < uid=9FD9E8185AB12C5B00001C093BB0EC15 >
+{
+	myStoryBeats
+	{
+		StoryBeatData PrimePlanetSetup_Act6 < uid=2B55C72B595BA3AB00000055C06835DC > : PrimePlanetSetup
+		{
+			myStoryDataActionSets
+			{
+				StoryDataActionSet PrimePlanetSetup_Act6
+				{
+					myStoryDataActions
+					{
+						StoryDataAction_SetSpawnAssetBlockedOnPlanet planet_01
+						{
+							myShouldBlock FALSE
+							myPlanetUID 2B55C72B560154A200000053621E3961
+							mySimUnitAssetTargetPath "onward/game system data/juice/sim/harvester_prime.msimunit"
+						}
+						StoryDataAction_SetSpawnAssetBlockedOnPlanet planet_03
+						{
+							myShouldBlock FALSE
+							myPlanetUID 2B55C72B560BF25A00000071749BE491
+							mySimUnitAssetTargetPath "onward/game system data/juice/sim/harvester_prime.msimunit"
+						}
+						StoryDataAction_SetSpawnAssetBlockedOnPlanet planet_04
+						{
+							myShouldBlock FALSE
+							myPlanetUID CC9485AB560BFF1000000066C27E74E9
+							mySimUnitAssetTargetPath "onward/game system data/juice/sim/harvester_prime.msimunit"
+						}
+						StoryDataAction_SetSpawnAssetBlockedOnPlanet planet_05
+						{
+							myShouldBlock FALSE
+							myPlanetUID CC9485AB560D322B0000007B1A4D3320
+							mySimUnitAssetTargetPath "onward/game system data/juice/sim/harvester_prime.msimunit"
+						}
+						StoryDataAction_SetSpawnAssetBlockedOnPlanet planet_07
+						{
+							myShouldBlock FALSE
+							myPlanetUID CC9485AB560D7F0A00000059C377EB67
+							mySimUnitAssetTargetPath "onward/game system data/juice/sim/harvester_prime.msimunit"
+						}
+						StoryDataAction_SetSpawnAssetBlockedOnPlanet planet_08
+						{
+							myShouldBlock FALSE
+							myPlanetUID CC9485AB560D8193000001B70208D164
+							mySimUnitAssetTargetPath "onward/game system data/juice/sim/harvester_prime.msimunit"
+						}
+						StoryDataAction_SetSpawnAssetBlockedOnPlanet planet_15
+						{
+							myShouldBlock FALSE
+							myPlanetUID CC9485AB560DABE6000000B1513C7CDA
+							mySimUnitAssetTargetPath "onward/game system data/juice/sim/harvester_prime.msimunit"
+						}
+					}
+				}
+				StoryDataActionSet NumberOfPrimes
+				{
+					myStoryDataActions
+					{
+						StoryDataAction_SetNumPrimes "Number of Primes"
+						{
+							myNumPrimes 1
+						}
+						StoryDataAction_SetMaxPrimeLevel "Max Prime Level"
+						{
+							myMaxPrimeLevel 4
+						}
+						StoryDataAction_SetPrimeTimeBetweenExtractors PrimeTime
+						{
+							myPrimeTimeBetweenExtractors 300.0
+						}
+					}
+				}
+			}
+		}
+		StoryBeatData ExtractorSetup_Act6 < uid=2B55C72B595BA3AB00000056F749F7E9 > : ExtractorSetup
+		{
+			myStoryDataActionSets
+			{
+				StoryDataActionSet Extractors
+				{
+					myStoryDataActions
+					{
+						StoryDataAction_SetNumExtractors "Max Extractors"
+						{
+							myNumExtractors 30
+						}
+						StoryDataAction_SetMaxExtractorLevel "Max Extractor Level"
+						{
+							myMaxExtractorLevel 4
+						}
+					}
+				}
+			}
+		}
+	}
+}
+

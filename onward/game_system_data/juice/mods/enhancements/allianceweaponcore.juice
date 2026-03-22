@@ -1,0 +1,20 @@
+include ./templates/template_l5.juice
+include "onward/game system data/juice/mods/mod_alliance_weaponcore.mplayermod"
+
+Enhancement allianceweaponcore < uid=C91BB55159823A3800192FAB10C67660 > : "Level 5"
+{
+	myLocalizedName "contextComment = \"[Placeholder - do not translate]\nName for unique Weapon Core player earns by achieving a high Alliance percentage across all of Atlas, giving a wide swath of stat perks\", description = \"\", enabled = true, guid = #C91BB55159823A4400192FD2C47D964A, lineVersion = 2, maxLength = 17, text = \"Alliance Ammo\""
+	myLocalizedDescription "contextComment = \"[Placeholder - do not translate]\nDescription for unique Weapon Core player earns by achieving a high Alliance percentage across all of Atlas, giving a wide swath of stat perks\", description = \"enhancement-description-alliance-weapon-core\", enabled = true, guid = #9E6AFEDA59D80FB3000001A3A97DC1EA, lineVersion = 2, maxLength = 88, text = \"+100% Damage\n+100 Fire Rate\n-25% Energy Cost\n+25% Damage near Allies\""
+	myIconSprite "mySpriteId = 1347313441, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-mods-weapon-core.spritesheet\""
+	myMod < uid=C91BB55159823A4100192FC4CB903892 > = mod_alliance_weaponcore
+	myEnhancementType WeaponCore
+	myEnhancementTrackType AllianceWeaponCore
+	myDamageAffectors
+	{
+		DamageAffector_DamageBoostAroundAllies "Damage boost around Allies"
+		{
+			myDamageMultiplier = Alliance_WeaponCore_l5_ExtraDamage
+		}
+	}
+}
+

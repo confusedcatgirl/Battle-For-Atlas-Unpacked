@@ -1,0 +1,22 @@
+include ./templates/template_l2.juice
+include ./damageaffectors/damage_affectors.juice
+include "onward/game system data/juice/mods/mod_operator_weaponcore_l2.mplayermod"
+
+Enhancement operatorweaponcore_l2 < uid=C91BB5515980D66700133C69FE94AB26 > : "Level 2"
+{
+	myLocalizedName "contextComment = \"[Placeholder - do not translate]\nName for level 2 verion of Operator Core weapon mod, which makes weapons fire faster and improves damage nearby.\", description = \"\", enabled = true, guid = #C91BB5515980D66700133C68E38588A3, lineVersion = 2, maxLength = 17, text = \"Rapid Ammo II\""
+	myLocalizedDescription "contextComment = \"[Placeholder - do not translate]\nDescription for level 2 verion of Operator Core weapon mod, which makes weapons fire faster and improves damage nearby. \", description = \"enhancement-description-opweator-weapon-core-2\", enabled = true, guid = #9E6AFEDA59D27D1C00680E0A44FF775C, lineVersion = 2, maxLength = 82, text = \"+35 Fire Rate\n+25% damage to target within 50m\n-10% Energy Cost\""
+	myIconSprite "mySpriteId = -86440548, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-mods-weapon-core.spritesheet\""
+	myMod < uid=C91BB5515980D66700133C6ACEDF622A > = mod_operator_weaponcore_l2
+	myEnhancementType WeaponCore
+	myEnhancementTrackType OperatorWeaponCore
+	myDamageAffectors
+	{
+		DamageAffector_CloseRange "Close Range Damage"
+		{
+			myDamageMultiplier = Operator_WeaponCore_l2_CloseDmg
+			myWithinMeters 50.0
+		}
+	}
+}
+

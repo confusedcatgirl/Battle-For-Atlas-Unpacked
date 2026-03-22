@@ -1,0 +1,94 @@
+include "onward/game system data/fruit/loot/loot.fruit"
+
+LootHealthPayload "Health Payload Base" < uid=383282CB5798B84100000033BB1BADCD >
+{
+	myEntityTemplate "onward/entity templates/pickup_health_small.mentitytemplate"
+	myAmount 3000.0
+}
+
+LootHealthPayload "Health Payload Small" < uid=8A9CA28657A3463800008F211C752DD3 >
+{
+	myEntityTemplate "onward/entity templates/pickup_health_small.mentitytemplate"
+	myAmount 500.0
+}
+
+LootHealthPayload "Health Payload Large" < uid=8A9CA28657A34BD60000FDDAA1557373 >
+{
+	myEntityTemplate "onward/entity templates/pickup_health_large.mentitytemplate"
+	myAmount 3000.0
+}
+
+LootHealthPayload "Health Payload Structure" < uid=8A9CA28657A34D4A0001177CFCCEFDF4 >
+{
+	myEntityTemplate "onward/entity templates/pickup_health_large.mentitytemplate"
+	myAmount 3000.0
+}
+
+LootMultiplePayload "Health Electrum Payload Tiny"
+{
+	myEntityTemplate "onward/entity templates/pickup_health_small.mentitytemplate"
+	myPayloads
+	{
+		LootHealthPayload Health < uid=8A9CA28659669AC9000691F274D7BE4E >
+		{
+			myAmount 100.0
+		}
+		LootAttributePayload Energy < uid=C308E4DB5996F5DD0001B1FF44F56666 >
+		{
+			myAttribute Player_EnergyBonusFromHealthPickup
+			myAttributePayloadType Energy
+		}
+	}
+}
+
+LootMultiplePayload "Health Electrum Payload Small"
+{
+	myEntityTemplate "onward/entity templates/pickup_health_small.mentitytemplate"
+	myPayloads
+	{
+		LootHealthPayload Health < uid=8A9CA28657B606360000007E76B02476 >
+		{
+			myAmount 300.0
+		}
+		LootAttributePayload "Energy Bonus" < uid=C308E4DB59973747000000214743EF12 >
+		{
+			myAttribute Player_EnergyBonusFromHealthPickup
+			myAttributePayloadType Energy
+		}
+	}
+}
+
+LootMultiplePayload "Health Electrum Payload Large"
+{
+	myEntityTemplate "onward/entity templates/pickup_health_large.mentitytemplate"
+	myPayloads
+	{
+		LootHealthPayload Health < uid=8A9CA28657B606360000008059EBD428 >
+		{
+			myAmount 1000.0
+		}
+		LootAttributePayload Energy < uid=C308E4DB5996F5DD0001B1FE47B73674 >
+		{
+			myAttribute Player_EnergyBonusFromHealthPickup
+			myAttributePayloadType Energy
+		}
+	}
+}
+
+LootMultiplePayload "Health Electrum Payload XL"
+{
+	myEntityTemplate "onward/entity templates/pickup_health_large.mentitytemplate"
+	myPayloads
+	{
+		LootHealthPayload Health < uid=9E6AFEDA59B9A5F700000035E5491E47 >
+		{
+			myAmount 3000.0
+		}
+		LootAttributePayload Energy < uid=9E6AFEDA59B9A5F700000036A3A01397 >
+		{
+			myAttribute Player_EnergyBonusFromHealthPickup
+			myAttributePayloadType Energy
+		}
+	}
+}
+

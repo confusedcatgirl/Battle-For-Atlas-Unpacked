@@ -1,0 +1,27 @@
+include ./pickup_base.msimunit
+
+SimUnit pickup_rareprop_sandworm_scale_02 < uid=939A35415BBE481D000002F48BB31165 > : pickup_base
+{
+	myUIName "contextComment = \"sim unit name for a sandworm scale that player can find and pluck off an Ashar Acidworm\", description = \"uiname-pickup_rareprop_sandworm_scale_02\", enabled = true, guid = #939A35415BBE481D000002F3A2C63620, lineVersion = 1, maxLength = 21, text = \"[Acidworm Scale]\""
+	myBehavior onward/simworld/behavior/pickup_wormscale.msimunitbtgraph
+	mySubCategory RareFlora
+	mySubCategoryVariant 1
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo InteractablePickup < uid=939A35415BBE481D000002F58734D8A5 >
+		{
+			myCountMin 1
+			myCountMax 1
+			myIgnoreNavMesh TRUE
+			myIgnoreTerrain TRUE
+			myEntityFile "onward/entity templates/pickup_rareprop_sandworm_scale_02.mentitytemplate"
+			myRealizeOnDetach FALSE
+			myAttachOffset 0.0;1.25;-2.0
+		}
+	}
+	mySaveable FALSE
+	myIsValidPickupTarget FALSE
+	myIconSprite "mySpriteId = -1359094290, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-inventory-organics-flora.spritesheet\""
+	myMissionTargetTexture onward/baked/textures/UI/icons/outpost_targets/outpost_target_sim_unit/ui-icon-outpost-target-flora-delivery-01.dds
+}
+

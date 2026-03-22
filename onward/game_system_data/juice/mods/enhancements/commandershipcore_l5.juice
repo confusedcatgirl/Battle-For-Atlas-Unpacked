@@ -1,0 +1,28 @@
+include ./templates/template_l5.juice
+include "onward/game system data/juice/mods/mod_commander_shipcore_l5.mplayermod"
+include ./damageaffectors/damage_affectors.juice
+include "onward/game system data/juice/buffs/buff_commander_shipcore_group_repair.mbuff"
+
+Enhancement commandershipcore_l5 < uid=C91BB551597F5211007FB70FFFC0D398 > : "Level 5"
+{
+	myLocalizedName "contextComment = \"[Placeholder - do not translate]\nName for level 5 version of a Ship Core that greatly speeds the pilot's ability recharge, and offers perks that benefit allies fighting together.\", description = \"\", enabled = true, guid = #C91BB551597F5211007FB70E43F4DD69, lineVersion = 1, maxLength = 30, text = \"Commander Core V\""
+	myLocalizedDescription "contextComment = \"[Placeholder - do not translate]\nDescription for level 5 version of a Ship Core that greatly speeds the pilot's ability recharge, and offers perks that benefit allies fighting together.\", description = \"enhancement-description-commander-ship-core-5\", enabled = true, guid = #9B75C46D58484C49B4CC7C09DA888E98, lineVersion = 2, maxLength = 159, text = \"+100% Pilot Ability charge Speed\n+800 weapon energy on Parry\n+15% Resistance to nearby Allies\n+75% damage when near Allies\"}"
+	myIconSprite "mySpriteId = 1661899485, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-mods-ship-core.spritesheet\""
+	myIsHullEnhancement TRUE
+	myMod < uid=C91BB551597F5211007FB710824C3BDC > = mod_commander_shipcore_l5
+	myEnhancementType ShipCore
+	myEnhancementTrackType CommanderShipCore
+	myDamageAffectors
+	{
+		DamageAffector_DamageBoostAroundAllies "Damage Boost Near Allies"
+		{
+			myDamageMultiplier = Commander_Core_l5_DmgAllies
+		}
+		DamageAffector_FriendlyDamageResistance "Resistance for Nearby Allies"
+		{
+			myDamageMultiplier = Commander_Core_l5_AllyResistance
+			myDistanceThreshold 500.0
+		}
+	}
+}
+

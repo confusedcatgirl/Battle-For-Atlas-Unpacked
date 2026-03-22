@@ -1,0 +1,307 @@
+include "onward/game system data/juice/input/inputactions.juice"
+include "onward/game system data/fruit/input/gameinput.fruit"
+
+TriggerGameAction "[Movement] Move Left"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction "Rotated Left Stick Left Analog"
+		{
+			myInputActionType Analog
+			myInputAction = LEFT_STICK_LEFT
+		}
+	}
+	myGameAction MoveLeft
+}
+
+TriggerGameAction "[Movement] Move Right"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction "Rotated Left Stick Right Analog"
+		{
+			myInputActionType Analog
+			myInputAction = LEFT_STICK_RIGHT
+		}
+	}
+	myGameAction MoveRight
+}
+
+TriggerGameAction "[Movement] Move Forward"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction "Rotated Left Stick Up Analog"
+		{
+			myInputActionType Analog
+			myInputAction = LEFT_STICK_UP
+		}
+	}
+	myGameAction MoveForward
+}
+
+TriggerGameAction "[Movement] Move Backward"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction "Rotated Left Stick Down Analog"
+		{
+			myInputActionType Analog
+			myInputAction = LEFT_STICK_DOWN
+		}
+	}
+	myGameAction MoveBackward
+}
+
+TriggerGameAction "[Movement] Throttle"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction "Left Trigger"
+		{
+			myInputActionType Analog
+			myInputAction = A_CROSS
+		}
+	}
+	myGameAction Throttle
+}
+
+TriggerGameAction "[Movement] Flight Engine Start"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction "L1"
+		{
+			myInputAction = LEFT_BUMPER_L1
+		}
+		ConditionalGameActionState IsFlying
+		{
+			myNegate TRUE
+		}
+	}
+	myGameAction FlightEngineStart
+}
+
+TriggerGameAction "[Movement] Flight Engine Stop"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction "L1"
+		{
+			myInputActionType PressAndRelease
+			myInputAction = LEFT_BUMPER_L1
+		}
+		ConditionalGameActionState IsFlying
+		{
+			myNegate FALSE
+		}
+	}
+	myGameAction FlightEngineStop
+}
+
+TriggerGameAction "[Movement] Reset Controller Orientation"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction "Left Stick Click"
+		{
+			myInputAction = LEFT_STICK_BUTTON
+		}
+	}
+	myGameAction ResetOrientation
+}
+
+TriggerGameAction "[Movement] Toggle Motion Controls"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Right Stick Click and D-Pad Down"
+		{
+			myOperator And
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Dpad Down Down"
+				{
+					myInputActionType HoldDown
+					myToggle FALSE
+					myInputAction = D_PAD_DOWN
+				}
+				ConditionalInputAction "RS Click"
+				{
+					myInputAction = RIGHT_STICK_BUTTON
+				}
+			}
+		}
+	}
+	myGameAction ToggleMotion
+}
+
+TriggerGameAction "[Movement] Toggle Ghost"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "LS Click + RS Click"
+		{
+			myOperator And
+			myConditionalInputActions
+			{
+				ConditionalInputAction "LS Click"
+				{
+					myInputActionType Pressed
+					myInputAction = LEFT_STICK_BUTTON
+				}
+				ConditionalInputAction "RS Click"
+				{
+					myInputActionType HoldDown
+					myInputAction = RIGHT_STICK_BUTTON
+				}
+			}
+		}
+	}
+	myGameAction ToggleGhost
+}
+
+TriggerGameAction "[Movement] Toggle Ghost2"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "LS Click + RS Click"
+		{
+			myOperator And
+			myConditionalInputActions
+			{
+				ConditionalInputAction "LS Click"
+				{
+					myInputActionType HoldDown
+					myInputAction = LEFT_STICK_BUTTON
+				}
+				ConditionalInputAction "RS Click"
+				{
+					myInputActionType Pressed
+					myInputAction = RIGHT_STICK_BUTTON
+				}
+			}
+		}
+	}
+	myGameAction ToggleGhost
+}
+
+
+TriggerGameAction "[Movement] Start Hyper Drive"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction "L1"
+		{
+			myInputAction = LEFT_BUMPER_L1
+		}
+	}
+	myGameAction StartHyperDrive
+}
+
+TriggerGameAction "[Movement] Stop Hyper Drive"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction "L1"
+		{
+			myInputAction = LEFT_BUMPER_L1
+		}
+	}
+	myGameAction StopHyperDrive
+}
+
+TriggerGameAction "[Movement] Switch Action Scheme"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction "DPad Up"
+		{
+			myInputAction = D_PAD_UP
+		}
+	}
+	myGameAction SwitchActionScheme
+	myConsoleCommand "Onward.Player.SetActionScheme 4"
+}
+
+
+TriggerGameAction "[Movement] Maneuver Start"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction "Press B"
+		{
+			myInputAction = RIGHT_BUMPER_R1
+		}
+	}
+	myGameAction ManeuverStart
+}
+
+TriggerGameAction "[Movement] ManeuverBack"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction "LS Down"
+		{
+			myInputActionType HoldDown
+			myInputAction = LEFT_STICK_DOWN
+		}
+		ConditionalGameAction "Maneuver Start"
+		{
+			myGameAction ManeuverStart
+		}
+	}
+	myGameAction ManeuverBack
+}
+
+TriggerGameAction "[Movement] Maneuver Front"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction "LS Up"
+		{
+			myInputActionType HoldDown
+			myInputAction = LEFT_STICK_UP
+		}
+		ConditionalGameAction "Maneuver Start"
+		{
+			myGameAction ManeuverStart
+		}
+	}
+	myGameAction ManeuverFront
+}
+
+TriggerGameAction "[Movement] Maneuver Left"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction "LS Down"
+		{
+			myInputActionType HoldDown
+			myInputAction = LEFT_STICK_LEFT
+		}
+		ConditionalGameAction "Maneuver Start"
+		{
+			myGameAction ManeuverStart
+		}
+	}
+	myGameAction ManeuverLeft
+}
+
+
+TriggerGameAction "[Movement] Maneuver Right"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction "LS Down"
+		{
+			myInputActionType HoldDown
+			myInputAction = LEFT_STICK_RIGHT
+		}
+		ConditionalGameAction "Maneuver Start"
+		{
+			myGameAction ManeuverStart
+		}
+	}
+	myGameAction ManeuverRight
+}

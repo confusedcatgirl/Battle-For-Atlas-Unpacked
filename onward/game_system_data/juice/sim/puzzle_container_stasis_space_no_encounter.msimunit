@@ -1,0 +1,21 @@
+include ./puzzle_container_base.msimunit
+
+SimUnit puzzle_container_stasis_space_no_encounter < uid=CC9485AB59C1856F000001E0A37D2184 > : puzzle_container_base
+{
+	myControlGraph onward/simworld/control/puzzle_container_space.msimunitcontrolgraph
+	myCategory Puzzle
+	mySubCategory Container
+	myAffinityType Stasis
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo InteractablePickup < uid=CC9485AB59C1856F000001E1D58A857A >
+		{
+			myCountMin 1
+			myCountMax 1
+			myIgnoreNavMesh TRUE
+			myIgnoreTerrain TRUE
+			myEntityFile "onward/entity templates/ld_puzzle_container_stasis_space_no_encounter.mentitytemplate"
+		}
+	}
+}
+

@@ -1,0 +1,27 @@
+include ./template_shipcore.mplayermod
+include ./tuning/mod_tuning_master.juice
+
+PlayerMod mod_elemental_shipcore_l1 < uid=939A35415AB14AB300001BF03B896FC1 > : template_shipcore
+{
+	myAttributeMods
+	{
+		AttributeMod Energy
+		{
+			myType PartStat_Energy
+			myAddValue = Elementalist_Core_l1_Energy
+		}
+		AttributeMod "Combo Energy"
+		{
+			myType Player_EnergyOnCombo
+			myAddValue = Elementalist_Core_l1_ComboEnergy
+		}
+	}
+	myIsSelfMod FALSE
+	myIsAgentMod TRUE
+	myPartTypes
+	{
+		PartType Hull Hull
+		PartType Pilot Pilot
+	}
+}
+

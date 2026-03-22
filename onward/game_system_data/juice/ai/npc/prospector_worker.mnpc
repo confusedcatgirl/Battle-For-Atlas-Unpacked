@@ -1,0 +1,43 @@
+include ./base_faction_unit.mnpc
+include onward/skillscripts/npc_ability_gatling.mskillscriptjuice
+include onward/skillscripts/npc_ability_prospector_worker_mining_laser.mskillscriptjuice
+include onward/skillscripts/npc_ability_prospector_worker_gatling.mskillscriptjuice
+
+NPC prospector_worker < uid=4A8282B956DEFE5E0000006FE718C9D7 > : base_faction_unit
+{
+	myUIName_NonLocalized "Prospector Worker"
+	myGraphObjectFile "onward/graph objects/character/prospector_worker.mgraphobject"
+	myBehavior "onward/game system data/juice/ai/behavior/prospector_worker.mbehavior"
+	myIsInitiallyAggressive FALSE
+	myHealthConfig < uid=4A8282B959F8EA8000001E229AAC06AA > = "prospector_worker Health"
+	myAbilityDefinitions
+	{
+		NPCAbilityDefinition "Primary Attack - Gatling"
+		{
+			myGameAction NPC_Ability1
+			mySkillScript < uid=93869D5357BEF4F2000000397C3DB690 > = npc_ability_prospector_worker_gatling
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_prospector_worker_gatling.juice"
+		}
+		NPCAbilityDefinition "Mining Laser"
+		{
+			myGameAction NPC_Ability3
+			mySkillScript < uid=C92F4D3F597F3E3B00000A4557D38F40 > = npc_ability_prospector_worker_mining_laser
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_prospector_worker_mining_laser.juice"
+		}
+	}
+	myDropTableOnDeath Worker_Drop_Table
+	myPhysicsCapsuleStart 0.0;0.5;-1.0
+	myPhysicsCapsuleEnd 0.0;0.5;4.0
+	myPatternProfile < uid=C92F4D3F596E35160161F00882B7A634 > = "Prospector Worker"
+	myDefaultMotionPattern < uid=C92F4D3F596E351901622F537B88A4E7 > = "Prospector Worker Default"
+	myAvoidanceRadius 5.0
+	myNPCFaction Prospector
+	myNPCType Prospector_Worker
+	myAnimSystemType Prospector_Worker
+	myThreatLevel 2.0
+	myOnDeathChallenge Death_ProspectorWorker
+	myOnDiscoveredChallenge Discover_ProspectorWorker
+}
+

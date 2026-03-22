@@ -1,0 +1,229 @@
+include "onward/game system data/fruit/meta object/meta object.fruit"
+
+MetaObject "Entity Shared"
+{
+	MetaVariable "VFX Bounding Radius" Float
+	MetaVariable "Parent Entity" Entity
+	MetaVariable CODESHARED_AttachmentParent Entity
+	MetaVariable CODESHARED_AttachmentID Integer
+	MetaVariable CODESHARED_AttachmentSocketIndex Integer
+	MetaVariable CODESHARED_IsDormant Boolean
+	MetaVariable "Damage Type" Integer
+	MetaVariable "Level on Death" Integer
+	MetaVariable "Skill Level on Death" Integer
+	MetaVariable IsSolved Boolean
+	MetaVariable AnchorMinesAttached RefCount
+	MetaVariable LeechMinesAttached RefCount
+	MetaVariable FreezeMinesAttached RefCount
+	MetaVariable ImmobilizerMinesAttached RefCount
+}
+
+MetaObject Construction
+{
+	MetaVariable CODESHARED_ConstructionDuration Float
+	MetaVariable CODESHARED_ConstructionPercent Float
+	MetaVariable CODESHARED_CreationTime Float
+	MetaVariable CODESHARED_IsConstructing Boolean
+	MetaVariable Unconstruct Boolean
+}
+
+MetaObject "Electrum Hopper"
+{
+	MetaVariable ActiveUntilTime Float
+	MetaVariable IsInRange Boolean
+}
+
+MetaObject Pods
+{
+	MetaVariable Pod_Projectile_Count Integer
+	MetaVariable Pod_Active Boolean
+	MetaVariable Pod_Attached Boolean
+	MetaVariable Pod_DualLinkVisualActive Boolean
+	MetaVariable Pod_Gatling_Spun_Up Boolean
+	MetaVariable Pod_Effective_Range Float
+	MetaVariable Pod_Ram_Charge_Up Boolean
+}
+
+MetaObject Player
+{
+	MetaVariable LooseCannonActive Boolean
+	MetaVariable EntangledEntity Entity
+	MetaVariable EntangleHasImpact Boolean
+	MetaVariable VanishActive Boolean
+	MetaVariable HunterActive Boolean
+	MetaVariable DopplerActive Boolean
+	MetaVariable BerserkShieldActive Boolean
+	MetaVariable BoostReverse Boolean
+	MetaVariable HunterDuration Float
+	MetaVariable BerserkStreak Integer
+	MetaVariable FastTravelInitiated Boolean
+	MetaVariable CODESHARED_FastTravelInitiated Boolean
+	MetaVariable FlightIsLaunching Boolean
+	MetaVariable FlightIsRestarting Boolean
+	MetaVariable FrozenTapCount Float
+	MetaVariable AtmosphereTransitionActive Boolean
+	MetaVariable FlipThrusterRight Boolean
+	MetaVariable FlipThrusterLeft Boolean
+	MetaVariable FlipThrusterRightDuration Float
+	MetaVariable FlipThrusterLeftDuration Float
+	MetaVariable FlipThrusterBottom Boolean
+	MetaVariable IsInAct5Tunnel Boolean
+	MetaVariable RamReversed Boolean
+	MetaVariable RamColor Vector3f
+	MetaVariable RamDualLinked Boolean
+	MetaVariable HarvesterCover Boolean
+	MetaVariable PersistentAbilityVisual Boolean
+	MetaVariable InDreadnoughtAlertRange Boolean
+	MetaVariable CODESHARED_InsideDreadnought Boolean
+	MetaVariable CODESHARED_InsideShipWreck Boolean
+	MetaVariable DreadnoughtEntryPrimaryTransform FarTransform
+	MetaVariable DreadnoughtEntrySecondaryTransform FarTransform
+	MetaVariable DestroyedExtractor Entity
+	MetaVariable DestroyedPrime Entity
+	MetaVariable UpgradedOutpost Entity
+	MetaVariable UpgradedOutpostIsStarlinkTower Boolean
+	MetaVariable UpgradedOutpostSimUID UID
+	MetaVariable SolvedWardenPuzzle Entity
+	MetaVariable FinalBattleCameraEntity Entity
+	MetaVariable FinalBattleCameraPhase Integer
+	MetaVariable CreepDisableFlightProgress Float
+	MetaVariable NumProjectilesTrappedInGravityField Integer
+	MetaVariable HyperDriveBlocked Boolean
+	MetaVariable PersistentAbilityColor Integer
+	MetaVariable LastTimeDidRamKnockback Float
+	MetaVariable IsPulledByMech Boolean
+	MetaVariable Cinematic_DreadnoughtFrontDoor Boolean
+	MetaVariable Cinematic_DreadnoughtFrontDoorOpened Boolean
+	MetaVariable Cinematic_XFactorChest Entity
+	MetaVariable Cinematic_ComsArrayChest Entity
+	MetaVariable ManeuverHop Boolean
+	MetaVariable Cinematic_XFactorChest_Planet_01 Entity
+	MetaVariable Cinematic_XFactorChest_Planet_03 Entity
+	MetaVariable Cinematic_XFactorChest_Planet_04 Entity
+	MetaVariable Cinematic_XFactorChest_Planet_05 Entity
+	MetaVariable Cinematic_XFactorChest_Planet_07 Entity
+	MetaVariable Cinematic_XFactorChest_Planet_08 Entity
+	MetaVariable Cinematic_XFactorChest_Planet_15 Entity
+	MetaVariable Cinematic_OutlawOutpost Entity
+	MetaVariable AlliedGoldrushRuinSimUID UID
+	MetaVariable sidestory001_sequence01_windmill Entity
+	MetaVariable sidestory001_sequence01_navoverview Entity
+	MetaVariable sidestory001_sequence02_keydropped Entity
+	MetaVariable sidestory001_sequence02_cargodooropen Entity
+	MetaVariable sidestory001_sequence02_hulldooropen Entity
+	MetaVariable sidestory001_sequence02_vaultopen Entity
+	MetaVariable sidestory001_sequence04_vinelockoverview Entity
+	MetaVariable sidestory001_sequence04_bulpcloseup Entity
+	MetaVariable sidestory001_sequence04_vinefree Entity
+	MetaVariable sidestory001_sequence04_pillarreleased Entity
+	MetaVariable sidestory001_sequence04_keyreachable Entity
+	MetaVariable sidestory001_sequence05_showreachobjective Entity
+	MetaVariable sidestory001_sequence05_pillarrising Entity
+	MetaVariable sidestory001_sequence05_transmission Entity
+	MetaVariable sidestory001_sequence06_laseractivated Entity
+	MetaVariable sidestory_001_sequence06_focusingcrystal Entity
+	MetaVariable sidestory001_sequence06_ShowLaser Entity
+	MetaVariable sidestory001_sequence06_SpawnCyclops Entity
+	MetaVariable prime_missile_locked_on Boolean
+	MetaVariable shipwreck_liberation Entity
+	MetaVariable StaminaChargedByTrick Boolean
+	MetaVariable Cinematic_expedition_spark1 Entity
+	MetaVariable Cinematic_expedition_spark2 Entity
+	MetaVariable Cinematic_expedition_spark3 Entity
+	MetaVariable OutlawPactSquadSimUID UID
+	MetaVariable CODESHARED_HyperspaceNetsDisabled Boolean
+	MetaVariable SpawnedArenaBoss_Mech Entity
+	MetaVariable DestroyedArenaBoss_Mech Entity
+	MetaVariable TU5_Expedition_Anvil1 Entity
+	MetaVariable TU5_Expedition_Anvil2 Entity
+	MetaVariable InShieldParryWindow Boolean
+	MetaVariable Cinematic_expedition_spark_stone Entity
+	MetaVariable Cinematic_expedition_spark_space Entity
+	MetaVariable IsPerformingTrick Boolean
+	MetaVariable Cinematic_expedition_spark_cradle Entity
+	MetaVariable Cinematic_expedition_spark_necrom Entity
+}
+
+MetaObject Hull
+{
+	MetaVariable TakeOffTransform Matrix44
+	MetaVariable RamActive Boolean
+}
+
+MetaObject Tower
+{
+	MetaVariable IsCollapsed Boolean
+}
+
+MetaObject ld_warden_puzzles
+{
+	MetaVariable warden_puzzle_success Boolean
+	MetaVariable warden_puzzle_thermal_shock Boolean
+	MetaVariable warden_puzzle_fire_blast Boolean
+	MetaVariable warden_puzzle_shatter Boolean
+	MetaVariable warden_puzzle_fire_vortex Boolean
+	MetaVariable warden_puzzle_cold_vortex Boolean
+	MetaVariable warden_puzzle_freeze_blast Boolean
+	MetaVariable warden_puzzle_gravity_blast Boolean
+	MetaVariable warden_puzzle_heat_reaction Boolean
+	MetaVariable warden_puzzle_cold_reaction Boolean
+	MetaVariable warden_puzzle_stasis_reaction Boolean
+	MetaVariable warden_puzzle_crush_reaction Boolean
+	MetaVariable warden_puzzle_freeze_reaction Boolean
+	MetaVariable warden_puzzle_chest_open Boolean
+}
+
+MetaObject Flora
+{
+	MetaVariable IsMissionTarget Boolean
+	MetaVariable InfectionFaunaTransitionBegin Boolean
+}
+
+MetaObject "Pressure Plate"
+{
+	MetaVariable IsPressed Boolean
+	MetaVariable IsFullyPressed Boolean
+	MetaVariable IsEntityOnPlate Boolean
+	MetaVariable IsLocked Boolean
+	MetaVariable PressedPercentage Float
+}
+
+MetaObject "Unit Swap"
+{
+	MetaVariable CODESHARED_WaitForActivation Boolean
+	MetaVariable DestroyedEntity Entity
+	MetaVariable LivingEntityDestroyed Boolean
+	MetaVariable PerformSwap Boolean
+}
+
+MetaObject "Sand Worm"
+{
+	MetaVariable CODESHARED_IsBeingPlucked Boolean
+	MetaVariable CODESHARED_IsChasing Boolean
+	MetaVariable CODESHARED_IsWandering Boolean
+	MetaVariable CODESHARED_IsFleeing Boolean
+	MetaVariable CODESHARED_IsAboveGround Boolean
+	MetaVariable CODESHARED_IsPartiallySubmerged Boolean
+	MetaVariable CODESHARED_IsFullySubmerged Boolean
+	MetaVariable CODESHARED_IsAlive Boolean
+}
+
+MetaObject "Outlaw Games Arena"
+{
+	MetaVariable "laser hazard collision on" Boolean
+	MetaVariable "laser hazard collision fartransform" FarTransform
+	MetaVariable "laser hazard length" Float
+	MetaVariable CODESHARED_RequestOpenDoor Boolean
+	MetaVariable CODESHARED_DoorOpened Boolean
+	MetaVariable "laser hazard damage type" Integer
+	MetaVariable audio_laser_start FarPosition
+	MetaVariable audio_laser_end FarPosition
+	MetaVariable "laser local forward" Vector3f
+	MetaVariable "mines alive" Boolean
+}
+
+MetaObject "Outlaw Pact Squad"
+{
+	MetaVariable LeaveCombat Boolean
+}
+

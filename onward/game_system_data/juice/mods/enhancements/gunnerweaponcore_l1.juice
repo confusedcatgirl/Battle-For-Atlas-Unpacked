@@ -1,0 +1,20 @@
+include ./templates/template_l1.juice
+include "onward/game system data/juice/mods/mod_gunner_weaponcore_l1.mplayermod"
+
+Enhancement gunnerweaponcore_l1 < uid=C91BB5515980EC35000000366446B04A > : "Level 1"
+{
+	myLocalizedName "contextComment = \"[Placeholder - do not translate]\nName for level 1 version of Gunner Weapon Core, which makes it easier to rain a sustained hail of projectiles.\", description = \"\", enabled = true, guid = #C91BB5515980EC3500000035DFBC50FE, lineVersion = 2, maxLength = 17, text = \"Tanker Ammo I\""
+	myLocalizedDescription "contextComment = \"[Placeholder - do not translate]\nDescription for level 1 version of Gunner Weapon Core, which reduces cost to fire weapon.\", description = \"enhancement-description-gunner-weapon-core-1\", enabled = true, guid = #9E6AFEDA59D25E2A00A861001E390C7C, lineVersion = 2, maxLength = 52, text = \"+10% Damage\nHeals for 20% of damage done\""
+	myIconSprite "mySpriteId = -1798864911, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-mods-weapon-core.spritesheet\""
+	myMod < uid=C91BB5515980EC3500000037FACA15E9 > = mod_gunner_weaponcore_l1
+	myEnhancementType WeaponCore
+	myEnhancementTrackType GunnerWeaponCore
+	myDamageAffectors
+	{
+		DamageAffector_DamageToHealth "Damage Heals"
+		{
+			myDamageToHealthRatio = Gunner_WeaponCore_l1_DamageHP
+		}
+	}
+}
+

@@ -1,0 +1,50 @@
+include ./base_faction_unit.mnpc
+include onward/skillscripts/npc_ability_prospector_rocket_barrage.mskillscriptjuice
+include onward/skillscripts/npc_ability_prospector_defender_gatling.mskillscriptjuice
+include onward/skillscripts/npc_ability_prospector_defender_jump.mskillscriptjuice
+
+NPC prospector_defender < uid=4A8282B956DEFF9F00000083C16B2E00 > : base_faction_unit
+{
+	myUIName_NonLocalized "Prospector Defender"
+	myGraphObjectFile "onward/graph objects/character/prospector_defender.mgraphobject"
+	myBehavior "onward/game system data/juice/ai/behavior/prospector_defender.mbehavior"
+	myHealthConfig < uid=4A8282B959F8EA6800001E1CB613517B > = "prospector_defender Health"
+	myAbilityDefinitions
+	{
+		NPCAbilityDefinition "Primary Attack - Gatling"
+		{
+			myGameAction NPC_Ability1
+			mySkillScript < uid=93869D5357BEF4F2000000397C3DB690 > = npc_ability_prospector_defender_gatling
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_prospector_defender_gatling.juice"
+		}
+		NPCAbilityDefinition "Secondary Attack - Rocket Barrage"
+		{
+			myGameAction NPC_Ability2
+			mySkillScript < uid=C92F4D3F58D406ED000002265E596EE2 > = npc_ability_prospector_rocket_barrage
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_prospector_defender_rocket_barrage.juice"
+		}
+		NPCAbilityDefinition Jump
+		{
+			myGameAction NPC_Ability3
+			mySkillScript < uid=C92F4D3F5BD0B0D7007DF920E34848FE > = npc_ability_prospector_defender_jump
+			myInputType Tap_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_prospector_defender_jump.juice"
+		}
+	}
+	myResistanceSettings "onward/game system data/juice/ai/resistance/prospector_defender_resistance.juice"
+	myAttributeSettings "onward/game system data/juice/ai/attributes/prospector_defender.juice"
+	myDropTableOnDeath Defender_Drop_Table
+	myPatternProfile < uid=C92F4D3F58E6B3C7000001CC2201E85B > = "Prospector Defender"
+	myDefaultMotionPattern < uid=C92F4D3F58E6B3C7000001CD02C45A7C > = "Prospector Defender Default"
+	myAvoidanceRadius 5.0
+	myNPCFaction Prospector
+	myNPCType Prospector_Defender
+	myAnimSystemType Prospector_Defender
+	myThreatLevel 3.0
+	myHitReactionRules "onward/game system data/juice/ai/reactions/reaction_rules_npc_ship_large.juice"
+	myOnDeathChallenge Death_ProspectorDefender
+	myOnDiscoveredChallenge Discover_ProspectorDefender
+}
+

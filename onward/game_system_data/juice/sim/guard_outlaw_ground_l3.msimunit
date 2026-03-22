@@ -1,0 +1,27 @@
+include ./guard_outlaw_ground_base.msimunit
+
+SimUnit guard_outlaw_ground_l3 < uid=93869D535B27FFCE0000217C7368D245 > : guard_outlaw_ground_base
+{
+	myUIName "contextComment = \"The UI name for the Prospector Defender\", description = \"uiname-prospector-defender\", enabled = false, guid = #93869D535B27FFCE0000217B2639E1FC, lineVersion = 0, maxLength = 25, text = \"Prospector Defender\""
+	myFaction Outlaw
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo Leader < uid=93869D535B2800900000218F9F04BA37 >
+		{
+			myCountMin 1
+			myCountMax 1
+			myEntityFile "onward/game system data/juice/ai/npc/outlaw_defender_ground_leader.mnpc"
+		}
+		SimUnitEntitySpawnInfo Elite < uid=93869D535B280090000021905E0A6320 >
+		{
+			myEntityFile "onward/game system data/juice/ai/npc/outlaw_defender_ground_elite.mnpc"
+		}
+		SimUnitEntitySpawnInfo Defender < uid=93869D535B28009000002191DB16015E >
+		{
+			myCountMin 1
+			myCountMax 1
+			myEntityFile "onward/game system data/juice/ai/npc/outlaw_defender_ground.mnpc"
+		}
+	}
+}
+

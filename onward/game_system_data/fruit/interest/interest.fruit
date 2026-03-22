@@ -1,0 +1,258 @@
+include "onward/game system data/fruit/sim/simunit.fruit"
+include "onward/game system data/fruit/sim/wareffort.fruit"
+include "onward/game system data/fruit/entity/faction.fruit"
+include "onward/game system data/fruit/story/storydataactions.fruit"
+include "onward/game system data/fruit/skilllevels/skilllevels.fruit"
+include "onward/game system data/fruit/fogofwar/simunitdiscoverysettings.fruit"
+
+enum InterestAllianceRequirement
+{
+	UnAllied
+	Allied
+	Either
+}
+
+enum InterestDistance
+{
+	Zero
+	VeryClose
+	Close
+	Medium
+	Far
+	VeryFar
+	PlanetWide
+	SolarSystem
+}
+
+enum KnowledgeCompareType
+{
+	LessThan
+	LessThanOrEqualTo
+	EqualTo
+	GreaterThanOrEqualTo
+	GreaterThan
+}
+
+class InterestDistanceDefinition
+{
+	InterestDistance myInterestDistance
+	float myDistance
+}
+
+list InterestDistanceDefinitions
+{
+	InterestDistanceDefinition
+}
+
+list SimUnitOrders
+{
+	SimUnitOrderType
+}
+
+enum InterestSearchRestriction
+{
+	SimWorld
+	Children
+	Parent
+	Siblings
+	Self
+}
+
+class InterestPriorityComponentBase < abstract = 1 >
+{
+}
+
+class InterestPriorityComponentCategory : InterestPriorityComponentBase
+{
+	SimUnitCategory myCategory Unassigned
+}
+
+class InterestPriorityComponentSubCategory : InterestPriorityComponentBase
+{
+	SimUnitSubCategory mySubCategory None
+}
+
+class InterestPriorityComponentSubCategoryVariant : InterestPriorityComponentBase
+{
+	int myVariant 0 < min=0 >
+}
+
+class CombatRequirements
+{
+	float myTargetMinHealth 0 < min=0 >
+	float myTargetMaxHealth 1000 < min=0 >
+	float myTargetCombatantsMinHealth 0 < min=0 tooltip="refers to the cumulative health of all attackers." >
+	float myTargetcombatantsMaxHealth 1000 < min=0 tooltip="refers to the cumulative health of all attackers." >
+	int myMinSkillDelta	-100 < min=-100 max=100 tooltip="delta is target skill minus highest skill of any units fighting it.  Negative value means target is outclassed." >
+	int myMaxSkillDelta 100 < min=-100 max=100 tooltip="delta is target skill minus highest skill of any units fighting it.  Negative value means target is outclassed." >
+	SimUnitDiscoveryUnitFilterList myAttackerExclusionFilters < tooltip="Add one or more data sets that represent unit types.  All attackers are compared to this list.  If all attackers match any items in this list then the component will fail." >
+}
+
+class InterestPriorityComponentUnitUnderAttack : InterestPriorityComponentBase
+{
+	bool myUseCombatRequirementsFlag false
+	CombatRequirements myCombatRequirements
+}
+
+class InterestPriorityComponentFaction : InterestPriorityComponentBase
+{
+	FactionType myFaction Unaligned
+}
+
+class InterestPriorityComponentLevel : InterestPriorityComponentBase
+{
+	int myMinimumLevel 1 < min=1 max=4 >
+	int myMaximumLevel 4 < min=0 max=4 >
+}
+
+class InterestPriorityComponentCreepLevel : InterestPriorityComponentBase
+{
+	float myMinCreepLevel 0 < bhv=percent min=0 max=1 >
+	float myMaxCreepLevel 0 < bhv=percent min=0 max=1 >
+}
+
+class InterestPriorityComponentSimUnitAsset : InterestPriorityComponentBase
+{
+	SimUnit* mySimUnitAsset
+}
+
+class InterestPriorityComponentAllianceRequirement : InterestPriorityComponentBase
+{
+	InterestAllianceRequirement myAllianceRequirement Either	< tooltip="Describes the Alliance requirement of the simunit searching for an interest target.  This is NOT related to the alliance status of the possible interest candidates." >
+}
+
+class InterestPriorityComponentSimUnitOrders : InterestPriorityComponentBase
+{
+	SimUnitOrders myOrders	< tooltip="A list of simunit orders that the simunit must be doing at least one of in order to be an interest target" >
+}
+
+class InterestPriorityComponentStoryAct : InterestPriorityComponentBase
+{
+	int myMinAct -1
+	int myMaxAct -1
+}
+
+class InterestPriorityComponentFactionList : InterestPriorityComponentBase
+{
+	FactionList myFactions
+}
+
+class InterestPriorityComponentAttachedToParent : InterestPriorityComponentBase
+{
+	bool myIsNotAttachedTo
+	FactionList myAttachmentParentFactions
+	SimUnitCategoryList myAttachmentParentCategories
+	SimUnitSubCategoryList myAttachmentParentSubCategories
+}
+
+class InterestPriorityComponentWarEffort : InterestPriorityComponentBase
+{
+	 WarEffortBenefitType myEffortType
+	 WarEffortThreshold myMinThreshold Threshold_0
+	 WarEffortThreshold myMaxThreshold Threshold_100
+}
+
+class InterestPriorityComponentStorySection : InterestPriorityComponentBase
+{
+	StorySectionList myStorySections	< tooltip="an OR list of Story Sections.  If any of these sections is 'active' then the component will evaluate 'true'.  Add another Story Section Component for AND functionality." >
+}
+
+class InterestPriorityComponentSolvedState : InterestPriorityComponentBase
+{
+	bool mySolvedStateRequirementFlag	< tooltip="In order to pass evaluation a potential Interest Target must have this value in its 'Solved' metadata.">
+}
+
+class InterestPriorityComponentDownedState : InterestPriorityComponentBase
+{
+	bool myDownedStateRequirementFlag true	< tooltip="In order to pass evaluation a potential Interest Target must have this value in its 'Downed' metadata.">
+}
+
+class InterestPriorityComponentKnowledge : InterestPriorityComponentBase
+{
+	KnowledgeCompareType myCompareType	< tooltip="The type of comparison to use.  Unit knowledge is left hand side, Compare Value is right hand side.">
+	float myCompareValue				< min=0 max=100 tooltip="this is the right hand side of the comparison.">
+}
+
+class InterestPriorityComponentDormancyState : InterestPriorityComponentBase
+{
+	bool myDormancyStateRequirementFlag false	< tooltip="In order to pass evaluation a potential Interest Target must have this value in its 'Dormancy' metadata.">
+}
+
+class InterestPriorityComponentHasInterestTarget : InterestPriorityComponentBase
+{
+	bool myHasInterestTargetRequirementFlag true	< tooltip="This flag indicates whether a potential target must or must not have its own interest target.">
+}
+
+class InterestPriorityComponentUnitInSector : InterestPriorityComponentBase
+{
+	SkillSector mySkillSector < tooltip="Leave this as None to use the Interested Unit's Sector." >
+}
+
+
+class InterestPriorityBase < abstract=1 uid=auto >
+{
+	bool myEnabled true
+}
+
+list InterestPriorityComponents
+{
+	InterestPriorityComponentBase
+}
+
+class InterestPrioritySearchBase : InterestPriorityBase
+{
+	InterestPriorityComponents myInterestComponents
+	InterestSearchRestriction mySearchRestriction SimWorld
+}
+
+class InterestPriorityPrecisionSearch : InterestPrioritySearchBase
+{
+	float myMinDistance 0.0
+	float myMaxDistance 0.0
+	int myMinDetectedUnitsRequired 1
+	bool mySucceedWhenSearchFailsFlag false
+}
+
+class InterestPriority : InterestPrioritySearchBase
+{
+	InterestDistance myMinDistance Zero
+	InterestDistance myMaxDistance Medium
+	// Weight is going to be moved to a component so this is temporary
+	int myWeight -1 < hidden=1 >
+	bool mySetSelfAsTarget
+	bool myEvaluateClosestFirst
+}
+
+class InterestPriorityComponentUnitsInRange : InterestPriorityComponentBase
+{
+	InterestPriorityPrecisionSearch mySearchCriteria
+}
+
+class InterestPriorityDynamic : InterestPriority
+{
+	int myWeight 1 < hidden=0 min=1 >
+	bool myNeverSkip false < tooltip="The system will by default skip Interest Priorities that were just presented to the player.  Ticking this flag disables that skip." >
+}
+
+list InterestPriorityDynamicList
+{
+	InterestPriorityDynamic
+}
+
+list InterestList
+{
+	InterestPriorityBase
+}
+
+class InterestPriorityBucket : InterestPriorityBase
+{
+	bool myShuffleEqualWeights false	< tooltip="PERFORMANCE IMPACT WARNING!  Use on small lists that don't get evaulated often.  If enabled, every time a simunit evaluates this branch its like-weighted elements will be shuffled randomly.">
+	InterestList myInterestList
+}
+
+class InterestSet < uid=auto >
+{
+	SimUnit* mySimUnit
+	bool myUseOnlyInSpace
+	InterestList myInterestList
+}

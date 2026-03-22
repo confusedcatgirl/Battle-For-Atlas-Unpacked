@@ -1,0 +1,146 @@
+// Contains all the settings for the Opportunity Manager
+include "onward/game system data/fruit/opportunitysystem/activityconstraints.fruit"
+include "onward/game system data/fruit/opportunitysystem/onitopportunitystate.fruit"
+include "onward/game system data/fruit/rulesystem/ruleconcept.fruit"
+include "onward/game system data/fruit/fogofwar/findsettings.fruit"
+include "onward/game system data/fruit/fogofwar/simunitdiscoverysettings.fruit"
+
+class OnItOpportunityConfig
+{
+	float myApproachOnItTargetRange				< default = 500 tooltip = "At what range the player could hear a bark describing details about the OnIt Target" >
+	float myPlanetActivityTargetRange			< default = 1000 tooltip = "At what range the player must be away from the target on a Planet for Activities to expire" >
+	float mySpaceActivityTargetRange			< default = 3000 tooltip = "At what range the player must be away from the target in Space for Activities to expire" >
+	varmap myUILine_Completed < bhv = "localization" >
+	varmap myUILine_Expired < bhv = "localization" >	
+}
+
+class DefendRadius
+{
+	FindSettingsCategory mySize
+	float myDefendZoneRadius					< default = 300 tooltip = "Radius around the target that has to be free of enemies in order for success" >
+	float myDefendZoneExitRadiusScale			< default = 1.1 tooltip = "How much to scale the defend zone radius " >
+}
+
+list DefendRadiusList
+{
+	DefendRadius
+}
+
+class OnItOpportunityDefendConfig : OnItOpportunityConfig
+{
+	float myDefendZoneRadius					< default = 300 tooltip = "Radius around the target that has to be free of enemies in order for success" >
+	float myDefendZoneExitRadiusScale			< default = 1.1 tooltip = "How much to scale the defend zone radius " >
+	DefendRadiusList myDefendRadiusList
+}
+
+class OnItOpportunityAttackConfig : OnItOpportunityConfig
+{
+	float myPlayerProximityRadius				< default = 200 tooltip = "How close to the attack target does the player have to be when it dies to have contributed" >
+}
+
+class OnItOpportunityFindConfig : OnItOpportunityConfig
+{
+	float myPlayerProximityRadius				< default = 100 tooltip = "How close to the find target does the player have to be to find it?" >
+}
+
+class OnItOpportunityDeliverConfig : OnItOpportunityConfig
+{
+}
+
+class OnItOpportunityDeliverStructureConfig : OnItOpportunityConfig
+{
+	float myDeliverStructureRadius				< default = 100 tooltip = "How close to the target does the player have to be to place the structure">
+}
+
+class OnItOpportunityRepairConfig : OnItOpportunityConfig
+{
+	int myAdditionalSelfRepairTime				< default = 300000 tooltip = "(default 5 mins) How much time is added to the self repair timer of a downed unit target for repair">
+}
+
+list SimUnitList
+{
+	file < bhv=asset assettype="sim unit" >
+}
+
+class OnItOpportunityLiberateConfig : OnItOpportunityConfig
+{
+	float myDetectEnemyRadius					< default = 1000 tooltip = "max radius from liberate target at which we put a marker on an enemy while playing this mission" >
+	SimUnitList myHackableAssets				< tooltip = "This is a list of simunit assets that we consider hackable for the liberate mission." >
+}
+
+class OnItOpportunityDeliverBatteryConfig : OnItOpportunityConfig
+{
+}
+
+class SiegeStagesConfig
+{
+	OnItOpportunityState myOpportunityStateToSet
+	float mySearchRange < default = 3000 >
+	bool myDisableUnitMarkers
+	SimUnitDiscoveryUnitFilterList myTargetUnits
+}
+
+list SiegeStagesConfigList
+{
+	SiegeStagesConfig
+}
+
+class SiegeStagesConfigSet
+{
+	SimUnitDiscoveryUnitFilter myWhoToOnItSignature
+	SiegeStagesConfigList mySiegeStages
+}
+
+list SiegeStagesConfigSetList
+{
+	SiegeStagesConfigSet
+}
+
+class OnItOpportunitySiegeConfig : OnItOpportunityConfig
+{
+	float myPlayerProximityRadius				< default = 500 tooltip = "How close to the Siege target does the player need to be before the waypoint markers attach to various targets." >
+	SiegeStagesConfigSetList mySiegeConfigSets
+}
+
+class OnItOpportunityDisableDefenseConfig : OnItOpportunityConfig
+{
+	SimUnitDiscoveryUnitFilterList myTargetUnits
+	float mySearchRange	< default = 500 >
+}
+
+class PresentedOpportunityConfig
+{
+	bool myExpireAfterTimeLimit							< default = true tooltip = "Should presented opportunities expire after an amount of time?" >
+	int myExpirationTimeLimit							< default = 30000 tooltip = "How long presented opportunities should stay up before expiring (in ms)" >
+	RuleConceptTypeList myExpirationExcludedConcepts	< tooltip = "Opportunities triggered from these Concepts are excluded from time-based expiry" >
+}
+
+class OpportunityManagerConfig
+{
+	OnItOpportunityConfig myBaseConfig						< tooltip = "Default settings that apply to all config types" >
+	OnItOpportunityAttackConfig myAttackConfig				< tooltip = "Settings for the Attack Opportunities" >
+	OnItOpportunityDefendConfig myDefendConfig				< tooltip = "Settings for the Defend Opportunities" >
+	OnItOpportunityFindConfig myFindConfig					< tooltip = "Settings for the Find Opportunities" >
+	OnItOpportunityDeliverConfig myDeliverConfig			< tooltip = "Settings for the Deliver Opportunities" >
+	OnItOpportunityDeliverStructureConfig myDeliverStructureConfig	< tooltip = "Settings for the Deliver Opportunities" >
+	OnItOpportunityConfig mySurviveConfig 					< tooltip = "Settings for the Survive Opportunities" >
+	OnItOpportunityRepairConfig myRepairConfig				< tooltip = "Settings for the Repair Opportunities" >
+	OnItOpportunityLiberateConfig myLiberateConfig			< tooltip = "Settings for the Liberate Opportunities" >
+	OnItOpportunityConfig mySolveConfig						< tooltip = "Settings for the Solve Opportunities" >
+	OnItOpportunityConfig myDeliveryBombConfig				< tooltip = "Settings for the DeliverBomb Opportunities" >
+	OnItOpportunityConfig myDeliverAnalyzerConfig			< tooltip = "Settings for the DeliverAnalyzer Opportunities" >
+	OnItOpportunityConfig myBuildOutpostConfig				< tooltip = "Settings for the BuildOutpost Opportunities" >	
+	OnItOpportunityDeliverBatteryConfig myDeliverBatteryConfig	< tooltip = "Settings for the DeliverBattery Opportunities" >
+	OnItOpportunitySiegeConfig mySiegeConfig						< tooltip = "Settings for the Siege Opportunities" >
+	OnItOpportunityDisableDefenseConfig myDisableDefenseConfig  < tooltip = "Settings for the DisableDefense Opportunities" >
+
+	int myMaxFollowedOpportunities							< default = 15 tooltip = "How many Opportunities to keep in the active list at a time" >
+	int myMaxExpiredOpportunities							< default = 3 tooltip = "How many Opportunities to keep in the expired list at a time" >
+	int myMaxPresentedActivities							< default = 1 tooltip = "How many Activities to have available at a time" > 
+	bool myPersistOpportunitiesOnDeath						< default = false tooltip = "Should all Opportunities fail when player dies?" >
+	bool mySaveAndLoadOpportunities							< default = false tooltip = "Should save Opportunities into the savegame" >
+	
+	PresentedOpportunityConfig myPresentedOpportunityConfig
+	
+	OnItConstraintsList myOnItConstraints
+}

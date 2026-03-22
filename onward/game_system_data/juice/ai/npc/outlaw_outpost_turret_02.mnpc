@@ -1,0 +1,39 @@
+include ./base_turret.mnpc
+include onward/skillscripts/npc_ability_outlaw_outpost_turret_missile.mskillscriptjuice
+include onward/skillscripts/npc_ability_prospector_watchtower_turret_gatling.mskillscriptjuice
+include onward/skillscripts/npc_ability_prospector_watchtower_turret_heat_gatling.mskillscriptjuice
+include onward/skillscripts/npc_ability_prospector_watchtower_turret_cold_gatling.mskillscriptjuice
+include onward/skillscripts/npc_ability_prospector_watchtower_turret_crush_gatling.mskillscriptjuice
+
+NPC outlaw_outpost_turret_02 < uid=C92F4D3F5919C67F009E668EF1C8FC69 > : base_turret
+{
+	myUIName_NonLocalized "Missile Turret"
+	myGraphObjectFile "onward/graph objects/character/outlaw_outpost_turret_01.mgraphobject"
+	myBehavior "onward/game system data/juice/ai/behavior/outlaw_outpost_turret.mbehavior"
+	myExitWorldAffector "onward/entity templates/harvester_turret_death.mentitytemplate"
+	myHealthConfig < uid=4A8282B959F8EA4D00001E16C261C5AF > = "outlaw_outpost_turret_02 Health"
+	myAbilityDefinitions
+	{
+		NPCAbilityDefinition Missile
+		{
+			myGameAction NPC_Ability1
+			mySkillScript < uid=C92F4D3F5919C67F009E668FC507E343 > = npc_ability_outlaw_outpost_turret_missile
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_outlaw_outpost_turret_02_missile.juice"
+		}
+	}
+	myAwarenessDistance 1500.0
+	myNPCFaction Outlaw
+	myBaseThreatProfile
+	{
+		myDeAggroRange 1200.0
+		myThreatPropagationRange 450.0
+		myCloseRange 100.0
+		myMediumRange 200.0
+		myLongRange 400.0
+		myExtremeRange 600.0
+	}
+	myAIVisionConeTypeName SpaceUnitVisionCone
+	myDefaultNavigationType Invalid
+}
+

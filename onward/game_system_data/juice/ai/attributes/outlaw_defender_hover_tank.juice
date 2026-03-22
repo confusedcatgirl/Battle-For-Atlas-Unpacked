@@ -1,0 +1,47 @@
+include ./base_faction_unit.juice
+
+Attributes "Outlaw Resistances" = "Inherited Resistances"
+
+Attributes "Outlaw Shatter Values" = "Inherited Shatter Values"
+
+Attributes General
+{
+	Attribute "Flying Target Height Threshold"
+	{
+		myType Range
+		myValue 15.0
+		myComment "Height off the ground at which a target is considered \"flying\" for combat purposes"
+	}
+}
+
+Attributes "Lateral Dash"
+{
+	Attribute Cooldown
+	{
+		myType NPC_Cooldown2
+		myValue 5.0
+	}
+	Attribute Duration
+	{
+		myType NPC_UserData3
+		myValue 1.2
+	}
+}
+
+Attributes "Relocate Dash"
+{
+	Attribute Cooldown
+	{
+		myType NPC_Cooldown3
+		myValue 10.0
+	}
+}
+
+Attributes "Jump"
+{
+	Attribute "Jump Range"
+	{
+		myType NPC_MaxRange1
+		myValue 175.0
+	}
+}

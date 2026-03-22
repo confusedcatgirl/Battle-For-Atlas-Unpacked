@@ -1,0 +1,32 @@
+include ./pickup_base.msimunit
+
+SimUnit pickup_fauna_infection < uid=132A31715B10435200001F70F988A0A1 > : pickup_base
+{
+	myUIName "contextComment = '[Placeholder - do not translate] Name shown when targeting a \"fauna infection\" crystal. It can be plucked off of an infected, sick fauna.', description = \"pickup-fauna-infection-simunit\", enabled = true, guid = #132A31715B10435200001F6FDB4389A5, lineVersion = 0, maxLength = 20, text = \"Fauna Infection\""
+	myControlGraph ""
+	myFaction Harvester
+	mySubCategory Infection
+	myAffinityType Ice
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo InteractablePickup < uid=132A31715B10435200001F71A2E0F470 >
+		{
+			myCountMin 1
+			myCountMax 1
+			myIgnoreNavMesh TRUE
+			myEntityFile "onward/entity templates/pickup_fauna_infection.mentitytemplate"
+			myRealizeOnDetach FALSE
+			myAttachOffset 0.0;4.0;0.0
+		}
+	}
+	mySaveable FALSE
+	myIsValidPickupTarget FALSE
+	mySkillLevelCoefficients
+	{
+		mySkillLevelAffectsDamage FALSE
+		myPlanetActMultiplier 1
+	}
+	myIconSprite "mySpriteId = -314869214, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-inventory-cores-and-nova.spritesheet\""
+	myMissionTargetTexture onward/baked/textures/UI/icons/outpost_targets/outpost_target_sim_unit/ui-icon-outpost-target-save-fauna.dds
+}
+

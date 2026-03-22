@@ -1,0 +1,62 @@
+include "onward/game system data/fruit/sim/simunit.fruit"
+
+SimUnit legion_easy_wave02 < uid=6D25F4C6598A23890006206A83CBBE85 >
+{
+	myUIName "contextComment = \"[Placeholder - do not translate] HUD name that shows when targeting an outlaw spaceship.\", description = \"ui-target-outlaw-squad\", enabled = true, guid = #6D25F4C6598A2389000620692C205FC1, lineVersion = 0, maxLength = 10, text = \"Legion\""
+	myBehavior ""
+	myFaction Harvester
+	myCategory NPC
+	mySubCategory SpaceEncounter
+	mySubCategoryVariant 2
+	myRadius 6.0
+	mySpeed 80.0
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo Drakes < uid=6D25F4C6598A23890006206BCD91B4F6 >
+		{
+			myCountMin 5
+			myCountMax 5
+			myEntitySize 30.0
+			myEntityFile ""
+			myElementSpawnInfo
+			{
+				SimUnitElementSpawnInfo Drakes
+				{
+					myEntityFile "onward/game system data/juice/ai/npc/harvester_drake_base.mnpc"
+				}
+			}
+			mySpaceSettings
+			{
+				mySpawnFormation AmbushPlayer
+				myFormationFlightDist 10.0
+			}
+			myEnsurePhysicsClearance TRUE
+		}
+		SimUnitEntitySpawnInfo Elite < uid=6D25F4C6598A242F000656770CC24D9C >
+		{
+			myCountMin 1
+			myCountMax 1
+			myEntitySize 30.0
+			myElementSpawnInfo
+			{
+				SimUnitElementSpawnInfo Elites
+				{
+					myEntityFile "onward/game system data/juice/ai/npc/harvester_drake_elite.mnpc"
+				}
+			}
+			mySpaceSettings
+			{
+				mySpawnFormation AmbushPlayer
+				myFormationFlightDist 10.0
+			}
+			myEnsurePhysicsClearance TRUE
+		}
+	}
+	mySaveable FALSE
+	mySkillLevelCoefficients
+	{
+		myPlanetActMultiplier 1
+		myBaseLevel 1
+	}
+}
+

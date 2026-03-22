@@ -1,0 +1,27 @@
+include ./template_hull.mplayermod
+include ./tuning/mod_tuning_master.juice
+
+PlayerMod mod_templar_armour_l2 < uid=C91BB55159808A69000F2292C8668651 > : template_hull
+{
+	myAttributeMods
+	{
+		AttributeMod "LastStand Min"
+		{
+			myType Health_MinHealth
+			myAddValue 0.0
+			myPercentageValue = Templar_Armor_l2_LastStand
+		}
+		AttributeMod "LastStand Max"
+		{
+			myType Health_MaxHealth
+			myPercentageValue = Templar_Armor_l2_LastStand
+		}
+		AttributeMod Defense
+		{
+			myType PartStat_Defense
+			myAddValue = Templar_Armor_l2_Defense
+		}
+	}
+	myIsAgentMod TRUE
+}
+

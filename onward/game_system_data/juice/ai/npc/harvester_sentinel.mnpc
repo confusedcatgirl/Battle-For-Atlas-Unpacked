@@ -1,0 +1,49 @@
+include ./harvester_probe.mnpc
+include onward/skillscripts/npc_ability_harvester_sentinel_gatling.mskillscriptjuice
+
+NPC harvester_sentinel < uid=93869D535BA932E3000026D07E1F83BB > : harvester_probe
+{
+	myUIName "contextComment = \"Sentinel\", description = \"uiname-harvester-sentinel\", enabled = true, guid = #93869D535BA932E3000026CFE763EB22, lineVersion = 1, maxLength = 13, text = \"Sentinel\""
+	myUIName_NonLocalized "Legion Sentinel"
+	myGraphObjectFile "onward/graph objects/character/harvester_17.mgraphobject"
+	myBehavior "onward/game system data/juice/ai/behavior/harvester_sentinel.mbehavior"
+	myIsInitiallyAggressive TRUE
+	myHealthConfig < uid=93869D535BA932E3000026D187BA7CB3 > = "harvester_elite_probe Health"
+	myAbilityDefinitions
+	{
+		NPCAbilityDefinition Gatling
+		{
+			myGameAction NPC_Ability1
+			mySkillScript < uid=4A8282B95BB530F90087B5728FD992EB > = npc_ability_harvester_sentinel_gatling
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_harvester_sentinel_gatling.juice"
+		}
+	}
+	myResistanceSettings "onward/game system data/juice/ai/resistance/harvester_sentinel_resistance.juice"
+	myAttributeSettings "onward/game system data/juice/ai/attributes/harvester_sentinel.juice"
+	myMass 3200.0
+	myPhysicsCapsuleHeight 2.5
+	myPhysicsSupportHeight 3.0
+	myPhysicsCapsuleRadius 4.0
+	myPhysicsCapsuleStart 0.0;2.0;-1.0
+	myPhysicsCapsuleEnd 0.0;6.0;-1.0
+	myPatternProfile < uid=93869D535BA932E3000026DA7F8B4017 > = "Harvester Elite Probe"
+	myDefaultMotionPattern < uid=93869D535BA932E3000026DBFF3E88FC > = "Harvester Elite Probe Default"
+	myAvoidanceRadius 9.5
+	myNPCType Harvester_Sentinel
+	myAIVisionConeTypeName EliteProbeVisionCone
+	myDamageReactionSettings "onward/game system data/juice/ai/reactions/damage_reactions_harvester_sentinel.juice"
+	myHitReactionRules "onward/game system data/juice/ai/reactions/reaction_rules_sentinel.juice"
+	myCrowdControlAttributeSettings "onward/game system data/juice/ai/attributes/crowd control tiers/npc_cc_tier5.juice"
+	myOnDeathChallenge Death_Sentinel
+	myOnDiscoveredChallenge Discover_Sentinel
+	myVisualImpactSettings
+	{
+		myAngularStrengthMax 1.5
+		myImpactMaxPitch 15.0
+		myImpactMaxRoll 12.0
+		myPostImpactReductionTime 0.3
+		myPostImpactIgnoreTime 0.9
+	}
+}
+

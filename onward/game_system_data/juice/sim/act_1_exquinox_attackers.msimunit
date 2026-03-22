@@ -1,0 +1,21 @@
+include ./extractor_1_defender_01.msimunit
+include ./extractor_1_excursion_01.msimunit
+
+SimUnit act_1_exquinox_attackers < uid=2B55C72B58C7F83600000D7A2E20238E > : extractor_1_excursion_01
+{
+	mySubCategory DefenderSquad
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo Cyclops < uid=9FD9E8185AB2998100001C058A9D908C >
+		{
+			myCountMin 3
+			myCountMax 3
+			myEntitySize 4.0
+			myEntityFile "onward/game system data/juice/ai/npc/harvester_cyclops_generic_intro.mnpc"
+		}
+	}
+	mySaveable FALSE
+	myUnkillableUntilEvent Act01_EquinoxAttack
+	myUnRealizableUntilEvent Act01_EquinoxAttack
+}
+

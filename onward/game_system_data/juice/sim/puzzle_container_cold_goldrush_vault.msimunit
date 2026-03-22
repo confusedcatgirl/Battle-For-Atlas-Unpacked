@@ -1,0 +1,21 @@
+include ./puzzle_container_base.msimunit
+
+SimUnit puzzle_container_cold_goldrush_vault < uid=4A79E0E459568D300003D91B5F704988 > : puzzle_container_base
+{
+	myUIName "contextComment = \"[Placeholder - do not translate] HUD target name shown when pointing the reticle at a chest that will open only when shot with a cold weapon. The chest contains goodies like mods\", description = \"ui-target-puzzle-container-cold\", enabled = true, guid = #4A79E0E459568D300003D91A989DC6D6, lineVersion = 0, maxLength = 20, text = \"Cold Chest\""
+	mySubCategoryVariant 1
+	myAffinityType Ice
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo InteractablePickup < uid=4A79E0E459568D300003D91C0B66418E >
+		{
+			myCountMin 1
+			myCountMax 1
+			myIgnoreNavMesh TRUE
+			myIgnoreTerrain TRUE
+			myEntityFile "onward/entity templates/ld_puzzle_container_cold_goldrush_vault.mentitytemplate"
+		}
+	}
+	myMissionTargetTexture onward/baked/textures/UI/icons/outpost_targets/outpost_target_sim_unit/ui-icon-outpost-target-tag-chest-heat.dds
+}
+

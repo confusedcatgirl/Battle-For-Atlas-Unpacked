@@ -1,0 +1,36 @@
+include ./fauna_03.mnpc
+include onward/skillscripts/npc_ability_fauna_knockback.mskillscriptjuice
+
+NPC fauna_13 < uid=4A8282B956DE05CE0000005F4BBF5377 > : fauna_03
+{
+	myUIName_NonLocalized Ticker
+	myGraphObjectFile "onward/graph objects/character/fauna_13.mgraphobject"
+	myBehavior "onward/game system data/juice/ai/behavior/fauna_skittish.mbehavior"
+	myAbilityDefinitions
+	{
+		NPCAbilityDefinition Knockback
+		{
+			myGameAction NPC_Ability4
+			mySkillScript < uid=93869D535A9EB95E00001CDAAFC2EEE2 > = npc_ability_fauna_knockback
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_fauna_13_knockback.juice"
+		}
+	}
+	myAttributeSettings "onward/game system data/juice/ai/attributes/fauna_aggressive.juice"
+	myPhysicsPusherCapsuleRadius 3.0
+	myPhysicsCapsuleStart 0.0;5.0;3.5
+	myPhysicsCapsuleEnd 0.0;5.0;-1.5
+	myHitReactionConstants "onward/game system data/juice/combat/hitreactionsconstants_fauna_13.juice"
+	myPatternProfile < uid=4A8282B957BB265B000000B05863A5B8 > = "Fauna 13"
+	myDefaultMotionPattern < uid=4A8282B957BB265B000000B11D2E91BA > = "Fauna 13 Default"
+	myNPCType Fauna_13
+	myAnimSystemType Fauna_13
+	myLeggedness Quadruped
+	mySteeringParameters "onward/game system data/juice/ai/steering/fauna_13.juice"
+	myAIVisionConeTypeName SkittishFaunaVisionCone
+	myDefaultFootstepEvent 47CF34CA6E86F1726475271EC3E65E94
+	myOnDeathChallenge Death_Fauna13
+	myOnDiscoveredChallenge Discover_Fauna13
+	myFullyScannedChallenge FullyScan_Fauna13
+}
+

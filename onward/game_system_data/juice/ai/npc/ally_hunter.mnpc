@@ -1,0 +1,31 @@
+include ./base_ally_ship.mnpc
+include onward/skillscripts/npc_ability_pod_crusher.mskillscriptjuice
+include onward/skillscripts/ally_repel.mskillscriptjuice
+
+NPC ally_hunter < uid=6D25F4C658B06C7A0029EF56D88F3F0D > : base_ally_ship
+{
+	myUIName_NonLocalized Hunter
+	myGraphObjectFile "onward/graph objects/character/ship_hunter_ally.mgraphobject"
+	myAbilityDefinitions
+	{
+		NPCAbilityDefinition Crusher
+		{
+			myGameAction NPC_Ability1
+			mySkillScript < uid=C92F4D3F59C183FB00EC9533F2A3AE9E > = npc_ability_pod_crusher
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_ally_ship_crusher.juice"
+		}
+	}
+	myPersistentScripts
+	{
+		SkillScript Repel < uid=6D25F4C65B1E971600042C855DEDF91A > = ally_repel
+	}
+	myPhysicsCapsuleRadius 3.0
+	myPhysicsCapsuleStart 0.0;0.0;0.0
+	myPhysicsCapsuleEnd 0.0;0.0;2.7
+	myPatternProfile < uid=6D25F4C65C003FA9000003498F818157 > = "Ally Hunter"
+	myDefaultMotionPattern < uid=6D25F4C65C003FA90000034A79AC0311 > = "Wingmate Space Default"
+	myNPCType Hunter
+	myAnimSystemType Ally_Hunter
+}
+

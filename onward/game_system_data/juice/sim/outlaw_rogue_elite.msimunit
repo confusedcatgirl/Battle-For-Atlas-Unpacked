@@ -1,0 +1,38 @@
+include ./outlaw_rogue.msimunit
+
+SimUnit outlaw_rogue_elite < uid=67883D265B3F66FF0000222403290673 > : outlaw_rogue
+{
+	myUIName "contextComment = \"[Placeholder - do not translate] HUD name that shows when targeting an outlaw Rogue\", description = \"ui-target-outlaw-rogue\", enabled = true, guid = #67883D265B3F66FF0000222339ADE8E3, lineVersion = 0, maxLength = 10, text = \"Rogue\""
+	myRadius 6.0
+	mySpeed 80.0
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo outlaw_defender_ground < uid=67883D265B3F66FF00002225A31EE10C >
+		{
+			myCountMin 2
+			myCountMax 2
+			myElementSpawnInfo
+			{
+				SimUnitElementSpawnInfo outlaw_defender_ground
+				{
+					myEntityFile "onward/game system data/juice/ai/npc/outlaw_defender_ground.mnpc"
+				}
+			}
+		}
+		SimUnitEntitySpawnInfo outlaw_defender_ground_elite < uid=67883D265B3F674E0000222648F16878 >
+		{
+			myCountMin 1
+			myCountMax 1
+			myElementSpawnInfo
+			{
+				SimUnitElementSpawnInfo outlaw_defender_ground_elite
+				{
+					myEntityFile "onward/game system data/juice/ai/npc/outlaw_defender_ground_elite.mnpc"
+				}
+			}
+		}
+	}
+	myConstructionDuration 5.0
+	myMissionTargetTexture onward/baked/textures/UI/icons/outpost_targets/outpost_target_sim_unit/ui-icon-outpost-target-rogue-outlaw.dds
+}
+

@@ -1,0 +1,72 @@
+class NPCSteeringParameters < uid=auto >
+{
+    float myRabbitFarDistance 15.0
+    float myRabbitNearDistance 7.0
+    float myAgentReachDistance 3.0
+    float awarenessRadius 80.0
+    float awarenessTime 1.0
+    float awarenessMaxRadius 125.0
+
+	bool myTreatSpaceAsFloor false
+	bool myTreatSpaceAsCeiling false
+	bool myTreatAtmosphereAsFloor false
+	bool myTreatAtmosphereAsCeiling false	
+
+	bool steerTowardDestination true
+	bool steerToMaintainSpeed false < tooltip="do not use in steering parameters" >
+    bool steerToStayOnPath false < tooltip="unsupported" >
+    bool steerToStayOnCorridor false < tooltip="unsupported" >
+    bool steerToAvoidAgents true
+	bool steerToAvoidPlayer true < tooltip="Only valid if steerToAvoidAgents is also true" >
+	bool steertoAvoidAllies false < tooltip="Means ONLY avoid allies -i.e.  steer to hit enemies" >
+    bool steerToAvoidEnvironment false < tooltip="steer away from navmesh edges with expensive/dependable steering" >
+    bool steerToAvoidEnvironmentVO true
+    bool steerWithFlocking false
+    bool steerWithSquad false < tooltip="unsupported" >
+	bool steerThroughPathEnd false
+	bool steerToGetBackOnNavmesh true
+	bool steerRacingBehaviour false
+
+	bool stopIfBelowMinSpeed true
+	bool clampSpeedToMin true
+	bool clampSpeedToMax true
+	bool allowBackingForPeers false
+	bool useAvoidanceWhenStopped true
+
+	float cohesionFactor 0.4
+	float separationFactor 0.5
+    float alignmentFactor 0.5
+    float destinationFactor 1.0
+	float flockingFactor 1.0
+    float smoothingSpeed 1.0
+	float smoothingSpeedWhileAvoiding 4.0
+	float smoothFlocking 0.25
+
+	float maxStrafeAngle 3.1415927 < tooltip="maximum angle between velocity and heading" >
+	float maxSlowdownToTurn 1.0 < tooltip="maximum speed reduction when desired turn exceeds Max turn angle" >
+	float turnRateBoostFactor 1.1 < tooltip="turn rate boost factor while avoiding" >
+	float turnAngleBoostFactor 1.1 < tooltip="turn angle boost factor while avoiding" >
+
+	float pathLookAhead 4.0 < tooltip="Velocity Object parameter: meters" >
+	float avoidanceLookAhead 15.0  < tooltip="Velocity Object parameter: meters" >
+	float avoidanceTimeLookAhead 2.0 < tooltip="Velocity Object parameter: seconds" >
+	float characterSeparation 0.2 < tooltip="Velocity Object parameter: meters" >
+	float environmentSeparation 0.2 < tooltip="Velocity Object parameter: meters" >
+	float environmentReactionTime 1.5 < tooltip="Velocity Object parameter: seconds" >
+	float slowdownDistance 2.0 < tooltip="multiple of radius" >
+	float avoidanceLookAheadWhenCreatingSpace 30.0 < tooltip="Velocity Object parameter: meters" >
+	float avoidanceTimeLookAheadWhenCreatingSpace 2.0 < tooltip="Velocity Object parameter: seconds" >
+	float velocityFactorWhenCreatingSpace 1.5 < tooltip="Velocity Object parameter" >
+	float radiusFactorWhenCreatingSpace 1.5 < tooltip="Velocity Object parameter" >
+
+	float speedWeightForward 0.75 < tooltip="evaluate velocity weight for speed when above threshold" >
+	float speedWeightOblique 0.45 < tooltip="evaluate velocity weight for speed when below threshold" >
+	float speedWeightForwardThreshold 0.0871557444 < tooltip="dot product of angles threshold cos(85)" >
+	float trajectoryCorrectionBias 2.0 < tooltip="Bias towards correcting course trajectory error" >
+	float inertialDamp 0.02 < tooltip="Inertial damping percentage" >
+	float planetTransitionZoneAvoidDist 100.0 < tooltip="Min distance to remain from a planet's transition zone" >
+	
+	float blockingDistanceScale 2.0 < tooltip="Scalar for lookahead distance for hard-stop obstacle blocking" >
+	float blockingAnticipationDistanceScale 10.0 < tooltip="Scalar for lookahead distance for anticipatory slowdown obstacle blocking" >
+	float blockingMaxSpeedMultiplier 0.1 < tooltip="Multiplier (of our max speed) when we have detected an anticipatory obstacle" >
+}

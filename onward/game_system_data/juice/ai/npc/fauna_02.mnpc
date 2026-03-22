@@ -1,0 +1,28 @@
+include ./fauna_base.mnpc
+
+NPC fauna_02 < uid=4A8282B956D5E3E70000008AF01BBCC9 > : fauna_base
+{
+	myUIName_NonLocalized Furbeak
+	myGraphObjectFile "onward/graph objects/character/fauna_02.mgraphobject"
+	myPhysicsCapsuleHeight 3.0
+	myPhysicsSupportHeight -4.0
+	myPhysicsCapsuleRadius 2.0
+	myPhysicsPusherCapsuleRadius 4.5
+	myPhysicsCapsuleOriented FALSE
+	myPhysicsPusherCapsule TRUE
+	myPhysicsCapsuleStart 0.0;12.0;9.0
+	myPhysicsCapsuleEnd 0.0;9.0;-1.5
+	myHitReactionConstants "onward/game system data/juice/combat/hitreactionsconstants_fauna_medium.juice"
+	myPatternProfile < uid=4A8282B957BC748F00348E17C24714C6 > = "Fauna 02"
+	myDefaultMotionPattern < uid=4A8282B957BC748F00348E189DFF8C1E > = "Fauna 02 Default"
+	myAvoidanceRadius 6.5
+	myNPCType Fauna_02
+	myAnimSystemType Fauna_02
+	myLeggedness Quadruped
+	mySteeringParameters "onward/game system data/juice/ai/steering/fauna_14.juice"
+	myDefaultFootstepEvent 4543681623FB1B06D9B78A89C382F194
+	myOnDeathChallenge Death_Fauna02
+	myOnDiscoveredChallenge Discover_Fauna02
+	myFullyScannedChallenge FullyScan_Fauna02
+}
+

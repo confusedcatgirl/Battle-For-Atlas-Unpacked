@@ -1,0 +1,53 @@
+class ActionThreatProfile
+{
+	float myActionThreatDecayDelay 3.0
+	float myActionThreatDecayRate 200.0
+	float myMinActionThreatFromDecay 0.0
+	float myMaxActionThreat 1000.0
+
+	float myNonHostileDamageThreatMultiplier 0.50 < tooltip="This multiplier is applied to any incoming threat from aggressors that are not yet hostile" >
+	
+	// TO REMOVE
+	float myHealthPerecentDamageActionThreat 25.0
+	float myHealthAllyPerecentDamageActionThreat 10.0
+	// 
+
+	float myActionThreatPerPercentHealthLost 25.0 < tooltip="The amount of action threat accumulated per percent health lost" >
+	float myActionThreatPropagatedPerPercentHealthLost 10.0 < tooltip="The amount of action threat propagated to allies per percent health lost" >
+	
+	float myAllyKilledActionThreat 200.0 < tooltip="The amount of action threat accumulated when an ally is killed" >
+	
+	float myNonHostileActionThreatThreshold 400.0 < tooltip="Non hostile aggressors must pass this threat threshold before being considered threats." >
+}
+
+class BaseThreatProfile
+{
+	float myAddedBaseThreat 0.0
+	float myDeAggroRange 400.0
+	float myThreatPropagationRange 300.0
+	float myThreatPropagationRangeSpace 600.0
+	
+	float myMaxBaseThreat 3000.0
+	
+	float myPlayerBaseThreat 100.0
+	float myPlayerEnemyBaseThreat 50.0
+	float myHarvesterBaseThreat 200.f
+
+	float myCloseRange 20.0
+	float myMediumRange 40.0
+	float myLongRange 80.0
+	float myExtremeRange 120.0
+
+	float myCurrentTargetThreatMultiplier 1.5
+	float myDownedTargetThreatMultiplier 0.25
+	float mySystemCrashedTargetThreatMultiplier 2.50
+	float mySystemHackedTargetThreatMultiplier 1.50
+	float myMinTokenAvailabilityMultiplier 0.1 < tooltip="[0,1] - value of 1.0 will cause token availability to be ignored in target prioritization" >
+	float myMinEmplacementAvailabilityMultiplier 0.1 < tooltip="[0,1] - value of 1.0 will cause emplacement availability to be ignored in target prioritization" >
+	float myTokenAvailabilityRatioThreshold 0.0 < tooltip=" less or equal to 1.0 - threshold of 0 would not adjust threat until no tokens are available" >
+	float myEmplacementAvailabilityRatioThreshold 0.5 < tooltip=" less or equal to 1.0 - threshold of 0 would not adjust threat until no emplacements are available" >
+	float myCloseRangeBaseThreat 1000.0
+	float myMediumRangeBaseThreat 400.0
+	float myLongRangeBaseThreat 100.0
+	float myExtremeRangeBaseThreat 0.0
+}

@@ -1,0 +1,30 @@
+include "onward/game system data/fruit/sim/simunit.fruit"
+include "onward/game system data/fruit/story/storyevent.fruit"
+include "onward/game system data/fruit/loot/loot.fruit"
+
+class DeliveryInfoData
+{
+	SimUnit* myDeliverySimUnitAsset
+	StoryEvent myStoryEventAvailability
+	string myLootDropTable
+	int myXPToAwardTarget
+	varmap myDeliveryText < bhv = "localization" >
+	varmap myUndeliverableText < bhv = "localization" >
+}
+
+list DeliveryInfoDataList
+{
+	DeliveryInfoData
+}
+
+class DeliveryInfo
+{
+	SimUnit* mySimUnitAsset
+	DeliveryInfoDataList myDeliveryInfoDataList
+	varmap myUndeliverableText < bhv = "localization" >
+}
+
+list DeliveryInfoList
+{
+	DeliveryInfo
+}

@@ -1,0 +1,29 @@
+include ./template_pilot.mplayermod
+
+float "More Energy Damage l1" = More_Energy_l1_ExtraDamage
+
+PlayerMod mod_perk_more_energy_l1 < uid=939A35415ABBD9D200001D62373E0321 > : template_pilot
+{
+	myAttributeMods
+	{
+		AttributeMod "Damage Eli"
+		{
+			myType DMG_Kinetic
+			myMultValue 1.0
+			myAddValue 0.0
+			myPercentageValue = "More Energy Damage l1"
+		}
+		AttributeMod "Damage Kharl Min"
+		{
+			myType DMG_Area_Kinetic
+			myPercentageValue = "More Energy Damage l1"
+		}
+		AttributeMod "Damage Kharl Max"
+		{
+			myType DMG_Max
+			myPercentageValue = "More Energy Damage l1"
+		}
+	}
+	myIsSelfMod TRUE
+}
+

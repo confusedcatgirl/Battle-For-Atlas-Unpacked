@@ -1,0 +1,29 @@
+include ./fauna_base.msimunit
+
+SimUnit fauna_12 < uid=C92F4D3F5730AFEB0000009A2CFE3994 > : fauna_base
+{
+	myUIName "contextComment = \"The UI name for Fauna 12\", description = \"uiname-fauna-12\", enabled = true, guid = #1ABBD50B58B48A8C000569E4760FBAA1, lineVersion = 0, maxLength = 14, text = \"Ghoulcrab\""
+	myBehavior onward/simworld/behavior/fauna_major.msimunitbtgraph
+	mySubCategory Fauna_01
+	mySubCategoryVariant 12
+	myRadius 12.0
+	mySpeed 7.0
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo "Level 0"
+		{
+			myCountMin 1
+			myCountMax 1
+			myEntitySize 6.0
+			myElementSpawnInfo
+			{
+				SimUnitElementSpawnInfo Herd
+				{
+					myEntityFile "onward/game system data/juice/ai/npc/fauna_12.mnpc"
+				}
+			}
+		}
+	}
+	mySpawnAttachedSimUnit ./pickup_fauna_sample_fauna_12.msimunit
+}
+

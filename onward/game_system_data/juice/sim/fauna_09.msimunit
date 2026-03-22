@@ -1,0 +1,29 @@
+include ./fauna_base.msimunit
+
+SimUnit fauna_09 < uid=C92F4D3F5730AFD200000097E636EAF8 > : fauna_base
+{
+	myUIName "contextComment = \"The UI name for Fauna 09\", description = \"uiname-fauna-09\", enabled = true, guid = #1ABBD50B58B48A77000565D1A82292E4, lineVersion = 0, maxLength = 14, text = \"Brassbear\""
+	myBehavior onward/simworld/behavior/fauna_major.msimunitbtgraph
+	mySubCategory Fauna_01
+	mySubCategoryVariant 9
+	myRadius 12.0
+	mySpeed 16.0
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo "Level 0"
+		{
+			myCountMin 1
+			myCountMax 1
+			myEntitySize 6.0
+			myElementSpawnInfo
+			{
+				SimUnitElementSpawnInfo Herd
+				{
+					myEntityFile "onward/game system data/juice/ai/npc/fauna_09.mnpc"
+				}
+			}
+		}
+	}
+	mySpawnAttachedSimUnit ./pickup_fauna_sample_fauna_09.msimunit
+}
+

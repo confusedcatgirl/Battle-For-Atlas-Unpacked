@@ -1,0 +1,26 @@
+include ./template_pod.mplayermod
+
+float "Weapon Damage" = Cold_Weapon_Mod_l2_Damage
+
+PlayerMod mod_cold_weaponmod_l2 < uid=C91BB5515983672A0000019AD598AA3D > : template_pod
+{
+	myAttributeMods
+	{
+		AttributeMod Cold
+		{
+			myType DMG_Cold
+			myMultValue 1.0
+			myPercentageValue = "Weapon Damage"
+		}
+		AttributeMod "Area Cold"
+		{
+			myPercentageValue = "Weapon Damage"
+		}
+		AttributeMod UI_Weapon_Damage
+		{
+			myType UI_Weapon_Damage
+			myPercentageValue = "Weapon Damage"
+		}
+	}
+}
+

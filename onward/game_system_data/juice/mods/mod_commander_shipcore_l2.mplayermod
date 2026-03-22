@@ -1,0 +1,22 @@
+include ./template_hull.mplayermod
+include ./tuning/mod_tuning_master.juice
+
+PlayerMod mod_commander_shipcore_l2 < uid=C91BB551597F62540000003A1DB09DC5 > : template_hull
+{
+	myAttributeMods
+	{
+		AttributeMod "Pilot Ability Charge"
+		{
+			myType Ability_XPRegenRate
+			myAddValue 0.0
+			myPercentageValue = Commander_Core_l2_AbilityCharge
+		}
+		AttributeMod "Parry Energy"
+		{
+			myType Player_ParryWeaponEnergy
+			myAddValue = Commander_Core_l2_ParryEnergy
+		}
+	}
+	myIsAgentMod TRUE
+}
+

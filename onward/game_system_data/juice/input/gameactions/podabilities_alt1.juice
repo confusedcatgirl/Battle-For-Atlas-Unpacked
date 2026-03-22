@@ -1,0 +1,86 @@
+include "onward/game system data/juice/input/inputactions.juice"
+include "onward/game system data/fruit/input/gameinput.fruit"
+
+TriggerGameAction "[PodAbilities] Pod One"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Left Stick"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Hold LS"
+				{
+					myInputActionType HoldDown
+					myInputAction = LEFT_STICK_RIGHT
+				}
+				ConditionalInputAction "Hold LS"
+				{
+					myInputActionType HoldDown
+					myInputAction = LEFT_STICK_UP
+				}
+				ConditionalInputAction "Hold LS"
+				{
+					myInputActionType HoldDown
+					myInputAction = LEFT_STICK_LEFT
+				}
+				ConditionalInputAction "Hold LS"
+				{
+					myInputActionType HoldDown
+					myInputAction = LEFT_STICK_DOWN
+				}
+			}
+		}
+	}
+	myGameAction PodOne
+}
+
+TriggerGameAction "[PodAbilities] Pod Two"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction "Hold Y"
+		{
+			myInputActionType HoldDown
+			myInputAction = Y_TRIANGLE
+		}
+	}
+	myGameAction PodTwo
+}
+
+TriggerGameAction "[PodAbilities] Pod Three"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Right Stick"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Hold RS"
+				{
+					myInputActionType HoldDown
+					myInputAction = RIGHT_STICK_RIGHT
+				}
+				ConditionalInputAction "Hold RS"
+				{
+					myInputActionType HoldDown
+					myInputAction = RIGHT_STICK_UP
+				}
+				ConditionalInputAction "Hold RS"
+				{
+					myInputActionType HoldDown
+					myInputAction = RIGHT_STICK_LEFT
+				}
+				ConditionalInputAction "Hold RS"
+				{
+					myInputActionType HoldDown
+					myInputAction = RIGHT_STICK_DOWN
+				}
+			}
+		}
+	}
+	myGameAction PodThree
+}
+

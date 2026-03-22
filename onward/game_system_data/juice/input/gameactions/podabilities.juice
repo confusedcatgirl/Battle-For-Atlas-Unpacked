@@ -1,0 +1,487 @@
+include "onward/game system data/juice/input/inputactions.juice"
+include "onward/game system data/fruit/input/gameinput.fruit"
+
+TriggerGameAction "[Movement] Can Use Pod"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameActionState IsDead
+		{
+			myNegate TRUE
+			myGameActionState IsDead
+		}
+		ConditionalGameActionState IsFlippedOver
+		{
+			myNegate TRUE
+			myGameActionState IsFlippedOver
+		}
+		ConditionalGameActionState IsRagdoll
+		{
+			myNegate TRUE
+			myGameActionState IsRagdoll
+		}
+		ConditionalGameActionState IsGhosting
+		{
+			myNegate TRUE
+			myGameActionState IsGhosting
+		}
+		ConditionalGameActionState InStasis
+		{
+			myNegate TRUE
+			myGameActionState InStasis
+		}
+		ConditionalGameActionState InHyperspace
+		{
+			myNegate TRUE
+			myGameActionState InHyperspace
+		}
+		ConditionalGameActionState IsInPlanetaryTransition
+		{
+			myNegate TRUE
+			myGameActionState IsInPlanetaryTransition
+		}
+		ConditionalGameActionState ShouldBeDowned
+		{
+			myNegate TRUE
+			myGameActionState ShouldBeDowned
+		}
+		ConditionalGameActionState FastTravelInitiated
+		{
+			myNegate TRUE
+			myGameActionState FastTravelInitiated
+		}
+		ConditionalGameActionState InDialogue
+		{
+			myNegate TRUE
+			myGameActionState InDialogue
+		}
+		ConditionalGameActionState IsFeatureEnabled_Weapon
+		{
+			myGameActionState IsFeatureEnabled_Weapon
+		}
+		ConditionalActionGroup "Not plucking or allowed to shoot while plucking"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+		        ConditionalGameActionState IsPlucking
+		        {
+			        myNegate TRUE
+			        myGameActionState IsPlucking
+		        }
+		        ConditionalGameActionState CanShootWhilePlucking
+		        {
+			        myGameActionState CanShootWhilePlucking
+		        }
+            }
+        }
+		ConditionalGameActionState IsFastTravelling
+		{
+			myNegate TRUE
+			myGameActionState IsFastTravelling
+		}
+		ConditionalActionGroup "Not Frozen or Has Frozen Mobility"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalGameActionState NotFrozen
+				{
+					myNegate TRUE
+					myGameActionState IsFrozen
+				}
+				ConditionalGameActionState HasFreezeMobility
+				{
+					myGameActionState HasFreezeMobility
+				}
+			}
+		}
+		ConditionalActionGroup "Not In Space or IsWithinGameplayBounds"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalGameActionState IsWithinGameplayBounds
+				{
+					myGameActionState IsWithinGameplayBounds
+				}
+				ConditionalGameActionState "Not In Space"
+				{
+					myNegate TRUE
+					myGameActionState InSpace
+				}
+			}
+		}
+	}
+	myGameAction PlayerQuery_CanUsePod
+}
+
+TriggerGameAction "[Movement] Can Use Pilot Ability"
+{
+	myConditionalInputActions
+	{
+	    ConditionalGameActionState IsPilotTrialEventActive
+	    {
+		    myNegate TRUE
+		    myGameActionState IsPilotTrialEventActive
+	    }
+		ConditionalGameActionState IsDead
+		{
+			myNegate TRUE
+			myGameActionState IsDead
+		}
+		ConditionalGameActionState InHyperspace
+		{
+			myNegate TRUE
+			myGameActionState InHyperspace
+		}
+		ConditionalGameActionState ShouldBeDowned
+		{
+			myNegate TRUE
+			myGameActionState ShouldBeDowned
+		}
+		ConditionalGameActionState IsFrozen
+		{
+			myNegate TRUE
+			myGameActionState IsFrozen
+		}
+		ConditionalGameActionState InStasis
+		{
+			myNegate TRUE
+			myGameActionState InStasis
+		}
+		ConditionalGameActionState IsFlippedOver
+		{
+			myNegate TRUE
+			myGameActionState IsFlippedOver
+		}
+		ConditionalGameActionState IsRagdoll
+		{
+			myNegate TRUE
+			myGameActionState IsRagdoll
+		}
+		ConditionalGameActionState IsGhosting
+		{
+			myNegate TRUE
+			myGameActionState IsGhosting
+		}
+		ConditionalGameActionState FastTravelInitiated
+		{
+			myNegate TRUE
+			myGameActionState FastTravelInitiated
+		}
+		ConditionalGameActionState IsInPlanetaryTransition
+		{
+			myNegate TRUE
+			myGameActionState IsInPlanetaryTransition
+		}
+		ConditionalGameActionState InDialogue
+		{
+			myNegate TRUE
+			myGameActionState InDialogue
+		}
+		ConditionalActionGroup "Not inside dreadnought or can be used inside"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalGameActionState NotInsideDreadnought
+				{
+					myNegate TRUE
+					myGameActionState InsideDreadnought
+				}
+				ConditionalGameActionState CanPilotAbilityBeUsedInsideDreadnought
+				{
+					myGameActionState CanPilotAbilityBeUsedInsideDreadnought
+				}
+			}
+		}
+		ConditionalActionGroup "Not in interior or can be used inside"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalGameActionState NotInInterior
+				{
+					myNegate TRUE
+					myGameActionState IsInInterior
+				}
+				ConditionalGameActionState CanPilotAbilityBeUsedInsideDreadnought
+				{
+					myGameActionState CanPilotAbilityBeUsedInInterior
+				}
+			}
+		}
+		ConditionalGameActionState IsPilotAbilityLocked
+		{
+			myNegate TRUE
+			myGameActionState IsPilotAbilityLocked
+		}
+		ConditionalActionGroup "Not being towed or can use while being towed"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalGameActionState CanPilotAbilityBeUsedWhileCapturing
+				{
+					myGameActionState CanPilotAbilityBeUsedWhileCapturing
+				}
+				ConditionalGameActionState IsBeingTowed
+				{
+					myNegate TRUE
+					myGameActionState IsBeingTowed
+				}
+			}
+		}
+		ConditionalGameActionState NotIsPluckingButtonSequence
+		{
+			myNegate TRUE
+			myGameActionState IsPluckingButtonSequence
+		}
+	}
+	myGameAction PlayerQuery_CanUsePilotAbility
+}
+
+TriggerGameAction "[PodAbilities] Pod One"
+{
+	myConditionalInputActions
+	{
+		
+		ConditionalActionGroup "INPUT POD ONE"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+			    ConditionalInputAction "Hold LT"
+				{
+					myInputActionType HoldDown
+					myInputAction = LEFT_TRIGGER_L2
+				}
+				ConditionalInputAction "Hold Left Click"
+				{
+					myInputActionType HoldDown
+					myInputAction = LEFT_CLICK
+				}
+			}
+		}
+		ConditionalGameAction PlayerQuery_CanUsePod
+		{
+			myRequireNewInput TRUE
+			myGameAction PlayerQuery_CanUsePod
+		}
+	}
+	myGameAction PodOne
+}
+
+TriggerGameAction "[PodAbilities] Pod One Fail Activate"
+{
+	myConditionalInputActions
+	{
+		
+		ConditionalActionGroup "INPUT POD ONE"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Hold LT"
+				{
+					myInputActionType HoldDown
+					myInputAction = LEFT_TRIGGER_L2
+				}
+				ConditionalInputAction "Hold Left Click"
+				{
+					myInputActionType HoldDown
+					myInputAction = LEFT_CLICK
+				}
+			}
+		}
+		ConditionalGameAction PlayerQuery_CanUsePod
+		{
+			myNegate TRUE
+			myRequireNewInput TRUE
+			myGameAction PlayerQuery_CanUsePod
+		}
+	}
+	myGameAction PodOneFailActivate
+}
+TriggerGameAction "[PodAbilities] Pilot Ability"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "INPUT PILOT ABILITY"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Press LB"
+				{
+					myInputAction = LEFT_BUMPER_L1
+				}
+				ConditionalInputAction "Keyboard Pilot Ability"
+				{
+					myInputAction = KB_PILOTABILITY
+				}
+			}
+		}
+		ConditionalGameAction PlayerQuery_CanUsePilotAbility
+		{
+			myGameAction PlayerQuery_CanUsePilotAbility
+		}
+	}
+	myGameAction PodTwo
+}
+
+TriggerGameAction "[PodAbilities] Pilot Fail Activate"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "INPUT PILOT FAIL ACTIVATE"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Press LB"
+				{
+					myInputActionType Pressed
+					myInputAction = LEFT_BUMPER_L1
+				}
+				ConditionalInputAction "Keyboard Pilot Fail Activate"
+				{
+					myInputActionType Pressed
+					myInputAction = KB_PILOTABILITY
+				}
+			}
+		}
+		ConditionalActionGroup State
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalGameAction PlayerQuery_CanUsePilotAbility
+				{
+					myNegate TRUE
+					myGameAction PlayerQuery_CanUsePilotAbility
+				}
+				ConditionalGameActionState IsPilotAbilityMeterFull
+				{
+					myNegate TRUE
+					myGameActionState IsPilotAbilityMeterFull
+				}
+			}
+		}
+		ConditionalGameActionState IsPilotAbilityActive
+		{
+			myNegate TRUE
+			myRequireNewInput TRUE
+			myGameActionState IsPilotAbilityActive
+		}
+		ConditionalGameActionState NotIsPluckingButtonSequence
+		{
+			myNegate TRUE
+			myGameActionState IsPluckingButtonSequence
+		}
+		ConditionalGameActionState IsPilotTrialEventActive
+	    {
+		    myNegate TRUE
+		    myGameActionState IsPilotTrialEventActive
+	    }
+	}
+	myGameAction PilotFailActivate
+}
+
+TriggerGameAction "[PodAbilities] Pilot Fail Activate Inside Dreadnought"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "INPUT FAIL ACTIVATE INSIDE DREADNOUGHT"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Press LB"
+				{
+					myInputAction = LEFT_BUMPER_L1
+				}
+				ConditionalInputAction "Keyboard Fail Inside Dreadnought"
+				{
+					myInputAction = KB_PILOTABILITY
+				}
+			}
+		}
+		ConditionalGameAction PlayerQuery_CanUsePilotAbility
+		{
+			myNegate TRUE
+			myGameAction PlayerQuery_CanUsePilotAbility
+		}
+		ConditionalGameActionState InsideDreadnought
+		{
+			myGameActionState InsideDreadnought
+		}
+	}
+	myGameAction PilotFailActivateInsideDreadnought
+}
+
+TriggerGameAction "[PodAbilities] Pod Three"
+{
+	myConditionalInputActions
+	{
+		
+		
+		ConditionalActionGroup "INPUT POD THREE"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+			    ConditionalInputAction "Hold RT"
+		        {
+			       myInputActionType HoldDown
+			       myInputAction = RIGHT_TRIGGER_R2
+		        }
+				ConditionalInputAction "Hold Right Click"
+				{
+					myInputActionType HoldDown
+					myInputAction = RIGHT_CLICK
+				}
+			}
+		}
+		ConditionalGameAction PlayerQuery_CanUsePod
+		{
+			myRequireNewInput TRUE
+			myGameAction PlayerQuery_CanUsePod
+		}
+	}
+	myGameAction PodThree
+}
+
+TriggerGameAction "[PodAbilities] Pod Three Fail Activate"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "INPUT POD THREE"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+			    ConditionalInputAction "Hold RT"
+		        {
+			       myInputActionType HoldDown
+			       myInputAction = RIGHT_TRIGGER_R2
+		        }
+				ConditionalInputAction "Hold Right Click"
+				{
+					myInputActionType HoldDown
+					myInputAction = RIGHT_CLICK
+				}
+			}
+		}
+		ConditionalGameAction PlayerQuery_CanUsePod
+		{
+			myNegate TRUE
+			myRequireNewInput TRUE
+			myGameAction PlayerQuery_CanUsePod
+		}
+	}
+	myGameAction PodThreeFailActivate
+}
+
+

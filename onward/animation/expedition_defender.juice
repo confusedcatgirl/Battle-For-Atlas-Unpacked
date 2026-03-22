@@ -1,0 +1,63 @@
+include "onward/game system data/fruit/animation/animsys.fruit"
+
+SpecializationList mySpecializations
+{
+}
+
+FileList mySubsystems
+{
+}
+
+MotionPose "Ready (OOC)"
+{
+	myStateName Ready
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;Gravity_Low;Gravity_Normal;Gravity_High;AlertLevel_Idle;AlertLevel_Investigating;
+	myAnimsOut TR_ToCombatIdle;
+}
+
+MotionPose "Ready (IC)"
+{
+	myStateName Ready
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;Gravity_Low;Gravity_Normal;Gravity_High;AlertLevel_Combat;
+	myAnimsOut TR_FromCombatIdle;
+}
+
+TransitionMotionState TR_ToCombatIdle < uid=C92F4D3F5970CC16003301A0B4928678 >
+{
+	myEnabled TRUE
+	myTotalDuration 0.0
+	myDistance 0.0
+	myAnimationDuration 0.0
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.0
+	myAnimsOut "Ready (IC);"
+	myDisplacementAngle 0.0
+	myRotationAngle 0.0
+	myIsGlobalTransition FALSE
+	myGlobalTransitionPriority 0
+}
+
+TransitionMotionState TR_FromCombatIdle < uid=C92F4D3F5970CC470039C9FC3ECFEF1E >
+{
+	myEnabled TRUE
+	myTotalDuration 0.0
+	myDistance 0.0
+	myAnimationDuration 0.0
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.0
+	myAnimsOut "Ready (OOC);"
+	myDisplacementAngle 0.0
+	myRotationAngle 0.0
+	myIsGlobalTransition FALSE
+	myGlobalTransitionPriority 0
+}
+
+LayerMotionState Stunned
+{
+	myLayerName Stunned
+	myTotalDuration 0.0
+	myIsLoop TRUE
+}
+

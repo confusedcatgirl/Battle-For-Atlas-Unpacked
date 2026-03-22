@@ -1,0 +1,26 @@
+include ./pickup_base.msimunit
+
+SimUnit pickup_bomb_core < uid=C92F4D3F5890B190000002087E0D56D1 > : pickup_base
+{
+	myUIName "contextComment = \"[Placeholder - do not translate] HUD text showing item name when the player points their reticle at a bomb core\", description = \"ui-target-pickup-bomb-core\", enabled = true, guid = #813F3F3A590265860000005464188FB7, lineVersion = 0, maxLength = 14, text = \"Bomb Core\""
+	myBehavior onward/simworld/behavior/pickup_bomb_core.msimunitbtgraph
+	mySubCategory InfusedElectrumBombCore
+	myAffinityType Ice
+	myRadius 1.0
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo pickup_bomb_core
+		{
+			myCountMin 1
+			myCountMax 1
+			myElementSpawnInfo
+			{
+				SimUnitElementSpawnInfo pickup_bomb_core
+				{
+					myEntityFile "onward/entity templates/pickup_bomb_core.mentitytemplate"
+				}
+			}
+		}
+	}
+}
+

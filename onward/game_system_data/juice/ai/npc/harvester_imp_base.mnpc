@@ -1,0 +1,127 @@
+include ./base_npc.mnpc
+include onward/skillscripts/npc_ability_imp_attach.mskillscriptjuice
+include onward/skillscripts/harvester_imp_attached_attack.mskillscriptjuice
+include onward/skillscripts/harvester_imp_ram.mskillscriptjuice
+include onward/skillscripts/npc_ability_harvester_imp_generic_self_destruct.mskillscriptjuice
+include onward/skillscripts/npc_controller_context_harvester_imp_world_entry.mskillscriptjuice
+include onward/skillscripts/npc_pre_world_entry_harvester_imp.mskillscriptjuice
+include onward/skillscripts/npc_ability_harvester_imp_generic_rock_throw.mskillscriptjuice
+include onward/skillscripts/npc_controller_context_harvester_imp_generic_dead.mskillscriptjuice
+include onward/skillscripts/harvester_cyclops_vfx_listener.mskillscriptjuice
+include onward/skillscripts/npc_controller_context_dormant.mskillscriptjuice
+
+NPC harvester_imp_base < uid=4A8282B956DDE865000000565DC46651 > : base_npc
+{
+	myUIName "contextComment = \"The UI Name for the Imp\", description = \"uiname-harvester-imp-base\", enabled = true, guid = #1ABBD50B58C165D40000941366A54D66, lineVersion = 0, maxLength = 5, text = \"Imp\""
+	myUIName_NonLocalized Imp
+	myGraphObjectFile "onward/graph objects/character/harvester_03.mgraphobject"
+	myBehavior "onward/game system data/juice/ai/behavior/harvester_imp.mbehavior"
+	myHealthConfig < uid=4A8282B959F8E96300001DEF03E4F94D > = "harvester_imp_base Health"
+	myDeathSettings
+	{
+		myDeathCullTime 1.0
+		myEventDeathCullTime 1.0
+	}
+	myFireReaction < uid=C92F4D3F591C5A81000001D186882533 > = Imp_Fire
+	myAbilityDefinitions
+	{
+		NPCAbilityDefinition "Jump Attach"
+		{
+			myGameAction NPC_Ability1
+			mySkillScript < uid=4A8282B9578CEF46000F6DE96D021436 > = npc_ability_imp_attach
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_harvester_imp_generic_jump_attach.juice"
+		}
+		NPCAbilityDefinition "Self Destruct"
+		{
+			myGameAction NPC_Ability2
+			mySkillScript < uid=4A8282B95818EC6F0000026CAED4FAA0 > = npc_ability_harvester_imp_generic_self_destruct
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_harvester_imp_generic_self_destruct.juice"
+		}
+		NPCAbilityDefinition "Rock Throw"
+		{
+			myGameAction NPC_Ability3
+			mySkillScript < uid=4A8282B95A8DE3FB00001D8B1833C466 > = npc_ability_harvester_imp_generic_rock_throw
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_harvester_imp_generic_rock_throw.juice"
+		}
+	}
+	myControllerContextDefinitions
+	{
+		ControllerContextDefinition Attached
+		{
+			myContextType Attached
+			mySkillScript < uid=4A8282B957966DB4000000863FCCD46E > = harvester_imp_attached_attack
+			myCancelScriptOnContextEnd FALSE
+		}
+		ControllerContextDefinition Dash
+		{
+			myContextType Dash
+			mySkillScript < uid=4A8282B95797DEA800000084C7F5D91B > = harvester_imp_ram
+			myCancelScriptOnContextEnd FALSE
+		}
+		ControllerContextDefinition "World Entry"
+		{
+			myContextType WorldEntry
+			mySkillScript < uid=C92F4D3F58249DE40003040A1A2F1DDF > = npc_controller_context_harvester_imp_world_entry
+		}
+		ControllerContextDefinition Dead
+		{
+			myContextType Dead
+			mySkillScript < uid=4A8282B95AB3FE0900277D70391BBBE1 > = npc_controller_context_harvester_imp_generic_dead
+		}
+		ControllerContextDefinition Dormant
+		{
+			myContextType Dormant
+			mySkillScript < uid=C92F4D3F5B2A612B000021FE61D1B5C2 > = npc_controller_context_dormant
+		}
+	}
+	myPersistentScripts
+	{
+		SkillScript "VFX Listener" < uid=C92F4D3F5ACFA8CE000033B266E1F508 > = harvester_cyclops_vfx_listener
+	}
+	myResistanceSettings ""
+	myAttributeSettings "onward/game system data/juice/ai/attributes/harvester_imp.juice"
+	myDropTableOnDeath Kill_Imp_Drop_Table
+	myAwarenessDistance 200.0
+	myMass 1000.0
+	myLinearInertiaThreshold 2200.0
+	myMaxLinearForce 3000.0
+	myMaxFrictionTorque 0.25
+	myPhysicsCapsuleHeight 1.3
+	myPhysicsSupportHeight -1.3
+	myPhysicsCapsuleRadius 0.75
+	myGroundOrientationFraction 0.5
+	myPhysicsSnapToGround TRUE
+	myHitReactionConstants "onward/game system data/juice/combat/hitreactionsconstants_harvester_imp.juice"
+	myImpactCategorySettings "onward/game system data/juice/combat/impactcategorysettings_extra_light.juice"
+	myPatternProfile < uid=4A8282B956DDE8650000005BA9EB784E > = "Harvester Imp"
+	myDefaultMotionPattern < uid=4A8282B956DDE8650000005CF08659FA > = "Harvester Imp Default"
+	myAvoidanceRadius 1.3
+	myNPCFaction Harvester
+	myNPCType Harvester_Imp
+	myAnimSystemType Harvester_Imp
+	myLeggedness Biped
+	myThreatLevel 1.0
+	myBaseThreatProfile
+	{
+		myDownedTargetThreatMultiplier 0.0
+	}
+	myIsFlocking TRUE
+	mySquadSettings "onward/game system data/juice/ai/squad/cyclops_squad_with_imps.juice"
+	mySteeringParameters "onward/game system data/juice/ai/steering/harvester_imp.juice"
+	myAgentController DefaultAgentController
+	myAIVisionConeTypeName ImpVisionCone
+	myLeftFootstepEffectFile "onward/graph objects/effect/effect_harvester_imp_base_footstep.mgraphobject"
+	myRightFootstepEffectFile "onward/graph objects/effect/effect_harvester_imp_base_footstep.mgraphobject"
+	myFrontLeftFootstepEffectFile "onward/graph objects/effect/effect_harvester_imp_base_footstep.mgraphobject"
+	myFrontRightFootstepEffectFile "onward/graph objects/effect/effect_harvester_imp_base_footstep.mgraphobject"
+	myDefaultFootstepEvent 41614C74E1898D73C5ABA8EBDBEC5BB3
+	myHitReactionRules "onward/game system data/juice/ai/reactions/reaction_rules_npc_small.juice"
+	myConstructionDuration 5.0
+	myUseNavMeshContextLayer TRUE
+	myOnDeathChallenge Death_ImpGeneric
+	myOnDiscoveredChallenge Discover_ImpGeneric
+	myPreWorldEntrySkillScript < uid=C92F4D3F591B6EC3005DA2A1EB676409 > = npc_pre_world_entry_harvester_imp
+	myHackLevel 1
+	mySkillLevelOffset -2
+}
+

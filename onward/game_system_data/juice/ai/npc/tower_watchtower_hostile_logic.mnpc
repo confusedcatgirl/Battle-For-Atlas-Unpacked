@@ -1,0 +1,89 @@
+include ./invisible_npc_base.mnpc
+include onward/skillscripts/npc_ability_prospector_watchtower_turret_gatling.mskillscriptjuice
+include onward/skillscripts/npc_ability_prospector_watchtower_turret_missile_barrage.mskillscriptjuice
+include onward/skillscripts/npc_ability_prospector_watchtower_turret_heat_missile_barrage.mskillscriptjuice
+include onward/skillscripts/npc_ability_prospector_watchtower_turret_cold_missile_barrage.mskillscriptjuice
+include onward/skillscripts/npc_ability_prospector_watchtower_turret_crush_missile_barrage.mskillscriptjuice
+include onward/skillscripts/npc_ability_tower_watchtower_emp.mskillscriptjuice
+include onward/skillscripts/npc_ability_watchtower_turret_hostile_gattling.mskillscriptjuice
+include onward/skillscripts/npc_ability_outlaw_watchtower_turret_hostile_reflect.mskillscriptjuice
+
+NPC tower_watchtower_hostile_logic < uid=B840DCB35B1ADC7F00002053E4087913 > : invisible_npc_base
+{
+	myBehavior "onward/game system data/juice/ai/behavior/tower_watchtower_hostile_logic.mbehavior"
+	myIsInitiallyAggressive TRUE
+	myHealthConfig < uid=42BB0A2F5BB677CE0000243C81A907B3 > = "tower_hostile_basic Health"
+	myIsInvulnerable FALSE
+	myAbilityDefinitions
+	{
+		NPCAbilityDefinition Gatling
+		{
+			myGameAction NPC_Ability1
+			mySkillScript < uid=B840DCB35B1ADC7F000020547137C59E > = npc_ability_watchtower_turret_hostile_gattling
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_prospector_watchtower_turret_hostile_gatling.juice"
+		}
+		NPCAbilityDefinition Reflect
+		{
+			myGameAction NPC_Ability2
+			mySkillScript < uid=B840DCB35B1ADC7F00002055AFBEA83C > = npc_ability_outlaw_watchtower_turret_hostile_reflect
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_outlaw_watchtower_turret_hostile_reflect.juice"
+		}
+		NPCAbilityDefinition "Cold Gatling"
+		{
+			myGameAction NPC_Ability3
+			mySkillScript < uid=B840DCB35B1ADC7F0000205665CB7B27 > = npc_ability_prospector_watchtower_turret_gatling
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_prospector_watchtower_turret_cold_gatling.juice"
+		}
+		NPCAbilityDefinition "Crush Gatling"
+		{
+			myGameAction NPC_Ability4
+			mySkillScript < uid=B840DCB35B1ADC7F00002057C2AC566C > = npc_ability_prospector_watchtower_turret_gatling
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_prospector_watchtower_turret_crush_gatling.juice"
+		}
+		NPCAbilityDefinition "Missile Barrage"
+		{
+			myGameAction NPC_Ability5
+			mySkillScript < uid=B840DCB35B1ADC7F000020580D786092 > = npc_ability_prospector_watchtower_turret_missile_barrage
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_prospector_watchtower_turret_missile_barrage.juice"
+		}
+		NPCAbilityDefinition "Heat Missile Barrage"
+		{
+			myGameAction NPC_Ability6
+			mySkillScript < uid=B840DCB35B1ADC7F0000205957DDD649 > = npc_ability_prospector_watchtower_turret_heat_missile_barrage
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_prospector_watchtower_turret_heat_missile_barrage.juice"
+		}
+		NPCAbilityDefinition "Cold Missile Barrage"
+		{
+			myGameAction NPC_Ability7
+			mySkillScript < uid=B840DCB35B1ADC7F0000205A69F18DD6 > = npc_ability_prospector_watchtower_turret_cold_missile_barrage
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_prospector_watchtower_turret_cold_missile_barrage.juice"
+		}
+		NPCAbilityDefinition "Crush Missile Barrage"
+		{
+			myGameAction NPC_Ability8
+			mySkillScript < uid=B840DCB35B1ADC7F0000205BC94EA9B2 > = npc_ability_prospector_watchtower_turret_crush_missile_barrage
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_prospector_watchtower_turret_crush_missile_barrage.juice"
+		}
+		NPCAbilityDefinition EMP
+		{
+			myGameAction NPC_Ability9
+			mySkillScript < uid=B840DCB35B1ADC7F0000205C07FC3CF9 > = npc_ability_tower_watchtower_emp
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_tower_watchtower_emp.juice"
+		}
+	}
+	myResistanceSettings ""
+	myAttributeSettings "onward/game system data/juice/ai/attributes/tower_watchtower_hostile_logic.juice"
+	myAwarenessDistance 300.0
+	myNPCFaction Outlaw
+	myAIVisionConeTypeName WatchtowerVisionCone
+}
+

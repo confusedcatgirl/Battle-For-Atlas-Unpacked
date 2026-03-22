@@ -1,0 +1,1160 @@
+include ./../../fruit/ai/combatdirector.fruit
+
+CombatDirector myCombatDirector < uid=4A8282B955B9371E0000001AA3D77F5D >
+{
+	myRoundDuration 1.0
+	myAttackerBudget 17.0
+	myThreatBudget 28.0
+	myPlayerAttackerBudget 27.0
+	myPlayerThreatBudget 38.0
+	myFriendlyFireReduction 0.05
+	myNeutralFireReduction 0.25
+	myMaxRangeToParent 500.0
+	myInteractionDefinitions
+	{
+		InteractionDef Build < uid=93869D535739EA5C000000319D5B943F >
+		{
+			myEmplacementType Build
+			myIsHostile FALSE
+			myIsExclusive TRUE
+			myMinRadius 1.0
+			myMaxRadius 5.0
+		}
+		InteractionDef Deliver < uid=93869D535739EA5C0000003769F5D88E >
+		{
+			myEmplacementType Deliver
+			myIsHostile FALSE
+			myIsExclusive FALSE
+			myMinRadius 1.0
+			myMaxRadius 70.0
+		}
+		InteractionDef Gather < uid=93869D535739EA5C00000035A90BA7EB >
+		{
+			myEmplacementType Gather
+			myIsHostile FALSE
+			myIsExclusive TRUE
+			myDesiredRadius 5.0
+			myMinRadius 1.0
+			myMaxRadius 90.0
+		}
+		InteractionDef Scan < uid=93869D535739EA5C0000003671DD1421 >
+		{
+			myEmplacementType Scan
+			myIsHostile FALSE
+			myIsExclusive TRUE
+			myMinRadius 1.0
+			myMaxRadius 30.0
+			myShotDelay 5.0
+		}
+		InteractionDef Load < uid=93869D535739EA5C0000003769F5D88E >
+		{
+			myEmplacementType Load
+			myIsHostile FALSE
+			myIsExclusive FALSE
+			myMinRadius 1.0
+			myMaxRadius 70.0
+		}
+		InteractionDef ExpeditionOutpostSpaceDeliver < uid=C92F4D3F576D37BD000000842FD36CD8 >
+		{
+			myEmplacementType ExpeditionOutpostSpaceDeliver
+			myIsHostile FALSE
+			myIsExclusive FALSE
+			myMinRadius 100.0
+			myMaxRadius 175.0
+			myDamage 0.0
+			myIs3D TRUE
+		}
+		InteractionDef Follow < uid=C92F4D3F5BE086C7000002D02E933D7E >
+		{
+			myEmplacementType Follow
+			myIsHostile FALSE
+			myAngle 180.0
+			myAngleRange 20.0
+			myPreferBehindTarget TRUE
+			myHasAnglePriority TRUE
+		}
+		InteractionDef MineResource < uid=93869D535739EA5C00000035A90BA7EB >
+		{
+			myEmplacementType Mine
+			myIsHostile FALSE
+			myIsExclusive TRUE
+			myMinRadius 1.0
+			myMaxRadius 60.0
+		}
+		InteractionDef OutlawOutpostDeliver < uid=C92F4D3F576D35ED000000846A916136 >
+		{
+			myEmplacementType OutlawOutpostDeliver
+			myIsHostile FALSE
+			myIsExclusive FALSE
+			myMinRadius 175.0
+			myMaxRadius 250.0
+			myIs3D TRUE
+		}
+		InteractionDef PatrolVeryFar < uid=93869D535886559E000004B04B443A21 >
+		{
+			myEmplacementType PatrolVeryFar
+			myIsExclusive FALSE
+			myMinRadius 2000.0
+			myMaxRadius 2500.0
+			myAngleRange 8.0
+			myOrbitOnReaching 8.0
+		}
+		InteractionDef PatrolFar < uid=93869D5358823793000006959BD1B4E8 >
+		{
+			myEmplacementType PatrolFar
+			myIsHostile FALSE
+			myIsExclusive FALSE
+			myMinRadius 1500.0
+			myMaxRadius 2000.0
+			myAngleRange 10.0
+			myOrbitOnReaching 10.0
+		}
+		InteractionDef PatrolMed < uid=93869D535882379300000696D0048C2A >
+		{
+			myEmplacementType PatrolMedium
+			myIsHostile FALSE
+			myIsExclusive FALSE
+			myMinRadius 1000.0
+			myMaxRadius 1500.0
+			myAngleRange 12.0
+			myOrbitOnReaching 12.0
+		}
+		InteractionDef PatrolNear < uid=93869D535882379300000697C36B684D >
+		{
+			myEmplacementType PatrolNear
+			myIsHostile FALSE
+			myIsExclusive FALSE
+			myMinRadius 500.0
+			myMaxRadius 1000.0
+			myAngleRange 15.0
+			myOrbitOnReaching 15.0
+		}
+		InteractionDef PatrolVeryNear < uid=93869D535886559E000004AF21E6D095 >
+		{
+			myEmplacementType PatrolVeryNear
+			myIsExclusive FALSE
+			myMinRadius 300.0
+			myMaxRadius 500.0
+			myAngleRange 5.0
+			myOrbitOnReaching 18.0
+		}
+		InteractionDef PatrolNearest < uid=93869D5357644F0B0000009822FCAC19 >
+		{
+			myEmplacementType Patrol
+			myIsHostile FALSE
+			myIsExclusive FALSE
+			myMinRadius 150.0
+			myMaxRadius 300.0
+			myAngleRange 10.0
+			myOrbitOnReaching 30.0
+		}
+		InteractionDef Pluck < uid=C92F4D3F5B633FD400002474C748825A >
+		{
+			myEmplacementType Pluck
+			myMaxRange 50.0
+			myMaxRadius 45.0
+		}
+		InteractionDef "Heal to Full" < uid=C92F4D3F5BC4AB06000002C163A9652E >
+		{
+			myEmplacementType HealToFull
+			myMinRadius 1.0
+			myDamage 99999.0
+		}
+		InteractionDef Repair < uid=93869D535739EA5C00000034E8B02CAE >
+		{
+			myEmplacementType Repair
+			myIsHostile FALSE
+			myIsExclusive TRUE
+			myMinRadius 1.0
+			myMaxRadius 50.0
+			myDamage 10.0
+		}
+		InteractionDef ScanSpace < uid=C92F4D3F57714177000000848D85DBCF >
+		{
+			myEmplacementType ScanSpace
+			myIsHostile FALSE
+			myIsExclusive FALSE
+			myMinRadius 25.0
+			myMaxRadius 300.0
+			myIs3D TRUE
+		}
+		InteractionDef Scavenge < uid=C92F4D3F5761662500000082C06ED79C >
+		{
+			myEmplacementType Scavenge
+			myIsHostile FALSE
+			myIsExclusive TRUE
+			myMinRadius 25.0
+			myMaxRadius 150.0
+			myIs3D TRUE
+		}
+		InteractionDef "Generic Combat" < uid=4A8282B957914DCA0056E61E390620D5 >
+		{
+			myEmplacementType GenericCombat
+			myIsHostile TRUE
+			myIsExclusive FALSE
+			myAccuracy 0.5
+			myDamage 10.0
+		}
+		InteractionDef myMeleeWeaponDef < uid=4A8282B955B9371E0000001B1F85235B >
+		{
+			myEmplacementType Melee
+			myIsHostile TRUE
+			myIsExclusive FALSE
+			myMinRadius 2.5
+			myMaxRadius 7.5
+			myAngle 0.0
+			myAngleRange 30.0
+			myAccuracy 0.5
+			myDamage 10.0
+		}
+		InteractionDef myMediumRangeWeaponDef < uid=4A8282B955B9371E0000001CC4908428 >
+		{
+			myEmplacementType Ranged
+			myIsHostile TRUE
+			myIsExclusive FALSE
+			myMinRadius 25.0
+			myMaxRadius 75.0
+			myAngle 0.0
+			myAngleRange 5.0
+			myAccuracy 0.5
+			myDamage 10.0
+		}
+		InteractionDef myLongRangeWeaponDef < uid=4A8282B955B9371E0000001D07584319 >
+		{
+			myEmplacementType LongRange
+			myIsHostile TRUE
+			myIsExclusive FALSE
+			myDesiredRadius 70.0
+			myMinRadius 10.0
+			myMaxRadius 120.0
+			myAngle 0.0
+			myAngleRange 18.0
+			myAccuracy 0.5
+			myDamage 10.0
+		}
+		InteractionDef myBehindMediumRangeWeaponDef < uid=C92F4D3F55EF243000000032D85CD88A >
+		{
+			myEmplacementType BehindRanged
+			myIsHostile TRUE
+			myIsExclusive FALSE
+			myMinRadius 15.0
+			myMaxRadius 75.0
+			myAngle 180.0
+			myAngleRange 5.0
+			myAccuracy 0.5
+			myDamage 10.0
+			myPreferBehindTarget TRUE
+		}
+		InteractionDef myFlightWeaponDef < uid=E221DAE0560965390000003458B9F963 >
+		{
+			myEmplacementType FlightRanged
+			myIsHostile TRUE
+			myIsExclusive TRUE
+			myMinRadius 40.0
+			myMaxRadius 120.0
+			myAngleRange 10.0
+			myAccuracy 0.5
+			myDamage 10.0
+			myIs3D TRUE
+			myHasAnglePriority TRUE
+		}
+		InteractionDef myBehindFlightWeaponDef < uid=E221DAE05609653900000035B1785596 >
+		{
+			myEmplacementType BehindFlightRanged
+			myIsHostile TRUE
+			myIsExclusive FALSE
+			myMinRadius 220.0
+			myMaxRadius 360.0
+			myAngle 180.0
+			myAngleRange 10.0
+			myAccuracy 0.5
+			myDamage 10.0
+			myPreferBehindTarget TRUE
+			myIs3D TRUE
+			myHasAnglePriority TRUE
+		}
+		InteractionDef myBehindFlightLongRangeWeaponDef < uid=E221DAE05609653900000035B1785596 >
+		{
+			myEmplacementType BehindFlightLongRanged
+			myIsHostile TRUE
+			myIsExclusive FALSE
+			myMinRadius 280.0
+			myMaxRadius 360.0
+			myAngle 180.0
+			myAngleRange 10.0
+			myAccuracy 0.5
+			myDamage 10.0
+			myPreferBehindTarget TRUE
+			myIs3D TRUE
+			myHasAnglePriority TRUE
+		}
+		InteractionDef "Harvester Extractor" < uid=C92F4D3F5773EB0A0000008462D7B604 >
+		{
+			myEmplacementType HarvesterExtractor
+			myIsHostile TRUE
+			myIsExclusive FALSE
+			myMinRadius 0.0
+			myMaxRadius 200.0
+			myAngleRange 2.0
+			myAccuracy 0.75
+			myShotDelay 10.0
+			myDamage 5.0
+			myIsStationaryAttacker TRUE
+		}
+		InteractionDef "Harvester Imp Charge" < uid=93869D5357309BBF00000031461FD5F9 >
+		{
+			myEmplacementType HarvesterImp
+			myIsHostile TRUE
+			myIsExclusive FALSE
+			myMinRadius 0.0
+			myMaxRadius 55.0
+			myAngleRange 5.0
+			myAccuracy 0.7
+			myShotDelay 10.0
+			myDamage 3.0
+			myDownInsteadOfKill TRUE
+			myRequiresDirectPath TRUE
+		}
+		InteractionDef "Harvester Imp Unreachable" < uid=4A8282B95B47A33200002217C68913EA >
+		{
+			myEmplacementType HarvesterImpUnreachable
+			myIsHostile TRUE
+			myIsExclusive FALSE
+			myMinRadius 0.0
+			myMaxRadius 55.0
+			myAngleRange 5.0
+			myAccuracy 0.4
+			myShotDelay 10.0
+			myDamage 1.0
+			myDownInsteadOfKill TRUE
+		}
+		InteractionDef "Harvester Imp Jump" < uid=4A8282B9583C9C5F0000004B44B60725 >
+		{
+			myEmplacementType HarvesterImpJump
+			myIsHostile TRUE
+			myIsExclusive FALSE
+			myMinRadius 0.0
+			myMaxRadius 55.0
+			myAngleRange 5.0
+			myAccuracy 0.5
+			myShotDelay 50.0
+			myDamage 1.0
+			myRequiresDirectPath TRUE
+		}
+		InteractionDef "Harvester Cyclops CW" < uid=93869D5357309BBF00000032A8904DD6 >
+		{
+			myEmplacementType HarvesterCyclops
+			myIsHostile TRUE
+			myIsExclusive FALSE
+			myDesiredRadius 80.0
+			myMinRadius 25.0
+			myMaxRadius 160.0
+			myAngle 0.0
+			myAngleRange 5.0
+			myAccuracy 0.6
+			myShotDelay 10.0
+			myDamage 3.0
+			myOrbitOnReaching 75.0
+		}
+		InteractionDef "Harvester Cyclops CCW" < uid=C92F4D3F5788E9FF001C611BE6DE5297 >
+		{
+			myEmplacementType HarvesterCyclopsCCWOrbit
+			myIsHostile TRUE
+			myIsExclusive FALSE
+			myDesiredRadius 80.0
+			myMinRadius 25.0
+			myMaxRadius 160.0
+			myAngle 0.0
+			myAngleRange 5.0
+			myAccuracy 0.4
+			myShotDelay 10.0
+			myDamage 3.0
+			myOrbitOnReaching -75.0
+		}
+		InteractionDef "Harvester Cyclops Heat Infused CW" < uid=4A8282B95AA97F5600001BEB8B39CB8D >
+		{
+			myEmplacementType HarvesterCyclopsHeatInfusedCWOrbit
+			myIsHostile TRUE
+			myIsExclusive FALSE
+			myDesiredRadius 20.0
+			myMaxRadius 50.0
+			myAngleRange 30.0
+			myOrbitOnReaching 37.5
+		}
+		InteractionDef "Harvester Cyclops Heat Infused CCW" < uid=4A8282B95AAAD12701019FCDE141A358 >
+		{
+			myEmplacementType HarvesterCyclopsHeatInfusedCCWOrbit
+			myIsHostile TRUE
+			myIsExclusive FALSE
+			myDesiredRadius 20.0
+			myMaxRadius 50.0
+			myAngleRange 30.0
+			myOrbitOnReaching -37.5
+		}
+		InteractionDef "Harvester Cyclops Fire" < uid=C92F4D3F577438030015C4DE1F510716 >
+		{
+			myEmplacementType HarvesterCyclopsFire
+			myIsHostile TRUE
+			myIsExclusive FALSE
+			myMaxRange 160.0
+			myDesiredRadius 80.0
+			myMinRadius 0.0
+			myMaxRadius 160.0
+			myAngleRange 5.0
+			myAccuracy 0.4
+			myShotDelay 15.0
+			myDamage 3.0
+			myOrbitOnReaching 0.0
+			myHasAnglePriority FALSE
+		}
+		InteractionDef "Harvester Cyclops  Ice" < uid=4A8282B957A501A6000000D62261F7AB >
+		{
+			myEmplacementType HarvesterCyclopsIce
+			myIsHostile TRUE
+			myIsExclusive FALSE
+			myMinRadius 25.0
+			myMaxRadius 130.0
+			myAngleRange 4.0
+			myAccuracy 0.5
+			myShotDelay 25.0
+			myDamage 3.0
+		}
+		InteractionDef "Harvester Cyclops Crush" < uid=C92F4D3F57F3BF67000002A88472B13F >
+		{
+			myEmplacementType HarvesterCyclopsCrush
+			myIsHostile TRUE
+			myMinRadius 100.0
+			myMaxRadius 350.0
+			myAngleRange 4.0
+			myAccuracy 0.4
+			myShotDelay 15.0
+			myDamage 3.0
+		}
+		InteractionDef "Harvester Probe Attack" < uid=C92F4D3F574EE84C000000826B794826 >
+		{
+			myEmplacementType HarvesterProbeAttack
+			myIsHostile TRUE
+			myIsExclusive FALSE
+			myMinRadius 25.0
+			myMaxRadius 80.0
+			myDamage 1.0
+			myDownInsteadOfKill TRUE
+		}
+		InteractionDef "Harvester Probe Heal" < uid=4A8282B95894C88C000000E916036D3B >
+		{
+			myEmplacementType HarvesterProbeHeal
+			myMinRadius 5.0
+			myMaxRadius 20.0
+			myPreferBehindTarget TRUE
+		}
+		InteractionDef "Harvester Probe Mug" < uid=4A8282B95A875EFC00001B5D6ABB4085 >
+		{
+			myEmplacementType HarvesterProbeMug
+			myIsHostile TRUE
+			myIsExclusive FALSE
+			myMinRadius 25.0
+			myMaxRadius 50.0
+			myDamage 1.0
+			myDownInsteadOfKill TRUE
+		}
+		InteractionDef "Harvester Prime Combat" < uid=4A8282B95982425D0000008299A86EC6 >
+		{
+			myEmplacementType HarvesterPrimeCombat
+			myIsHostile TRUE
+			myIsExclusive FALSE
+			myHasAnglePriority TRUE
+		}
+		InteractionDef Turret < uid=93869D5357309BBF000000333FB1260A >
+		{
+			myEmplacementType HarvesterTurret
+			myIsHostile TRUE
+			myIsExclusive FALSE
+			myMinRadius 0.0
+			myMaxRadius 400.0
+			myAngleRange 2.0
+			myAccuracy 0.85
+			myShotDelay 5.0
+			myDamage 3.0
+			myIsStationaryAttacker TRUE
+		}
+		InteractionDef "Expedition Worker" < uid=93869D5357309BBF00000034B8423BB0 >
+		{
+			myEmplacementType ExpeditionWorker
+			myIsHostile TRUE
+			myIsExclusive TRUE
+			myDesiredRadius 65.0
+			myMinRadius 25.0
+			myMaxRadius 200.0
+			myAngle 0.0
+			myAngleRange 5.0
+			myAccuracy 0.5
+			myShotDelay 15.0
+			myDamage 1.0
+		}
+		InteractionDef "Expedition Defender" < uid=93869D5357309BBF00000035004A815C >
+		{
+			myEmplacementType ExpeditionDefender
+			myIsHostile TRUE
+			myIsExclusive TRUE
+			myDesiredRadius 55.0
+			myMinRadius 25.0
+			myMaxRadius 200.0
+			myAngle 0.0
+			myAngleRange 5.0
+			myAccuracy 0.5
+			myShotDelay 15.0
+			myDamage 3.0
+		}
+		InteractionDef "Expedition Outpost" < uid=93869D5357309BBF000000362A9E827E >
+		{
+			myEmplacementType ExpeditionOutpost
+			myIsHostile TRUE
+			myIsExclusive FALSE
+			myMinRadius 0.0
+			myMaxRadius 150.0
+			myAngle 0.0
+			myAngleRange 5.0
+			myAccuracy 0.75
+			myShotDelay 10.0
+			myDamage 5.0
+			myIsStationaryAttacker TRUE
+		}
+		InteractionDef "Prospector Worker" < uid=93869D5357309BBF000000379CA97051 >
+		{
+			myEmplacementType ProspectorWorker
+			myIsHostile TRUE
+			myIsExclusive TRUE
+			myDesiredRadius 60.0
+			myMinRadius 25.0
+			myMaxRadius 200.0
+			myAngle 0.0
+			myAngleRange 5.0
+			myAccuracy 0.5
+			myShotDelay 15.0
+			myDamage 1.0
+		}
+		InteractionDef "Prospector Defender" < uid=93869D5357309BBF00000038359F47CF >
+		{
+			myEmplacementType ProspectorDefender
+			myIsHostile TRUE
+			myIsExclusive TRUE
+			myDesiredRadius 40.0
+			myMinRadius 30.0
+			myMaxRadius 60.0
+			myAngle 0.0
+			myAngleRange 30.0
+			myAccuracy 1.0
+			myShotDelay 5.0
+			myDamage 5.0
+			myOrbitOnReaching 0.0
+		}
+		InteractionDef "Prospector Outpost" < uid=93869D5357309BBF00000039618B6041 >
+		{
+			myEmplacementType ProspectorOutpost
+			myIsHostile TRUE
+			myIsExclusive FALSE
+			myMinRadius 0.0
+			myMaxRadius 150.0
+			myAngle 0.0
+			myAngleRange 5.0
+			myAccuracy 0.75
+			myShotDelay 10.0
+			myDamage 5.0
+			myIsStationaryAttacker TRUE
+		}
+		InteractionDef "Outlaw Worker" < uid=93869D5357309BBF0000003ABFD8937C >
+		{
+			myEmplacementType OutlawWorker
+			myIsHostile TRUE
+			myIsExclusive FALSE
+			myDesiredRadius 320.0
+			myMinRadius 280.0
+			myMaxRadius 360.0
+			myAngle 180.0
+			myAngleRange 5.0
+			myAccuracy 0.9
+			myShotDelay 15.0
+			myDamage 5.0
+			myPreferBehindTarget TRUE
+			myIs3D TRUE
+			myHasAnglePriority TRUE
+		}
+		InteractionDef "Outlaw Defender" < uid=93869D5357309BBF0000003B6824572E >
+		{
+			myEmplacementType OutlawDefender
+			myIsHostile TRUE
+			myIsExclusive FALSE
+			myDesiredRadius 60.0
+			myMinRadius 50.0
+			myMaxRadius 70.0
+			myAngle 180.0
+			myAngleRange 20.0
+			myAccuracy 0.7
+			myShotDelay 15.0
+			myDamage 5.0
+			myPreferBehindTarget TRUE
+			myIs3D TRUE
+			myHasAnglePriority TRUE
+		}
+		InteractionDef "Outlaw Outpost" < uid=93869D5357309BBF0000003CA74AC4DA >
+		{
+			myEmplacementType OutlawOutpost
+			myIsHostile TRUE
+			myIsExclusive FALSE
+			myMinRadius 0.0
+			myMaxRadius 300.0
+			myAngleRange 2.0
+			myAccuracy 0.5
+			myShotDelay 15.0
+			myDamage 10.0
+		}
+		InteractionDef Suicide < uid=93869D5357B482C10000009D6F248933 >
+		{
+			myEmplacementType Suicide
+			myIsHostile TRUE
+			myIsExclusive FALSE
+			myMinRadius 1.0
+			myShotDelay 0.0
+			myDamage 100.0
+		}
+		InteractionDef "Prospector Squad" < uid=C92F4D3F58110E9E00000251B370855B >
+		{
+			myEmplacementType ProspectorSquad
+			myIsHostile TRUE
+			myIsExclusive TRUE
+			myMinRadius 25.0
+			myMaxRadius 200.0
+			myAngleRange 5.0
+			myAccuracy 1.0
+			myShotDelay 10.0
+			myDamage 10.0
+		}
+		InteractionDef "Elite Prospector Squad" < uid=C92F4D3F58110E9E0000025247371D20 >
+		{
+			myEmplacementType ProspectorSquadElite
+			myIsHostile TRUE
+			myIsExclusive TRUE
+			myDesiredRadius 40.0
+			myMinRadius 25.0
+			myMaxRadius 200.0
+			myAngleRange 5.0
+			myAccuracy 1.0
+			myShotDelay 10.0
+			myDamage 10.0
+		}
+		InteractionDef "Escort Leader" < uid=DDDD6F5D5A6A299E00001BAA199F765D >
+		{
+			myEmplacementType EscortLeader
+			myIsExclusive FALSE
+			myMaxRange 60.0
+			myMinRadius 20.0
+			myMaxRadius 40.0
+			myAngle 30.0
+			myAngleRange 15.0
+			myOrbitOnReaching 0.0
+			myPreferBehindTarget FALSE
+			myHasAnglePriority TRUE
+			myMinDeviationAngle 40.0
+		}
+		InteractionDef "Legion Squad" < uid=93869D535A8CB4520000E3533B96C04F >
+		{
+			myEmplacementType LegionSquad
+			myIsHostile TRUE
+			myIsExclusive TRUE
+			myDesiredRadius 80.0
+			myMinRadius 25.0
+			myMaxRadius 160.0
+			myAngleRange 15.0
+			myShotDelay 10.0
+			myDamage 3.0
+		}
+		InteractionDef "Target Weakpoint" < uid=DDDD6F5D5AE745D00001F37449E91F94 >
+		{
+			myEmplacementType TargetWeakpoint
+			myIsHostile TRUE
+			myIsExclusive TRUE
+			myMinRadius 60.0
+			myMaxRadius 120.0
+			myAngleRange 15.0
+			myOrbitOnReaching 50.0
+		}
+		InteractionDef "Outlaw Ground" < uid=93869D535B313FB60028EFA0FA0D048E >
+		{
+			myEmplacementType OutlawGround
+			myIsHostile TRUE
+			myIsExclusive FALSE
+			myDesiredRadius 60.0
+			myMinRadius 10.0
+			myMaxRadius 100.0
+			myShotDelay 1.0
+			myDamage 3.0
+		}
+		InteractionDef "Outlaw Ground CW Oribit" < uid=4A8282B95B33D0AD003DC053A6E2525C >
+		{
+			myEmplacementType OutlawGroundCWOrbit
+			myIsHostile TRUE
+			myIsExclusive FALSE
+			myDesiredRadius 60.0
+			myMinRadius 10.0
+			myMaxRadius 100.0
+			myShotDelay 1.0
+			myOrbitOnReaching 75.0
+		}
+		InteractionDef "Outlaw Ground CCW Orbit" < uid=4A8282B95B33D0AD003DC0545D35D6E9 >
+		{
+			myEmplacementType OutlawGroundCCWOrbit
+			myIsHostile TRUE
+			myIsExclusive FALSE
+			myDesiredRadius 60.0
+			myMinRadius 10.0
+			myMaxRadius 100.0
+			myShotDelay 1.0
+			myOrbitOnReaching -75.0
+		}
+		InteractionDef "Outlaw Ground Elite" < uid=93869D535B313FB60028EFA13F926579 >
+		{
+			myEmplacementType OutlawGroundElite
+			myIsHostile TRUE
+			myIsExclusive FALSE
+			myDesiredRadius 40.0
+			myMinRadius 10.0
+			myMaxRadius 100.0
+			myShotDelay 1.0
+			myDamage 3.0
+		}
+		InteractionDef "Outlaw Ground Elite CW Orbit" < uid=4A8282B95B3BDF7D0000223D8291756D >
+		{
+			myEmplacementType OutlawGroundEliteCWOrbit
+			myIsHostile TRUE
+			myIsExclusive FALSE
+			myDesiredRadius 40.0
+			myMinRadius 10.0
+			myMaxRadius 100.0
+			myShotDelay 1.0
+			myDamage 3.0
+			myOrbitOnReaching 75.0
+		}
+		InteractionDef "Outlaw Ground Elite CCW Orbit" < uid=4A8282B95B3BDF7D0000223E9092456B >
+		{
+			myEmplacementType OutlawGroundEliteCCWOrbit
+			myIsHostile TRUE
+			myIsExclusive FALSE
+			myDesiredRadius 40.0
+			myMinRadius 10.0
+			myMaxRadius 100.0
+			myShotDelay 1.0
+			myDamage 3.0
+			myOrbitOnReaching -75.0
+		}
+		InteractionDef "Outlaw Ground Leader" < uid=93869D535B313FB60028EFA25599D10C >
+		{
+			myEmplacementType OutlawGroundLeader
+			myIsHostile TRUE
+			myIsExclusive FALSE
+			myDesiredRadius 90.0
+			myMinRadius 10.0
+			myMaxRadius 109.900002
+			myShotDelay 1.0
+			myDamage 3.0
+		}
+		InteractionDef "Outlaw Ground Leader CW Orbit" < uid=4A8282B95B3BDF7D0000223F2400D8DA >
+		{
+			myEmplacementType OutlawGroundLeaderCWOrbit
+			myIsHostile TRUE
+			myIsExclusive FALSE
+			myDesiredRadius 89.800003
+			myMinRadius 10.0
+			myMaxRadius 110.0
+			myShotDelay 1.0
+			myDamage 3.0
+			myOrbitOnReaching 75.0
+		}
+		InteractionDef "Outlaw Ground Leader CW Orbit" < uid=4A8282B95B3BDF7D00002240A41C8795 >
+		{
+			myEmplacementType OutlawGroundLeaderCCWOrbit
+			myIsHostile TRUE
+			myIsExclusive FALSE
+			myDesiredRadius 90.0
+			myMinRadius 10.0
+			myMaxRadius 110.0
+			myShotDelay 1.0
+			myDamage 3.0
+			myOrbitOnReaching -75.0
+		}
+		InteractionDef "Outlaw Ground Relocate CW" < uid=4A8282B95B3D017B0000223BCEABCAC1 >
+		{
+			myEmplacementType OutlawGroundRelocateCW
+			myIsHostile TRUE
+			myIsExclusive FALSE
+			myMinRadius 10.0
+			myMaxRadius 30.0
+			myAngle 75.0
+			myHasAnglePriority TRUE
+		}
+		InteractionDef "Outlaw Ground Relocate CCW" < uid=4A8282B95B3D017B0000223C3B67431C >
+		{
+			myEmplacementType OutlawGroundRelocateCCW
+			myIsHostile TRUE
+			myIsExclusive FALSE
+			myMinRadius 10.0
+			myMaxRadius 30.0
+			myAngle -75.0
+			myHasAnglePriority TRUE
+		}
+		InteractionDef "Mini Enemy 10 Attack" < uid=4A8282B95BA546950000242E87BB8C0A >
+		{
+			myEmplacementType MiniEnemy10Attack
+			myIsHostile TRUE
+			myIsExclusive FALSE
+			myMinRadius 25.0
+			myMaxRadius 80.0
+			myDamage 1.0
+		}
+		InteractionDef "Mini Enemy 10 Heal" < uid=4A8282B95BA546950000242F4D9CED9F >
+		{
+			myEmplacementType MiniEnemy10Heal
+			myIsExclusive FALSE
+			myMinRadius 5.0
+			myMaxRadius 20.0
+			myDamage 1.0
+		}
+		InteractionDef "FTC Lieutenant M3 Probe" < uid=4A8282B95B55F3F60000230F18C8A10C >
+		{
+			myEmplacementType FTC_Lieutenant_M3_Probe
+			myIsExclusive FALSE
+			myMaxRange 60.0
+			myMinRadius 20.0
+			myMaxRadius 40.0
+			myAngle 30.0
+			myAngleRange 15.0
+			myOrbitOnReaching 0.0
+			myPreferBehindTarget FALSE
+			myHasAnglePriority TRUE
+			myMinDeviationAngle 120.0
+		}
+		InteractionDef "FTC Target Weakpoint Advanced" < uid=DDDD6F5D5B5B6F92000023771FBF41D2 >
+		{
+			myEmplacementType FTC_TargetWeakpointAdvanced
+			myIsHostile TRUE
+			myIsExclusive TRUE
+			myMinRadius 70.0
+			myMaxRadius 150.0
+			myAngleRange 15.0
+			myOrbitOnReaching 80.0
+		}
+		InteractionDef "Outlaw Mech CW Orbit" < uid=887A6E605C6DC96300000087C4EAC909 >
+		{
+			myEmplacementType OutlawMechCWOrbit
+			myDesiredRadius 70.0
+			myMinRadius 65.0
+			myMaxRadius 100.0
+			myAngleRange 15.0
+			myShotDelay 5.0
+			myOrbitOnReaching 15.0
+			myIsStationaryAttacker TRUE
+		}
+		InteractionDef "Outlaw Mech CCW Orbit" < uid=887A6E605C6DC96300000088C032023B >
+		{
+			myEmplacementType OutlawMechCCWOrbit
+			myDesiredRadius 70.0
+			myMinRadius 65.0
+			myMaxRadius 100.0
+			myAngleRange 15.0
+			myShotDelay 5.0
+			myOrbitOnReaching -15.0
+			myIsStationaryAttacker TRUE
+		}
+	}
+	myAlliedFactions
+	{
+		FactionMatrixEntry Harvester
+		{
+			myFaction Harvester
+			myRelatedFactions
+			{
+				FactionType Harvester Harvester
+			}
+		}
+		FactionMatrixEntry Fauna
+		{
+			myFaction Fauna
+		}
+		FactionMatrixEntry Outlaw
+		{
+			myFaction Outlaw
+			myRelatedFactions
+			{
+				FactionType Outlaw Outlaw
+			}
+		}
+		FactionMatrixEntry Expedition
+		{
+			myFaction Expedition
+			myRelatedFactions
+			{
+				FactionType Expedition Expedition
+				FactionType Fauna Fauna
+				FactionType "Expedition (Allied)" ExpeditionAllied
+			}
+		}
+		FactionMatrixEntry "Allied Expedition"
+		{
+			myFaction ExpeditionAllied
+			myRelatedFactions
+			{
+				FactionType Player Player
+				FactionType "Allied Prospector" ProspectorAllied
+				FactionType "Allied Expedition" ExpeditionAllied
+				FactionType Expedition Expedition
+				FactionType Equinox Equinox
+				FactionType Gemini Gemini
+				FactionType Fauna Fauna
+			}
+		}
+		FactionMatrixEntry Prospector
+		{
+			myFaction Prospector
+			myRelatedFactions
+			{
+				FactionType Prospector Prospector
+				FactionType "Prospector (Allied)" ProspectorAllied
+			}
+		}
+		FactionMatrixEntry "Allied Prospector"
+		{
+			myFaction ProspectorAllied
+			myRelatedFactions
+			{
+				FactionType Player Player
+				FactionType "Allied Expedition" ExpeditionAllied
+				FactionType "Allied Prospector" ProspectorAllied
+				FactionType Prospector Prospector
+				FactionType Equinox Equinox
+				FactionType Gemini Gemini
+			}
+		}
+		FactionMatrixEntry Unaligned
+		{
+		}
+		FactionMatrixEntry Player
+		{
+			myFaction Player
+			myRelatedFactions
+			{
+				FactionType Player Player
+				FactionType Gemini Gemini
+				FactionType "Allied Expedition" ExpeditionAllied
+				FactionType "Allied Prospector" ProspectorAllied
+				FactionType Equinox Equinox
+				FactionType Resistance Resistance
+			}
+		}
+		FactionMatrixEntry Equinox
+		{
+			myFaction Equinox
+			myRelatedFactions
+			{
+				FactionType Equinox Equinox
+				FactionType Gemini Gemini
+				FactionType "Allied Expedition" ExpeditionAllied
+				FactionType "Allied Prospector" ProspectorAllied
+				FactionType Fauna Fauna
+				FactionType Player Player
+			}
+		}
+		FactionMatrixEntry LaResistance
+		{
+			myFaction Resistance
+			myRelatedFactionsAreAdditive FALSE
+			myRelatedFactions
+			{
+				FactionType Outlaw Outlaw
+				FactionType Harvester Harvester
+			}
+		}
+		FactionMatrixEntry "Gemini Allies"
+		{
+			myFaction Gemini
+			myRelatedFactions
+			{
+				FactionType Gemini Gemini
+				FactionType Player Player
+				FactionType "Allied Expedition" ExpeditionAllied
+				FactionType "Allied Prospector" ProspectorAllied
+				FactionType Equinox Equinox
+				FactionType Resistance Resistance
+			}
+		}
+		FactionMatrixEntry "Hostile Fauna"
+		{
+			myFaction HostileFauna
+			myRelatedFactions
+			{
+				FactionType Faction Fauna
+				FactionType "Hostile Fauna" HostileFauna
+			}
+		}
+		FactionMatrixEntry "Gemini Enemies"
+		{
+			myFaction GeminiTwo
+			myRelatedFactions
+			{
+				FactionType Faction GeminiTwo
+			}
+		}
+	}
+	myHostileFactions
+	{
+		FactionMatrixEntry Harvester
+		{
+			myFaction Harvester
+			myRelatedFactionsAreAdditive FALSE
+			myRelatedFactions
+			{
+				FactionType Harvester Harvester
+				FactionType Unaligned Unaligned
+				FactionType Resistance Resistance
+				FactionType "Hostile Fauna" HostileFauna
+			}
+		}
+		FactionMatrixEntry Fauna
+		{
+			myFaction Fauna
+			myRelatedFactionsAreAdditive FALSE
+			myRelatedFactions
+			{
+				FactionType Fauna Fauna
+				FactionType Unaligned Unaligned
+				FactionType Expedition Expedition
+				FactionType "Allied Expedition" ExpeditionAllied
+				FactionType "Allied Prospectors" ProspectorAllied
+			}
+		}
+		FactionMatrixEntry Outlaw
+		{
+			myFaction Outlaw
+			myRelatedFactionsAreAdditive FALSE
+			myRelatedFactions
+			{
+				FactionType Outlaw Outlaw
+				FactionType Unaligned Unaligned
+				FactionType "Hostile Fauna" HostileFauna
+			}
+		}
+		FactionMatrixEntry Expedition
+		{
+			myFaction Expedition
+			myRelatedFactionsAreAdditive TRUE
+			myRelatedFactions
+			{
+				FactionType Harvester Harvester
+				FactionType Outlaw Outlaw
+				FactionType "Gemini Two" GeminiTwo
+			}
+		}
+		FactionMatrixEntry "Allied Expedition"
+		{
+			myFaction ExpeditionAllied
+			myRelatedFactions
+			{
+				FactionType Harvester Harvester
+				FactionType Outlaw Outlaw
+				FactionType "Gemini Two" GeminiTwo
+			}
+		}
+		FactionMatrixEntry Prospector
+		{
+			myFaction Prospector
+			myRelatedFactionsAreAdditive TRUE
+			myRelatedFactions
+			{
+				FactionType Harvester Harvester
+				FactionType Outlaw Outlaw
+				FactionType "Gemini Two" GeminiTwo
+			}
+		}
+		FactionMatrixEntry "Allied Prospector"
+		{
+			myFaction ProspectorAllied
+			myRelatedFactions
+			{
+				FactionType Harvester Harvester
+				FactionType Outlaw Outlaw
+				FactionType "Gemini Two" GeminiTwo
+			}
+		}
+		FactionMatrixEntry Unaligned
+		{
+			myRelatedFactionsAreAdditive TRUE
+		}
+		FactionMatrixEntry Player
+		{
+			myFaction Player
+			myRelatedFactions
+			{
+				FactionType Harvester Harvester
+				FactionType Outlaw Outlaw
+				FactionType "Hostile Fauna" HostileFauna
+				FactionType "Gemini Two" GeminiTwo
+			}
+		}
+		FactionMatrixEntry "Gemini Allies"
+		{
+			myFaction Gemini
+			myRelatedFactions
+			{
+				FactionType Harvester Harvester
+				FactionType Outlaw Outlaw
+				FactionType "Gemini Two" GeminiTwo
+			}
+		}
+		FactionMatrixEntry Equinox
+		{
+			myFaction Equinox
+			myRelatedFactions
+			{
+				FactionType Harvester Harvester
+				FactionType Outlaw Outlaw
+				FactionType "Gemini Two" GeminiTwo
+			}
+		}
+		FactionMatrixEntry LaResistance
+		{
+			myFaction Resistance
+			myRelatedFactions
+			{
+				FactionType Harvester Harvester
+				FactionType Outlaw Outlaw
+				FactionType "Gemini Two" GeminiTwo
+			}
+		}
+		FactionMatrixEntry "Hostile Fauna"
+		{
+			myFaction HostileFauna
+			myRelatedFactionsAreAdditive FALSE
+			myRelatedFactions
+			{
+				FactionType Fauna Fauna
+				FactionType "Hostile Fauna" HostileFauna
+				FactionType Unaligned Unaligned
+				FactionType Resistance Resistance
+			}
+		}
+		FactionMatrixEntry "Gemini Enemies"
+		{
+			myFaction GeminiTwo
+			myRelatedFactionsAreAdditive FALSE
+			myRelatedFactions
+			{
+				FactionType "Gemini Two" GeminiTwo
+				FactionType Unaligned Unaligned
+			}
+		}
+		FactionMatrixEntry "Hostile To All"
+		{
+			myFaction SystemCrash
+			myRelatedFactionsAreAdditive FALSE
+		}
+	}
+}
+

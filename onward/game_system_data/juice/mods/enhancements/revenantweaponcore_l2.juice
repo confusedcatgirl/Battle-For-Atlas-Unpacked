@@ -1,0 +1,21 @@
+include ./templates/template_l2.juice
+include ./damageaffectors/damage_affectors.juice
+include "onward/game system data/juice/mods/mod_revenant_weaponcore_l2.mplayermod"
+
+Enhancement revenantweaponcore_l2 < uid=C91BB5515981ECBD0020F70A271E61C6 > : "Level 2"
+{
+	myLocalizedName "contextComment = \"[Placeholder - do not translate]\nName for level 2 version of Revenant Weapon Core, which leeches off damaged enemies to heal the player\", description = \"\", enabled = true, guid = #C91BB5515981ECBD0020F709E91B033D, lineVersion = 2, maxLength = 22, text = \"Commander Ammo II\""
+	myLocalizedDescription "contextComment = \"Placeholder - do not translate]\nDescription for level 2 version of Revenant Weapon Core, which leeches off damaged enemies to heal the player\", description = \"enhancement-description-revenant-weapon-core-2\", enabled = true, guid = #9E6AFEDA59D80667000000A75A601ADE, lineVersion = 2, maxLength = 70, text = \"+20% Damage\n+25 Fire Rate\nDamage charges weapon energy\""
+	myIconSprite "mySpriteId = -1172704357, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-mods-weapon-core.spritesheet\""
+	myMod < uid=C91BB5515981ECBD0020F70B19FF324B > = mod_revenant_weaponcore_l2
+	myEnhancementType WeaponCore
+	myEnhancementTrackType RevenantWeaponCore
+	myDamageAffectors
+	{
+		DamageAffector_DamageToEnergy "Damage to Energy"
+		{
+			myDamageToEnergyRatio = Revenant_WeaponCore_l2_DmgToEnergy
+		}
+	}
+}
+

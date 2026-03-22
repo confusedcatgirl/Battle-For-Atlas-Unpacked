@@ -1,0 +1,30 @@
+include "onward/game system data/fruit/sim/simunit.fruit"
+
+SimUnit prospector_jail < uid=D701B5085BF6FB4A0000003CBB51B9FF >
+{
+	myUIName "contextComment = \"Comment: The name of the Jail cell the player must deliver captured bounties to (TU5 - Prospector Story)\", description = \"simunit-prospector-jail\", enabled = true, guid = #D701B5085BF6FB4B0000003EA6F7113B, lineVersion = 0, maxLength = 22, text = \"[Prospector Jail]\""
+	myControlGraph onward/simworld/control/prospector_jail.msimunitcontrolgraph
+	myFaction Prospector
+	myCategory SpaceLandmark
+	mySubCategory Jail
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo Jail < uid=D701B5085BF820C4000000386CCF73EF >
+		{
+			myCountMin 1
+			myCountMax 1
+			myIgnoreHealth TRUE
+			myIgnoreNavMesh TRUE
+			myIgnoreTerrain TRUE
+			myIsSpaceLandmark TRUE
+			myEntityFile "onward/entity templates/prospector_jail.mentitytemplate"
+		}
+	}
+	mySaveable TRUE
+	myNapTime 0.0
+	myRevealedChallengeType Unlock_Prisons
+	myUnlockedChallengeType Unlock_Prisons
+	myUnkillable TRUE
+	myUnkillableType Invulnerable
+}
+

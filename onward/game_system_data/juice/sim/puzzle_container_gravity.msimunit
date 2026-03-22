@@ -1,0 +1,21 @@
+include ./puzzle_container_base.msimunit
+
+SimUnit puzzle_container_gravity < uid=D1E9B2CB587E6F82000003102B3E80A5 > : puzzle_container_base
+{
+	myUIName "contextComment = \"[Placeholder - do not translate] HUD target name shown when pointing the reticle at a chest that will open only when shot with a gravity weapon. The chest contains goodies like mods\", description = \"ui-target-puzzle-container-gravity\", enabled = true, guid = #9E6AFEDA5908CB0D00000054C5EC60CB, lineVersion = 0, maxLength = 20, text = \"Crush Chest\""
+	mySubCategoryVariant 3
+	myAffinityType Stasis
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo InteractablePickup < uid=CC9485AB5A98570100001BE5D50757E0 >
+		{
+			myCountMin 1
+			myCountMax 1
+			myIgnoreNavMesh TRUE
+			myIgnoreTerrain TRUE
+			myEntityFile "onward/entity templates/ld_puzzle_container_gravity.mentitytemplate"
+		}
+	}
+	myMissionTargetTexture onward/baked/textures/UI/icons/outpost_targets/outpost_target_sim_unit/ui-icon-outpost-target-tag-chest-crush.dds
+}
+

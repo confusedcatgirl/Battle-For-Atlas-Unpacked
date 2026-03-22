@@ -1,0 +1,45 @@
+
+// Some basic resource types that may be able to be collected by the player and / or AI
+// These are FAR from fleshed out, and exist currently in order to prove out the system
+
+enum ResourceType
+{
+	Food
+	Grass
+	Leaf
+	Flesh
+	Water
+	Minerals
+	Electronics
+	Crystals
+	Metals
+	Gases
+	AnimalResearch
+	Fuel
+	Oxygen
+	HackExpeditionBase
+}
+
+class ResourceAmount
+{
+	ResourceType myResourceType
+	float myAmount
+}
+
+list ResourceContainer
+{
+	ResourceAmount
+}
+
+class ResourceRequirement
+{
+	ResourceType myResourceType
+	float myMinRequirement
+	float myMaxRequirement
+	float myConsumptionPerSecond
+}
+
+list ResourceRequirementList
+{
+	ResourceRequirement
+}

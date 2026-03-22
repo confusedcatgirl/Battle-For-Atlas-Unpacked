@@ -1,0 +1,167 @@
+include "onward/game system data/fruit/animation/animsys.fruit"
+
+SpecializationList mySpecializations
+{
+}
+
+FileList mySubsystems
+{
+}
+
+MotionPose "Ready (Idle)"
+{
+	myStateName Ready
+	myAnimModes Speed_Idle;Gravity_Low;Gravity_Normal;Gravity_High;AlertLevel_Idle;AlertLevel_Investigating;AlertLevel_Combat;
+	myAnimsOut TR_ToDash;
+}
+
+MotionPose "Ready (Walk)"
+{
+	myStateName Ready
+	myAnimModes Speed_Walk;Speed_Run;Gravity_Low;Gravity_Normal;Gravity_High;AlertLevel_Idle;AlertLevel_Investigating;AlertLevel_Combat;
+	myAnimsOut TR_ToDash;
+}
+
+MotionPose "Ready (Run)"
+{
+	myStateName Ready
+	myAnimModes Gravity_Low;Gravity_Normal;Gravity_High;AlertLevel_Idle;AlertLevel_Investigating;AlertLevel_Combat;
+}
+
+TransitionMotionState TR_WalkToRun < uid=4A8282B956AFC483000000C46284F2EA >
+{
+	myEnabled FALSE
+	myTotalDuration 0.0
+	myDistance 0.0
+	myDisplacementAngle 0.0
+	myRotationAngle 0.0
+}
+
+TransitionMotionState TR_WalkToIdle < uid=4A8282B956AFC483000000C5D159AE19 >
+{
+	myEnabled FALSE
+	myTotalDuration 0.0
+	myDistance 0.0
+	myDisplacementAngle 0.0
+	myRotationAngle 0.0
+}
+
+TransitionMotionState TR_IdleToWalk < uid=4A8282B956AFC483000000C6AF47DCEF >
+{
+	myEnabled FALSE
+	myTotalDuration 0.0
+	myDistance 0.0
+	myDisplacementAngle 0.0
+	myRotationAngle 0.0
+}
+
+TransitionMotionState TR_RunToWalk < uid=4A8282B956AFC483000000C78D31D443 >
+{
+	myEnabled FALSE
+	myTotalDuration 0.0
+	myDistance 0.0
+	myDisplacementAngle 0.0
+	myRotationAngle 0.0
+}
+
+OneshotMotionStateWithModes SuperJump_TakingOff < uid=4A8282B956AFC483000000C9D45222DE >
+{
+	myTotalDuration 0.813333
+	myDistance 4.797963
+	myAnimsOut SuperJump_Pose;SuperJump_Settle;
+	myAnimCommand SuperJump_TakingOff
+	myDisplacementAngle 0.0
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;Gravity_Low;Gravity_Normal;Gravity_High;AlertLevel_Idle;AlertLevel_Investigating;AlertLevel_Combat;
+}
+
+OneshotMotionStateWithModes SuperJump_Settle < uid=4A8282B956AFC483000000CA45633C1F >
+{
+	myTotalDuration 0.813333
+	myDistance 2.774573
+	myAnimCommand SuperJump_Settle
+	myDisplacementAngle 0.0
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;Gravity_Low;Gravity_Normal;Gravity_High;AlertLevel_Idle;AlertLevel_Investigating;AlertLevel_Combat;
+}
+
+TransitionMotionState TR_ToDash < uid=4A8282B956AFC483000000CCB5C2BD53 >
+{
+	myTotalDuration 0.68
+	myDistance 8.248486
+	myAnimsOut Dash;
+	myDisplacementAngle 180.0
+	myRotationAngle 0.0
+}
+
+TransitionMotionState TR_FromDash < uid=4A8282B956AFC483000000CDF0C33DE7 >
+{
+	myTotalDuration 0.68
+	myDistance 7.615263
+	myAnimsOut "Ready (Idle);Ready (Walk);"
+	myDisplacementAngle 180.0
+	myRotationAngle 0.0
+}
+
+LayerMotionState UpperBody_Combat
+{
+	myLayerName UpperBody_Combat
+	myTotalDuration 0.68
+	myIsLoop FALSE
+	mySupportedStatesAndPoses "Ready (Idle);Ready (Walk);"
+}
+
+LayerMotionState LowerBody_Knockback
+{
+	myLayerName LowerBody_Knockback
+	myTotalDuration 1.08
+	myIsLoop FALSE
+	mySupportedStatesAndPoses "Ready (Idle);Ready (Walk);"
+}
+
+OneshotMotionState TurnOnSpot < uid=4A8282B956AFC483000000CEAC1C6424 >
+{
+	myEnabled TRUE
+	myTotalDuration 2.0
+	myDistance 0.0
+	myAnimsOut TR_ToDash;
+	myAnimCommand StaticTurn
+	myDisplacementAngle 0.0
+}
+
+MotionPose Ragdoll_Recover
+{
+	myStateName Ragdoll_Recover
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;Gravity_Low;Gravity_Normal;Gravity_High;AlertLevel_Idle;AlertLevel_Investigating;AlertLevel_Combat;
+	myAnimsOut TR_FromRagdoll;
+}
+
+TransitionMotionState TR_FromRagdoll < uid=46D5728F56B4C8C5000000BD4DF32D00 >
+{
+	myTotalDuration 3.846667
+	myDistance 8.171027
+	myAnimsOut "Ready (Idle);Ready (Walk);"
+	myDisplacementAngle -4.487061
+	myRotationAngle 0.0
+}
+
+LayerMotionState UpperBody_Combat_Loop
+{
+	myLayerName UpperBody_Combat_Loop
+	myTotalDuration 0.0
+	myIsLoop TRUE
+	mySupportedStatesAndPoses "Ready (Idle);Ready (Walk);"
+}
+
+MotionPose SuperJump_Pose
+{
+	myStateName SuperJump_Pose
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;Gravity_Low;Gravity_Normal;Gravity_High;AlertLevel_Idle;AlertLevel_Investigating;AlertLevel_Combat;
+	myAnimsOut SuperJump_Settle;
+}
+
+MotionPose Dash
+{
+	myStateName Dash
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;Gravity_Low;Gravity_Normal;Gravity_High;AlertLevel_Idle;AlertLevel_Investigating;AlertLevel_Combat;
+	myAnimsOut TR_FromDash;
+}
+

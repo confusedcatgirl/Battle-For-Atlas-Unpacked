@@ -1,0 +1,37 @@
+include "onward/game system data/fruit/ai/reactions.fruit"
+
+HitReactionSettings "Hit Reaction Rules"
+{
+	myRules
+	{
+		ImpactReactionRule "Small - None"
+		{
+			myImpactCategory ExtraSmall
+			myHitReactionType Flinch
+			myCooldown 0.25
+			myInputBlendRatio 1.0
+		}
+		ImpactReactionRule "Small - None"
+		{
+			myImpactCategory Small
+			myHitReactionType Flinch
+			myCooldown 0.25
+			myInputBlendRatio 1.0
+		}
+		ImpactReactionRule "Medium - Stumble"
+		{
+			myImpactCategory Medium
+			myHitReactionType Stumble
+			myCooldown 5.0
+			myInputBlendRatio 1.0
+		}
+		ImpactReactionRule "Large - Ragdoll"
+		{
+			myImpactCategory Large
+			myHitReactionType Ragdoll
+			myCooldown 4.0
+			myInputBlendRatio 1.0
+		}
+	}
+}
+

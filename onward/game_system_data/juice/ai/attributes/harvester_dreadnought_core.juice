@@ -1,0 +1,50 @@
+include ./base_npc.juice
+
+Attributes "Inherited Resistances" = "Base Resistances"
+
+Attributes "Inherited Shatter Values" = "Base Shatter Values"
+
+Attributes "AOE Damage"
+{
+	Attribute "AOE Radius"
+	{
+		myType Range
+		myValue 25.0
+		myComment "Range of AOE around core"
+	}
+	Attribute Damage
+	{
+		myType DMG_Area_Kinetic
+		myValue 5000.0
+		myComment "Per second"
+	}
+	Attribute "Impact Category"
+	{
+		myType Impact_Category
+		myValue 3.0
+		myComment "0 = None, 1 = XS, 2 = S, 3 = M, 4 = L, 5 = XL"
+	}
+}
+
+Attributes "Core Lasers"
+{
+	Attribute "Ring Vertical Speed (>33% HP)"
+	{
+		myType NPC_UserData1
+		myValue 10.0
+		myComment m/s
+	}
+	Attribute "Ring Vertical Speed (<=33% HP)"
+	{
+		myType NPC_UserData2
+		myValue 15.0
+		myComment m/s
+	}
+	Attribute "Ring Rotation Speed"
+	{
+		myType NPC_UserData3
+		myValue 18.0
+		myComment deg/s
+	}
+}
+

@@ -1,0 +1,278 @@
+include "onward/game system data/fruit/physics/materialproperties.fruit"
+
+MaterialPropertiesPreset global
+{
+	myPresetName global
+	myMaterialProperties
+	{
+		MaterialProperties DeflectiveMetal
+		{
+			myMaterialType DeflectiveMetal
+			myDeflectProjectiles TRUE
+			myDeflectionMaxPerturbation 0.1
+		}
+		MaterialProperties DeflectiveAbilityShield
+		{
+			myMaterialType Deflective_Ability_Shield
+			myDeflectProjectiles TRUE
+			myDeflectionMaxPerturbation 0.1
+		}
+		MaterialProperties DeflectivePlayerShield
+		{
+			myMaterialType Deflective_Player_Shield
+			myDeflectProjectiles TRUE
+			myDeflectionMaxPerturbation 0.1
+		}
+		MaterialProperties VortexShield
+		{
+			myMaterialType Vortex_Shield
+			myAllowFire FALSE
+			myAllowSunder FALSE
+			myAllowChill FALSE
+			myAllowFreeze FALSE
+			myAllowStasis FALSE
+			myAllowStasisOverload FALSE
+			myAllowGravity FALSE
+		}
+		MaterialProperties GallaShield
+		{
+			myMaterialType Galla_Shield
+			myAllowFire FALSE
+			myAllowSunder FALSE
+			myAllowChill FALSE
+			myAllowFreeze FALSE
+			myAllowStasis FALSE
+			myAllowStasisOverload FALSE
+			myAllowGravity FALSE
+		}
+	}
+}
+
+MaterialPropertiesPreset gym_fx
+{
+	myPresetName gym_fx
+	myMaterialProperties
+	{
+		MaterialProperties Water
+		{
+			myMaterialType Water
+			myTrampoline 1.0
+		}
+		MaterialProperties Hard
+		{
+			myMaterialType Hard_Surface
+			myShakyness 1.0
+		}
+		MaterialProperties "Viscous Liquid"
+		{
+			myMaterialType Viscous_Liquid
+			mySlipperiness 1.0
+		}
+		MaterialProperties Loose
+		{
+			myMaterialType Loose_Surface
+			myMuddiness 1.0
+		}
+		MaterialProperties Vegetation
+		{
+			myMaterialType Vegetation
+			mySpeedBoost 1.0
+		}
+	}
+}
+
+MaterialPropertiesPreset planet_01
+{
+	myPresetName planet_01
+	myMaterialProperties
+	{
+		MaterialProperties Water
+		{
+			myMaterialType Water
+			myAllowFire FALSE
+			myAllowSunder FALSE
+			myAllowChill FALSE
+			myAllowFreeze FALSE
+			mySunderPerSecond 30.0
+		}
+	}
+}
+
+MaterialPropertiesPreset planet_03
+{
+	myPresetName planet_03
+	myMaterialProperties
+	{
+		MaterialProperties Water
+		{
+			myMaterialType Water
+			mySpeedBoost 0.05
+			myAllowFire FALSE
+			myAllowFreeze FALSE
+		}
+		MaterialProperties DeflectiveMetal
+		{
+			myMaterialType DeflectiveMetal
+			myDeflectProjectiles TRUE
+			myDeflectionMaxPerturbation 0.1
+		}
+	}
+}
+
+MaterialPropertiesPreset planet_04
+{
+	myPresetName planet_04
+	myMaterialProperties
+	{
+		MaterialProperties Water
+		{
+			myMaterialType Water
+			mySpeedBoost 0.05
+			myAllowFire FALSE
+			myAllowFreeze FALSE
+		}
+	}
+}
+
+MaterialPropertiesPreset planet_05
+{
+	myPresetName planet_05
+	myMaterialProperties
+	{
+		MaterialProperties Ice
+		{
+			myMaterialType Ice
+			mySlipperiness 10.0
+			myChillPerSecond 30.0
+		}
+		MaterialProperties Water
+		{
+			myMaterialType Water
+			mySlipperiness 10.0
+			myChillPerSecond 30.0
+		}
+	}
+}
+
+MaterialPropertiesPreset planet_07
+{
+	myPresetName planet_07
+	myMaterialProperties
+	{
+		MaterialProperties Water
+		{
+			myMaterialType Water
+			myAllowFire FALSE
+			myChillPerSecond 30.0
+		}
+	}
+}
+
+MaterialPropertiesPreset planet_08
+{
+	myPresetName planet_08
+	myMaterialProperties
+	{
+		MaterialProperties Water
+		{
+			myMaterialType Water
+			mySlipperiness -30.0
+			myAllowFire FALSE
+			myAllowFreeze FALSE
+		}
+	}
+}
+
+MaterialPropertiesPreset planet_15
+{
+	myPresetName planet_15
+	myMaterialProperties
+	{
+		MaterialProperties Water
+		{
+			myMaterialType Water
+			myAllowFire FALSE
+			myAllowFreeze FALSE
+			mySunderPerSecond 30.0
+		}
+	}
+}
+
+MaterialPropertiesPreset moon_01
+{
+	myPresetName moon_01
+	myMaterialProperties
+	{
+		MaterialProperties Viscous_Liquid
+		{
+			myMaterialType Viscous_Liquid
+			myMuddiness 20.0
+			myAllowFire FALSE
+			myAllowFreeze FALSE
+		}
+		MaterialProperties Water
+		{
+			myMaterialType Water
+			mySlipperiness 30.0
+            myIsOil TRUE
+		}
+	}
+}
+
+MaterialPropertiesPreset test_planet_01
+{
+	myPresetName test_planet
+	myMaterialProperties
+	{
+		MaterialProperties test
+		{
+			myMaterialType Viscous_Liquid
+			myBounciness 3.0
+		}
+	}
+}
+
+MaterialPropertiesPreset gym_rcolonico
+{
+	myPresetName gym_rcolonico
+	myMaterialProperties
+	{
+		MaterialProperties "Sunder Floor"
+		{
+			myMaterialType Viscous_Liquid
+			myAllowFire FALSE
+			myAllowFreeze FALSE
+			mySunderPerSecond 100.0
+		}
+		MaterialProperties "Fire Floor"
+		{
+			myMaterialType Wood
+			myAllowFreeze FALSE
+			myFirePerSecond 100.0
+		}
+		MaterialProperties "Chill Floor"
+		{
+			myMaterialType Ice
+			myAllowFire FALSE
+			myAllowFreeze FALSE
+			myChillPerSecond 100.0
+		}
+		MaterialProperties "Freeze Floor"
+		{
+			myMaterialType Crystal
+			myAllowFire FALSE
+			myFreezePerSecond 100.0
+		}
+		MaterialProperties "Stasis Floor"
+		{
+			myMaterialType Cloth
+			myStasisPerSecond 100.0
+		}
+		MaterialProperties "Gravity Floor"
+		{
+			myMaterialType Vegetation
+			myGravityPerSecond 100.0
+		}
+	}
+}
+

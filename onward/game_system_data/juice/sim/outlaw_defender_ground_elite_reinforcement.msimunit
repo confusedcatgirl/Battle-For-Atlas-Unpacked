@@ -1,0 +1,33 @@
+include "onward/game system data/fruit/sim/simunit.fruit"
+
+SimUnit outlaw_defender_ground_elite_reinforcement < uid=DDDD6F5D5AEB24E200033A05B13CE483 >
+{
+	myUIName "contextComment = \"The UI Name for the outlaw defender elite\", description = \"uiname-outlaw-defender-ground-elite\", enabled = true, guid = #DDDD6F5D5AEB24E200033A04D0202BF4, lineVersion = 0, maxLength = 16, text = \"Outlaw Elite\""
+	myBehavior onward/simworld/behavior/generic_reinforcement.msimunitbtgraph
+	myFaction Outlaw
+	myCategory NPC
+	mySubCategory Defender
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo outlaw_defender_ground < uid=DDDD6F5D5AEB24E200033A064D12F298 >
+		{
+			myCountMin 1
+			myCountMax 1
+			myElementSpawnInfo
+			{
+				SimUnitElementSpawnInfo outlaw_defender_ground_elite
+				{
+					myEntityFile "onward/game system data/juice/ai/npc/outlaw_defender_ground_elite.mnpc"
+				}
+			}
+		}
+	}
+	mySkillLevelCoefficients
+	{
+		myPlanetActMultiplier 0
+		myParentLevelMultiplier 0
+		myParentSkillLevelMultiplier 1
+		myUnitLevelMultiplier 0
+	}
+}
+

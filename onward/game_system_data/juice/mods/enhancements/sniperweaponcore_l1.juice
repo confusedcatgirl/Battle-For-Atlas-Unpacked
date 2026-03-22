@@ -1,0 +1,21 @@
+include "onward/game system data/juice/mods/mod_sniper_weaponcore_l1.mplayermod"
+include ./templates/template_l1.juice
+
+Enhancement sniperweaponcore_l1 < uid=C91BB5515980DCDE007D17E608A36639 > : "Level 1"
+{
+	myLocalizedName "contextComment = \"[Placeholder - do not translate]\nName for level 1 version of Sniper weapon core that extends range - later upgrades incentivize precision\", description = \"\", enabled = true, guid = #C91BB5515980DCDE007D17E5D3CA8214, lineVersion = 2, maxLength = 17, text = \"Expert Ammo I\""
+	myLocalizedDescription "contextComment = \"[Placeholder - do not translate]\nDescription for level 1 version of Sniper weapon core that extends range - later upgrades incentivize precision\", description = \"enhancement-description-sniper-weapon-core-1\", enabled = true, guid = #9E6AFEDA59D80962000000F31247DFBD, lineVersion = 2, maxLength = 43, text = \"+20% Damage\n+10% Precision Damage\""
+	myIconSprite "mySpriteId = 44735081, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-mods-weapon-core.spritesheet\""
+	myMod < uid=C91BB5515980DCDE007D17E761DD963F > = mod_sniper_weaponcore_l1
+	myEnhancementType WeaponCore
+	myEnhancementTrackType SniperWeaponCore
+	myDamageAffectors
+	{
+		DamageAffector_BodyPart "Headshot Damage"
+		{
+			myDamageMultiplier = Sniper_WeaponCore_l1_PrecisionDamage
+			myBodyPart Head
+		}
+	}
+}
+

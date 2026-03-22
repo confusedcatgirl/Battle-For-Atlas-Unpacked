@@ -1,0 +1,41 @@
+include "onward/skillscripts/skillscript.fruit"
+
+enum ControllerContextType
+{
+	AirDrop
+	AtmosphericFlight
+	Attached
+	Attracted
+	Burrow
+	Dash
+	Dead
+	Dormant
+	Downed
+	Invalid
+	Jetpack
+	JetpackDivebomb
+	KnockBack
+	NPCDefault
+	NPCMotionAnim
+	Ragdoll
+	RecoverableRagdoll
+	SpaceFormation
+	SuperJump
+	Staggered
+	Stumble
+	Stunned
+	Frozen
+	WorldEntry
+}
+
+class ControllerContextDefinition
+{
+	ControllerContextType myContextType NPCDefault < tooltip="Controller context type that this definition is associated with." >
+	SkillScript* mySkillScript < tooltip="SkillScript to run while this context is active." >
+	bool myCancelScriptOnContextEnd true < tooltip="Should the SkillScript be cancelled when the context ends." >
+}
+
+list ControllerContextDefinitionList
+{
+	ControllerContextDefinition
+}

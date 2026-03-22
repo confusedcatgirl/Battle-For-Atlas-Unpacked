@@ -1,0 +1,15 @@
+include ./templates/template_l5.juice
+include "onward/game system data/juice/mods/mod_coldseresist_shipmod_l5.mplayermod"
+include "onward/game system data/juice/mods/mod_alliance_shipmod.mplayermod"
+
+Enhancement allianceshipmod < uid=939A35415B355779000021F3FF3F75C7 > : "Level 5"
+{
+	myLocalizedName "contextComment = \"Name for unique Ship Booster the player receives for building up a large alliance across Atlas\", description = \"enhancement-name-alliance-ship-mod\", enabled = true, guid = #939A35415B355779000021F16ED28384, lineVersion = 1, maxLength = 21, text = \"Alliance Booster\""
+	myLocalizedDescription "contextComment = \"Description for unique Ship Booster the player receives for building up a large alliance across Atlas\", description = \"enhancement-description-alliance-ship-mod\", enabled = true, guid = #939A35415B355779000021F205A1042D, lineVersion = 0, maxLength = 29, text = \"+20 Defense\n+20 Energy\""
+	myIconSprite "mySpriteId = 1830128237, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-mods-ship-booster.spritesheet\""
+	myIsHullEnhancement TRUE
+	myMod < uid=939A35415B355779000021F4D76480BF > = mod_alliance_shipmod
+	myEnhancementType Mod
+	myEnhancementTrackType AllianceShipMod
+}
+

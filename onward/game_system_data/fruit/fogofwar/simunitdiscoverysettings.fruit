@@ -1,0 +1,64 @@
+include "onward/game system data/fruit/sim/simunit.fruit"
+include "onward/game system data/fruit/entity/faction.fruit"
+
+list SimUnitCategoryFilterList
+{
+	SimUnitCategory
+}
+list SimUnitSubCategoryFilterList
+{
+	SimUnitSubCategory
+}
+list SimUnitSubCategoryVariantFilterList
+{
+	int
+}
+list SimUnitFactionFilterList
+{
+	FactionType
+}
+
+class SimUnitDiscoveryUnitFilter
+{
+	SimUnitCategoryFilterList myCategoryList < tooltip="You must include at least one category" >
+	SimUnitSubCategoryFilterList mySubCategoryList < tooltip="WARNING if you leave this blank you will allow ALL subCategories!" >
+	SimUnitSubCategoryVariantFilterList mySubCategoryVariantList < tooltip="WARNING if you leave this blank you will allow ALL subCategoryVariants!" >
+	SimUnitFactionFilterList myFactionList < tooltip="WARNING if you leave this blank you will allow ALL factions!" >
+}
+
+list SimUnitDiscoveryUnitFilterList
+{
+	SimUnitDiscoveryUnitFilter
+}
+
+class SimUnitDiscoveryBase
+{
+	float myKnowledgeToGrant
+}
+
+class SimUnitDiscoveryUnitSearch : SimUnitDiscoveryBase
+{
+	SimUnitDiscoveryUnitFilter myUnitFilter
+	float mySearchRadius < tooltip="Use negative number for planet-wide search" >
+	int myMaxUnitsToDiscover < tooltip="Max units that will be discovered in radius.  Use negative number for unlimited." >
+}
+
+class SimUnitDiscoveryParent : SimUnitDiscoveryBase
+{
+}
+
+list SimUnitDiscoveryList
+{
+	SimUnitDiscoveryBase
+}
+
+class SimUnitDiscoverySet
+{
+	SimUnitDiscoveryUnitFilter mySimUnitFilter < tooltip="When these units do a thing..." >
+	SimUnitDiscoveryList myDiscoveryTargets < tooltip="... grant knowledge to these units" >
+}
+
+list SimUnitDiscoverySetList
+{
+	SimUnitDiscoverySet
+}

@@ -1,0 +1,32 @@
+include ./damageaffectors/damage_affectors.juice
+include "onward/game system data/juice/mods/mod_sniper_weaponcore_l5.mplayermod"
+include ./templates/template_l5.juice
+
+Enhancement sniperweaponcore_l5 < uid=C91BB5515980DCF9007D17F4C323F783 > : "Level 5"
+{
+	myLocalizedName "contextComment = \"[Placeholder - do not translate]\nName for level 5 version of Sniper weapon core that extends range & lets players deal extra damage for aiming precisely\", description = \"\", enabled = true, guid = #C91BB5515980DCF9007D17F346315EA1, lineVersion = 2, maxLength = 17, text = \"Expert Ammo V\""
+	myLocalizedDescription "contextComment = \"[Placeholder - do not translate]\nDescription for level 5 version of Sniper weapon core that extends range & lets players deal extra damage for aiming precisely\", description = \"enhancement-description-sniper-weapon-core-5\", enabled = true, guid = #9E6AFEDA59D80826000000DB21B4C1A6, lineVersion = 2, maxLength = 127, text = \"+100% Damage\n+20% Precision Damage\n+Chance to Stun with Precision Shots\n+Weapon Deals Siege Damage\""
+	myIconSprite "mySpriteId = 44735081, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-mods-weapon-core.spritesheet\""
+	myMod < uid=C91BB5515980DCF9007D17F542360A0C > = mod_sniper_weaponcore_l5
+	myBuff < uid=C91BB5515980DCF9007D17F6DB03B670 > = NULLREFERENCE
+	myEnhancementType WeaponCore
+	myEnhancementTrackType SniperWeaponCore
+	myDamageAffectors
+	{
+		DamageAffector_BodyPartStun "Headshot Stun"
+		{
+			myBodyPart Head
+			myChanceToStunPerDamage = Sniper_WeaponCore_l5_DmgToStun
+			myStunTime 2.0
+		}
+		DamageAffector_BodyPart "Headshot Damage"
+		{
+			myDamageMultiplier = Sniper_WeaponCore_l5_PrecisionDamage
+			myBodyPart Head
+		}
+		DamageAffector_EnableSeige "Enable Siege"
+		{
+		}
+	}
+}
+

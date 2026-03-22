@@ -1,0 +1,768 @@
+include "onward/game system data/fruit/ai/health.fruit"
+
+BasicNPCHealthConfig "base_ally_ship Health" < uid=4A8282B959F8970600001DACC1BDC916 >
+{
+	myMaxHealth 1000000.0
+	myMinHealth 1000000.0
+}
+
+BasicNPCHealthConfig "base_faction_outpost_turret Health" < uid=4A8282B959F8970600001DAD31987F29 >
+{
+	myMaxHealth 100.0
+	myMinHealth 1.0
+}
+
+DownableNPCHealthConfig "base_faction_unit Health" < uid=4A8282B959F8970600001DAE261F8EDE >
+{
+	myMaxHealth 1000.0
+	myMinHealth 1.0
+	myDownedHealthOverflow 5000.0
+}
+
+BasicNPCHealthConfig "base_npc_ship Health" < uid=4A8282B959F8970600001DAF4A1FC9FF >
+{
+	myMaxHealth 10000.0
+}
+
+BasicNPCHealthConfig "base_npc_space Health" < uid=4A8282B959F8970600001DB065C54CD3 >
+{
+	myMaxHealth 1000.0
+}
+
+ProxyNPCHealthConfig "creep_shed_weakpoint Health" < uid=4A8282B959F8970600001DB197561675 >
+{
+	myIsWeakToSeige TRUE
+	myMinHealth 0.1
+	myMaxHealth 0.0
+	myProxyHealthPiercesResistance TRUE
+}
+
+BasicNPCHealthConfig "base_turret Health" < uid=4A8282B959F8970600001DB24DE5133F >
+{
+	myMaxHealth 1000.0
+}
+
+DownableNPCHealthConfig "expedition_defender Health" < uid=4A8282B959F8970600001DB3F9017B4D >
+{
+	myStartShield 2000.0
+	myCanShieldRegenBeforeBreak TRUE
+	myCanShieldRegenAfterBreak TRUE
+	myShieldRegenDamageDelay 5.0
+	myShieldBrokenRegenDamageDelay 5.0
+	myShieldRegenRate 500.0
+	myShieldBrokenRegenRate 500.0
+	myMaxHealth 4000.0
+	myMinHealth 1.0
+	myDownedHealthOverflow 9000.0
+	myRepairLootDropCooldownSeconds 20.0
+	myRepairLootDropId Repair_Expedition_Researcher
+}
+
+DownableNPCHealthConfig "expedition_worker Health" < uid=4A8282B959F8970600001DB4B6ED136A >
+{
+	myIsShielded TRUE
+	myStartShield 1000.0
+	myCanShieldRegenBeforeBreak TRUE
+	myCanShieldRegenAfterBreak TRUE
+	myShieldRegenDamageDelay 5.0
+	myShieldBrokenRegenDamageDelay 5.0
+	myShieldRegenRate 250.0
+	myShieldBrokenRegenRate 250.0
+	myMaxHealth 2000.0
+	myMinHealth 1.0
+	myDownedHealthOverflow 4500.0
+	myRepairLootDropCooldownSeconds 20.0
+	myRepairLootDropId Repair_Expedition_Surveyor
+}
+
+BasicNPCHealthConfig "fauna_base Health" < uid=4A8282B959F8970600001DB5912F5E7C >
+{
+	myShieldFromEquinoxUpgrade 0.0
+	myMaxHealth 1500.0
+	myMinHealth 1.0
+}
+
+BasicNPCHealthConfig "fauna_major Health" < uid=93869D535ACF80D8001F0214D5398B00 > : "fauna_base Health"
+{
+	myMaxHealth 2500.0
+}
+
+BasicNPCHealthConfig "harvester_cyclops_dumb Health" < uid=939A35415A0B5AB7000049B882238292 >
+{
+	myMaxHealth 100000.0
+}
+
+BasicNPCHealthConfig "harvester_cyclops_base Health" < uid=4A8282B959F8E6C500001DAECA284A4A >
+{
+	myMaxHealth 12000.0
+}
+
+BasicNPCHealthConfig "harvester_cyclops_cold Health" < uid=4A8282B959F8970600001DB93380416B >
+{
+	myMaxHealth 12000.0
+}
+
+BasicNPCHealthConfig "harvester_cyclops_heat Health" < uid=4A8282B959F8E8F100001DE11B322AD7 >
+{
+	myMaxHealth 15000.0
+}
+
+BasicNPCHealthConfig "harvester_cyclops_crush Health" < uid=4A8282B959F8E70F00001DB5188F4809 >
+{
+	myMaxHealth 20000.0
+}
+
+BasicNPCHealthConfig "harvester_cyclops_generic Health" < uid=4A8282B959F8970600001DB7061F0D55 >
+{
+	myMaxHealth 2500.0
+}
+
+BasicNPCHealthConfig "harvester_cyclops_generic_cold Health" < uid=4A8282B959F8970600001DB8D8B738BF >
+{
+	myIsShielded TRUE
+	myStartShield 2000.0
+	myCanShieldRegenBeforeBreak TRUE
+	myCanShieldRegenAfterBreak TRUE
+	myShieldRegenDamageDelay 2.0
+	myShieldBrokenRegenDamageDelay 3.0
+	myShieldRegenRate 500.0
+	myShieldBrokenRegenRate 500.0
+	myShieldFromEquinoxUpgrade 0.0
+	myMaxHealth 1500.0
+}
+
+BasicNPCHealthConfig "harvester_cyclops_generic_crush Health" < uid=4A8282B959F8970600001DB6F436DB8D >
+{
+	myMaxHealth 7000.0
+}
+
+BasicNPCHealthConfig "harvester_cyclops_generic_heat Health" < uid=4A8282B959F8970600001DBA71281E25 >
+{
+	myMaxHealth 5000.0
+}
+
+BasicNPCHealthConfig "harvester_cyclops_gold Health" < uid=B84764AD5B100E5B00023BA88FC2A37A >
+{
+	myIsShielded FALSE
+	myStartShield 0.0
+	myMaxShield 0.0
+	myCanShieldRegenBeforeBreak FALSE
+	myCanShieldRegenAfterBreak FALSE
+	myShieldRegenDamageDelay 0.0
+	myShieldBrokenRegenDamageDelay 0.0
+	myShieldRegenRate 0.0
+	myShieldBrokenRegenRate 0.0
+	myShieldBrokenRegenAmount 0.0
+	myShieldFromEquinoxUpgrade 0.0
+	myMaxHealth 9000.0
+}
+
+BasicNPCHealthConfig "harvester_cyclops_generic_shielded Health" < uid=4A8282B959F8970600001DBEEEE2182D >
+{
+	myCanShieldRegenBeforeBreak FALSE
+	myCanShieldRegenAfterBreak FALSE
+	myMaxHealth 3000.0
+}
+
+PhasedNPCHealthConfig "harvester_cyclops_grax Health" < uid=4A8282B959F8E8F100001DE0A42E75F8 >
+{
+	myIsShielded TRUE
+	myStartShield 0.0
+	myMaxShield 10000.0
+	myCanShieldRegenAfterBreak FALSE
+	myShieldBrokenRegenAmount 10000.0
+	myPhaseHealthEntries
+	{
+		PhaseHealthEntry "Phase 1"
+		{
+			myMaxHealth 20000.0
+		}
+		PhaseHealthEntry "Phase 2"
+		{
+			myMaxHealth 20000.0
+		}
+		PhaseHealthEntry "Phase 3"
+		{
+			myMaxHealth 40000.0
+		}
+	}
+}
+
+BasicNPCHealthConfig "harvester_drake_base Health" < uid=4A8282B959F8970600001DBDDF0AECDF >
+{
+	myStartShield 0.0
+	myCanShieldRegenBeforeBreak FALSE
+	myCanShieldRegenAfterBreak FALSE
+	myShieldRegenDamageDelay 0.0
+	myShieldBrokenRegenDamageDelay 0.0
+	myShieldBrokenRegenStartCooldown 0.0
+	myShieldRegenRate 0.0
+	myShieldBrokenRegenRate 0.0
+	myShieldBrokenRegenAmount 0.0
+	myMaxHealth 2500.0
+}
+
+BasicNPCHealthConfig "harvester_drake_elite Health" < uid=4A8282B959F8970600001DBCEEB0637B >
+{
+	myStartShield 2000.0
+	myCanShieldRegenBeforeBreak TRUE
+	myCanShieldRegenAfterBreak TRUE
+	myShieldRegenDamageDelay 5.0
+	myShieldBrokenRegenDamageDelay 5.0
+	myShieldBrokenRegenStartCooldown 2.0
+	myShieldRegenRate 500.0
+	myShieldBrokenRegenRate 500.0
+	myShieldBrokenRegenAmount 250.0
+	myMaxHealth 3000.0
+}
+
+BasicNPCHealthConfig "harvester_drake_grax Health" < uid=4A8282B959F8970600001DBB8FA3C0F0 >
+{
+	myStartShield 3000.0
+	myCanShieldRegenBeforeBreak TRUE
+	myCanShieldRegenAfterBreak TRUE
+	myShieldRegenDamageDelay 5.0
+	myShieldBrokenRegenDamageDelay 5.0
+	myShieldBrokenRegenStartCooldown 2.0
+	myShieldRegenRate 1000.0
+	myShieldBrokenRegenRate 500.0
+	myShieldBrokenRegenAmount 1000.0
+	myMaxHealth 10000.0
+}
+
+BasicNPCHealthConfig "harvester_drake_intro Health" < uid=6D25F4C65A008B12015AEF29F4C8AD7B >
+{
+	myStartShield 0.0
+	myCanShieldRegenBeforeBreak FALSE
+	myCanShieldRegenAfterBreak FALSE
+	myMaxHealth 1000.0
+}
+
+ProxyNPCHealthConfig "harvester_dreadnought_core Health" < uid=4A8282B959F8E8F100001DE2ECE657C2 >
+{
+	myIsWeakToSeige TRUE
+	myMinHealth 0.0
+	myMaxHealth 0.0
+	myProxyHealthPiercesResistance TRUE
+}
+
+BasicNPCHealthConfig "harvester_dreadnought_eye Health" < uid=4A8282B959F8970600001DC01211FE7B >
+{
+	myIsWeakToSeige TRUE
+	myMaxHealth 1500.0
+	myMinHealth 1.0
+}
+
+BasicNPCHealthConfig "harvester_dreadnought_turret Health" < uid=4A8282B959F8970600001DC19AF584F2 >
+{
+	myMaxHealth 5000.0
+	myMinHealth 0.0
+}
+
+BasicNPCHealthConfig "harvester_dreadnought_turret_01 Health" < uid=4A8282B959F8970600001DC26428C4F1 >
+{
+	myMaxHealth 5000.0
+	myMinHealth 1.0
+}
+
+BasicNPCHealthConfig "harvester_extractor_encounter Health" < uid=C92F4D3F5A8359CC02F7506DFE24BFED >
+{
+	myMaxHealth 30000.0
+}
+
+BasicNPCHealthConfig "harvester_extractor_corruption_logic Health" < uid=C92F4D3F5A835F47038D155B8A8A6B64 >
+{
+	myMaxHealth 15000.0
+}
+
+BasicNPCHealthConfig "harvester_imp_base Health" < uid=4A8282B959F8970600001DC3A435FCDC >
+{
+	myMaxHealth 200.0
+}
+
+BasicNPCHealthConfig "harvester_imp_cold Health" < uid=4A8282B959F8970600001DC4394A2C07 >
+{
+	myMaxHealth 500.0
+}
+
+BasicNPCHealthConfig "harvester_imp_crush Health" < uid=4A8282B959F8970600001DC50FAEEDC8 >
+{
+	myMaxHealth 600.0
+}
+
+BasicNPCHealthConfig "harvester_imp_heat Health" < uid=4A8282B959F8970600001DC62D83AF80 >
+{
+	myMaxHealth 400.0
+}
+
+PhasedNPCHealthConfig "harvester_prime Health" < uid=4A8282B959F8970600001DC7265B65F0 >
+{
+	myIsWeakToSeige TRUE
+	myPhaseHealthEntries
+	{
+		PhaseHealthEntry "Phase 1 - Path"
+		{
+			myMaxHealth 12500.0
+		}
+		PhaseHealthEntry "Phase 2 - Arena"
+		{
+			myMaxHealth 14500.0
+		}
+		PhaseHealthEntry "Phase 3 - Air"
+		{
+			myMaxHealth 10000.0
+		}
+		PhaseHealthEntry "Phase 4 - Arena Enraged"
+		{
+			myMaxHealth 18000.0
+		}
+	}
+}
+
+BasicNPCHealthConfig "harvester_prime_turret Health" < uid=4A8282B959F8970600001DC84E195F28 >
+{
+	myMaxHealth 250.0
+	myMinHealth 1.0
+}
+
+BasicNPCHealthConfig "harvester_elite_probe Health" < uid=921EDC155B2D086200007B50E0068F55 >
+{
+	myStartShield 5000.0
+	myCanShieldRegenBeforeBreak TRUE
+	myCanShieldRegenAfterBreak TRUE
+	myShieldRegenDamageDelay 3.0
+	myShieldBrokenRegenDamageDelay 3.0
+	myShieldBrokenRegenStartCooldown 3.0
+	myShieldRegenRate 1080.0
+	myShieldBrokenRegenRate 1080.0
+	myShieldBrokenRegenAmount 900.0
+	myMaxHealth 3000.0
+}
+
+BasicNPCHealthConfig "harvester_probe Health" < uid=4A8282B959F8970600001DC936A13B8E >
+{
+	myStartShield 1000.0
+	myCanShieldRegenBeforeBreak TRUE
+	myCanShieldRegenAfterBreak TRUE
+	myShieldRegenDamageDelay 5.0
+	myShieldBrokenRegenDamageDelay 5.0
+	myShieldBrokenRegenStartCooldown 5.0
+	myShieldRegenRate 120.0
+	myShieldBrokenRegenRate 120.0
+	myShieldBrokenRegenAmount 100.0
+	myMaxHealth 1000.0
+}
+
+BasicNPCHealthConfig "invisible_npc_base Health" < uid=4A8282B959F8970600001DCA066E6D75 >
+{
+	myMinHealth 1.0
+}
+
+BasicNPCHealthConfig "outlaw_defender Health" < uid=4A8282B959F8970600001DCBFBE7FCAD >
+{
+	myMaxHealth 1500.0
+}
+
+BasicNPCHealthConfig "outlaw_defender_dumb Health" < uid=4A8282B959F8970600001DCC7F831CE6 >
+{
+	myMaxHealth 250000.0
+}
+
+BasicNPCHealthConfig "outlaw_defender_ground Health" < uid=4A8282B959F8970600001DCD40C125D3 >
+{
+	myMaxHealth 4000.0
+}
+
+BasicNPCHealthConfig "outlaw_mine Health" < uid=4A8282B959F8970600001DCE35B1ED7B >
+{
+}
+
+BasicNPCHealthConfig "outlaw_outpost_turret_01 Health" < uid=4A8282B959F8970600001DCFF1777DF4 >
+{
+	myMaxHealth 1250.0
+	myMinHealth 0.1
+}
+
+BasicNPCHealthConfig "outlaw_outpost_turret_02 Health" < uid=4A8282B959F8970600001DD096742B10 >
+{
+	myMaxHealth 500.0
+	myMinHealth 0.1
+}
+
+DownableNPCHealthConfig "prospector_defender Health" < uid=4A8282B959F8970600001DD265B29F04 >
+{
+	myMaxHealth 10000.0
+	myInitialHealth -1.0
+	myMinHealth 1.0
+	myDownedHealthOverflow 5000.0
+	myRepairLootDropCooldownSeconds 20.0
+	myRepairLootDropId Repair_Prospector_Defender
+}
+
+BasicNPCHealthConfig "prospector_watchtower_turret Health" < uid=4A8282B959F8970600001DD32F60D69B >
+{
+	myMaxHealth 10000.0
+}
+
+DownableNPCHealthConfig "prospector_guard Health" < uid=B84764AD5B183A370029637322EDD3CA >
+{
+	myMaxHealth 6000.0
+	myMinHealth 1.0
+	myDownedHealthOverflow 3000.0
+}
+
+DownableNPCHealthConfig "prospector_worker Health" < uid=4A8282B959F8970600001DD4187B54CC >
+{
+	myMaxHealth 4000.0
+	myMinHealth 1.0
+	myDownedHealthOverflow 4000.0
+	myRepairLootDropCooldownSeconds 20.0
+	myRepairLootDropId Repair_Prospector_Miner
+}
+
+BasicNPCHealthConfig "outlaw_defender_elite Health" < uid=6D25F4C65A676CF700001CA0AD88648D >
+{
+	myIsShielded TRUE
+	myStartShield 1500.0
+	myCanShieldRegenBeforeBreak TRUE
+	myCanShieldRegenAfterBreak TRUE
+	myShieldRegenDamageDelay 3.0
+	myShieldBrokenRegenDamageDelay 5.0
+	myShieldRegenRate 100.0
+	myShieldBrokenRegenRate 100.0
+	myMaxHealth 1000.0
+}
+
+BasicNPCHealthConfig "wingmate_space Health" < uid=6D25F4C65A7B2FE901B3F280FA5A8FB4 >
+{
+	myMaxHealth 2000.0
+}
+
+BasicNPCHealthConfig "outlaw_leader Health" < uid=8A9CA2865A86E7C40000C1B06B1DB80D >
+{
+	myIsShielded TRUE
+	myStartShield 2000.0
+	myCanShieldRegenBeforeBreak TRUE
+	myCanShieldRegenAfterBreak TRUE
+	myShieldRegenDamageDelay 5.0
+	myShieldBrokenRegenDamageDelay 5.0
+	myShieldBrokenRegenStartCooldown 2.0
+	myShieldRegenRate 500.0
+	myShieldBrokenRegenRate 500.0
+	myMaxHealth 8000.0
+}
+
+BasicNPCHealthConfig "outlaw_outpost_turret_03 Health" < uid=6D25F4C65A874A7800001D2E7D51E09B >
+{
+	myMaxHealth 2000.0
+	myMinHealth 0.1
+}
+
+BasicNPCHealthConfig "outlaw_defender_ground_elite Health" < uid=67883D265AF3128800035EE93815F4F9 >
+{
+	myIsShielded TRUE
+	myStartShield 3000.0
+	myCanShieldRegenBeforeBreak TRUE
+	myCanShieldRegenAfterBreak TRUE
+	myShieldRegenDamageDelay 3.0
+	myShieldBrokenRegenDamageDelay 5.0
+	myShieldRegenRate 1000.0
+	myShieldBrokenRegenRate 1000.0
+	myShieldBrokenRegenAmount 500.0
+	myMaxHealth 2000.0
+}
+
+BasicNPCHealthConfig "outlaw_defender_ground_leader Health" < uid=67883D265AF3128800035EEA782206BE >
+{
+	myIsShielded FALSE
+	myStartShield 0.0
+	myCanShieldRegenBeforeBreak FALSE
+	myCanShieldRegenAfterBreak FALSE
+	myShieldRegenDamageDelay 0.0
+	myShieldBrokenRegenDamageDelay 0.0
+	myShieldRegenRate 0.0
+	myShieldBrokenRegenRate 0.0
+	myMaxHealth 12000.0
+}
+
+BasicNPCHealthConfig "outlaw_mech_shielded Health" < uid=9211CC215B471F610002230794847777 >
+{
+	myMaxHealth 25000.0
+}
+
+BasicNPCHealthConfig "mini_enemy_01 Health" < uid=C92F4D3F5BA17031000025298D47D441 >
+{
+}
+
+BasicNPCHealthConfig "mini_enemy_02 Health" < uid=C92F4D3F5BA3BE1E000024A9CCD53FC4 >
+{
+	myMaxHealth 4000.0
+}
+
+BasicNPCHealthConfig "mini_enemy_03 Health" < uid=4A8282B95BA26AA5000026DDC4687813 >
+{
+	myMaxHealth 10000.0
+}
+
+BasicNPCHealthConfig "mini_enemy_06 Health" < uid=4A8282B95B9968800118089CC3E3F51C >
+{
+	myMaxHealth 2000.0
+	myMinHealth 1.0
+}
+
+BasicNPCHealthConfig "mini_enemy_09 Health" < uid=C92F4D3F5BA28AAC0081E1F1C277AE89 >
+{
+	myMaxHealth 4000.0
+}
+
+BasicNPCHealthConfig "mini_enemy_10 Health" < uid=4A8282B95BA3EA46000027113CAF9B07 >
+{
+	myMaxHealth 5000.0
+}
+
+BasicNPCHealthConfig "tower_hostile_basic Health" < uid=42BB0A2F5BB6593B0000243CBCB0156F >
+{
+	myIsWeakToSeige TRUE
+	myIsShielded TRUE
+	myStartShield 5000.0
+	myMaxShield 5000.0
+	myCanShieldRegenBeforeBreak TRUE
+	myCanShieldRegenAfterBreak TRUE
+	myShieldRegenDamageDelay 1.5
+	myShieldBrokenRegenDamageDelay 1.5
+	myShieldBrokenRegenStartCooldown 1.5
+	myShieldRegenRate 2500.0
+	myShieldBrokenRegenRate 5000.0
+	myMaxHealth 1000.0
+	myInitialHealth 1000.0
+	myMinHealth 1.0
+}
+
+BasicNPCHealthConfig "shipwreck_turret Health" < uid=93869D535BCC910F000002E3CCDD09D2 > : "tower_hostile_basic Health"
+{
+	myShieldBlocksNormalDamage TRUE
+}
+
+BasicNPCHealthConfig "shipwreck_turret_hard Health" < uid=93869D535BCC910F000002E476F54FA3 > : "shipwreck_turret Health"
+{
+	myNumShieldBreaks 1.5
+	myMaxHealth 2500.0
+	myInitialHealth 2500.0
+}
+
+BasicNPCHealthConfig "arena_npc_turret Health" < uid=C92F4D3F5C17C4FB007B0AAA368C30A0 > : "shipwreck_turret Health"
+{
+	myMinHealth 0.0
+}
+
+PhasedNPCHealthConfig outlaw_battlemech_Health < uid=DDDD6F5D5BF5A74C00000038AFC93771 >
+{
+	myNPCDamageBonusMultiplier 1.5
+	myPhaseHealthEntries
+	{
+		PhaseHealthEntry "Phase 1"
+		{
+			myMaxHealth 15000.0
+		}
+		PhaseHealthEntry "Phase 2"
+		{
+			myMaxHealth 15000.0
+		}
+	}
+	myBodyPartHealthEntries
+	{
+		BodyPartHealthEntry "Left Knee"
+		{
+			myBodyPartType Battlemech_LeftKnee
+			myMaxHealth 3000.0
+			myIsCritical TRUE
+			myIgnoreResistances TRUE
+			myIsProxy FALSE
+			myDamageMultiplier 2.0
+		}
+		BodyPartHealthEntry "Right Knee"
+		{
+			myBodyPartType Battlemech_RightKnee
+			myMaxHealth 3000.0
+			myIsCritical TRUE
+			myIgnoreResistances TRUE
+			myIsProxy FALSE
+			myDamageMultiplier 2.0
+		}
+		BodyPartHealthEntry Spine
+		{
+			myBodyPartType Battlemech_Spine
+			myIsCritical TRUE
+			myIgnoreResistances TRUE
+			myIsProxy TRUE
+			myDamageMultiplier 2.0
+		}
+	}
+}
+
+PhasedNPCHealthConfig outlaw_hover_tank_Health < uid=DDDD6F5D5C019821000004108E4F401C >
+{
+	myNPCDamageBonusMultiplier 1.5
+	myPhaseHealthEntries
+	{
+		PhaseHealthEntry "Phase 1"
+		{
+			myMaxHealth 36000.0
+		}
+		PhaseHealthEntry "Phase 2"
+		{
+			myMaxHealth 24000.0
+		}
+	}
+	myBodyPartHealthEntries
+	{
+		BodyPartHealthEntry LeftArmor
+		{
+			myBodyPartType Hovertank_LeftArmor
+			myMaxHealth 5000.0
+			myIsCritical FALSE
+			myIgnoreResistances FALSE
+			myDamageMultiplier 1.0
+		}
+		BodyPartHealthEntry RightArmor
+		{
+			myBodyPartType Hovertank_RightArmor
+			myMaxHealth 5000.0
+			myIsCritical FALSE
+			myIgnoreResistances FALSE
+			myDamageMultiplier 1.0
+		}
+		BodyPartHealthEntry FrontArmor
+		{
+			myBodyPartType Hovertank_FrontArmor
+			myMaxHealth 5000.0
+			myIsCritical FALSE
+			myIgnoreResistances FALSE
+			myDamageMultiplier 1.0
+		}
+		BodyPartHealthEntry LeftWeakpoint
+		{
+			myBodyPartType Hovertank_LeftWeakpoint
+			myMaxHealth 2000.0
+			myIsCritical TRUE
+			myIgnoreResistances TRUE
+			myDamageMultiplier 2.0
+		}
+		BodyPartHealthEntry RightWeakpoint
+		{
+			myBodyPartType Hovertank_RightWeakpoint
+			myMaxHealth 2000.0
+			myIsCritical TRUE
+			myIgnoreResistances TRUE
+			myDamageMultiplier 2.0
+		}
+		BodyPartHealthEntry FrontWeakpoint
+		{
+			myBodyPartType Hovertank_FrontWeakpoint
+			myMaxHealth 2000.0
+			myIsCritical TRUE
+			myIgnoreResistances TRUE
+			myDamageMultiplier 2.0
+		}
+		BodyPartHealthEntry TopLeftWeakpoint
+		{
+			myBodyPartType Hovertank_TopLeftWeakpoint
+			myMaxHealth 2000.0
+			myIsCritical TRUE
+			myIgnoreResistances TRUE
+			myIsProxy TRUE
+			myDamageMultiplier 1.5
+		}
+		BodyPartHealthEntry TopRightWeakpoint
+		{
+			myBodyPartType Hovertank_TopRightWeakpoint
+			myMaxHealth 2000.0
+			myIsCritical TRUE
+			myIgnoreResistances TRUE
+			myIsProxy TRUE
+			myDamageMultiplier 1.5
+		}
+	}
+}
+
+BasicNPCHealthConfig "outlaw_prospector Health" < uid=6D25F4C65C1414A000779DCE47F7973F >
+{
+	myIsShielded TRUE
+	myStartShield 7000.0
+	myShieldRegenDamageDelay 5.0
+	myShieldBrokenRegenDamageDelay 5.0
+	myShieldBrokenRegenStartCooldown 2.0
+	myShieldRegenRate 500.0
+	myShieldBrokenRegenRate 500.0
+	myShieldFromEquinoxUpgrade 0.0
+	myMaxHealth 1.0
+	myMinHealth 1.0
+}
+
+BasicNPCHealthConfig "outlaw_prospector Health 2" < uid=939A35415C35238A00000757E62C6DCF >
+{
+	myIsShielded TRUE
+	myStartShield 7000.0
+	myShieldRegenDamageDelay 5.0
+	myShieldBrokenRegenDamageDelay 5.0
+	myShieldBrokenRegenStartCooldown 2.0
+	myShieldRegenRate 500.0
+	myShieldBrokenRegenRate 500.0
+	myShieldFromEquinoxUpgrade 0.0
+	myMaxHealth 1.0
+	myMinHealth 1.0
+}
+
+BasicNPCHealthConfig "outlaw_prospector Health 3" < uid=939A35415C35238A000007582720BF6E >
+{
+	myIsShielded TRUE
+	myStartShield 8000.0
+	myShieldRegenDamageDelay 5.0
+	myShieldBrokenRegenDamageDelay 5.0
+	myShieldBrokenRegenStartCooldown 2.0
+	myShieldRegenRate 500.0
+	myShieldBrokenRegenRate 500.0
+	myShieldFromEquinoxUpgrade 0.0
+	myMaxHealth 1.0
+	myMinHealth 1.0
+}
+
+BasicNPCHealthConfig "outlaw_prospector Health 4" < uid=939A35415C35238A00000759227718D7 >
+{
+	myIsShielded TRUE
+	myStartShield 9000.0
+	myShieldRegenDamageDelay 5.0
+	myShieldBrokenRegenDamageDelay 5.0
+	myShieldBrokenRegenStartCooldown 2.0
+	myShieldRegenRate 500.0
+	myShieldBrokenRegenRate 500.0
+	myShieldFromEquinoxUpgrade 0.0
+	myMaxHealth 1.0
+	myMinHealth 1.0
+}
+
+BasicNPCHealthConfig "outlaw_prospector Health 5" < uid=939A35415C35238A0000075A75C1A197 >
+{
+	myIsShielded TRUE
+	myStartShield 13000.0
+	myShieldRegenDamageDelay 5.0
+	myShieldBrokenRegenDamageDelay 5.0
+	myShieldBrokenRegenStartCooldown 2.0
+	myShieldRegenRate 500.0
+	myShieldBrokenRegenRate 500.0
+	myShieldFromEquinoxUpgrade 0.0
+	myMaxHealth 1.0
+	myMinHealth 1.0
+}
+
+BasicNPCHealthConfig "outlaw_dreadnought_eye Health" < uid=DDDD6F5D5C3CEE8E0000039E66CBBD26 > : "harvester_dreadnought_eye Health"
+{
+	myMaxHealth 3000.0
+}
+
+BasicNPCHealthConfig "outlaw_wanted Health" < uid=6D25F4C65C4787FA0003B7D4ED1F09A6 > : "outlaw_prospector Health"
+{
+	myMaxHealth 8000.0
+	myMinHealth 0.0
+}
+

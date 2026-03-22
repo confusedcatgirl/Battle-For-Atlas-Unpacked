@@ -1,0 +1,41 @@
+enum IKReactionEffectType
+{
+	ONLY_ROTATE
+	ONLY_TRANSLATE
+	ROTATE_AGAINST_HIT_POINT
+	TRANSLATE_AGAINST_HIT_POINT
+	TRANSLATE_ALONG_DIRECTION 
+}
+
+class HitReactionConstants
+{
+	IKReactionEffectType myHeadReactionType ROTATE_AGAINST_HIT_POINT
+	string myHeadReactionBone Head
+	vec3f myHeadReactionMin 0.0;0.0;0.0
+	vec3f myHeadReactionMax 0.0;0.0;0.0
+
+	IKReactionEffectType myTorsoReactionType ROTATE_AGAINST_HIT_POINT
+	string myTorsoReactionBone Spine2
+	vec3f myTorsoReactionMin 0.0;0.0;0.0
+	vec3f myTorsoReactionMax 0.0;0.0;0.0
+
+	IKReactionEffectType myArmReactionType TRANSLATE_ALONG_DIRECTION
+	string myArmReactionBone Arm
+	vec3f myArmReactionMin 0.0;0.0;0.0
+	vec3f myArmReactionMax 0.0;0.0;0.0
+
+	IKReactionEffectType myLegReactionType TRANSLATE_ALONG_DIRECTION
+	string myLegReactionBone Leg
+	vec3f myLegReactionMin 0.0;0.0;0.0
+	vec3f myLegReactionMax 0.0;0.0;0.0
+
+	IKReactionEffectType myShieldReactionType ROTATE_AGAINST_HIT_POINT
+	string myShieldReactionBone Shield
+	vec3f myShieldReactionMin 0.0;0.0;0.0
+	vec3f myShieldReactionMax 0.0;0.0;0.0
+
+	bool myOverrideHeadWithTorso false
+	float myReactionBaseDuration 0.75
+	float myReactionDurationVariation 0.25
+	float myReactionInterruptDuration 0.75
+}

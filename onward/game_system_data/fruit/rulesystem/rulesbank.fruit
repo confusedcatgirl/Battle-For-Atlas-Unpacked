@@ -1,0 +1,19 @@
+include "onward/game system data/fruit/rulesystem/rule.fruit"
+include "onward/game system data/fruit/rulesystem/ruleconcept.fruit"
+
+class RulesSubBank < uid = auto >
+{
+	RuleConceptType myRuleConcept		< default = Undefined tooltip = "RuleConcept that causes this subbank to be checked" >
+	CriteriaList myCriteriaList < tooltip "The criteria that a rule needs to fulfill to join this sub bank" >
+}
+
+list RulesSubBankList
+{
+	RulesSubBank
+}
+
+class RulesBank < uid = auto >
+{
+	string myBuiltWithVersion		< tooltip "Which version of OasisRuleSync was this built with? Populate automatically by the Utility" >
+	RulesList myRules
+}

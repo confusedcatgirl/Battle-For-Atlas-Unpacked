@@ -1,0 +1,65 @@
+include "onward/game system data/fruit/attributes/attributes.fruit"
+
+Attributes Attributes
+{
+	Attribute "Ability GCD"
+	{
+		myType NPC_GlobalCooldown
+		myValue 3.0
+		myComment "Global Cooldown Between Abilities"
+	}
+	Attribute "Ring Wiggle Time"
+	{
+		myType NPC_Duration3
+		myValue 2.0
+		myComment "Time ring wiggles before falling"
+	}
+	Attribute "Ring Raise/Lower Time"
+	{
+		myType NPC_Duration4
+		myValue 3.0
+		myComment "Time it takes ring to raise/lower"
+	}
+	Attribute "Weakpoint Activation Buffer"
+	{
+		myType NPC_Duration2
+		myValue 0.5
+		myComment "Time between core fall/weakpoint activation and weakpoint deactivation/core rise"
+	}
+	Attribute "Weakpoint Active Duration"
+	{
+		myType NPC_Duration1
+		myValue 0.0
+		myComment "Time weakpoints stay active, if not damaged"
+	}
+	Attribute "Weakpoint Active Duration (Damaged)"
+	{
+		myType NPC_UserData1
+		myValue 0.0
+		myComment "Time weakpoints stay active after first taking damage"
+	}
+	Attribute "Max Corruption Spawn Radius"
+	{
+		myType NPC_MaxRange1
+		myValue 300.0
+	}
+	Attribute "Reinforcement Fight Time"
+	{
+		myType Reinforcement_Interval
+		myValue 20.0
+		myComment "Duration player has to kill reinforcements before fight continues"
+	}
+	Attribute "Reinforcement Spawn Buffer"
+	{
+		myType Reinforcement_Delay
+		myValue 0.0
+		myComment "Delay after reinforcements are requested until the weakpoints deactivate"
+	}
+	Attribute "Phase Health Percent"
+	{
+		myType DMG_Max
+		myValue 50.0
+		myComment "Percent of max health considered to be one \"phase\", for purposes of calculating ability combo type."
+	}
+}
+

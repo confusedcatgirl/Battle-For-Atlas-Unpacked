@@ -1,0 +1,21 @@
+include "onward/game system data/fruit/ai/reactions.fruit"
+include onward/skillscripts/harvester_dreadnought_core_rotate_shell.mskillscriptjuice
+include onward/skillscripts/harvester_dreadnought_super_core_rotate_shell.mskillscriptjuice
+
+NPCDamageReactionSettings "Dreadnought Core Reactions"
+{
+	myDamageReactions
+	{
+		NPCDamageReaction "Rotate Shell"
+		{
+			myDamageThreshold 1000.0
+			myDamageThresholdIsPercent FALSE
+			myDamageTimeSeconds 9999.0
+			myCooldownSeconds 0.1
+			myConsumeDamagePacketsOnTrigger TRUE
+			mySkillScript < uid=DDDD6F5D5BEF301C006127E889DA7E79 > = harvester_dreadnought_super_core_rotate_shell
+		}
+	}
+	myReactionCooldownSeconds 0.1
+}
+

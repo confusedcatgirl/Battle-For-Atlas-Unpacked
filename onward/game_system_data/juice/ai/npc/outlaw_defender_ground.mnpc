@@ -1,0 +1,75 @@
+include ./base_faction_unit.mnpc
+include onward/skillscripts/npc_controller_context_outlaw_ground_dash.mskillscriptjuice
+include onward/skillscripts/npc_ability_outlaw_gatling_ground.mskillscriptjuice
+include onward/skillscripts/npc_ability_outlaw_defender_small_missile_volley.mskillscriptjuice
+include onward/skillscripts/npc_world_entry_harvester_cyclops_generic.mskillscriptjuice
+
+NPC outlaw_defender_ground < uid=C92F4D3F58949BB0001149FC4ABACDFE > : base_faction_unit
+{
+	myUIName "contextComment = \"[Placeholder - do not translate] Name for outlaw unit that ambushes players at shipwrecks on planet surfaces\", description = \"uiname-outlaw-defender-ground\", enabled = true, guid = #9E6AFEDA5A32F17900002264BA8D7242, lineVersion = 0, maxLength = 30, text = \"Outlaw\""
+	myUIName_NonLocalized "Outlaw Defender"
+	myGraphObjectFile "onward/graph objects/character/outlaw_defender_ground.mgraphobject"
+	myBehavior "onward/game system data/juice/ai/behavior/outlaw_defender_ground.mbehavior"
+	myHealthConfig < uid=4A8282B959F8EA2100001E0D0DB8F348 > = "outlaw_defender_ground Health"
+	myAbilityDefinitions
+	{
+		NPCAbilityDefinition Gatling
+		{
+			myGameAction NPC_Ability1
+			mySkillScript < uid=C92F4D3F58949BB0001149FDC59F7045 > = npc_ability_outlaw_gatling_ground
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_outlaw_ground_defender_gatling.juice"
+		}
+		NPCAbilityDefinition Missiles
+		{
+			myGameAction NPC_Ability2
+			mySkillScript < uid=93869D535AC406B80315ED84952932C1 > = npc_ability_outlaw_defender_small_missile_volley
+			myInputType Tap_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_outlaw_ground_defender_missile.juice"
+		}
+	}
+	myControllerContextDefinitions
+	{
+		ControllerContextDefinition Downed
+		{
+			myContextType Downed
+			mySkillScript < uid=DDDD6F5D5B101CE900001EE483F65843 > = npc_controller_context_expedition_downed
+		}
+		ControllerContextDefinition Dead
+		{
+			myContextType Dead
+			mySkillScript < uid=DDDD6F5D5B101CE900001EE5F368B6F7 > = npc_controller_context_base_faction_unit_dead
+		}
+		ControllerContextDefinition Dash
+		{
+			myContextType Dash
+			mySkillScript < uid=DDDD6F5D5B101CFF00001EE6B5F60C6F > = npc_controller_context_outlaw_ground_dash
+		}
+	}
+	myAttributeSettings "onward/game system data/juice/ai/attributes/outlaw_defender_ground_base.juice"
+	myDropTableOnDeath Kill_Outlaw_Ground_Drop_Table
+	myDropTableOnDamage Outlaw_Incremental
+	myPhysicsCapsuleStart 0.0;0.5;-1.0
+	myPhysicsCapsuleEnd 0.0;0.5;4.0
+	myPatternProfile < uid=C92F4D3F58E6B3C7000001CC2201E85B > = "Outlaw Ground"
+	myDefaultMotionPattern < uid=C92F4D3F58E6B3C7000001CD02C45A7C > = "Outlaw Ground Default"
+	myAvoidanceRadius 6.5
+	myNPCFaction Outlaw
+	myNPCType Outlaw_Defender_Ground
+	myAnimSystemType Outlaw_Defender
+	myThreatLevel 6.0
+	myIsFlocking TRUE
+	mySquadSettings "onward/game system data/juice/ai/squad/outlaw_defender_ground_squad.juice"
+	myAIVisionConeTypeName SkimmerVisionCone
+	myIsInteractable FALSE
+	myIsScannable TRUE
+	myIsHailable FALSE
+	myDamageReactionSettings "onward/game system data/juice/ai/reactions/damage_reactions_outlaw_defender_ground.juice"
+	myHitReactionRules "onward/game system data/juice/ai/reactions/reaction_rules_npc_outlaw_elite.juice"
+	myCrowdControlAttributeSettings "onward/game system data/juice/ai/attributes/crowd control tiers/npc_cc_tier12.juice"
+	myConstructionDuration 5.0
+	myOnDeathChallenge Death_OutlawWorker
+	myOnDiscoveredChallenge Discover_OutlawWorker
+	myPreWorldEntrySkillScript < uid=4A8282B95B52333C00C979B96180341A > = npc_world_entry_harvester_cyclops_generic
+}
+

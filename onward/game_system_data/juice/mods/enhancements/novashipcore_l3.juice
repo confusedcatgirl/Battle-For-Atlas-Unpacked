@@ -1,0 +1,35 @@
+include ./templates/template_l3.juice
+include "onward/game system data/juice/mods/mod_fighter_shipcore_l3.mplayermod"
+include "onward/game system data/juice/mods/mod_elemental_shipcore_l3.mplayermod"
+include "onward/game system data/juice/mods/mod_nova_shipcore_l3.mplayermod"
+
+Enhancement novashipcore_l3 < uid=939A35415AB16D5B00001BDE5B6015C2 > : "Level 3"
+{
+	myLocalizedName "contextComment = \"[Placeholder - do not translate]\nName for level 3 version of a Ship Core that greatly increases the ship's energy and elemental combo capabilities\", description = \"\", enabled = true, guid = #939A35415AB16D5B00001BDCE7A944D8, lineVersion = 1, maxLength = 17, text = \"Nova Core III\"}"
+	myLocalizedDescription "contextComment = \"[Placeholder - do not translate]\nDescription for level 3 version of a Ship Core that greatly increases the ship's energy and elemental combo capabilities\", description = \"enhancement-description-nova-ship-core-3\", enabled = true, guid = #939A35415AB16D5B00001BDDCFDF8DDF, lineVersion = 0, maxLength = 100, text = \"+40 Energy\n+20% Damage to affinity Imps & Cyclops\n+Boost after Affinity Combo\"}"
+	myIconSprite "mySpriteId = -1455178886, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-mods-ship-core.spritesheet\""
+	myIsHullEnhancement TRUE
+	myMod < uid=939A35415AB16D5B00001BDF7DCA65AA > = mod_nova_shipcore_l3
+	myEnhancementType ShipCore
+	myEnhancementTrackType NovaShipCore
+	myDamageAffectors
+	{
+		DamageAffector_NPCType DamageToNPCType
+		{
+			myDamageMultiplier = Nova_Core_l3_ExtraDamage
+			myNPCTypes
+			{
+				NPCType "Cold Cyclops" Harvester_Cyclops_Cold
+				NPCType "Heat Cyclops" Harvester_Cyclops_Heat
+				NPCType "Crush Cyclops" Harvester_Cyclops_Crush
+				NPCType "Cold Giant" Harvester_Cyclops_Infused_Cold
+				NPCType "Crush Giant" Harvester_Cyclops_Infused_Crush
+				NPCType "Heat Giant" Harvester_Cyclops_Infused_Heat
+				NPCType "Cold Imp" Harvester_Imp_Cold
+				NPCType "Heat Imp" Harvester_Imp_Heat
+				NPCType "Crush Imp" Harvester_Imp_Crush
+			}
+		}
+	}
+}
+

@@ -1,0 +1,23 @@
+include "onward/game system data/fruit/sim/simunit.fruit"
+
+SimUnit core_prime < uid=F2C5C69257967AF700000083BDDAEBBE >
+{
+	myUIName "contextComment = \"[Placeholder - do not translate] HUD label shown when aiming at a device dropped from a defeated Legion Prime. This can be carried & delivered to an outpost to produce Nova\", description = \"ui-target-core-prime\", enabled = true, guid = #9E6AFEDA592EE10600000A9C1889A8B7, lineVersion = 0, maxLength = 22, text = \"Prime Core\""
+	myBehavior onward/simworld/behavior/core_prime.msimunitbtgraph
+	myControlGraph onward/simworld/control/core_prime.msimunitcontrolgraph
+	myFaction Unaligned
+	myCategory PrimeCore
+	mySpeed 0.0
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo InteractablePickup < uid=1EE141815A6F6BCD00001B07748A8090 >
+		{
+			myCountMin 1
+			myCountMax 1
+			myEntityFile "onward/entity templates/core_prime.mentitytemplate"
+		}
+	}
+	myIsValidPickupTarget FALSE
+	myIconSprite "mySpriteId = -920192708, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-inventory-cores-and-nova.spritesheet\""
+}
+

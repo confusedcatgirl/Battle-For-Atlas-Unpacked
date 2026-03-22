@@ -1,0 +1,18 @@
+include ./base_ally_ship.mnpc
+include onward/skillscripts/ally_repel.mskillscriptjuice
+
+NPC ally_sorren < uid=6D25F4C65AFDE962000E7C94E3D43B1F > : base_ally_ship
+{
+	myUIName "contextComment = \"\", description = \"\", enabled = true, guid = #95430580590B839D00000080B6FF45DF, lineVersion = 0, maxLength = 1, text = \"|empty|\""
+	myUIName_NonLocalized Sorren
+	myGraphObjectFile "onward/graph objects/character/outlaw_03.mgraphobject"
+	myBehavior "onward/game system data/juice/ai/behavior/ally_sorren_story.mbehavior"
+	myPersistentScripts
+	{
+		SkillScript "New SkillScript (0)" < uid=6D25F4C65B1AE3A700015F72685A1A00 > = ally_repel
+	}
+	myHasSkinnedCollision TRUE
+	myNPCType Sorren
+	myAnimSystemType Outlaw_Defender_Leader
+}
+

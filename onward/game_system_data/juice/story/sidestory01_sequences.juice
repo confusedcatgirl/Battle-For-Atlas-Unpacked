@@ -1,0 +1,3673 @@
+include "onward/game system data/fruit/story/partstory.fruit"
+include ./objectives/objectives.juice
+include "onward/game system data/juice/sim/sidestory001_sequence04_key.msimunit"
+include "onward/game system data/juice/sim/sidestory001_sequence04_missiongiver.msimunit"
+include "onward/game system data/juice/sim/sidestory001_sequence05_key.msimunit"
+include "onward/game system data/juice/sim/sidestory001_sequence05_destination.msimunit"
+include "onward/game system data/juice/sim/sidestory001_sequence05_keyhole.msimunit"
+include "onward/game system data/juice/sim/sidestory001_sequence02_key01.msimunit"
+include "onward/game system data/juice/sim/sidestory001_sequence02_outlaw_guards.msimunit"
+include "onward/game system data/juice/sim/sidestory001_sequence04_outlaw_guards.msimunit"
+include "onward/game system data/juice/sim/sidestory001_sequence02_destination.msimunit"
+include "onward/game system data/juice/sim/sidestory001_sequence06_outlaw_guards.msimunit"
+include "onward/game system data/juice/sim/sidestory001_sequence06_destination.msimunit"
+include "onward/game system data/juice/sim/sidestory001_sequence06_prime_core.msimunit"
+include "onward/game system data/juice/sim/sidestory001_sequence06_prime_core_siphon.msimunit"
+include "onward/game system data/juice/sim/sidestory001_sequence06_goldencyclops_guards.msimunit"
+include "onward/game system data/juice/sim/sidestory001_sequence06_missiongiver.msimunit"
+include "onward/game system data/juice/sim/sidestory001_sequence01_keyhole_a.msimunit"
+include "onward/game system data/juice/sim/sidestory001_sequence02_keyhole01_a.msimunit"
+include "onward/game system data/juice/sim/sidestory001_sequence02_keyhole02.msimunit"
+include "onward/game system data/juice/sim/sidestory001_sequence02_keyhole01_b.msimunit"
+include "onward/game system data/juice/sim/sidestory001_sequence06_keyhole_c.msimunit"
+include "onward/game system data/juice/sim/sidestory01_pilotdossier01.msimunit"
+include "onward/game system data/juice/sim/sidestory01_pilotdossier02.msimunit"
+include "onward/game system data/juice/sim/sidestory01_pilotdossier03.msimunit"
+include "onward/game system data/juice/sim/sidestory01_pilotdossier04.msimunit"
+include "onward/game system data/juice/sim/sidestory01_pilotdossier05.msimunit"
+include "onward/game system data/juice/sim/sidestory01_pilotdossier06.msimunit"
+include "onward/game system data/juice/sim/sidestory001_sequence01_keyhole_c.msimunit"
+include "onward/game system data/juice/sim/sidestory001_sequence04_pluck01.msimunit"
+include "onward/game system data/juice/sim/sidestory001_sequence04_pluck02.msimunit"
+include "onward/game system data/juice/sim/sidestory001_sequence04_pluck03.msimunit"
+include "onward/game system data/juice/sim/sidestory001_sequence01_area_rooftop.msimunit"
+include "onward/game system data/juice/sim/sidestory001_sequence05_area_ramp.msimunit"
+include "onward/game system data/juice/sim/sidestory001_sequence05_area_vinedrock.msimunit"
+include "onward/game system data/juice/sim/sidestory001_sequence06_area_impaledprime.msimunit"
+include "onward/game system data/juice/sim/sidestory001_sequence06_keyhole_b.msimunit"
+include "onward/game system data/juice/sim/sidestory001_sequence06_keyhole_d.msimunit"
+include "onward/game system data/juice/sim/sidestory001_sequence06_keyhole_a.msimunit"
+include "onward/game system data/juice/sim/sidestory001_sequence06_ prime_head_blocker.msimunit"
+include "onward/game system data/juice/sim/sidestory001_sequence05_corruptednova.msimunit"
+include "onward/game system data/juice/sim/sidestory001_sequence05_area_lockedpillar.msimunit"
+include "onward/game system data/juice/sim/sidestory001_sequence02_key01_slot.msimunit"
+include ./actions_library.juice
+include "onward/game system data/juice/sim/sidestory001_sequence06_goldencyclops_02.msimunit"
+include "onward/game system data/juice/sim/sidestory001_sequence06_goldencyclops_03.msimunit"
+include "onward/game system data/juice/sim/onward_equinox_planet.msimunit"
+include "onward/game system data/juice/sim/sidestory001_sequence01_keyhole_b.msimunit"
+include "onward/game system data/juice/sim/sidestory001_sequence02_savestate_cinematickeydropped.msimunit"
+include "onward/game system data/juice/sim/sidestory001_sequence02_key02.msimunit"
+include "onward/game system data/juice/sim/sidestory001_sequence02_vaultdoor02.msimunit"
+
+StoryBeatSequence S01_SEQUENCE_01 < uid=9FD9E8185B0C4C5900001EB47F1801C3 >
+{
+	myStoryBeats
+	{
+		StoryBeatData SEQUENCE_01 < uid=CC9485AB5B564B3F00002467ED0A4104 >
+		{
+			myIsCheckpoint FALSE
+		}
+		StoryBeatData "Manual Save" < uid=CC9485AB5B479BE80000228789E84D28 > : "Save Point"
+		{
+		}
+		StoryBeatData "SideStory01 - Gate - Act 2 Unlock Pilot Stories" < uid=2B55C72B5B33D4860000216E4939C884 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_SetObjectiveBlockEnabled "Set Objetive Block Disabled"
+				{
+				}
+				StoryDataAction_WaitForStoryEvent "Wait for Unlock Event"
+				{
+					myStoryEvent Act02_UnlockPilotStories
+				}
+				StoryDataAction_SetObjectiveHeader "Set Side Story Objective Header"
+				{
+					myObjectiveHeader "contextComment = \"\", description = \"ui-story-objective-header-sidestory01\", enabled = true, guid = #954305805B351183000023637B077D98, lineVersion = 0, maxLength = 42, text = \"[SIDE STORY 01 OBJECTIVE HEADER]\""
+				}
+			}
+		}
+		StoryBeatData "Wait for 2" < uid=2B55C72B5B33DA79000021715E84FFD8 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_Wait Wait
+				{
+					mySecondsToWait 2.0
+				}
+			}
+		}
+		StoryBeatData "Enable Side Story Gate" < uid=9FD9E8185B0C4C5900001EB55DEF7FE3 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_TransitionStorySection "Story Transition Enter Sequence01"
+				{
+					myTransitionType Enter
+					myStorySection sidestory01_sequence01
+				}
+			}
+		}
+		StoryBeatData "SideStory01 - Short Briefing" < uid=2B55C72B5B33D5040000216F00AC79B4 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_Dialog "Play Short Briefing"
+				{
+					myDialogSequenceID 1
+					myDialogStoryFlowID 1
+				}
+			}
+		}
+		StoryBeatData "Show Side Story Tutorial" < uid=2B55C72B5B33D6B7000021705C815341 >
+		{
+			myIsCheckpoint TRUE
+			myStoryDataActions
+			{
+				StoryDataAction_SetObjectiveBlockEnabled "Enable Objective Block"
+				{
+					myEnable TRUE
+				}
+				StoryDataAction_UIOpenConfirmationDialog "Show Confirmation Dialog"
+				{
+					myConfirmationType Introduce_ObjectiveSelect
+				}
+			}
+		}
+		StoryBeatData "Set Objective Header - Mission 1" < uid=9FD9E8185B0C4C5900001EB6D476FD25 >
+		{
+			myIsCheckpoint TRUE
+			myStoryDataActions
+			{
+				StoryDataAction_SetObjectiveBlockEnabled "Enable Objective Block"
+				{
+					myObjectiveUID < uid=0A13A8F05B22DD3D000511EE7431A3C0 > = NULLREFERENCE
+					myEnable TRUE
+				}
+				StoryDataAction_SetObjective "Set Objective - Main"
+				{
+					myObjectiveData < uid=0A13A8F05B34D38B000028C5689FAE7E > = "Mission 1"
+					myObjectiveState Active
+				}
+				StoryDataAction_SetObjective "Set Objective - Sub"
+				{
+					myObjectiveData < uid=2B55C72B5B3FA48100002223D7E0E45D > = m1.Sub1
+					myObjectiveState Active
+				}
+				StoryDataAction_WaitForStoryFlowSelected "Wait For Story Flow Selected"
+				{
+					mySecondsToWait 0.0
+				}
+				StoryDataAction_CompleteStoryEvent "Complete Tutorial"
+				{
+					myStoryEvent SideStory001_TutorialComplete
+				}
+			}
+		}
+		StoryBeatData "Manual Save" < uid=2B55C72B5B57782B00002213506D8EE7 > : "Save Point"
+		{
+		}
+		StoryBeatData "Wait for Side Story flow selected" < uid=0A13A8F05B2BEFE9000020AAB67ED270 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_WaitForStoryFlowSelected "Wait For Story Flow selected"
+				{
+					mySecondsToWait 5.0
+				}
+				StoryDataAction_DismissTutorial "Dismiss Side Mission Tutorial"
+				{
+					myTutorial MissionSelect
+				}
+			}
+		}
+		StoryBeatData LongBriefing < uid=2B55C72B5B3FA7A800002227DA76C3DF >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_Dialog "Dialog 2"
+				{
+					myDialogSequenceID 2
+					myDialogStoryFlowID 1
+				}
+			}
+		}
+		StoryBeatData "Reach the impact site" < uid=0A13A8F05B22DE11000615B6B668920E >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_SetTarget "Set Target"
+				{
+					mySimUnitAssetTarget "onward/game system data/juice/sim/sidestory01_pilotdossier01.msimunit"
+					myTargetKnowledge 1.0
+					myTargetPlanet 2B55C72B560154A200000053621E3961
+					myActivityType Find
+				}
+				StoryDataAction_WaitForArriveAtTarget "Wait For Arrival at Target 500"
+				{
+					myObjectiveUID < uid=0A13A8F05B22DE66000615C0AEFC3D57 > = m1.Sub1
+					myDistance 400.0
+					myRequireInFOV FALSE
+				}
+				StoryDataAction_Dialog "Dialog 3"
+				{
+					myDialogSequenceID 3
+					myDialogStoryFlowID 1
+				}
+			}
+		}
+		StoryBeatData "Spawn 1st Canister" < uid=CC9485AB5B492696000026E715930DC4 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_CompleteStoryEvent "Story Event Spawn Dossier 1"
+				{
+					myStoryEvent SideStory001_Seq01_SpawnPilotDossier1
+				}
+			}
+		}
+		StoryBeatData "Manual Save" < uid=CC9485AB5B492696000026E8A0CA7AD0 > : "Save Point"
+		{
+		}
+		StoryBeatData "Locate the 1st Canister" < uid=0A13A8F05B22DEF8000615C36BC3063F >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_Dialog "Dialog 4 - I'm at the impact site now"
+				{
+					myDialogSequenceID 4
+					myDialogStoryFlowID 1
+				}
+				StoryDataAction_SetObjective "Set Objective"
+				{
+					myObjectiveData < uid=CC9485AB5B492696000026E9C6DA9569 > = m1.Sub2
+					myObjectiveState Active
+				}
+				StoryDataAction_WaitForArriveAtTarget "Wait for Arrival at Target"
+				{
+					myObjectiveUID < uid=0A13A8F05B22DFC3000615D2047AEB01 > = m1.Sub2
+					myDistance 100.0
+				}
+			}
+			myStoryDataActionSets
+			{
+			}
+		}
+		StoryBeatData "Retrieve the 1st Canister - Checkpoint" < uid=0A13A8F05B22DFC3000615D3C7AFB2C3 >
+		{
+			myIsCheckpoint TRUE
+			myStoryDataActions
+			{
+				StoryDataAction_SetObjective "Set Objective"
+				{
+					myObjectiveData < uid=0A13A8F05B22E004000615D630A519E0 > = m1.Sub3
+					myObjectiveState Active
+				}
+				StoryDataAction_SetTarget "Set Target"
+				{
+					mySimUnitAssetTarget "onward/game system data/juice/sim/sidestory01_pilotdossier01.msimunit"
+					myTargetPlanet 2B55C72B560154A200000053621E3961
+				}
+				StoryDataAction_WaitForTargetSolved "Wait for Target Solved"
+				{
+					myObjectiveUID < uid=0A13A8F05B2C0C410032FB92CAE6500C > = m1.Sub3
+				}
+				StoryDataAction_Dialog "dialog 5"
+				{
+					myDialogSequenceID 5
+					myDialogStoryFlowID 1
+				}
+			}
+		}
+		StoryBeatData "Pre bink" < uid=0A13A8F05B34D6AD000028C6C78BDB4C >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_SetTarget "Set Target Clean"
+				{
+				}
+				StoryDataAction_ConditionalAction "condition action"
+				{
+					myConditionalActions
+					{
+						StoryDataAction_Dialog "Dialog 6"
+						{
+							myDialogSequenceID 6
+							myDialogStoryFlowID 1
+						}
+					}
+					myOutcomeActions
+					{
+						StoryDataAction_Wait wait
+						{
+							mySecondsToWait 1.0
+						}
+						StoryDataAction_AddFadeRequest fade
+						{
+							myFadeRequestType Fade_Out
+							myFadeTime 1.0
+						}
+					}
+				}
+			}
+		}
+		StoryBeatData "Bink 01" < uid=0A13A8F05B2967CC00002776D8A959E5 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_Cinematic Cinematic
+				{
+					myCinematicFile onward/baked/videos/S01_M01_SC01_RAZOR_DOSSIER.bk2
+				}
+				StoryDataAction_CompleteChallenge "Complete Challenge - Canister - Razor"
+				{
+					myChallengeToComplete PilotStory_Canister01_Razor
+				}
+			}
+		}
+		StoryBeatData "Manual Save" < uid=CC9485AB5B492696000026EA99745EA8 > : "Save Point"
+		{
+		}
+		StoryBeatData "Spawn Puzzle Key" < uid=0A13A8F05B2BFA8400002773CD50846D >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_CompleteStoryEvent "Story Event"
+				{
+					myStoryEvent SideStory001_Seq01_SpawnKey
+				}
+			}
+		}
+		StoryBeatData "Spawn 2nd Canister" < uid=CC9485AB5B492696000026ECE7EB79C5 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_CompleteStoryEvent "Story Event Spawn Dossier 2"
+				{
+					myStoryEvent SideStory001_Seq01_SpawnPilotDossier2
+				}
+			}
+		}
+		StoryBeatData "Dialog 7 - there's a bunch of other stuff here too" < uid=0A13A8F05B16F907000027E8C28E7FB0 >
+		{
+			myIsCheckpoint FALSE
+			myForceCompleteOptions
+			{
+				myEnabled TRUE
+				myCompleteOnSolveSimAsset < uid=518C297A5B7487B40000224C693604A8 > = sidestory01_pilotdossier02
+				myCompleteOnSolvePlanet 2B55C72B560154A200000053621E3961
+			}
+			myStoryDataActions
+			{
+				StoryDataAction_AddFadeRequest fade
+				{
+					myFadeTime 1.0
+				}
+				StoryDataAction_Dialog "Dialog 07 - Razor he was proud of you"
+				{
+					myDialogSequenceID 7
+					myDialogStoryFlowID 1
+				}
+			}
+		}
+		StoryBeatData "Manual Save" < uid=CC9485AB5B492696000026EB14049D6F > : "Save Point"
+		{
+		}
+		StoryBeatData "Approach Turbine" < uid=0A13A8F05B23D80900002995F6A716D0 >
+		{
+			myIsCheckpoint FALSE
+			myForceCompleteOptions
+			{
+				myEnabled TRUE
+				myCompleteOnSolveSimAsset < uid=518C297A5B6B0E4E0000225141324228 > = sidestory01_pilotdossier02
+				myCompleteOnSolvePlanet 2B55C72B560154A200000053621E3961
+			}
+			myStoryDataActions
+			{
+				StoryDataAction_SetObjective "Set Objective"
+				{
+					myObjectiveData < uid=0A13A8F05B23D809000029962E2CD7C6 > = m1.Sub4
+					myObjectiveState Active
+				}
+				StoryDataAction_SetTarget "Set Target"
+				{
+					mySimUnitAssetTarget "onward/game system data/juice/sim/sidestory01_pilotdossier02.msimunit"
+					myTargetPlanet 2B55C72B560154A200000053621E3961
+				}
+				StoryDataAction_Dialog "Dialog 8 - The next canister came down inside that building"
+				{
+					myDialogSequenceID 8
+					myDialogStoryFlowID 1
+				}
+				StoryDataAction_ConditionalAction "Conditional Action - Wait for arrival at the building (Dialog 9)"
+				{
+					myCompleteType OR
+					myConditionalActions
+					{
+						StoryDataAction_WaitForArriveAtTarget "Arrive at target"
+						{
+							myDistance 200.0
+							mySimUnitAsset < uid=518C297A5B71D740000022530051EA14 > = sidestory01_pilotdossier02
+							myPlanet 2B55C72B560154A200000053621E3961
+						}
+					}
+					myOutcomeActions
+					{
+						StoryDataAction_Dialog "Dialog 9 - Transponder's in that big building"
+						{
+							myDialogSequenceID 9
+							myDialogStoryFlowID 1
+						}
+					}
+				}
+				StoryDataAction_WaitForArriveAtTarget "Wait for Arrive at target"
+				{
+					myObjectiveUID < uid=CC9485AB5B47C3CF0000293E4E3E84AA > = m1.Sub4
+					myDistance 60.0
+					myRequireInFOV TRUE
+					mySimUnitAsset < uid=CC9485AB5B47C3CF0000293F605C08E2 > = sidestory001_sequence01_keyhole_A
+					myPlanet 2B55C72B560154A200000053621E3961
+				}
+			}
+		}
+		StoryBeatData "Unpower Turbine" < uid=0A13A8F05B23DBEE00002804C9907344 >
+		{
+			myIsCheckpoint FALSE
+			myForceCompleteOptions
+			{
+				myEnabled TRUE
+				myCompleteOnSolveSimAsset < uid=518C297A5B6B0E4E0000225223F1824C > = sidestory01_pilotdossier02
+				myCompleteOnSolvePlanet 2B55C72B560154A200000053621E3961
+			}
+			myStoryDataActions
+			{
+				StoryDataAction_Dialog "Dialog 10 - they've still got power"
+				{
+					myDialogSequenceID 10
+					myDialogStoryFlowID 1
+				}
+				StoryDataAction_SetObjective "Set Objective"
+				{
+					myObjectiveData < uid=0A13A8F05B23DBEE0000280577D415F2 > = m1.Sub5
+					myObjectiveState Active
+				}
+				StoryDataAction_SetTarget "Set Target"
+				{
+					mySimUnitAssetTarget "onward/game system data/juice/sim/sidestory001_sequence01_keyhole_a.msimunit"
+					myTargetPlanet 2B55C72B560154A200000053621E3961
+				}
+				StoryDataAction_WaitForTargetUnSolved "Wait for Target (Keyhole) Unsolved"
+				{
+					myObjectiveUID < uid=0A13A8F05B241F42000029EBC4CCCB69 > = m1.Sub5
+				}
+			}
+		}
+		StoryBeatData "Retrieve the 2nd Canister - Checkpoint" < uid=0A13A8F05B22E2270007634DCEA1D3C9 >
+		{
+			myIsCheckpoint TRUE
+			myForceCompleteOptions
+			{
+				myEnabled TRUE
+				myCompleteOnSolveSimAsset < uid=518C297A5B6B0E4E00002253D9AE9675 > = sidestory01_pilotdossier02
+				myCompleteOnSolvePlanet 2B55C72B560154A200000053621E3961
+			}
+			myStoryDataActions
+			{
+				StoryDataAction_Dialog "Dialog 12 - Looks like noone's been here for a while"
+				{
+					myDialogSequenceID 12
+					myDialogStoryFlowID 1
+				}
+				StoryDataAction_SetObjective "Set Objective"
+				{
+					myObjectiveData < uid=0A13A8F05B2946AD0001769E4FB60CB8 > = m1.Sub4
+					myObjectiveState Active
+				}
+				StoryDataAction_SetTarget "Set Target"
+				{
+					mySimUnitAssetTarget "onward/game system data/juice/sim/sidestory01_pilotdossier02.msimunit"
+					myTargetPlanet 2B55C72B560154A200000053621E3961
+				}
+				StoryDataAction_WaitForTargetSolved "Wait for Target Solved"
+				{
+					myObjectiveUID < uid=0A13A8F05B2C0C410032FB938CCCD99F > = m1.Sub4
+				}
+			}
+			myStoryDataActionSets
+			{
+			}
+		}
+		StoryBeatData "Pre bink" < uid=0A13A8F05B34D6AD000028C76204900F >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_SetTarget "Set Target Clean"
+				{
+				}
+				StoryDataAction_ConditionalAction "condition action"
+				{
+					myConditionalActions
+					{
+						StoryDataAction_Dialog "dialog 18"
+						{
+							myDialogSequenceID 18
+							myDialogStoryFlowID 1
+						}
+					}
+					myOutcomeActions
+					{
+						StoryDataAction_AddFadeRequest fade
+						{
+							myFadeRequestType Fade_Out
+							myFadeTime 1.0
+						}
+						StoryDataAction_Wait wait
+						{
+							mySecondsToWait 1.0
+						}
+					}
+				}
+			}
+		}
+		StoryBeatData "Bink 02" < uid=0A13A8F05B2968AA00017C2F5A4E50EB >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_Cinematic Cinematic
+				{
+					myCinematicFile onward/baked/videos/S01_M01_SC02_HUNTER_DOSSIER.bk2
+				}
+				StoryDataAction_CompleteChallenge "Complete Challenge - Canister - Hunter"
+				{
+					myChallengeToComplete PilotStory_Canister02_Hunter
+				}
+			}
+		}
+		StoryBeatData "Manual Save" < uid=CC9485AB5B492696000026EDF588C98C > : "Save Point"
+		{
+		}
+		StoryBeatData "Dialog 22 - You turned down a chance to join the equinox?" < uid=CC9485AB5B58EB15000024A8F4EE4BAE >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_AddFadeRequest fade
+				{
+					myFadeTime 1.0
+				}
+				StoryDataAction_CompleteStoryEvent "Story Event Spawn Dossier 3"
+				{
+					myStoryEvent SideStory001_Seq01_SpawnPilotDossier3
+				}
+				StoryDataAction_Dialog "Dialog 22 - You turned down a chance to join..."
+				{
+					myDialogSequenceID 22
+					myDialogStoryFlowID 1
+				}
+			}
+		}
+		StoryBeatData "Dialog 21 - Looks like another canister crashed into that tower" < uid=0A13A8F05B16FA720001795B90BB058C >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_SetTarget "Set Target to roof"
+				{
+					mySimUnitAssetTarget "onward/game system data/juice/sim/sidestory001_crashlocation_roof.msimunit"
+					myTargetPlanet 2B55C72B560154A200000053621E3961
+				}
+				StoryDataAction_Dialog "Dialog 21 - Looks like another canister crashed into that tower"
+				{
+					myCompleteImmediately FALSE
+					myDialogSequenceID 21
+					myDialogStoryFlowID 1
+				}
+				StoryDataAction_SetObjective "Set Objective"
+				{
+					myIsSubObjective TRUE
+					myObjectiveData < uid=600A30F35B7C6DA0000022066E12D57D > = m1.Sub6
+					myObjectiveState Active
+				}
+			}
+		}
+		StoryBeatData "Head to the roof" < uid=CC9485AB5B58EE72000024A9B7CB39AC >
+		{
+			myForceCompleteOptions
+			{
+				myEnabled TRUE
+				myCompleteOnSolveSimAsset < uid=600A30F35B69AEF8000022044865EC21 > = sidestory01_pilotdossier03
+				myCompleteOnSolvePlanet 2B55C72B560154A200000053621E3961
+			}
+			myStoryDataActions
+			{
+				StoryDataAction_WaitForArriveAtTarget "Wait untill the player is on the roof"
+				{
+					myDistance 15.0
+					myRequireInFOV FALSE
+				}
+			}
+		}
+		StoryBeatData "First Camera + Update objective to canister - Checkpoint" < uid=0A13A8F05B34E2250018246722980102 >
+		{
+			myIsCheckpoint TRUE
+			myForceCompleteOptions
+			{
+				myEnabled TRUE
+				myCompleteOnSolveSimAsset < uid=600A30F35B69AEF8000022055D914212 > = sidestory01_pilotdossier03
+				myCompleteOnSolvePlanet 2B55C72B560154A200000053621E3961
+			}
+			myStoryDataActions
+			{
+				StoryDataAction_SendStoryToGameEvent "Story to Game Event Layout overview"
+				{
+					myStoryToGameEvent SideStory001_Seq01_NavigationOverviewCamera
+				}
+				StoryDataAction_SoundEvent "Audio - mission_01_01 (TEST)"
+				{
+					myAudioEvent
+					{
+						myGuid 4382F5F6BDE0E28EFF998F58EE20AFB6
+					}
+					myCompleteImmediately TRUE
+				}
+				StoryDataAction_SetTarget "Set Target to keyhole B"
+				{
+					mySimUnitAssetTarget "onward/game system data/juice/sim/sidestory001_sequence01_keyhole_b.msimunit"
+					myTargetPlanet 2B55C72B560154A200000053621E3961
+				}
+			}
+		}
+		StoryBeatData "Wait for arrival at windmill + Second camera" < uid=518C297A5B743D71000022466C85CF79 >
+		{
+			myIsCheckpoint FALSE
+			myForceCompleteOptions
+			{
+				myEnabled TRUE
+				myCompleteOnSolveSimAsset < uid=518C297A5B743D7100002247816F4DA9 > = sidestory01_pilotdossier03
+				myCompleteOnSolvePlanet 2B55C72B560154A200000053621E3961
+			}
+			myStoryDataActions
+			{
+				StoryDataAction_ConditionalAction "Conditional Action - Arrive then camera"
+				{
+					myCompleteType OR
+					myConditionalActions
+					{
+						StoryDataAction_WaitForArriveAtTarget "Arrive at windmill"
+						{
+							myDistance 20.0
+							mySimUnitAsset < uid=518C297A5B743D71000022481A3C4C9D > = sidestory001_sequence01_keyhole_B
+							myPlanet 2B55C72B560154A200000053621E3961
+						}
+					}
+					myOutcomeActions
+					{
+						StoryDataAction_SendStoryToGameEvent "StoryToGameEvent - Windmill Camera"
+						{
+							myStoryToGameEvent SideStory001_Seq01_PowerWindmill
+						}
+					}
+				}
+				StoryDataAction_ConditionalAction "Bonus - Conditional Action - Levi talks to Judge"
+				{
+					myCompleteType OR
+					myConditionalActions
+					{
+						StoryDataAction_Wait "Wait 7"
+						{
+							mySecondsToWait 7.0
+						}
+					}
+					myOutcomeActions
+					{
+						StoryDataAction_Dialog "Dialog 34 - Hey Judge, ever have an argument with yourself?"
+						{
+							myCompleteImmediately TRUE
+							myDialogSequenceID 34
+							myDialogStoryFlowID 1
+						}
+					}
+				}
+			}
+		}
+		StoryBeatData "Retrieve the 3rd Canister - Checkpoint" < uid=0A13A8F05B22E6890008AFFB2EC47036 >
+		{
+			myIsCheckpoint TRUE
+			myForceCompleteOptions
+			{
+				myEnabled TRUE
+				myCompleteOnSolveSimAsset < uid=600A30F35B69B7C500002204A6D2D6EF > = sidestory01_pilotdossier03
+				myCompleteOnSolvePlanet 2B55C72B560154A200000053621E3961
+			}
+			myStoryDataActions
+			{
+				StoryDataAction_Dialog "Dialog 26 - Quite the gap"
+				{
+					myCompleteImmediately TRUE
+					myDialogSequenceID 26
+					myDialogStoryFlowID 1
+				}
+				StoryDataAction_ConditionalAction "Conditional Action - Windmill Activated"
+				{
+					myConditionalActions
+					{
+						StoryDataAction_WaitForTargetSolved "Windmill Activated"
+						{
+							myObjectiveAutoRemoves FALSE
+							mySimUnitAsset < uid=518C297A5B74434B0000224928D31C26 > = sidestory001_sequence01_keyhole_B
+							myPlanet 2B55C72B560154A200000053621E3961
+						}
+					}
+					myOutcomeActions
+					{
+						StoryDataAction_SoundEvent "Audio - Mission_01_02"
+						{
+							myAudioEvent
+							{
+								myGuid 46DDDD1437ECD38E7F6C8F0B4DF4FCAD
+							}
+							myCompleteImmediately TRUE
+						}
+						StoryDataAction_SetTarget "Set target to Dossier"
+						{
+							mySimUnitAssetTarget "onward/game system data/juice/sim/sidestory01_pilotdossier03.msimunit"
+							myTargetPlanet 2B55C72B560154A200000053621E3961
+						}
+						StoryDataAction_WaitForTargetInteraction "Wait for Dossier Interact"
+						{
+							myObjectiveAutoRemoves FALSE
+							myInteractionType InteractionHail
+						}
+					}
+				}
+			}
+			myStoryDataActionSets
+			{
+			}
+		}
+		StoryBeatData "Pre bink" < uid=0A13A8F05B34D79A000028C859019994 >
+		{
+			myIsCheckpoint FALSE
+			myForceCompleteOptions
+			{
+				myEnabled TRUE
+				myCompleteOnSolveSimAsset < uid=9FD9E8185BA4FFCC0001AEE20BD44088 > = sidestory01_pilotdossier03
+				myCompleteOnSolvePlanet 2B55C72B560154A200000053621E3961
+			}
+			myStoryDataActions
+			{
+				StoryDataAction_SetTarget "Set Target Clean"
+				{
+				}
+				StoryDataAction_SetObjective "Set Objective Clean"
+				{
+					myObjectiveData < uid=0A13A8F05B34DE7400168B92DCB93EBE > = m1.Sub6
+					myObjectiveState Remove
+				}
+				StoryDataAction_ConditionalAction "Conditional - Dialogue into Fade"
+				{
+					myConditionalActions
+					{
+						StoryDataAction_Dialog "dialog 42"
+						{
+							myDialogSequenceID 42
+							myDialogStoryFlowID 1
+						}
+					}
+					myOutcomeActions
+					{
+						StoryDataAction_AddFadeRequest fade
+						{
+							myFadeRequestType Fade_Out
+							myFadeTime 1.0
+						}
+						StoryDataAction_Wait wait
+						{
+							mySecondsToWait 1.0
+						}
+					}
+				}
+			}
+		}
+		StoryBeatData "Bink 03" < uid=0A13A8F05B29691B00017C30D392C09E >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_Cinematic Cinematic
+				{
+					myCinematicFile onward/baked/videos/S01_M01_SC03_CHASE_DOSSIER.bk2
+				}
+				StoryDataAction_StopDialogueCamera "Stop Camera"
+				{
+				}
+				StoryDataAction_CompleteChallenge "Complete Challenge - Canister - Chase"
+				{
+					myChallengeToComplete PilotStory_Canister03_Chase
+				}
+			}
+		}
+		StoryBeatData "Manual Save" < uid=CC9485AB5B492696000026EECE32488B > : "Save Point"
+		{
+		}
+		StoryBeatData "Dialog 45" < uid=0A13A8F05B16FA720001796013DF2C63 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_AddFadeRequest fade
+				{
+					myFadeTime 1.0
+				}
+				StoryDataAction_Dialog "dialog 45"
+				{
+					myDialogSequenceID 45
+					myDialogStoryFlowID 1
+				}
+			}
+		}
+		StoryBeatData "Complete Sequence 1" < uid=9FD9E8185B1040A900001FA5E7E7672A >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_TransitionStorySection "Story Transition Exit Sequence01"
+				{
+					myTransitionType Exit
+					myStorySection sidestory01_sequence01
+				}
+			}
+		}
+		StoryBeatData "Manual Save" < uid=CC9485AB5B492696000026EFFEED5BC7 > : "Save Point"
+		{
+		}
+	}
+}
+
+StoryBeatSequence S01_SEQUENCE_02 < uid=9FD9E8185B0C4C5900001EBD0A9C52EC >
+{
+	myStoryBeats
+	{
+		StoryBeatData SEQUENCE_02 < uid=CC9485AB5B564B3F0000246865B53B93 >
+		{
+			myIsCheckpoint FALSE
+		}
+		StoryBeatData "Manual Save" < uid=CC9485AB5B491779000026E098466CE4 > : "Save Point"
+		{
+		}
+		StoryBeatData "Enable Side Story Gate" < uid=9FD9E8185B0C4C5900001EBE065CF7AA >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_TransitionStorySection "Story Transition Enter Sequence02"
+				{
+					myTransitionType Enter
+					myStorySection sidestory01_sequence02
+				}
+			}
+		}
+		StoryBeatData "Set Objective Header - Mission 2" < uid=9FD9E8185B0C4C5900001EBF2C3C1A45 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_SetObjective "Close Mission 1"
+				{
+					myObjectiveData < uid=9FD9E8185B0C4C5900001EC086C037C7 > = "Mission 1"
+					myObjectiveState Remove
+				}
+				StoryDataAction_SetObjective "Set Objective Header - Mission 2"
+				{
+					myObjectiveData < uid=9FD9E8185B0C4C5900001EC16E231EC1 > = "Mission 2"
+					myObjectiveState Active
+				}
+			}
+		}
+		StoryBeatData "Spawn Pilot Dossier 04" < uid=600A30F35B7B0DA7000021F9C183CB0C >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_CompleteStoryEvent "Story Event Spawn Dossier 4"
+				{
+					myStoryEvent SideStory001_Seq02_SpawnPilotDossier04
+				}
+			}
+		}
+		StoryBeatData "Reach location" < uid=0A13A8F05B34E7070019CD7D3AB68E5F >
+		{
+			myIsCheckpoint FALSE
+			myForceCompleteOptions
+			{
+				myEnabled TRUE
+				myCompleteOnSolveSimAsset < uid=600A30F35B7B0E3B000021FA892C60D5 > = sidestory01_pilotdossier04
+				myCompleteOnSolvePlanet 2B55C72B560154A200000053621E3961
+			}
+			myStoryDataActions
+			{
+				StoryDataAction_SetObjective "Set Objective"
+				{
+					myObjectiveData < uid=0A13A8F05B34E7070019CD7E76B69004 > = m2.Sub1
+					myObjectiveState Active
+				}
+				StoryDataAction_SetTarget "Set Target"
+				{
+					myObjectiveUID < uid=0A13A8F05B34E7070019CD7F6CBBF81F > = NULLREFERENCE
+					mySimUnitAssetTarget "onward/game system data/juice/sim/sidestory01_pilotdossier04.msimunit"
+					myTargetKnowledge 1.0
+					myTargetPlanet 2B55C72B560154A200000053621E3961
+					myActivityType Find
+				}
+				StoryDataAction_WaitForArriveAtTarget "Wait for arrival at target"
+				{
+					myDistance 300.0
+					myRequireInFOV FALSE
+				}
+			}
+		}
+		StoryBeatData "Locate the 4th Canister" < uid=0A13A8F05B168ED800041F63BDD7C687 >
+		{
+			myIsCheckpoint FALSE
+			myForceCompleteOptions
+			{
+				myEnabled TRUE
+				myCompleteOnSolveSimAsset < uid=600A30F35B7B0E3B000021FB42B58A32 > = sidestory01_pilotdossier04
+				myCompleteOnSolvePlanet 2B55C72B560154A200000053621E3961
+			}
+			myStoryDataActions
+			{
+				StoryDataAction_Dialog "dialog 1 - Starting my sweep"
+				{
+					myDialogSequenceID 1
+					myDialogStoryFlowID 1
+				}
+				StoryDataAction_WaitForArriveAtTarget "Wait for arrival at target"
+				{
+					myObjectiveUID < uid=0A13A8F05B168ED800041F66066B9986 > = m2.Sub1
+					myDistance 100.0
+					myRequireInFOV TRUE
+				}
+			}
+		}
+		StoryBeatData "Retrieve - Pilot Dossier 04 - Checkpoint" < uid=0A13A8F05B16BA1400002739D5F118FB >
+		{
+			myIsCheckpoint TRUE
+			myStoryDataActions
+			{
+				StoryDataAction_Dialog "Dialog 2 - ??"
+				{
+					myDialogSequenceID 2
+					myDialogStoryFlowID 1
+				}
+				StoryDataAction_SetTarget "Set Target PIlot Dossier 04"
+				{
+					myObjectiveUID < uid=0A13A8F05B16BA140000273A9665036F > = m2.Sub2
+					mySimUnitAssetTarget "onward/game system data/juice/sim/sidestory01_pilotdossier04.msimunit"
+					myTargetPlanet 2B55C72B560154A200000053621E3961
+					myActivityType None
+				}
+				StoryDataAction_WaitForTargetSolved "Wait for target solved"
+				{
+					myObjectiveUID < uid=0A13A8F05B2C0CB30032FB95BDC66AD2 > = m2.Sub2
+				}
+			}
+		}
+		StoryBeatData "Pre bink - Dialogue" < uid=0A13A8F05B34E7070019CD802E7A5216 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_SetTarget "Set Target Clean"
+				{
+				}
+				StoryDataAction_Dialog "dialog 3"
+				{
+					myDialogSequenceID 3
+					myDialogStoryFlowID 1
+				}
+			}
+		}
+		StoryBeatData "Pre-Bink Fade" < uid=9FD9E8185BA2B1940000246D50ADD8A4 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_AddFadeRequest fade
+				{
+					myFadeRequestType Fade_Out
+					myFadeTime 1.0
+				}
+				StoryDataAction_Wait wait
+				{
+					mySecondsToWait 1.0
+				}
+			}
+		}
+		StoryBeatData "Bink 01" < uid=0A13A8F05B2969A700017C31A50F050A >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_Cinematic Cinematic
+				{
+					myCinematicFile onward/baked/videos/S01_M02_SC01_LEVI_DOSSIER.bk2
+				}
+				StoryDataAction_CompleteChallenge "Complete Challenge - Canister - Levi"
+				{
+					myChallengeToComplete PilotStory_Canister04_Levi
+				}
+			}
+		}
+		StoryBeatData "Manual Save" < uid=CC9485AB5B492696000026F04274308E > : "Save Point"
+		{
+		}
+		StoryBeatData "Dialog 04" < uid=0A13A8F05B1705AC0004EDF9A06A8A64 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_AddFadeRequest fade
+				{
+					myFadeRequestType Fade_In
+					myFadeTime 1.0
+				}
+				StoryDataAction_Dialog "Dialog 04"
+				{
+					myDialogSequenceID 4
+					myDialogStoryFlowID 1
+				}
+			}
+		}
+		StoryBeatData "Scan the Wreck" < uid=0A13A8F05B22E972000A6BCB0317CF35 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_Dialog "Dialog 05"
+				{
+					myDialogSequenceID 5
+					myDialogStoryFlowID 1
+				}
+				StoryDataAction_SetObjective "Set Objective"
+				{
+					myObjectiveData < uid=0A13A8F05B22E972000A6BCC5BEE143F > = m2.Sub3
+					myObjectiveState Active
+				}
+				StoryDataAction_CompleteStoryEvent "Story Event Enable Interaction"
+				{
+					myStoryEvent SideStory001_Seq02_ScanWreck
+				}
+				StoryDataAction_SetTarget "Set Target"
+				{
+					mySimUnitAssetTarget "onward/game system data/juice/sim/sidestory001_sequence02_outlawmark.msimunit"
+					myTargetPlanet 2B55C72B560154A200000053621E3961
+				}
+				StoryDataAction_WaitForTargetInteraction "Wait for Interaction"
+				{
+					myObjectiveUID < uid=0A13A8F05B22E98F000A6BCF8E944253 > = m2.Sub3
+					myInteractionType InteractionScan
+				}
+			}
+		}
+		StoryBeatData "Spawn Canister 05" < uid=CC9485AB5B49282C000026F4DA9DDFA0 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_CompleteStoryEvent "StoryEvent Spawn Dossier 5"
+				{
+					myObjectiveUID < uid=CC9485AB5B49282C000026F531DA156B > = m2.Sub5
+					myStoryEvent SideStory001_Seq02_SpawnPilotDossier05
+				}
+			}
+		}
+		StoryBeatData "Maunal Save" < uid=CC9485AB5B49282C000026F79FFBCBB3 > : "Save Point"
+		{
+		}
+		StoryBeatData "Dialog 06 - That had mudusa class upgrades" < uid=CC9485AB5B525DF000002BC5BB305E71 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_Dialog "Dialog 06 - That had mudusa class upgrades"
+				{
+					myDialogSequenceID 6
+					myDialogStoryFlowID 1
+				}
+				StoryDataAction_CompleteStoryEvent "Story Event Disable Interaction"
+				{
+					myStoryEvent SideStory001_Seq02_ScanWreckComplete
+				}
+			}
+		}
+		StoryBeatData "Reach Outlaws Hideout" < uid=0A13A8F05B22E8C6000A6BBE3878D984 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_SetObjective "Set Objective"
+				{
+					myObjectiveData < uid=0A13A8F05B22E8C6000A6BBF62A3622A > = m2.Sub4
+					myObjectiveState Active
+				}
+				StoryDataAction_SetTarget "Set Target"
+				{
+					mySimUnitAssetTarget "onward/game system data/juice/sim/sidestory001_sequence02_destination.msimunit"
+					myTargetPlanet 2B55C72B560154A200000053621E3961
+				}
+				StoryDataAction_WaitForArriveAtTarget "Wait for Arrive at Target 500"
+				{
+					myObjectiveUID < uid=0A13A8F05B22E8E2000A6BC41A3540DD > = m2.Sub4
+					myDistance 500.0
+					myRequireInFOV FALSE
+				}
+			}
+		}
+		StoryBeatData "Retrieve - Pilot Dossier 05 - Checkpoint" < uid=0A13A8F05B15965A0002C310FD2B6AA4 >
+		{
+			myIsCheckpoint TRUE
+			myStoryDataActions
+			{
+				StoryDataAction_Dialog "Dialog 08"
+				{
+					myDialogSequenceID 8
+					myDialogStoryFlowID 1
+				}
+				StoryDataAction_SetObjective "Set Objective"
+				{
+					myObjectiveData < uid=0A13A8F05B23C1170008582ED783FB4F > = m2.Sub5
+					myObjectiveState Active
+				}
+				StoryDataAction_SetTarget "SetTarget Pilot Dossier 05"
+				{
+					myObjectiveUID < uid=0A13A8F05B168E6E00041F58B1BF6821 > = NULLREFERENCE
+					mySimUnitAssetTarget "onward/game system data/juice/sim/sidestory01_pilotdossier05.msimunit"
+					myTargetPlanet 2B55C72B560154A200000053621E3961
+				}
+				StoryDataAction_WaitForTargetSolved "Wait for Target solved"
+				{
+					myObjectiveUID < uid=0A13A8F05B2C0CB30032FB9645582B56 > = m2.Sub5
+				}
+				StoryDataAction_SoundEvent "[AUDIO] Music Stinger"
+				{
+					myAudioEvent
+					{
+						myGuid 4AA6F6CC7EBBA53F0C5504F27418CC9D
+					}
+					myCompleteImmediately TRUE
+				}
+			}
+		}
+		StoryBeatData "Pre Bink" < uid=0A13A8F05B34E87B0019CD81A030E5F0 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_SetTarget "Set Target Clean"
+				{
+				}
+				StoryDataAction_ConditionalAction "Condition action"
+				{
+					myConditionalActions
+					{
+						StoryDataAction_Dialog "dialog 9"
+						{
+							myDialogSequenceID 9
+							myDialogStoryFlowID 1
+						}
+					}
+					myOutcomeActions
+					{
+						StoryDataAction_AddFadeRequest fade
+						{
+							myFadeRequestType Fade_Out
+							myFadeTime 1.0
+						}
+						StoryDataAction_Wait wait
+						{
+							mySecondsToWait 1.0
+						}
+					}
+				}
+			}
+		}
+		StoryBeatData "Bink 02" < uid=0A13A8F05B2969A700017C3280B605A9 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_Cinematic Cinematic
+				{
+					myCinematicFile onward/baked/videos/S01_M02_SC02_SHAID_DOSSIER.bk2
+				}
+				StoryDataAction_CompleteChallenge "Complete Challenge - Canister - Shaide"
+				{
+					myChallengeToComplete PilotStory_Canister05_Shaide
+				}
+			}
+		}
+		StoryBeatData "Manual Save" < uid=CC9485AB5B492696000026F1F10355E5 > : "Save Point"
+		{
+		}
+		StoryBeatData "Dialog 10" < uid=0A13A8F05B1705AC0004EDFBC73DC761 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_Dialog "Dialog 10"
+				{
+					myDialogSequenceID 10
+					myDialogStoryFlowID 1
+				}
+				StoryDataAction_AddFadeRequest fade
+				{
+					myFadeTime 1.0
+				}
+				StoryDataAction_SetTarget "Set Ambush Destination"
+				{
+					mySimUnitAssetTarget "onward/game system data/juice/sim/sidestory001_sequence02_destination.msimunit"
+					myTargetPlanet 2B55C72B560154A200000053621E3961
+				}
+				StoryDataAction_WaitForArriveAtTarget "Check player is nearby so outlaws can ambush them"
+				{
+					myDistance 500.0
+					myRequireInFOV FALSE
+					mySimUnitAsset < uid=CC9485AB5B492A9C000026F8ABAF6733 > = Sidestory001_Sequence02_destination
+					myPlanet 2B55C72B560154A200000053621E3961
+				}
+			}
+		}
+		StoryBeatData "Spawn and Defeat the Outlaws" < uid=0A13A8F05B168F0E00041F6BD9A3FB94 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_Dialog "Dialog 12 - Turbo Vampires, protect the vault!"
+				{
+					myCompleteImmediately FALSE
+					myDialogSequenceID 12
+					myDialogStoryFlowID 1
+				}
+				StoryDataAction_ConditionalAction "Condition Action"
+				{
+					myConditionalActions
+					{
+						StoryDataAction_Wait Wait
+						{
+							mySecondsToWait 3.0
+						}
+					}
+					myOutcomeActions
+					{
+						StoryDataAction_CompleteStoryEvent "Story Event Spawn outlaws"
+						{
+							myStoryEvent SideStory001_Seq02_OutlawsSpawned
+						}
+						StoryDataAction_SpawnSimUnitNearSimUnitAsset "Spawn Outlaws"
+						{
+							myObjectiveUID < uid=0A13A8F05B34E87B0019CD83D10C0005 > = NULLREFERENCE
+							myObjectiveAutoRemoves TRUE
+							mySimUnitAsset < uid=0A13A8F05B34E87B0019CD842D1A12D0 > = sidestory001_sequence02_outlaw_guards
+							myDistance 100.0
+							myPlanetUID 2B55C72B560154A200000053621E3961
+							myTargetAsset < uid=0A13A8F05B34E87B0019CD850A226DE6 > = Sidestory001_Sequence02_destination
+						}
+						StoryDataAction_SetObjective "Set Objective"
+						{
+							myObjectiveData < uid=0A13A8F05B34E87B0019CD864B1D7587 > = m2.Sub6
+							myObjectiveState Active
+						}
+						StoryDataAction_SetTarget "Set Target Outlaws"
+						{
+							myObjectiveUID < uid=0A13A8F05B34E87B0019CD87FAA058C9 > = NULLREFERENCE
+							mySimUnitAssetTarget "onward/game system data/juice/sim/sidestory001_sequence02_outlaw_guards.msimunit"
+							myTargetPlanet 2B55C72B560154A200000053621E3961
+							myActivityType None
+						}
+						StoryDataAction_WaitForTargetDeath "Wait for Outlaws death"
+						{
+							myObjectiveUID < uid=0A13A8F05B34E87B0019CD8262C47742 > = m2.Sub6
+						}
+					}
+				}
+			}
+		}
+		StoryBeatData "Spawn Key SimUnit" < uid=0A13A8F05B168A6200041F28B8FA68AA >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_SpawnSimUnitNearSimUnitAsset "Spawn Key Sim Unit Near Asset"
+				{
+					myObjectiveUID < uid=0A13A8F05B16A4EF000EDC90368D99AF > = NULLREFERENCE
+					myObjectiveAutoRemoves FALSE
+					mySimUnitAsset < uid=0A13A8F05B16A4DD000EDC8E20AA92D0 > = sidestory001_sequence02_key01_slot
+					myDistance 0.0
+					myPlanetUID 2B55C72B560154A200000053621E3961
+					myTargetAsset < uid=0A13A8F05B16A4DD000EDC8F5D7CE11D > = Sidestory001_Sequence02_destination
+				}
+			}
+		}
+		StoryBeatData "Manual Save" < uid=CC9485AB5B492696000026F3398E685F > : "Save Point"
+		{
+		}
+		StoryBeatData "Dialog 15 - Better than therapy" < uid=600A30F35B6093C000002206BD677E51 >
+		{
+			myIsCheckpoint FALSE
+			myForceCompleteOptions
+			{
+				myEnabled TRUE
+				myCompleteOnSolveSimAsset < uid=600A30F35B6C86B3000022039C1AA090 > = sidestory01_pilotdossier06
+				myCompleteOnSolvePlanet 2B55C72B560154A200000053621E3961
+			}
+			myStoryDataActions
+			{
+				StoryDataAction_Dialog "Dialog 15"
+				{
+					myDialogSequenceID 15
+					myDialogStoryFlowID 1
+				}
+			}
+		}
+		StoryBeatData "Retrieve the Key" < uid=0A13A8F05B23C34700085835865A6861 >
+		{
+			myIsCheckpoint FALSE
+			myForceCompleteOptions
+			{
+				myEnabled TRUE
+				myCompleteOnSolveSimAsset < uid=600A30F35B6C86B3000022046E4A8F2A > = sidestory01_pilotdossier06
+				myCompleteOnSolvePlanet 2B55C72B560154A200000053621E3961
+			}
+			myStoryDataActions
+			{
+				StoryDataAction_Dialog "dialog 18"
+				{
+					myDialogSequenceID 18
+					myDialogStoryFlowID 1
+				}
+				StoryDataAction_SetObjective "Set Objective"
+				{
+					myObjectiveData < uid=0A13A8F05B23C34700085836289082DD > = m2.Sub7
+					myObjectiveState Active
+				}
+				StoryDataAction_SetTarget "Set Target"
+				{
+					mySimUnitAssetTarget "onward/game system data/juice/sim/sidestory001_sequence02_key01.msimunit"
+					myTargetPlanet 2B55C72B560154A200000053621E3961
+				}
+				StoryDataAction_WaitForTargetInteraction "Wait for Target Interaction"
+				{
+					myObjectiveUID < uid=0A13A8F05B23C34700085837CFF38EA0 > = m2.Sub7
+					myInteractionType InteractionPickup
+				}
+			}
+		}
+		StoryBeatData "Retrieve Pilot Dossier 06 - Checkpoint" < uid=0A13A8F05B1597010002C311543EC6E6 >
+		{
+			myIsCheckpoint TRUE
+			myForceCompleteOptions
+			{
+				myEnabled TRUE
+				myCompleteOnSolveSimAsset < uid=600A30F35B6C86B300002205354419DD > = sidestory01_pilotdossier06
+				myCompleteOnSolvePlanet 2B55C72B560154A200000053621E3961
+			}
+			myStoryDataActions
+			{
+				StoryDataAction_CompleteStoryEvent "StoryEvent Spawn Dossier 6"
+				{
+					myObjectiveUID < uid=0A13A8F05B168E6E00041F5AE6D3B338 > = NULLREFERENCE
+					myStoryEvent SideStory001_Seq02_SpawnPilotDossier06
+				}
+				StoryDataAction_SetTarget "Set Target"
+				{
+					mySimUnitAssetTarget "onward/game system data/juice/sim/sidestory001_sequence02_vaultdoor01.msimunit"
+					myTargetPlanet 2B55C72B560154A200000053621E3961
+				}
+				StoryDataAction_Dialog "Dialog 19 - Those wires have to lead somewhere"
+				{
+					myDialogSequenceID 19
+					myDialogStoryFlowID 1
+				}
+				StoryDataAction_SetObjective "Set Objective"
+				{
+					myObjectiveData < uid=0A13A8F05B34F955000028C59EC015ED > = m2.Sub8
+					myObjectiveState Active
+				}
+				StoryDataAction_ConditionalAction "Condition Action 1st vault door open"
+				{
+					myConditionalActions
+					{
+						StoryDataAction_WaitForTargetSolved "Wait for simasset Solved"
+						{
+							mySimUnitAsset < uid=0A13A8F05B34EF6E0019CD912B90DBBF > = sidestory001_sequence02_keyhole01_B
+							myPlanet 2B55C72B560154A200000053621E3961
+						}
+					}
+					myOutcomeActions
+					{
+						StoryDataAction_Dialog "dialog 22 - Looks like you've routed power back to one of those doors"
+						{
+							myDialogSequenceID 22
+							myDialogStoryFlowID 1
+						}
+						StoryDataAction_SetObjective "Remove objective"
+						{
+							myObjectiveData < uid=0A13A8F05B34F34E0019CDD3622ACF1C > = m2.Sub8
+							myObjectiveState Remove
+						}
+						StoryDataAction_SetObjective "Set objective"
+						{
+							myObjectiveData < uid=0A13A8F05B34F34E0019CDD44C522E68 > = m2.Sub9
+							myObjectiveState Active
+						}
+						StoryDataAction_SetTarget "Set Target"
+						{
+							mySimUnitAssetTarget "onward/game system data/juice/sim/sidestory001_sequence02_vaultdoor02.msimunit"
+							myTargetPlanet 2B55C72B560154A200000053621E3961
+						}
+						StoryDataAction_SoundEvent "Audio - Mission_02_02"
+						{
+							myAudioEvent
+							{
+								myGuid 42E98B6D113FD6D76F795639ED08AF80
+							}
+							myCompleteImmediately TRUE
+						}
+					}
+				}
+				StoryDataAction_ConditionalAction "Condition Action Ship door open"
+				{
+					myConditionalActions
+					{
+						StoryDataAction_WaitForTargetSolved "Wait for simasset solved"
+						{
+							mySimUnitAsset < uid=0A13A8F05B34F34E0019CDD756E24FA4 > = sidestory001_sequence02_keyhole01_A
+							myPlanet 2B55C72B560154A200000053621E3961
+						}
+					}
+					myOutcomeActions
+					{
+						StoryDataAction_Dialog "Dialog 25 - Huh, another ship?"
+						{
+							myDialogSequenceID 25
+							myDialogStoryFlowID 1
+						}
+						StoryDataAction_SoundEvent "Sound - Mission_02_01"
+						{
+							myAudioEvent
+							{
+								myGuid 4931C1AEB23C1E2F80D535AC72BDC3BA
+							}
+							myCompleteImmediately TRUE
+						}
+					}
+				}
+				StoryDataAction_ConditionalAction "Condition Action 2nd vault door open"
+				{
+					myConditionalActions
+					{
+						StoryDataAction_WaitForTargetSolved "Wait for Simasset Solved"
+						{
+							mySimUnitAsset < uid=0A13A8F05B34F34E0019CDD5B410CB81 > = sidestory001_sequence02_keyhole02
+							myPlanet 2B55C72B560154A200000053621E3961
+						}
+					}
+					myOutcomeActions
+					{
+						StoryDataAction_Dialog "Dialog 30 - Lasers, are you kidding me?"
+						{
+							myDialogSequenceID 30
+							myDialogStoryFlowID 1
+						}
+						StoryDataAction_SetObjective "Remove objective"
+						{
+							myObjectiveData < uid=0A13A8F05B34F34E0019CDD662843EC7 > = m2.Sub9
+							myObjectiveState Remove
+						}
+					}
+				}
+				StoryDataAction_ConditionalAction "Condition Action Retrieve Dossier 6"
+				{
+					myConditionalActions
+					{
+						StoryDataAction_WaitForTargetSolved "Wait for simasset Solved"
+						{
+							mySimUnitAsset < uid=CC9485AB5B6477B000002251A12146C5 > = sidestory001_sequence02_keyhole02
+							myPlanet 2B55C72B560154A200000053621E3961
+						}
+					}
+					myOutcomeActions
+					{
+						StoryDataAction_SetObjective "Set Objective"
+						{
+							myObjectiveData < uid=0A13A8F05B34F34E0019CDD9B960945F > = m2.Sub10
+							myObjectiveState Active
+						}
+						StoryDataAction_SetTarget "SetTarget Pilot Dossier 06"
+						{
+							myObjectiveUID < uid=0A13A8F05B34F34E0019CDDAFA51F7B2 > = NULLREFERENCE
+							mySimUnitAssetTarget "onward/game system data/juice/sim/sidestory01_pilotdossier06.msimunit"
+							myTargetPlanet 2B55C72B560154A200000053621E3961
+						}
+						StoryDataAction_WaitForTargetSolved "Wait for target solved"
+						{
+							myObjectiveUID < uid=0A13A8F05B34F34E0019CDDBBE8A1833 > = m2.Sub10
+						}
+					}
+				}
+			}
+			myStoryDataActionSets
+			{
+				StoryDataActionSet "Wait untill near chest - Dialog 33"
+				{
+					myStoryDataActionSetType OR
+					myStoryDataActions
+					{
+						StoryDataAction_WaitForTargetSolved "Wait for target Solved"
+						{
+							mySimUnitAsset < uid=CC9485AB5B647D8C00002267F4B821C3 > = sidestory01_pilotdossier06
+						}
+						StoryDataAction_ConditionalAction "Arrive near chest and play Dialog 33"
+						{
+							myCompleteType OR
+							myConditionalActions
+							{
+								StoryDataAction_WaitForArriveAtTarget "Arrive near chest and play Dialog 33"
+								{
+									myDistance 50.0
+									myRequireInFOV FALSE
+									mySimUnitAsset < uid=CC9485AB5B649E3C00002265B619FDFE > = sidestory01_pilotdossier06
+									myPlanet 2B55C72B560154A200000053621E3961
+								}
+							}
+							myOutcomeActions
+							{
+								StoryDataAction_Dialog "Dialog 33 - Turbo vampires have done well for themselves"
+								{
+									myCompleteImmediately TRUE
+									myDialogSequenceID 33
+									myDialogStoryFlowID 1
+								}
+							}
+						}
+					}
+				}
+				StoryDataActionSet "Wait untill near 2nd vault door - Dialog 23"
+				{
+					myStoryDataActionSetType OR
+					myStoryDataActions
+					{
+						StoryDataAction_WaitForTargetSolved "Target Solved"
+						{
+							mySimUnitAsset < uid=CC9485AB5B647F1C0000226C031BC602 > = sidestory01_pilotdossier06
+							myPlanet 2B55C72B560154A200000053621E3961
+						}
+						StoryDataAction_ConditionalAction "Conditional Action"
+						{
+							myCompleteType OR
+							myConditionalActions
+							{
+								StoryDataAction_WaitForArriveAtTarget "Arrive at target"
+								{
+									myDistance 30.0
+									myRequireInFOV FALSE
+									mySimUnitAsset < uid=CC9485AB5B64A31F000024C986013796 > = sidestory001_sequence02_keyhole02
+								}
+							}
+							myOutcomeActions
+							{
+								StoryDataAction_Dialog "Dialog 23 - These guys must be paranoid!"
+								{
+									myDialogSequenceID 23
+									myDialogStoryFlowID 1
+								}
+							}
+						}
+					}
+				}
+				StoryDataActionSet "Wait 30 - Dialog 17 - Is it ok if i call you Zev?"
+				{
+					myStoryDataActionSetType OR
+					myStoryDataActions
+					{
+						StoryDataAction_WaitForTargetSolved "Target Solved"
+						{
+							mySimUnitAsset < uid=CC9485AB5B647D8C0000226666D8804B > = sidestory01_pilotdossier06
+						}
+						StoryDataAction_ConditionalAction "Conditional Action"
+						{
+							myCompleteType OR
+							myConditionalActions
+							{
+								StoryDataAction_Wait "Wait 30"
+								{
+									mySecondsToWait 30.0
+								}
+							}
+							myOutcomeActions
+							{
+								StoryDataAction_Dialog "Dialog 17 - Is it ok if i call you Zev?"
+								{
+									myCompleteImmediately TRUE
+									myDialogSequenceID 17
+									myDialogStoryFlowID 1
+								}
+							}
+						}
+					}
+				}
+				StoryDataActionSet "Wait untill near pickup 2nd power conduit - Dialog 26"
+				{
+					myStoryDataActionSetType OR
+					myStoryDataActions
+					{
+						StoryDataAction_WaitForTargetSolved "Target Solved"
+						{
+							mySimUnitAsset < uid=CC9485AB5B647D8C00002268EC49669C > = sidestory01_pilotdossier06
+						}
+						StoryDataAction_ConditionalAction "Conditional Action - Wait arrive at pickup"
+						{
+							myCompleteType OR
+							myConditionalActions
+							{
+								StoryDataAction_WaitForArriveAtTarget "Arrive near conduit and play Dialog 26"
+								{
+									myDistance 10.0
+									mySimUnitAsset < uid=CC9485AB5B647D8C00002269333AB0A6 > = Sidestory001_Sequence02_key02
+								}
+							}
+							myOutcomeActions
+							{
+								StoryDataAction_Dialog "Dialog 26 - Two doors two conduits"
+								{
+									myCompleteImmediately TRUE
+									myDialogSequenceID 26
+									myDialogStoryFlowID 1
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		StoryBeatData "Pre bink" < uid=0A13A8F05B34EB5A0019CD8807D159DF >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_SetTarget "Set Target Clean"
+				{
+				}
+				StoryDataAction_ConditionalAction "Condition Action"
+				{
+					myConditionalActions
+					{
+						StoryDataAction_Dialog "Dialog 35"
+						{
+							myDialogSequenceID 35
+							myDialogStoryFlowID 1
+						}
+					}
+					myOutcomeActions
+					{
+						StoryDataAction_AddFadeRequest fade
+						{
+							myFadeRequestType Fade_Out
+							myFadeTime 1.0
+						}
+						StoryDataAction_Wait wait
+						{
+							mySecondsToWait 1.0
+						}
+					}
+				}
+			}
+		}
+		StoryBeatData "Bink 03" < uid=0A13A8F05B2969A700017C33A857D45C >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_Cinematic Cinematic
+				{
+					myCinematicFile onward/baked/videos/S01_M02_SC03_JUDGE_DOSSIER.bk2
+				}
+				StoryDataAction_CompleteChallenge "Complete Challenge - Canister - Judge"
+				{
+					myChallengeToComplete PilotStory_Canister06_Judge
+				}
+			}
+		}
+		StoryBeatData "Manual Save" < uid=CC9485AB5B492696000026F2AD292D5E > : "Save Point"
+		{
+		}
+		StoryBeatData "Dialog 38" < uid=0A13A8F05B1705AC0004EDFF2894BB18 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_Dialog "Dialog 38"
+				{
+					myDialogSequenceID 38
+					myDialogStoryFlowID 1
+				}
+				StoryDataAction_AddFadeRequest fade
+				{
+					myFadeTime 1.0
+				}
+			}
+		}
+		StoryBeatData "Complete Sequence 2" < uid=0A13A8F05B15935E00001F37CB6EA812 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_TransitionStorySection "Story Transition Exit Sequence02"
+				{
+					myTransitionType Exit
+					myStorySection sidestory01_sequence02
+				}
+			}
+		}
+		StoryBeatData "Maunal Save" < uid=CC9485AB5B49282C000026F6D57D8DD3 > : "Save Point"
+		{
+		}
+	}
+}
+
+StoryBeatSequence S01_SEQUENCE_03 < uid=9FD9E8185B0C4C5900001EC5B25B3A7B >
+{
+	myStoryBeats
+	{
+		StoryBeatData SEQUENCE_03 < uid=CC9485AB5B564B3F00002469CCD6C0A1 >
+		{
+			myIsCheckpoint FALSE
+		}
+		StoryBeatData "Manual Save" < uid=CC9485AB5B491779000026E157EA0AE4 > : "Save Point"
+		{
+		}
+		StoryBeatData "Remove Mission 2 Header" < uid=9FD9E8185B0C4C5900001EC768CF331E >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_SetObjective "Close Mission 2"
+				{
+					myObjectiveData < uid=9FD9E8185B0C4C5900001EC86B3DB64D > = "Mission 2"
+					myObjectiveState Remove
+				}
+			}
+		}
+	}
+}
+
+StoryBeatSequence S01_SEQUENCE_04 < uid=0A13A8F05B0D557300018EFBE092A38A >
+{
+	myStoryBeats
+	{
+		StoryBeatData SEQUENCE_04 < uid=CC9485AB5B564B7D0000246AA2ED6FE5 >
+		{
+			myIsCheckpoint FALSE
+		}
+		StoryBeatData "Manual Save" < uid=CC9485AB5B491779000026E2A72CCA54 > : "Save Point"
+		{
+		}
+		StoryBeatData "Gate - First Outpost Tower Built - Act 3" < uid=9FD9E8185B7EC6EF0000223C0DA109E2 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_SetObjective "Set Objective Header - Mission 4 (For Unlock)"
+				{
+					myObjectiveData < uid=9FD9E8185B804EE70000227397C86C1F > = "Mission 4"
+					myObjectiveState Active
+				}
+				StoryDataAction_SetObjective "Set Objective - Progress"
+				{
+					myObjectiveData < uid=9FD9E8185B7EFDB10000223F6DBBA6AE > = "MAIN - BUFFER - Sub - Before Gate"
+					myObjectiveState Active
+				}
+				StoryDataAction_WaitForStoryEvent "Wait for Story Event"
+				{
+					myStoryEvent Act03_VylusObservatoryBuilt
+				}
+			}
+		}
+		StoryBeatData "Enable Side Story Section" < uid=0A13A8F05B0D557300018EFCE492BF93 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_SetObjective "Close Buffer Objective"
+				{
+					myObjectiveData < uid=9FD9E8185B801834000022567C8053F5 > = "MAIN - BUFFER - Sub - Before Gate"
+					myObjectiveState Remove
+				}
+				StoryDataAction_TransitionStorySection "Story Transition Enter Sequence04"
+				{
+					myTransitionType Enter
+					myStorySection sidestory01_sequence04
+				}
+				StoryDataAction_Dialog "Dialogue - SQ9905 - New Mission Tracker"
+				{
+					myDialogSequenceID 9905
+					myDialogStoryFlowID 0
+					myPauseInOutpostMenu FALSE
+				}
+			}
+		}
+		StoryBeatData "Set Objective Header - Mission 4" < uid=0A13A8F05B0D557300018EFD7D89E574 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_SetObjective "Close Sub Objective"
+				{
+					myIsSubObjective TRUE
+					myObjectiveData < uid=CC9485AB5B61E095000022576019345B > = Act1.Chapter10.Sub3
+					myObjectiveState Remove
+				}
+				StoryDataAction_SetTarget "Remove Target"
+				{
+				}
+				StoryDataAction_SetObjective "Set Objective Header - Mission 4"
+				{
+					myObjectiveData < uid=0A13A8F05B0D557300018EFFE1912D51 > = "Mission 4"
+					myObjectiveState Active
+				}
+			}
+		}
+		StoryBeatData "Wait untill haven is discovered" < uid=CC9485AB5B61CC4400003237CC36F4F3 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_WaitForChallengeComplete "Discover Planet_03"
+				{
+					myChallenge Discover_Planet03
+				}
+			}
+		}
+		StoryBeatData "Reach Dr.Thorn" < uid=0A13A8F05B0D557300018F00908E78D7 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_CompleteStoryEvent "Story Event - Spawn Thorn"
+				{
+					myStoryEvent SideStory001_Seq04_SpawnThorn
+				}
+				StoryDataAction_SetObjective "Set Objective - Goto Location 4"
+				{
+					myObjectiveData < uid=0A13A8F05B1695F200084FBEF4626652 > = m4.Sub1
+					myObjectiveState Active
+				}
+				StoryDataAction_SetTarget "Set Target - Location 4"
+				{
+					myObjectiveUID < uid=0A13A8F05B16972700084FC4FD3F28B3 > = NULLREFERENCE
+					mySimUnitAssetTarget "onward/game system data/juice/sim/sidestory001_sequence04_missiongiver.msimunit"
+					myTargetPlanet CC9485AB560D8193000001B70208D164
+					myActivityType None
+				}
+				StoryDataAction_WaitForArriveAtTarget "Wait for Arrival - 1000"
+				{
+					myObjectiveUID < uid=0A13A8F05B16972700084FC5ED0000F3 > = m4.Sub1
+					myDistance 1000.0
+					myRequireInFOV FALSE
+				}
+			}
+		}
+		StoryBeatData "Talk to Dr.Thorn" < uid=0A13A8F05B1697F300084FC898C8CB84 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_ConditionalAction "Condition Action"
+				{
+					myConditionalActions
+					{
+						StoryDataAction_Dialog "Dialog 01"
+						{
+							myDialogSequenceID 1
+							myDialogStoryFlowID 1
+						}
+					}
+					myOutcomeActions
+					{
+						StoryDataAction_SetObjective "Set Objective"
+						{
+							myObjectiveData < uid=0A13A8F05B3517430000296F9446A71B > = m4.Sub2
+							myObjectiveState Active
+						}
+						StoryDataAction_SetTarget "Set Target"
+						{
+							myObjectiveUID < uid=0A13A8F05B3517430000297025A05DCE > = NULLREFERENCE
+							myObjectiveAutoRemoves TRUE
+							mySimUnitAssetTarget "onward/game system data/juice/sim/sidestory001_sequence04_missiongiver.msimunit"
+							myTargetPlanet CC9485AB560D8193000001B70208D164
+							myActivityType None
+						}
+						StoryDataAction_CompleteStoryEvent "Story Event Enable Interaction"
+						{
+							myStoryEvent SideStory001_Seq04_TalkToThorn
+						}
+						StoryDataAction_WaitForTargetInteraction "Wait for Interaction"
+						{
+							myObjectiveUID < uid=0A13A8F05B351743000029718B6B096F > = m4.Sub2
+							myInteractionType InteractionHail
+						}
+					}
+				}
+			}
+		}
+		StoryBeatData "Bink 01" < uid=0A13A8F05B296F0400017C34ED8467F8 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_ConditionalAction "Condition Action"
+				{
+					myConditionalActions
+					{
+						StoryDataAction_CompleteStoryEvent "Story Event Disable Interaction"
+						{
+							myStoryEvent SideStory001_Seq04_TalkToThornComplete
+						}
+						StoryDataAction_AddFadeRequest fade
+						{
+							myFadeRequestType Fade_Out
+							myFadeTime 1.0
+						}
+						StoryDataAction_Wait wait
+						{
+							mySecondsToWait 1.0
+						}
+					}
+					myOutcomeActions
+					{
+						StoryDataAction_Cinematic Cinematic
+						{
+							myCinematicFile onward/baked/videos/S01_M04_SC01_THORN_INTRO.bk2
+						}
+					}
+				}
+			}
+		}
+		StoryBeatData "Manual Save" < uid=CC9485AB5B492B99000026F94A3F4E60 > : "Save Point"
+		{
+		}
+		StoryBeatData "Realize Puzzle Ingredients" < uid=0A13A8F05B0DB0AA0001AF111BBB3009 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_CompleteStoryEvent "Complete Story Event"
+				{
+					myObjectiveUID < uid=0A13A8F05B16984700084FD5F63FEE7C > = NULLREFERENCE
+					myObjectiveAutoRemoves TRUE
+					myStoryEvent SideStory001_Seq04_PuzzleInit
+				}
+			}
+		}
+		StoryBeatData "Dialog 6 - I'm sending you the co-ordinants" < uid=0A13A8F05B2D63DD00002841DB982677 >
+		{
+			myIsCheckpoint FALSE
+			myForceCompleteOptions
+			{
+				myEnabled TRUE
+				myCompleteOnGameToStoryEvent SideStory01_Seq04_FloatingRockReleased
+			}
+			myStoryDataActions
+			{
+				StoryDataAction_AddFadeRequest fade
+				{
+					myFadeTime 1.0
+				}
+				StoryDataAction_Dialog "Dialog 6 - I'm sending you the co-ordinants"
+				{
+					myDialogSequenceID 6
+					myDialogStoryFlowID 1
+				}
+			}
+			myStoryDataActionSets
+			{
+			}
+		}
+		StoryBeatData "Reach the cave system" < uid=CC9485AB5B5649ED000024642B346066 >
+		{
+			myIsCheckpoint FALSE
+			myForceCompleteOptions
+			{
+				myEnabled TRUE
+				myCompleteOnGameToStoryEvent SideStory01_Seq04_FloatingRockReleased
+			}
+			myStoryDataActions
+			{
+				StoryDataAction_SetObjective "Set Objective"
+				{
+					myObjectiveData < uid=CC9485AB5B5649ED000024659667F5B9 > = m4.Sub3
+					myObjectiveState Active
+				}
+				StoryDataAction_SetTarget "Set target"
+				{
+					mySimUnitAssetTarget "onward/game system data/juice/sim/sidestory001_sequence04_key.msimunit"
+					myTargetPlanet CC9485AB560D8193000001B70208D164
+				}
+				StoryDataAction_ConditionalAction "Conditional Action - dialog 12 - Oh you brought the swarm specimin with you?"
+				{
+					myConditionalActions
+					{
+						StoryDataAction_Wait "Wait 3"
+						{
+							mySecondsToWait 3.0
+						}
+					}
+					myOutcomeActions
+					{
+						StoryDataAction_Dialog "Dialog 12 - Oh you brought the swarm specimin with you?"
+						{
+							myCompleteImmediately FALSE
+							myDialogSequenceID 12
+							myDialogStoryFlowID 1
+						}
+					}
+				}
+				StoryDataAction_WaitForArriveAtTarget "Wait for arrive at Target"
+				{
+					myObjectiveUID < uid=CC9485AB5B5649ED000024660E0C0B3D > = m4.Sub3
+					myDistance 300.0
+					myRequireInFOV FALSE
+				}
+			}
+		}
+		StoryBeatData "Play Overview Camera + Dialog" < uid=0A13A8F05B2954A70001AA11490E8A0A >
+		{
+			myIsCheckpoint FALSE
+			myForceCompleteOptions
+			{
+				myEnabled TRUE
+				myCompleteOnGameToStoryEvent SideStory01_Seq04_FloatingRockReleased
+			}
+			myStoryDataActions
+			{
+				StoryDataAction_Dialog "Dialog 11 - The vines have trapped a large chunk of debris"
+				{
+					myCompleteImmediately TRUE
+					myDialogSequenceID 11
+					myDialogStoryFlowID 1
+				}
+				StoryDataAction_SendStoryToGameEvent "Story to Game Event"
+				{
+					myStoryToGameEvent SideStory001_Seq04_PuzzleOverviewCamera
+				}
+				StoryDataAction_SoundEvent "Audio - mission_05_02"
+				{
+					myAudioEvent
+					{
+						myGuid 4CC717EDC816C133B449E6A862D4B9A3
+					}
+					myCompleteImmediately TRUE
+				}
+			}
+		}
+		StoryBeatData "Dialog 15 - Vine Growths Close up" < uid=CC9485AB5B60AC87000024976294F1EE >
+		{
+			myIsCheckpoint FALSE
+			myForceCompleteOptions
+			{
+				myEnabled TRUE
+				myCompleteOnGameToStoryEvent SideStory01_Seq04_FloatingRockReleased
+			}
+			myStoryDataActions
+			{
+				StoryDataAction_ConditionalAction "Conditional Action - Wait then play bulp camera + dialog"
+				{
+					myCompleteType OR
+					myConditionalActions
+					{
+						StoryDataAction_Wait "Wait - 5"
+						{
+							mySecondsToWait 5.0
+						}
+					}
+					myOutcomeActions
+					{
+						StoryDataAction_Dialog "Dialog 15 - Vine Growths"
+						{
+							myDialogSequenceID 15
+							myDialogStoryFlowID 1
+						}
+					}
+				}
+			}
+		}
+		StoryBeatData "Release Rock" < uid=0A13A8F05B0D557300018F04EF9F578A >
+		{
+			myIsCheckpoint FALSE
+			myForceCompleteOptions
+			{
+				myEnabled TRUE
+				myCompleteOnGameToStoryEvent SideStory01_Seq04_FloatingRockReleased
+			}
+			myStoryDataActions
+			{
+				StoryDataAction_SetObjective "Set Objective"
+				{
+					myObjectiveData < uid=0A13A8F05B240F8E00064AF0DF3DA837 > = m4.Sub4
+					myObjectiveState Active
+				}
+				StoryDataAction_SetTarget "Set Target"
+				{
+					mySimUnitAssetTarget "onward/game system data/juice/sim/sidestory001_sequence04_key.msimunit"
+					myTargetPlanet CC9485AB560D8193000001B70208D164
+					myActivityType Pickup
+				}
+				StoryDataAction_WaitForGameToStoryEvent "Wait for game to Story - Rock Released"
+				{
+					myGameToStoryStoryEvent SideStory01_Seq04_FloatingRockReleased
+				}
+			}
+			myStoryDataActionSets
+			{
+				StoryDataActionSet "Dialog 28 - Judge could be dangerous - (Bonus after 30 sec)"
+				{
+					myStoryDataActionSetType OR
+					myStoryDataActions
+					{
+						StoryDataAction_ConditionalAction "Conditional Action - Dialog 28 - Judge could be dangerous - (Bonus after 30 sec)"
+						{
+							myObjectiveAutoRemoves FALSE
+							myCompleteType OR
+							myConditionalActions
+							{
+								StoryDataAction_Wait "Wait 30"
+								{
+									myObjectiveAutoRemoves FALSE
+									mySecondsToWait 30.0
+								}
+							}
+							myOutcomeActions
+							{
+								StoryDataAction_Dialog "Dialog 28 - Judge could be dangerous - (Bonus after 1 min)"
+								{
+									myCompleteImmediately TRUE
+									myDialogSequenceID 28
+									myDialogStoryFlowID 1
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		StoryBeatData "Manual Save" < uid=518C297A5B71F7A4000024970C7CDE6C > : "Save Point"
+		{
+		}
+		StoryBeatData "Wait for camera finished" < uid=518C297A5B7322A8000024CD0A7DD3E2 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_Wait "Wait 6"
+				{
+					myObjectiveAutoRemoves FALSE
+					mySecondsToWait 6.0
+				}
+			}
+		}
+		StoryBeatData "Pickup Artefact" < uid=518C297A5B7312C10000226522EF3702 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_SetTarget "Set Target"
+				{
+					mySimUnitAssetTarget "onward/game system data/juice/sim/sidestory001_sequence04_key.msimunit"
+					myTargetPlanet CC9485AB560D8193000001B70208D164
+					myActivityType Pickup
+				}
+			}
+			myStoryDataActionSets
+			{
+				StoryDataActionSet "Dialogue AND Artefact Pickup"
+				{
+					myStoryDataActionSetType AND
+					myStoryDataActions
+					{
+						StoryDataAction_Dialog "Dialogue 40 - Keystone Uncovered"
+						{
+							myObjectiveAutoRemoves FALSE
+							myCompleteImmediately TRUE
+							myDialogSequenceID 40
+							myDialogStoryFlowID 1
+							myPauseInOutpostMenu FALSE
+						}
+						StoryDataAction_WaitForTargetInteraction "Wait for Artefact Pickup"
+						{
+							myObjectiveUID < uid=518C297A5B7317300000227E38AEE2AC > = m4.Sub4
+							myInteractionType InteractionPickup
+						}
+					}
+				}
+			}
+		}
+		StoryBeatData "Dialog 42 - You did it! you retived the artifact" < uid=0A13A8F05B170992000694C6960263E1 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_Dialog "Dialog 42"
+				{
+					myDialogSequenceID 42
+					myDialogStoryFlowID 1
+				}
+			}
+		}
+		StoryBeatData "Complete Sequence 4" < uid=0A13A8F05B15935E00001F38724007D0 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_TransitionStorySection "Story Transition Exit Sequence04"
+				{
+					myTransitionType Exit
+					myStorySection sidestory01_sequence04
+				}
+			}
+		}
+		StoryBeatData "Manual Save" < uid=CC9485AB5B492B99000026FB32F2BA63 > : "Save Point"
+		{
+		}
+	}
+}
+
+StoryBeatSequence S01_SEQUENCE_05 < uid=9FD9E8185B0C4C5900001ED373FD61AC >
+{
+	myStoryBeats
+	{
+		StoryBeatData SEQUENCE_05 < uid=CC9485AB5B564B7D0000246B1D5018DD >
+		{
+			myIsCheckpoint FALSE
+		}
+		StoryBeatData "Manual Save" < uid=CC9485AB5B491779000026E3356F0A3A > : "Save Point"
+		{
+		}
+		StoryBeatData "Enable Side Story Gate" < uid=9FD9E8185B0C4C5900001ED4AEEFB8F2 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_TransitionStorySection "Story Transition Enter Sequence05"
+				{
+					myTransitionType Enter
+					myStorySection sidestory01_sequence05
+				}
+			}
+		}
+		StoryBeatData "Set Objective Header - Mission 5" < uid=9FD9E8185B0C4C5900001ED599E7AF69 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_SetObjective "Close Mission 4"
+				{
+					myObjectiveData < uid=9FD9E8185B0C4C5900001ED69AABD2DB > = "Mission 4"
+					myObjectiveState Remove
+				}
+				StoryDataAction_SetObjective "Set Objective Header - Mission 5"
+				{
+					myObjectiveData < uid=9FD9E8185B0C4C5900001ED702C33023 > = "Mission 5"
+					myObjectiveState Active
+				}
+			}
+		}
+		StoryBeatData "Realize Puzzle Ingredients" < uid=0A13A8F05B0DAF16000026157CAE2054 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_CompleteStoryEvent "Complete Story Event"
+				{
+					myObjectiveUID < uid=0A13A8F05B169928000857504C415620 > = m5.Sub1
+					myObjectiveAutoRemoves TRUE
+					myStoryEvent SideStory001_Seq05_PuzzleInit
+				}
+			}
+		}
+		StoryBeatData "Deliver Artefact to area" < uid=9FD9E8185B0C4D7A00001EE7DA100B5A >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_SetObjective "Set Sub Objective - Goto Location"
+				{
+					myObjectiveData < uid=9FD9E8185B0C4D7A00001EE86DC86E5F > = m5.Sub1
+					myObjectiveState Active
+				}
+				StoryDataAction_WaitForArriveAtTarget "Wait for arrive at target"
+				{
+					myDistance 2000.0
+					myRequireInFOV FALSE
+					mySimUnitAsset < uid=C92C09425B58D2AD000022164AF22F38 > = sidestory001_sequence05_keyhole
+					myPlanet CC9485AB560D8193000001B70208D164
+				}
+			}
+			myStoryDataActionSets
+			{
+				StoryDataActionSet OR
+				{
+					myStoryDataActionSetType OR
+					myStoryDataActions
+					{
+						StoryDataAction_Deliver Deliver
+						{
+							myPickupInfo
+							{
+								mySimUnitAsset < uid=0A13A8F05B28FF76006F2574F2CBDA29 > = Sidestory001_Sequence04_key
+								myPlanet CC9485AB560D8193000001B70208D164
+							}
+							myDestinationInfo
+							{
+								mySimUnitAsset < uid=0A13A8F05B28FF76006F25753A5B4A50 > = sidestory001_sequence05_keyhole
+								myPlanet CC9485AB560D8193000001B70208D164
+							}
+							myAttemptRespawnAtPlayer FALSE
+							myShouldEmergencyRespawn FALSE
+						}
+						StoryDataAction_WaitForArriveAtTarget "Wait for Arrival at Target"
+						{
+							myDistance 500.0
+							myRequireInFOV FALSE
+							mySimUnitAsset < uid=0A13A8F05B2958A8000209B528CC5B30 > = sidestory001_sequence05_keyhole
+							myPlanet CC9485AB560D8193000001B70208D164
+						}
+					}
+				}
+			}
+		}
+		StoryBeatData "Dialog 05" < uid=0A13A8F05B170A8A00069C341A66AFB1 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_SetObjective "Remove Objective"
+				{
+					myObjectiveData < uid=0A13A8F05B295AD40000281C8B75A77E > = m5.Sub1
+					myObjectiveState Remove
+				}
+				StoryDataAction_SoundEvent "Audio - Mission_05_05"
+				{
+					myAudioEvent
+					{
+						myGuid 479FCE71ABDB12393CCEBA859DC64FB9
+					}
+					myCompleteImmediately TRUE
+				}
+				StoryDataAction_SendStoryToGameEvent "Story to game Event"
+				{
+					myStoryToGameEvent SideStory001_Seq05_PlatformOverviewCamera
+				}
+				StoryDataAction_Dialog "Dialog 1 - Excellent work Equinox"
+				{
+					myDialogSequenceID 1
+					myDialogStoryFlowID 1
+				}
+			}
+		}
+		StoryBeatData "Manual Save" < uid=CC9485AB5B4931040000270FC8E93B46 > : "Save Point"
+		{
+		}
+		StoryBeatData "Deliver Artifact to the top" < uid=0A13A8F05B0D557300018F13FCE3C8BF >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_SetObjective "Set Objective"
+				{
+					myObjectiveData < uid=0A13A8F05B1699860008575D4D6C332D > = m5.Sub2
+					myObjectiveState Active
+				}
+			}
+			myStoryDataActionSets
+			{
+				StoryDataActionSet "OR (debug)"
+				{
+					myStoryDataActionSetType OR
+					myStoryDataActions
+					{
+						StoryDataAction_Deliver "Deliver Artifact at the top"
+						{
+							myObjectiveUID < uid=0A13A8F05B3140000009585B31881BE6 > = m5.Sub2
+							myPickupInfo
+							{
+								mySimUnitAsset < uid=0A13A8F05B3126350013A01BD0FB66DE > = Sidestory001_Sequence04_key
+								myPlanet CC9485AB560D8193000001B70208D164
+							}
+							myDestinationInfo
+							{
+								mySimUnitAsset < uid=0A13A8F05B3126350013A01C5C2FC3E2 > = sidestory001_sequence05_keyhole
+								myPlanet CC9485AB560D8193000001B70208D164
+							}
+							myAttemptRespawnAtPlayer FALSE
+							myShouldEmergencyRespawn FALSE
+							myCompleteOnTargetSolved TRUE
+						}
+						StoryDataAction_WaitForTargetSolved "Debug Listen for Keyhole Solved"
+						{
+							myObjectiveUID < uid=0A13A8F05B3140000009585C39D29182 > = m5.Sub2
+							mySimUnitAsset < uid=0A13A8F05B3126350013A01D87922601 > = sidestory001_sequence05_keyhole
+							myPlanet CC9485AB560D8193000001B70208D164
+						}
+					}
+				}
+				StoryDataActionSet "Dialog 10"
+				{
+					myStoryDataActionSetType OR
+					myStoryDataActions
+					{
+						StoryDataAction_WaitForTargetSolved "Wait for SimAsset Solved"
+						{
+							mySimUnitAsset < uid=0A13A8F05B352E31000FC22E0126EC48 > = sidestory001_sequence05_keyhole
+							myPlanet CC9485AB560D8193000001B70208D164
+						}
+						StoryDataAction_ConditionalAction "Condition Action"
+						{
+							myConditionalActions
+							{
+								StoryDataAction_WaitForArriveAtTarget "Arrive at SimAsset"
+								{
+									myDistance 50.0
+									myRequireInFOV FALSE
+									mySimUnitAsset < uid=0A13A8F05B352E7C000FC23294DEB989 > = Sidestory001_Sequence05_Area_Ramp
+									myPlanet CC9485AB560D8193000001B70208D164
+								}
+							}
+							myOutcomeActions
+							{
+								StoryDataAction_Dialog "Dialog 10"
+								{
+									myDialogSequenceID 10
+									myDialogStoryFlowID 1
+								}
+							}
+						}
+					}
+				}
+				StoryDataActionSet "Dialog 18"
+				{
+					myStoryDataActionSetType OR
+					myStoryDataActions
+					{
+						StoryDataAction_WaitForTargetSolved "Wait for SimAsset Sovled"
+						{
+							mySimUnitAsset < uid=0A13A8F05B3632F2000EED21F2B3D415 > = sidestory001_sequence05_keyhole
+							myPlanet CC9485AB560D8193000001B70208D164
+						}
+						StoryDataAction_WaitForTargetDeath "Wait for SimAsset Death"
+						{
+							mySimUnitAsset < uid=0A13A8F05B3632F2000EED2233B3FB22 > = Sidestory001_Sequence05_CorruptedNova
+							myPlanet CC9485AB560D8193000001B70208D164
+							myCompleteIfNoTargetFound TRUE
+						}
+						StoryDataAction_ConditionalAction "Condition Action"
+						{
+							myConditionalActions
+							{
+								StoryDataAction_WaitForArriveAtTarget "Arrive at SimAsset"
+								{
+									myDistance 50.0
+									myRequireInFOV FALSE
+									mySimUnitAsset < uid=0A13A8F05B36359000123D6D2EF87F4B > = Sidestory001_Sequence05_Area_lockedpillar
+									myPlanet CC9485AB560D8193000001B70208D164
+								}
+							}
+							myOutcomeActions
+							{
+								StoryDataAction_Dialog Dialog
+								{
+									myDialogSequenceID 18
+									myDialogStoryFlowID 1
+								}
+							}
+						}
+					}
+				}
+				StoryDataActionSet "Dialog 20"
+				{
+					myStoryDataActionSetType OR
+					myStoryDataActions
+					{
+						StoryDataAction_WaitForTargetSolved "Wait for SimAsset Solved"
+						{
+							mySimUnitAsset < uid=0A13A8F05B352E31000FC2306DFAC873 > = sidestory001_sequence05_keyhole
+							myPlanet CC9485AB560D8193000001B70208D164
+						}
+						StoryDataAction_ConditionalAction "Condition Action"
+						{
+							myConditionalActions
+							{
+								StoryDataAction_WaitForArriveAtTarget "Arrive at simAsset"
+								{
+									myDistance 50.0
+									myRequireInFOV FALSE
+									mySimUnitAsset < uid=0A13A8F05B352E7C000FC233F4D27E3B > = Sidestory001_Sequence05_Area_VinedRock
+									myPlanet CC9485AB560D8193000001B70208D164
+								}
+							}
+							myOutcomeActions
+							{
+								StoryDataAction_Dialog "Dialog 20"
+								{
+									myDialogSequenceID 20
+									myDialogStoryFlowID 1
+								}
+							}
+						}
+					}
+				}
+				StoryDataActionSet "Dialog 23 - You made it to the top!"
+				{
+					myStoryDataActionSetType OR
+					myStoryDataActions
+					{
+						StoryDataAction_WaitForTargetSolved "Wait for SimAsset Solved"
+						{
+							mySimUnitAsset < uid=CC9485AB5B648335000024D255322D88 > = sidestory001_sequence05_keyhole
+						}
+						StoryDataAction_ConditionalAction "Conditional Action - Get to the top"
+						{
+							myCompleteType OR
+							myConditionalActions
+							{
+								StoryDataAction_WaitForArriveAtTarget "Arrive at target - 40"
+								{
+									myDistance 40.0
+								}
+							}
+							myOutcomeActions
+							{
+								StoryDataAction_Dialog "Dialog 23"
+								{
+									myCompleteImmediately TRUE
+									myDialogSequenceID 23
+									myDialogStoryFlowID 1
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		StoryBeatData "Pillar Rising Events" < uid=0A13A8F05B33CCBB000029FC9A0F3681 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_SoundEvent "Audio - Mission_05_06"
+				{
+					myAudioEvent
+					{
+						myGuid 4C0CA58F675C4B5AFDA4414504A8B484
+					}
+					myCompleteImmediately TRUE
+				}
+				StoryDataAction_CompleteStoryEvent "Story Event"
+				{
+					myStoryEvent SideStory001_Seq05_PillarRiseCinematic
+				}
+				StoryDataAction_Dialog "Dialog 28"
+				{
+					myDialogSequenceID 28
+					myDialogStoryFlowID 1
+				}
+				StoryDataAction_SetTarget "Remove Target"
+				{
+				}
+			}
+		}
+		StoryBeatData "Dialog 28" < uid=0A13A8F05B170A8A00069C3604ABB5FB >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+			}
+		}
+		StoryBeatData "Sequence 05 completed" < uid=0A13A8F05B0DA95E01974F7323B54765 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_SetObjective "Remove Objective"
+				{
+					myObjectiveData < uid=0A13A8F05B3143FF000C1952F09F4A64 > = m5.Sub2
+					myObjectiveState Remove
+				}
+				StoryDataAction_SetTarget "Clean  Marker"
+				{
+				}
+				StoryDataAction_TransitionStorySection "Story Transition Exit Sequence05"
+				{
+					myTransitionType Exit
+					myStorySection sidestory01_sequence05
+				}
+			}
+			myStoryDataActionSets
+			{
+			}
+		}
+		StoryBeatData "Manual Save" < uid=CC9485AB5B4931040000271060D35A0D > : "Save Point"
+		{
+		}
+	}
+}
+
+StoryBeatSequence S01_SEQUENCE_06 < uid=9FD9E8185B0C4C5900001ED975005108 >
+{
+	myStoryBeats
+	{
+		StoryBeatData SEQUENCE_06 < uid=CC9485AB5B564B7D0000246CD1F5D147 >
+		{
+			myIsCheckpoint FALSE
+		}
+		StoryBeatData "Manual Save" < uid=CC9485AB5B491779000026E49EE5613F > : "Save Point"
+		{
+		}
+		StoryBeatData "Gate - Act 4 - Starlink Tower Built" < uid=9FD9E8185B7EC9350000223C7CDF23D3 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_SetObjective "Set Objective - Progress Buffer"
+				{
+					myObjectiveData < uid=9FD9E8185B801C870000225B24297CB3 > = "MAIN - BUFFER - Sub - Before Gate"
+					myObjectiveState Active
+				}
+				StoryDataAction_WaitForStoryEvent "Wait for Story Event - First Starlink Tower Built - Act 4"
+				{
+					myStoryEvent Act04_FirstTowerComplete
+				}
+			}
+		}
+		StoryBeatData "Enable Side Story Gate" < uid=9FD9E8185B0C4C5900001EDAB1F96879 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_TransitionStorySection "Story Transition Enter Sequence06"
+				{
+					myTransitionType Enter
+					myStorySection sidestory01_sequence06
+				}
+				StoryDataAction_Dialog "Dialogue - SQ9905 - New Mission Tracker"
+				{
+					myDialogSequenceID 9905
+					myDialogStoryFlowID 0
+				}
+				StoryDataAction_SetObjective "Clear Objective - Progress Buffer"
+				{
+					myObjectiveData < uid=9FD9E8185B801CA9000022608E05419A > = "MAIN - BUFFER - Sub - Before Gate"
+					myObjectiveState Remove
+				}
+			}
+		}
+		StoryBeatData "Set Objective Header - Mission 6" < uid=0A13A8F05B15ADB100050E11BCA2B342 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_SetObjective "Close Mission 5"
+				{
+					myObjectiveData < uid=0A13A8F05B15ADBD00050E16C3CEE13B > = "Mission 5"
+					myObjectiveState Remove
+				}
+				StoryDataAction_SetObjective "Set Objective Header Misison 6"
+				{
+					myObjectiveData < uid=0A13A8F05B15ADBD00050E177253ACE3 > = "Mission 6"
+					myObjectiveState Active
+				}
+			}
+		}
+		StoryBeatData "Reach Signal Destination" < uid=0A13A8F05B16A8EC00127F1F2EEB8197 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_CompleteStoryEvent "Story Event - Spawn Thorn"
+				{
+					myStoryEvent SideStory001_Seq06_SpawnThorn
+				}
+				StoryDataAction_SetObjective "Set Objective"
+				{
+					myObjectiveData < uid=0A13A8F05B16A8EC00127F202FF8606F > = m6.Sub1
+					myObjectiveState Active
+				}
+				StoryDataAction_SetTarget "Set Target"
+				{
+					myObjectiveUID < uid=0A13A8F05B16A8EC00127F2196EFC20C > = NULLREFERENCE
+					mySimUnitAssetTarget "onward/game system data/juice/sim/sidestory001_sequence06_destination.msimunit"
+					myTargetKnowledge 100.0
+					myTargetPlanet CC9485AB560BFF1000000066C27E74E9
+				}
+				StoryDataAction_WaitForArriveAtTarget "Wait for arrival at target - 500"
+				{
+					myObjectiveUID < uid=0A13A8F05B16A8EC00127F22EEC511AE > = m6.Sub1
+					myDistance 500.0
+					myRequireInFOV FALSE
+				}
+			}
+		}
+		StoryBeatData "Dialog 1" < uid=0A13A8F05B354279000164914C73E35B >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_Dialog "Dialog 1"
+				{
+					myDialogSequenceID 1
+					myDialogStoryFlowID 1
+				}
+			}
+		}
+		StoryBeatData "Talk to Dr.Thorn" < uid=0A13A8F05B24188500191C337C5AE9B2 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_SetObjective "Set Objective"
+				{
+					myObjectiveData < uid=0A13A8F05B24188500191C3459C0C9F7 > = m6.Sub2
+				}
+				StoryDataAction_CompleteStoryEvent "Story Event Enable Interaction"
+				{
+					myStoryEvent SideStory001_Seq06_TalkToThorn
+				}
+				StoryDataAction_SetTarget "Set Target"
+				{
+					mySimUnitAssetTarget "onward/game system data/juice/sim/sidestory001_sequence06_missiongiver.msimunit"
+					myTargetPlanet CC9485AB560BFF1000000066C27E74E9
+				}
+				StoryDataAction_WaitForTargetInteraction "Wait for Target Interaction"
+				{
+					myObjectiveUID < uid=0A13A8F05B24188500191C3552157B2D > = m6.Sub2
+					myInteractionType InteractionHail
+				}
+			}
+		}
+		StoryBeatData "Dialog 3 - Welcome to your destiny" < uid=0A13A8F05B170CE4000827147BA3D058 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_SetTarget "Remove target"
+				{
+				}
+				StoryDataAction_CompleteStoryEvent "Story Event Disable Interaction"
+				{
+					myStoryEvent SideStory001_Seq06_TalkToThornComplete
+				}
+				StoryDataAction_Dialog "Dialog 3"
+				{
+					myDialogSequenceID 3
+					myDialogStoryFlowID 1
+				}
+			}
+		}
+		StoryBeatData "Dialog 5 - There it is , live swarm energy" < uid=CC9485AB5B4A79A1000022763F1922D3 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_Dialog "Dialog 5"
+				{
+					myDialogSequenceID 5
+					myDialogStoryFlowID 1
+				}
+				StoryDataAction_SetObjective "Set Objective"
+				{
+					myObjectiveData < uid=954305805B5A562B0001DDA7A9BD2547 > = m6.Sub3
+					myObjectiveState Active
+				}
+				StoryDataAction_SetTarget "SetTarget Prime Core"
+				{
+					myObjectiveUID < uid=CC9485AB5B4A79A1000022787995FFE7 > = NULLREFERENCE
+					mySimUnitAssetTarget "onward/game system data/juice/sim/sidestory001_sequence06_prime_core.msimunit"
+					myTargetPlanet CC9485AB560BFF1000000066C27E74E9
+				}
+				StoryDataAction_WaitForArriveAtTarget "Wait for Arrival at Trapped Core"
+				{
+					myDistance 50.0
+					myPlanet CC9485AB560BFF1000000066C27E74E9
+				}
+			}
+		}
+		StoryBeatData "Dialog 6 - How are we going to Get that Core" < uid=CC9485AB5B4A79A100002279E0488693 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_Dialog "Dialog 6"
+				{
+					myDialogSequenceID 6
+					myDialogStoryFlowID 1
+				}
+				StoryDataAction_ClearPlayerWaypoint "Clear Waypoint"
+				{
+				}
+			}
+		}
+		StoryBeatData "Dialog 8 - We could use the prime lasers" < uid=CC9485AB5B4A79A10000227A16B12FF3 >
+		{
+			myStoryDataActions
+			{
+				StoryDataAction_Dialog "Dialog 8"
+				{
+					myDialogSequenceID 8
+					myDialogStoryFlowID 1
+				}
+				StoryDataAction_CompleteStoryEvent "Story event - spawn keys"
+				{
+					myStoryEvent SideStory001_Seq06_SpawnKey
+				}
+				StoryDataAction_SendStoryToGameEvent "Story to Game Event"
+				{
+					myStoryToGameEvent SideStory001_Seq06_LaserOverviewCamera
+				}
+				StoryDataAction_ConditionalAction "Conditional Action - Wait 4 seconds to change target and update objective"
+				{
+					myObjectiveAutoRemoves TRUE
+					myConditionalActions
+					{
+						StoryDataAction_Wait "Wait - 4"
+						{
+							myObjectiveAutoRemoves FALSE
+							mySecondsToWait 4.0
+						}
+					}
+					myOutcomeActions
+					{
+						StoryDataAction_SetObjective "Complete Retrieve the Core Objective"
+						{
+							myObjectiveData < uid=518C297A5B6DAD0B00002250A6314F9D > = m6.Sub3
+							myObjectiveState Remove
+						}
+						StoryDataAction_SetTarget "Set target to keyhole 3"
+						{
+							myObjectiveAutoRemoves FALSE
+							mySimUnitAssetTarget "onward/game system data/juice/sim/sidestory001_sequence06_keyhole_c.msimunit"
+							myTargetPlanet CC9485AB560BFF1000000066C27E74E9
+							myActivityType None
+						}
+						StoryDataAction_SetObjective "Set objective to fire Prime Laser"
+						{
+							myIsSubObjective TRUE
+							myObjectiveData < uid=CC9485AB5B4A813F000022997B15CEF9 > = m6.sub4
+							myObjectiveState Active
+						}
+					}
+				}
+			}
+		}
+		StoryBeatData "Wait and play closeup cam on fosucing crystals" < uid=CC9485AB5B64BD7A0000251618DD0292 >
+		{
+			myStoryDataActions
+			{
+				StoryDataAction_ConditionalAction "Contitional action - Wait then play camera"
+				{
+					myConditionalActions
+					{
+						StoryDataAction_Wait "Wait 1"
+						{
+							mySecondsToWait 3.0
+						}
+					}
+					myOutcomeActions
+					{
+						StoryDataAction_CompleteStoryEvent "Complete Story Event - Begin listening for Crystal Pickup"
+						{
+							myStoryEvent SideStory001_Seq06_PickupFocusingCrystal
+						}
+						StoryDataAction_Dialog "Dialog 15 - Those prime tails stil have some juice in them"
+						{
+							myCompleteImmediately FALSE
+							myDialogSequenceID 15
+							myDialogStoryFlowID 1
+						}
+						StoryDataAction_ConditionalAction "Conditional Action - Wait 2"
+						{
+							myCompleteType OR
+							myConditionalActions
+							{
+								StoryDataAction_Wait "Wait 2"
+								{
+									mySecondsToWait 2.0
+								}
+							}
+							myOutcomeActions
+							{
+								StoryDataAction_SendStoryToGameEvent "SendStoryToGameEvent - Pickup Focusing Crystal"
+								{
+									myObjectiveAutoRemoves FALSE
+									myStoryToGameEvent SideStory001_Seq06_PickupFocusingCrystal
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		StoryBeatData "Manual Save" < uid=CC9485AB5B49310400002711F843C81B > : "Save Point"
+		{
+		}
+		StoryBeatData "Listen for Prime tail moving (or if player glitches to the top)" < uid=CC9485AB5B4A79A10000227C52379991 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_ConditionalAction "Conditional Action - Tail moved or Laser fired"
+				{
+					myCompleteType OR
+					myConditionalActions
+					{
+						StoryDataAction_WaitForTargetSolved "First Keyhole used - Moving  prime tail"
+						{
+							myObjectiveUID < uid=CC9485AB5B4F85EE0000248AC0DA296C > = NULLREFERENCE
+							myObjectiveAutoRemoves FALSE
+							mySimUnitAsset < uid=CC9485AB5B4F85EE0000248B818EE11F > = sidestory001_sequence06_keyhole_a
+							myPlanet CC9485AB560BFF1000000066C27E74E9
+						}
+						StoryDataAction_WaitForTargetSolved "Or Wait for laser to be fired (if player glitches up to the top somehow)"
+						{
+							myObjectiveAutoRemoves FALSE
+							myPlanet CC9485AB560BFF1000000066C27E74E9
+						}
+					}
+				}
+			}
+		}
+		StoryBeatData "Dialog 18 - Woah Imagine 2 primes fighting it out" < uid=CC9485AB5B4A79A10000227FB4C915F0 >
+		{
+			myIsCheckpoint FALSE
+			myForceCompleteOptions
+			{
+				myEnabled TRUE
+				myCompleteOnSolveSimAsset < uid=518C297A5B858E83000024A19C9A6659 > = sidestory001_sequence06_keyhole_c
+				myCompleteOnSolvePlanet CC9485AB560BFF1000000066C27E74E9
+			}
+			myStoryDataActions
+			{
+				StoryDataAction_Dialog "Dialog 18 - Imagine 2 primes fighting it out!"
+				{
+					myCompleteImmediately FALSE
+					myLineNumberToStartAt 1
+					myDialogSequenceID 18
+					myDialogStoryFlowID 1
+				}
+			}
+		}
+		StoryBeatData "Wait for activate laser tail" < uid=CC9485AB5B4A79A1000022805ADCE9E9 >
+		{
+			myIsCheckpoint FALSE
+			myForceCompleteOptions
+			{
+				myEnabled TRUE
+				myCompleteOnSolveSimAsset < uid=518C297A5B858E83000024A2C04C5679 > = sidestory001_sequence06_keyhole_c
+				myCompleteOnSolvePlanet CC9485AB560BFF1000000066C27E74E9
+			}
+			myStoryDataActions
+			{
+				StoryDataAction_WaitForTargetSolved "Wait for laser to be activated"
+				{
+					myObjectiveAutoRemoves FALSE
+					myPlanet CC9485AB560BFF1000000066C27E74E9
+				}
+			}
+		}
+		StoryBeatData "Wait 3 + Audio event" < uid=CC9485AB5B4A9F65000024C92F0B5909 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_Wait "Wait 3"
+				{
+					mySecondsToWait 3.0
+				}
+				StoryDataAction_SoundEvent "Audio - Mission _03_01"
+				{
+					myAudioEvent
+					{
+						myGuid 4BC91450C891BEAB1B6E29DD4DC58382
+					}
+					myCompleteImmediately TRUE
+				}
+			}
+		}
+		StoryBeatData "Complete Story Event - Prime Head Blocker Destroyed" < uid=600A30F35B607AEC00002206BB6EAF4F >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_CompleteStoryEvent "Complete Story Event - Prime Head Blocker Destroyed"
+				{
+					myStoryEvent SideStory001_Seq06_PrimeHeadBlockerDestroyed
+				}
+			}
+		}
+		StoryBeatData "Manual Save" < uid=600A30F35B6076F10000249612D13300 > : "Save Point"
+		{
+		}
+		StoryBeatData "Dialog - 20 - You did it!" < uid=CC9485AB5B4A79A1000022824EA53AE2 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_ClearPlayerWaypoint "Clear Waypoint"
+				{
+				}
+				StoryDataAction_Dialog "Dialog 20 - You did it , you free'd the core!"
+				{
+					myObjectiveAutoRemoves TRUE
+					myDialogSequenceID 20
+					myDialogStoryFlowID 1
+				}
+				StoryDataAction_ConditionalAction "Conditional Action - Wait 4 seconds then update waypoint + objective"
+				{
+					myConditionalActions
+					{
+						StoryDataAction_Wait "Wait 4"
+						{
+							mySecondsToWait 4.0
+						}
+					}
+					myOutcomeActions
+					{
+						StoryDataAction_SetObjective "Clear Activate Laser Objective"
+						{
+							myObjectiveData < uid=954305805B5A53930000220C3C7AA5F8 > = m6.sub4
+							myObjectiveState Remove
+						}
+						StoryDataAction_SetObjective "Set Objective"
+						{
+							myObjectiveData < uid=CC9485AB5B4A85BE0000229AD8762FD6 > = m6.Sub5
+							myObjectiveState Active
+						}
+						StoryDataAction_SetTarget "Set Target to Core"
+						{
+							mySimUnitAssetTarget "onward/game system data/juice/sim/sidestory001_sequence06_prime_core.msimunit"
+							myTargetPlanet CC9485AB560BFF1000000066C27E74E9
+						}
+					}
+				}
+			}
+		}
+		StoryBeatData "Deliver Core to Thorn" < uid=0A13A8F05B241A7600191C5039D4C421 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_Deliver Deliver
+				{
+					myObjectiveUID < uid=0A13A8F05B241A7600191C52051711BC > = m6.Sub5
+					myPickupInfo
+					{
+						mySimUnitAsset < uid=0A13A8F05B241A7600191C53C74FAFC9 > = sidestory001_sequence06_prime_core
+						myPlanet CC9485AB560BFF1000000066C27E74E9
+					}
+					myDestinationInfo
+					{
+						mySimUnitAsset < uid=0A13A8F05B241A7600191C5458258ECD > = sidestory001_sequence06_prime_core_siphon
+						myPlanet CC9485AB560BFF1000000066C27E74E9
+					}
+					myAttemptRespawnAtPlayer FALSE
+					myCompleteOnTargetSolved TRUE
+				}
+				StoryDataAction_SendStoryToGameEvent "Story to Game - Unlock Core Siphon"
+				{
+					myStoryToGameEvent SideStory001_Seq06_UnlockCoreSiphon
+				}
+			}
+		}
+		StoryBeatData "Bink 01" < uid=0A13A8F05B296F0400017C35307E0817 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_ConditionalAction "Condition Action"
+				{
+					myConditionalActions
+					{
+						StoryDataAction_Wait wait
+						{
+							mySecondsToWait 1.0
+						}
+						StoryDataAction_AddFadeRequest fade
+						{
+							myFadeRequestType Fade_Out
+							myFadeTime 1.0
+						}
+					}
+					myOutcomeActions
+					{
+						StoryDataAction_Cinematic Cinematic
+						{
+							myCinematicFile onward/baked/videos/S01_M06_SC01_THORN_DEMANDS.bk2
+						}
+					}
+				}
+				StoryDataAction_SendStoryToGameEvent "Story to Game - Lock Prime Core"
+				{
+					myStoryToGameEvent SideStory001_Seq06_LockPrimeCore
+				}
+			}
+		}
+		StoryBeatData "Dialog 25 - No Judge isn't a weapon" < uid=0A13A8F05B170CE400082718F71E233E >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_AddFadeRequest fade
+				{
+					myFadeTime 1.0
+				}
+				StoryDataAction_SetTarget "Remove Target"
+				{
+				}
+				StoryDataAction_SetObjective "Remove Objective"
+				{
+					myIsSubObjective TRUE
+					myObjectiveData < uid=CC9485AB5B749E17000024F6D51A1CBF > = m6.Sub5
+					myObjectiveState Remove
+				}
+				StoryDataAction_Dialog "Dialog 25 - No Judge isn't a weapon"
+				{
+					myDialogSequenceID 25
+					myDialogStoryFlowID 1
+				}
+			}
+		}
+		StoryBeatData "Spawn Cyclops" < uid=0A13A8F05B32813E00002BC9DC37EF50 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_Dialog "dialog 43"
+				{
+					myDialogSequenceID 43
+					myDialogStoryFlowID 1
+				}
+				StoryDataAction_Dialog "Dialog 28 - You've never experienced living under the wardens (auto completes)"
+				{
+					myCompleteImmediately TRUE
+					myDialogSequenceID 28
+					myDialogStoryFlowID 1
+				}
+				StoryDataAction_CompleteStoryEvent "Story Event Spawn Cyclops"
+				{
+					myStoryEvent SideStory001_Seq06_StartCyclopSpawning
+				}
+				StoryDataAction_ConditionalAction "Conditional Action Spawn Cyclop 02"
+				{
+					myConditionalActions
+					{
+						StoryDataAction_Wait Wait
+						{
+							mySecondsToWait 5.0
+						}
+					}
+					myOutcomeActions
+					{
+						StoryDataAction_CompleteStoryEvent "Story Event"
+						{
+							myStoryEvent SideStory001_Seq06_SpawnCyclop02
+						}
+					}
+				}
+				StoryDataAction_ConditionalAction "Conditional Action Spawn Cyclop 01"
+				{
+					myConditionalActions
+					{
+						StoryDataAction_Wait Wait
+						{
+							mySecondsToWait 4.0
+						}
+					}
+					myOutcomeActions
+					{
+						StoryDataAction_CompleteStoryEvent "Story Event"
+						{
+							myStoryEvent SideStory001_Seq06_SpawnCyclop01
+						}
+					}
+				}
+				StoryDataAction_ConditionalAction "Conditional Action Spawn Cyclop 03"
+				{
+					myConditionalActions
+					{
+						StoryDataAction_Wait Wait
+						{
+							mySecondsToWait 6.0
+						}
+					}
+					myOutcomeActions
+					{
+						StoryDataAction_CompleteStoryEvent "Story Event"
+						{
+							myStoryEvent SideStory001_Seq06_SpawnCyclop03
+						}
+					}
+				}
+				StoryDataAction_SoundEvent "Audio - Mission_03_02"
+				{
+					myAudioEvent
+					{
+						myGuid 409312D97ECF918C4C8A6A44DD21D2AF
+					}
+					myCompleteImmediately TRUE
+				}
+			}
+		}
+		StoryBeatData "Defeat Golden Cyclops" < uid=0A13A8F05B16A94D00127F2ABAF28957 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_Dialog "Dialog 45 - Why are they attacking us, they're scared"
+				{
+					myDialogSequenceID 45
+					myDialogStoryFlowID 1
+					myPauseInOutpostMenu FALSE
+				}
+				StoryDataAction_ConditionalAction "Condition action - When 1st cyclopse dies, play dialog 48"
+				{
+					myCompleteType OR
+					myConditionalActions
+					{
+						StoryDataAction_WaitForTargetDeath "Death 1"
+						{
+							mySimUnitAsset < uid=CC9485AB5B4A8CF50000229F72F95DE3 > = sidestory001_sequence06_goldencyclops_01
+						}
+						StoryDataAction_WaitForTargetDeath "Death 2"
+						{
+							mySimUnitAsset < uid=CC9485AB5B4A8CF5000022A0178D1907 > = sidestory001_sequence06_goldencyclops_02
+						}
+						StoryDataAction_WaitForTargetDeath "Death 3"
+						{
+							mySimUnitAsset < uid=CC9485AB5B4A8CF5000022A11C10801D > = sidestory001_sequence06_goldencyclops_03
+						}
+					}
+					myOutcomeActions
+					{
+						StoryDataAction_Dialog "dialog 48"
+						{
+							myDialogSequenceID 48
+							myDialogStoryFlowID 1
+						}
+					}
+				}
+				StoryDataAction_SetObjective "Set Objective"
+				{
+					myObjectiveData < uid=0A13A8F05B16A9C300127F2DCC4197B8 > = m6.Sub6
+					myObjectiveState Active
+				}
+				StoryDataAction_SetTarget "Set Target Core - So players can fin their way back"
+				{
+					myObjectiveUID < uid=0A13A8F05B16A9C300127F310904A9AC > = NULLREFERENCE
+					mySimUnitAssetTarget "onward/game system data/juice/sim/sidestory001_sequence06_prime_core.msimunit"
+					myTargetPlanet CC9485AB560BFF1000000066C27E74E9
+				}
+				StoryDataAction_WaitForTargetDeath "Wait for Cyclopse 1 Death"
+				{
+					myObjectiveUID < uid=0A13A8F05B16A9C300127F3253B3F26D > = m6.Sub6
+					myObjectiveAutoRemoves FALSE
+					mySimUnitAsset < uid=CC9485AB5B50D3A800002625B6E01649 > = sidestory001_sequence06_goldencyclops_01
+					myPlanet CC9485AB560BFF1000000066C27E74E9
+					myCompleteIfNoTargetFound TRUE
+				}
+				StoryDataAction_WaitForTargetDeath "Wait for Cyclopse 2 Death"
+				{
+					myObjectiveUID < uid=CC9485AB5B4A86AE0000229BB7ADD2A2 > = m6.Sub6
+					myObjectiveAutoRemoves FALSE
+					mySimUnitAsset < uid=CC9485AB5B4A86AE0000229C17CE5BE0 > = sidestory001_sequence06_goldencyclops_02
+					myPlanet CC9485AB560BFF1000000066C27E74E9
+					myCompleteIfNoTargetFound TRUE
+				}
+				StoryDataAction_WaitForTargetDeath "Wait for Cyclopse 3 Death"
+				{
+					myObjectiveUID < uid=CC9485AB5B4A86AE0000229DC2793DE6 > = m6.Sub6
+					myObjectiveAutoRemoves FALSE
+					mySimUnitAsset < uid=CC9485AB5B4A86AE0000229EAB18B2E0 > = sidestory001_sequence06_goldencyclops_03
+					myPlanet CC9485AB560BFF1000000066C27E74E9
+					myCompleteIfNoTargetFound TRUE
+				}
+			}
+		}
+		StoryBeatData "Manual Save" < uid=CC9485AB5B49310400002712DA381954 > : "Save Point"
+		{
+		}
+		StoryBeatData "Pickup the Core" < uid=0A13A8F05B241A7600191C557ADEBF3A >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_Dialog "Dialog 52"
+				{
+					myDialogSequenceID 52
+					myDialogStoryFlowID 1
+				}
+				StoryDataAction_SetObjective "Set Objective"
+				{
+					myObjectiveData < uid=0A13A8F05B241B7600191C5FC3194163 > = m6.Sub7
+					myObjectiveState Active
+				}
+				StoryDataAction_SetTarget "Set Target"
+				{
+					mySimUnitAssetTarget "onward/game system data/juice/sim/sidestory001_sequence06_prime_core.msimunit"
+					myTargetPlanet CC9485AB560BFF1000000066C27E74E9
+				}
+				StoryDataAction_ConditionalAction "Condition Action - Story Event"
+				{
+					myConditionalActions
+					{
+						StoryDataAction_Wait Wait
+						{
+							mySecondsToWait 2.0
+						}
+					}
+					myOutcomeActions
+					{
+						StoryDataAction_CompleteStoryEvent "Story Event Combat Completed"
+						{
+							myStoryEvent SideStory001_Seq06_CombatComplete
+						}
+						StoryDataAction_SendStoryToGameEvent "Story to Game - Combat Completed"
+						{
+							myStoryToGameEvent SideStory001_Seq06_CombatComplete
+						}
+					}
+				}
+				StoryDataAction_WaitForTargetInteraction "Wait for Target Interaction"
+				{
+					myObjectiveUID < uid=0A13A8F05B241B7600191C60754E591F > = m6.Sub7
+					myInteractionType InteractionPickup
+				}
+			}
+		}
+		StoryBeatData "Bink 04" < uid=0A13A8F05B296F0400017C38D8430717 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_ConditionalAction "Condition Action"
+				{
+					myConditionalActions
+					{
+						StoryDataAction_Wait wait
+						{
+							mySecondsToWait 1.0
+						}
+						StoryDataAction_AddFadeRequest fade
+						{
+							myFadeRequestType Fade_Out
+							myFadeTime 1.0
+						}
+					}
+					myOutcomeActions
+					{
+						StoryDataAction_Cinematic Cinematic
+						{
+							myCinematicFile onward/baked/videos/S01_M06_SC04_JUDGE_SWARM_FLASHBACK.bk2
+						}
+						StoryDataAction_TeleportPlayer "Teleport player to Equnox"
+						{
+							myPlayer1Teleport
+							{
+								mySimUnitAssetPath "onward/game system data/juice/sim/onward_equinox_space.msimunit"
+								myTeleportOffset 1000.0;0.0;500.0
+								myTeleportRotation 0.0;180.0;0.0
+								myIsOffsetInLocalSpace TRUE
+							}
+							myPlayer2Teleport
+							{
+								mySimUnitAssetPath "onward/game system data/juice/sim/onward_equinox_space.msimunit"
+								myTeleportOffset 1100.0;0.0;500.0
+								myTeleportRotation 0.0;180.0;0.0
+								myIsOffsetInLocalSpace TRUE
+							}
+							mySnapToGroundHeight 0.0
+						}
+					}
+				}
+			}
+		}
+		StoryBeatData "Manual Save" < uid=CC9485AB5B75939A00002246BCDE10DC > : "Save Point"
+		{
+		}
+		StoryBeatData "Core Removed" < uid=CC9485AB5B75939A00002247B82EB98A >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_CompleteStoryEvent "Story Event"
+				{
+					myStoryEvent SideStory001_Seq06_RemoveSwarmCore
+				}
+				StoryDataAction_AddFadeRequest fade
+				{
+					myFadeTime 1.0
+				}
+			}
+		}
+		StoryBeatData "Set Objective Header - Mission 7" < uid=CC9485AB5B75939A000022485AC59EF6 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_SetObjective "Close Mission 6"
+				{
+					myObjectiveData < uid=CC9485AB5B75939A000022499DD46591 > = "Mission 6"
+					myObjectiveState Remove
+				}
+				StoryDataAction_SetTarget "Set Target - None"
+				{
+				}
+				StoryDataAction_SetObjective "Set Objective Header - Mission 7"
+				{
+					myObjectiveData < uid=CC9485AB5B75939A0000224AD1C0DE07 > = "Mission 7"
+					myObjectiveState Active
+				}
+				StoryDataAction_ConditionalAction "Conditional Action - Wait then play Dialog 60 - Where did thorn go?"
+				{
+					myConditionalActions
+					{
+						StoryDataAction_Wait "Wait 2"
+						{
+							mySecondsToWait 2.0
+						}
+					}
+					myOutcomeActions
+					{
+						StoryDataAction_Dialog "Dialog 60 - Where did thorn go?"
+						{
+							myDialogSequenceID 60
+							myDialogStoryFlowID 1
+						}
+					}
+				}
+			}
+		}
+		StoryBeatData "Complete Sequence 6" < uid=CC9485AB5B75939A0000224B1CEFCF5C >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_TransitionStorySection "Story Transition Exit Sequence06"
+				{
+					myTransitionType Exit
+					myStorySection sidestory01_sequence06
+				}
+			}
+		}
+		StoryBeatData "Manual Save" < uid=CC9485AB5B493104000027135B8A3A5E > : "Save Point"
+		{
+		}
+	}
+}
+
+StoryBeatSequence S01_SEQUENCE_07 < uid=9FD9E8185B0C4C5900001EDBAAA0144D >
+{
+	myStoryBeats
+	{
+		StoryBeatData SEQUENCE_07 < uid=CC9485AB5B564B990000246DAB5CD010 >
+		{
+			myIsCheckpoint FALSE
+		}
+		StoryBeatData "Manual Save" < uid=CC9485AB5B491779000026E5995FE52D > : "Save Point"
+		{
+		}
+		StoryBeatData "Enable Side Story Gate" < uid=9FD9E8185B0C4C5900001EDCBA0D8480 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_TransitionStorySection "Story Transition Enter Sequence07"
+				{
+					myTransitionType Enter
+					myStorySection sidestory01_sequence07
+				}
+			}
+		}
+		StoryBeatData "Retrieve the last canister - Checkpoint" < uid=0A13A8F05B364A490000241A32E9EC29 >
+		{
+			myIsCheckpoint TRUE
+			myStoryDataActions
+			{
+				StoryDataAction_SetObjective "Set Objective"
+				{
+					myObjectiveData < uid=0A13A8F05B364B060000241D4BED17E5 > = m7.Sub1
+					myObjectiveState Active
+				}
+				StoryDataAction_CompleteStoryEvent "Story Event Spawn Dossier 07"
+				{
+					myStoryEvent SideStory001_Seq07_SpawnPilotDossier07
+				}
+				StoryDataAction_SetTarget "Set Target"
+				{
+					mySimUnitAssetTarget "onward/game system data/juice/sim/sidestory01_pilotdossier07.msimunit"
+					myTargetPlanet 2B55C72B560154A200000053621E3961
+				}
+				StoryDataAction_ConditionalAction "Conditional Action - Dialog 01 - On Approach"
+				{
+					myCompleteType OR
+					myConditionalActions
+					{
+						StoryDataAction_WaitForArriveAtTarget "Wait for arrive - 500"
+						{
+							myDistance 500.0
+						}
+					}
+					myOutcomeActions
+					{
+						StoryDataAction_Dialog "Dialog 01"
+						{
+							myDialogSequenceID 1
+							myDialogStoryFlowID 1
+						}
+					}
+				}
+			}
+			myStoryDataActionSets
+			{
+				StoryDataActionSet "Dialog 01 On Approach"
+				{
+				}
+			}
+		}
+		StoryBeatData "Wait for Target Solved" < uid=0A13A8F05B3656CE000333BF024C68E2 >
+		{
+			myIsCheckpoint TRUE
+			myStoryDataActions
+			{
+				StoryDataAction_WaitForTargetSolved "Wait for Target Solved"
+				{
+					myObjectiveUID < uid=CC9485AB5B6487B2000024D3EB70F266 > = m7.Sub1
+				}
+			}
+		}
+		StoryBeatData Bink < uid=0A13A8F05B364B060000241F0DD51706 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_SetTarget "Set Target Clean"
+				{
+				}
+				StoryDataAction_AddFadeRequest fade
+				{
+					myFadeRequestType Fade_Out
+					myFadeTime 1.0
+				}
+				StoryDataAction_ConditionalAction "Condition Action"
+				{
+					myConditionalActions
+					{
+						StoryDataAction_Wait wait
+						{
+							mySecondsToWait 1.0
+						}
+					}
+					myOutcomeActions
+					{
+						StoryDataAction_Cinematic Cinenatic
+						{
+							myCinematicFile onward/baked/videos/s01_m06_sc05_mason_dossier.bk2
+						}
+						StoryDataAction_CompleteChallenge "Complete Challenge - Canister - Mason"
+						{
+							myChallengeToComplete PilotStory_Canister07_Mason
+						}
+					}
+				}
+			}
+		}
+		StoryBeatData "Dialog 10" < uid=0A13A8F05B365689000333BE310DD35A >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_AddFadeRequest fade
+				{
+					myFadeTime 1.0
+				}
+				StoryDataAction_Dialog "dialog 10"
+				{
+					myDialogSequenceID 10
+					myDialogStoryFlowID 1
+				}
+			}
+		}
+		StoryBeatData "Complete Sequence 7" < uid=0A13A8F05B15935E00001F3A819C40A1 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_SetObjective "Set Objective Header - Close Mission 7"
+				{
+					myObjectiveData < uid=0A13A8F05B15AEEF000666E45327E3C9 > = "Mission 7"
+					myObjectiveState Remove
+				}
+				StoryDataAction_TransitionStorySection "Story Transition Exit Sequence07"
+				{
+					myTransitionType Exit
+					myStorySection sidestory01_sequence07
+				}
+			}
+		}
+		StoryBeatData CompletionBanner < uid=2B55C72B5B69FBD60000220E54B5D774 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_ShowUIBanner "Mission Complete"
+				{
+					myBannerText "contextComment = \"[PLACEHOLDER:  Banner for Completion of St. Grand's Mission]\", description = \"sidestory_01-banner-sidestory-complete\", enabled = true, guid = #2B55C72B5B69FB520000220BC39502A6, lineVersion = 0, maxLength = 36, text = \"[St. Grand's Files Complete]\""
+				}
+				StoryDataAction_SoundEvent "Banner Sound"
+				{
+					myAudioEvent
+					{
+						myGuid 4CAFECF02AFBFE551BAAFC289FD6CDA2
+					}
+					myCompleteImmediately TRUE
+				}
+				StoryDataAction_AwardLoot AwardPilotStoryLoot
+				{
+					myLootDropName SideStory01_Complete
+				}
+			}
+		}
+		StoryBeatData "Manual Save" < uid=CC9485AB5B491779000026E658E0E238 > : "Save Point"
+		{
+		}
+		StoryBeatData "END - WAIT FOREVER" < uid=9FD9E8185B0C4C5900001EDDCDF20AD8 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_WaitForGameToStoryEvent "Wait Forever"
+				{
+					myGameToStoryStoryEvent Act_06_WaitForever
+				}
+				StoryDataAction_SetObjectiveBlockEnabled "Disable Objective Block"
+				{
+				}
+			}
+		}
+	}
+}
+

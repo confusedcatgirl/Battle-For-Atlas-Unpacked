@@ -1,0 +1,68 @@
+include ./base_npc_space.mnpc
+include onward/skillscripts/npc_outlaw_vfx_listener.mskillscriptjuice
+
+BasicNPCHealthConfig "outlaw_defender_collaborator Health Config" < uid=6D25F4C65AD4ECDF00001EA48A56A041 >
+{
+	myMaxHealth 3000.0
+}
+
+NPC outlaw_defender_collaborator < uid=9FD9E818597B8BBD000001C563DCD961 > : base_npc_space
+{
+	myUIName "contextComment = \"[Placeholder - do not translate] Name for Outlaw raider unit, Grax Collaborator (act4 specific) (space criminals)\", description = \"uiname-outlaw-defender-base\", enabled = true, guid = #9FD9E818597B8BBD000001C4FB6CFEB2, lineVersion = 0, maxLength = 25, text = \"Outlaw Collaborator\""
+	myUIName_NonLocalized "Outlaw Collaborator"
+	myGraphObjectFile "onward/graph objects/character/outlaw_defender.mgraphobject"
+	myBehavior "onward/game system data/juice/ai/behavior/outlaw_defender_space.mbehavior"
+	myDeathSettings
+	{
+		myDeathCullTime 0.2
+		myEventDeathCullTime 0.0
+		myDieOnFlightStaticCollision TRUE
+		myDieOnFlightDynamicCollision FALSE
+	}
+	myFireReaction < uid=9FD9E818597B8BBD000001C6AD3CC8F3 > = Space_Fire
+	myPersistentScripts
+	{
+		SkillScript "VFX Listener" < uid=C92F4D3F5AF5CD20000022F083CD574C > = npc_outlaw_vfx_listener
+	}
+	myAttributeSettings "onward/game system data/juice/ai/attributes/outlaw_defender_base.juice"
+	myDropTableOnDeath Kill_Outlaw_Raider_Drop_Table
+	myMass 600.0
+	myLinearInertiaThreshold 2200.0
+	myMaxLinearForce 450000.0
+	myDynamicFriction 0.0
+	myPhysicsCapsuleHeight 0.1
+	myPhysicsSupportHeight 0.0
+	myPhysicsCapsuleRadius 4.0
+	myPhysicsSnapToGround FALSE
+	myIsAffectedByGravity FALSE
+	myImpactCategorySettings "onward/game system data/juice/combat/impactcategorysettings_default_space.juice"
+	myNeedsGroundToSteer FALSE
+	myNeedsGroundToMove FALSE
+	myUseNavMeshForMovement FALSE
+	myPatternProfile < uid=9FD9E818597B8BBD000001C793629E34 > = "Outlaw Defender"
+	myDefaultMotionPattern < uid=9FD9E818597B8BBD000001C80F677B84 > = "Harvester Drake Default"
+	myAvoidanceRadius 9.0
+	myNPCFaction Harvester
+	myNPCType Outlaw_Defender
+	myAnimSystemType Civ_Raider
+	myThreatLevel 7.0
+	myBaseThreatProfile
+	{
+		myDeAggroRange 1000.0
+	}
+	mySteeringParameters "onward/game system data/juice/ai/steering/civ_raider.juice"
+	myAgentController DefaultAgentController
+	myAIVisionConeTypeName OutlawVisionCone
+	myDamageReactionSettings "onward/game system data/juice/ai/reactions/damage_reactions_harvester_drake_base.juice"
+	myHitReactionRules "onward/game system data/juice/ai/reactions/reaction_rules_npc_space.juice"
+	myDefaultNavigationType Newtonian
+	myOnDeathChallenge Death_OutlawDefender
+	myOnDiscoveredChallenge Discover_OutlawDefender
+	myUseVisualImpactProcessor TRUE
+	myVisualImpactSettings
+	{
+		myUseFixedMass TRUE
+		myFixedMass 100.0
+	}
+}
+

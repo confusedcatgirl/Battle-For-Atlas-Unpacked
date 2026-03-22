@@ -1,0 +1,41 @@
+include onward/skillscripts/npc_ability_outlaw_outpost_turret_gatling.mskillscriptjuice
+include onward/skillscripts/harvester_dreadnought_turret_02_solved_listener.mskillscriptjuice
+include onward/skillscripts/outlaw_outpost_turret_01_solved_listener.mskillscriptjuice
+include ./harvester_dreadnought_turret_base.mnpc
+
+NPC outlaw_outpost_turret_01 < uid=C92F4D3F5919BC970064583A7C80B467 > : harvester_dreadnought_turret_base
+{
+	myUIName_NonLocalized "Gatling Turret"
+	myGraphObjectFile "onward/graph objects/character/outlaw_outpost_turret_gatling.mgraphobject"
+	myBehavior "onward/game system data/juice/ai/behavior/outlaw_outpost_turret_01.mbehavior"
+	myExitWorldAffector ""
+	myHealthConfig < uid=4A8282B959F8EA4000001E1373B26DA1 > = "outlaw_outpost_turret_01 Health"
+	myAbilityDefinitions
+	{
+		NPCAbilityDefinition Gatling
+		{
+			myGameAction NPC_Ability1
+			mySkillScript < uid=C92F4D3F5919BC970064583BE4DB2EEC > = npc_ability_outlaw_outpost_turret_gatling
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_outlaw_outpost_turret_01_gatling.juice"
+		}
+	}
+	myPersistentScripts
+	{
+		SkillScript "Solved Listener" < uid=6D25F4C65A98A0DD000167AEAF75F8EE > = outlaw_outpost_turret_01_solved_listener
+	}
+	myAwarenessDistance 1500.0
+	myNPCFaction Outlaw
+	myBaseThreatProfile
+	{
+		myDeAggroRange 1200.0
+		myThreatPropagationRange 450.0
+		myCloseRange 100.0
+		myMediumRange 200.0
+		myLongRange 400.0
+		myExtremeRange 600.0
+	}
+	myAIVisionConeTypeName SpaceUnitVisionCone
+	myDefaultNavigationType Invalid
+}
+

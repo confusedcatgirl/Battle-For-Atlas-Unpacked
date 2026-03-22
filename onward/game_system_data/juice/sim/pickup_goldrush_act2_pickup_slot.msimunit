@@ -1,0 +1,29 @@
+include ./rareprop_slot.msimunit
+
+SimUnit pickup_goldrush_act2_pickup_slot < uid=CC9485AB5A9348E60003473D81490FBF > : rareprop_slot
+{
+	myUIName ""
+	myControlGraph onward/simworld/control/pickup_goldrush_pluckable_slot.msimunitcontrolgraph
+	mySubCategory PluckableBase
+	mySubCategoryVariant 1
+	myRadius 15.0
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo Resource < uid=CC9485AB5A9348E60003473ECC88DBA6 >
+		{
+			myCountMin 1
+			myCountMax 1
+			myIgnoreNavMesh TRUE
+			myIgnoreTerrain TRUE
+			myEntityFile "onward/entity templates/pickup_goldrush_pluckable_slot.mentitytemplate"
+			myRealizeOnDetach FALSE
+			myAttachOffset 0.0;0.0;0.0
+		}
+	}
+	myInterestSettings
+	{
+		myIsEnabled FALSE
+		myShouldLockValidTarget TRUE
+	}
+}
+

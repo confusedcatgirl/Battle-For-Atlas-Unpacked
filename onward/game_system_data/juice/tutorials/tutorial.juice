@@ -1,0 +1,267 @@
+include "onward/game system data/fruit/tutorials/tutorial.fruit"
+
+TutorialDataList myTutorialList
+{
+	TutorialData Starlink
+	{
+		myTutorial Starlink
+		myMessage "contextComment = \"[Placeholder – DO NOT TRANSLATE]\", description = \"ui-hud-tutorial-message-starlink\", enabled = true, guid = #B61209535835CB7E00002DB794A2A303, lineVersion = 0, maxLength = 1, text = \"Swap your parts any time\""
+		myGameActions
+		{
+			GameAction Throttle Throttle
+		}
+		myShowPrompt TRUE
+	}
+	TutorialData Movement
+	{
+		myTutorial Movement
+		myMessage "contextComment = \"[Placeholder – DO NOT TRANSLATE]\n{0} - Left Joystick button tag\", description = \"ui-hud-tutorial-message-movement\", enabled = true, guid = #B61209535835CB7B00002DB331CF6269, lineVersion = 2, maxLength = 16, text = \"{0} [Move]\""
+		myGameActions
+		{
+			GameAction MoveForward MoveForward
+		}
+		myShowPrompt FALSE
+		myHideBox TRUE
+		myChannel Left
+	}
+	TutorialData CenteredMovement
+	{
+		myTutorial CenteredMovement
+		myMessage "contextComment = \"Steer Tutorial\n{0} - Right Stick \", description = \"ui-hud-tutorial-message-steer\", enabled = true, guid = #9FD9E8185AC3DB3900001CD2BA8384BF, lineVersion = 0, maxLength = 14, text = \"{0} [Steer]\""
+		myGameAction LookUp
+		myShowPrompt FALSE
+		myHideBox TRUE
+	}
+	TutorialData Boost
+	{
+		myTutorial Boost
+		myMessage "contextComment = \"\", description = \"ui-hud-tutorial-message-boost\", enabled = true, guid = #95430580583C9BDF0000004CEF3CC59A, lineVersion = 1, maxLength = 21, text = \"Hold {0} [Boost]\""
+		myGameActions
+		{
+			GameAction Throttle Boost
+		}
+		myShowPrompt FALSE
+		myHideBox TRUE
+		myChannel Center
+	}
+	TutorialData OnIt
+	{
+		myTutorial OnIt
+		myMessage "contextComment = \"[PLACEHOLDER] - Accept Mission\n{0} - D-Pad Up\", description = \"ui-hud-tutorial-message-onit\", enabled = true, guid = #95430580583C9C200000005056B65822, lineVersion = 1, maxLength = 26, text = \"{0} [Accept Mission]\""
+		myGameAction OnIt
+		myGameActions
+		{
+			GameAction OnIt OnIt
+		}
+		myShowPrompt FALSE
+		myHideBox TRUE
+	}
+	TutorialData Launch
+	{
+		myTutorial Launch
+		myMessage "contextComment = \"[Placeholder - do not translate] Tutorial message shown the first time the player is prompted to activate their flight engines and take off / launch from the planet's surface up through the atmosphere.\", description = \"ui-hud-tutorial-message-launch\", enabled = true, guid = #95430580584051270000D695A0A76863, lineVersion = 2, maxLength = 18, text = \"Hold {0} [Fly]\"}"
+		myGameAction FlightEnginesStartTutorial
+		myGameActions
+		{
+			GameAction FlightEnginesStartTutorial FlightEnginesStartTutorial
+		}
+		myHideBox TRUE
+		myUseProgressButton FALSE
+		myChannel Center
+	}
+	TutorialData Camera
+	{
+		myTutorial Camera
+		myMessage "contextComment = \"Steer Tutorial\n{0} - Right Stick \", description = \"ui-hud-tutorial-message-steer\", enabled = true, guid = #2B55C72B5AB3F8A000001BCC954D8A34, lineVersion = 0, maxLength = 14, text = \"{0} [Steer]\""
+		myGameActions
+		{
+			GameAction LookUp LookUp
+		}
+		myHideBox TRUE
+		myChannel Right
+	}
+	TutorialData Pods
+	{
+		myTutorial Pods
+		myMessage "contextComment = \"[PLACEHOLDER] - Right and Left Weapons tutorial\n{0}Left Weapon {1} Right Weapon\", description = \"ui-hud-tutorial-message-weapon-tutorial\", enabled = true, guid = #2B55C72B5AB3F92300001BCDAF4B91FD, lineVersion = 0, maxLength = 44, text = \"{0}[Left Weapon] {1}[Right Weapon]\""
+		myGameActions
+		{
+			GameAction "Left Weapon" PodOne
+			GameAction "Right Weapon" PodThree
+		}
+		myHideBox TRUE
+	}
+	TutorialData Starmap
+	{
+		myTutorial StarMap
+		myMessage "contextComment = \"Open Star Map\", description = \"ui-hud-tutorial-message-starmap\", enabled = true, guid = #2B55C72B5AB3F97800001BCE32384DAA, lineVersion = 1, maxLength = 17, text = \"{0} [Starmap]\""
+		myGameActions
+		{
+			GameAction "Open Star Map" UIStarMapOpen
+		}
+		myHideBox TRUE
+		myMenuToOpenOnDismiss StarMap
+	}
+	TutorialData HyperDrive
+	{
+		myTutorial HyperDrive
+		myMessage "contextComment = \"[PLACEHOLDER - do not translate].\nTutorial text indicating to the player how to enter hyper drive.\n{0} - The button prompt.\", description = \"ui-hud-tutorial-message-hyperdrive\", enabled = true, guid = #2B55C72B5AB3FADD00001BD00A335586, lineVersion = 0, maxLength = 27, text = \"Hold {0} [HyperDrive]\""
+		myGameActions
+		{
+			GameAction StartAndStop StartHyperDrive
+		}
+		myShowPrompt TRUE
+		myHideBox TRUE
+		myChannel Center
+	}
+	TutorialData "Right Pod"
+	{
+		myTutorial RightPod
+		myMessage "contextComment = \"{0}Right Weapon\", description = \"ui-hud-tutorial-message-RightWeapon\", enabled = true, guid = #2B55C72B5AB3FAD300001BCFF3D67DE2, lineVersion = 0, maxLength = 22, text = \"{0}[Right Weapon]\""
+		myGameActions
+		{
+			GameAction RightPod PodThree
+		}
+		myHideBox TRUE
+		myChannel Right
+	}
+	TutorialData "Left Pod"
+	{
+		myTutorial LeftPod
+		myMessage "contextComment = \"{0}Left Weapon\", description = \"ui-hud-tutorial-message-LeftWeapon\", enabled = true, guid = #2B55C72B5AB3FB1800001BD1F904E944, lineVersion = 0, maxLength = 21, text = \"{0}[Left Weapon]\""
+		myGameActions
+		{
+			GameAction "Left Pod" PodOne
+		}
+		myHideBox TRUE
+		myChannel Left
+	}
+	TutorialData "Pilot Ability"
+	{
+		myTutorial PilotAbility
+		myMessage "contextComment = \"{0}Pilot Ability\", description = \"ui-hud-tutorial-message-pilot-ability\", enabled = true, guid = #2B55C72B5AB3FB3600001BD209A1BED3, lineVersion = 0, maxLength = 23, text = \"{0}[Pilot Ability]\""
+		myGameActions
+		{
+			GameAction PilotAbility PodTwo
+		}
+		myHideBox TRUE
+		myChannel Left
+	}
+	TutorialData StrafeDash
+	{
+		myTutorial StrafeDash
+		myMessage "contextComment = \"Tutorial for Dodging on the ground\n{0} - Left Stick\n{2} - B / Circle Button\", description = \"ui-hud-tutorial-message-dodge\", enabled = true, guid = #2B55C72B5AB4032300001BDA732E03DF, lineVersion = 3, maxLength = 20, text = \"{0}+{2} [Dodge]\""
+		myGameActions
+		{
+			GameAction DirectionLeft DashLeft
+			GameAction DirectionRight DashRight
+			GameAction Dash DashButton
+		}
+		myRequiresOneGameActionToComplete TRUE
+		myHideBox TRUE
+	}
+	TutorialData BuildScreen
+	{
+		myTutorial BuildScreen
+		myMessage "contextComment = \"[Placeholder – DO NOT TRANSLATE]\n{0} - Start button\", description = \"ui-hud-tutorial-message-buildscreen\", enabled = true, guid = #F0C80EA15A8731AA00001B4943612B06, lineVersion = 1, maxLength = 23, text = \"{0} [Build Screen]\""
+		myGameActions
+		{
+			GameAction UIHub UIHub
+		}
+		myHideBox TRUE
+		myChannel Center
+		myMenuToOpenOnDismiss Mods
+	}
+	TutorialData BarrelRoll
+	{
+		myTutorial BarrelRoll
+		myMessage "contextComment = \"Tutorial for Barrel Roll\n{0} - Left Stick\n{2} - B / circle Button\", description = \"ui-hud-tutorial-message-manouver-barrelroll\", enabled = true, guid = #2B55C72B5AB4029700001BD8EC6A4630, lineVersion = 1, maxLength = 16, text = \"{0}+{2} Roll\""
+		myGameAction None
+		myGameActions
+		{
+			GameAction DirectionLeft DashLeft
+			GameAction DirectionRight DashRight
+			GameAction Dash DashButton
+		}
+		myRequiresOneGameActionToComplete TRUE
+		myHideBox TRUE
+	}
+	TutorialData KTurn
+	{
+		myTutorial KTurn
+		myMessage "contextComment = \"Tutorial for Turning your ship 180°\n{0} - Left Stick \n{1} - B / Circle Button\", description = \"ui-hud-tutorial-message-manouver-180\", enabled = true, guid = #2B55C72B5AB401D800001BD78D19DDBB, lineVersion = 1, maxLength = 29, text = \"{0} + {1} [180° Turn]\""
+		myGameActions
+		{
+			GameAction "Dash back" DashBack
+			GameAction Dash DashButton
+		}
+		myHideBox TRUE
+	}
+	TutorialData EquinoxUpgrade
+	{
+		myTutorial EquinoxUpgrade
+		myMessage "contextComment = \"[Placeholder – DO NOT TRANSLATE]\n{0} - Start button\", description = \"ui-hud-tutorial-message-EquinoxUpgrade\", enabled = true, guid = #1EE141815AB11AA800001BC7C430B84E, lineVersion = 0, maxLength = 57, text = \"Press {0} to open the Equinox Upgrade screen\""
+		myGameAction None
+		myGameActions
+		{
+			GameAction UIHub UIHub
+		}
+		myRequiresOneGameActionToComplete TRUE
+		myHideBox TRUE
+		myMenuToOpenOnDismiss Equinox
+	}
+	TutorialData Shield
+	{
+		myTutorial Shield
+		myMessage "contextComment = \"Hold Y/triangle to shield\", description = \"ui-hud-tutorial-message-shield\", enabled = true, guid = #1EE141815ABAAA6600001C0ECA46658F, lineVersion = 0, maxLength = 22, text = \"Hold {0} [Shield]\""
+		myGameAction ShieldParry
+		myShowPrompt TRUE
+		myHideBox TRUE
+	}
+	TutorialData Jump
+	{
+		myTutorial Jump
+		myMessage "contextComment = \"Tap A/X to Jump\", description = \"ui-hud-tutorial-message-jump\", enabled = true, guid = #9FD9E8185AC11D6300001CA329FD81DB, lineVersion = 0, maxLength = 22, text = \"Tap {0} to [Jump]\""
+		myGameAction Hop
+		myShowPrompt TRUE
+		myHideBox TRUE
+	}
+	TutorialData Dreadnought
+	{
+		myTutorial Dreadnought
+		myMessage "contextComment = \"Use the LD to Rise/Sink\", description = \"ui-hud-tutorial-message-dreadnought-movement\", enabled = true, guid = #9FD9E8185AC6412500001CF1C7ECF4CB, lineVersion = 0, maxLength = 20, text = \"{0} Rise / Sink\""
+		myGameAction MoveForward
+		myShowPrompt FALSE
+		myHideBox TRUE
+	}
+	TutorialData PilotSkills
+	{
+		myTutorial PilotSkills
+		myMessage "contextComment = \"[Placeholder – DO NOT TRANSLATE]\n{0} - Start button\", description = \"ui-hud-tutorial-message-pilotskills\", enabled = true, guid = #1EE141815AE8868500001D784C8EBAE7, lineVersion = 0, maxLength = 23, text = \"{0} [Pilot Skills]\""
+		myGameActions
+		{
+			GameAction UIHub UIHub
+		}
+		myHideBox TRUE
+		myMenuToOpenOnDismiss PilotSkills
+	}
+	TutorialData MissionSelection
+	{
+		myTutorial MissionSelect
+		myMessage "contextComment = \"[Placeholder - DO NOT TRANSLATE]\n{0} - Dpad Left\nSelect Mission\", description = \"ui-hud-tutorial-message-mission-select\", enabled = true, guid = #2B55C72B5B27F71100001FE4C180CF2B, lineVersion = 0, maxLength = 26, text = \"{0} [Select Mission]\""
+		myGameActions
+		{
+			GameAction DPad-Left UIDPadLeft
+		}
+		myRequiresOneGameActionToComplete FALSE
+		myHideBox TRUE
+	}
+	TutorialData "TU5 Expedition Storyline Anvil Choice"
+	{
+		myTutorial TU5_Anvil_Choice_Tutorial
+		myMessage "contextComment = \"Tutorial message displayed to the player indicating they can choose to activate (interact with) or destroy (shoot up) the celestial anvil.\", description = \"ui-hud-tutorial-message-celestial-anvil-choice\", enabled = true, guid = #A08A88CF5C54B1ED0000A2037269C362, lineVersion = 0, maxLength = 51, text = \"Activate or Destroy the Celestial Anvil\""
+		myShowPrompt TRUE
+		myHideBox TRUE
+	}
+}
+

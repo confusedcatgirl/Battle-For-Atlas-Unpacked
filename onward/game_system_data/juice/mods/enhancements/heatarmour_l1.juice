@@ -1,0 +1,15 @@
+include "onward/game system data/juice/mods/base_armour_l1.mplayermod"
+include "onward/game system data/juice/mods/heat_armour_l1.mplayermod"
+include ./templates/template_l1.juice
+
+Enhancement heatarmour_l1 < uid=C91BB551596E62DE000000968B995E39 > : "Level 1"
+{
+	myLocalizedName "contextComment = \"[Placeholder - do not translate]\nName for level 1 version of a Ship Armor that protects against Heat damage and gives the player bonuses in hot status effects (fire / sunder)\", description = \"\", enabled = true, guid = #C91BB551596FC15E005B613A8F459054, lineVersion = 1, maxLength = 30, text = \"Heat Armor I\""
+	myLocalizedDescription "contextComment = \"[Placeholder - do not translate]\nDescription for level 1 version of a Ship Armor that protects against Heat damage and gives the player bonuses in hot status effects (fire / sunder), but is weak to Cold damage\", description = \"enhancement-description-heat-armour-1\", enabled = true, guid = #211855DB76F648DEA78BDF35A3506E47, lineVersion = 1, maxLength = 95, text = \"+10 Defense\n+20% Resistance to Heat damage\n-20% Resistance to Cold damage\""
+	myIconSprite "mySpriteId = -778107496, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-mods-ship-armour.spritesheet\""
+	myIsHullEnhancement TRUE
+	myMod < uid=C91BB551596E634B000000BDE84F5180 > = HeatArmour_L1
+	myEnhancementType Armour
+	myEnhancementTrackType HeatArmour
+}
+

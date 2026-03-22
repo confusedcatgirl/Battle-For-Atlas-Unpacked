@@ -1,0 +1,31 @@
+include ./templates/template_l4.juice
+include ./damageaffectors/damage_affectors.juice
+include "onward/game system data/juice/mods/mod_warden_weaponcore_l4.mplayermod"
+
+Enhancement wardenweaponcore_l4 < uid=C91BB55159823B0800192FFA5535A8E0 > : "Level 4"
+{
+	myLocalizedName "contextComment = 'Placeholder - do not translate]\nName for level 4 version of premium/ancient \"Warden\" weapon core that lets players take more advantage of Elemental effects', description = \"\", enabled = true, guid = #C91BB55159823B0800192FF90DEF85A8, lineVersion = 2, maxLength = 18, text = \"Warden Ammo IV\""
+	myLocalizedDescription "contextComment = '[Placeholder - do not translate]\nDescription for level 4 version of premium/ancient \"Warden\" weapon core that lets players take more advantage of Elemental effects', description = \"enhancement-description-warden-weapon-core-4\", enabled = true, guid = #9E6AFEDA59D80DF80000017D3690E7E7, lineVersion = 2, maxLength = 150, text = \"+40% Damage\n+25% Damage to targets under Status Effect\n+25% Damage & Chance to Stun\nwith affinity target is weak to\""
+	myIconSprite "mySpriteId = 1858197931, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-mods-weapon-core.spritesheet\""
+	myMod < uid=939A35415AB53ED000014DEA1E100B17 > = mod_warden_weaponcore_l4
+	myEnhancementType WeaponCore
+	myEnhancementTrackType WardenWeaponCore
+	myDamageAffectors
+	{
+		DamageAffector_StatusEffect "Extra Damage to SE target"
+		{
+			myDamageMultiplier = Warden_WeaponCore_l4_StatusEffectDmg
+			myAnyStatusEffect TRUE
+		}
+		DamageAffector_Weakness "Extra Damage to Weakness"
+		{
+			myDamageMultiplier = Warden_WeaponCore_l4_WeaknessDamage
+		}
+		DamageAffector_WeaknessStun "Weakness Damage Stuns"
+		{
+			myChanceToStunPerDamage = Warden_WeaponCore_l4_DmgToStun
+			myStunTime 2.0
+		}
+	}
+}
+

@@ -1,0 +1,16 @@
+include ./templates/template_l1.juice
+include ./damageaffectors/damage_affectors.juice
+
+Enhancement impactweaponmod_l1 < uid=C308E4DB59C5463900000036479E2907 > : "Level 1"
+{
+	myLocalizedName "contextComment = \"[Placeholder - do not translate]\nName for level 1 version of a Weapon Mod that increases the chance the weapon will cause an enemy to stumble when hit\", description = \"\", enabled = true, guid = #C308E4DB59C5463900000035B5F9542E, lineVersion = 1, maxLength = 30, text = \"Impact Booster I\""
+	myLocalizedDescription "contextComment = \"[Placeholder - do not translate]\nDescription for level 1 version of a Weapon Mod that increases the chance the weapon will cause an enemy to stumble when hit\", description = \"enhancement-description-impact-weapon-mod-1\", enabled = true, guid = #A417A2B8536D4CE8A6C42E4690DE8826, lineVersion = 1, maxLength = 57, text = \"+10% Chance to knock back or stumble targets\""
+	myIconSprite "mySpriteId = 1511482780, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-mods-weapon-booster.spritesheet\""
+	myEnhancementType Mod
+	myEnhancementTrackType ImpactWeaponMod
+	myDamageAffectors
+	{
+		DamageAffector_CauseStumble "Chance of causing Stumble 5%" = WeaponImpact_CauseStumble_L1
+	}
+}
+

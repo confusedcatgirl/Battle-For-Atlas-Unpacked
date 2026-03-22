@@ -1,0 +1,64 @@
+include ./pluckable_capture.juice
+include "onward/game system data/juice/sim/outlaw_defender_leader_bounty_towable.msimunit"
+include "onward/game system data/juice/sim/prospector_bounty_towable_story_05.msimunit"
+
+Pluckable "Outlaw Leader Story 05" : PluckableDefault
+{
+	myStageConfigs
+	{
+		PluckableStageConfigCapture "Stage 1" : WantedOutlawCapture_ExampleConfig
+		{
+			myMinLockOnDuration 800
+			myMaxLockOnDuration 1500
+			mySwayParams1
+			{
+				myMinSineModifier 1.5;2.5;0.5
+				myMaxSineModifier 2.5;4.5;1.5
+			}
+			mySwayParams2
+			{
+				myMinOffset 12.0;6.0;0.0
+				myMaxOffset 6.0;6.0;0.0
+			}
+		}
+		PluckableStageConfigCapture "Stage 2" : WantedOutlawCapture_ExampleConfig
+		{
+			myMinLockOnDuration 1200
+			myMaxLockOnDuration 2000
+			mySwayParams1
+			{
+				myMinSineModifier 1.5;2.5;0.5
+				myMaxSineModifier 2.5;4.5;1.5
+			}
+			mySwayParams2
+			{
+				myMinOffset 12.0;6.0;0.0
+				myMaxOffset 6.0;6.0;0.0
+			}
+		}
+		PluckableStageConfigCapture "Stage 3" : WantedOutlawCapture_ExampleConfig
+		{
+			myMinLockOnDuration 1600
+			myMaxLockOnDuration 2500
+			mySwayParams1
+			{
+				myMinSineModifier 1.5;2.5;0.5
+				myMaxSineModifier 2.5;4.5;1.5
+			}
+			mySwayParams2
+			{
+				myMinOffset 12.0;6.0;0.0
+				myMaxOffset 6.0;6.0;0.0
+			}
+		}
+		PluckableStageConfigShieldRam "Stage 5"
+		{
+		}
+		PluckableStageConfigSpawnItem "Stage 6"
+		{
+			mySimUnitAsset < uid=D701B5085C1BBC2000000046B66DC921 > = prospector_bounty_towable_story_05
+			myInheritParent TRUE
+		}
+	}
+}
+

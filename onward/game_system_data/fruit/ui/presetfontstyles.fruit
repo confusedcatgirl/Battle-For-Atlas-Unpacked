@@ -1,0 +1,67 @@
+enum LanguageName // This must be kept up-to-date with languages_names.juice
+{
+	english
+	french
+	italian
+	arabictest
+	debugworstcase
+	german
+	spanish
+	japanese
+	russian
+	latam
+	brazilian
+	arabic
+	danish
+	swedish
+	norwegian
+	finnish
+	dutch
+	polish
+	czech
+	hungarian
+	korean
+	tchinese
+	schinese
+}
+enum FontName
+{
+	"Liberation Sans"
+	KoreanFont
+	JapaneseFont
+	SimplifiedChineseFont
+	TraditionalChineseFont
+	ArabicFont
+	Modelica
+	"Ubisoft Sans"
+	Roboto
+	Wardish
+}
+
+enum FontWeight
+{
+	Light
+	Regular
+	Medium
+	Bold
+}
+class FontStyleLanguageEntry
+{
+	LanguageName myLanguageName english
+	FontName myFontName Modelica
+	FontWeight myFontWeight Regular	
+	bool myIsItalic FALSE
+}
+list FontStyleLanguageEntryList
+{
+	FontStyleLanguageEntry
+}
+class FontStyleEntry
+{
+	FontStyleLanguageEntryList myLanguageFontStyles
+}
+
+list FontStyleEntryList
+{
+	FontStyleEntry
+}

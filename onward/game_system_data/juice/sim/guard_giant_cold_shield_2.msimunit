@@ -1,0 +1,85 @@
+include ./giant_cold_shield_2.msimunit
+
+SimUnit guard_giant_cold_shield_2 < uid=8A9CA2865A708F9500001E1A1EA29828 > : giant_cold_shield_2
+{
+	myBehavior onward/simworld/behavior/harvester_extractor_defender_squad.msimunitbtgraph
+	myFaction Harvester
+	myCategory NPC
+	mySubCategory DefenderSquad
+	mySubCategoryVariant 1
+	myAffinityType Ice
+	myRadius 20.0
+	mySpeed 100.0
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo "Crush Giant" < uid=8A9CA2865A708F9500001E1BB64B72F2 >
+		{
+			myCountMin 0
+			myCountMax 0
+			myEntitySize 4.0
+			myEntityFile "onward/game system data/juice/ai/npc/harvester_cyclops_crush.mnpc"
+		}
+		SimUnitEntitySpawnInfo "Cold Giant" < uid=8A9CA2865A708F9500001E1CE11C75F6 >
+		{
+			myCountMin 2
+			myCountMax 2
+			myEntitySize 4.0
+			myEntityFile "onward/game system data/juice/ai/npc/harvester_cyclops_cold.mnpc"
+		}
+		SimUnitEntitySpawnInfo "Heat Giant" < uid=8A9CA2865A708F9500001E1D424295EF >
+		{
+			myCountMin 0
+			myCountMax 0
+			myEntitySize 4.0
+			myEntityFile "onward/game system data/juice/ai/npc/harvester_cyclops_heat.mnpc"
+		}
+		SimUnitEntitySpawnInfo "Shield Cyclops" < uid=8A9CA2865A708F9500001E1E482B2657 >
+		{
+			myCountMin 2
+			myCountMax 3
+			myEntitySize 4.0
+			myEntityFile "onward/game system data/juice/ai/npc/harvester_cyclops_generic_shielded.mnpc"
+		}
+		SimUnitEntitySpawnInfo "Heat Grenadier" < uid=8A9CA2865A708F9500001E1FA51A1142 >
+		{
+			myCountMin 0
+			myCountMax 0
+			myEntitySize 4.0
+			myEntityFile "onward/game system data/juice/ai/npc/harvester_cyclops_generic_heat.mnpc"
+		}
+		SimUnitEntitySpawnInfo "Cold Grenadier" < uid=8A9CA2865A708F9500001E20A7AB73D2 >
+		{
+			myCountMin 0
+			myCountMax 0
+			myEntityFile "onward/game system data/juice/ai/npc/harvester_cyclops_generic_cold.mnpc"
+		}
+		SimUnitEntitySpawnInfo "Crush Grenadier" < uid=8A9CA2865A708F9500001E21F1106725 >
+		{
+			myCountMin 0
+			myCountMax 0
+			myEntityFile "onward/game system data/juice/ai/npc/harvester_cyclops_generic_crush.mnpc"
+		}
+		SimUnitEntitySpawnInfo Cyclops < uid=8A9CA2865A708F9500001E22E018FECE >
+		{
+			myCountMin 0
+			myCountMax 0
+			myEntitySize 4.0
+			myEntityFile "onward/game system data/juice/ai/npc/harvester_cyclops_generic.mnpc"
+		}
+		SimUnitEntitySpawnInfo Probe < uid=8A9CA2865A708F9500001E2395FD738E >
+		{
+			myCountMin 0
+			myCountMax 0
+			myEntityFile "onward/game system data/juice/ai/npc/harvester_probe.mnpc"
+		}
+		SimUnitEntitySpawnInfo "Crush Imp" < uid=8A9CA2865A708F9500001E246934B700 >
+		{
+			myCountMin 0
+			myCountMax 0
+			myEntitySize 2.0
+			myEntityFile "onward/game system data/juice/ai/npc/harvester_imp_crush.mnpc"
+		}
+	}
+	myDeathXPPayload UnitKilled_RaidingParty
+}
+

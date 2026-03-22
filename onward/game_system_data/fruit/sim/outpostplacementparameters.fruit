@@ -1,0 +1,18 @@
+include "onward/game system data/fruit/entity/faction.fruit"
+
+class SimOutpostPlacementParameters
+{
+	FactionType myFactionType Unaligned < tooltip = "Faction this rule is associated with.\nTwo rules with the same faction cannot exist." >
+	int myDesiredCountPerPlanet 0 < tooltip="If greater than zero, the desired number of outposts per planet before moving on to the next planet." >
+	bool myClusterOutposts FALSE < tooltip="Try to group outposts together." >
+	float myMinDistanceToSameFactionOutposts 1000.0 < tooltip = "Desired minimum distance to other outposts of the same faction." >
+	float myMinDistanceToOtherFactionOutposts 1000.0 < tooltip = "Desired minimum distance to other outposts of another faction." >
+	float myMinDistanceToExtractors 1000.0 < tooltip = "Desired minimum distance to active extrators." >
+	float mySpaceToPlanetOutpostRatio 0.0 < tooltip = "Desired number of space outposts per planet outpost." >
+	float myMaxDistanceAroundPlanet 0.0 < tooltip = "Maximum distance around planet to consider outposts in space, if space to planet ratio is non-zero." >
+}
+
+list SimOutpostPlacementParametersList
+{
+	SimOutpostPlacementParameters
+}

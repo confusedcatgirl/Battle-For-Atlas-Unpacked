@@ -1,0 +1,34 @@
+include ./faction_unit_base.msimunit
+
+SimUnit prospector_guard < uid=B84764AD5B17E5DD0000203E5FDBABD9 > : faction_unit_base
+{
+	myUIName "contextComment = \"The UI name for the Prospector Guard\", description = \"uiname-prospector-guard\", enabled = true, guid = #B84764AD5B17E5DD0000203DF93989FE, lineVersion = 0, maxLength = 21, text = \"Prospector Guard\""
+	myBehavior onward/simworld/behavior/prospector_guard.msimunitbtgraph
+	myControlGraph ""
+	myFaction ProspectorAllied
+	myCategory NPC
+	mySubCategory Guard
+	mySubCategoryVariant 1
+	myRadius 10.0
+	mySpeed 25.0
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo "Prospector Guard" < uid=B84764AD5B17E5DD0000203FC4478BD6 >
+		{
+			myCountMin 1
+			myCountMax 2
+			myEntitySize 6.0
+			myEntityFile "onward/game system data/juice/ai/npc/prospector_guard.mnpc"
+		}
+	}
+	myConstructionDuration 7.0
+	myUnlockedChallengeType None
+	myInterestSettings
+	{
+		myIsEnabled TRUE
+		myOnlySearchWhenRealized FALSE
+		myShouldLockValidTarget FALSE
+	}
+	myMissionTargetTexture ""
+}
+

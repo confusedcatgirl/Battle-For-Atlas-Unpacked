@@ -1,0 +1,26 @@
+include ./pickup_base.msimunit
+
+SimUnit pickup_electrum_infused_02 < uid=D1E9B2CB582630BE000002E47A79233B > : pickup_base
+{
+	myUIName "contextComment = '[Placeholder - do not translate] Name shown when targeting a \"corrupted Nova\" crystal of the cold type. It can be picked up and delivered to an outpost to produce cold-based effects like coldproof shields or ice bombs', description = \"pickup-infused-cold\", enabled = true, guid = #9E6AFEDA58E55011000009A85E2795C6, lineVersion = 0, maxLength = 25, text = \"Cold Corrupted Nova\""
+	myControlGraph ""
+	mySubCategory ElectrumInfused
+	myAffinityType Ice
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo InteractablePickup < uid=4A79E0E4595146900000004CFFDB2755 >
+		{
+			myCountMin 1
+			myCountMax 1
+			myIgnoreNavMesh TRUE
+			myEntityFile "onward/entity templates/pickup_electrum_infused_02.mentitytemplate"
+			myRealizeOnDetach TRUE
+			myAttachOffset 0.0;4.0;0.0
+		}
+	}
+	mySaveable FALSE
+	myIsValidPickupTarget FALSE
+	myIconSprite "mySpriteId = -314869214, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-inventory-cores-and-nova.spritesheet\""
+	myMissionTargetTexture onward/baked/textures/UI/icons/outpost_targets/outpost_target_sim_unit/ui-icon-outpost-target-cold-nova-ruin.dds
+}
+

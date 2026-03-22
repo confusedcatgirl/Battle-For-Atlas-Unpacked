@@ -1,0 +1,148 @@
+include ./harvester_cyclops_base.mnpc
+include onward/skillscripts/npc_controller_context_harvester_cyclops_generic_dash.mskillscriptjuice
+include onward/skillscripts/npc_ability_harvester_cyclops_crush_mortar.mskillscriptjuice
+include onward/skillscripts/npc_ability_harvester_cyclops_crush_flak.mskillscriptjuice
+include onward/skillscripts/npc_controller_context_harvester_cyclops_crush_leap.mskillscriptjuice
+include onward/skillscripts/npc_controller_context_harvester_cyclops_world_entry.mskillscriptjuice
+include onward/skillscripts/npc_affinity_harvester_cyclops_crush_enter.mskillscriptjuice
+include onward/skillscripts/npc_affinity_harvester_cyclops_crush_exit.mskillscriptjuice
+include onward/skillscripts/npc_affinity_harvester_cyclops_crush_running.mskillscriptjuice
+include onward/skillscripts/npc_controller_context_harvester_cyclops_heat_world_entry.mskillscriptjuice
+include onward/skillscripts/npc_controller_context_harvester_cyclops_crush_world_entry.mskillscriptjuice
+include onward/skillscripts/npc_controller_context_harvester_cyclops_crush_dead.mskillscriptjuice
+include "onward/game system data/juice/mods/npc_mod_harvester_cyclops_crush_affinity_mortar.mnpcmod"
+include onward/skillscripts/npc_controller_context_dormant.mskillscriptjuice
+
+NPC harvester_cyclops_crush < uid=C92F4D3F57E04C0E000004B0832882FC > : harvester_cyclops_base
+{
+	myUIName "contextComment = \"UI Name for the Crush Giant\", description = \"uiname-harvester-cyclops-crush\", enabled = true, guid = #93869D535AB1547800001D363CE931B6, lineVersion = 0, maxLength = 14, text = \"Crush Giant\""
+	myUIName_NonLocalized "Crush Cyclops"
+	myGraphObjectFile "onward/graph objects/character/harvester_08.mgraphobject"
+	myBehavior "onward/game system data/juice/ai/behavior/harvester_cyclops_crush.mbehavior"
+	myGibSettings
+	{
+		myLifetime 60.0
+		myInitialSpeed 30.0
+		myGibTemplates
+		{
+			file "New file (0)" "onward/entity templates/harvester_cyclops_forearm_GIBS.mentitytemplate"
+			file "New file (2)" "onward/entity templates/harvester_cyclops_hand_GIBS.mentitytemplate"
+			file "New file (3)" "onward/entity templates/harvester_cyclops_head_GIBS.mentitytemplate"
+			file "New file (0)" "onward/entity templates/harvester_cyclops_leftleg_GIBS.mentitytemplate"
+			file "New file (1)" "onward/entity templates/harvester_cyclops_shin_right_GIBS.mentitytemplate"
+			file "New file (2)" "onward/entity templates/harvester_cyclops_thigh_right_GIBS.mentitytemplate"
+			file "New file (3)" "onward/entity templates/harvester_cyclops_torso_GIBS.mentitytemplate"
+			file "New file (3)" "onward/entity templates/harvester_08_topjaw_gibs.mentitytemplate"
+			file "New file (3)" "onward/entity templates/harvester_08_bottomjaw_gibs.mentitytemplate"
+		}
+	}
+	myHealthConfig < uid=4A8282B959F8E71B00001DB6907D2B48 > = "harvester_cyclops_crush Health"
+	myDeathSettings
+	{
+		myDeathCullTime 0.2
+		myEventDeathCullTime 0.0
+		myWaitForEvent TRUE
+	}
+	myFreezeReaction < uid=C92F4D3F5C3F520100000393F0B53ACB > = Crush_Cyclops_Freeze
+	myStasisReaction < uid=C92F4D3F5A57BAA7023C458AB4D22FDE > = Crush_Cyclops_Stasis
+	myStasisOverloadReaction < uid=C92F4D3F5A57BAA7023C458BCCD3E4BA > = Crush_Cyclops_StasisOverload
+	myGravityReaction < uid=4A8282B95818DD9A0091EB149AD7204E > = Affinity_Gravity
+	myBlackholeReaction < uid=939A354159DFAC8600000036394DBDD9 > = Affinity_BlackHole
+	myAbilityDefinitions
+	{
+		NPCAbilityDefinition "Primary Attack - Mortar"
+		{
+			myGameAction NPC_Ability1
+			mySkillScript < uid=C92F4D3F57E04C0E000004B67C645187 > = npc_ability_harvester_cyclops_crush_mortar
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_harvester_cyclops_crush_mortar.juice"
+		}
+		NPCAbilityDefinition "Secondary Attack - Flak Cannon"
+		{
+			myGameAction NPC_Ability2
+			mySkillScript < uid=C92F4D3F57E04C0E000004B72A3CD813 > = npc_ability_harvester_cyclops_crush_flak
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_harvester_cyclops_crush_flak.juice"
+		}
+	}
+	myControllerContextDefinitions
+	{
+		ControllerContextDefinition Dash
+		{
+			myContextType Dash
+			mySkillScript < uid=C92F4D3F57E04C0E000004BA667E17F6 > = npc_controller_context_harvester_cyclops_generic_dash
+		}
+		ControllerContextDefinition "Super Jump"
+		{
+			myContextType SuperJump
+			mySkillScript < uid=C92F4D3F57F513E0000DF05B32A9B591 > = npc_controller_context_harvester_cyclops_crush_leap
+		}
+		ControllerContextDefinition "World Entry"
+		{
+			myContextType WorldEntry
+			mySkillScript < uid=C92F4D3F5826486B002DF9B54BABF1A7 > = npc_controller_context_harvester_cyclops_crush_world_entry
+		}
+		ControllerContextDefinition Dead
+		{
+			myContextType Dead
+			mySkillScript < uid=BD4A0DDE59E1197A0000027449C5A104 > = npc_controller_context_harvester_cyclops_crush_dead
+		}
+		ControllerContextDefinition Dormant
+		{
+			myContextType Dormant
+			mySkillScript < uid=C92F4D3F5B2A69A9000022D6CBEB3FAD > = npc_controller_context_dormant
+		}
+	}
+	myAffinityDefinition
+	{
+		myAffinityType Crush
+		myDuration 24.0
+		myEnterSkillScript < uid=C92F4D3F57E04C0E000004BBAA4EA76A > = npc_affinity_harvester_cyclops_crush_enter
+		myRunningSkillScript < uid=C92F4D3F57E04C0E000004BC4EBEFA81 > = npc_affinity_harvester_cyclops_crush_running
+		myExitSkillScript < uid=C92F4D3F57E04C0E000004BD32822ACE > = npc_affinity_harvester_cyclops_crush_exit
+		myMods
+		{
+			NPCAffinityModItem Mortar
+			{
+				myGameAction NPC_Ability1
+				myMod < uid=C92F4D3F5A7A050000DB1808246A535B > = npc_mod_harvester_cyclops_crush_affinity_mortar
+			}
+		}
+	}
+	myResistanceSettings "onward/game system data/juice/ai/resistance/crush_giant_resistance.juice"
+	myAttributeSettings "onward/game system data/juice/ai/attributes/harvester_cyclops_crush.juice"
+	myCrowdControlAttributeSettings "onward/game system data/juice/ai/attributes/crowd control tiers/npc_cc_tier5.juice"
+	myDropTableOnDeath Kill_Giant_Crush_Drop_Table
+	myDropTableOnAffinityWeaknessDeathId AffinityKill_Giant_Crush
+	myDropTableOnDamage Cyclops_Affinity_Weakness
+	myDamageDropInterval 0.3
+	myDamageDropOnWeakness TRUE
+	myIncludeDamageDropZero TRUE
+	myBreakElectrumOnWeakness TRUE
+	myAwarenessDistance 350.0
+	myMass 10000.0
+	myPhysicsCapsuleHeight 15.0
+	myPhysicsSupportHeight -13.5
+	myPhysicsCapsuleRadius 8.0
+	myPatternProfile < uid=8A9CA286582B966C000005F0CBEC2471 > = "Harvester Cyclops Crush"
+	myDefaultMotionPattern < uid=4A8282B95908EC50002538569662860F > = "Harvester Cyclops Crush Default"
+	myAvoidanceRadius 10.0
+	myNPCType Harvester_Cyclops_Crush
+	myAnimSystemType Harvester_Cyclops_Crush
+	myThreatLevel 13.0
+	myWeapon
+	{
+		myWeaponType Bazooka
+		myDamageType Crush
+	}
+	mySquadAssociationType None
+	mySquadSettings "onward/game system data/juice/ai/squad/cyclops_squad_with_imps.juice"
+	myAIVisionConeTypeName CrushGiantVisionCone
+	myDefaultFootstepEvent 424000195766E8E452892D771F420790
+	myDamageReactionSettings ""
+	myHitReactionRules "onward/game system data/juice/ai/reactions/reaction_rules_npc_large.juice"
+	myOnDeathChallenge Death_CyclopsCrush
+	myOnDiscoveredChallenge Discover_CyclopsCrush
+	myOnAffinityActiveDeathChallenge Combat_AffinityActiveDeath_CrushGiant
+}
+

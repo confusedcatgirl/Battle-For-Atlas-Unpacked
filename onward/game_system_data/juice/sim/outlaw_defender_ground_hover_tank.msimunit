@@ -1,0 +1,35 @@
+include ./outlaw_rogue_elite.msimunit
+
+SimUnit outlaw_defender_ground_hover_tank < uid=DFE837425BD751440003AD5A7017FAB7 > : outlaw_rogue_elite
+{
+	myUIName "contextComment = \"The UI Name for the outlaw hover tanks\", description = \"uiname-outlaw-defender-ground-leader\", enabled = true, guid = #DDDD6F5D5AEB25A700033A072BB197D9, lineVersion = 1, maxLength = 22, text = \"Outlaw Hover Tank\""
+	mySubCategory Hovertank
+	myRadius 20.0
+	myFindSettingsCategory Large
+	mySpeed 1.0
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo "Hover Tank" < uid=DDDD6F5D5AEB25A700033A09AC519DEC >
+		{
+			myCountMin 1
+			myCountMax 1
+			myElementSpawnInfo
+			{
+				SimUnitElementSpawnInfo outlaw_defender_ground_hover_tank
+				{
+					myEntityFile "onward/game system data/juice/ai/npc/outlaw_defender_ground_hover_tank.mnpc"
+				}
+			}
+		}
+		SimUnitEntitySpawnInfo Targets < uid=DDDD6F5D5C17ED820002CC136A04C8F4 >
+		{
+			myCountMin 5
+			myCountMax 5
+			myIgnoreHealth TRUE
+			myEntityFile "onward/entity templates/outlaw_defender_ground_hover_tank_weakpoint_target.mentitytemplate"
+			myAttachParentSpawnInfoUID DDDD6F5D5AEB25A700033A09AC519DEC
+			myAttachBoneCategory Weakpoints
+		}
+	}
+}
+

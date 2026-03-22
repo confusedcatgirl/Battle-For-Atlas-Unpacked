@@ -1,0 +1,691 @@
+include ./arena_scoring_rules_default.juice
+include ./arena_scoring_rules_gauntlet.juice
+include "onward/game system data/juice/leaderboard/leaderboardinfo.juice"
+
+WaveEventTier "Survival - Tier 1" < uid=C92F4D3F5BEC4EA4000002D0ED8EBB07 >
+{
+	myEventType Survival
+	myHazards
+	{
+		ArenaPayload "Set Dressing"
+		{
+			mySimUnit "onward/game system data/juice/sim/arena_dressing_survival.msimunit"
+			mySpawnLocationIds
+			{
+				int 1000 1000
+			}
+		}
+		ArenaPayload "Small Bump"
+		{
+			mySimUnit "onward/game system data/juice/sim/arena_cover_bump_small.msimunit"
+			mySpawnLocationIds
+			{
+				int 1001 1001
+			}
+		}
+		ArenaPayload "Large Bump with Blocker"
+		{
+			mySimUnit "onward/game system data/juice/sim/arena_cover_bump_large_blocker.msimunit"
+			mySpawnLocationIds
+			{
+				int 1002 1002
+			}
+		}
+		ArenaPayload "Medium Ramp 1"
+		{
+			mySimUnit "onward/game system data/juice/sim/arena_cover_ramp_medium_1.msimunit"
+			mySpawnLocationIds
+			{
+				int 1003 1003
+			}
+		}
+		ArenaPayload "Medium Ramp 2"
+		{
+			mySimUnit "onward/game system data/juice/sim/arena_cover_ramp_medium_2.msimunit"
+			mySpawnLocationIds
+			{
+				int 1004 1004
+			}
+		}
+		ArenaPayload "Small Ramp"
+		{
+			mySimUnit "onward/game system data/juice/sim/arena_cover_ramp_small.msimunit"
+			mySpawnLocationIds
+			{
+				int 1005 1005
+			}
+		}
+		ArenaPayload "XL Bump"
+		{
+			mySimUnit "onward/game system data/juice/sim/arena_cover_bump_xlarge.msimunit"
+			mySpawnLocationIds
+			{
+				int 1006 1006
+			}
+		}
+		ArenaPayload "Elemental Blaster"
+		{
+			mySimUnit "onward/game system data/juice/sim/arena_hazard_elemental_blaster.msimunit"
+			mySpawnLocationIds
+			{
+				int 1007 1007
+			}
+		}
+		ArenaPayload "Flame Jets"
+		{
+			mySimUnit "onward/game system data/juice/sim/arena_hazard_flame_jet.msimunit"
+			mySpawnLocationIds
+			{
+				int 1008 1008
+			}
+		}
+		ArenaPayload "Barrel - Gravity"
+		{
+			mySimUnit "onward/game system data/juice/sim/arena_hazard_barrel_gravity.msimunit"
+			mySpawnLocationIds
+			{
+				int 1009 1009
+			}
+		}
+		ArenaPayload "Barrel - Stasis"
+		{
+			mySimUnit "onward/game system data/juice/sim/arena_hazard_barrel_stasis.msimunit"
+			mySpawnLocationIds
+			{
+				int 1010 1010
+			}
+		}
+	}
+	myReward
+	{
+		myCompletionDropTable Award_Arena_Threshold_01_Reward
+		myScoreThreshold 50000
+		myScoreReachedDropTable MissionDrop_trophy_arena_01
+		myLootDropTableName Arena_Tier_Score_Reached
+	}
+	myCompletionChallenge Complete_Arena_Survival_Tier1
+	myScoreReachedChallenge Earn_Trophy_Arena_Brawl
+	myLeaderboard < uid=C92F4D3F5C48C1130000034AF07E67E7 > = "Leaderboard: Brawl - Tier 1"
+	myBeginStoryEvent TU5_BrawlArena_Started
+	myWonStoryEvent TU5_BrawlArena_Won
+	myEndStoryEvent TU5_BrawlArena_Exit
+	mySkillLevelDelta 5
+	myScoringRules = arena_scoring_rules_default
+	myTrophySprite "mySpriteId = 562765742, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-inventory-trophies.spritesheet\""
+	mySecondsBetweenWaves 8.0
+	myWaves
+	{
+		ArenaWave "Wave 1"
+		{
+			myPayloads
+			{
+				ArenaPayload "Base Cyclops"
+				{
+					mySimUnit "onward/game system data/juice/sim/arena_npc_cyclops_generic.msimunit"
+					myCount 8
+					myMaxSimultaneousActive 2
+					myRespawnDuration 0.0
+					mySpawnLocationIds
+					{
+						int 1050 1050
+						int 1051 1051
+						int 1052 1052
+					}
+				}
+				ArenaPayload "Shielded Cyclops"
+				{
+					mySimUnit "onward/game system data/juice/sim/arena_npc_cyclops_generic_shielded.msimunit"
+					myCount 4
+					myMaxSimultaneousActive 2
+					myRespawnDuration 0.0
+					mySpawnLocationIds
+					{
+						int 1053 1053
+					}
+				}
+				ArenaPayload "Base Imps"
+				{
+					mySimUnit "onward/game system data/juice/sim/arena_npc_imp_basic.msimunit"
+					myCount 6
+					myMaxSimultaneousActive 2
+					myRespawnDuration 0.0
+				}
+				ArenaPayload "Flawless Cyclops"
+				{
+					mySimUnit "onward/game system data/juice/sim/arena_npc_cyclops_generic_golden.msimunit"
+					myMaxSimultaneousActive 1
+					mySkillLevelDelta -10
+				}
+			}
+		}
+		ArenaWave "Wave 2"
+		{
+			myPayloads
+			{
+				ArenaPayload "Ice Giant"
+				{
+					mySimUnit "onward/game system data/juice/sim/arena_npc_cyclops_cold.msimunit"
+					myMaxSimultaneousActive 1
+					myRespawnDuration 0.0
+				}
+				ArenaPayload "Ice Cyclops"
+				{
+					mySimUnit "onward/game system data/juice/sim/arena_npc_cyclops_generic_cold.msimunit"
+					myCount 8
+					myMaxSimultaneousActive 2
+					myRespawnDuration 0.0
+					mySpawnLocationIds
+					{
+						int 1050 1050
+						int 1052 1052
+					}
+				}
+				ArenaPayload "Ice Imps"
+				{
+					mySimUnit "onward/game system data/juice/sim/arena_npc_imp_cold.msimunit"
+					myCount 8
+					myMaxSimultaneousActive 2
+					myRespawnDuration 0.0
+				}
+				ArenaPayload Obelisks
+				{
+					mySimUnit "onward/game system data/juice/sim/arena_npc_mini_enemy_01.msimunit"
+					myCount 4
+					myMaxSimultaneousActive 4
+					myRespawnDuration 0.0
+					mySpawnLocationIds
+					{
+						int 1070 1070
+						int 1071 1071
+						int 1072 1072
+						int 1073 1073
+					}
+				}
+			}
+		}
+		ArenaWave "Wave 3"
+		{
+			myPayloads
+			{
+				ArenaPayload Turret
+				{
+					mySimUnit "onward/game system data/juice/sim/arena_npc_shipwreck_turret.msimunit"
+					myMaxSimultaneousActive 1
+					mySpawnLocationIds
+					{
+						int 1060 1060
+					}
+				}
+				ArenaPayload Turret
+				{
+					mySimUnit "onward/game system data/juice/sim/arena_npc_shipwreck_turret.msimunit"
+					myMaxSimultaneousActive 1
+					mySpawnLocationIds
+					{
+						int 1061 1061
+					}
+				}
+				ArenaPayload Turret
+				{
+					mySimUnit "onward/game system data/juice/sim/arena_npc_shipwreck_turret.msimunit"
+					myMaxSimultaneousActive 1
+					mySpawnLocationIds
+					{
+						int 1062 1062
+					}
+				}
+				ArenaPayload Turret
+				{
+					mySimUnit "onward/game system data/juice/sim/arena_npc_shipwreck_turret.msimunit"
+					myMaxSimultaneousActive 1
+					mySpawnLocationIds
+					{
+						int 1063 1063
+					}
+				}
+				ArenaPayload Outlaws
+				{
+					mySimUnit "onward/game system data/juice/sim/arena_npc_outlaw_basic.msimunit"
+					myCount 4
+					myMaxSimultaneousActive 4
+					mySkillLevelDelta -10
+				}
+			}
+		}
+		ArenaWave "Wave 4"
+		{
+			myPayloads
+			{
+				ArenaPayload "Fire Imps"
+				{
+					mySimUnit "onward/game system data/juice/sim/arena_npc_imp_heat.msimunit"
+					myCount 9
+					myMaxSimultaneousActive 3
+					myRespawnDuration 0.0
+				}
+				ArenaPayload "Fire Giant"
+				{
+					mySimUnit "onward/game system data/juice/sim/arena_npc_cyclops_heat.msimunit"
+					myCount 2
+					myRespawnDuration 0.0
+					mySpawnLocationIds
+					{
+						int 1051 1051
+						int 1053 1053
+					}
+				}
+			}
+		}
+	}
+}
+
+WaveEventTier "Trial of Agility - Tier 1" < uid=C92F4D3F5BEC4EA4000002E12F713814 >
+{
+	myEventType Agility_Trial
+	myHazards
+	{
+		ArenaPayload "Set Dressing"
+		{
+			mySimUnit "onward/game system data/juice/sim/arena_dressing_agility.msimunit"
+			mySpawnLocationIds
+			{
+				int 2000 2000
+			}
+		}
+		ArenaPayload "Laser Drum"
+		{
+			mySimUnit "onward/game system data/juice/sim/arena_hazard_laser_drum.msimunit"
+			mySpawnLocationIds
+			{
+				int 2001 2001
+			}
+		}
+		ArenaPayload "Medium Ramp"
+		{
+			mySimUnit "onward/game system data/juice/sim/arena_cover_ramp_medium_1.msimunit"
+			mySpawnLocationIds
+			{
+				int 2002 2002
+			}
+		}
+		ArenaPayload "Small Bump"
+		{
+			mySimUnit "onward/game system data/juice/sim/arena_cover_bump_small.msimunit"
+			myMaxSimultaneousActive 1
+			mySpawnLocationIds
+			{
+				int 2003 2003
+			}
+		}
+	}
+	myUnlockRequirements
+	{
+		myRequiredTierCompletions
+		{
+			ArenaEventTier "Survival - Tier 1" < uid=C92F4D3F5BEC4EA4000002E2EEBB22FF > = "Survival - Tier 1"
+		}
+	}
+	myReward
+	{
+		myCompletionDropTable Award_Arena_Threshold_02_Reward
+		myScoreThreshold 45000
+		myScoreReachedDropTable MissionDrop_trophy_arena_02
+		myLootDropTableName Arena_Tier_Score_Reached
+	}
+	myCompletionChallenge Complete_Arena_Agility_Tier1
+	myScoreReachedChallenge Earn_Trophy_Arena_Laserdrome
+	myLeaderboard < uid=C92F4D3F5C48C1130000034B5DF41106 > = "Leaderboard: Laserdrome - Tier 1"
+	myBeginStoryEvent TU5_LaserdromeArena_Started
+	myWonStoryEvent TU5_LaserdromeArena_Won
+	myEndStoryEvent TU5_LaserdromeArena_Exit
+	myPostEventPaddingSeconds 10.0
+	mySkillLevelDelta 1
+	myScoringRules = arena_scoring_rules_default
+	myTrophySprite "mySpriteId = -1228817888, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-inventory-trophies.spritesheet\""
+	mySecondsBetweenWaves 5.0
+	myWaves
+	{
+		ArenaWave "Wave 1"
+		{
+			myPayloads
+			{
+				ArenaPayload Obelisk
+				{
+					mySimUnit "onward/game system data/juice/sim/arena_npc_mini_enemy_01.msimunit"
+					myCount 2
+					myMaxSimultaneousActive 2
+					myRespawnDuration 0.0
+					mySpawnLocationIds
+					{
+						int 2050 2050
+						int 2051 2051
+					}
+				}
+				ArenaPayload "Shielded Cyclops"
+				{
+					mySimUnit "onward/game system data/juice/sim/arena_npc_cyclops_generic_shielded.msimunit"
+					myCount 4
+					myMaxSimultaneousActive 2
+					myRespawnDuration 0.0
+					mySpawnLocationIds
+					{
+						int 2070 2070
+						int 2071 2071
+					}
+				}
+				ArenaPayload Cyclops
+				{
+					mySimUnit "onward/game system data/juice/sim/arena_npc_cyclops_generic.msimunit"
+					myCount 5
+					myMaxSimultaneousActive 2
+					myRespawnDuration 0.0
+					mySpawnLocationIds
+					{
+						int 2072 2072
+						int 2073 2073
+					}
+				}
+			}
+		}
+		ArenaWave "Wave 2"
+		{
+			myPayloads
+			{
+				ArenaPayload "Shielded Cyclops"
+				{
+					mySimUnit "onward/game system data/juice/sim/arena_npc_cyclops_generic_shielded.msimunit"
+					myCount 4
+					myMaxSimultaneousActive 2
+					myRespawnDuration 0.0
+					mySpawnLocationIds
+					{
+						int 2070 2070
+						int 2071 2071
+					}
+				}
+				ArenaPayload Imps
+				{
+					mySimUnit "onward/game system data/juice/sim/arena_npc_imp_basic.msimunit"
+					myCount 2
+					myMaxSimultaneousActive 1
+					myRespawnDuration 0.0
+					mySpawnLocationIds
+					{
+						int 2080 2080
+						int 2081 2081
+					}
+				}
+				ArenaPayload "Ice Imps"
+				{
+					mySimUnit "onward/game system data/juice/sim/arena_npc_imp_cold.msimunit"
+					myCount 2
+					myMaxSimultaneousActive 1
+					myRespawnDuration 0.0
+					mySpawnLocationIds
+					{
+						int 2080 2080
+						int 2081 2081
+					}
+				}
+				ArenaPayload "Fire Imps"
+				{
+					mySimUnit "onward/game system data/juice/sim/arena_npc_imp_heat.msimunit"
+					myCount 2
+					myMaxSimultaneousActive 1
+					myRespawnDuration 0.0
+					mySpawnLocationIds
+					{
+						int 2082 2082
+						int 2083 2083
+					}
+				}
+				ArenaPayload "Crush Imps"
+				{
+					mySimUnit "onward/game system data/juice/sim/arena_npc_imp_crush.msimunit"
+					myCount 2
+					myMaxSimultaneousActive 1
+					myRespawnDuration 0.0
+					mySpawnLocationIds
+					{
+						int 2082 2082
+						int 2083 2083
+					}
+				}
+			}
+		}
+		ArenaWave "Wave 3"
+		{
+			myPayloads
+			{
+				ArenaPayload "Crush Cyclops"
+				{
+					mySimUnit "onward/game system data/juice/sim/arena_npc_cyclops_generic_crush.msimunit"
+					myCount 6
+					myMaxSimultaneousActive 3
+					myRespawnDuration 0.0
+					mySpawnLocationIds
+					{
+						int 2070 2070
+						int 2071 2071
+						int 2072 2072
+						int 2073 2073
+					}
+				}
+				ArenaPayload X-Hole
+				{
+					mySimUnit "onward/game system data/juice/sim/arena_npc_mini_enemy_11.msimunit"
+					myCount 4
+					myMaxSimultaneousActive 4
+					myRespawnDuration 0.0
+					mySpawnLocationIds
+					{
+						int 2060 2060
+						int 2061 2061
+						int 2050 2050
+						int 2051 2051
+					}
+				}
+			}
+		}
+	}
+}
+
+BossEventTier "Boss Challenge - Outlaw Mech" < uid=C92F4D3F5BEC4EA4000002E7BB858B50 >
+{
+	myEventType Boss
+	myHazards
+	{
+		ArenaPayload "Set Dressing"
+		{
+			mySimUnit "onward/game system data/juice/sim/arena_dressing_boss.msimunit"
+			mySpawnLocationIds
+			{
+				int 3000 3000
+			}
+		}
+		ArenaPayload "Potted Tree A"
+		{
+			mySimUnit "onward/game system data/juice/sim/arena_obstacle_hologram_tree_a_potted.msimunit"
+			mySpawnLocationIds
+			{
+				int 3001 3001
+			}
+		}
+		ArenaPayload "Potted Tree B"
+		{
+			mySimUnit "onward/game system data/juice/sim/arena_obstacle_hologram_tree_b_potted.msimunit"
+			mySpawnLocationIds
+			{
+				int 3002 3002
+			}
+		}
+		ArenaPayload "Large Gate (Half)"
+		{
+			mySimUnit "onward/game system data/juice/sim/arena_cover_gate_large_half.msimunit"
+			mySpawnLocationIds
+			{
+				int 3006 3006
+			}
+		}
+		ArenaPayload "Wall Blocker"
+		{
+			mySimUnit "onward/game system data/juice/sim/arena_wall_blocker.msimunit"
+			myMaxSimultaneousActive 1
+			mySpawnLocationIds
+			{
+				int 3007 3007
+			}
+		}
+		ArenaPayload "Tree C"
+		{
+			mySimUnit "onward/game system data/juice/sim/arena_dressing_hologram_tree_c.msimunit"
+			mySpawnLocationIds
+			{
+				int 3008 3008
+			}
+		}
+		ArenaPayload "Sprout A"
+		{
+			mySimUnit "onward/game system data/juice/sim/arena_dressing_hologram_sprout_a.msimunit"
+			myMaxSimultaneousActive 1
+			mySpawnLocationIds
+			{
+				int 3009 3009
+			}
+		}
+		ArenaPayload "Sprout B"
+		{
+			mySimUnit "onward/game system data/juice/sim/arena_dressing_hologram_sprout_b.msimunit"
+			myMaxSimultaneousActive 1
+			mySpawnLocationIds
+			{
+				int 3010 3010
+			}
+		}
+		ArenaPayload "XL Bump"
+		{
+			mySimUnit "onward/game system data/juice/sim/arena_cover_bump_xlarge.msimunit"
+			mySpawnLocationIds
+			{
+				int 3003 3003
+			}
+		}
+	}
+	myUnlockRequirements
+	{
+		myRequiredTierCompletions
+		{
+			ArenaEventTier "Survival - Tier 1" < uid=C92F4D3F5BEC4EA4000002E81725E69B > = "Survival - Tier 1"
+			ArenaEventTier "Trial of Agility - Tier 1" < uid=C92F4D3F5BEC4EA4000002EB6C716601 > = "Trial of Agility - Tier 1"
+		}
+	}
+	myReward
+	{
+		myCompletionDropTable Award_Arena_Threshold_03_Reward
+		myScoreThreshold 40000
+		myScoreReachedDropTable MissionDrop_trophy_arena_03
+		myLootDropTableName Arena_Tier_Score_Reached
+	}
+	myCompletionChallenge Complete_Arena_Boss_Tier1
+	myScoreReachedChallenge Earn_Trophy_Arena_ChampionBattle
+	myLeaderboard < uid=C92F4D3F5C48C1130000034C52F0F6D0 > = "Leaderboard: Boss Challenge - Outlaw Mech"
+	myBeginStoryEvent TU5_ChampionArena_Started
+	myWonStoryEvent TU5_ChampionArena_Won
+	myEndStoryEvent TU5_ChampionArena_Exit
+	myPostEventPaddingSeconds 13.0
+	mySkillLevelDelta 2
+	myScoringRules = arena_scoring_rules_default
+	myTrophySprite "mySpriteId = 1442500206, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-inventory-trophies.spritesheet\""
+	myPayload
+	{
+		mySimUnit "onward/game system data/juice/sim/arena_npc_battlemech.msimunit"
+	}
+	myReinforcements
+	{
+		ArenaReinforcement "60% HP"
+		{
+			myHealthPercent 0.6
+			myPayloads
+			{
+				ArenaPayload "Basic Outlaw"
+				{
+					mySimUnit "onward/game system data/juice/sim/arena_npc_outlaw_basic.msimunit"
+					myCount 2
+				}
+			}
+		}
+		ArenaReinforcement "25% HP"
+		{
+			myHealthPercent 0.25
+			myPayloads
+			{
+				ArenaPayload "Elite Outlaw"
+				{
+					mySimUnit "onward/game system data/juice/sim/arena_npc_outlaw_elite.msimunit"
+					myCount 1
+					mySkillLevelDelta -3
+				}
+			}
+		}
+	}
+}
+
+GauntletEventTier "Gauntlet - Tier 1" < uid=C92F4D3F5BEC4EA4000002EC5458442A >
+{
+	myEventType Gauntlet
+	myUnlockRequirements
+	{
+		myRequiredTierCompletions
+		{
+			ArenaEventTier "Boss Challenge - Outlaw Mech" < uid=C92F4D3F5BEC4EA4000002ED18928787 > = "Boss Challenge - Outlaw Mech"
+		}
+	}
+	myReward
+	{
+		myCompletionDropTable Award_Arena_Threshold_04_Reward
+		myScoreThreshold 60000
+		myScoreReachedDropTable MissionDrop_trophy_arena_04
+		myLootDropTableName Arena_Tier_Score_Reached
+	}
+	myCompletionChallenge Complete_Arena_Gauntlet_Tier1
+	myScoreReachedChallenge Earn_Trophy_Arena_Gauntlet
+	myLeaderboard < uid=C92F4D3F5C48C10200000349EFA2A42F > = "Leaderboard: Gauntlet - Tier 1"
+	myPostEventPaddingSeconds 13.0
+	mySkillLevelDelta 5
+	myScoringRules = arena_scoring_rules_gauntlet
+	myTrophySprite "mySpriteId = -1656400531, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-inventory-trophies.spritesheet\""
+	myEvents
+	{
+		ArenaEventTier "Survival - Tier 1" < uid=C92F4D3F5C193F9300B0630D98E3B492 > = "Survival - Tier 1"
+		ArenaEventTier "Trial of Agility - Tier 1" < uid=C92F4D3F5C193F9300B0630E734DC229 > = "Trial of Agility - Tier 1"
+		ArenaEventTier "Boss Challenge - Outlaw Mech" < uid=C92F4D3F5C193F9300B0630FFEDBFD86 > = "Boss Challenge - Outlaw Mech"
+	}
+	myRounds
+	{
+		ArenaGauntletRound "Brawl - Tier 1"
+		{
+			myCameraDuration 0.0
+			myPostRoundPadding 5.0
+			myCameraType Default
+			myCameraTeleportLocalOffset 0.0;0.0;0.0
+			myEvent < uid=C92F4D3F5C647C240000039C0EA780C4 > = "Survival - Tier 1"
+		}
+		ArenaGauntletRound "Laserdrome - Tier 1"
+		{
+			myCameraDuration 5.0
+			myPostRoundPadding 5.0
+			myCameraType ArenaOutro
+			myCameraTeleportLocalOffset 0.0;0.0;200.0
+			myEvent < uid=C92F4D3F5C647C240000039DBB05E68D > = "Trial of Agility - Tier 1"
+		}
+		ArenaGauntletRound "Boss Challenge - Outlaw Mech"
+		{
+			myCameraDuration 5.0
+			myPostRoundPadding 10.0
+			myCameraType ArenaOutro
+			myCameraTeleportLocalOffset 0.0;0.0;200.0
+			myEvent < uid=C92F4D3F5C647C240000039EBF1901F4 > = "Boss Challenge - Outlaw Mech"
+		}
+	}
+}
+

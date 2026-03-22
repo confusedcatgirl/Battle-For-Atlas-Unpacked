@@ -1,0 +1,62 @@
+include ./fauna_major.mnpc
+include onward/skillscripts/npc_ability_fauna_shatter.mskillscriptjuice
+include onward/skillscripts/npc_ability_fauna_gatling.mskillscriptjuice
+include onward/skillscripts/npc_ability_fauna_knockback.mskillscriptjuice
+
+NPC fauna_01 < uid=4A8282B956DE0599000000564972A735 > : fauna_major
+{
+	myUIName_NonLocalized Snapdragon
+	myGraphObjectFile "onward/graph objects/character/fauna_01.mgraphobject"
+	myBehavior "onward/game system data/juice/ai/behavior/fauna_01.mbehavior"
+	myAbilityDefinitions
+	{
+		NPCAbilityDefinition Shoot
+		{
+			myGameAction NPC_Ability1
+			mySkillScript < uid=C92F4D3F578CF19A016256EC8B2CF055 > = npc_ability_fauna_gatling
+			myInputType Hold_New
+			myAttributesFile ""
+			myEnabled FALSE
+		}
+		NPCAbilityDefinition Shatter
+		{
+			myGameAction NPC_Ability2
+			mySkillScript < uid=C92F4D3F578CF19A016256EC8B2CF055 > = npc_ability_fauna_shatter
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_fauna_01_shatter.juice"
+		}
+		NPCAbilityDefinition Knockback
+		{
+			myGameAction NPC_Ability4
+			mySkillScript < uid=93869D535A9EB95E00001CDAAFC2EEE2 > = npc_ability_fauna_knockback
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_fauna_01_knockback.juice"
+		}
+	}
+	myPhysicsCapsuleHeight 8.0
+	myPhysicsSupportHeight -9.0
+	myPhysicsCapsuleRadius 5.0
+	myPhysicsPusherCapsuleRadius 10.0
+	myPhysicsCapsuleOriented FALSE
+	myPhysicsPusherCapsule TRUE
+	myPhysicsCapsuleStart 0.0;13.0;6.0
+	myPhysicsCapsuleEnd 0.0;13.0;-4.0
+	myGroundOrientationFraction 0.95
+	myPatternProfile < uid=4A8282B957BC747E00348E16F610E800 > = "Fauna 01"
+	myDefaultMotionPattern < uid=4A8282B957BC746F00348E158FA07039 > = "Fauna 01 Default"
+	myAvoidanceRadius 12.0
+	myNPCType Fauna_01
+	myAnimSystemType Fauna_01
+	myLeggedness Quadruped
+	myWeapon
+	{
+		myWeaponType Shatter
+		myDamageType Impact
+	}
+	mySteeringParameters "onward/game system data/juice/ai/steering/fauna_01.juice"
+	myDefaultFootstepEvent 46CF19D0B7BBFA5A3A8B75E6F11801BC
+	myOnDeathChallenge Death_Fauna01
+	myOnDiscoveredChallenge Discover_Fauna01
+	myFullyScannedChallenge FullyScan_Fauna01
+}
+

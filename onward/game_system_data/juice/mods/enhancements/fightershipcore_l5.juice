@@ -1,0 +1,24 @@
+include ./templates/template_l5.juice
+include "onward/game system data/juice/mods/mod_fighter_shipcore_l5.mplayermod"
+include "onward/game system data/juice/buffs/buff_fighter_shipcore_l5.mbuff"
+
+Enhancement fightershipcore_l5 < uid=C91BB551597F4F8E007FB66E86DCA79C > : "Level 5"
+{
+	myLocalizedName "contextComment = \"[Placeholder - do not translate]\nName for level 5 version of a Ship Core that greatly increases the ship's maneuverability and dodging capabilities (analogy to a nimble fighter jet)\", description = \"\", enabled = true, guid = #C91BB551597F4F8E007FB66DA2B4F1B9, lineVersion = 2, maxLength = 20, text = \"Champion Core V\"}"
+	myLocalizedDescription "contextComment = \"[Placeholder - do not translate]\nDescription for level 5 version of a Ship Core that greatly increases the ship's maneuverability and dodging capabilities (analogy to a nimble fighter jet)\", description = \"enhancement-description-fighter-ship-core-5\", enabled = true, guid = #4C0874CCFFFD49E980A0B330F83796AE, lineVersion = 1, maxLength = 146, text = '+100 Handling\n+30 Speed\n+50% Damage after Precision Hit for 5s\nHolding <gameaction src=\"Hop\"> maintains altitude'}"
+	myIconSprite "mySpriteId = 19010988, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-mods-ship-core.spritesheet\""
+	myIsHullEnhancement TRUE
+	myMod < uid=C91BB551597F4F8E007FB66FDF0A2950 > = mod_fighter_shipcore_l5
+	myBuff < uid=939A35415AB2AF0800001CA7AD4D3B60 > = buff_fighter_shipcore_l5
+	myEnhancementType ShipCore
+	myEnhancementTrackType FighterShipCore
+	myDamageAffectors
+	{
+		DamageAffector_DamageBoostOnHeadshot "Boost On Headshot"
+		{
+			myDamageMultiplier = Fighter_Core_l5_ExtraDamage
+			myDamageBoostTime 5.0
+		}
+	}
+}
+

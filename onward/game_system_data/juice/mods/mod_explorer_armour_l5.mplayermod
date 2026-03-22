@@ -1,0 +1,39 @@
+include ./template_hull.mplayermod
+include ./tuning/mod_tuning_master.juice
+
+PlayerMod mod_explorer_armour_l5 < uid=C91BB55159808885000F2262FD8FA374 > : template_hull
+{
+	myAttributeMods
+	{
+		AttributeMod Weight
+		{
+			myType PartStat_Mass
+			myAddValue = Explorer_Armor_l5_Mass
+		}
+		AttributeMod Defense
+		{
+			myType PartStat_Defense
+			myAddValue = Explorer_Armor_l5_Defense
+		}
+		AttributeMod "Shield Regen Rate"
+		{
+			myType Health_ShieldRegenRate
+			myPercentageValue = Explorer_Armor_l5_Regen
+		}
+		AttributeMod "Health Regen Rate"
+		{
+			myType Health_HealthRegenRate
+			myMultValue 1.0
+			myAddValue 0.0
+			myPercentageValue = Explorer_Armor_l5_Regen
+		}
+		AttributeMod "Kinetic Resist"
+		{
+			myType DMG_Resist_Kinetic
+			myMultValue = Explorer_Armor_l5_KineticResist
+		}
+	}
+	myIsSelfMod TRUE
+	myIsAgentMod TRUE
+}
+

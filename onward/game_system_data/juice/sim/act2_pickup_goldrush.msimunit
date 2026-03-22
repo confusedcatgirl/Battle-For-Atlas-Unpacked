@@ -1,0 +1,24 @@
+include ./pickup_goldrush_air_filter.msimunit
+
+SimUnit act2_pickup_goldrush < uid=2B55C72B58DD77B20000024C8DD2A64B > : pickup_goldrush_air_filter
+{
+	myUIName "contextComment = \"[Placeholder - do not translate] HUD name shown hovering over a piece of old salvaged machinery the player can pick up and deliver to an outpost.\", description = \"ui-target-pickup-goldrush-ore-processor\", enabled = true, guid = #2B55C72B596E56960000003557E0E8B8, lineVersion = 0, maxLength = 17, text = \"Ore Processor\""
+	mySubCategoryVariant 2
+	myRadius 150.0
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo InteractablePickup < uid=2B55C72B59662C8E000001B19C64E5E4 >
+		{
+			myCountMin 1
+			myCountMax 1
+			myIgnoreNavMesh TRUE
+			myIgnoreTerrain TRUE
+			myEntityFile "onward/entity templates/act2_pickup_ore_processor.mentitytemplate"
+		}
+	}
+	myUnkillable TRUE
+	myUnkillableType Invulnerable
+	myUnkillableUntilEvent GoldrushComplete
+	myMissionTargetTexture onward/baked/textures/UI/icons/outpost_targets/outpost_target_sim_unit/ui-icon-outpost-target-goldrush-ore-processor.dds
+}
+

@@ -1,0 +1,73 @@
+include "onward/game system data/fruit/health/DamagePayload.fruit"
+include "onward/game system data/fruit/attributes/attributes.fruit"
+include "onward/game system data/fruit/environment/Resources.fruit"
+include "onward/game system data/fruit/statuseffects/statuseffects.fruit"
+
+enum UpgradeMaterials
+{
+	Electronics
+	Minerals
+	Crystals
+	Metals
+	Gases
+}
+
+enum UpgradeLabTypes
+{
+	Hyper
+	Propulsion
+	Velocity
+}
+
+class UpgradeCost
+{
+	UpgradeMaterials myMaterial
+	int myQuantity 0
+}
+
+list CostList
+{
+	UpgradeCost
+}
+
+class ProjectileTAGPayload
+{
+	StatusEffect* myStatusType
+	float myValue 0.0
+}
+
+list ProjectileTAGPayloadList
+{
+	ProjectileTAGPayload
+}
+
+class ProjectileResourcePayload
+{
+	ResourceType myResourceType
+	float myValue 0.0
+}
+
+list ProjectileResourcePayloadList
+{
+	ProjectileResourcePayload
+}
+
+class ProjectileUpgrade
+{
+	ProjectileTAGPayloadList myTAGPayloads
+	DamagePayload myDamagePayloads
+	ProjectileResourcePayloadList myResourcePayloads
+}
+
+class PartUpgrade < uid=auto >
+{
+	string myDetails "default"
+	int myLevel
+	AttributeMods myAttributeMods
+	ProjectileUpgrade myProjectileUpgrade
+}
+
+list PartUpgrades
+{
+	PartUpgrade
+}

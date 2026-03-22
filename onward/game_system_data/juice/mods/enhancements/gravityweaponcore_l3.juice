@@ -1,0 +1,26 @@
+include ./templates/template_l3.juice
+include "onward/game system data/juice/mods/mod_gravity_weaponcore_l3.mplayermod"
+
+Enhancement gravityweaponcore_l3 < uid=C91BB55159822822000884183E50AF50 > : "Level 3"
+{
+	myLocalizedName "contextComment = \"[Placeholder - do not translate]\nName for level 3 version of Gravity Weapon Core mod, which boosts effectiveness of Gravity-type weapons\", description = \"\", enabled = true, guid = #C91BB5515982282200088417CE9884CA, lineVersion = 2, maxLength = 22, text = \"Crushing Ammo III\""
+	myLocalizedDescription "contextComment = \"[Placeholder - do not translate]\nDescription for level 3 version of Gravity Weapon Core mod, which boosts damage and range for gravity-type weapons. Targets inside a gravity effect (Gravity field or Black Hole) take even more damage\", description = \"enhancement-description-gravity-weapon-core-3\", enabled = true, guid = #9E6AFEDA59D25B8F00A860D0B58D8931, lineVersion = 3, maxLength = 125, text = \"+60% Damage | +10% Range\n+25% Damage to targets in Gravity Effects\nEquip on Gravity type Weapons\""
+	myIconSprite "mySpriteId = 1043611335, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-mods-weapon-core.spritesheet\""
+	myPartFlavor Crush
+	myMod < uid=C91BB551598228220008841950B26F5E > = mod_gravity_weaponcore_l3
+	myEnhancementType WeaponCore
+	myEnhancementTrackType GravityWeaponCore
+	myDamageAffectors
+	{
+		DamageAffector_TargetInsideVolume "Extra Damage to Targets inside Gravity Volume"
+		{
+			myDamageMultiplier = Gravity_WeaponCore_l3_ExtraDamage
+			myCategories
+			{
+				VolumeMitigationCategory "Gravity Well" GravityWell
+				VolumeMitigationCategory "Black Hole" BlackHole
+			}
+		}
+	}
+}
+

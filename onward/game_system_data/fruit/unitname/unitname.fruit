@@ -1,0 +1,168 @@
+include "onward/game system data/fruit/sim/simunit.fruit"
+
+class UnitNameDataBase < abstract = 1 > 
+{
+
+}
+
+list LocalizedNames
+{
+	varmap myLocalizedName < bhv="localization" >
+}
+
+class UnitName_Data_Location_Ambient
+{
+	LocalizedNames myLocalizedNames
+}
+
+list UnitName_Data_Location_Ambients
+{
+	UnitName_Data_Location_Ambient
+}
+
+class UnitNameData_Location_Planet
+{
+	uid myPlanet < bhv = asset assettype = level >
+	UnitName_Data_Location_Ambients myDayAmbientIdNames
+	UnitName_Data_Location_Ambients myNightAmbientIdNames
+}
+
+list UnitNameData_Location_Planets
+{
+	UnitNameData_Location_Planet
+}
+
+class UnitNameData_Location : UnitNameDataBase
+{
+	UnitNameData_Location_Planets myUnitNameDataPlanets
+}
+
+list UnitNameDataList
+{
+	UnitNameDataBase
+}
+
+list SimUnitAssetList
+{
+	SimUnit* < bhv=asset assettype="Sim Unit" >
+}
+class UnitNameSet
+{
+	SimUnit* mySimUnitAsset < bhv=asset assettype="Sim Unit" >
+	SimUnitAssetList myAdditionalSimUnitAssetUIDs < tooltip="Additional SimUnitAssets that share the same naming scheme.">
+	UnitNameDataList myUnitNameData < tooltip="These Name Data are used when creating the name for a SimUnit WITHOUT an NPC.">
+	UnitNameDataList myNPCNameData < tooltip="These Name Data are used when creating the name for a SimUnit WITH an NPC.">
+	UnitNameDataList mySubstitutionNameData < tooltip="These substitutions are used for a SimUnit WITH an NPC.">
+	UnitNameDataList mySimUnitSubstitutionNameData < tooltip="These substitutions are used for a SimUnit WITHOUT an NPC.">
+	UnitNameDataList myInheritedNameData < tooltip="This is the name data that a child unit gets if it uses InheritedName name data.">
+}
+
+list UnitNameSetList
+{
+	UnitNameSet
+}
+
+class UnitNameData_AssetName : UnitNameDataBase
+{
+}
+
+class UnitNameData_Array : UnitNameDataBase
+{
+	LocalizedNames myArray
+}
+
+list StringList
+{
+	string
+}
+
+class UnitNameData_Compound : UnitNameDataBase
+{
+	StringList myPrefixes
+	StringList mySuffixes
+}
+
+class UnitNameData_NPCName : UnitNameDataBase
+{
+}
+
+list NameIndexList
+{
+	int
+}
+
+class UnitNameData_InterestName : UnitNameDataBase
+{
+	NameIndexList myInterestNameIndexList
+}
+
+
+class UnitNameData_ParentName : UnitNameDataBase
+{
+	NameIndexList myParentNameIndexList
+}
+
+class UnitNameData_LocationID_ID
+{
+	int myLocationID
+	varmap myLocalizedName < bhv="localization" >
+}
+
+list UnitNameData_PlanetLocationIDs
+{
+	UnitNameData_LocationID_ID
+}
+
+class UnitNameData_PlanetLocation
+{
+	uid myPlanet < bhv = asset assettype = level >
+	UnitNameData_PlanetLocationIDs myLocationIDs
+}
+
+list UnitNameData_PlanetLocations
+{
+	UnitNameData_PlanetLocation
+}
+
+class UnitNameData_LocationID : UnitNameDataBase
+{
+	UnitNameData_PlanetLocations myPlanetLocations
+}
+
+class UnitNameData_LevelName : UnitNameDataBase
+{
+	LocalizedNames myLevelNames
+}
+
+class UnitNameData_InheritedName : UnitNameDataBase
+{
+}
+
+class UnitNameData_SectorName : UnitNameDataBase
+{
+	LocalizedNames mySectorNames
+}
+
+class UnitNameData_PartInfluencedName : UnitNameDataBase
+{
+	int myPartUsedId
+	varmap myNameIfPartUsed < bhv="localization" >
+	varmap myDefaultName < bhv="localization" >
+}
+
+class UnitNameData_NPCMapper_Element
+{
+	file myNPC < bhv = asset, assettype = npc >
+	UnitNameDataBase myUnitNameData
+}
+
+list UnitNameData_NPCMapper_ElementList
+{
+	UnitNameData_NPCMapper_Element
+}
+
+class UnitNameData_NPCMapper : UnitNameDataBase
+{
+	UnitNameDataBase myDefault
+	UnitNameData_NPCMapper_ElementList myNPCMappings
+}

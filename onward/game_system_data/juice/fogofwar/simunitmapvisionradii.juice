@@ -1,0 +1,70 @@
+include "onward/game system data/fruit/fogofwar/simunitmapvisionradius.fruit"
+include "onward/game system data/juice/sim/act_1_observation_deck.msimunit"
+include "onward/game system data/juice/sim/act_2_sonatus_observatory.msimunit"
+include "onward/game system data/juice/sim/act_2_haven_mining_center.msimunit"
+include "onward/game system data/juice/sim/tower_observation.msimunit"
+include "onward/game system data/juice/sim/act_3_vylus_observatory.msimunit"
+include "onward/game system data/juice/sim/goldrush_prison.msimunit"
+include "onward/game system data/juice/sim/goldrush_refinery.msimunit"
+include "onward/game system data/juice/sim/goldrush_refueling_station.msimunit"
+include "onward/game system data/juice/sim/goldrush_sattelite.msimunit"
+include "onward/game system data/juice/sim/goldrush_vault.msimunit"
+
+SimUnitMapVisionRadiusList "Simunit Map Vision Radii"
+{
+	SimUnitMapVisionRadius "Outpost - Expedition Observation Deck"
+	{
+		mySimUnitAssetList
+		{
+			SimUnit "Standard Observation Deck" < uid=F2C5C69259920D09000000350DB7B1F6 > = expedition_observation_deck
+			SimUnit "Act 1 Observation Deck" < uid=F2C5C69259920D0900000036818B661E > = act_1_observation_deck
+		}
+		myBaseMapVisionRadius 2250.0
+		myAdditionalRadiusPerLevel 750.0
+	}
+	SimUnitMapVisionRadius "Outpost - Expedition Research Base"
+	{
+		mySimUnitAssetList
+		{
+			SimUnit "Standard Research Base" < uid=F2C5C69259920D32000000381243F0DA > = expedition_research_base
+			SimUnit "Act 2 Workshop" < uid=BEFFEE115AD78E2D001068C5CA13091F > = act_2_sonatus_observatory
+		}
+	}
+	SimUnitMapVisionRadius "Outpost - Prospector Mining Center"
+	{
+		mySimUnitAssetList
+		{
+			SimUnit "Standard Mining Center" < uid=F2C5C69259920D7700000039A2CBCB65 > = prospector_mining_center
+			SimUnit "Act 2 Haven Mining Center" < uid=F2C5C69259921EC800000035673BF15F > = act_2_haven_mining_center
+		}
+		myAdditionalRadiusPerLevel 0.0
+	}
+	SimUnitMapVisionRadius "Outpost - Prospector Defense Base"
+	{
+		mySimUnitAssetList
+		{
+			SimUnit "Standard Defense Base" < uid=F2C5C69259920D770000003A78AAF2B4 > = prospector_defense_base
+			SimUnit "Act 3 Defense Base" < uid=BEFFEE115AD7929600030FE069A3F189 > = act_3_vylus_observatory
+		}
+	}
+	SimUnitMapVisionRadius "Tower - Observation"
+	{
+		mySimUnitAssetList
+		{
+			SimUnit "Tower Observation" < uid=F2C5C69259D5042F00000035A57D4B50 > = tower_observation
+		}
+	}
+	SimUnitMapVisionRadius "Goldrush Ruins"
+	{
+		mySimUnitAssetList
+		{
+			SimUnit "New SimUnit (0)" < uid=132A31715BA3C9BE0000241540B6389C > = goldrush_prison
+			SimUnit "New SimUnit (1)" < uid=132A31715BA3C9BE0000241632419BD5 > = goldrush_vault
+			SimUnit "New SimUnit (2)" < uid=132A31715BA3C9BE0000241797E75BAA > = goldrush_refinery
+			SimUnit "New SimUnit (3)" < uid=132A31715BA3C9BE00002418D6186F6E > = goldrush_refueling_station
+			SimUnit "New SimUnit (4)" < uid=132A31715BA3C9BE00002419279BDFE9 > = goldrush_sattelite
+		}
+		myBaseMapVisionRadius 500.0
+	}
+}
+

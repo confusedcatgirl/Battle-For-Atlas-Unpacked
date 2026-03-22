@@ -1,0 +1,29 @@
+include ./templates/template_l3.juice
+include "onward/game system data/juice/mods/mod_towingupgrade_l3.mplayermod"
+
+Enhancement towingupgrade_l3 < uid=C308E4DB59CA9D220000006C36E4ECF7 > : "Level 3"
+{
+	myLocalizedName "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB59CA9D220000006BE3C4B138, lineVersion = 0, maxLength = 0, text = \"\""
+	myMod < uid=C308E4DB59CA9E8B0000008226365E75 > = mod_towingupgrade_l3
+	myEnhancementType Unknown
+	myEnhancementTrackType Unknown
+	myDamageAffectors
+	{
+		DamageAffector_PodDamageBoostToNPCType "Damage Boost"
+		{
+			myDamageMultiplier 0.25
+			myNPCTypes
+			{
+				NPCType "Cold Cyclop" Harvester_Cyclops_Infused_Cold
+				NPCType "Heat Cyclop" Harvester_Cyclops_Infused_Heat
+				NPCType "Crush Cyclop" Harvester_Cyclops_Infused_Crush
+				NPCType "Shielded Cyclop" Harvester_Cyclops_Shielded
+				NPCType Drake Harvester_Drake
+				NPCType "Cold Imp" Harvester_Imp_Cold
+				NPCType "Heat Imp" Harvester_Imp_Heat
+				NPCType "Crush Imp" Harvester_Imp_Crush
+			}
+		}
+	}
+}
+

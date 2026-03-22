@@ -1,0 +1,25 @@
+include ./fauna_03.mnpc
+
+NPC fauna_10 < uid=4A8282B956DE05BE0000005C09AD4A54 > : fauna_base
+{
+	myUIName_NonLocalized Chimejay
+	myGraphObjectFile "onward/graph objects/character/fauna_10.mgraphobject"
+	myPhysicsCapsuleHeight 4.0
+	myPhysicsPusherCapsuleRadius 5.0
+	myPhysicsPusherCapsule TRUE
+	myPhysicsCapsuleStart 0.0;10.0;-2.0
+	myPhysicsCapsuleEnd 0.0;18.0;2.0
+	myGroundOrientationFraction 0.3
+	myHitReactionConstants "onward/game system data/juice/combat/hitreactionsconstants_fauna_10.juice"
+	myPatternProfile < uid=4A8282B957BB265B000000B05863A5B8 > = "Fauna 10"
+	myDefaultMotionPattern < uid=4A8282B957BB265B000000B11D2E91BA > = "Fauna 10 Default"
+	myNPCType Fauna_10
+	myAnimSystemType Fauna_10
+	myLeggedness Biped
+	myAIVisionConeTypeName SkittishFaunaVisionCone
+	myDefaultFootstepEvent 4839C075D99F7B19BC48CFC3345CB7B1
+	myOnDeathChallenge Death_Fauna10
+	myOnDiscoveredChallenge Discover_Fauna10
+	myFullyScannedChallenge FullyScan_Fauna10
+}
+

@@ -1,0 +1,53 @@
+include ./template_pod.mplayermod
+include ./tuning/mod_tuning_master.juice
+
+float "Weapon Damage" = Warden_WeaponCore_l3_Damage
+
+PlayerMod mod_warden_weaponcore_l3 < uid=939A35415AB53E9600014DD4BD927F14 > : template_pod
+{
+	myAttributeMods
+	{
+		AttributeMod Cold
+		{
+			myType DMG_Cold
+			myMultValue 1.0
+			myPercentageValue = "Weapon Damage"
+		}
+		AttributeMod Crush
+		{
+			myType DMG_Crush
+			myMultValue 1.0
+			myPercentageValue = "Weapon Damage"
+		}
+		AttributeMod Float
+		{
+			myType DMG_Float
+			myMultValue 1.0
+			myPercentageValue = "Weapon Damage"
+		}
+		AttributeMod Heat
+		{
+			myType DMG_Heat
+			myMultValue 1.0
+			myPercentageValue = "Weapon Damage"
+		}
+		AttributeMod Kinetic
+		{
+			myType DMG_Kinetic
+			myMultValue 1.0
+			myPercentageValue = "Weapon Damage"
+		}
+		AttributeMod Max
+		{
+			myType DMG_Max
+			myMultValue 1.0
+			myPercentageValue = "Weapon Damage"
+		}
+		AttributeMod UI_Weapon_Damage
+		{
+			myType UI_Weapon_Damage
+			myPercentageValue = "Weapon Damage"
+		}
+	}
+}
+

@@ -1,0 +1,27 @@
+include ./pickup_base.msimunit
+
+SimUnit pickup_rareprop_sandworm_scale_01 < uid=939A35415BBE0C63000002E905BA4E81 > : pickup_base
+{
+	myUIName "contextComment = \"sim unit name for a sandworm scale that player can find and pluck off a kirite sandworm\", description = \"uiname-pickup_rareprop_sandworm_scale_01\", enabled = true, guid = #939A35415BBE0C63000002E892D1404F, lineVersion = 1, maxLength = 21, text = \"[Sandworm Scale]\""
+	myBehavior onward/simworld/behavior/pickup_wormscale.msimunitbtgraph
+	mySubCategory RareFlora
+	mySubCategoryVariant 1
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo InteractablePickup < uid=939A35415BBE0C63000002EA5B798663 >
+		{
+			myCountMin 1
+			myCountMax 1
+			myIgnoreNavMesh TRUE
+			myIgnoreTerrain TRUE
+			myEntityFile "onward/entity templates/pickup_rareprop_sandworm_scale_01.mentitytemplate"
+			myRealizeOnDetach FALSE
+			myAttachOffset 0.0;1.25;-2.0
+		}
+	}
+	mySaveable FALSE
+	myIsValidPickupTarget FALSE
+	myIconSprite "mySpriteId = 82697719, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-inventory-organics-flora.spritesheet\""
+	myMissionTargetTexture onward/baked/textures/UI/icons/outpost_targets/outpost_target_sim_unit/ui-icon-outpost-target-flora-delivery-01.dds
+}
+

@@ -1,0 +1,20 @@
+include ./templates/template_l2.juice
+include "onward/game system data/juice/mods/mod_prospector_armour_l2.mplayermod"
+include ./impactaffectors/impact_affectors.juice
+
+Enhancement prospectorarmour_l2 < uid=C91BB5515980BEFF00000093DC5461B1 > : "Level 2"
+{
+	myLocalizedName "contextComment = \"[Placeholder - do not translate]\nName for level 2 version of a Ship Armor made by the Prospectors that gives broad-spectrum resistance and ground-pound like abilities when fighting on the ground. Can only be equipped on Prospector ships.\", description = \"\", enabled = true, guid = #C91BB5515980BEFF0000009206734BEE, lineVersion = 1, maxLength = 30, text = \"Prospector Armor II\""
+	myLocalizedDescription "contextComment = \"[Placeholder - do not translate]\nDescription for level 2 version of a Ship Armor made by the Prospectors that gives broad-spectrum resistance and ground-pound like abilities when fighting on the ground. Can only be equipped on Prospector ships.\", description = \"enhancement-description-prospector-armour-2\", enabled = true, guid = #7E1D96C0B89D40DFA79148C77B729838, lineVersion = 2, maxLength = 91, text = \"+40 Defense\n+10% Damage Resist\nParry Stuns for Longer | Stun on Impact\""
+	myIconSprite "mySpriteId = 1758106709, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-mods-ship-armour.spritesheet\""
+	myIsHullEnhancement TRUE
+	myFactionType Prospector
+	myMod < uid=C91BB5515980BEFF0000009479054CFB > = mod_prospector_armour_l2
+	myEnhancementType Armour
+	myEnhancementTrackType ProspectorArmour
+	myImpactAffectors
+	{
+		ImpactAffector_Stun "Stun on Impact" = "Stun on Impact"
+	}
+}
+

@@ -1,0 +1,16 @@
+include ./templates/template_l5.juice
+include "onward/game system data/juice/buffs/buff_critical_lasers.mbuff"
+include "onward/game system data/juice/mods/mod_dreadnought_core_l1.mplayermod"
+
+Enhancement critical_lasers_l1 < uid=42BB0A2F5BFC37EF00019E0FA28E614C > : "Level 5"
+{
+	myLocalizedName "contextComment = \"name for a ship core that player recieves from defeating outlaw dreadnought\", description = \"enhancement-name-dreadnought-ship-core-3\", enabled = true, guid = #939A35415C47C9C300033063F1B28FD5, lineVersion = 0, maxLength = 30, text = \"[Dreadnought Ship Core]\""
+	myLocalizedDescription "contextComment = \"Description for a ship core that player recieves from defeating outlaw dreadnought\", description = \"enhancement-description-dreadnought-ship-core-3\", enabled = true, guid = #939A35415C47C9C300033069199C5DC5, lineVersion = 0, maxLength = 100, text = \"+[100] Handling\n+[100] Energy\n+[1500] Damage on Reflection\n+[Critical Lasers]\""
+	myIconSprite "mySpriteId = -1004585826, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-mods-ship-core.spritesheet\""
+	myIsHullEnhancement TRUE
+	myMod < uid=939A35415C47C8F800000056DF487B92 > = mod_dreadnought_core_l1
+	myBuff < uid=42BB0A2F5BFC3D590002452A558EB6F4 > = buff_critical_lasers
+	myEnhancementType ShipCore
+	myEnhancementTrackType DreadnoughtShipCore
+}
+

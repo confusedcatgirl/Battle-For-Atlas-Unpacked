@@ -1,0 +1,123 @@
+include "onward/game system data/fruit/parts/PartUpgradeData.fruit"
+include "onward/game system data/fruit/attributes/attributes.fruit"
+include "onward/game system data/fruit/camera/RecoilData.fruit"
+include "onward/game system data/fruit/statuseffects/statuseffects.fruit"
+include "onward/entity templates/definitions/ShipPart.fruit"
+include "onward/game system data/fruit/entity/faction.fruit"
+include "onward/game system data/fruit/progression/challenge_types.fruit"
+include "onward/game system data/fruit/rulesystem/fact.fruit"
+include "onward/game system data/fruit/ui/Collection/databasesubcategory.fruit"
+
+class PartData < uid=auto >
+{
+	varmap			myLocalizedName			< bhv = "localization" >
+	varmap			myLocalizedDescription	< bhv = "localization" >
+	varmap			myLocalizedShortDescription < bhv = "localization" >
+	varmap			myLocalizedNarrative	< bhv = "localization" >
+
+	string			myDescription
+	int				myPartID
+	int				myProductionID -1
+	int				myDualLinkID
+	int			myFamilyID -1
+	PartEdition		myPartEdition
+	bool			myIsReversed
+	PartFlavorType	myPartFlavorType
+	DeploymentType	myDeploymentType
+	UIStatusEffectType	myStatusType
+	Orientation		myOrientation
+	Attachments		myAttachmentPoints
+	HealthSegments	myHealthSegments
+	int				myShieldSegments 0
+	Maneuvers		myManeuvers
+	Collisions		myCollisions
+	Collisions      myRamCollisions
+	Collisions      myRaceCollisions
+    vec3f           myCameraSafeOffset 0.0;0.0;0.0
+    vec3f           myCameraPivotOffset 0.0;0.0;0.0
+	AttributeType	myDescriptiveAttribute
+	Attributes		myBaseAttributes
+	Attributes		myAttributes
+	varmap			myLocalizedAbilityName			< bhv = "localization" >
+	varmap			myLocalizedAbilityDescription	< bhv = "localization" >
+	color			myAbilityFillColor
+	color			myAbilityReadyColor
+	color			myOrbisLightColor
+	string			myAbilityTexture
+	string			myAbilitySprite < default = "mySpriteId = -455779427, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-placeholder.spritesheet\"" bhv="sprite" >
+	int				myNumModSlots
+	color			myHUDFrameColor
+	RecoilData		myRecoilData
+
+	file			myUIGraph "" < assettype="Object" >
+	file			myHolographUIGraph "" < assettype="Object" >
+	file			myUIPreviewGraphObject "" < assettype="Object" >
+	file			myUISelectedGraphObject "" < assettype="Object" >
+	string			myMedallionSprite < default = "mySpriteId = -455779427, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-placeholder.spritesheet\"" bhv="sprite" >
+	file			myProjectileTemplate < assettype="Entity Template" >
+	file			mySkillScriptFile < assettype="Skill Script" >
+	file			myGameplayBink "" < bhv=asset assettype="Bink" >
+	file			myIntroBink "onward/baked/movies/Ubi_Logo_3sec.bik" < bhv=asset assettype="Bink" >
+	file			myPortraitBink < bhv=asset assettype="Bink" >
+	float			myPortraitBinkScale < default = 1 >
+
+	file			myEntityTemplateFile "" < types=*.mEntityTemplate >
+	
+	file 			myIcon < bhv=asset assettype="Texture" >
+	file 			myPortrait < bhv=asset assettype="Texture" >
+	string			mySprite < default = "mySpriteId = -455779427, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-placeholder.spritesheet\"" bhv="sprite" >
+	string			myLeaderboardSprite < default = "mySpriteId = -455779427, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-placeholder.spritesheet\"" bhv="sprite" >
+	int				myOasisCharacterId < default = 0 tooltip = "Oasis Character Id for Pilot" >
+	int				mySimUnitVariant 0 < tooltip = "[PILOTS] SubCategory Variant used for sim units representing this pilot" >
+	
+	FactionType		myFactionType
+	
+	int				myShippedWingLeft < default = -1 tooltip = "The left wing that a hull shipped with" >
+	int				myShippedWingRight < default = -1 tooltip = "The right wing that a hull shipped with" >
+	int				myShippedHull < default = -1 tooltip = "The hull that a wing shipped with" >
+
+	ChallengeType 	myOnAttachedChallengeType
+
+	int				myReleaseDateYear < min=2001 max=2133 default=2001 >
+	int				myReleaseDateMonth < min=1 max=12 default=1 >
+	int				myReleaseDateDay < min=1 max=31 default=1 >
+	int				myReleaseWave 1
+	
+	IntFactLabel	myPartOwnedFactLabel 	< default = Undefined tooltip = "The fact that the rule system will use to indicate whether or not the player has ever attached this part." >
+	IntFactLabel	myPartAttachedFactLabel	< default = Undefined tooltip = "The fact that the rule system will use to indicate whether or not the player currently has this part attached." >
+
+	NPCDatabaseEntry* myRecommendedEnemy
+
+    bool            myCanAbilityBeUsedInInterior TRUE
+    bool			myCanAbilityBeUsedInsideDreadnought FALSE
+    bool			myCanAbilityBeUsedWithImpAttached TRUE
+	bool			myCanPickupWhileAbilityActive TRUE
+	bool			myCanUseItemWhileAbilityActive TRUE
+	bool			myCanPluckWhileAbilityActive TRUE
+	bool			myCanScanWhileAbilityActive TRUE
+	bool			myCanHailWhileAbilityActive TRUE
+	bool			myCanOpenWhileAbilityActive TRUE
+	bool			myCanRepairWhileAbilityActive TRUE	
+	bool			myCanImpAttachWhileAbilityActive TRUE	
+	bool			myCanHackWhileAbilityActive TRUE
+	bool			myCanStartFlightEnginesWhileActive TRUE
+	bool			myCanStartHyperdriveWhileActive TRUE
+	bool			myCanFastTravelWhileActive TRUE
+	bool			myCanShieldParryWhileActive TRUE
+	bool			myCanStartCaptureWhileActive TRUE
+	bool			myCanToggleReverseCamWhileActive TRUE
+	bool			myCanBoostWhileActive TRUE
+	bool			myCanStartAbilityWhilePlucking TRUE
+	bool			myCanStartAbilityWhileCapturing TRUE
+	bool			myIsHeadshotCapable FALSE
+	bool			myIsWeapon FALSE
+	bool			myRespectsLimbs FALSE
+	bool			myPreload FALSE
+	bool			myBarkOnActivate TRUE	< tooltip="Pilots only" >
+	bool			myHasAbilityOverTime FALSE
+}
+
+list PartDataList
+{
+	PartData
+}

@@ -1,0 +1,50 @@
+include "onward/game system data/juice/ai/npcincludes.juice"
+
+NPC fauna_base < uid=4A8282B956D5E9E900046DF3B1052E6E >
+{
+	myUIName_NonLocalized Creature
+	myGraphObjectFile ""
+	myBehavior "onward/game system data/juice/ai/behavior/fauna_03.mbehavior"
+	myIsInitiallyAggressive FALSE
+	myHealthConfig < uid=4A8282B959F8995400001DE00E6FFCA0 > = "fauna_base Health"
+	myIsInvulnerable FALSE
+	myCrowdControlAttributeSettings "onward/game system data/juice/ai/attributes/crowd control tiers/npc_cc_tier01.juice"
+	myDropTableOnDeath ""
+	myDropTableOnDamage ""
+	myAwarenessDistance 400.0
+	myMass 30000.0
+	myMaxRotationalForce 2.0
+	myMaxLinearForce 5000.0
+	myMaxForce 2000.0
+	myStaticFriction 0.196
+	myPhysicsCapsuleHeight 2.5
+	myPhysicsSupportHeight -3.0
+	myPhysicsCapsuleRadius 1.5
+	myGroundOrientationFraction 0.7
+	myHasSkinnedCollision TRUE
+	myCollisionSoundPreset < uid=4A8282B9580516CF0000024D0480B611 > = "Character Flesh Sound"
+	myAvoidanceRadius 6.0
+	myNPCFaction Fauna
+	myNPCType Fauna_Generic
+	myAnimSystemType None
+	myThreatBudget 10.0
+	myAttackerBudget 9.0
+	myIsFlocking FALSE
+	mySquadAssociationType None
+	mySquadSettings ""
+	mySteeringParameters "onward/game system data/juice/ai/steering/default_prey.juice"
+	myAIVisionConeTypeName PassiveFaunaVisionCone
+	myIsTargetable TRUE
+	myIsInteractable TRUE
+	myInteractableSkillscript onward/skillscripts/testFaunaInteraction.mskillscriptgraph
+	myInteractableTextType ResearchFauna
+	myInteractableConfig "onward/game system data/juice/interact/scannable.juice"
+	myLeftFootstepEffectFile "onward/graph objects/effect/effect_npc_generic_left_footstep.mgraphobject"
+	myRightFootstepEffectFile "onward/graph objects/effect/effect_npc_generic_right_footstep.mgraphobject"
+	myFrontLeftFootstepEffectFile "onward/graph objects/effect/effect_npc_generic_left_front_footstep.mgraphobject"
+	myFrontRightFootstepEffectFile "onward/graph objects/effect/effect_npc_generic_right_front_footstep.mgraphobject"
+	myHitReactionRules "onward/game system data/juice/ai/reactions/reaction_rules_npc_fauna.juice"
+	myUseNavMeshContextLayer TRUE
+	myNavMeshContextLayerKill FALSE
+}
+

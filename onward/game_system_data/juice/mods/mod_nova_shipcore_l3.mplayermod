@@ -1,0 +1,21 @@
+include ./template_shipcore.mplayermod
+include ./tuning/mod_tuning_master.juice
+
+PlayerMod mod_nova_shipcore_l3 < uid=939A35415AB16F6700001C2C5554E2D8 > : template_shipcore
+{
+	myAttributeMods
+	{
+		AttributeMod Energy
+		{
+			myType PartStat_Energy
+			myAddValue = Nova_Core_l3_Energy
+		}
+		AttributeMod "Combo Stamina"
+		{
+			myType Player_StaminaOnCombo
+			myAddValue = Nova_Core_l3_ComboStamina
+		}
+	}
+	myIsSelfMod TRUE
+}
+

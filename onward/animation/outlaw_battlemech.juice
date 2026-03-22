@@ -1,0 +1,588 @@
+include "onward/game system data/fruit/animation/animsys.fruit"
+
+SpecializationList mySpecializations
+{
+}
+
+FileList mySubsystems
+{
+}
+
+MotionPose "Ready (Idle OOC)"
+{
+	myStateName Ready
+	myAnimModes Speed_Idle;WorldEntryMethod_Ground;WorldEntryMethod_Space;MoveStyle_Default;MoveStyle_Polluted;
+	myAnimsOut "GTR_ToRagdoll;GTR_To Die;GTR_To Missile Barrage;GTR_To Dormant;GTR_To ExitAffinity;GTR_To Crystal Blast;GTR_To Fist Wind;GTR_To Staggered;GTR_To Corrosive Cannon;"
+}
+
+MotionPose "Ready (Walk Run OOC)"
+{
+	myStateName Ready
+	myAnimModes Speed_Walk;Speed_Run;WorldEntryMethod_Ground;WorldEntryMethod_Space;MoveStyle_Default;MoveStyle_Polluted;
+	myAnimsOut "GTR_ToRagdoll;GTR_To Die;GTR_To Missile Barrage;GTR_To Dormant;GTR_To ExitAffinity;GTR_To Crystal Blast;GTR_To Fist Wind;GTR_To Staggered;GTR_To Corrosive Cannon;"
+}
+
+MotionPose SuperJump_Pose
+{
+	myStateName SuperJump_Pose
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;WorldEntryMethod_Ground;WorldEntryMethod_Space;MoveStyle_Default;MoveStyle_InCombat;MoveStyle_Polluted;
+	myAnimsOut "SuperJump_Settle;GTR_ToRagdoll;GTR_To Die;GTR_To Missile Barrage;GTR_To Dormant;GTR_To ExitAffinity;GTR_To Crystal Blast;GTR_To Fist Wind;GTR_To Staggered;GTR_To Corrosive Cannon;"
+}
+
+OneshotMotionStateWithModes SuperJump_TakingOff < uid=B8F234255BE1B37200000401549A1537 >
+{
+	myEnabled TRUE
+	myStateName SuperJump_TakingOff
+	myTotalDuration 0.88
+	myDistance 1.361318
+	myAnimationDuration 1.2
+	myAnimationDistance 1.361318
+	myHorizontalDistance 1.361318
+	myVerticalDisplacement 0.0
+	myAnimsOut "SuperJump_Pose;SuperJump_Settle;GTR_ToRagdoll;GTR_To Die;GTR_To Missile Barrage;GTR_To Dormant;GTR_To ExitAffinity;GTR_To Crystal Blast;GTR_To Fist Wind;GTR_To Staggered;GTR_To Corrosive Cannon;"
+	myAnimCommand SuperJump_TakingOff
+	myDisplacementAngle 0.0
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;WorldEntryMethod_Ground;WorldEntryMethod_Space;MoveStyle_Default;MoveStyle_InCombat;MoveStyle_Polluted;
+}
+
+OneshotMotionStateWithModes SuperJump_Settle < uid=B8F234255BE1B372000004021E6B44A3 >
+{
+	myEnabled TRUE
+	myStateName SuperJump_Settle
+	myTotalDuration 0.98
+	myDistance 14.158332
+	myAnimationDuration 1.3
+	myAnimationDistance 14.158332
+	myHorizontalDistance 14.158332
+	myVerticalDisplacement 0.0
+	myAnimsOut "GTR_ToRagdoll;GTR_To Die;GTR_To Missile Barrage;GTR_To Dormant;GTR_To ExitAffinity;GTR_To Crystal Blast;GTR_To Fist Wind;GTR_To Staggered;GTR_To Corrosive Cannon;"
+	myAnimCommand SuperJump_Settle
+	myDisplacementAngle 0.0
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;WorldEntryMethod_Ground;WorldEntryMethod_Space;MoveStyle_Default;MoveStyle_InCombat;MoveStyle_Polluted;
+}
+
+OneshotMotionStateWithModes Ragdoll_Recover < uid=B8F234255BE1B372000004041B57A236 >
+{
+	myEnabled TRUE
+	myStateName Ragdoll_Recover
+	myTotalDuration 6.346666
+	myDistance 0.0
+	myAnimationDuration 6.666667
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.0
+	myAnimsOut "GTR_FromRagdoll;GTR_To Die;GTR_To Missile Barrage;GTR_To ExitAffinity;GTR_To Dormant;GTR_To Crystal Blast;GTR_To Fist Wind;GTR_To Staggered;GTR_To Corrosive Cannon;"
+	myAnimCommand Ragdoll_Recover
+	myDisplacementAngle 0.0
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;WorldEntryMethod_Ground;WorldEntryMethod_Space;MoveStyle_Default;MoveStyle_InCombat;MoveStyle_Polluted;
+}
+
+TransitionMotionState GTR_FromRagdoll < uid=B8F234255BE1B372000004059FE03FC6 >
+{
+	myEnabled FALSE
+	myTotalDuration 0.0
+	myDistance 0.0
+	myAnimationDuration 0.0
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.0
+	myAnimsOut "Ready (Idle OOC);Ready (Walk Run OOC);Ready (Walk Run IC);Ready (Idle IC);SuperJump_Pose;SuperJump_TakingOff;SuperJump_Settle;TurnOnSpot;Stumble;KnockBack;Die;Missile Barrage Begin;ExitAffinity;Dormant;Stunned;EnterWorld (Space);PreEnterWorld (Space);EnterAffinity;Crystal Blast Complete;Crystal Blast Begin;Fist Wind;Shield Down Loop;Staggered;Corrosive Cannon;Missile Barrage Complete;Fist Complete;Corrosive Cannon Complete;Fist Brace Shield Up;Fist Fail Stagger;"
+	myDisplacementAngle 0.0
+	myRotationAngle 0.0
+	myIsGlobalTransition TRUE
+	myGlobalTransitionPriority 0
+}
+
+MotionPose "Ready (Walk Run IC)"
+{
+	myStateName Ready
+	myAnimModes Speed_Walk;Speed_Run;WorldEntryMethod_Ground;WorldEntryMethod_Space;MoveStyle_InCombat;
+	myAnimsOut "GTR_ToRagdoll;GTR_To Die;GTR_To Missile Barrage;GTR_To Dormant;GTR_To ExitAffinity;GTR_To Crystal Blast;GTR_To Fist Wind;GTR_To Staggered;GTR_To Corrosive Cannon;"
+}
+
+OneshotMotionStateWithModes Stumble < uid=B8F234255BE1B37200000406DBEA3EC5 >
+{
+	myEnabled TRUE
+	myStateName Stumble
+	myTotalDuration 2.013333
+	myDistance 25.997412
+	myAnimationDuration 2.333333
+	myAnimationDistance 25.997412
+	myHorizontalDistance 25.997412
+	myVerticalDisplacement 0.0
+	myAnimsOut "GTR_ToRagdoll;GTR_To Die;GTR_To Missile Barrage;GTR_To Dormant;GTR_To ExitAffinity;GTR_To Crystal Blast;GTR_To Fist Wind;GTR_To Staggered;GTR_To Corrosive Cannon;"
+	myAnimCommand Stumble
+	myDisplacementAngle 180.0
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;WorldEntryMethod_Ground;WorldEntryMethod_Space;MoveStyle_Default;MoveStyle_InCombat;MoveStyle_Polluted;
+}
+
+OneshotMotionState KnockBack < uid=B8F234255BE1B37200000407CBAECA2D >
+{
+	myStateName KnockBack
+	myTotalDuration 4.18
+	myAnimationDuration 4.5
+	myAnimsOut "GTR_ToRagdoll;GTR_To Die;GTR_To Missile Barrage;GTR_To Dormant;GTR_To ExitAffinity;GTR_To Crystal Blast;GTR_To Fist Wind;GTR_To Staggered;GTR_To Corrosive Cannon;"
+	myDisplacementAngle 0.0
+}
+
+OneshotMotionStateWithModes Die < uid=B8F234255BE1B372000004086D4E877C >
+{
+	myEnabled TRUE
+	myStateName Die
+	myTotalDuration 9.68
+	myDistance 0.0
+	myAnimationDuration 10.0
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.0
+	myAnimsOut "GTR_ToRagdoll;GTR_To Missile Barrage;GTR_To Dormant;GTR_To ExitAffinity;GTR_To Crystal Blast;GTR_To Fist Wind;GTR_To Staggered;GTR_To Corrosive Cannon;"
+	myAnimCommand Die
+	myDisplacementAngle 0.0
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;WorldEntryMethod_Ground;WorldEntryMethod_Space;MoveStyle_Default;MoveStyle_InCombat;MoveStyle_Polluted;
+}
+
+TransitionMotionState GTR_ToRagdoll < uid=B8F234255BE1B37200000409F3CE9B1C >
+{
+	myEnabled FALSE
+	myTotalDuration 0.0
+	myDistance 0.0
+	myAnimationDuration 0.0
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.0
+	myAnimsOut Ragdoll_Recover;
+	myDisplacementAngle 0.0
+	myRotationAngle 0.0
+	myIsGlobalTransition TRUE
+	myGlobalTransitionPriority 0
+}
+
+TransitionMotionState "GTR_To Die" < uid=B8F234255BE1B3720000040A79588FB6 >
+{
+	myEnabled FALSE
+	myTotalDuration 0.0
+	myDistance 0.0
+	myAnimationDuration 0.0
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.0
+	myAnimsOut Die;
+	myDisplacementAngle 0.0
+	myRotationAngle 0.0
+	myIsGlobalTransition TRUE
+	myGlobalTransitionPriority 0
+}
+
+MotionPose "Ready  (Idle IC)"
+{
+	myStateName "Ready "
+	myAnimModes Speed_Idle;WorldEntryMethod_Ground;WorldEntryMethod_Space;MoveStyle_InCombat;
+	myAnimsOut "GTR_ToRagdoll;GTR_To Die;GTR_To Ice Wave;GTR_To Dormant;GTR_To ExitAffinity;GTR_To Crystal Blast;"
+}
+
+MotionPose "Missile Barrage Begin"
+{
+	myStateName "Missile Barrage Begin"
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;WorldEntryMethod_Ground;WorldEntryMethod_Space;MoveStyle_Default;MoveStyle_InCombat;MoveStyle_Polluted;
+	myAnimsOut "Missile Barrage Complete;GTR_ToRagdoll;GTR_To Die;GTR_To Dormant;GTR_To ExitAffinity;GTR_To Crystal Blast;GTR_To Fist Wind;GTR_To Staggered;GTR_To Corrosive Cannon;"
+}
+
+TransitionMotionState "GTR_To Missile Barrage" < uid=B8F234255BE1B3720000040BC41ADD12 >
+{
+	myEnabled TRUE
+	myTotalDuration 1.113333
+	myDistance 0.0
+	myAnimationDuration 1.433333
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.0
+	myAnimsOut "Missile Barrage Begin;"
+	myDisplacementAngle 0.0
+	myRotationAngle 0.0
+	myIsGlobalTransition TRUE
+	myGlobalTransitionPriority 0
+}
+
+MotionPose ExitAffinity
+{
+	myStateName ExitAffinity
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;WorldEntryMethod_Ground;WorldEntryMethod_Space;MoveStyle_Default;MoveStyle_InCombat;MoveStyle_Polluted;
+	myAnimsOut "GTR_ToRagdoll;GTR_From ExitAffinity;GTR_To Die;GTR_To Missile Barrage;GTR_To Dormant;TR_From Exit To Enter;GTR_To Crystal Blast;GTR_To Fist Wind;GTR_To Staggered;GTR_To Corrosive Cannon;"
+}
+
+TransitionMotionState "GTR_To Dormant" < uid=B8F234255BE1B3720000040CDD76D78A >
+{
+	myEnabled TRUE
+	myTotalDuration 2.213333
+	myDistance 0.0
+	myAnimationDuration 2.533333
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.0
+	myAnimsOut Dormant;
+	myDisplacementAngle 0.0
+	myRotationAngle 0.0
+	myIsGlobalTransition TRUE
+	myGlobalTransitionPriority 0
+}
+
+TransitionMotionState "GTR_From Dormant" < uid=B8F234255BE1B3720000040D5AE7A143 >
+{
+	myEnabled TRUE
+	myTotalDuration 3.146667
+	myDistance 0.0
+	myAnimationDuration 3.466667
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.0
+	myAnimsOut "Ragdoll_Recover;Die;Missile Barrage Begin;Ready (Idle OOC);Ready (Walk Run OOC);Ready (Walk Run IC);Ready (Idle IC);SuperJump_Pose;SuperJump_TakingOff;SuperJump_Settle;TurnOnSpot;Stumble;KnockBack;ExitAffinity;Stunned;EnterWorld (Space);PreEnterWorld (Space);EnterAffinity;Crystal Blast Complete;Crystal Blast Begin;Fist Wind;Shield Down Loop;Staggered;Corrosive Cannon;Missile Barrage Complete;Fist Complete;Corrosive Cannon Complete;Fist Brace Shield Up;Fist Fail Stagger;"
+	myDisplacementAngle 0.0
+	myRotationAngle 0.0
+	myIsGlobalTransition TRUE
+	myGlobalTransitionPriority 0
+}
+
+MotionPose Dormant
+{
+	myStateName Dormant
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;WorldEntryMethod_Ground;WorldEntryMethod_Space;MoveStyle_Default;MoveStyle_InCombat;MoveStyle_Polluted;
+	myAnimsOut "GTR_ToRagdoll;GTR_From Dormant;GTR_To Die;GTR_To Missile Barrage;GTR_To ExitAffinity;GTR_To Crystal Blast;GTR_To Fist Wind;GTR_To Staggered;GTR_To Corrosive Cannon;"
+}
+
+MotionPose Stunned
+{
+	myStateName Stunned
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;WorldEntryMethod_Ground;WorldEntryMethod_Space;MoveStyle_Default;MoveStyle_InCombat;MoveStyle_Polluted;
+	myAnimsOut "GTR_ToRagdoll;GTR_To Die;GTR_To Missile Barrage;GTR_To Dormant;GTR_To ExitAffinity;GTR_To Crystal Blast;GTR_To Fist Wind;GTR_To Staggered;GTR_To Corrosive Cannon;"
+}
+
+OneshotMotionStateWithModes "EnterWorld (Space)" < uid=B8F234255BE1B3720000040EE77FB096 >
+{
+	myEnabled TRUE
+	myStateName EnterWorld
+	myTotalDuration 2.513333
+	myDistance 0.0
+	myAnimationDuration 2.833333
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.0
+	myAnimsOut "GTR_ToRagdoll;GTR_To Die;GTR_To Missile Barrage;GTR_To Dormant;GTR_To ExitAffinity;GTR_To Crystal Blast;GTR_To Fist Wind;GTR_To Staggered;GTR_To Corrosive Cannon;"
+	myAnimCommand EnterWorld
+	myDisplacementAngle 0.0
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;WorldEntryMethod_Ground;WorldEntryMethod_Space;MoveStyle_Default;MoveStyle_InCombat;MoveStyle_Polluted;
+}
+
+TransitionMotionState "GTR_To ExitAffinity" < uid=B8F234255BE1B3720000040FF59F1326 >
+{
+	myEnabled TRUE
+	myTotalDuration 1.346667
+	myDistance 0.0
+	myAnimationDuration 1.666667
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.0
+	myAnimsOut ExitAffinity;
+	myDisplacementAngle 0.0
+	myRotationAngle 0.0
+	myIsGlobalTransition TRUE
+	myGlobalTransitionPriority 0
+}
+
+TransitionMotionState "GTR_From ExitAffinity" < uid=B8F234255BE1B372000004109E3E4098 >
+{
+	myEnabled TRUE
+	myTotalDuration 3.813333
+	myDistance 0.0
+	myAnimationDuration 4.133333
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.0
+	myAnimsOut "Ragdoll_Recover;Die;Missile Barrage Begin;Dormant;Ready (Idle OOC);Ready (Walk Run OOC);Ready (Walk Run IC);Ready (Idle IC);SuperJump_Pose;SuperJump_TakingOff;SuperJump_Settle;TurnOnSpot;Stumble;KnockBack;Stunned;EnterWorld (Space);PreEnterWorld (Space);EnterAffinity;Crystal Blast Complete;Crystal Blast Begin;Fist Wind;Shield Down Loop;Staggered;Corrosive Cannon;Missile Barrage Complete;Fist Complete;Corrosive Cannon Complete;Fist Brace Shield Up;Fist Fail Stagger;"
+	myDisplacementAngle 0.0
+	myRotationAngle 0.0
+	myIsGlobalTransition TRUE
+	myGlobalTransitionPriority 0
+}
+
+LayerMotionState "Ice Swell (IC)"
+{
+	myLayerName "Ice Swell"
+	myTotalDuration 1.346667
+	myIsLoop FALSE
+	mySupportedStatesAndPoses "Ready (Walk Run IC);Ready (Idle IC);ExitAffinity;"
+}
+
+MotionPose "PreEnterWorld (Space)"
+{
+	myStateName PreEnterWorld
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;WorldEntryMethod_Ground;WorldEntryMethod_Space;MoveStyle_Default;MoveStyle_InCombat;MoveStyle_Polluted;
+	myAnimsOut "GTR_ToRagdoll;GTR_To Die;GTR_To Missile Barrage;GTR_To Dormant;GTR_To ExitAffinity;GTR_To Crystal Blast;GTR_To Fist Wind;GTR_To Staggered;GTR_To Corrosive Cannon;"
+}
+
+OneshotMotionState EnterAffinity < uid=B8F234255BE1B3720000041482087DB9 >
+{
+	myStateName EnterAffinity
+	myAnimsOut "GTR_ToRagdoll;GTR_To Die;GTR_To Missile Barrage;GTR_To Dormant;GTR_To ExitAffinity;GTR_To Crystal Blast;GTR_To Fist Wind;GTR_To Staggered;GTR_To Corrosive Cannon;"
+}
+
+TransitionMotionState "TR_From Exit To Enter" < uid=B8F234255BE1B37200000415DBD8CB72 >
+{
+	myEnabled FALSE
+	myTotalDuration 0.0
+	myDistance 0.0
+	myAnimationDuration 0.0
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.0
+	myAnimsOut EnterAffinity;
+	myDisplacementAngle 0.0
+	myRotationAngle 0.0
+	myIsGlobalTransition FALSE
+	myGlobalTransitionPriority 0
+}
+
+OneshotMotionStateWithModes "Crystal Blast Complete" < uid=B8F234255BE1B3720000041697D956C7 >
+{
+	myStateName "Crystal Blast Complete"
+	myTotalDuration 1.533333
+	myAnimationDuration 1.533333
+	myAnimsOut "GTR_ToRagdoll;GTR_To Die;GTR_To Missile Barrage;GTR_To Dormant;GTR_To ExitAffinity;GTR_To Crystal Blast;GTR_To Fist Wind;GTR_To Staggered;GTR_To Corrosive Cannon;"
+	myDisplacementAngle 0.0
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;WorldEntryMethod_Ground;WorldEntryMethod_Space;MoveStyle_Default;MoveStyle_InCombat;MoveStyle_Polluted;
+}
+
+TransitionMotionState "GTR_To Crystal Blast" < uid=B8F234255BE1B372000004178F4C43DC >
+{
+	myEnabled TRUE
+	myTotalDuration 0.913333
+	myDistance 0.0
+	myAnimationDuration 1.233333
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.0
+	myAnimsOut "Crystal Blast Begin;"
+	myDisplacementAngle 0.0
+	myRotationAngle 0.0
+	myIsGlobalTransition TRUE
+	myGlobalTransitionPriority 0
+}
+
+MotionPose "Crystal Blast Begin"
+{
+	myStateName "Crystal Blast Begin"
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;WorldEntryMethod_Ground;WorldEntryMethod_Space;MoveStyle_Default;MoveStyle_InCombat;MoveStyle_Polluted;
+	myAnimsOut "Crystal Blast Complete;GTR_ToRagdoll;GTR_To Die;GTR_To Missile Barrage;GTR_To Dormant;GTR_To ExitAffinity;GTR_To Fist Wind;GTR_To Staggered;GTR_To Corrosive Cannon;"
+}
+
+MotionPose "Dormant "
+{
+	myStateName "Dormant "
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;WorldEntryMethod_Ground;WorldEntryMethod_Space;MoveStyle_Default;MoveStyle_InCombat;MoveStyle_Polluted;
+	myAnimsOut "GTR_ToRagdoll;GTR_From Dormant;GTR_To Die;GTR_To Ice Wave;GTR_To ExitAffinity;GTR_To Crystal Blast;"
+}
+
+MotionPose "Ready (Idle IC)"
+{
+	myStateName Ready
+	myAnimModes Speed_Idle;WorldEntryMethod_Ground;WorldEntryMethod_Space;MoveStyle_InCombat;
+	myAnimsOut "GTR_ToRagdoll;GTR_To Die;GTR_To Missile Barrage;GTR_To Dormant;GTR_To ExitAffinity;GTR_To Crystal Blast;GTR_To Fist Wind;GTR_To Staggered;GTR_To Corrosive Cannon;"
+}
+
+MotionPose "Fist Wind"
+{
+	myStateName "Fist Wind"
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;WorldEntryMethod_Ground;WorldEntryMethod_Space;MoveStyle_Default;MoveStyle_InCombat;MoveStyle_Polluted;
+	myAnimsOut "GTR_ToRagdoll;GTR_To Die;GTR_To Missile Barrage;GTR_To Dormant;GTR_To ExitAffinity;GTR_To Crystal Blast;TR_Fist Shoot;GTR_To Staggered;GTR_To Corrosive Cannon;"
+}
+
+TransitionMotionState "GTR_To Fist Wind" < uid=DDDD6F5D5BEB138F00007A26DAC50E06 >
+{
+	myEnabled TRUE
+	myTotalDuration 2.18
+	myDistance 0.0
+	myAnimationDuration 2.5
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.0
+	myAnimsOut "Fist Wind;"
+	myDisplacementAngle 0.0
+	myRotationAngle 0.0
+	myIsGlobalTransition TRUE
+	myGlobalTransitionPriority 0
+}
+
+MotionPose "Shield Down Loop"
+{
+	myStateName "Shield Down Loop"
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;WorldEntryMethod_Ground;WorldEntryMethod_Space;MoveStyle_Default;MoveStyle_InCombat;MoveStyle_Polluted;
+	myAnimsOut "Fist Complete;Fist Fail Stagger;GTR_ToRagdoll;GTR_To Die;GTR_To Missile Barrage;GTR_To Dormant;GTR_To ExitAffinity;GTR_To Crystal Blast;GTR_To Fist Wind;GTR_To Staggered;GTR_To Corrosive Cannon;"
+}
+
+TransitionMotionState "TR_Fist Shoot" < uid=DDDD6F5D5BEB18E300000398FFFFDAA2 >
+{
+	myEnabled TRUE
+	myTotalDuration 2.513333
+	myDistance 0.0
+	myAnimationDuration 2.833333
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.0
+	myAnimsOut "Fist Brace Shield Up;"
+	myDisplacementAngle 0.0
+	myRotationAngle 0.0
+	myIsGlobalTransition FALSE
+	myGlobalTransitionPriority 0
+}
+
+TransitionMotionState "GTR_To Staggered" < uid=DDDD6F5D5BEC4BBE0000C758CE926821 >
+{
+	myEnabled TRUE
+	myTotalDuration 4.18
+	myDistance 0.0
+	myAnimationDuration 4.5
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.0
+	myAnimsOut Staggered;
+	myDisplacementAngle 0.0
+	myRotationAngle 0.0
+	myIsGlobalTransition TRUE
+	myGlobalTransitionPriority 0
+}
+
+TransitionMotionState "GTR_From Staggered" < uid=DDDD6F5D5BEC4BBE0000C7598CA36724 >
+{
+	myEnabled TRUE
+	myTotalDuration 3.013333
+	myDistance 0.0
+	myAnimationDuration 3.333333
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.0
+	myAnimsOut "Ragdoll_Recover;Die;Missile Barrage Begin;Dormant;ExitAffinity;Crystal Blast Begin;Fist Wind;Ready (Idle OOC);Ready (Walk Run OOC);Ready (Walk Run IC);Ready (Idle IC);SuperJump_Pose;SuperJump_TakingOff;SuperJump_Settle;TurnOnSpot;Stumble;KnockBack;Stunned;EnterWorld (Space);PreEnterWorld (Space);EnterAffinity;Crystal Blast Complete;Shield Down Loop;Corrosive Cannon;Missile Barrage Complete;Fist Complete;Corrosive Cannon Complete;Fist Brace Shield Up;Fist Fail Stagger;"
+	myDisplacementAngle 0.0
+	myRotationAngle 0.0
+	myIsGlobalTransition TRUE
+	myGlobalTransitionPriority 0
+}
+
+MotionPose Staggered
+{
+	myStateName Staggered
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;WorldEntryMethod_Ground;WorldEntryMethod_Space;MoveStyle_Default;MoveStyle_InCombat;MoveStyle_Polluted;
+	myAnimsOut "GTR_ToRagdoll;GTR_From Staggered;GTR_To Die;GTR_To Missile Barrage;GTR_To Dormant;GTR_To ExitAffinity;GTR_To Crystal Blast;GTR_To Fist Wind;GTR_To Corrosive Cannon;"
+}
+
+MotionPose "Corrosive Cannon"
+{
+	myStateName "Corrosive Cannon"
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;WorldEntryMethod_Ground;WorldEntryMethod_Space;MoveStyle_Default;MoveStyle_InCombat;MoveStyle_Polluted;
+	myAnimsOut "Corrosive Cannon Complete;GTR_ToRagdoll;GTR_To Die;GTR_To Missile Barrage;GTR_To Dormant;GTR_To ExitAffinity;GTR_To Crystal Blast;GTR_To Fist Wind;GTR_To Staggered;"
+}
+
+TransitionMotionState "GTR_To Corrosive Cannon" < uid=DDDD6F5D5BEDCA720005F125686A2AB8 >
+{
+	myEnabled TRUE
+	myTotalDuration 2.013333
+	myDistance 0.0
+	myAnimationDuration 2.333333
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.0
+	myAnimsOut "Corrosive Cannon;"
+	myDisplacementAngle 0.0
+	myRotationAngle 0.0
+	myIsGlobalTransition TRUE
+	myGlobalTransitionPriority 0
+}
+
+OneshotMotionStateWithModes "Missile Barrage Complete" < uid=33EAD34B5C114607000003E2CE23AD58 >
+{
+	myEnabled TRUE
+	myStateName "Missile Barrage Complete"
+	myTotalDuration 1.433333
+	myAnimationDuration 1.433333
+	myAnimsOut "GTR_ToRagdoll;GTR_To Die;GTR_To Missile Barrage;GTR_To Dormant;GTR_To ExitAffinity;GTR_To Crystal Blast;GTR_To Fist Wind;GTR_To Staggered;GTR_To Corrosive Cannon;"
+	myDisplacementAngle 0.0
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;WorldEntryMethod_Ground;WorldEntryMethod_Space;MoveStyle_Default;MoveStyle_InCombat;MoveStyle_Polluted;
+}
+
+OneshotMotionStateWithModes "Fist Complete" < uid=33EAD34B5C1178B9000003A6079EBDDC >
+{
+	myEnabled TRUE
+	myStateName "Fist Complete"
+	myTotalDuration 1.8
+	myDistance 0.0
+	myAnimationDuration 1.8
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.0
+	myAnimsOut "GTR_ToRagdoll;GTR_To Die;GTR_To Missile Barrage;GTR_To Dormant;GTR_To ExitAffinity;GTR_To Crystal Blast;GTR_To Fist Wind;GTR_To Staggered;GTR_To Corrosive Cannon;"
+	myDisplacementAngle 0.0
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;WorldEntryMethod_Ground;WorldEntryMethod_Space;MoveStyle_Default;MoveStyle_InCombat;MoveStyle_Polluted;
+}
+
+OneshotMotionStateWithModes "Corrosive Cannon Complete" < uid=33EAD34B5C1181A90001A30F3E64CB4C >
+{
+	myEnabled TRUE
+	myStateName "Corrosive Cannon Complete"
+	myTotalDuration 2.333333
+	myDistance 0.0
+	myAnimationDuration 2.333333
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.0
+	myAnimsOut "GTR_ToRagdoll;GTR_To Die;GTR_To Missile Barrage;GTR_To Dormant;GTR_To ExitAffinity;GTR_To Crystal Blast;GTR_To Fist Wind;GTR_To Staggered;GTR_To Corrosive Cannon;"
+	myDisplacementAngle 0.0
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;WorldEntryMethod_Ground;WorldEntryMethod_Space;MoveStyle_Default;MoveStyle_InCombat;MoveStyle_Polluted;
+}
+
+OneshotMotionStateWithModes TurnOnSpot < uid=2D8D03625C1977CB0002DDC7B6927BC3 >
+{
+	myStateName TurnOnSpot
+	myTotalDuration 4.133334
+	myAnimationDuration 4.333333
+	myAnimsOut "GTR_ToRagdoll;GTR_To Die;GTR_To Missile Barrage;GTR_To Dormant;GTR_To ExitAffinity;GTR_To Crystal Blast;GTR_To Fist Wind;GTR_To Staggered;GTR_To Corrosive Cannon;"
+	myAnimCommand StaticTurn
+	myDisplacementAngle 0.0
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;WorldEntryMethod_Ground;WorldEntryMethod_Space;MoveStyle_Default;MoveStyle_InCombat;MoveStyle_Polluted;
+}
+
+MotionPose "Fist Brace Shield Up"
+{
+	myStateName "Fist Brace Shield Up"
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;WorldEntryMethod_Ground;WorldEntryMethod_Space;MoveStyle_Default;MoveStyle_InCombat;MoveStyle_Polluted;
+	myAnimsOut "GTR_ToRagdoll;GTR_To Die;GTR_To Missile Barrage;GTR_To Dormant;GTR_To ExitAffinity;GTR_To Crystal Blast;GTR_To Fist Wind;GTR_To Staggered;GTR_To Corrosive Cannon;Transition_1492;"
+}
+
+OneshotMotionStateWithModes "Fist Fail Stagger" < uid=887A6E605C3CB4390002179D14C807CD >
+{
+	myEnabled TRUE
+	myStateName "Fist Fail Stagger"
+	myTotalDuration 2.666667
+	myDistance 0.0
+	myAnimationDuration 2.666667
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.0
+	myAnimsOut "GTR_ToRagdoll;GTR_To Die;GTR_To Missile Barrage;GTR_To Dormant;GTR_To ExitAffinity;GTR_To Crystal Blast;GTR_To Fist Wind;GTR_To Staggered;GTR_To Corrosive Cannon;"
+	myDisplacementAngle 180.0
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;WorldEntryMethod_Ground;WorldEntryMethod_Space;MoveStyle_Default;MoveStyle_InCombat;MoveStyle_Polluted;
+}
+
+TransitionMotionState Transition_1492 < uid=887A6E605C48D4FA0004A6838C59AD9C >
+{
+	myEnabled TRUE
+	myTotalDuration 0.68
+	myDistance 0.0
+	myAnimationDuration 1.0
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.0
+	myAnimsOut "Shield Down Loop;"
+	myDisplacementAngle 0.0
+	myRotationAngle 0.0
+	myIsGlobalTransition FALSE
+	myGlobalTransitionPriority 0
+}
+

@@ -1,0 +1,157 @@
+include ./harvester_cyclops_base.mnpc
+include onward/skillscripts/npc_ability_harvester_cyclops_cold_ice_wave.mskillscriptjuice
+include onward/skillscripts/npc_ability_harvester_cyclops_cold_ice_swell.mskillscriptjuice
+include onward/skillscripts/npc_controller_context_harvester_cyclops_world_entry.mskillscriptjuice
+include onward/skillscripts/npc_affinity_harvester_cyclops_cold_running.mskillscriptjuice
+include "onward/game system data/juice/mods/harvester_cyclops_cold_affinity_resistances.mnpcmod"
+include onward/skillscripts/npc_affinity_harvester_cyclops_cold_enter.mskillscriptjuice
+include onward/skillscripts/npc_affinity_harvester_cyclops_cold_exit.mskillscriptjuice
+include onward/skillscripts/npc_ability_harvester_cyclops_cold_ice_barrage.mskillscriptjuice
+include onward/skillscripts/harvester_cyclops_cold_monitor_shield.mskillscriptjuice
+include onward/skillscripts/harvester_cyclops_cold_aura.mskillscriptjuice
+include onward/skillscripts/npc_controller_context_harvester_cyclops_cold_world_entry.mskillscriptjuice
+include onward/skillscripts/npc_controller_context_harvester_cyclops_cold_dead.mskillscriptjuice
+include onward/skillscripts/npc_ability_harvester_cyclops_cold_crystal_blast.mskillscriptjuice
+include onward/skillscripts/npc_controller_context_dormant.mskillscriptjuice
+
+NPC harvester_cyclops_cold < uid=4A8282B956DDE248000000560E2CB121 > : harvester_cyclops_base
+{
+	myUIName "contextComment = \"Name of the Ice Giant\", description = \"uiname-harvester-cyclops-cold\", enabled = true, guid = #93869D535AB152A400001D286D2E650C, lineVersion = 0, maxLength = 14, text = \"Ice Giant\""
+	myUIName_NonLocalized "Frost Giant"
+	myGraphObjectFile "onward/graph objects/character/harvester_04.mgraphobject"
+	myBehavior "onward/game system data/juice/ai/behavior/harvester_cyclops_cold.mbehavior"
+	myGibSettings
+	{
+		myLifetime 60.0
+		myInitialSpeed 30.0
+		myGibTemplates
+		{
+			file Forearm "onward/entity templates/harvester_cyclops_forearm_GIBS.mentitytemplate"
+			file Hand "onward/entity templates/harvester_cyclops_hand_GIBS.mentitytemplate"
+			file Head "onward/entity templates/harvester_cyclops_head_GIBS.mentitytemplate"
+			file "Left Leg" "onward/entity templates/harvester_cyclops_leftleg_GIBS.mentitytemplate"
+			file "Right Shin" "onward/entity templates/harvester_cyclops_shin_right_GIBS.mentitytemplate"
+			file "Right Thigh" "onward/entity templates/harvester_cyclops_thigh_right_GIBS.mentitytemplate"
+			file Torso "onward/entity templates/harvester_cyclops_torso_GIBS.mentitytemplate"
+			file Shoulder "onward/entity templates/harvester_05_shoulder_gibs.mentitytemplate"
+			file GIB1 "onward/entity templates/harvester_05_shoulderflap_gibs.mentitytemplate"
+			file GIB2 "onward/entity templates/harvester_05_headplate_gibs.mentitytemplate"
+		}
+	}
+	myHealthConfig < uid=4A8282B959F8E6E200001DB2EA38BBB6 > = "harvester_cyclops_cold Health"
+	myDeathSettings
+	{
+		myDeathCullTime 0.2
+		myEventDeathCullTime 0.0
+		myWaitForEvent TRUE
+	}
+	mySunderReaction < uid=4A8282B958F8DB18000001ECF69842A5 > = Cold_Cyclops_Sunder
+	myFireReaction < uid=4A8282B958F8DB18000001ED7C1B16F8 > = Cold_Cyclops_Fire
+	myChillReaction < uid=C91BB55157FFE0BD000000C05ABF0C53 > = Affinity_Chill
+	myFreezeReaction < uid=C91BB55157FFE0BD000000C1BCDAD939 > = Affinity_Freeze
+	myStasisReaction < uid=C91BB55157FFE0D4000000C8757BB276 > = Cold_Cyclops_Stasis
+	myStasisOverloadReaction < uid=C91BB55157FFE0D4000000C997267671 > = Cold_Cyclops_StasisOverload
+	myAbilityDefinitions
+	{
+		NPCAbilityDefinition "Ice Wave"
+		{
+			myGameAction NPC_Ability1
+			mySkillScript < uid=4A8282B957A39D62000000856EB01A87 > = npc_ability_harvester_cyclops_cold_ice_wave
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_harvester_cyclops_cold_ice_wave.juice"
+		}
+		NPCAbilityDefinition "Ice Swell"
+		{
+			myGameAction NPC_Ability2
+			mySkillScript < uid=4A8282B957A4CAE7005BBA8834FB8A4E > = npc_ability_harvester_cyclops_cold_ice_swell
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_harvester_cyclops_cold_ice_swell.juice"
+		}
+		NPCAbilityDefinition "Ice Barrage"
+		{
+			myGameAction NPC_Ability3
+			mySkillScript < uid=4A8282B958F67148000002FED411CE35 > = npc_ability_harvester_cyclops_cold_ice_barrage
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_harvester_cyclops_cold_ice_barrage.juice"
+		}
+		NPCAbilityDefinition "Crystal Blast"
+		{
+			myGameAction NPC_Ability4
+			mySkillScript < uid=4A8282B95A7382BF00001E1C096AB905 > = npc_ability_harvester_cyclops_cold_crystal_blast
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_harvester_cyclops_cold_crystal_blast.juice"
+		}
+	}
+	myControllerContextDefinitions
+	{
+		ControllerContextDefinition "World Entry"
+		{
+			myContextType WorldEntry
+			mySkillScript < uid=C92F4D3F58264858002DF9B1E4C481DB > = npc_controller_context_harvester_cyclops_cold_world_entry
+		}
+		ControllerContextDefinition Dead
+		{
+			myContextType Dead
+			mySkillScript < uid=4A8282B95924A198000003BF346E12B3 > = npc_controller_context_harvester_cyclops_cold_dead
+		}
+		ControllerContextDefinition Dormant
+		{
+			myContextType Dormant
+			mySkillScript < uid=C92F4D3F5B2A69BE000022DDEB6561E9 > = npc_controller_context_dormant
+		}
+	}
+	myAffinityDefinition
+	{
+		myAffinityType Ice
+		myDuration 24.0
+		myEnterSkillScript < uid=4A8282B95836243F003F2459477C422E > = npc_affinity_harvester_cyclops_cold_enter
+		myRunningSkillScript < uid=4A8282B958335DAA002F0BF02BCA68A2 > = npc_affinity_harvester_cyclops_cold_running
+		myExitSkillScript < uid=4A8282B95836243F003F245A5D162916 > = npc_affinity_harvester_cyclops_cold_exit
+		myMods
+		{
+			NPCAffinityModItem "Ice Armor"
+			{
+				myMod < uid=4A8282B95835E09000000275E79CE335 > = harvester_cyclops_cold_affinity_resistances
+			}
+		}
+	}
+	myPersistentScripts
+	{
+		SkillScript "Monitor Shield" < uid=4A8282B958F7B15B00175CDB7C37D54C > = harvester_cyclops_cold_monitor_shield
+		SkillScript Aura < uid=4A8282B958F8E1AA0004DC39881FA26A > = harvester_cyclops_cold_aura
+		SkillScript "VFX Listener" < uid=C92F4D3F5AF48B3C014A2FCD3DB3815D > = harvester_cyclops_vfx_listener
+	}
+	myResistanceSettings "onward/game system data/juice/ai/resistance/cold_affinity_resistance.juice"
+	myAttributeSettings "onward/game system data/juice/ai/attributes/harvester_cyclops_cold.juice"
+	myCrowdControlAttributeSettings "onward/game system data/juice/ai/attributes/crowd control tiers/npc_cc_tier5.juice"
+	myDropTableOnDeath Kill_Giant_Cold_Drop_Table
+	myDropTableOnAffinityWeaknessDeathId AffinityKill_Giant_Cold
+	myDropTableOnDamage Cyclops_Affinity_Weakness
+	myDamageDropInterval 0.3
+	myDamageDropOnWeakness TRUE
+	myIncludeDamageDropZero TRUE
+	myBreakElectrumOnWeakness TRUE
+	myPhysicsCapsuleHeight 12.0
+	myPhysicsSupportHeight -11.5
+	myPhysicsCapsuleRadius 6.0
+	myPatternProfile < uid=4A8282B95908EC4300253852A310DCC7 > = "Harvester Cyclops Cold"
+	myDefaultMotionPattern < uid=4A8282B95908EC430025385376A092F4 > = "Harvester Cyclops Cold Default"
+	myAvoidanceRadius 8.0
+	myNPCType Harvester_Cyclops_Cold
+	myAnimSystemType Harvester_Cyclops_Cold
+	myThreatLevel 13.0
+	myWeapon
+	{
+		myWeaponType Bazooka
+		myDamageType Cold
+	}
+	mySquadSettings "onward/game system data/juice/ai/squad/cyclops_squad_with_imps.juice"
+	myAIVisionConeTypeName CyclopsNarrowVisionCone
+	myLeftFootstepEffectFile "onward/graph objects/effect/effect_npc_harvester_ice_mage_footstep.mgraphobject"
+	myRightFootstepEffectFile "onward/graph objects/effect/effect_npc_harvester_ice_mage_footstep.mgraphobject"
+	myFrontLeftFootstepEffectFile ""
+	myFrontRightFootstepEffectFile ""
+	myDefaultFootstepEvent 4137C54B8C5BA3BC03899043502B748C
+	myDamageReactionSettings "onward/game system data/juice/ai/reactions/damage_reactions_harvester_cyclops_cold.juice"
+	myHitReactionRules "onward/game system data/juice/ai/reactions/reaction_rules_npc_large.juice"
+	myOnDeathChallenge Death_CyclopsCold
+	myOnDiscoveredChallenge Discover_CyclopsCold
+	myOnAffinityActiveDeathChallenge Combat_AffinityActiveDeath_IceGiant
+}
+

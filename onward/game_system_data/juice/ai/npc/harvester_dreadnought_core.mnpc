@@ -1,0 +1,49 @@
+include "onward/game system data/juice/ai/npcincludes.juice"
+include onward/skillscripts/harvester_dreadnought_core_logic.mskillscriptjuice
+
+NPC harvester_dreadnought_core < uid=C92F4D3F5943F9C7000001F37CADC140 >
+{
+	myUIName_NonLocalized "Reactor Core"
+	myGraphObjectFile "onward/graph objects/prop/harvester_dreadnought_core.mgraphobject"
+	myBehavior "onward/game system data/juice/ai/behavior/harvester_dreadnought_core.mbehavior"
+	myIsInitiallyAggressive FALSE
+	myHealthConfig < uid=4A8282B959F8E90300001DE38F101ABC > = "harvester_dreadnought_core Health"
+	myDeathSettings
+	{
+		myDeathCullTime 0.0
+		myEventDeathCullTime 0.0
+	}
+	myAbilityDefinitions
+	{
+	}
+	myPersistentScripts
+	{
+		SkillScript "Core Logic" < uid=C92F4D3F5943FA5D0000020FC6C84FB4 > = harvester_dreadnought_core_logic
+	}
+	myAttributeSettings "onward/game system data/juice/ai/attributes/harvester_dreadnought_core.juice"
+	myCrowdControlAttributeSettings "onward/game system data/juice/ai/attributes/crowd control tiers/npc_cc_tier6.juice"
+	myAwarenessDistance 60.0
+	myPhysicsSnapToGround FALSE
+	myIsCollisionEnabled FALSE
+	myIsAffectedByGravity FALSE
+	myIsMobile FALSE
+	myNeedsGroundToSteer FALSE
+	myNeedsGroundToMove FALSE
+	myUseNavMeshForMovement FALSE
+	myNPCFaction Harvester
+	myNPCType Harvester_DreadnoughtPart
+	myBaseThreatProfile
+	{
+		myDeAggroRange 2000.0
+		myHarvesterBaseThreat 0.0
+		myCloseRange 500.0
+		myMediumRange 1000.0
+		myLongRange 1500.0
+		myExtremeRange 2000.0
+	}
+	myAIVisionConeTypeName CorruptedEyeVisionCone
+	myIsScannable FALSE
+	myDamageReactionSettings "onward/game system data/juice/ai/reactions/damage_reactions_harvester_dreadnought_core.juice"
+	myDefaultNavigationType Newtonian
+}
+

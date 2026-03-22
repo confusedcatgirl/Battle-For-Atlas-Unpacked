@@ -1,0 +1,103 @@
+include ./harvester_drake_base.mnpc
+include onward/skillscripts/npc_grax_drake_death.mskillscriptjuice
+
+NPC harvester_drake_grax < uid=2453D286590797FF0009B9DD80F78476 > : harvester_drake_base
+{
+	myUIName "contextComment = \"The UI Name for Grax\", description = \"uiname-harvester-drake-base\", enabled = true, guid = #6D25F4C6599AFE1B009703149170B65E, lineVersion = 0, maxLength = 6, text = \"Grax\""
+	myUIName_NonLocalized Grax
+	myGraphObjectFile "onward/graph objects/character/grax_transporter_skeletal.mgraphobject"
+	myBehavior "onward/game system data/juice/ai/behavior/grax_transporter.mbehavior"
+	myGibSettings
+	{
+		myLifetime 1000000.0
+		myInitialSpeed 10.0
+		myInitialAngularSpeed 1000.0
+		myGibTemplates
+		{
+			file "cranium plate" "onward/entity templates/ship_drake_craniumplate_gibs.mentitytemplate"
+			file gunflap "onward/entity templates/ship_drake_gunflap_gibs.mentitytemplate"
+			file gunleft "onward/entity templates/ship_drake_gunleft_gibs.mentitytemplate"
+			file gunlefttop "onward/entity templates/ship_drake_gunlefttop_gibs.mentitytemplate"
+			file gunrightbottom "onward/entity templates/ship_drake_gunrightbottom_gibs.mentitytemplate"
+			file gunrighttop "onward/entity templates/ship_drake_gunrighttop_gibs.mentitytemplate"
+			file stinger "onward/entity templates/ship_drake_stinger_gibs.mentitytemplate"
+			file stingerflap "onward/entity templates/ship_drake_stingerflap_gibs.mentitytemplate"
+			file torsohull "onward/entity templates/ship_drake_torsohull_gibs.mentitytemplate"
+			file torsoleftflap "onward/entity templates/ship_drake_torsoleftflap_gibs.mentitytemplate"
+			file torsorightflap "onward/entity templates/ship_drake_torsorightflap_gibs.mentitytemplate"
+		}
+	}
+	myHealthConfig < uid=4A8282B959F8E88800001DDD847CFD27 > = "harvester_drake_grax Health"
+	myDeathSettings
+	{
+		myDeathCullTime 0.2
+		myEventDeathCullTime 0.0
+		myDieOnFlightStaticCollision FALSE
+		myDieOnFlightDynamicCollision FALSE
+	}
+	myAbilityDefinitions
+	{
+		NPCAbilityDefinition Gatling
+		{
+			myGameAction NPC_Ability1
+			mySkillScript < uid=6D25F4C659EA6D6F0001BA450D9F87D1 > = npc_ability_harvester_drake_gatling
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_harvester_grax_gatling.juice"
+			myEnabled TRUE
+		}
+		NPCAbilityDefinition "Homing Missiles"
+		{
+			myGameAction NPC_Ability2
+			mySkillScript < uid=6D25F4C659EA6D6F0001BA469EBD2A6C > = npc_ability_homing_missile
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_grax_homing_missiles.juice"
+			myEnabled TRUE
+		}
+		NPCAbilityDefinition Laser
+		{
+			myGameAction NPC_Ability3
+			mySkillScript < uid=6D25F4C659EA6D6F0001BA4715F24036 > = npc_ability_laser
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_laser_360.juice"
+			myEnabled TRUE
+		}
+		NPCAbilityDefinition "HyperDrive Jammer"
+		{
+			myGameAction NPC_Ability10
+			mySkillScript < uid=6D25F4C659EA6D6F0001BA48988EFE8F > = npc_ability_laser
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_laser.juice"
+			myEnabled TRUE
+		}
+	}
+	myControllerContextDefinitions
+	{
+		ControllerContextDefinition Death
+		{
+			myContextType Dead
+			mySkillScript < uid=6D25F4C65B0D939600038837CF72EA3D > = npc_grax_drake_death
+		}
+	}
+	myResistanceSettings "onward/game system data/juice/ai/resistance/prime_resistance.juice"
+	myCrowdControlAttributeSettings "onward/game system data/juice/ai/attributes/crowd control tiers/npc_cc_tier6.juice"
+	myDropTableOnDeath Kill_Grax_Drake_Drop_Table
+	myDropTableOnAffinityWeaknessDeathId Kill_Grax_Drake_Drop_Table
+	myMass 60000.0
+	myIsCollisionEnabled FALSE
+	myHasSkinnedCollision TRUE
+	myPatternProfile < uid=6D25F4C65B0477F100062D35B40FDA50 > = "Grax Transporter"
+	myDefaultMotionPattern < uid=6D25F4C65B0477F100062D364AFE0EFC > = "Grax Transporter Default"
+	myNPCType Harvester_Grax_Transport
+	myAnimSystemType Grax_Transporter
+	myDamageReactionSettings "onward/game system data/juice/ai/reactions/damage_reactions_grax_transporter.juice"
+	myHitReactionRules "onward/game system data/juice/ai/reactions/reaction_rules_npc_grax_transporter.juice"
+	myVisualImpactSettings
+	{
+		myMaxValue 50.0
+		myAngularStrengthMin 0.1
+		myAngularStrengthMax 0.5
+		myUseFixedMass TRUE
+		myFixedMass 100.0
+	}
+}
+

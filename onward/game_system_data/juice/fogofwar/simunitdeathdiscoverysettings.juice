@@ -1,0 +1,179 @@
+include "onward/game system data/fruit/fogofwar/simunitdeathdiscoverysettings.fruit"
+include "onward/game system data/fruit/fogofwar/simunitdiscoverysettings.fruit"
+
+SimUnitDiscoverySet "Raider Death Reveals Parent Extractor"
+{
+	mySimUnitFilter
+	{
+		myCategoryList
+		{
+			SimUnitCategory "New SimUnitCategory (0)" NPC
+		}
+		mySubCategoryList
+		{
+			SimUnitSubCategory "New SimUnitSubCategory (0)" Raider
+		}
+	}
+	myDiscoveryTargets
+	{
+		SimUnitDiscoveryUnitSearch "Nearest Extractor"
+		{
+			myKnowledgeToGrant 100.0
+			myUnitFilter
+			{
+				myCategoryList
+				{
+					SimUnitCategory extractor Extractor
+				}
+				mySubCategoryList
+				{
+				}
+			}
+			mySearchRadius 7500.0
+			myMaxUnitsToDiscover 1
+		}
+	}
+}
+
+SimUnitDiscoverySet "Extractor Death Reveal Primes and Extractors"
+{
+	mySimUnitFilter
+	{
+		myCategoryList
+		{
+			SimUnitCategory "New SimUnitCategory (0)" Extractor
+		}
+		mySubCategoryList
+		{
+		}
+	}
+	myDiscoveryTargets
+	{
+		SimUnitDiscoveryUnitSearch "other extractors"
+		{
+			myKnowledgeToGrant 100.0
+			myUnitFilter
+			{
+				myCategoryList
+				{
+					SimUnitCategory Extractor Extractor
+				}
+				mySubCategoryList
+				{
+				}
+			}
+			mySearchRadius 7500.0
+			myMaxUnitsToDiscover 2
+		}
+		SimUnitDiscoveryUnitSearch prime
+		{
+			myKnowledgeToGrant 34.0
+			myUnitFilter
+			{
+				myCategoryList
+				{
+					SimUnitCategory Prime Prime
+				}
+				mySubCategoryList
+				{
+					SimUnitSubCategory none None
+				}
+			}
+			mySearchRadius 7500.0
+			myMaxUnitsToDiscover 1
+		}
+	}
+}
+
+SimUnitDiscoverySet "Outlaws Leaders Reveal a nearby Outlaw Outpost"
+{
+	mySimUnitFilter
+	{
+		myCategoryList
+		{
+			SimUnitCategory "Enn Pea Sea" NPC
+		}
+		mySubCategoryList
+		{
+			SimUnitSubCategory "Because the leader sims have 'defender' set" Defender
+			SimUnitSubCategory "Space encounter for easy wave 3" SpaceEncounter
+		}
+		mySubCategoryVariantList
+		{
+			int "Leader variant" 10
+			int "Easy Wave 3 (includes leader) variant" 3
+		}
+		myFactionList
+		{
+			FactionType outlawz Outlaw
+		}
+	}
+	myDiscoveryTargets
+	{
+		SimUnitDiscoveryUnitSearch "Outlaw Outpost"
+		{
+			myKnowledgeToGrant 100.0
+			myUnitFilter
+			{
+				myCategoryList
+				{
+					SimUnitCategory "New SimUnitCategory (0)" Outpost
+				}
+				mySubCategoryList
+				{
+					SimUnitSubCategory outlawbase OutlawBase
+				}
+				myFactionList
+				{
+					FactionType "New FactionType (0)" Outlaw
+				}
+			}
+			mySearchRadius -1.0
+			myMaxUnitsToDiscover 1
+		}
+	}
+}
+
+SimUnitDiscoverySet "Rogue Outlaws Reveal an Outlaw Outpost in their Sector"
+{
+	mySimUnitFilter
+	{
+		myCategoryList
+		{
+			SimUnitCategory npc NPC
+		}
+		mySubCategoryList
+		{
+			SimUnitSubCategory rogue Rogue
+		}
+		myFactionList
+		{
+			FactionType outlaw Outlaw
+		}
+	}
+	myDiscoveryTargets
+	{
+		SimUnitDiscoveryUnitSearch "Outlaw Outpost in Range"
+		{
+			myKnowledgeToGrant 100.0
+			myUnitFilter
+			{
+				myCategoryList
+				{
+					SimUnitCategory "New SimUnitCategory (0)" Outpost
+				}
+				mySubCategoryList
+				{
+					SimUnitSubCategory "New SimUnitSubCategory (0)" OutlawBase
+				}
+				myFactionList
+				{
+					FactionType "New FactionType (0)" Outlaw
+				}
+			}
+			mySearchRadius 70000.0
+			myMaxUnitsToDiscover 1
+		}
+	}
+}
+

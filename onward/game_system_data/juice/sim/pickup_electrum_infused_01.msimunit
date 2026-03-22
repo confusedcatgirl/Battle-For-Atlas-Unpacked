@@ -1,0 +1,26 @@
+include ./pickup_base.msimunit
+
+SimUnit pickup_electrum_infused_01 < uid=D1E9B2CB58262F01000002C20E4E8165 > : pickup_base
+{
+	myUIName "contextComment = '[Placeholder - do not translate] Name shown when targeting a \"corrupted Nova\" crystal of the heat type. It can be picked up and delivered to an outpost to produce heat-based effects like fireproof shields or fire bombs', description = \"pickup-infused-heat\", enabled = true, guid = #9E6AFEDA58E54F32000009A0D1B7792E, lineVersion = 0, maxLength = 25, text = \"Heat Corrupted Nova\""
+	myControlGraph ""
+	mySubCategory ElectrumInfused
+	myAffinityType Fire
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo InteractablePickup < uid=4A79E0E45951466D0000004B3C38D549 >
+		{
+			myCountMin 1
+			myCountMax 1
+			myIgnoreNavMesh TRUE
+			myEntityFile "onward/entity templates/pickup_electrum_infused_01.mentitytemplate"
+			myRealizeOnDetach TRUE
+			myAttachOffset 0.0;4.0;0.0
+		}
+	}
+	mySaveable FALSE
+	myIsValidPickupTarget FALSE
+	myIconSprite "mySpriteId = 1328867098, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-inventory-cores-and-nova.spritesheet\""
+	myMissionTargetTexture onward/baked/textures/UI/icons/outpost_targets/outpost_target_sim_unit/ui-icon-outpost-target-heat-nova-ruin.dds
+}
+

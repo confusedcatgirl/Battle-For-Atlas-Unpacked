@@ -1,0 +1,23 @@
+include "onward/game system data/fruit/sim/simunit.fruit"
+
+SimUnit sidestory01_pilotdossier04 < uid=0A13A8F05B156D3B00018C578A8E5A3A >
+{
+	myUIName "contextComment = \"This is the Pilot Dossier for Levi to explain his backstory\", description = \"Pilot Dossier 04 - Levi\", enabled = true, guid = #CC9485AB5B43CDAA000039A9C227E45B, lineVersion = 0, maxLength = 23, text = \"[Pilot Dossier 04]\""
+	myCategory StoryTarget
+	mySubCategory Data
+	myFindSettingsCategory Small
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo Entity < uid=0A13A8F05B156D6400018C5AB19D9023 >
+		{
+			myCountMin 1
+			myCountMax 1
+			myIgnoreNavMesh TRUE
+			myIgnoreTerrain TRUE
+			myEntityFile "onward/entity templates/sidestory01_pilotdossier_canister.mentitytemplate"
+		}
+	}
+	myUnRealizableUntilEvent SideStory001_Seq02_SpawnPilotDossier04
+	myIsValidPickupTarget FALSE
+}
+

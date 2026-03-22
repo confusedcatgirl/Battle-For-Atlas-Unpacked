@@ -1,0 +1,145 @@
+include "onward/game system data/fruit/rulesystem/rulepayload.fruit"
+include "onward/game system data/fruit/sim/simunit.fruit"
+
+//
+// What type of Activity is associated with this line, if we turn it into an "On It"
+// ***** NTB: Add to the END of the list, and don't delete or you'll break Criteriabanks which use indices, not labels *****
+//
+enum OnItActivityType
+{
+	None
+	Attack
+	Defend
+	Pickup
+	Deliver
+	Find
+	Repair
+	Interact
+	DeliverStructure
+	DeliverAnalyzer
+	DeliverBomb
+	DeliverBattery
+	Survive
+	Solve
+	BuildOutpost
+	Liberate
+	Siege
+	DisableDefense
+}
+
+//
+// How to present and track opportunities, eg. as an OnIt opportunity or activity
+//
+enum OpportunityType
+{
+	None
+	OnIt
+	Activity
+}
+
+//
+// If the opportunity has a time limit, this dictates when the timer starts
+//
+enum OnItTimerType
+{
+	None
+	MissionStart
+	Pickup
+	EnterFindZoneOrPickup
+}
+
+//
+// The Opportunity/Missions payload
+// Describes what the mission is, who the target should be (depending on the Evaluation Context)
+// and who requested the mission (also depending on the Eval context)
+//
+class RulePayload_Opportunity : RulePayload
+{
+	OnItType myOnItType						< default = None tooltip = "If user clicks On It!, who do we set the marker on?" >
+	OnItActivityType myRequestType			< default = None tooltip = "What type of Activity is associated with this On-It opportunity? Ie: someone asking the player to defend them?" >
+	OpportunityType myOpportunityType 		< default = OnIt tooltip = "How this opportunity is presented, eg OnIt vs Activity opportunities" >
+	string myMissionId						< tooltip = "Designer's tag to indicate the mission this belongs to" >
+	string MyDropTable						< bhv="LootDropTableSelector" tooltip = "Must match the name of the Drop Table in loot.juice - i.e. Expedition_Outpost_Drop_Table" >
+	int	mySuccessXP							< default = 50000 tooltip = "This is the amount of XP that will get granted to the requester once the opportunity is completed successfully." >
+	OnItTimerType myTimerType				< default = None tooltip = "What triggers the beginning of the timer countdown." >
+	float myTimerFudgeFactor				< default = 1.5 tooltip = "Mission timers are calculated based on distances; This scales the calculated timer value as a designer sees fit." >
+	bool myIsGuaranteedActivity				< tooltip = "If this is an activity, it will deploy whether or not the Activity Queue is full" >
+	bool myIsCancellable TRUE				< tooltip = "Can this Opportunity be cancelled by the player" >
+	varmap myUILine_Completed 				< bhv = "localization" tooltip = "Use this to override the Completed Banner for the Opportunity" >
+	varmap myUILine_Expired 				< bhv = "localization" tooltip = "Use this to override the Expired Banner for the Opportunity" >	
+}
+
+class RulePayload_OpportunityAttack : RulePayload_Opportunity
+{
+}
+
+class RulePayload_OpportunityDefend : RulePayload_Opportunity
+{
+}
+
+class RulePayload_OpportunityPickup : RulePayload_Opportunity
+{
+}
+
+class RulePayload_OpportunityDeliver : RulePayload_Opportunity
+{
+}
+
+class RulePayload_OpportunityFind : RulePayload_Opportunity
+{
+}
+
+class RulePayload_OpportunityRepair : RulePayload_Opportunity
+{
+}
+
+class RulePayload_OpportunityInteract : RulePayload_Opportunity
+{
+}
+
+class RulePayload_OpportunityDeliverStructure : RulePayload_OpportunityDeliver
+{
+}
+
+class RulePayload_OpportunityDeliverAnalyzer : RulePayload_OpportunityDeliver
+{
+}
+
+class RulePayload_OpportunityDeliverBomb : RulePayload_OpportunityDeliver
+{
+}
+
+class RulePayload_OpportunityDeliverBattery : RulePayload_OpportunityDeliver
+{
+}
+
+class RulePayload_OpportunitySurvive : RulePayload_Opportunity
+{
+}
+
+class RulePayload_OpportunitySolve : RulePayload_Opportunity
+{
+}
+
+class RulePayload_OpportunityBuildOutpost : RulePayload_Opportunity
+{
+	SimUnitOrderType	myExpectedOrderType
+	file 				myExpectedBuildAsset < bhv="asset" assettype="Sim Unit" >
+}
+
+class RulePayload_OpportunityLiberate : RulePayload_Opportunity
+{
+}
+
+class RulePayload_OpportunitySiege : RulePayload_Opportunity
+{
+}
+
+class RulePayload_OpportunityDisableDefense : RulePayload_Opportunity
+{
+}
+
+list RulePayload_Opportunity_List
+{
+	RulePayload_Opportunity
+}

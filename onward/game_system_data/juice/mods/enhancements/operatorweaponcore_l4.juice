@@ -1,0 +1,22 @@
+include ./templates/template_l4.juice
+include ./damageaffectors/damage_affectors.juice
+include "onward/game system data/juice/mods/mod_operator_weaponcore_l4.mplayermod"
+
+Enhancement operatorweaponcore_l4 < uid=C91BB5515980D67600133C70F8729C78 > : "Level 4"
+{
+	myLocalizedName "contextComment = \"[Placeholder - do not translate]\nName for level 4 verion of Operator Core weapon mod, which makes weapons fire faster and improves damage nearby.\", description = \"\", enabled = true, guid = #C91BB5515980D67600133C6F995FE3FD, lineVersion = 2, maxLength = 17, text = \"Rapid Ammo IV\""
+	myLocalizedDescription "contextComment = \"[Placeholder - do not translate]\nDescription for level 4 verion of Operator Core weapon mod, which makes weapons fire faster and improves damage nearby. \", description = \"enhancement-description-opweator-weapon-core-4\", enabled = true, guid = #9E6AFEDA59D27D2000680E1619820B53, lineVersion = 2, maxLength = 117, text = \"+75 Fire Rate\n+25% damage to target within 50m\n-20% Energy Cost\nFire extra shot each burst\""
+	myIconSprite "mySpriteId = -86440548, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-mods-weapon-core.spritesheet\""
+	myMod < uid=C91BB55159C031FF02CEFA81E5426007 > = mod_operator_weaponcore_l4
+	myEnhancementType WeaponCore
+	myEnhancementTrackType OperatorWeaponCore
+	myDamageAffectors
+	{
+		DamageAffector_CloseRange "Close Range Damage"
+		{
+			myDamageMultiplier = Operator_WeaponCore_l4_CloseDmg
+			myWithinMeters 50.0
+		}
+	}
+}
+

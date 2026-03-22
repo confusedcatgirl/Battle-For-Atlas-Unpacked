@@ -1,0 +1,50 @@
+include "onward/game system data/fruit/statuseffects/statuseffects.fruit"
+include "onward/game system data/fruit/bodypart.fruit"
+
+class DamageModifier < abstract=1 >
+{
+	float myDamageMultiplier < tooltip="0-1" >
+}
+
+list DamageModifierList
+{
+	DamageModifier
+}
+
+class DamageModifier_StatusEffect : DamageModifier
+{
+	StatusEffectType myStatusEffectType
+	bool myAnyStatusEffect false
+}
+
+class DamageModifier_CloseRange : DamageModifier
+{
+	float myWithinMeters
+}
+
+class DamageModifier_LowHealth : DamageModifier
+{
+	float myLowHealthPercent < tooltip="0-1" >
+}
+
+class DamageModifier_BodyPart : DamageModifier
+{
+	BodyPartType myBodyPart
+	float myChanceToStun < tooltip="0-1" >
+	float myStunTime < tooltip="seconds" >
+}
+
+class DamageModifier_PlayerZoomed : DamageModifier
+{
+}
+
+class DamageModifier_Chance : DamageModifier
+{
+	float myChance < tooltip="0-1" >
+}
+
+class DamageModifier_Weakness : DamageModifier
+{
+	float myChanceToStun < tooltip="0-1" >
+	float myStunTime < tooltip="seconds" >
+}

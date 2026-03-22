@@ -1,0 +1,54 @@
+include ./harvester_dreadnought_part_base.msimunit
+
+SimUnit outlaw_dreadnought_weakpoint505 < uid=DDDD6F5D5C3E56F90006749E2B415728 > : harvester_dreadnought_part_base
+{
+	myUIName "contextComment = \"[DUPLICATE: Line ID 52833] Eye of the Outlaw Dreadnought the Arboretum. Players shoot these eyes as weakpoints on the ship.\", description = \"simunit-outlaw-dreadnought-weakpoint-eye\", enabled = true, guid = #2290993C5C66DD710000003DD99328FF, lineVersion = 0, maxLength = 14, text = \"Dread Eye\""
+	myFaction Outlaw
+	mySubCategory WeakpointSlot
+	mySubCategoryVariant 505
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo outlaw_dreadnought_eye < uid=DDDD6F5D5C3E56F90006749F4E9357E3 >
+		{
+			myCountMin 1
+			myCountMax 1
+			mySpawnOutsideZone FALSE
+			myElementSpawnInfo
+			{
+				SimUnitElementSpawnInfo outlaw_dreadnought_eye
+				{
+					myEntityFile "onward/game system data/juice/ai/npc/outlaw_dreadnought_eye.mnpc"
+				}
+			}
+			myRealizeOnDetach FALSE
+			myAttachBoneCategory CenterOfMass
+		}
+		SimUnitEntitySpawnInfo "SpaceLandmark Proxy" < uid=DDDD6F5D5C3E56F9000674A039D8148D >
+		{
+			myCountMin 1
+			myCountMax 1
+			myIgnoreHealth TRUE
+			myIsSpaceLandmark TRUE
+			myElementSpawnInfo
+			{
+				SimUnitElementSpawnInfo harvester_dreadnought_weakpoint501_landmark
+				{
+					myEntityFile "onward/entity templates/harvester_dreadnought_weakpoint501_landmark.mentitytemplate"
+				}
+			}
+		}
+	}
+	mySpawnOutsideZone TRUE
+	myRevealedChallengeType Discover_OutlawDreadnaught
+	myUnlockedChallengeType Discover_OutlawDreadnaught
+	myUnkillable FALSE
+	myUnkillableType Killable
+	myPreserveSpawnInfo TRUE
+	mySkillLevelCoefficients
+	{
+		myUseTargetRelativeLevel TRUE
+		myParentSkillLevelMultiplier 0
+		myBaseLevel 1
+	}
+}
+

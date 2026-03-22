@@ -1,0 +1,30 @@
+include ./pickup_base.msimunit
+
+SimUnit prospector_pickup01 < uid=9543058057729CE600002D48959EBC57 > : pickup_base
+{
+	myUIName "contextComment = \"[PLACEHOLDER] - Name of the common Mineral Pickup\", description = \"uiname-pickup-mineral-common\", enabled = true, guid = #2B55C72B599591AC00000040975657C5, lineVersion = 0, maxLength = 20, text = \"Aluminosilicate\""
+	mySubCategory MineralSample
+	mySubCategoryVariant 2
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo InteractablePickup < uid=2B55C72B597F9394000001642387167C >
+		{
+			myCountMin 1
+			myCountMax 1
+			myIgnoreHealth FALSE
+			myIgnoreNavMesh TRUE
+			myIgnoreTerrain TRUE
+			myEntityFile "onward/entity templates/prospector_pickup01.mentitytemplate"
+			myRealizeOnDetach TRUE
+			myEnsurePhysicsClearance FALSE
+			myAttachOffset 0.0;4.0;0.0
+		}
+	}
+	mySaveable FALSE
+	myInterestSettings
+	{
+		myIsEnabled FALSE
+	}
+	myIconSprite "mySpriteId = -1368398308, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-inventory-metals-and-goldrush.spritesheet\""
+}
+

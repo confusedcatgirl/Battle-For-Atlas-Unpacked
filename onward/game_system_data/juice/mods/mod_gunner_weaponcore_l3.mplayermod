@@ -1,0 +1,58 @@
+include ./template_pod.mplayermod
+include ./tuning/mod_tuning_master.juice
+
+float "Weapon Damage" = Gunner_WeaponCore_l3_Damage
+
+PlayerMod mod_gunner_weaponcore_l3 < uid=C91BB5515980ED3100000063DB0BC29E > : template_pod
+{
+	myAttributeMods
+	{
+		AttributeMod Cold
+		{
+			myType DMG_Cold
+			myMultValue 1.0
+			myPercentageValue = "Weapon Damage"
+		}
+		AttributeMod Crush
+		{
+			myType DMG_Crush
+			myMultValue 1.0
+			myPercentageValue = "Weapon Damage"
+		}
+		AttributeMod Float
+		{
+			myType DMG_Float
+			myMultValue 1.0
+			myPercentageValue = "Weapon Damage"
+		}
+		AttributeMod Heat
+		{
+			myType DMG_Heat
+			myMultValue 1.0
+			myPercentageValue = "Weapon Damage"
+		}
+		AttributeMod Kinetic
+		{
+			myType DMG_Kinetic
+			myMultValue 1.0
+			myPercentageValue = "Weapon Damage"
+		}
+		AttributeMod Max
+		{
+			myType DMG_Max
+			myMultValue 1.0
+			myPercentageValue = "Weapon Damage"
+		}
+		AttributeMod "Area Heat"
+		{
+			myType DMG_Area_Heat
+			myPercentageValue = "Weapon Damage"
+		}
+		AttributeMod UI_Weapon_Damage
+		{
+			myType UI_Weapon_Damage
+			myPercentageValue = "Weapon Damage"
+		}
+	}
+}
+

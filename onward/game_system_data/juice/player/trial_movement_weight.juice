@@ -1,0 +1,34 @@
+include ./../../fruit/player/player.fruit
+
+MovementConfigCategory VeryLight
+{
+	value 2000.0
+	config
+	{
+		CameraInputSettings GroundCameraInputThrust
+		{
+			myMaxPitch 0
+			myMaxYaw 0
+		}
+        DragSettings GroundDrag
+        {
+            drag 0.5
+        }
+	}
+}
+
+MovementConfigCategory VeryHeavy
+{
+	value 6000.0
+	config
+	{
+		CameraInputSettings GroundCameraInputThrust
+		{
+			myDampingUp -1.5
+		}
+        DragSettings GroundDrag
+        {
+            drag -0.5
+        }
+	}
+}

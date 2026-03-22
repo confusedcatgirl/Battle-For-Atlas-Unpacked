@@ -1,0 +1,53 @@
+include "onward/game system data/juice/input/inputactions.juice"
+include "onward/game system data/fruit/input/gameinput.fruit"
+
+TriggerGameAction "[General] Respawn"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction "Press A (Cross)"
+		{
+			myInputActionType HoldDown
+			myInputAction = A_CROSS
+		}
+	}
+	myGameAction Respawn
+}
+
+TriggerGameAction "[General] Scan"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction "Press X (Square)"
+		{
+			myInputAction = X_SQUARE
+		}
+	}
+	myGameAction Scan
+}
+
+TriggerGameAction "[General] Interact"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction "Hold X (Square)"
+		{
+			myInputActionType HoldDownAfterTime
+			myTimer 1000
+			myInputAction = X_SQUARE
+		}
+	}
+	myGameAction Interact
+}
+
+TriggerGameAction "[General] Drop"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction "Press D-Pad Down"
+		{
+			myInputAction = D_PAD_DOWN
+		}
+	}
+	myGameAction Drop
+}

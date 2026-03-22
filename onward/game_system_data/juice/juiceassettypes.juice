@@ -1,0 +1,153 @@
+include modules/core/gamedatabase/juiceassettypes.fruit
+
+JuiceAssetTypes myJuiceAssetTypes
+{
+	JuiceAssetType ASSETTYPE_SKILLSCRIPT
+	{
+		myAssetTypeName ASSETTYPE_SKILLSCRIPT
+		myName SkillScript
+		myDescription "Skill Script"
+		myExtension mskillscriptjuice
+		myFolder onward/skillscripts
+		myFruitInclusion onward/skillscripts/skillscript.fruit
+		myAllowClassInstantiation TRUE
+	}
+	JuiceAssetType ASSETTYPE_NPC
+	{
+		myAssetTypeName ASSETTYPE_NPC
+		myName NPC
+		myDescription NPC
+		myExtension mnpc
+		myFolder "onward/game system data/juice/ai/npc"
+		myFruitInclusion ./ai/npcincludes.juice
+		myAllowClassInstantiation TRUE
+	}
+	JuiceAssetType ASSETTYPE_AFFECTOR
+	{
+		myAssetTypeName ASSETTYPE_AFFECTOR
+		myName Affector
+		myDescription "Affector Entity"
+		myExtension maffector
+		myFolder "onward/game system data/juice/affectors"
+		myFruitInclusion "onward/game system data/fruit/affectors/affector.fruit"
+		myAllowClassInstantiation TRUE
+	}
+	JuiceAssetType ASSETTYPE_STATUSEFFECT
+	{
+		myAssetTypeName ASSETTYPE_STATUSEFFECT
+		myName StatusEffect
+		myDescription "Status Effect Definition"
+		myExtension mstatuseffect
+		myFolder "onward/game system data/juice/statuseffects"
+		myFruitInclusion ./statuseffects/statuseffects_includes.juice
+	}
+	JuiceAssetType ASSETTYPE_RULECONCEPTBANK
+	{
+		myAssetTypeName ASSETTYPE_RULECONCEPTBANK
+		myName RuleConceptBank
+		myDescription "Bank of Rule Concepts - the events that cause rules to be evaluated"
+		myJuiceSubTypes RuleConceptBank
+		myExtension mruleconceptbank
+		myFolder "onward/game system data/juice/ruleconceptbanks"
+		myFruitInclusion ./rulesystem/ruleconceptbank.juice
+		myAllowClassInstantiation FALSE
+	}
+	JuiceAssetType ASSETTYPE_RULEPAYLOADBANK
+	{
+		myAssetTypeName ASSETTYPE_RULEPAYLOADBANK
+		myName RulePayloadBank
+		myDescription "Rule Payload Bank"
+		myJuiceSubTypes RulePayloadBank
+		myExtension mrulepayloadbank
+		myFolder "onward/game system data/juice/rulepayloadbanks"
+		myFruitInclusion ./rulesystem/rulepayloadbank.juice
+		myAllowClassInstantiation FALSE
+	}
+	JuiceAssetType ASSETTYPE_RULESBANK
+	{
+		myAssetTypeName ASSETTYPE_RULESBANK
+		myName RulesBank
+		myDescription "Rules Bank"
+		myExtension mrulesbank
+		myFolder "onward/game system data/juice/rulesbanks"
+		myFruitInclusion ./rulesystem/rulesbank.juice
+	}
+	JuiceAssetType ASSETTYPE_CRITERIABANK
+	{
+		myAssetTypeName ASSETTYPE_CRITERIABANK
+		myName CriteriaBank
+		myDescription "Criteria Bank"
+		myExtension mcriteriabank
+		myFolder "onward/game system data/juice/criteriabanks"
+		myFruitInclusion "onward/game system data/fruit/rulesystem/criteriabank.fruit"
+	}
+	JuiceAssetType ASSETTYPE_SIMUNIT
+	{
+		myAssetTypeName ASSETTYPE_SIMUNIT
+		myName SimUnit
+		myDescription "Sim Unit"
+		myExtension msimunit
+		myFolder "onward/game system data/juice/sim"
+		myFruitInclusion "onward/game system data/fruit/sim/simunit.fruit"
+		myAllowClassInstantiation TRUE
+	}
+	JuiceAssetType ASSETTYPE_MOD
+	{
+		myAssetTypeName ASSETTYPE_MOD
+		myName Mod
+		myDescription Modifier
+		myExtension mmod
+		myFolder "onward/game system data/juice/mods"
+		myFruitInclusion "onward/game system data/fruit/mods/mod.fruit"
+		myAllowClassInstantiation TRUE
+	}
+	JuiceAssetType ASSETTYPE_PLAYERMOD
+	{
+		myAssetTypeName ASSETTYPE_PLAYERMOD
+		myName PlayerMod
+		myDescription "Player Modifier"
+		myExtension mplayermod
+		myFolder "onward/game system data/juice/mods"
+		myFruitInclusion "onward/game system data/fruit/mods/mod.fruit"
+		myAllowClassInstantiation TRUE
+	}
+	JuiceAssetType ASSETTYPE_NPCMOD
+	{
+		myAssetTypeName ASSETTYPE_NPCMOD
+		myName NPCMod
+		myDescription "NPC Modifier"
+		myExtension mnpcmod
+		myFolder "onward/game system data/juice/mods"
+		myFruitInclusion "onward/game system data/fruit/mods/mod.fruit"
+		myAllowClassInstantiation TRUE
+	}
+	JuiceAssetType ASSETTYPE_EVENTINFO
+	{
+		myAssetTypeName ASSETTYPE_EVENTINFO
+		myName LocalizedEventInfo
+		myDescription "Localized text intended to be used in Rulesystem UI payload"
+		myExtension eventinfo
+		myFolder "onward/game system data/juice/ui/EventInfo"
+		myFruitInclusion "onward/game system data/fruit/ui/EventInfo/eventinfo.fruit"
+	}
+	JuiceAssetType ASSETTYPE_BUFF
+	{
+		myAssetTypeName ASSETTYPE_BUFF
+		myName Buff
+		myDescription Buff
+		myExtension mbuff
+		myFolder "onward/game system data/juice/buffs"
+		myFruitInclusion "onward/game system data/fruit/buffs/buff.fruit"
+		myAllowClassInstantiation TRUE
+	}
+	JuiceAssetType ASSETTYPE_BINKSUBTITLE
+	{
+		myAssetTypeName ASSETTYPE_BINKSUBTITLE
+		myName SubtitlePackage
+		myDescription "Bink Subtitles"
+		myExtension mbinksub
+		myFolder "onward/game system data/juice/binksubtitles"
+		myFruitInclusion "onward/game system data/fruit/binksubtitles/subtitles.fruit"
+	}
+}
+

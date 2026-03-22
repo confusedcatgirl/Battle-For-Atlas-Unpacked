@@ -1,0 +1,92 @@
+include ./base_npc.mnpc
+include onward/skillscripts/npc_controller_context_harvester_probe_dead.mskillscriptjuice
+include onward/skillscripts/npc_ability_harvester_probe_heal_ally.mskillscriptjuice
+include onward/skillscripts/npc_ability_harvester_probe_kinetic_blast.mskillscriptjuice
+include onward/skillscripts/harvester_probe_maintain_shield.mskillscriptjuice
+include onward/skillscripts/npc_generic_nav_wash.mskillscriptjuice
+include onward/skillscripts/npc_ability_harvester_probe_gatling.mskillscriptjuice
+include onward/skillscripts/harvester_probe_vfx_listener.mskillscriptjuice
+
+NPC harvester_probe < uid=4A8282B956DF1F7F0000009858AA93A5 > : base_npc
+{
+	myUIName "contextComment = \"The UI Name for the Probe\", description = \"uiname-harvester-probe\", enabled = true, guid = #1ABBD50B58C1661200009927313AB2B5, lineVersion = 0, maxLength = 8, text = \"Probe\""
+	myUIName_NonLocalized "Harvester Probe"
+	myGraphObjectFile "onward/graph objects/character/harvester_15.mgraphobject"
+	myBehavior "onward/game system data/juice/ai/behavior/harvester_probe.mbehavior"
+	myIsInitiallyAggressive FALSE
+	myExitWorldAffector ""
+	myHealthConfig < uid=4A8282B959F8E9C400001E014098BC40 > = "harvester_probe Health"
+	myAbilityDefinitions
+	{
+		NPCAbilityDefinition Gatling
+		{
+			myGameAction NPC_Ability1
+			mySkillScript < uid=4A8282B9588A431D000004CA8E7F9B04 > = npc_ability_harvester_probe_gatling
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_harvester_probe_gatling.juice"
+		}
+		NPCAbilityDefinition "Heal Ally"
+		{
+			myGameAction NPC_Ability2
+			mySkillScript < uid=4A8282B95894C0530000022668EE6120 > = npc_ability_harvester_probe_heal_ally
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_harvester_probe_heal_ally.juice"
+		}
+		NPCAbilityDefinition "Kinetic Blast"
+		{
+			myGameAction NPC_Ability3
+			mySkillScript < uid=4A8282B95898C1B30000030D40A4D138 > = npc_ability_harvester_probe_kinetic_blast
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_harvester_probe_kinetic_blast.juice"
+		}
+	}
+	myControllerContextDefinitions
+	{
+		ControllerContextDefinition Dead
+		{
+			myContextType Dead
+			mySkillScript < uid=4A8282B95AB4012C00001CB66CCF5E73 > = npc_controller_context_harvester_probe_dead
+		}
+	}
+	myPersistentScripts
+	{
+		SkillScript "Nav Wash" < uid=4A8282B958CC29CC0000025885F3E2F5 > = npc_generic_nav_wash
+		SkillScript Shield < uid=4A8282B958CC29CC00000259A378935B > = harvester_probe_maintain_shield
+		SkillScript "VFX Listener" < uid=C92F4D3F5AEA1243003E7BCE2CDC0CCC > = harvester_probe_vfx_listener
+	}
+	myAttributeSettings "onward/game system data/juice/ai/attributes/harvester_probe.juice"
+	myCrowdControlAttributeSettings "onward/game system data/juice/ai/attributes/crowd control tiers/npc_cc_tier13.juice"
+	myDropTableOnDeath Kill_Probe_Drop_Table
+	myAwarenessDistance 200.0
+	myMass 800.0
+	myLinearInertiaThreshold 2200.0
+	myMaxLinearForce 450000.0
+	myPhysicsCapsuleHeight 2.0
+	myPhysicsSupportHeight 2.5
+	myPhysicsCapsuleRadius 2.5
+	myPhysicsCapsuleOriented TRUE
+	myPhysicsCapsuleStart 0.0;2.0;0.0
+	myPhysicsCapsuleEnd 0.0;4.5;0.0
+	myPhysicsSnapToGround TRUE
+	myPatternProfile < uid=4A8282B956DF1F7F000000991E6F1864 > = "Harvester Probe"
+	myDefaultMotionPattern < uid=4A8282B956DF1F7F0000009AF63C520A > = "Harvester Probe Default"
+	myAvoidanceRadius 6.5
+	myNPCFaction Harvester
+	myNPCType Harvester_Probe
+	myAnimSystemType Harvester_Probe
+	myThreatLevel 7.0
+	mySteeringParameters "onward/game system data/juice/ai/steering/harvester_probe.juice"
+	myAgentController DefaultAgentController
+	myAIVisionConeTypeName DefaultVisionCone
+	myLeftFootstepEffectFile ""
+	myRightFootstepEffectFile ""
+	myFrontLeftFootstepEffectFile ""
+	myFrontRightFootstepEffectFile ""
+	myHitReactionRules "onward/game system data/juice/ai/reactions/reaction_rules_npc_ship.juice"
+	myDefaultNavigationType Skimmer
+	myOnDeathChallenge Death_Probe
+	myOnDiscoveredChallenge Discover_Probe
+	myUseVisualImpactProcessor TRUE
+	myHackLevel 1
+}
+

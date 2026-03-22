@@ -1,0 +1,24 @@
+include onward\skillscripts\skillscript.fruit
+
+enum BuffType
+{
+	NoType
+	ColdShield
+	HeatShield
+	GravityShield
+	LiftShield
+}
+
+enum BuffLayer
+{
+	NoLayer
+	Shield
+}
+
+class Buff < uid=auto >
+{
+	BuffLayer myLayer
+	BuffType myType
+	SkillScript* mySkillScript
+	bool myPersistPastRespawn false
+}

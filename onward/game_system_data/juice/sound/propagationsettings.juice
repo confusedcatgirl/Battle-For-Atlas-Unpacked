@@ -1,0 +1,104 @@
+include modules/core/audio/propagationsettings.fruit
+
+PropagationListenerSettings myOutdoorListenerSettings
+{
+	myListenerDistanceThreshold 0.1
+	myListenerOffsetY 0.5
+	myListenerAtPlayerPos TRUE
+}
+
+PropagationSourceSettings myOutdoorSourceSettings
+{
+	mySourceDistanceThreshold 0.1
+	myDirectVsPathFactor 35.0
+	myElevationObstructionPercent 5.0
+	myObstructionBlendTimeSeconds 1.0
+	myPerceptionDistance 7.0
+	myCompleteObstructionDistance 10.0
+	myUseRepositioning FALSE
+}
+
+PropagationListenerSettings myIndoorListenerSettings
+{
+	myListenerDistanceThreshold 0.1
+	myListenerOffsetY 0.5
+	myListenerAtPlayerPos TRUE
+}
+
+PropagationSourceSettings myIndoorSourceSettings
+{
+	mySourceDistanceThreshold 0.1
+	myDirectVsPathFactor 65.0
+	myElevationObstructionPercent 10.0
+	myObstructionBlendTimeSeconds 1.0
+	myPerceptionDistance 8.0
+	myCompleteObstructionDistance 10.0
+	myUseRepositioning FALSE
+}
+
+int myMaxPropagationQueryThreads 15
+
+Propagation2ListenerSettings myPropagation2ListenerSettingsOutdoors
+{
+	myListenerDistanceThreshold 0.1
+	myListenerOffsetY 0.5
+	myListenerObstructionBlendDistance 2.0
+	myListenerAtPlayerPosition TRUE
+}
+
+Propagation2ListenerSettings myPropagation2ListenerSettingsIndoors
+{
+	myListenerDistanceThreshold 0.1
+	myListenerOffsetY 0.5
+	myListenerObstructionBlendDistance 1.0
+	myListenerAtPlayerPosition TRUE
+}
+
+Propagation2QuerySourceSettings myPropagation2QuerySourceSettingsOutdoors
+{
+	myElevationCost 5.0
+	myDirectVsPathCost 105.0
+	myObstructionBlendTime 1.0
+}
+
+Propagation2QuerySourceSettings myPropagation2QuerySourceSettingsIndoors
+{
+	myElevationCost 5.0
+	myDirectVsPathCost 120.0
+	myObstructionBlendTime 0.5
+}
+
+Propagation2TuningSettings myPropagation2TuningSettings
+{
+	myTimeToRegenerateSectors 5.0
+	myTimeToRegenerateListenerSector 0.5
+	myNumberOfSectorsPerGridDimension 5
+	mySectorGridSize 24.0
+	myMaxNumberOfStreamingSetRebuildsPerUpdate 1
+	myMaxNumberOfRunningGenerators 1
+	myQueryStartPointCombiningTolerance 10.0
+	myQueryStartPointCombiningMinDistanceFromListener 5.0
+	myQueryStartPointCombiningDistanceScale 0.015
+	myMaxNumberOfRunningPathfinders 10
+}
+
+Propagation2SectorGenerationTuningSettings myPropagation2SectorGenerationTuningSettings
+{
+	myHighQualityAABBHeight 50.0
+	myLowQualityAABBHeight 25.0
+	myHighQualityCellWidth 0.59
+	myLowQualityCellWidth 1.5
+	myHighQualityCharacterSize 0.01
+	myLowQualityCharacterSize 0.25
+	myMaxMergingIterations 4
+	myIterationsStabilizationThreshold 12
+}
+
+Propagation2PathfinderTuningSettings myPropagation2PathfinderTuningSettings
+{
+	myDistanceToMoveStartPosition 0.5
+	myMaxNumberOfPathfindAttempts 2
+	myDistanceToMoveAfterFailedPathfind 0.5
+	myMaxNumberOfIterations 750
+	myCharacterSize 0.01
+}

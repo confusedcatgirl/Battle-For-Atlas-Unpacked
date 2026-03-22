@@ -1,0 +1,33 @@
+include "onward/game system data/fruit/sim/simunit.fruit"
+
+SimUnit outlaw_pact_squad < uid=6D25F4C65BD0B2270002164220B53F98 >
+{
+	myBehavior onward/simworld/behavior/outlaw_defender.msimunitbtgraph
+	myControlGraph ""
+	myFaction Equinox
+	myCategory NPC
+	mySpeed 80.0
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo "Outlaw Allies" < uid=6D25F4C65BD0B227000216434660FD80 >
+		{
+			myCountMin 2
+			myCountMax 2
+			myEntitySize 30.0
+			myEntityFile ""
+			myElementSpawnInfo
+			{
+				SimUnitElementSpawnInfo "Defender Ally"
+				{
+					myEntityFile "onward/game system data/juice/ai/npc/outlaw_defender_ally.mnpc"
+				}
+			}
+			mySpaceSettings
+			{
+				mySpawnFormation AmbushPlayer
+			}
+		}
+	}
+	myIsValidPickupTarget FALSE
+}
+

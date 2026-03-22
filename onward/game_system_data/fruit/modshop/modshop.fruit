@@ -1,0 +1,55 @@
+include "onward/game system data/fruit/mods/mod.fruit"
+include "onward/game system data/fruit/story/storyevent.fruit"
+
+class ModShop_ItemUnlockCondition < abstract = 1 >
+{
+}
+
+class ModShop_ItemUnlockCondition_StoryEvent : ModShop_ItemUnlockCondition
+{
+	StoryEvent					myStoryEvent	< default = NewGame tooltip = "This Event is required to have happened before this item can unlock" >
+}
+
+list ModShop_ItemUnlockConditionList
+{
+	ModShop_ItemUnlockCondition
+}
+
+class ModShop_Item < uid = auto >
+{
+	Enhancement* myEnhancement
+	int myElectrumCost
+	int myNovaCost
+	ModShop_ItemUnlockConditionList myUnlockConditions
+}
+
+list ModShop_ItemList
+{
+	ModShop_Item
+}
+
+class ModShop_ItemsPerOutpostLevel
+{
+	ModShop_ItemList myItemsPerLevel
+}
+
+list ModShop_ItemsPerOutpostLevelList
+{
+	ModShop_ItemsPerOutpostLevel
+}
+
+class ModShop_OutpostInventoryPerPlanet
+{
+	uid myPlanet < bhv = asset assettype = level >
+	ModShop_ItemsPerOutpostLevelList myItemsPerOutpostLevel
+}
+
+list ModShop_OutpostInventoryPerPlanetList
+{
+	ModShop_OutpostInventoryPerPlanet
+}
+
+class ModShopData
+{
+	ModShop_OutpostInventoryPerPlanetList myOutpostPlanetItemsList
+}

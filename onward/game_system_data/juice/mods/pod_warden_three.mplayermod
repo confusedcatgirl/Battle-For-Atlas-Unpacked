@@ -1,0 +1,22 @@
+include ./template_pod.mplayermod
+
+float Energy = Warden_Weapon_Relic_3_Energy
+
+PlayerMod pod_warden_three < uid=A08A88CF583C7FF80000004DF2D5AF3C > : template_pod
+{
+	myAttributeMods
+	{
+		AttributeMod "Energy Reduction"
+		{
+			myType Ability_Energy
+			myMultValue = Energy
+		}
+		AttributeMod "UI Energy"
+		{
+			myType UI_Weapon_Energy
+			myMultValue = Energy
+		}
+	}
+	myIsAgentMod FALSE
+}
+

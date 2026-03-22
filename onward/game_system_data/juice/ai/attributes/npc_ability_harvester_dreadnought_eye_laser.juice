@@ -1,0 +1,90 @@
+include "onward/game system data/fruit/attributes/attributes.fruit"
+
+Attributes Attributes
+{
+	Attribute "Min Range"
+	{
+		myType NPC_MinRange1
+		myValue 0.0
+	}
+	Attribute "Max Range"
+	{
+		myType NPC_MaxRange1
+		myValue 2000.0
+	}
+	Attribute "Max Range (Horiz)"
+	{
+		myType NPC_MaxRange3
+		myValue 625.0
+	}
+	Attribute "Attack Cone (Degrees)"
+	{
+		myType NPC_AttackCone1
+		myValue 70.0
+	}
+	Attribute Cooldown
+	{
+		myType Ability_Cooldown
+		myValue 0.1
+	}
+	Attribute "Damage Per Second"
+	{
+		myType DMG_Kinetic
+		myValue 3000.0
+	}
+	Attribute "Beam Length"
+	{
+		myType Range
+		myValue 2000.0
+		myComment "Length of beam"
+	}
+	Attribute "Beam Speed"
+	{
+		myType NPC_ProjectileSpeed1
+		myValue 85.0
+		myComment "Movement speed of beam, in m/s"
+	}
+	Attribute "Beam Starting Offset"
+	{
+		myType Range2
+		myValue 150.0
+		myComment "Starting distance from target"
+	}
+	Attribute "Beam Travel Distance"
+	{
+		myType NPC_MaxRange4
+		myValue 300.0
+		myComment "Distance beam travels before deactivating"
+	}
+	Attribute "Rabbit Catch Distance"
+	{
+		myType Range3
+		myValue 20.0
+		myComment "Once the beam gets this close to the rabbit, it will no longer follow."
+	}
+	Attribute "Rabbit Speed"
+	{
+		myType NPC_ProjectileSpeed2
+		myValue 80.0
+		myComment "Speed at which rabbit chases target"
+	}
+	Attribute "Dash Stop Tracking Dist"
+	{
+		myType NPC_MaxRange2
+		myValue 90.0
+		myComment "Rabbit will stop tracking the target if the target is dashing and the beam is within this distance of the rabbit.  Distance of 0 disables the behavior."
+	}
+	Attribute "Sweep Count"
+	{
+		myType NPC_UserData1
+		myValue 1.0
+		myComment "Number of laser sweeps"
+	}
+	Attribute "Delay Between Sweeps"
+	{
+		myType NPC_Duration1
+		myValue 0.3
+		myComment "Time in seconds between consecutive sweeps"
+	}
+}
+

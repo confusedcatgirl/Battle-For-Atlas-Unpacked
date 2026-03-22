@@ -1,0 +1,51 @@
+include "modules/core/audio/audio.fruit"
+
+list Engine_MapLoadList
+{
+	AudioEvent
+}
+
+list StaticAmbianceEvents
+{
+	AudioEvent
+}
+
+class SoundConstants
+{
+}
+
+class GlobalSoundConstants
+{
+	AudioEvent MoveStep
+	AudioEvent MoveRunStep
+	AudioEvent MoveSneak
+}
+
+class GroupWallaSoundEvent
+{
+	AudioEvent Event
+	int SourceCountThreshold 1
+	float SourceCountTime 1.0
+}
+
+list GroupWallaDefinitions
+{
+	GroupWallaDefinition
+}
+
+class GroupWallaDefinition
+{
+	GroupWallaSoundEvent AgentEnterCombat
+	GroupWallaSoundEvent AgentExitCombat
+	GroupWallaSoundEvent AgentAttacking
+	GroupWallaSoundEvent AgentUnderAttack
+	
+	AudioRTPC GroupSize
+	AudioRTPC CombatIntensity
+}
+
+class SoundSettings
+{
+	GlobalSoundConstants myGlobalSoundConstants
+	GroupWallaDefinitions myGroupWallaDefinitions
+}

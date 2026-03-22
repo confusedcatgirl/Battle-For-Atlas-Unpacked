@@ -1,0 +1,25 @@
+include ./harvester_dreadnought_part_base.msimunit
+
+SimUnit harvester_dreadnought_hangarbay1004 < uid=C92F4D3F59BFE91E0000022C612561A3 > : harvester_dreadnought_part_base
+{
+	myUIName "contextComment = \"[Placeholder - do not translate] HUD text showing the name of the turrets around the Dreadnought's hangar bay when the player points their reticule at it\", description = \"ui-target-dreadnought-turret\", enabled = true, guid = #C92F4D3F59BFE98000000234FC1C8595, lineVersion = 0, maxLength = 10, text = \"Turret\"}"
+	mySubCategoryVariant 1004
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo Turret < uid=C92F4D3F59BFE91E0000022D2D5444DE >
+		{
+			myCountMin 1
+			myCountMax 1
+			myElementSpawnInfo
+			{
+				SimUnitElementSpawnInfo Turret
+				{
+					myEntityFile "onward/game system data/juice/ai/npc/harvester_dreadnought_turret_01.mnpc"
+				}
+			}
+		}
+	}
+	myUnkillable FALSE
+	myUnkillableType UnkillableGameSide
+}
+

@@ -1,0 +1,42 @@
+include "onward/game system data/fruit/ai/motion/motionstyle.fruit"
+
+MotionStyleList Styles
+{
+	MotionStyle Default
+	{
+		myModes
+		{
+			MotionStyleMode Walk
+			{
+				mySpeedMode Walk
+				myMinBaseSpeed 10.71
+				myMaxBaseSpeed 10.71
+				myMaxScaledSpeed 11.0
+			}
+		}
+	}
+	MotionStyle InCombat
+	{
+		myStyle InCombat
+		myCanStrafe FALSE
+		myModes
+		{
+			MotionStyleMode Walk
+			{
+				mySpeedMode Walk
+				myMinBaseSpeed 10.71
+				myMaxBaseSpeed 10.71
+				myMaxScaledSpeed 11.0
+			}
+			MotionStyleMode Run
+			{
+				mySpeedMode Run
+				myMinScaledSpeed 10.0
+				myMinBaseSpeed 53.0
+				myMaxBaseSpeed 53.0
+				myMaxScaledSpeed 55.0
+			}
+		}
+	}
+}
+

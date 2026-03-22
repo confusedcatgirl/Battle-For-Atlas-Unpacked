@@ -1,0 +1,33 @@
+include "onward/game system data/juice/ai/npcincludes.juice"
+include "onward/game system data/juice/ai/reactions/status_effect_reactions.juice"
+
+NPC base_npc < uid=4A8282B956F0313E000000577C4FFA84 >
+{
+	myUIName_NonLocalized "Base NPC (Abstract)"
+	mySunderReaction < uid=C91BB55157FFD7EC0000005D5B9F77B2 > = Base_Sunder
+	myFireReaction < uid=C91BB55157FFD7EC0000005E39C61379 > = Base_Fire
+	myChillReaction < uid=C91BB55157FFD7EC0000005F5A3B7DFB > = Base_Chill
+	myFreezeReaction < uid=C91BB55157FFD7EC00000060FE028B49 > = Base_Freeze
+	myStasisReaction < uid=C91BB55157FFD7EC000000615E8051DC > = Base_Stasis
+	myStasisOverloadReaction < uid=C91BB55157FFD7EC0000006257D4DCAE > = Base_StasisOverload
+	myGravityReaction < uid=C91BB55157FFD7EC00000063D681A70A > = Base_Gravity
+	myEntangleReaction < uid=C91BB551583474B40000029789C48D12 > = Base_Entangle
+	myAttributeSettings "onward/game system data/juice/ai/attributes/base_npc.juice"
+	myCollisionSoundPreset < uid=4A8282B9580516BF0000024A6296B0AE > = "Character Metal Sound"
+	myDefaultMotionPattern < uid=4A8282B956F0313E00000058F40DEF2D > = "Generic Immobile"
+	myBaseThreatProfile
+	{
+		myThreatPropagationRange 150.0
+		myPlayerEnemyBaseThreat 0.0
+	}
+	myActionThreatProfile
+	{
+		myActionThreatDecayDelay 8.0
+	}
+	myLeftFootstepEffectFile "onward/graph objects/effect/effect_npc_generic_left_footstep.mgraphobject"
+	myRightFootstepEffectFile "onward/graph objects/effect/effect_npc_generic_right_footstep.mgraphobject"
+	myFrontLeftFootstepEffectFile "onward/graph objects/effect/effect_npc_generic_left_front_footstep.mgraphobject"
+	myFrontRightFootstepEffectFile "onward/graph objects/effect/effect_npc_generic_right_front_footstep.mgraphobject"
+	myAllowCombatWhileDormant TRUE
+}
+

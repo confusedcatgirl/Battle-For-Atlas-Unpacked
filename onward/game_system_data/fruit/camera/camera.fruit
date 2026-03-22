@@ -1,0 +1,459 @@
+include "modules/core/input/input.fruit"
+
+// This enum should be kept in sync with the one in OClient_PlayerCameraData.h
+enum CameraType
+{
+	Free
+	Locked
+	Follow
+	Mixer
+	Game
+	Code
+	Immelmann
+	Dialogue
+}
+
+enum CameraMode
+{
+	Default
+	Free
+	Locked
+	Ground
+    GroundTrial
+	GroundIdle
+	GroundNormal
+	GroundHighSpeed
+    GroundNormalTrial
+    GroundHighSpeedTrial
+	Flight
+	FlightTurbo
+	Fall
+	NoseDive
+	Space
+    SpaceInterior
+	SpaceTurbo
+    SpaceBrake
+	HyperSpace
+	HyperSpaceExit
+	HyperSpaceTunnel
+	LaunchStart
+	Launch
+	Death
+    DeathSpace
+	Immelmann
+	Ghost
+	Ragdoll
+	RagdollFlight
+	RagdollSpace
+	FlippedOver
+	Stasis
+    StasisSpace
+	Tunnel
+    JetEngine
+    RollingBall
+    RollingBallDash
+    RollingBallSpace
+    RollingBallSpaceDash
+    Spline
+	VictoryLap
+
+	< startCategory="Dialogue" >
+	NPCIntro
+	GallasDownedShip
+	ImpIntro
+	CyclopsIntro
+	ImpShedIntro
+	ExtractorIntro
+	DrakeIntro
+	FireGiantIntro
+	FrostGiantIntro
+	PrimeIntro
+	CrushGiantIntro
+	DreadnoughtIntro
+	GiantIntro
+	GiantIntroNoZoom
+	OutpostDialoguePlayer
+	OutpostDialogueOutpost
+	GraxShipIntro
+    OutpostMenu
+    FortuneRestMenu
+    ClubhouseOriginalMenu
+    ClubhouseBloodedKingsMenu
+    ClubhousePhantomsMenu
+    ClubhouseOverlordsMenu
+    ClubhouseMenu
+    ArenaMenu
+    ProspectorJailMenu
+	PortalExit
+	LandmarkLarge
+	LandmarkSmall
+    ExtractorDestruction
+    PrimeDestruction
+    OutpostUpgrade
+    StarlinkTower
+    WardenPuzzle
+	SpaceNPCFocus
+	SpaceNPCFocusZoom
+	StructureApproach
+	SpaceFrameCam
+    FinalBattleIntro
+    FinalBattlePhase2
+    FinalBattleDeath
+    DreadnoughtFrontDoor
+    DreadnoughtFrontDoorOpened
+    XFactorChest
+	XFactorChestPlanet01
+	XFactorChestPlanet03
+	XFactorChestPlanet04
+	XFactorChestPlanet05
+	XFactorChestPlanet07
+	XFactorChestPlanet08
+	XFactorChestPlanet15
+	ComsArrayChest
+	OutlawOutpost
+	SorrenCamera
+	sidestory001sequence01WindMill
+	sidestory001sequence01NavOverview
+	sidestory001sequence02keydropped	
+	sidestory001sequence02hulldooropen
+	sidestory001sequence02cargodooropen
+	sidestory001sequence02vaultopen
+	sidestory001sequence04vinelockoverview
+	sidestory001sequence04vinefree
+	sidestory001sequence04pillarreleased
+	sidestory001sequence04KeyReachable
+	sidestory001sequence05showreachobjective
+	sidestory001sequence05pillarrising
+	sidestory001sequence05transmission
+	sidestory001sequence06ShowLaser
+	sidestory001sequence06FocusingCrystal
+	sidestory001sequence06LaserActivated
+	sidestory001sequence06GoldenCyclops
+	AlliedGoldrush
+	AlliedGoldrushSmlVault
+	AlliedGoldrushLrgVault
+	AlliedGoldrushRefinery
+	AlliedGoldrushRefuelingStation
+	AlliedGoldrushPrison
+	AlliedGoldrushComsArray
+	LiberateShipwreck1
+	LiberateShipwreck2
+	ExpeditionSpark1
+	ExpeditionSpark2
+	ExpeditionSpark3
+	ExpeditionSparkDouble
+	ExpeditionSparkSpace
+	ExpeditionSparkCradle
+	ExpeditionSparkNecrom
+	ExpeditionAnvil1
+	ExpeditionAnvil2
+	ExpeditionAnvil3
+	ExpeditionAnvil4
+	ArenaOutro
+	ArenaMechEnter
+	ArenaMechDestroy
+	ProspectorStoryBountyCamera
+	ProspectorStoryGrapplerCamera
+	ProspectorStoryBounty01Cam01
+	ProspectorStoryBounty01Cam02
+	ProspectorStoryBounty01Cam03
+	ProspectorStoryBounty02Cam01
+	ProspectorStoryBounty02Cam02
+	ProspectorStoryBounty02Cam03
+	ProspectorStoryBounty03Cam01
+	ProspectorStoryBounty03Cam02
+	ProspectorStoryBounty03Cam03
+	ProspectorStoryBounty04Cam01
+	ProspectorStoryBounty04Cam02
+	ProspectorStoryBounty04Cam03
+	
+}
+
+enum CameraModifier
+{
+	Boost
+	BoostJaunt
+	BoostWindUp
+	TargetLock
+	DashRight
+	DashLeft
+	DashForward
+	DashBackward
+	BarrelRollRight
+	BarrelRollLeft
+	FlipForward
+	Hop
+	HopHeavy
+	Zoom
+	GaussCharge
+	FreezeCharge
+	TidalWaveCharge
+	ShotRecoil
+	DriftBoost
+	BoostBonus
+    BoostBonusTrial
+	Pickup
+    Pluck
+	Doppler
+	ArmyOfOne
+	FreezeRayDualLink
+	GaussChargeDualLink
+	LostArtifactGun
+	LookAround
+	ToSpaceOut
+	Follow
+	FastTravelIn
+	FastTravelOut
+	Platformer
+    GroundSlam
+    Drift
+}
+
+class CameraTransition
+{
+	string myFrom
+	string myTo
+	float myDuration 1.0
+	string myCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, keys = { inTangents = { -0 -0, -0.602639 -0.038683, }, outTangents = { 0.307335 0.942354, 0 0, }, properties = { -749, -749, }, values = { 0 0, 1 1, }, }, numKeys = 2, }" < bhv=inputgraph >
+	bool myResetAngles TRUE
+	float myResetAltitude 0.0
+	float myResetAzimuth 0.0
+	bool myFreezeSourceOrientation FALSE
+}
+
+list CameraTransitionOverrides
+{
+	CameraTransition
+}
+
+class CameraPreset
+{
+	CameraType myType Game
+	float myFoV	90.0
+    float myFoVCoopModifier 0.66
+	float myFoVOptionModifier 0.0
+	float myCollisionSphereRadius 0.6
+	CameraTransition myDefaultTransition
+	bool myUseOutTransition FALSE
+    int myTransitionPriority 0
+	CameraTransition myDefaultOutTransition
+	CameraTransitionOverrides mySpecialTransitions
+    bool myShouldApplyReverseLookAt TRUE
+}
+
+class FollowCameraPreset : CameraPreset
+{
+	vec3f myOffset 0.0;0.0;0.0                         < tooltip="The offset used for positioniong the camera relatively to the target" >
+	vec3f myOffsetUp 0.0;0.0;0.0                       < tooltip="The offset used for positioniong the camera relatively to the target when looking up" >
+	vec3f myOffsetDown 0.0;0.0;0.0                     < tooltip="The offset used for positioniong the camera relatively to the target when looking down" >
+	vec3f myLookAtOffset 0.0;0.0;0.0                   < tooltip="The offset used for positioniong the target position of the camera relatively to the target" >
+	vec3f myLookAtOffsetUp 0.0;0.0;0.0                 < tooltip="The offset used for positioniong the target position of the camera relatively to the target when looking up" >
+	vec3f myLookAtOffsetDown 0.0;0.0;0.0               < tooltip="The offset used for positioniong the target position of the camera relatively to the target when looking down" >
+	bool myUseGlobalUp false                           < tooltip="Whether the camera should use the global up vector or the target up" >
+	bool myUseSlopeStabilization false                 < tooltip="Whether or not to use the slope stabilization" >
+	float mySlopeStabilizationUpMin 1.0                < tooltip="The amount of stabilization at min angle when going up" >
+	float mySlopeStabilizationUpMax 0.5                < tooltip="The amount of stabilization at max angle when going up" >
+	float mySlopeStabilizationUpMinAngle 30.0          < tooltip="The angle at which we start ramping down stabilization when going up" >
+	float mySlopeStabilizationUpMaxAngle 60.0          < tooltip="The angle at which we apply the least stabilization when going up" >
+	float mySlopeStabilizationDownMin 0.75             < tooltip="The amount of stabilization at min angle when going down" >
+	float mySlopeStabilizationDownMax 0.25             < tooltip="The amount of stabilization at max angle when going down" >
+	float mySlopeStabilizationDownMinAngle 10.0        < tooltip="The angle at which we start ramping down stabilization when going down" >
+	float mySlopeStabilizationDownMaxAngle 45.0        < tooltip="The angle at which we apply the least stabilization when going down" >
+	bool myUseSlopeStabilizationRoll false             < tooltip="Whether or not to use the slope stabilization roll reduction" >
+	float mySlopeStabilizationRollReduction 0.65       < tooltip="How much roll should be removed (0 is untouched, 1 is roll free)" >
+	bool myUseLookUpDown false                         < tooltip="Whether the camera should use the look up down feature" >
+	float myLookUpAngle 0.0                            < tooltip="Minimum angle looking up" >
+	float myLookDownAngle 0.0                          < tooltip="Maximum angle looking down" >
+}
+
+class GameCameraPreset : CameraPreset
+{
+	vec3f myOffset 0.0;0.0;0.0                         < tooltip="The offset used for positioniong the camera relatively to the target" >
+	vec3f myOffsetUp 0.0;0.0;0.0                       < tooltip="The offset used for positioniong the camera relatively to the target when looking up" >
+	vec3f myOffsetDown 0.0;0.0;0.0                     < tooltip="The offset used for positioniong the camera relatively to the target when looking down" >
+	vec3f myLookAtOffset 0.0;0.0;0.0                   < tooltip="The offset used for positioniong the target position of the camera relatively to the target" >
+	vec3f myLookAtOffsetUp 0.0;0.0;0.0                 < tooltip="The offset used for positioniong the target position of the camera relatively to the target when looking up" >
+	vec3f myLookAtOffsetDown 0.0;0.0;0.0               < tooltip="The offset used for positioniong the target position of the camera relatively to the target when looking down" >
+
+    bool myUseCameraAsRefOrientation false             < tooltip="Needed for cases where we want to rotate the camera freely regardless of player's rotation" >
+	bool myUsePlanetUpAsBase false                     < tooltip="Whether the camera should use the planet up vector or the target up" >
+	bool myLockAltitudeToTarget false
+	float myGroundNormalBlend 0.75                     < tooltip="0 = planet normal, 1 = ground normal" >
+	bool myAlignToPlanet true                          < tooltip="Whether the camera keeps its rotation relative to the planet. yes=orbit, no=free" >
+    bool myAllowRollFromGroundNormal false             < tooltip="Whether the camera banks with the terrain" >
+	bool myKeepTargetRotationLocked false              < tooltip="Whether the camera keep the rotation lock after it's unlocked" >
+	float myRemoveRollRelativeToPlanetPercent -1.0     < tooltip="How much the camera will remove roll rotation from the reference relatively to the planet. Untouched if <= 0" >
+	float myAltitudeMin 0.0
+	float myAltitudeMax 0.0
+	bool myLockAnglesToZero FALSE
+	float myYawSpeed 0.0
+	float myPitchSpeed 0.0
+
+	float myYawSpeedDampingUpMoving 0.0
+	float myYawSpeedDampingUpStatic 0.0
+	float myYawSpeedDampingDownMoving 0.0
+	float myYawSpeedDampingDownStatic 0.0
+	float myPitchSpeedDampingUpMoving 0.0
+	float myPitchSpeedDampingUpStatic 0.0
+	float myPitchSpeedDampingDownMoving 0.0
+	float myPitchSpeedDampingDownStatic 0.0
+    bool myClampInputTo1 FALSE
+
+	float myAimAssistMaxViewFriction 0.5
+	float myAimAssistMaxTargetLock 0.9
+
+	string myPivotLocalOffsetParamName "PivotLocalOffset"
+	string myPivotLocalRotationParamName "PivotRotationOffset"
+
+	float myAlignOnStrafeDelay 0.0
+	float myAlignOnStrafeDamping 0.75
+	float myAlignOnStrafeAngleThreshold 12.0
+
+	float myPivotLagXZ 0
+	float myPivotFilterTimeXZ 0.0
+	float myPivotLagY 0
+	float myPivotFilterTimeY 0.0
+
+    bool myUsePlayerReferenceAsSafeTransform FALSE
+}
+
+
+class ImmelmannCameraPreset : CameraPreset
+{
+	vec3f myOffsetMin 0.0;0.0;0.0                         < tooltip="The offset used for positioniong the camera relatively to the target" >
+	vec3f myOffsetMax 0.0;0.0;0.0                         < tooltip="The offset used for positioniong the camera relatively to the target" >
+	vec3f myLookAtOffsetMin 0.0;0.0;0.0                   < tooltip="The offset used for positioniong the target position of the camera relatively to the target" >
+	vec3f myLookAtOffsetMax 0.0;0.0;0.0                   < tooltip="The offset used for positioniong the target position of the camera relatively to the target" >
+	string myOffsetCurve "" < bhv=inputgraph >
+	float myDuration 0.0
+}
+
+class MixerCameraPreset : CameraPreset
+{
+	string myPresetA
+	string myPresetB
+	string myParameter
+	bool myOptimizeUpdate FALSE
+}
+
+class DialogueCameraPreset : CameraPreset
+{
+    bool myShouldCheckCollision TRUE < tooltip="Whether the camera should perform collision checks" >
+    bool myUseCollisionFilter FALSE < tooltip="Whether to refine hit results using filter">
+    float myFoVEnd 40.0
+	vec3f myTargetOffset 0.0;0.0;0.0
+    vec3f myTargetOffsetEnd 0.0;0.0;0.0
+	vec3f mySubjectOffset 0.0;0.0;0.0
+	vec3f myCameraOffset 2.0;2.0;15.0
+    vec3f myCameraOffsetEnd 2.0;2.0;15.0
+    vec3f myCollisionSafeOffset 0.0;0.0;0.0
+    float myOffsetDuration 0.0
+    string myOffsetCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, keys = { inTangents = { -0 -0, -0.602639 -0.038683, }, outTangents = { 0.307335 0.942354, 0 0, }, properties = { -749, -749, }, values = { 0 0, 1 1, }, }, numKeys = 2, }" < bhv=inputgraph >
+    float myCameraRoll 0.0
+    float myCameraRollEnd 0.0
+	float myPanSpeed 0.0
+	float myPanMax 0.0
+    float mySafeDistance 10.0
+	bool myZoomInOnSpeaker FALSE                < tooltip="Special mode that does not try to frame both subject and target" >
+	bool myAllowTransformUpdates TRUE
+	bool myAllowTargetTransformUpdates TRUE
+	bool myAllowSubjectTransformUpdates TRUE
+    bool myAllowTargetRotationUpdates TRUE
+    bool myZoomInCamOrientationRelativeToTarget FALSE < tooltip="Whether camera offset should be relative to the orientation of the target. Default is the subject to target axis" >
+	bool myZoomInCamPosRelativeToSubject FALSE  < tooltip="Whether camera offset should be relative to the position of the subject. Default is target" >
+    bool myBlendOutLookingTarget FALSE
+    bool myUseTimeScale FALSE
+    string myTimeScaleCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 0, -0.602639 -0.038683, }, outTangents = { 0.845932 -0.00656027, 0 0, }, properties = { 275, 1299, }, values = { 0 1, 1 0.3, }, }, numKeys = 2, }" < bhv=inputgraph >
+    bool myUseTargetablePosition FALSE
+	bool myShouldApplyShakes FALSE
+	bool myShouldPerformTargetLock FALSE
+}
+
+class CameraShakeBlock
+{
+	bool myIsCyclic FALSE 														< tooltip="Set this to TRUE to loop this block. Otherwise it will play once" >
+	float myBlendInTime 0.0
+	float myBlendOutTime 0.0
+	float myDuration 0.0															< tooltip="How long this block will run. If myIsCyclic is TRUE, this block will loop once this duration has elapsed" >
+	float myStartOffset 0.0															< tooltip="The delay after the camera shake has started before this block activates" >
+
+	string myPitchMoveCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 0, -0.333333 0, }, outTangents = { 0.333333 0, 0 0, }, properties = { 3, 1027, }, values = { 0 0, 1 0, }, }, numKeys = 2, }" < bhv=inputgraph >
+	string myPitchRotateCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 0, -0.333333 0, }, outTangents = { 0.333333 0, 0 0, }, properties = { 3, 1027, }, values = { 0 0, 1 0, }, }, numKeys = 2, }" < bhv=inputgraph >
+	string myYawMoveCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 0, -0.333333 0, }, outTangents = { 0.333333 0, 0 0, }, properties = { 3, 1027, }, values = { 0 0, 1 0, }, }, numKeys = 2, }" < bhv=inputgraph >
+	string myYawRotateCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 0, -0.333333 0, }, outTangents = { 0.333333 0, 0 0, }, properties = { 3, 1027, }, values = { 0 0, 1 0, }, }, numKeys = 2, }" < bhv=inputgraph >
+	string myDistanceCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 0, -0.333333 0, }, outTangents = { 0.333333 0, 0 0, }, properties = { 3, 1027, }, values = { 0 0, 1 0, }, }, numKeys = 2, }" < bhv=inputgraph >
+	string myRollCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 0, -0.333333 0, }, outTangents = { 0.333333 0, 0 0, }, properties = { 3, 1027, }, values = { 0 0, 1 0, }, }, numKeys = 2, }" < bhv=inputgraph >
+	string myFovCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 0, -0.333333 0, }, outTangents = { 0.333333 0, 0 0, }, properties = { 3, 1027, }, values = { 0 0, 1 0, }, }, numKeys = 2, }" < bhv=inputgraph >
+
+	float myPitchMoveAmplitude 0.0
+	float myPitchRotateAmplitude 0.0
+	float myYawMoveAmplitude 0.0
+	float myYawRotateAmplitude 0.0
+	float myDistanceAmplitude 0.0
+	float myRollAmplitude 0.0
+	float myFovAmplitude 0.0
+}
+
+list CameraShakeBlockList
+{	
+	CameraShakeBlock
+}
+
+class CameraShake
+{
+	string myName ""
+	CameraShakeBlockList myBlocks
+	float myBlendOutTime 0
+	float myTimeScale 1
+}
+
+class CameraShakeAnimation
+{
+	file 	myAnimation < bhv=asset assettype="Camera Animation" >
+	float	myPositionStrength 1
+	float	myRotationStrength 1
+	float	myBlendInTime 0.1
+	float	myBlendOutTime 0.1
+	bool	myIsLooped FALSE
+	float 	myTimeScale 1
+	bool	myMirrorYaw false
+	bool	myMirrorPitch false
+	bool	myMirrorRoll false
+}
+
+list CameraShakeSet
+{
+	CameraShake
+	CameraShakeAnimation
+}
+
+list CameraShakeList
+{
+	CameraShake
+	CameraShakeAnimation
+	CameraShakeSet
+}
+
+class CameraShakeConfig
+{
+	CameraShakeList myPresetsList
+}
+
+class Camera
+{
+	float myPitchRecoveryStrength 10.0 < min=1 max=100 >
+	float myPitchRecoveryDelay 2.5
+	
+	float myCameraDecelerationTime 0.25
+
+	float myRaiseTriggerDistance 2.0 < tooltip="If the distance between the target and camera is below this value the camera will starts to raise." >
+	float myRaiseOffset 0.1 < tooltip="How much the camera will raise when at a distance of 0 to the target point." >
+	float myCollisionHistoryTime 0.2 < tooltip="How long should we use the collision distance before trying to blend out." >
+	float myCollisionOutSpringStrength 5.0 < tooltip="How smoothly the camera returns to its no collision position. High value means less smooth." >
+	float myCollisionFanMinScale 0.3 < tooltip="When scaling the collision fan based on the speed what is the minimum scale." >
+	float myCollisionFanMaxScale 1.0 < tooltip="When scaling the collision fan based on the speed what is the maximum scale." >
+	float myCollisionFanMaxRotationSpeed 2.0 < tooltip="When scaling the collision fan based on the rotation what is the rotation speed when the scale becomes myCollisionFanMinScale" >
+	
+	CameraTransition myDefaultTransitionOverride
+	CameraTransitionOverrides myTransitionOverrides	
+}

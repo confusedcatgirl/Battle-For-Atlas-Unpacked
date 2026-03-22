@@ -1,0 +1,31 @@
+include ./faction_unit_base.msimunit
+
+SimUnit "Expedition Defender" < uid=C92F4D3F5730ACE5000000867C7A7A30 > : faction_unit_base
+{
+	myUIName "contextComment = \"The UI name for the Expedition Defender\", description = \"uiname-expedition-defender\", enabled = true, guid = #1ABBD50B58B478E10002503236966476, lineVersion = 0, maxLength = 25, text = \"Expedition Defender\""
+	myBehavior onward/simworld/behavior/expedition_defender.msimunitbtgraph
+	myControlGraph ""
+	myFaction Expedition
+	myCategory NPC
+	mySubCategory Defender
+	myMaxHealth 150.0
+	myRadius 6.0
+	mySpeed 25.0
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo Defender < uid=1E68E535599C7F4A00021137FC447A70 >
+		{
+			myCountMin 1
+			myCountMax 1
+			myEntitySize 5.0
+			myEntityFile "onward/game system data/juice/ai/npc/expedition_defender.mnpc"
+		}
+	}
+	myUnlockedChallengeType Discover_ExpeditionDefender
+	myInterestSettings
+	{
+		myIsEnabled TRUE
+	}
+	myMissionTargetTexture onward/baked/textures/UI/icons/outpost_targets/outpost_target_sim_unit/ui-icon-outpost-target-defend-worker-observation-deck.dds
+}
+

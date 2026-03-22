@@ -1,0 +1,61 @@
+include ./fauna_base.msimunit
+
+SimUnit fauna_14 < uid=C92F4D3F5730AFFE0000009CAF706C98 > : fauna_base
+{
+	myUIName "contextComment = \"The UI name for Fauna 14\", description = \"uiname-fauna-14\", enabled = true, guid = #1ABBD50B58B48AA000056D71186AAF9A, lineVersion = 0, maxLength = 14, text = \"Razorbeak\""
+	myBehavior onward/simworld/behavior/simworld_fauna_default.msimunitbtgraph
+	mySubCategory Fauna_02
+	mySubCategoryVariant 14
+	myRadius 20.0
+	mySpeed 16.0
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo "Level 0" < uid=93869D5359C413BE0005F50F6BF21787 >
+		{
+			myCountMin 1
+			myCountMax 1
+			myEntitySize 4.0
+			myEntityFile ""
+			myElementSpawnInfo
+			{
+				SimUnitElementSpawnInfo Fauna
+				{
+					myEntityFile "onward/game system data/juice/ai/npc/fauna_14.mnpc"
+					myLevelMin 0
+					myLevelMax 1
+				}
+			}
+		}
+		SimUnitEntitySpawnInfo "Level 1" < uid=93869D535AFB127100A010BE69F06355 >
+		{
+			myCountMin 1
+			myCountMax 2
+			myEntitySize 4.0
+			myElementSpawnInfo
+			{
+				SimUnitElementSpawnInfo Fauna
+				{
+					myEntityFile "onward/game system data/juice/ai/npc/fauna_14.mnpc"
+					myLevelMin 2
+					myLevelMax 2
+				}
+			}
+		}
+		SimUnitEntitySpawnInfo "Level 2" < uid=93869D535AFB127100A010BFE0F88653 >
+		{
+			myCountMin 1
+			myCountMax 4
+			myEntitySize 4.0
+			myElementSpawnInfo
+			{
+				SimUnitElementSpawnInfo Herd
+				{
+					myEntityFile "onward/game system data/juice/ai/npc/fauna_14.mnpc"
+					myLevelMin 3
+					myLevelMax 3
+				}
+			}
+		}
+	}
+}
+

@@ -1,0 +1,704 @@
+include "onward/game system data/juice/input/inputactions.juice"
+include "onward/game system data/juice/input/inputactionsui.juice"
+include "onward/game system data/juice/input/keyboardactionsui.juice"
+include "onward/game system data/fruit/input/gameinput.fruit"
+
+TriggerGameAction "[Camera] Mouse Look"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction "Right Click Hold Down"
+		{
+			myInputActionType HoldDown
+			myInputAction = RIGHT_CLICK
+		}
+	}
+	myGameAction MouseLook
+}
+
+TriggerGameAction "[Camera] Camera Look"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction "Left Click Hold Down"
+		{
+			myInputActionType HoldDown
+			myInputAction = LEFT_CLICK
+		}
+	}
+	myGameAction CameraLook
+}
+
+TriggerGameAction "[Camera] Look Up"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Camera Looks"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Click Left Thumbstick"
+				{
+					myInputActionType Analog
+					myInputAction = RIGHT_STICK_UP
+				}
+				ConditionalInputAction "Keyboard Look around"
+				{
+					myInputActionType Analog
+					myInputAction = MouseLook
+				}
+			}
+		}
+	}
+	myGameAction LookUp
+}
+
+TriggerGameAction "[Camera] Look Down"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Camera Looks"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Click Left Thumbstick"
+				{
+					myInputActionType Analog
+					myInputAction = RIGHT_STICK_DOWN
+				}
+				ConditionalInputAction "Keyboard Look around"
+				{
+					myInputActionType Analog
+					myInputAction = MouseLook
+				}
+			}
+		}
+	}
+	myGameAction LookDown
+}
+
+TriggerGameAction "[Camera] Look Left"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Camera Looks"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Click Left Thumbstick"
+				{
+					myInputActionType Analog
+					myInputAction = RIGHT_STICK_LEFT
+				}
+				ConditionalInputAction "Keyboard Look around"
+				{
+					myInputActionType Analog
+					myInputAction = MouseLook
+				}
+			}
+		}
+	}
+	myGameAction LookLeft
+}
+
+TriggerGameAction "[Camera] Look Right"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Camera Looks"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Click Left Thumbstick"
+				{
+					myInputActionType Analog
+					myInputAction = RIGHT_STICK_RIGHT
+				}
+				ConditionalInputAction "Keyboard Look around"
+				{
+					myInputActionType Analog
+					myInputAction = MouseLook
+				}
+			}
+		}
+	}
+	myGameAction LookRight
+}
+
+TriggerGameAction "[Camera] Look Back"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "INPUT LOOK BACK"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Keyboard Look Back"
+				{
+					myInputActionType HoldDown
+					myInputAction = KB_REARVIEW
+				}
+				ConditionalInputAction "Click Left Thumbstick"
+				{
+					myInputActionType HoldDownAfterTime
+					myTimer 150
+					myInputAction = LEFT_STICK_BUTTON
+				}
+			}
+		}
+		ConditionalGameActionState IsReverseCameraEnabled
+		{
+			myGameActionState IsReverseCameraEnabled
+		}
+		ConditionalGameActionState InHyperspace
+		{
+			myNegate TRUE
+			myGameActionState InHyperspace
+		}
+		ConditionalGameActionState IsInPlanetaryTransition
+		{
+			myNegate TRUE
+			myGameActionState IsInPlanetaryTransition
+		}
+		ConditionalGameActionState IsDead
+		{
+			myNegate TRUE
+			myGameActionState IsDead
+		}
+		ConditionalGameActionState IsPlucking
+		{
+			myNegate TRUE
+			myGameActionState IsPlucking
+		}
+	}
+	myGameAction LookBack
+}
+
+TriggerGameAction "[Camera] Zoom"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameActionState InDialogue
+		{
+			myNegate TRUE
+			myGameActionState InDialogue
+		}
+		ConditionalGameActionState IsOnSpline
+		{
+			myNegate TRUE
+			myGameActionState IsOnSpline
+		}
+		ConditionalGameActionState IsEnteringSpline
+		{
+			myNegate TRUE
+			myGameActionState IsEnteringSpline
+		}
+		ConditionalGameActionState IsCameraZoomEnabled
+		{
+			myGameActionState IsCameraZoomEnabled
+		}
+		ConditionalActionGroup "Not in race pre-start"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalGameActionState IsPilotTrialEventInProgress
+				{
+					myGameActionState IsPilotTrialEventInProgress
+				}
+				ConditionalGameActionState IsPilotTrialEventActive
+				{
+					myNegate TRUE
+					myGameActionState IsPilotTrialEventActive
+				}
+			}
+		}
+		ConditionalActionGroup INPUT
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction RS
+				{
+					myInputActionType Pressed
+					myInputAction = RIGHT_STICK_BUTTON
+				}
+				ConditionalInputAction MB
+				{
+					myInputActionType Pressed
+					myInputAction = KB_ZOOM
+				}
+			}
+		}
+	}
+	myGameAction Zoom
+}
+
+TriggerGameAction PlayerQuery_ShouldDisplayReticle
+{
+	myConditionalInputActions
+	{
+		ConditionalGameActionState IsTakingOff
+		{
+			myNegate TRUE
+			myGameActionState IsTakingOff
+		}
+		ConditionalGameActionState HasNPCAttached
+		{
+			myNegate TRUE
+			myGameActionState HasNPCAttached
+		}
+		ConditionalGameActionState InHyperspace
+		{
+			myNegate TRUE
+			myGameActionState InHyperspace
+		}
+		ConditionalGameActionState IsStartingHyperDrive
+		{
+			myNegate TRUE
+			myGameActionState IsStartingHyperDrive
+		}
+		ConditionalGameActionState IsPlucking
+		{
+			myNegate TRUE
+			myGameActionState IsPlucking
+		}
+		ConditionalGameActionState ShouldBeDowned
+		{
+			myNegate TRUE
+			myGameActionState ShouldBeDowned
+		}
+		ConditionalActionGroup "Frozen Conditions"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalGameActionState IsFrozen
+				{
+					myNegate TRUE
+					myGameActionState IsFrozen
+				}
+				ConditionalGameActionState HasFreezeMobility
+				{
+					myGameActionState HasFreezeMobility
+				}
+			}
+		}
+	}
+	myGameAction PlayerQuery_ShouldDisplayReticle
+}
+
+TriggerGameAction "[Movement] Can Use Photo Mode"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameActionState IsInPlanetaryTransition
+		{
+			myNegate TRUE
+			myGameActionState IsInPlanetaryTransition
+		}
+	}
+	myGameAction PlayerQuery_CanUsePhotoMode
+}
+
+TriggerGameAction "[Camera] Toggle Photo Mode"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameAction PlayerQuery_CanUsePhotoMode
+		{
+			myGameAction PlayerQuery_CanUsePhotoMode
+		}
+		ConditionalActionGroup "INPUT PHOTO MODE"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction Back
+				{
+					myInputActionType PressedAfterTime
+					myTimer 500
+					myInputAction = BACK_SELECT
+				}
+				ConditionalInputAction "KB_PHOTOMODE Tap Action"
+				{
+					myInputActionType Released
+					myInputAction = KB_PHOTOMODE
+				}
+			}
+		}
+		ConditionalGameAction "Player 1"
+		{
+			myGameAction PlayerQuery_IsPrimaryPlayer
+		}
+		ConditionalGameActionState "Photo Mode Shortcut Enabled"
+		{
+			myGameActionState IsPhotoModeShortcutEnabled
+		}
+	}
+	myGameAction TogglePhotoMode
+}
+
+TriggerGameAction "[Camera] Is Initiating Photo Mode"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameAction PlayerQuery_CanUsePhotoMode
+		{
+			myGameAction PlayerQuery_CanUsePhotoMode
+		}
+		ConditionalActionGroup "INPUT PHOTO MODE"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction Back
+				{
+					myInputActionType HoldDown
+					myInputAction = BACK_SELECT
+				}
+				ConditionalInputAction "KB_PHOTOMODE Tap Action"
+				{
+					myInputActionType PressAndRelease
+					myInputAction = KB_PHOTOMODE
+				}
+			}
+		}
+		ConditionalGameAction "Player 1"
+		{
+			myGameAction PlayerQuery_IsPrimaryPlayer
+		}
+		ConditionalGameActionState "Photo Mode Shortcut Enabled"
+		{
+			myGameActionState IsPhotoModeShortcutEnabled
+		}
+	}
+	myGameAction PlayerQuery_IsInitiatingPhotoMode
+}
+
+TriggerGameAction "[Camera] Roll Up"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Input Actions"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction R1
+				{
+					myInputActionType Analog
+					myInputAction = UI_RIGHT_BUMPER_R1
+				}
+				ConditionalInputAction "Keyboard Tab Right"
+				{
+					myInputActionType Analog
+					myInputAction = KB_UI_TAB_RIGHT
+				}
+				ConditionalInputAction "Keyboard Tab Alt Right"
+				{
+					myInputActionType Analog
+					myInputAction = KB_UI_DROP
+				}
+			}
+		}
+	}
+	myGameAction RollUp
+	myIsUIAndGameAction TRUE
+}
+
+TriggerGameAction "[Camera] Roll Down"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Input Actions"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction L1
+				{
+					myInputActionType Analog
+					myInputAction = LEFT_BUMPER_L1
+				}
+				ConditionalInputAction "Keyboard Tab Left"
+				{
+					myInputActionType Analog
+					myInputAction = KB_UI_TAB_LEFT
+				}
+			}
+		}
+	}
+	myGameAction RollDown
+	myIsUIAndGameAction TRUE
+}
+
+TriggerGameAction "[Camera] Fov Up"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Input Actions"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction L2
+				{
+					myInputActionType Analog
+					myInputAction = LEFT_TRIGGER_L2
+				}
+				ConditionalInputAction "Keyboard Page Up"
+				{
+					myInputActionType Analog
+					myInputAction = KB_UI_PAGE_UP
+				}
+			}
+		}
+	}
+	myGameAction FovUp
+	myIsUIAndGameAction TRUE
+}
+
+TriggerGameAction "[Camera] Fov Down"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Input Actions"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction R2
+				{
+					myInputActionType Analog
+					myInputAction = RIGHT_TRIGGER_R2
+				}
+				ConditionalInputAction "Keyboard Page Down"
+				{
+					myInputActionType Analog
+					myInputAction = KB_UI_PAGE_DOWN
+				}
+			}
+		}
+	}
+	myGameAction FovDown
+	myIsUIAndGameAction TRUE
+}
+
+TriggerGameAction "[Camera] Use Orbit Mode"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Input Actions"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Left Stick Click"
+				{
+					myInputActionType HoldDown
+					myInputAction = LEFT_STICK_BUTTON
+				}
+				ConditionalInputAction "Right Mouse Click"
+				{
+					myInputActionType HoldDown
+					myInputAction = RIGHT_CLICK
+				}
+			}
+		}
+	}
+	myGameAction UseOrbitMode
+	myIsUIAndGameAction TRUE
+}
+
+TriggerGameAction "[Camera] Use Fast Mode"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Input Actions"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Keyboard Left Shift"
+				{
+					myInputActionType HoldDown
+					myInputAction = KB_UI_BOOST
+				}
+				ConditionalInputAction "Right Stick Click"
+				{
+					myInputActionType HoldDown
+					myInputAction = RIGHT_STICK_BUTTON
+				}
+			}
+		}
+	}
+	myGameAction UseFastMode
+	myIsUIAndGameAction TRUE
+}
+
+TriggerGameAction "[Camera] Pan Up"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Input Actions"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "DPad Up"
+				{
+					myInputActionType Analog
+					myInputAction = D_PAD_UP
+				}
+				ConditionalInputAction "Keyboard Up"
+				{
+					myInputActionType Analog
+					myInputAction = KB_UI_MOVE_UP
+				}
+			}
+		}
+	}
+	myGameAction PanUp
+	myIsUIAndGameAction TRUE
+}
+
+TriggerGameAction "[Camera] Pan Down"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Input Actions"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "DPad Down"
+				{
+					myInputActionType Analog
+					myInputAction = D_PAD_DOWN
+				}
+				ConditionalInputAction "Keyboard Down"
+				{
+					myInputActionType Analog
+					myInputAction = KB_UI_MOVE_DOWN
+				}
+			}
+		}
+	}
+	myGameAction PanDown
+	myIsUIAndGameAction TRUE
+}
+
+TriggerGameAction "[Camera] Pan Left"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Input Actions"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "DPad Left"
+				{
+					myInputActionType Analog
+					myInputAction = D_PAD_LEFT
+				}
+				ConditionalInputAction "Keyboard Left"
+				{
+					myInputActionType Analog
+					myInputAction = KB_UI_MOVE_LEFT
+				}
+			}
+		}
+	}
+	myGameAction PanLeft
+	myIsUIAndGameAction TRUE
+}
+
+TriggerGameAction "[Camera] Pan Right"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Input Actions"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "DPad Right"
+				{
+					myInputActionType Analog
+					myInputAction = D_PAD_RIGHT
+				}
+				ConditionalInputAction "Keyboard Right"
+				{
+					myInputActionType Analog
+					myInputAction = KB_UI_MOVE_RIGHT
+				}
+			}
+		}
+	}
+	myGameAction PanRight
+	myIsUIAndGameAction TRUE
+}
+
+TriggerGameAction "[Camera] Reset Framing"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Input Actions"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Hold Y"
+				{
+					myInputActionType PressedAfterTime
+					myTimer 1000
+					myInputAction = Y_TRIANGLE
+				}
+				ConditionalInputAction "Hold R"
+				{
+					myInputActionType PressedAfterTime
+					myTimer 1000
+					myInputAction = KB_UI_RELOAD
+				}
+			}
+		}
+	}
+	myGameAction ResetFraming
+	myIsUIAndGameAction TRUE
+}
+
+TriggerGameAction "[Camera] Reset Edits"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "Input Actions"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Hold Y"
+				{
+					myInputActionType PressedAfterTime
+					myTimer 1000
+					myInputAction = Y_TRIANGLE
+				}
+				ConditionalInputAction "Hold R"
+				{
+					myInputActionType PressedAfterTime
+					myTimer 1000
+					myInputAction = KB_UI_RELOAD
+				}
+			}
+		}
+	}
+	myGameAction ResetEdits
+	myIsUIAndGameAction TRUE
+}
+

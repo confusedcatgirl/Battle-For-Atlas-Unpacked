@@ -1,0 +1,79 @@
+include ./harvester_cyclops_generic.mnpc
+include onward/skillscripts/npc_controller_context_harvester_cyclops_generic_shielded_stumble.mskillscriptjuice
+
+NPC harvester_cyclops_generic_shielded < uid=4A8282B9587D0F0D000003EDECBF04FB > : harvester_cyclops_generic
+{
+	myUIName "contextComment = \"The UI Name for the Cyclops\", description = \"uiname-harvester-cyclops-shielded\", enabled = true, guid = #93869D535AB1527B00001D23C95EFA9A, lineVersion = 0, maxLength = 21, text = \"Shielded Cyclops\""
+	myUIName_NonLocalized "Shielded Cyclops"
+	myGraphObjectFile "onward/graph objects/character/harvester_10.mgraphobject"
+	myGibSettings
+	{
+		myGibTemplates
+		{
+			file "New file (0)" "onward/entity templates/harvester_cyclops_forearm_GIBS.mentitytemplate"
+			file "New file (2)" "onward/entity templates/harvester_cyclops_hand_GIBS.mentitytemplate"
+			file "New file (3)" "onward/entity templates/harvester_cyclops_head_GIBS.mentitytemplate"
+			file "New file (0)" "onward/entity templates/harvester_cyclops_leftleg_GIBS.mentitytemplate"
+			file "New file (1)" "onward/entity templates/harvester_cyclops_shin_right_GIBS.mentitytemplate"
+			file "New file (2)" "onward/entity templates/harvester_cyclops_thigh_right_GIBS.mentitytemplate"
+			file "New file (3)" "onward/entity templates/harvester_cyclops_torso_GIBS.mentitytemplate"
+			file "New file (7)" "onward/entity templates/harvester_01_gun_gibs.mentitytemplate"
+			file "New file (8)" "onward/entity templates/harvester_04_shield_gibs.mentitytemplate"
+		}
+	}
+	myHealthConfig < uid=4A8282B959F8E7A500001DC94C9CBE62 > = "harvester_cyclops_generic_shielded Health"
+	myAbilityDefinitions
+	{
+		NPCAbilityDefinition "Primary Attack - Gatling"
+		{
+			myGameAction NPC_Ability1
+			mySkillScript < uid=8A9CA28659E4EFA70008353FC0E810F1 > = harvester_cyclops_generic_gatling
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_harvester_cyclops_generic_shielded_gatling.juice"
+		}
+	}
+	myControllerContextDefinitions
+	{
+		ControllerContextDefinition Dash
+		{
+			myContextType Dash
+			mySkillScript < uid=4A8282B958EBCE020083C95399EFC238 > = npc_controller_context_harvester_cyclops_generic_dash
+		}
+		ControllerContextDefinition Leap
+		{
+			myContextType SuperJump
+			mySkillScript < uid=4A8282B958EBCE020083C95429C4948B > = npc_controller_context_harvester_cyclops_generic_jump
+		}
+		ControllerContextDefinition Stumble
+		{
+			myContextType Stumble
+			mySkillScript < uid=4A8282B958EBCE020083C9554EE5CC49 > = npc_controller_context_harvester_cyclops_generic_shielded_stumble
+		}
+		ControllerContextDefinition "World Entry"
+		{
+			myContextType WorldEntry
+			mySkillScript < uid=4A8282B958EBCE020083C956CD273964 > = npc_controller_context_harvester_cyclops_world_entry
+		}
+		ControllerContextDefinition Dead
+		{
+			myContextType Dead
+			mySkillScript < uid=4A8282B95AB3FF0B0038C56CA1A7B9E7 > = npc_controller_context_harvester_cyclops_generic_dead
+		}
+		ControllerContextDefinition Dormant
+		{
+			myContextType Dormant
+			mySkillScript < uid=C92F4D3F5B29695A00ED2B7378505545 > = npc_controller_context_dormant
+		}
+	}
+	myAttributeSettings "onward/game system data/juice/ai/attributes/harvester_cyclops_shielded.juice"
+	myCrowdControlAttributeSettings "onward/game system data/juice/ai/attributes/crowd control tiers/npc_cc_tier13.juice"
+	myDropTableOnDeath Kill_Cyclops_Shielded_Drop_Table
+	myNPCType Harvester_Cyclops_Shielded
+	myAnimSystemType Harvester_Cyclops_Shielded
+	myThreatLevel 9.0
+	myOnDeathChallenge Death_CyclopsGenericShielded
+	myOnDiscoveredChallenge Discover_CyclopsGenericShielded
+	myHackLevel 2
+	mySkillLevelOffset -1
+}
+

@@ -1,0 +1,65 @@
+include ./harvester_drake_elite.mnpc
+include onward/skillscripts/harvester_drake_dreadnought_threat_heartbeat.mskillscriptjuice
+
+NPC harvester_drake_elite_dreadnought < uid=C92F4D3F5A985C0702AA7C551E9366FF > : harvester_drake_elite
+{
+	myAbilityDefinitions
+	{
+		NPCAbilityDefinition Gatling
+		{
+			myGameAction NPC_Ability1
+			mySkillScript < uid=C92F4D3F5A985C1002AA7C5844F95717 > = npc_ability_harvester_drake_gatling
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_harvester_drake_gatling.juice"
+			myEnabled TRUE
+		}
+		NPCAbilityDefinition "Homing Missiles"
+		{
+			myGameAction NPC_Ability2
+			mySkillScript < uid=C92F4D3F5A985C1002AA7C593F287FC4 > = npc_ability_homing_missile
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_homing_missiles.juice"
+			myEnabled FALSE
+		}
+		NPCAbilityDefinition Laser
+		{
+			myGameAction NPC_Ability3
+			mySkillScript < uid=C92F4D3F5A985C1002AA7C5A89DAF87C > = npc_ability_laser
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_sunder_beam.juice"
+			myEnabled TRUE
+		}
+		NPCAbilityDefinition "HyperDrive Jammer"
+		{
+			myGameAction NPC_Ability10
+			mySkillScript < uid=C92F4D3F5A985C1002AA7C5B0CFBD326 > = npc_ability_hyperdrive_jammer
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_hyperdrive_jammer.juice"
+			myEnabled FALSE
+		}
+		NPCAbilityDefinition "Heavy Gatling"
+		{
+			myGameAction NPC_Ability4
+			mySkillScript < uid=C92F4D3F5A985C1002AA7C5C82347C41 > = npc_ability_outlaw_heavy_gatling
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_outlaw_heavy_gatling.juice"
+			myEnabled FALSE
+		}
+	}
+	myPersistentScripts
+	{
+		SkillScript "Threat Heartbeat" < uid=C92F4D3F5A985C2C02AA7C5FFE9EE59C > = harvester_drake_dreadnought_threat_heartbeat
+		SkillScript "VFX Listener" < uid=C92F4D3F5AD7AEE70088D060CFD3B980 > = npc_harvester_drake_vfx_listener
+	}
+	myBaseThreatProfile
+	{
+		myDeAggroRange 5000.0
+		myPlayerBaseThreat 100.0
+		myHarvesterBaseThreat 0.0
+		myCloseRange 100.0
+		myMediumRange 300.0
+		myLongRange 500.0
+		myExtremeRange 800.0
+	}
+}
+

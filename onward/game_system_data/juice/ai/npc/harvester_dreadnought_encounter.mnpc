@@ -1,0 +1,26 @@
+include ./invisible_npc_base.mnpc
+include onward/skillscripts/harvester_dreadnought_encounter_phased_metadata_maintenance.mskillscriptjuice
+include onward/skillscripts/npc_ability_harvester_dreadnought_front_door_missile_volley.mskillscriptjuice
+
+NPC harvester_dreadnought_encounter < uid=C92F4D3F59383520000001B2940E7076 > : invisible_npc_base
+{
+	myBehavior "onward/game system data/juice/ai/behavior/harvester_dreadnought_encounter.mbehavior"
+	myAbilityDefinitions
+	{
+		NPCAbilityDefinition "Front Door Missile Volley"
+		{
+			myGameAction NPC_Ability2
+			mySkillScript < uid=C92F4D3F5A96D5B2002C269ADF8EE286 > = npc_ability_harvester_dreadnought_front_door_missile_volley
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_harvester_dreadnought_front_door_missile_volley.juice"
+		}
+	}
+	myPersistentScripts
+	{
+		SkillScript "Phase Meta Data Maintenance" < uid=C92F4D3F595FDCFB00360111270292F6 > = harvester_dreadnought_encounter_phased_metadata_maintenance
+	}
+	myAttributeSettings "onward/game system data/juice/ai/attributes/harvester_dreadnought_encounter.juice"
+	myCrowdControlAttributeSettings "onward/game system data/juice/ai/attributes/crowd control tiers/npc_cc_tier6.juice"
+	myNPCFaction Harvester
+}
+

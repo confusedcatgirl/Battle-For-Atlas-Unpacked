@@ -1,0 +1,26 @@
+include ./templates/template_l5.juice
+include ./damageaffectors/damage_affectors.juice
+include "onward/game system data/juice/mods/mod_revenant_weaponcore_l5.mplayermod"
+
+Enhancement revenantweaponcore_l5 < uid=C91BB5515981ECD10020F715551C983C > : "Level 5"
+{
+	myLocalizedName "contextComment = \"[Placeholder - do not translate]\nName for level 5 version of Revenant Weapon Core, which leeches off damaged enemies to heal/recharge the player\", description = \"\", enabled = true, guid = #C91BB5515981ECD10020F7148D23F8F0, lineVersion = 2, maxLength = 21, text = \"Commander Ammo V\""
+	myLocalizedDescription "contextComment = \"Placeholder - do not translate]\nDescription for level 5 version of Revenant Weapon Core, which leeches off damaged enemies to heal/recharge the player\", description = \"enhancement-description-revenant-weapon-core-5\", enabled = true, guid = #9E6AFEDA59D8064C0000009B6AD4BEEE, lineVersion = 2, maxLength = 101, text = \"+55% Damage\n+50 Fire Rate\n+50% Damage near Allies\nDamage charges weapon energy\""
+	myIconSprite "mySpriteId = -1172704357, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-mods-weapon-core.spritesheet\""
+	myMod < uid=C91BB5515981ECD10020F71607A0FE79 > = mod_revenant_weaponcore_l5
+	myBuff < uid=C91BB5515981ECD10020F7171933DDA3 > = NULLREFERENCE
+	myEnhancementType WeaponCore
+	myEnhancementTrackType RevenantWeaponCore
+	myDamageAffectors
+	{
+		DamageAffector_DamageToEnergy "Damage to Energy"
+		{
+			myDamageToEnergyRatio = Revenant_WeaponCore_l5_DmgToEnergy
+		}
+		DamageAffector_DamageBoostAroundAllies "Damage boost around Allies"
+		{
+			myDamageMultiplier = Revenant_WeaponCore_l5_ExtraDamage
+		}
+	}
+}
+

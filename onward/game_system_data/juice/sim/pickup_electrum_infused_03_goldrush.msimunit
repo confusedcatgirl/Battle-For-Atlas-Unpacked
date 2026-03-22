@@ -1,0 +1,29 @@
+include ./pickup_base.msimunit
+
+SimUnit pickup_electrum_infused_03_goldrush < uid=BB73FD445AD6436C0000B57F5278E2CF > : pickup_base
+{
+	myUIName "contextComment = '[Placeholder - do not translate] Name shown when targeting a \"corrupted Nova\" crystal of the gravity type. It can be picked up and delivered to an outpost to produce gravity-based effects like crushproof shields or gravity bombs', description = \"pickup-infused-crush\", enabled = true, guid = #BB73FD445AD6436C0000B57EFAD1FC74, lineVersion = 0, maxLength = 29, text = \"Gravity Corrupted Nova\""
+	myControlGraph ""
+	myFaction Unaligned
+	myCategory Pickup
+	mySubCategory ElectrumInfused
+	mySubCategoryVariant 99
+	myAffinityType Crush
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo InteractablePickup < uid=BB73FD445AD6436C0000B580B9730F40 >
+		{
+			myCountMin 1
+			myCountMax 1
+			myIgnoreNavMesh TRUE
+			myEntityFile "onward/entity templates/pickup_electrum_infused_03.mentitytemplate"
+			myRealizeOnDetach TRUE
+			myAttachOffset 0.0;4.0;0.0
+		}
+	}
+	mySaveable FALSE
+	myIsValidPickupTarget FALSE
+	myIconSprite "mySpriteId = 449391795, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-inventory-cores-and-nova.spritesheet\""
+	myMissionTargetTexture onward/baked/textures/UI/icons/outpost_targets/outpost_target_sim_unit/ui-icon-outpost-target-gravity-nova-ruin.dds
+}
+

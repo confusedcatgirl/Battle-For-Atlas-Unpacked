@@ -1,0 +1,71 @@
+include ./harvester_drake_base.mnpc
+
+NPC harvester_drake_elite < uid=6D25F4C6593841280078CA6AEDC040A9 > : harvester_drake_base
+{
+	myUIName "contextComment = \"The UI Name for the Drake Elite\", description = \"uiname-harvester-drake-elite\", enabled = true, guid = #6D25F4C6593841280078CA69B04580A3, lineVersion = 0, maxLength = 14, text = \"Drake Elite\""
+	myUIName_NonLocalized "Drake Elite"
+	myGraphObjectFile "onward/graph objects/character/harvester_drake_elite.mgraphobject"
+	myBehavior "onward/game system data/juice/ai/behavior/harvester_drake_elite.mbehavior"
+	myHealthConfig < uid=4A8282B959F8E87500001DDAA64A2D2E > = "harvester_drake_elite Health"
+	myAbilityDefinitions
+	{
+		NPCAbilityDefinition Gatling
+		{
+			myGameAction NPC_Ability1
+			mySkillScript < uid=6D25F4C65A7E254E000281196A115E1F > = npc_ability_harvester_drake_gatling
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_harvester_drake_gatling.juice"
+			myEnabled TRUE
+		}
+		NPCAbilityDefinition "Homing Missiles"
+		{
+			myGameAction NPC_Ability2
+			mySkillScript < uid=6D25F4C65A7E254E0002811A87E05365 > = npc_ability_homing_missile
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_homing_missiles.juice"
+			myEnabled FALSE
+		}
+		NPCAbilityDefinition Laser
+		{
+			myGameAction NPC_Ability3
+			mySkillScript < uid=6D25F4C65A7E254E0002811B4FBE4A27 > = npc_ability_laser
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_sunder_beam.juice"
+			myEnabled TRUE
+		}
+		NPCAbilityDefinition "HyperDrive Jammer"
+		{
+			myGameAction NPC_Ability10
+			mySkillScript < uid=6D25F4C65A7E254E0002811C5C05418B > = npc_ability_hyperdrive_jammer
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_hyperdrive_jammer.juice"
+			myEnabled TRUE
+		}
+		NPCAbilityDefinition "Heavy Gatling"
+		{
+			myGameAction NPC_Ability4
+			mySkillScript < uid=6D25F4C65A7E254E0002811DBC040DB2 > = npc_ability_outlaw_heavy_gatling
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_outlaw_heavy_gatling.juice"
+			myEnabled FALSE
+		}
+	}
+	myAttributeSettings "onward/game system data/juice/ai/attributes/harvester_drake_elite.juice"
+	myCrowdControlAttributeSettings "onward/game system data/juice/ai/attributes/crowd control tiers/npc_cc_tier4.juice"
+	myPatternProfile < uid=6D25F4C659385BF9040770448646A356 > = "Harvester Drake Elite"
+	myDefaultMotionPattern < uid=6D25F4C659385BF904077045FF1ADA8F > = "Harvester Drake Elite Default"
+	myNPCType Harvester_Drake_Elite
+	myAnimSystemType Harvester_Drake
+	myThreatLevel 13.0
+	myAIVisionConeTypeName DrakeEliteVisionCone
+	myIsInteractable TRUE
+	myIsScannable FALSE
+	myIsPluckable TRUE
+	myInteractDistance 300.0
+	myInteractableCustomType Capture
+	myPluckableConfig "onward/game system data/juice/interact/pluckable_capture_elitedrake.juice"
+	myHitReactionRules "onward/game system data/juice/ai/reactions/reaction_rules_npc_drake_elite.juice"
+	myOnDeathChallenge Death_DrakeElite
+	myOnDiscoveredChallenge Discover_DrakeElite
+}
+

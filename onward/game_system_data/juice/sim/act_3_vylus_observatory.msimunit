@@ -1,0 +1,14 @@
+include ./prospector_defense_base.msimunit
+
+SimUnit act_3_vylus_observatory < uid=9FD9E81859DD0E42000001E366A6CD14 > : prospector_defense_base
+{
+	myUIName "contextComment = \"The UI name for the Prospector Mining Center\", description = \"uiname-prospector-mining-center\", enabled = true, guid = #9FD9E8185A316E70000022EC33D58AAE, lineVersion = 1, maxLength = 17, text = \"Act 3 Outpost\""
+	myBehavior onward/simworld/behavior/outlaw_outpost.msimunitbtgraph
+	myFaction Resistance
+	mySubCategoryVariant 3
+	myUnkillable FALSE
+	myUnkillableType Invulnerable
+	myUnkillableUntilEvent Act03_ReplaceGallasRefinery
+	myBlockUnAllyUntilEvent Act04
+}
+

@@ -1,0 +1,29 @@
+include ./fauna_base.msimunit
+
+SimUnit fauna_16 < uid=D1E9B2CB58332252000000CD31CF5AEA > : fauna_base
+{
+	myUIName "contextComment = \"The UI name for Fauna 16\", description = \"uiname-fauna-16\", enabled = true, guid = #1ABBD50B58B48B37000584A28BC38FCA, lineVersion = 0, maxLength = 13, text = \"Manylegs\""
+	myBehavior onward/simworld/behavior/fauna_major.msimunitbtgraph
+	mySubCategory Fauna_01
+	mySubCategoryVariant 16
+	myRadius 12.0
+	mySpeed 7.0
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo "Level 0"
+		{
+			myCountMin 1
+			myCountMax 1
+			myEntitySize 12.0
+			myElementSpawnInfo
+			{
+				SimUnitElementSpawnInfo Herd
+				{
+					myEntityFile "onward/game system data/juice/ai/npc/fauna_16.mnpc"
+				}
+			}
+		}
+	}
+	mySpawnAttachedSimUnit ./pickup_fauna_sample_fauna_16.msimunit
+}
+

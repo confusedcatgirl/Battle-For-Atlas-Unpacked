@@ -1,0 +1,24 @@
+include ./statuseffects_includes.juice
+
+StatusEffect Sunder < uid=F2C5C6925798FCB20000003445D753FA >
+{
+	myResetTypes
+	{
+		StatusEffectType Chill Chill
+		StatusEffectType Freeze Freeze
+		StatusEffectType Lift Stasis
+		StatusEffectType Overload StasisOverload
+		StatusEffectType Gravity Gravity
+	}
+	myWorldReaction < uid=C308E4DB590C95640037B10F667D375D >
+	{
+		myRequiresStatusEffectReaction TRUE
+		myRequiredStatusEffectReactionType Freeze
+		myDuration 0.1
+		myUninterruptibleDurationOnActivation 0.0
+		myInvincibilityDurationOnDeactivation 0.0
+		mySkillScript onward/skillscripts/world_reaction_sunder.mskillscriptjuice
+	}
+	myWorldReactionTemplate "onward/entity templates/manifestation_sunder.mentitytemplate"
+}
+

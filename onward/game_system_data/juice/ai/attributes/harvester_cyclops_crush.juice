@@ -1,0 +1,132 @@
+include ./base_npc.juice
+
+Attributes "Inherited Resistances" = "Base Resistances"
+
+Attributes "Inherited Shatter Values" = "Base Shatter Values"
+
+Attributes General
+{
+	Attribute "Air Target Height Threshold"
+	{
+		myType NPC_UserData1
+		myValue 10.0
+		myComment "Distance from ground at which a target is considered an \"air target\""
+	}
+}
+
+Attributes Leap
+{
+	Attribute Cooldown
+	{
+		myType NPC_Cooldown3
+		myValue 1.0
+	}
+	Attribute "Impact Damage"
+	{
+		myType NPC_Damage3
+		myValue 4000.0
+	}
+	Attribute "Stagger Time"
+	{
+		myType NPC_UserData4
+		myValue 3.0
+	}
+	Attribute "Stagger Event Emit Range"
+	{
+		myType NPC_MaxRange3
+		myValue 150.0
+	}
+	Attribute "Trigger Range"
+	{
+		myType Range2
+		myValue 125.0
+		myComment "Distance from target that will trigger a leap"
+	}
+	Attribute "Black Hole Cooldown"
+	{
+		myType Cooldown
+		myValue 30.0
+	}
+}
+
+Attributes "Knock Back"
+{
+	Attribute Damage
+	{
+		myType NPC_Damage4
+		myValue 3000.0
+	}
+	Attribute Range
+	{
+		myType NPC_MaxRange4
+		myValue 85.0
+	}
+}
+
+Attributes "Knock Back (Extreme Close)"
+{
+	Attribute Damage
+	{
+		myType NPC_Damage2
+		myValue 3000.0
+	}
+	Attribute Range
+	{
+		myType NPC_MaxRange2
+		myValue 35.0
+	}
+}
+
+Attributes Affinity
+{
+	Attribute "Activation Damage Radius"
+	{
+		myType NPC_MaxRange1
+		myValue 50.0
+	}
+	Attribute "Activation Damage"
+	{
+		myType NPC_Damage1
+		myValue 300.0
+	}
+	Attribute "Activation Status Effect Amount"
+	{
+		myType NPC_UserData5
+		myValue 10.0
+	}
+	Attribute "Aura Radius"
+	{
+		myType NPC_MaxRange5
+		myValue 25.0
+	}
+	Attribute "Aura Status Effect Amount"
+	{
+		myType NPC_Damage5
+		myValue 0.5
+	}
+	Attribute "Exit Exhaustion Duration"
+	{
+		myType NPC_Duration1
+		myValue 5.0
+	}
+	Attribute "Aura Pulse Frequency"
+	{
+		myType NPC_RateOfFire1
+		myValue 1.0
+	}
+}
+
+Attributes "Leap Black Hole"
+{
+	Attribute Radius
+	{
+		myType Range
+		myValue 60.0
+	}
+	Attribute Lifetime
+	{
+		myType NPC_Duration2
+		myValue 10.0
+	}
+}
+

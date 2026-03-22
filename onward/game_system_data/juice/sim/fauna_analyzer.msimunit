@@ -1,0 +1,28 @@
+include ./expedition_pickup01.msimunit
+
+SimUnit fauna_analyzer < uid=4A79E0E45942E7BC000001BF38898EDB > : expedition_pickup01
+{
+	myUIName "contextComment = \"Pickup used to scan fauna for the expedition\", description = \"Fauna Analyzer\", enabled = true, guid = #4A79E0E459D254720000003CA8A8CCCE, lineVersion = 0, maxLength = 18, text = \"Fauna Analyzer\""
+	myControlGraph onward/simworld/control/fauna_analyzer.msimunitcontrolgraph
+	myFaction Expedition
+	mySubCategory FaunaAnalyzer
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo InteractablePickup < uid=4A79E0E4594A72B50000004B8811B7D0 >
+		{
+			myCountMin 1
+			myCountMax 1
+			myEntityFile "onward/entity templates/entity_analyzer.mentitytemplate"
+		}
+	}
+	myIsValidPickupTarget FALSE
+	mySelfDestructAfterUnrealized TRUE
+	myInterestSettings
+	{
+		myIsEnabled TRUE
+		myShouldLockValidTarget TRUE
+	}
+	myIconSprite "mySpriteId = 1119123868, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-inventory-metals-and-goldrush.spritesheet\""
+	myMissionTargetTexture onward/baked/textures/UI/icons/outpost_targets/outpost_target_sim_unit/ui-icon-outpost-target-goldrush-fauna-analyzer.dds
+}
+

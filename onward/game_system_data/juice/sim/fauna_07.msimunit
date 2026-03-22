@@ -1,0 +1,44 @@
+include ./fauna_base.msimunit
+
+SimUnit fauna_07 < uid=C92F4D3F5730AFC1000000955F7827A0 > : fauna_base
+{
+	myUIName "contextComment = \"The UI name for Fauna 07\", description = \"uiname-fauna-07\", enabled = true, guid = #1ABBD50B58B48A450005605514B0CF23, lineVersion = 0, maxLength = 14, text = \"Vibrosaur\""
+	myBehavior onward/simworld/behavior/simworld_fauna_default.msimunitbtgraph
+	mySubCategory Fauna_03
+	mySubCategoryVariant 7
+	myRadius 12.0
+	mySpeed 7.0
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo "Level 0"
+		{
+			myCountMin 1
+			myCountMax 1
+			myEntitySize 6.0
+			myElementSpawnInfo
+			{
+				SimUnitElementSpawnInfo Herd
+				{
+					myEntityFile "onward/game system data/juice/ai/npc/fauna_07.mnpc"
+					myLevelMin 0
+					myLevelMax 1
+				}
+			}
+		}
+		SimUnitEntitySpawnInfo "Level  1"
+		{
+			myCountMin 1
+			myCountMax 2
+			myEntitySize 6.0
+			myElementSpawnInfo
+			{
+				SimUnitElementSpawnInfo Herd
+				{
+					myEntityFile "onward/game system data/juice/ai/npc/fauna_07.mnpc"
+					myLevelMin 2
+				}
+			}
+		}
+	}
+}
+

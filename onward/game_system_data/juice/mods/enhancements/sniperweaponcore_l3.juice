@@ -1,0 +1,29 @@
+include "onward/game system data/juice/mods/mod_sniper_weaponcore_l3.mplayermod"
+include ./templates/template_l3.juice
+include ./damageaffectors/damage_affectors.juice
+
+Enhancement sniperweaponcore_l3 < uid=C91BB5515980DCEB007D17ECFE4FEB12 > : "Level 3"
+{
+	myLocalizedName "contextComment = \"[Placeholder - do not translate]\nName for level 3 version of Sniper weapon core that extends range & lets players deal extra damage for aiming precisely\", description = \"\", enabled = true, guid = #C91BB5515980DCEB007D17EBE4213628, lineVersion = 2, maxLength = 20, text = \"Expert Ammo III\""
+	myLocalizedDescription "contextComment = \"[Placeholder - do not translate]\nDescription for level 3 version of Sniper weapon core that extends range & lets players deal extra damage for aiming precisely\", description = \"enhancement-description-sniper-weapon-core-3\", enabled = true, guid = #9E6AFEDA59D808DF000000E17BE994D0, lineVersion = 2, maxLength = 91, text = \"+60% Damage\n+20% Precision Damage\n+Chance to Stun with Precision Shots\""
+	myIconSprite "mySpriteId = 44735081, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-mods-weapon-core.spritesheet\""
+	myMod < uid=C91BB5515980DCEB007D17ED8C281BBF > = mod_sniper_weaponcore_l3
+	myBuff < uid=C91BB5515980DCEB007D17EEE44A314A > = NULLREFERENCE
+	myEnhancementType WeaponCore
+	myEnhancementTrackType SniperWeaponCore
+	myDamageAffectors
+	{
+		DamageAffector_BodyPartStun "Headshot Stun"
+		{
+			myBodyPart Head
+			myChanceToStunPerDamage = Sniper_WeaponCore_l3_DmgToStun
+			myStunTime 2.0
+		}
+		DamageAffector_BodyPart "Headshot Damage"
+		{
+			myDamageMultiplier = Sniper_WeaponCore_l3_PrecisionDamage
+			myBodyPart Head
+		}
+	}
+}
+

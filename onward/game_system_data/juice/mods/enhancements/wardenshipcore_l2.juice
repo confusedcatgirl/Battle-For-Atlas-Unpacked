@@ -1,0 +1,23 @@
+include ./templates/template_l2.juice
+include "onward/game system data/juice/mods/mod_warden_shipcore_l2.mplayermod"
+include "onward/game system data/juice/buffs/buff_warden_shipcore_l2.mbuff"
+
+Enhancement wardenshipcore_l2 < uid=C91BB551597F63950000008FC6218762 > : "Level 2"
+{
+	myLocalizedName "contextComment = \"[Placeholder - do not translate]\nName for level 2 version of a Ship Core from the ancient Wardens who created the Legion, which can interfere with Legion units (stunning or, at max level, turning them to your side)\", description = \"\", enabled = true, guid = #C91BB551597F63950000008E31A57679, lineVersion = 1, maxLength = 30, text = \"Warden Core II\""
+	myLocalizedDescription "contextComment = \"[Placeholder - do not translate]\nDescription for level 2 version of a Ship Core from the ancient Wardens who created the Legion, which can interfere with Legion units (stunning or, at max level, turning them to your side)\", description = \"enhancement-description-warden-ship-core-2\", enabled = true, guid = #A557A3A26B7F463A8C847B10F2619C47, lineVersion = 1, maxLength = 66, text = \"+45 Energy\n+25% Damage for 5s after Elemental Combo\""
+	myIconSprite "mySpriteId = 830671703, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-mods-ship-core.spritesheet\""
+	myIsHullEnhancement TRUE
+	myMod < uid=C91BB551597F639500000090DF742E3B > = mod_warden_shipcore_l2
+	myEnhancementType ShipCore
+	myEnhancementTrackType WardenShipCore
+	myDamageAffectors
+	{
+		DamageAffector_RecentCombo "Combo Damage"
+		{
+			myDamageMultiplier = Warden_Core_l2_ComboDamage
+			myDamageBoostTime 5.0
+		}
+	}
+}
+

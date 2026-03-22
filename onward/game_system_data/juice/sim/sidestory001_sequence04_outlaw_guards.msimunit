@@ -1,0 +1,33 @@
+include "onward/game system data/fruit/sim/simunit.fruit"
+
+SimUnit sidestory001_sequence04_outlaw_guards < uid=0A13A8F05B1696D000084FC2B09F4CBE >
+{
+	myUIName "contextComment = \"The UI Name for the outlaw defender \", description = \"uiname-outlaw-defender-ground\", enabled = true, guid = #0A13A8F05B1696D000084FC15728E0FF, lineVersion = 0, maxLength = 20, text = \"Outlaw Defender\""
+	myBehavior onward/simworld/behavior/generic_reinforcement.msimunitbtgraph
+	myFaction Outlaw
+	myCategory NPC
+	mySubCategory Defender
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo "Legion Defender" < uid=0A13A8F05B1696D000084FC3E5BBD0D6 >
+		{
+			myCountMin 3
+			myCountMax 3
+			myElementSpawnInfo
+			{
+				SimUnitElementSpawnInfo outlaw_defender_ground
+				{
+					myEntityFile "onward/game system data/juice/ai/npc/harvester_cyclops_generic.mnpc"
+				}
+			}
+		}
+	}
+	mySkillLevelCoefficients
+	{
+		myPlanetActMultiplier 0
+		myParentLevelMultiplier 0
+		myParentSkillLevelMultiplier 1
+		myUnitLevelMultiplier 0
+	}
+}
+

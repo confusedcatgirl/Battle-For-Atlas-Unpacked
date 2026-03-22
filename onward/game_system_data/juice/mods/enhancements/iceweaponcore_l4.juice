@@ -1,0 +1,28 @@
+include ./templates/template_l4.juice
+include "onward/game system data/juice/mods/mod_ice_weaponcore_l4.mplayermod"
+include ./damageaffectors/damage_affectors.juice
+
+Enhancement iceweaponcore_l4 < uid=C91BB5515982276F000883D38E8963A7 > : "Level 4"
+{
+	myLocalizedName "contextComment = \"[Placeholder - do not translate]\nName for level 4 version of Ice Weapon Core, which boosts the effectiveness of Cold-type weapons (Freeze/Chill)\", description = \"\", enabled = true, guid = #C91BB5515982276F000883D2494FC8A0, lineVersion = 2, maxLength = 17, text = \"Frost Ammo IV\""
+	myLocalizedDescription "contextComment = \"Placeholder - do not translate]\nDescription for level 4 version of Ice Weapon Core, which greatly boosts damage output, especially against targets with cold status effects, and reduces energy cost.\", description = \"enhancement-description-ice-weapon-core-4\", enabled = true, guid = #9E6AFEDA59D2746400000058C9F2E383, lineVersion = 3, maxLength = 153, text = \"+75% Damage\n+25% Damage to Chilled targets\n-25% Energy Cost\nFreeze can cause Shatter Combo\nEquipd on Cold type weapons\""
+	myIconSprite "mySpriteId = 1949626062, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-mods-weapon-core.spritesheet\""
+	myPartFlavor Cold
+	myMod < uid=C91BB5515982276F000883D4F6191132 > = mod_ice_weaponcore_l4
+	myEnhancementType WeaponCore
+	myEnhancementTrackType IceWeaponCore
+	myDamageAffectors
+	{
+		DamageAffector_StatusEffect "Extra Damage"
+		{
+			myDamageMultiplier = Ice_WeaponCore_l4_ChilledDmg
+			myStatusEffectType Chill
+			myStatusEffectTypes
+			{
+				StatusEffectType Chill Chill
+				StatusEffectType Freeze Freeze
+			}
+		}
+	}
+}
+

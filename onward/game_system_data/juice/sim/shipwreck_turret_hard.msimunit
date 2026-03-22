@@ -1,0 +1,31 @@
+include ./shipwreck_turret.msimunit
+
+SimUnit shipwreck_turret_hard < uid=93869D535BCCC4C200020AC5240866E4 > : shipwreck_turret
+{
+	myUIName "contextComment = \"UI name for hard difficulty outlaw turrets that player encounters around outlaw fortifications\", description = \"ui-target-outlaw-fortification-turret-hard\", enabled = true, guid = #93869D535BCCC4C200020AC4C8AF815B, lineVersion = 1, maxLength = 14, text = \"Hard Turret\""
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo turret < uid=93869D535BCCC4C200020AC654EECCFE >
+		{
+			myCountMin 1
+			myCountMax 1
+			myEntitySize 4.0
+			myIgnoreNavMesh TRUE
+			myIgnoreTerrain FALSE
+			myEntityFile ""
+			myElementSpawnInfo
+			{
+				SimUnitElementSpawnInfo turret
+				{
+					myEntityFile "onward/game system data/juice/ai/npc/shipwreck_turret_hard.mnpc"
+				}
+			}
+		}
+	}
+	mySkillLevelCoefficients
+	{
+		myPlanetActMultiplier 1
+		myParentSkillLevelMultiplier 0
+	}
+}
+

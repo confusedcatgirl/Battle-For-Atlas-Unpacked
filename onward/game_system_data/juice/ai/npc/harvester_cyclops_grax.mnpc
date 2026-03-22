@@ -1,0 +1,145 @@
+include onward/skillscripts/npc_ability_harvester_cyclops_grax_flamewave.mskillscriptjuice
+include onward/skillscripts/harvester_cyclops_grax_monitor_shield.mskillscriptjuice
+include onward/skillscripts/npc_ability_harvester_cyclops_grax_volley.mskillscriptjuice
+include onward/skillscripts/npc_ability_harvester_cyclops_grax_blade_rush.mskillscriptjuice
+include onward/skillscripts/harvester_cyclops_grax_affinity_shield.mskillscriptjuice
+include onward/skillscripts/npc_ability_harvester_cyclops_grax_bullet_hell.mskillscriptjuice
+include ./harvester_cyclops_base.mnpc
+include onward/skillscripts/npc_ability_harvester_grax_flame_barrage.mskillscriptjuice
+include onward/skillscripts/npc_ability_harvester_cyclops_grax_affinity_blast.mskillscriptjuice
+include onward/skillscripts/npc_controller_context_harvester_cyclops_grax_dead.mskillscriptjuice
+include onward/skillscripts/npc_controller_context_harvester_cyclops_grax_stunned.mskillscriptjuice
+
+NPC harvester_cyclops_grax < uid=4A8282B959C27C2000422CCAF744D364 > : harvester_cyclops_base
+{
+	myUIName "contextComment = \"The UI Name for the Scion\", description = \"uiname-harvester-scion\", enabled = true, guid = #93869D535AB14EE200001CEE1E094590, lineVersion = 0, maxLength = 8, text = \"Scion\""
+	myUIName_NonLocalized Grax
+	myGraphObjectFile "onward/graph objects/character/harvester_19.mgraphobject"
+	myBehavior "onward/game system data/juice/ai/behavior/harvester_grax.mbehavior"
+	myGibSettings
+	{
+		myLifetime 10.0
+		myInitialSpeed 40.0
+	}
+	myHealthConfig < uid=4A8282B959F8E80C00001DCE5E490E9E > = "harvester_cyclops_grax Health"
+	myIsInvulnerable TRUE
+	myDeathSettings
+	{
+		myDeathCullTime 0.0
+		myEventDeathCullTime 0.0
+		myWaitForEvent TRUE
+	}
+	myFreezeReaction < uid=4A8282B959CA8417000001A846B56094 > = Grax_Cyclops_Freeze
+	myStasisReaction < uid=4A8282B959CA8417000001A9CA92730B > = Grax_Cyclops_Stasis
+	myAbilityDefinitions
+	{
+		NPCAbilityDefinition "Blade Rush"
+		{
+			myGameAction NPC_Ability1
+			mySkillScript < uid=4A8282B959C27C2000422CCB733DD23F > = npc_ability_harvester_cyclops_grax_blade_rush
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_harvester_cyclops_grax_blade_rush.juice"
+		}
+		NPCAbilityDefinition "Fire Volley"
+		{
+			myGameAction NPC_Ability2
+			mySkillScript < uid=4A8282B959C3EA7300EBC5F9A527FDC5 > = npc_ability_harvester_cyclops_grax_volley
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_harvester_cyclops_grax_fire_volley.juice"
+		}
+		NPCAbilityDefinition "Flame Wave"
+		{
+			myGameAction NPC_Ability3
+			mySkillScript < uid=4A8282B959C27C2000422CCD2D7D39BE > = npc_ability_harvester_cyclops_grax_flamewave
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_harvester_cyclops_grax_flame_wave.juice"
+		}
+		NPCAbilityDefinition "Ice Volley"
+		{
+			myGameAction NPC_Ability4
+			mySkillScript < uid=4A8282B959C3EA7300EBC5FAC10B0CC3 > = npc_ability_harvester_cyclops_grax_volley
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_harvester_cyclops_grax_ice_volley.juice"
+		}
+		NPCAbilityDefinition "Crush Volley"
+		{
+			myGameAction NPC_Ability5
+			mySkillScript < uid=4A8282B959C3EA7300EBC5FB560BAEEE > = npc_ability_harvester_cyclops_grax_volley
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_harvester_cyclops_grax_crush_volley.juice"
+		}
+		NPCAbilityDefinition "Bullet Hell"
+		{
+			myGameAction NPC_Ability6
+			mySkillScript < uid=4A8282B959CA7E5C0000024ED7A18A18 > = npc_ability_harvester_cyclops_grax_bullet_hell
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_harvester_cyclops_grax_bullet_hell.juice"
+		}
+		NPCAbilityDefinition "Flame Barrage"
+		{
+			myGameAction NPC_Ability7
+			mySkillScript < uid=4A8282B95A5F9D7C0058CEAA4FE8D1E0 > = npc_ability_harvester_grax_flame_barrage
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_harvester_cyclops_grax_flame_barrage.juice"
+		}
+		NPCAbilityDefinition "Affinity Blast"
+		{
+			myGameAction NPC_Ability8
+			mySkillScript < uid=4A8282B95A663A0D00C1AC423005A571 > = npc_ability_harvester_cyclops_grax_affinity_blast
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_harvester_cyclops_grax_affinity_blast.juice"
+		}
+	}
+	myControllerContextDefinitions
+	{
+		ControllerContextDefinition Dead
+		{
+			myContextType Dead
+			mySkillScript < uid=4A8282B95A9476A30025127A3AF2FB8A > = npc_controller_context_harvester_cyclops_grax_dead
+		}
+		ControllerContextDefinition Stunned
+		{
+			myContextType Stunned
+			mySkillScript < uid=4A8282B95AB5463500B668E68CA38070 > = npc_controller_context_harvester_cyclops_grax_stunned
+		}
+	}
+	myPersistentScripts
+	{
+		SkillScript "Monitor Shield" < uid=4A8282B959C2DB8D004723DDA03DC9D0 > = harvester_cyclops_grax_monitor_shield
+		SkillScript "Affinity Shield" < uid=4A8282B959C9269C00000249489C7F1F > = harvester_cyclops_grax_affinity_shield
+	}
+	myAttributeSettings "onward/game system data/juice/ai/attributes/harvester_cyclops_grax.juice"
+	myCrowdControlAttributeSettings "onward/game system data/juice/ai/attributes/crowd control tiers/npc_cc_tier6.juice"
+	myDropTableOnDeath Kill_Scion_Drop_Table
+	myDropTableOnAffinityWeaknessDeathId Kill_Scion_Drop_Table
+	myDropTableOnDamage ""
+	myAwarenessDistance 1600.0
+	myMass 4000.0
+	myPhysicsCapsuleHeight 24.0
+	myPhysicsSupportHeight -23.0
+	myPhysicsCapsuleRadius 12.0
+	myPhysicsSnapToGround FALSE
+	myIsAffectedByGravity FALSE
+	myNeedsGroundToSteer FALSE
+	myNeedsGroundToMove FALSE
+	myUseNavMeshForMovement FALSE
+	myCollisionSoundPreset < uid=4A8282B959C27C2000422CCEFC731086 > = "Character Metal Sound"
+	myPatternProfile < uid=4A8282B959C27C2000422CCF6142891D > = "Harvester Grax"
+	myDefaultMotionPattern < uid=4A8282B959C27C2000422CD028C491CD > = "Harvester Cyclops Grax Default"
+	myAvoidanceRadius 12.0
+	myNPCFaction Harvester
+	myNPCType Harvester_Cyclops_Grax
+	myAnimSystemType Harvester_Grax
+	myLeggedness Biped
+	myBaseThreatProfile
+	{
+		myDeAggroRange 1600.0
+		myThreatPropagationRange 150.0
+		myMediumRange 150.0
+		myLongRange 300.0
+		myCloseRangeBaseThreat 100.0
+		myMediumRangeBaseThreat 1000.0
+		myLongRangeBaseThreat 400.0
+	}
+	myAIVisionConeTypeName LegionAlphaCone
+	myLeftFootstepEffectFile "onward/graph objects/effect/effect_cyclops_footstep.mgraphobject"
+	myRightFootstepEffectFile "onward/graph objects/effect/effect_cyclops_footstep.mgraphobject"
+	myHitReactionRules "onward/game system data/juice/ai/reactions/reaction_rules_npc_cyclops_grax.juice"
+	myConstructionDuration 0.0
+	myDefaultNavigationType Ground
+	myPreWorldEntrySkillScript < uid=4A8282B95A78D7BF014F31D2BB9624E8 > = NULLREFERENCE
+}
+

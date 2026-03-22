@@ -1,0 +1,27 @@
+include ./prospector_worker.msimunit
+include ./prospector_defender.msimunit
+
+SimUnit prospector_defender_elite < uid=93869D535AB50E2500001CF48B52F264 > : "Prospector Defender"
+{
+	myUIName "contextComment = \"The UI name for the Prospector Defender which constructs new bases\", description = \"uiname-prospector-defender-elite\", enabled = true, guid = #93869D535AB50E5600001CFA6878FCA2, lineVersion = 0, maxLength = 32, text = \"Prospector Defender Elite\""
+	myBehavior onward/simworld/behavior/prospector_worker_elite.msimunitbtgraph
+	mySubCategory Defender
+	mySubCategoryVariant 1
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo Defender < uid=93869D535AB50FCC00001D36A00D13D3 >
+		{
+			myCountMin 1
+			myCountMax 2
+			myEntityFile "onward/game system data/juice/ai/npc/prospector_defender_elite.mnpc"
+		}
+	}
+	mySkillLevelCoefficients
+	{
+		myPlanetActMultiplier 1
+		myParentLevelMultiplier 0
+		myParentSkillLevelMultiplier 0
+		myBaseLevel 10
+	}
+}
+

@@ -1,0 +1,43 @@
+include "onward/game system data/fruit/ai/motion/motioncommon.fruit"
+
+class MotionStyleMode
+{
+	bool myEnabled true
+	
+	SpeedMode mySpeedMode NotSet
+	
+	float myMinScaledSpeed 0.2f < tooltip="If desired speed is greater than MinBaseSpeed, animation length scaling will be applied as a function of MinBaseSpeed  / Max(desiredSpeed, MinScaledSpeed)" >
+	float myMinBaseSpeed 0.2f < tooltip="No animation length scaling will be applied if the desired speed is between MinBaseSpeed and MaxBaseSpeed, inclusive." >
+	float myMaxBaseSpeed 0.2f < tooltip="No animation length scaling will be applied if the desired speed is between MinBaseSpeed and MaxBaseSpeed, inclusive." >
+	float myMaxScaledSpeed 0.2f < tooltip="If desired speed is greater than MaxBaseSpeed, animation length scaling will be applied as a function of MaxBaseSpeed  / Min(desiredSpeed, MaxScaledSpeed)" >
+}
+
+list MotionStyleModeList
+{
+	MotionStyleMode
+}
+
+class MotionStyle
+{
+	bool myEnabled true
+	
+	MoveStyle myStyle Default
+	
+	// ONWARD: Not Implemented
+	//bool myInCombat true
+	//bool myOutOfCombat true
+	
+	//bool myCanAim false
+	bool myCanStrafe false
+	
+	//bool myCanJump false
+	
+	//bool myCanDrop false
+	
+	MotionStyleModeList myModes
+}
+
+list MotionStyleList
+{
+	MotionStyle
+}

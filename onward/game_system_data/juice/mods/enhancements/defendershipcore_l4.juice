@@ -1,0 +1,24 @@
+include ./templates/template_l4.juice
+include "onward/game system data/juice/mods/mod_defender_shipcore_l4.mplayermod"
+include "onward/game system data/juice/buffs/buff_commander_shipcore_group_repair.mbuff"
+
+Enhancement defendershipcore_l4 < uid=C91BB551597F4CC2007FB5994E3370F2 > : "Level 4"
+{
+	myLocalizedName "contextComment = \"[Placeholder - do not translate]\nName for level 4 version of a Ship Core that (ultimately) boosts the ship's weapon energy, reduces weapon recoil, makes it easier to target enemies, and provides damage reduction to nearby foes.\", description = \"\", enabled = true, guid = #C91BB551597F4CC2007FB5981C25C37E, lineVersion = 2, maxLength = 16, text = \"Tank Core IV\"}"
+	myLocalizedDescription "contextComment = \"[Placeholder - do not translate]\nDescription for level 4 version of a Ship Core that (ultimately) boosts the ship's weapon energy, reduces weapon recoil, makes it easier to target enemies, and provides damage reduction to nearby foes.\", description = \"enhancement-description-defender-ship-core-4\", enabled = true, guid = #7D237B7A14C94FAD926E70D905630127, lineVersion = 1, maxLength = 173, text = \"+75% Pilot Ability charge speed\n+100 health on successful Parry\n+20% Resistance to nearby allies\n+ Group Repair\n+50% recoil stability\"}"
+	myIconSprite "mySpriteId = -1271352873, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-mods-ship-core.spritesheet\""
+	myIsHullEnhancement TRUE
+	myMod < uid=C91BB551597F4DEC007FB607402A11EA > = mod_defender_shipcore_l4
+	myBuff < uid=939A35415AB2D2A500001CBDF8040AF4 > = buff_commander_shipcore_group_repair
+	myEnhancementType ShipCore
+	myEnhancementTrackType DefenderShipCore
+	myDamageAffectors
+	{
+		DamageAffector_FriendlyDamageResistance "Allies Resistance"
+		{
+			myDamageMultiplier = Defender_Core_l4_AllyResist
+			myDistanceThreshold 500.0
+		}
+	}
+}
+

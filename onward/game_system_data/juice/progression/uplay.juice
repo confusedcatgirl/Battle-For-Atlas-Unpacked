@@ -1,0 +1,934 @@
+include "onward/game system data/fruit/progression/challenges.fruit"
+include "onward/game system data/fruit/progression/reward_definitions.fruit"
+include "onward/game system data/juice/mods/enhancements/fightershipcore_l3.juice"
+include "onward/game system data/juice/mods/enhancements/explorerarmour_l3.juice"
+include "onward/game system data/juice/mods/enhancements/operatorweaponcore_l3.juice"
+include "onward/game system data/juice/mods/enhancements/sniperweaponcore_l3.juice"
+include "onward/game system data/juice/mods/enhancements/stuntshipcore_l3.juice"
+include "onward/game system data/juice/mods/enhancements/stasisarmour_l3.juice"
+include "onward/game system data/juice/mods/enhancements/fireweaponcore_l3.juice"
+include "onward/game system data/juice/mods/enhancements/iceweaponcore_l3.juice"
+include "onward/game system data/juice/mods/enhancements/commandershipcore_l3.juice"
+include "onward/game system data/juice/mods/enhancements/templararmour_l3.juice"
+include "onward/game system data/juice/mods/enhancements/revenantweaponcore_l3.juice"
+include "onward/game system data/juice/mods/enhancements/gunnerweaponcore_l3.juice"
+include "onward/game system data/juice/mods/enhancements/wardenarmour_l3.juice"
+include "onward/game system data/juice/mods/enhancements/wardenshipcore_l3.juice"
+include "onward/game system data/juice/mods/enhancements/wardenweaponcore_l3.juice"
+include "onward/game system data/juice/mods/enhancements/wardenshipmod_l3.juice"
+include "onward/game system data/juice/mods/enhancements/wardenweaponmod_l3.juice"
+include "onward/game system data/juice/mods/enhancements/deflectionarmour_l1.juice"
+include "onward/game system data/juice/mods/enhancements/novashipcore_l3.juice"
+include "onward/game system data/juice/mods/enhancements/deflectionarmour_l2.juice"
+
+UPlayUIDList "UPlay Main Space"
+{
+	string fdaca4db-f2b7-43bd-b053-84277f69474c fdaca4db-f2b7-43bd-b053-84277f69474c
+}
+
+UPlayUIDList "UPlay Spaces"
+{
+	string 5d2824a5-0a76-4aa2-b68d-6fd707bb1121 5d2824a5-0a76-4aa2-b68d-6fd707bb1121
+	string 7fd17051-9e0a-4a78-af68-6f2d396acf25 7fd17051-9e0a-4a78-af68-6f2d396acf25
+	string 8f4f104c-e189-495d-8364-824ed42ee980 8f4f104c-e189-495d-8364-824ed42ee980
+	string e53eab0d-dade-49c3-9d74-0011ca3fa1eb e53eab0d-dade-49c3-9d74-0011ca3fa1eb
+}
+
+UPlayReward "[UPlay Reward] Currency Pack"
+{
+	myTGOName ONWREWARD01
+	myNameSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A94227D00001B34982FD4EC, lineVersion = 0, maxLength = 25, text = \"Welcome to Starlink\""
+	myDescriptionSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A94227D00001B35A24A43F8, lineVersion = 0, maxLength = 17, text = \"Welcome Bonus\""
+	myInstructionSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A94227D00001B3657496163, lineVersion = 0, maxLength = 52, text = \"Spend this wherever electrum is accepted\""
+	myConditionSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A94227D00001B37194B52F9, lineVersion = 0, maxLength = 6, text = \"Free\""
+	myRewards
+	{
+		ProgressionRewardPoints Points < uid=C308E4DB5A94402100001B34F1C57F80 >
+		{
+			myAmount 10000
+			myReason UPlay
+		}
+		ProgressionRewardEnhancement "Deflection Armor I" < uid=9E6AFEDA5AC6D692000C07038898225C >
+		{
+			myEnhancement < uid=9E6AFEDA5AC6D692000C070450EDC606 > = deflectionarmour_l2
+			myReason UPlay
+		}
+	}
+}
+
+UPlayReward "[UPlay Reward] Theme"
+{
+	myTGOName ONWREWARD02
+	myNameSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A9422E600001B40566FB3EF, lineVersion = 0, maxLength = 17, text = \"Welcome Theme\""
+	myDescriptionSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A9422E600001B4168E1D122, lineVersion = 0, maxLength = 26, text = \"Background Wallpaper\""
+	myInstructionSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A9422E600001B42C3466E1D, lineVersion = 0, maxLength = 29, text = \"Change your background\""
+	myConditionSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A9422E600001B43757D2C1F, lineVersion = 0, maxLength = 22, text = \"Spend Club Points\""
+}
+
+UPlayReward "[UPlay Reward] Fighter Pack"
+{
+	myTGOName ONWREWARD03
+	myNameSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A94233900001B4CB7D5221E, lineVersion = 0, maxLength = 16, text = \"Fighter Pack\""
+	myDescriptionSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A94233900001B4DEECF9306, lineVersion = 0, maxLength = 29, text = \"Rare mods for fighters\""
+	myInstructionSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A94233900001B4EB47C4843, lineVersion = 0, maxLength = 46, text = \"Equip mods on your ship and weapons\""
+	myConditionSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A94233900001B4FD04F9D6E, lineVersion = 0, maxLength = 22, text = \"Spend Club Points\""
+	myRewards
+	{
+		ProgressionRewardEnhancement "Fighter Core" < uid=C308E4DB5A94405F00001B354DB851B7 >
+		{
+			myEnhancement < uid=C308E4DB5A94408400001B36D6DACBCA > = fightershipcore_l3
+			myReason UPlay
+		}
+		ProgressionRewardEnhancement "Rare Proto Armor" < uid=C308E4DB5A95669A00001B340BE0775F >
+		{
+			myEnhancement < uid=C308E4DB5A9568EE00001B4FE7D7D93E > = explorerarmour_l3
+			myReason UPlay
+		}
+		ProgressionRewardEnhancement "Rare Rapid Ammo" < uid=C308E4DB5A95674400001B35D146117D >
+		{
+			myEnhancement < uid=C308E4DB5A95674400001B362B0168C2 > = operatorweaponcore_l3
+			myReason UPlay
+		}
+		ProgressionRewardEnhancement "Rare Sniper Ammo" < uid=C308E4DB5A95674400001B3712F7580F >
+		{
+			myEnhancement < uid=C308E4DB5A95674400001B381AA58F81 > = sniperweaponcore_l3
+			myReason UPlay
+		}
+	}
+}
+
+UPlayReward "[UPlay Reward] Elementalist Pack"
+{
+	myTGOName ONWREWARD04
+	myNameSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A94238100001B586DB9982E, lineVersion = 0, maxLength = 22, text = \"Elementalist Pack\""
+	myDescriptionSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A94238100001B5963A246B3, lineVersion = 0, maxLength = 34, text = \"Rare mods for elementalist\""
+	myInstructionSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A94238100001B5A61CCA0BC, lineVersion = 0, maxLength = 46, text = \"Equip mods on your ship and weapons\""
+	myConditionSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A94238100001B5B806F4E22, lineVersion = 0, maxLength = 22, text = \"Spend Club Points\""
+	myRewards
+	{
+		ProgressionRewardEnhancement "Rare Stunt Core" < uid=C308E4DB5A95682B00001B39FB89B851 >
+		{
+			myEnhancement < uid=C308E4DB5A95682B00001B3ADBEE989A > = novashipcore_l3
+			myReason UPlay
+		}
+		ProgressionRewardEnhancement "Rare Stasis Armor" < uid=C308E4DB5A95682B00001B3B737194C8 >
+		{
+			myEnhancement < uid=C308E4DB5A95682B00001B3C459EC4A0 > = stasisarmour_l3
+			myReason UPlay
+		}
+		ProgressionRewardEnhancement "Rare Fire Ammo" < uid=C308E4DB5A95682B00001B3DF363B772 >
+		{
+			myEnhancement < uid=C308E4DB5A95682B00001B3E5CE6CBCC > = fireweaponcore_l3
+			myReason UPlay
+		}
+		ProgressionRewardEnhancement "Rare Ice Ammo" < uid=C308E4DB5A95682B00001B3FA3CEC34C >
+		{
+			myEnhancement < uid=C308E4DB5A95682B00001B4010C6A851 > = iceweaponcore_l3
+			myReason UPlay
+		}
+	}
+}
+
+UPlayReward "[UPlay Reward] Commander Pack"
+{
+	myTGOName ONWREWARD05
+	myNameSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A9423C300001B6474737E26, lineVersion = 0, maxLength = 18, text = \"Commander Pack\""
+	myDescriptionSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A9423C300001B652B96F31E, lineVersion = 0, maxLength = 31, text = \"Rare mods for commanders\""
+	myInstructionSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A9423C300001B66D5E7723A, lineVersion = 0, maxLength = 46, text = \"Equip mods on your ship and weapons\""
+	myConditionSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A9423C300001B670E5F6C37, lineVersion = 0, maxLength = 22, text = \"Spend Club Points\""
+	myRewards
+	{
+		ProgressionRewardEnhancement "Rare Commander Core" < uid=C308E4DB5A95682B00001B41FEF0551C >
+		{
+			myEnhancement < uid=C308E4DB5A95682B00001B42942259A5 > = commandershipcore_l3
+			myReason UPlay
+		}
+		ProgressionRewardEnhancement "Rare Commander Armor" < uid=C308E4DB5A95682B00001B4341233CCE >
+		{
+			myEnhancement < uid=C308E4DB5A95682B00001B446482909B > = templararmour_l3
+			myReason UPlay
+		}
+		ProgressionRewardEnhancement "Rare Revenent Ammo" < uid=C308E4DB5A95682B00001B4518A671A2 >
+		{
+			myEnhancement < uid=C308E4DB5A95682B00001B469ECFEC62 > = revenantweaponcore_l3
+			myReason UPlay
+		}
+		ProgressionRewardEnhancement "Rare Gunner Ammo" < uid=C308E4DB5A95682B00001B47C6527639 >
+		{
+			myEnhancement < uid=C308E4DB5A95682B00001B48B6242020 > = gunnerweaponcore_l3
+			myReason UPlay
+		}
+	}
+}
+
+UPlayReward "[UPlay Reward] Warden Pack"
+{
+	myTGOName ONWREWARD06
+	myNameSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A9423F200001B701F25F1A2, lineVersion = 0, maxLength = 14, text = \"Warden Pack\""
+	myDescriptionSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A9423F200001B7157F2C295, lineVersion = 0, maxLength = 27, text = \"Rare mods for wardens\""
+	myInstructionSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A9423F200001B72EF34636E, lineVersion = 0, maxLength = 46, text = \"Equip mods on your ship and weapons\""
+	myConditionSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A9423F200001B7323280C0C, lineVersion = 0, maxLength = 22, text = \"Spend Club Points\""
+	myRewards
+	{
+		ProgressionRewardEnhancement "Rare Warden Armor" < uid=C308E4DB5A95682B00001B499D247C27 >
+		{
+			myEnhancement < uid=C308E4DB5A95682B00001B4A7C693F1D > = wardenarmour_l3
+			myReason UPlay
+		}
+		ProgressionRewardEnhancement "Rare Warden Core" < uid=C308E4DB5A95682B00001B4B29DF6D17 >
+		{
+			myEnhancement < uid=C308E4DB5A95682B00001B4CBE6D6D2C > = wardenshipcore_l3
+			myReason UPlay
+		}
+		ProgressionRewardEnhancement "Rare Warden Ammo" < uid=C308E4DB5A95682B00001B4D0016FB82 >
+		{
+			myEnhancement < uid=C308E4DB5A95682B00001B4E35B2BD4A > = wardenweaponcore_l3
+			myReason UPlay
+		}
+		ProgressionRewardEnhancement "Rare Warden Booster" < uid=9E6AFEDA5AC6D0FB00EBDBEAAD5FBDB1 >
+		{
+			myEnhancement < uid=9E6AFEDA5AD9105900001D8143544A4D > = wardenshipmod_l3
+			myReason UPlay
+		}
+		ProgressionRewardEnhancement "Rare Warden Amplifier" < uid=9E6AFEDA5AC6D0FB00EBDBEB8C24F83B >
+		{
+			myEnhancement < uid=9E6AFEDA5AD9105900001D826FCF8075 > = wardenweaponmod_l3
+			myReason UPlay
+		}
+	}
+}
+
+UPlayChallenge "[UPlay Challenge] Dreadnought Destroyer"
+{
+	myTGOChallengeIds
+	{
+		string 06683d71-60c6-4fe1-adbd-c56de91e91fc 06683d71-60c6-4fe1-adbd-c56de91e91fc
+		string c99b1cec-730c-4e44-96fc-08f0dc8283ad c99b1cec-730c-4e44-96fc-08f0dc8283ad
+		string 2dbb1f35-2412-46e5-8a5e-b681572e363d 2dbb1f35-2412-46e5-8a5e-b681572e363d
+		string 281d7982-8289-4023-9553-b08cd8f3e8d3 281d7982-8289-4023-9553-b08cd8f3e8d3
+	}
+	myTGOSpaceIds = "UPlay Spaces"
+	myNameSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5BEB07B200000026BD6F4363, lineVersion = 0, maxLength = 27, text = \"Dreadnought Destroyer\""
+	myDescriptionSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5BEB07B2000000279D4DD771, lineVersion = 0, maxLength = 29, text = \"Destroy 5 Dreadnoughts\""
+}
+
+UPlayChallenge "[UPlay Challenge] Heat Seeker"
+{
+	myTGOChallengeIds
+	{
+		string 304b24d9-8ab3-4f59-aa16-8dae04bb676f 304b24d9-8ab3-4f59-aa16-8dae04bb676f
+		string fd3432eb-2642-44a8-8f29-b1a55f2b3ec4 fd3432eb-2642-44a8-8f29-b1a55f2b3ec4
+		string ca1571f3-adc0-42ea-b55f-b5ee0a7e3593 ca1571f3-adc0-42ea-b55f-b5ee0a7e3593
+		string e42a4d3d-c1e6-439c-aaac-887f5309f092 e42a4d3d-c1e6-439c-aaac-887f5309f092
+	}
+	myTGOSpaceIds = "UPlay Spaces"
+	myNameSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5BEB09B60000002EB5AA1D05, lineVersion = 0, maxLength = 14, text = \"Heat Seeker\""
+	myDescriptionSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5BEB09B60000002F72374978, lineVersion = 0, maxLength = 31, text = \"Hunt down 30 Heat Giants\""
+}
+
+UPlayChallenge "[UPlay Challenge] Gravity Crusher"
+{
+	myTGOChallengeIds
+	{
+		string e61e7d1e-90ca-407e-915e-215da4eb8779 e61e7d1e-90ca-407e-915e-215da4eb8779
+		string d6ccb2ed-4902-46a1-954b-a4551f7cb0ae d6ccb2ed-4902-46a1-954b-a4551f7cb0ae
+		string 46987d44-8ce8-48db-b1ab-845b63cf95cd 46987d44-8ce8-48db-b1ab-845b63cf95cd
+		string e3236caf-cd70-4ebe-9cf8-ef6f8cfb27a2 e3236caf-cd70-4ebe-9cf8-ef6f8cfb27a2
+	}
+	myTGOSpaceIds = "UPlay Spaces"
+	myNameSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5BEB2AFA00012B48B939024B, lineVersion = 0, maxLength = 20, text = \"Gravity Crusher\""
+	myDescriptionSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5BEB2AFA00012B4918994C84, lineVersion = 0, maxLength = 32, text = \"Hunt down 30 Crush Giants\""
+}
+
+UPlayChallenge "[UPlay Challenge] Ice Breaker"
+{
+	myTGOChallengeIds
+	{
+		string af1720e6-cf13-4ae4-969e-7fc9f05cf84a af1720e6-cf13-4ae4-969e-7fc9f05cf84a
+		string 4b3c964d-a459-43c7-af4c-ec48fb0a1a44 4b3c964d-a459-43c7-af4c-ec48fb0a1a44
+		string 678a75ff-43b5-4a5b-8ab0-18b040cf5976 678a75ff-43b5-4a5b-8ab0-18b040cf5976
+		string 41152708-5012-4fa6-b3be-492e38496e43 41152708-5012-4fa6-b3be-492e38496e43
+	}
+	myTGOSpaceIds = "UPlay Spaces"
+	myNameSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5BEB2C660001D45406936B10, lineVersion = 0, maxLength = 14, text = \"Ice Breaker\""
+	myDescriptionSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5BEB2C660001D455F75C98E8, lineVersion = 0, maxLength = 30, text = \"Hunt down 30 Ice Giants\""
+}
+
+UPlayChallenge "[UPlay Challenge] Prime Cut"
+{
+	myTGOChallengeIds
+	{
+		string db263273-176d-475a-ae14-54a09f2bc122 db263273-176d-475a-ae14-54a09f2bc122
+		string 59b0f584-61b8-458a-aa9c-ca271d8ffd20 59b0f584-61b8-458a-aa9c-ca271d8ffd20
+		string 08cad765-2aff-4cb6-a8bf-63d980ffcf9f 08cad765-2aff-4cb6-a8bf-63d980ffcf9f
+		string 1a26f491-0bb9-4737-80fe-e6654d60d33f 1a26f491-0bb9-4737-80fe-e6654d60d33f
+	}
+	myTGOSpaceIds = "UPlay Spaces"
+	myNameSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5BEB2CBD0001FC7C9EABF15B, lineVersion = 0, maxLength = 14, text = \"Prime Cut\""
+	myDescriptionSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5BEB2CBD0001FC7D2E6A7EFA, lineVersion = 0, maxLength = 51, text = \"Hunt Down and destroy 5 Infernal Primes\""
+}
+
+UPlayChallenge "[UPlay Challenge] Extractor Extraction"
+{
+	myTGOChallengeIds
+	{
+		string ede496b5-69a0-4dcf-9bf1-64218f06d3f7 ede496b5-69a0-4dcf-9bf1-64218f06d3f7
+		string e9c2eed2-da22-403b-8a17-74fe6e3c61f5 e9c2eed2-da22-403b-8a17-74fe6e3c61f5
+		string eb763360-7da3-49e7-843f-1b451668d933 eb763360-7da3-49e7-843f-1b451668d933
+		string ef81b26f-5128-46fc-872f-6a64ab2b202e ef81b26f-5128-46fc-872f-6a64ab2b202e
+	}
+	myTGOSpaceIds = "UPlay Spaces"
+	myNameSource "contextComment = \"For Weekly Challenges\", description = \"\", enabled = true, guid = #C308E4DB5BEB2D51000241000B08FACF, lineVersion = 0, maxLength = 26, text = \"Extractor Extraction\""
+	myDescriptionSource "contextComment = \"For Weekly Challenges\", description = \"\", enabled = true, guid = #C308E4DB5BEB2D510002410103360661, lineVersion = 0, maxLength = 38, text = \"Destroy 10 Ancient Extractors\""
+}
+
+UPlayChallenge "[UPlay Challenge] Spirit Chaser"
+{
+	myTGOChallengeIds
+	{
+		string 248215c5-f42b-490e-9a4d-c4b93141f6aa 248215c5-f42b-490e-9a4d-c4b93141f6aa
+		string a2a701d9-11ef-4868-a838-0b67aad42fc0 a2a701d9-11ef-4868-a838-0b67aad42fc0
+		string 03022d22-2c1e-477b-84c8-a2ef8759f8a7 03022d22-2c1e-477b-84c8-a2ef8759f8a7
+		string 6e33df40-4d27-417b-839a-2d9127de9a96 6e33df40-4d27-417b-839a-2d9127de9a96
+	}
+	myTGOSpaceIds = "UPlay Spaces"
+	myNameSource "contextComment = \"For Weekly Challenges\", description = \"\", enabled = true, guid = #C308E4DB5BEB2D9F0002654EE41ED159, lineVersion = 0, maxLength = 17, text = \"Spirit Chaser\""
+	myDescriptionSource "contextComment = \"For Weekly Challenges\", description = \"\", enabled = true, guid = #C308E4DB5BEB2D9F0002654FED274AA1, lineVersion = 0, maxLength = 42, text = \"Hunt Down 10 Spirits of Electrum\""
+}
+
+UPlayChallenge "[UPlay Challenge] Dune Rider"
+{
+	myTGOChallengeIds
+	{
+		string cd61c10a-77ab-4890-beb9-4695de6d2421 cd61c10a-77ab-4890-beb9-4695de6d2421
+		string d220016f-fae3-490c-a7c7-37e399838c9a d220016f-fae3-490c-a7c7-37e399838c9a
+		string e0e7d742-d3f9-40a9-88e2-88fa60ef4f20 e0e7d742-d3f9-40a9-88e2-88fa60ef4f20
+		string f5811981-bf5d-4b74-b6ce-f1391d40ff7f f5811981-bf5d-4b74-b6ce-f1391d40ff7f
+	}
+	myTGOSpaceIds = "UPlay Spaces"
+	myNameSource "contextComment = \"For Weekly Challenges\", description = \"\", enabled = true, guid = #C308E4DB5BEB2E7A0002CA6067B9DF04, lineVersion = 0, maxLength = 16, text = \"Dune Rider\""
+	myDescriptionSource "contextComment = \"For Weekly Challenges\", description = \"\", enabled = true, guid = #C308E4DB5BEB2E7A0002CA6143D1EBD7, lineVersion = 0, maxLength = 56, text = \"Hunt down and pick a scale off 10 Sandworms\""
+}
+
+UPlayChallenge "[UPlay Challenge] Ash It Out"
+{
+	myTGOChallengeIds
+	{
+		string a2025d3f-e8eb-4d01-9837-fad3b8a6a7c1 a2025d3f-e8eb-4d01-9837-fad3b8a6a7c1
+		string 8a8782be-80f1-49ce-901b-694965de4ef1 8a8782be-80f1-49ce-901b-694965de4ef1
+		string 49f700ad-2e48-4f15-84c7-cbbde0bbf869 49f700ad-2e48-4f15-84c7-cbbde0bbf869
+		string dae1201c-2809-4c4e-ad28-e11b13eeb5cc dae1201c-2809-4c4e-ad28-e11b13eeb5cc
+	}
+	myTGOSpaceIds = "UPlay Spaces"
+	myNameSource "contextComment = \"For Weekly Challenges\", description = \"\", enabled = true, guid = #C308E4DB5BEB2EA00002DBE8F309DF59, lineVersion = 0, maxLength = 16, text = \"Ash It Out\""
+	myDescriptionSource "contextComment = \"For Weekly Challenges\", description = \"\", enabled = true, guid = #C308E4DB5BEB2EA00002DBE9CED393C7, lineVersion = 0, maxLength = 55, text = \"Hunt down and pick a scale off 10 Ashworms\""
+}
+
+UPlayChallenge "[UPlay Challenge] Gold Rush"
+{
+	myTGOChallengeIds
+	{
+		string 01b5aaa7-2f55-4268-8d69-3c847f320553 01b5aaa7-2f55-4268-8d69-3c847f320553
+		string 2a130a2a-687c-4479-bbb1-7555d28ec02f 2a130a2a-687c-4479-bbb1-7555d28ec02f
+		string e6b5cfce-f524-40b2-bfd7-bdd27f767922 e6b5cfce-f524-40b2-bfd7-bdd27f767922
+		string 59af70c0-fa8c-4f59-a0bf-cb62b0c3ccc4 59af70c0-fa8c-4f59-a0bf-cb62b0c3ccc4
+	}
+	myTGOSpaceIds = "UPlay Spaces"
+	myNameSource "contextComment = \"For Weekly Challenges\", description = \"\", enabled = true, guid = #C308E4DB5BEB2F18000313C8AD752BD4, lineVersion = 0, maxLength = 14, text = \"Gold Rush\""
+	myDescriptionSource "contextComment = \"For Weekly Challenges\", description = \"\", enabled = true, guid = #C308E4DB5BEB2F18000313C9596A9BFF, lineVersion = 0, maxLength = 39, text = \"Destroy 100 Electrum Asteroids\""
+}
+
+UPlayChallenge "[UPlay Challenge] Gold Card"
+{
+	myTGOChallengeIds
+	{
+		string b3de92d2-99b2-4d57-a188-c5e8595ce968 b3de92d2-99b2-4d57-a188-c5e8595ce968
+		string 81b8e1f1-561b-45dc-a26d-b5cd2c22ba04 81b8e1f1-561b-45dc-a26d-b5cd2c22ba04
+		string d3028d12-637b-4247-9625-8cec33f17ec3 d3028d12-637b-4247-9625-8cec33f17ec3
+		string 2af1519d-8dfd-4721-b650-73d7da6d1733 2af1519d-8dfd-4721-b650-73d7da6d1733
+	}
+	myTGOSpaceIds = "UPlay Spaces"
+	myNameSource "contextComment = \"For Weekly Challenges\", description = \"\", enabled = true, guid = #C308E4DB5BEB44590000002473EC65B9, lineVersion = 0, maxLength = 14, text = \"Gold Card\""
+	myDescriptionSource "contextComment = \"For Weekly Challenges\", description = \"\", enabled = true, guid = #C308E4DB5BEB445900000025C3526CB2, lineVersion = 0, maxLength = 44, text = \"Hunt and destroy 20 Golden Cyclops\""
+}
+
+UPlayChallenge "[UPlay Challenge] Head Count"
+{
+	myTGOChallengeIds
+	{
+		string 2656def8-6c7a-4d71-b925-4dbd50a8eed0 2656def8-6c7a-4d71-b925-4dbd50a8eed0
+		string 0f6b7bb4-d6cc-4539-a4c1-c5dee4c61816 0f6b7bb4-d6cc-4539-a4c1-c5dee4c61816
+		string a8676d4d-0171-479f-81ba-d870f33493a6 a8676d4d-0171-479f-81ba-d870f33493a6
+		string 969df0a9-98c8-4c23-8e4e-b6933c3f88ca 969df0a9-98c8-4c23-8e4e-b6933c3f88ca
+	}
+	myTGOSpaceIds = "UPlay Spaces"
+	myNameSource "contextComment = \"For Weekly Challenges\", description = \"\", enabled = true, guid = #C308E4DB5BEB446D0000002AD071B3B3, lineVersion = 0, maxLength = 16, text = \"Head Count\""
+	myDescriptionSource "contextComment = \"For Weekly Challenges\", description = \"\", enabled = true, guid = #C308E4DB5BEB446D0000002B6AF80A62, lineVersion = 0, maxLength = 38, text = \"Hunt and destroy 20 Sentinels\""
+}
+
+UPlayChallenge "[UPlay Challenge] Planetary Bounty"
+{
+	myTGOChallengeIds
+	{
+		string cf0865e3-ac8d-45fe-a041-9630a751f002 cf0865e3-ac8d-45fe-a041-9630a751f002
+		string fa125d42-36c0-4cea-8c6b-4f1168093ba8 fa125d42-36c0-4cea-8c6b-4f1168093ba8
+		string 9fdb66c7-d67d-494d-b046-bacc810e5894 9fdb66c7-d67d-494d-b046-bacc810e5894
+		string 0d109a81-db5d-481d-80e7-e5b4e8b30a1f 0d109a81-db5d-481d-80e7-e5b4e8b30a1f
+	}
+	myTGOSpaceIds = "UPlay Spaces"
+	myNameSource "contextComment = \"For Weekly Challenges\", description = \"\", enabled = true, guid = #C308E4DB5BEB447E00000030CCB859EC, lineVersion = 0, maxLength = 21, text = \"Planetary Bounty\""
+	myDescriptionSource "contextComment = \"For Weekly Challenges\", description = \"\", enabled = true, guid = #C308E4DB5BEB447E00000031B80F226F, lineVersion = 0, maxLength = 58, text = \"Hunt and destroy 50 Elite Outlaws on a planet\""
+}
+
+UPlayChallenge "[UPlay Challenge] Planetary Magnates"
+{
+	myTGOChallengeIds
+	{
+		string 85a48ebf-bdc4-45b3-bf8c-6b554e6d73cd 85a48ebf-bdc4-45b3-bf8c-6b554e6d73cd
+		string 15fb879c-adfa-4d3d-99a5-f398a6492c5a 15fb879c-adfa-4d3d-99a5-f398a6492c5a
+		string 99092363-bd7f-45f7-8fff-2f842bcaf041 99092363-bd7f-45f7-8fff-2f842bcaf041
+		string 6d79bec0-ecf4-4203-ac3f-101be8a45859 6d79bec0-ecf4-4203-ac3f-101be8a45859
+	}
+	myTGOSpaceIds = "UPlay Spaces"
+	myNameSource "contextComment = \"For Weekly Challenges\", description = \"\", enabled = true, guid = #C308E4DB5BEB450500000036DDBF68F6, lineVersion = 0, maxLength = 23, text = \"Planetary Magnates\""
+	myDescriptionSource "contextComment = \"For Weekly Challenges\", description = \"\", enabled = true, guid = #C308E4DB5BEB4505000000371F3AEB11, lineVersion = 0, maxLength = 60, text = \"Hunt and Destroy 20 Outlaw Leaders on a planet\""
+}
+
+UPlayChallenge "[UPlay Challenge] Drake Attack"
+{
+	myTGOChallengeIds
+	{
+		string fb5a7045-ff94-4cc2-8f11-29f7f93211f9 fb5a7045-ff94-4cc2-8f11-29f7f93211f9
+		string c2843758-44d4-4997-b005-5563f1f89681 c2843758-44d4-4997-b005-5563f1f89681
+		string c612e41d-29ec-43f3-a4f4-1a3ad38b1394 c612e41d-29ec-43f3-a4f4-1a3ad38b1394
+		string b86a7dad-b5e4-4e0c-81ea-df818b980ec9 b86a7dad-b5e4-4e0c-81ea-df818b980ec9
+	}
+	myTGOSpaceIds = "UPlay Spaces"
+	myNameSource "contextComment = \"For Weekly Challenges\", description = \"\", enabled = true, guid = #C308E4DB5BEB45320000003C9C5DB202, lineVersion = 0, maxLength = 16, text = \"Drake Attack\""
+	myDescriptionSource "contextComment = \"For Weekly Challenges\", description = \"\", enabled = true, guid = #C308E4DB5BEB45320000003DCF337641, lineVersion = 0, maxLength = 42, text = \"Hunt and Destroy 50 Elite Drakes\""
+}
+
+UPlayChallenge "[UPlay Challenge] Space Hunter"
+{
+	myTGOChallengeIds
+	{
+		string 7c2ee886-9fa7-4f12-bfd3-ae0f4346878e 7c2ee886-9fa7-4f12-bfd3-ae0f4346878e
+		string a094350e-bb7f-4655-a869-884b99d9ebc5 a094350e-bb7f-4655-a869-884b99d9ebc5
+		string 69360cbf-117f-4793-859b-94eaffa3ea04 69360cbf-117f-4793-859b-94eaffa3ea04
+		string dcfbfcdb-a73e-4d4c-a710-431172ba16b7 dcfbfcdb-a73e-4d4c-a710-431172ba16b7
+	}
+	myTGOSpaceIds = "UPlay Spaces"
+	myNameSource "contextComment = \"For Weekly Challenges\", description = \"\", enabled = true, guid = #C308E4DB5BEB45340000003E4B61ED62, lineVersion = 0, maxLength = 16, text = \"Space Hunter\""
+	myDescriptionSource "contextComment = \"For Weekly Challenges\", description = \"\", enabled = true, guid = #C308E4DB5BEB45340000003F5718765C, lineVersion = 0, maxLength = 56, text = \"Hunt and Destroy 20 Outlaw Leaders in space\""
+}
+
+UPlayChallenge "[UPlay Challenge] Probe the Globe"
+{
+	myTGOChallengeIds
+	{
+		string 28e0435b-57e8-435e-b550-03d83a0ea664 28e0435b-57e8-435e-b550-03d83a0ea664
+		string dd8930f8-9b7b-423d-aed5-348985a0d2a4 dd8930f8-9b7b-423d-aed5-348985a0d2a4
+		string 48a365db-e60a-467c-8fec-9c54b4c24563 48a365db-e60a-467c-8fec-9c54b4c24563
+		string 10696def-6b68-432a-b3d5-5197673563c3 10696def-6b68-432a-b3d5-5197673563c3
+	}
+	myTGOSpaceIds = "UPlay Spaces"
+	myNameSource "contextComment = \"For Weekly Challenges\", description = \"\", enabled = true, guid = #C308E4DB5BEB455F00000050FC26A9F8, lineVersion = 0, maxLength = 20, text = \"Probe The Globe\""
+	myDescriptionSource "contextComment = \"For Weekly Challenges\", description = \"\", enabled = true, guid = #C308E4DB5BEB455F00000051D30FE284, lineVersion = 0, maxLength = 34, text = \"Hunt and Destroy 50 Probes\""
+}
+
+UPlayChallenge "[UPlay Challenge] Shattered Legion"
+{
+	myTGOChallengeIds
+	{
+		string abc20a06-ab8e-4026-b615-ddc8e59794bc abc20a06-ab8e-4026-b615-ddc8e59794bc
+		string 3650d6af-4843-4ae9-9ed2-c3e797e057f3 3650d6af-4843-4ae9-9ed2-c3e797e057f3
+		string 93de5e37-6588-488f-97e3-c30ae3255f85 93de5e37-6588-488f-97e3-c30ae3255f85
+		string 296a1628-35c7-46f4-b06e-4cd9f3e90ba0 296a1628-35c7-46f4-b06e-4cd9f3e90ba0
+	}
+	myTGOSpaceIds = "UPlay Spaces"
+	myNameSource "contextComment = \"For Weekly Challenges\", description = \"\", enabled = true, guid = #C308E4DB5BEB455F00000052B7B49F41, lineVersion = 0, maxLength = 21, text = \"Shattered Legion\""
+	myDescriptionSource "contextComment = \"For Weekly Challenges\", description = \"\", enabled = true, guid = #C308E4DB5BEB455F00000053A68BCBE1, lineVersion = 0, maxLength = 44, text = \"Cause enemies to Shatter 100 times\""
+}
+
+UPlayChallenge "[UPlay Challenge] Temperature Control"
+{
+	myTGOChallengeIds
+	{
+		string 2d47e6ee-61ec-44ea-886e-fa93fd684935 2d47e6ee-61ec-44ea-886e-fa93fd684935
+		string c87fe6ce-7805-450d-a077-fcee47328746 c87fe6ce-7805-450d-a077-fcee47328746
+		string 8c4a05a9-19e5-4eb2-9630-fe926d4de38b 8c4a05a9-19e5-4eb2-9630-fe926d4de38b
+		string 909f34a6-e541-49d3-bfee-36abebeedb4a 909f34a6-e541-49d3-bfee-36abebeedb4a
+	}
+	myTGOSpaceIds = "UPlay Spaces"
+	myNameSource "contextComment = \"For Weekly Challenges\", description = \"\", enabled = true, guid = #C308E4DB5BEB455F000000546F2BDFA1, lineVersion = 0, maxLength = 25, text = \"Temperature Control\""
+	myDescriptionSource "contextComment = \"For Weekly Challenges\", description = \"\", enabled = true, guid = #C308E4DB5BEB455F00000055C39C0B02, lineVersion = 0, maxLength = 38, text = \"Cause Thermal Shock 100 times\""
+}
+
+UPlayChallenge "[UPlay Challenge] Add Some Heat"
+{
+	myTGOChallengeIds
+	{
+		string 7721cc76-7b3e-43ab-9e5a-e5999e93dfdf 7721cc76-7b3e-43ab-9e5a-e5999e93dfdf
+		string 478e82e8-31c1-4433-9741-ac9ed728e8cc 478e82e8-31c1-4433-9741-ac9ed728e8cc
+		string 1d34da83-b1ad-4cf3-9756-eefdc206d0cb 1d34da83-b1ad-4cf3-9756-eefdc206d0cb
+		string fd8dab63-98d4-4f29-9617-0e03d9e86d18 fd8dab63-98d4-4f29-9617-0e03d9e86d18
+	}
+	myTGOSpaceIds = "UPlay Spaces"
+	myNameSource "contextComment = \"For Weekly Challenges\", description = \"\", enabled = true, guid = #C308E4DB5BEB455F00000056D0C1CAA7, lineVersion = 0, maxLength = 17, text = \"Add Some Heat\""
+	myDescriptionSource "contextComment = \"For Weekly Challenges\", description = \"\", enabled = true, guid = #C308E4DB5BEB455F0000005728EDC79D, lineVersion = 0, maxLength = 35, text = \"Cause Heat Vortex 100 times\""
+}
+
+UPlayChallenge "[UPlay Challenge] Cool It Down"
+{
+	myTGOChallengeIds
+	{
+		string 02e5a144-c315-4d20-85d6-a23f660d646e 02e5a144-c315-4d20-85d6-a23f660d646e
+		string 1e31b9f8-6c2b-4614-8433-30af49263401 1e31b9f8-6c2b-4614-8433-30af49263401
+		string ea8f4e18-ab90-4e2f-8553-d83f0a7c28a4 ea8f4e18-ab90-4e2f-8553-d83f0a7c28a4
+		string 8fb81537-0e72-49cd-add3-28e9577e3302 8fb81537-0e72-49cd-add3-28e9577e3302
+	}
+	myTGOSpaceIds = "UPlay Spaces"
+	myNameSource "contextComment = \"For Weekly Challenges\", description = \"\", enabled = true, guid = #C308E4DB5BEB459D000000682D5D76A4, lineVersion = 0, maxLength = 16, text = \"Cool It Down\""
+	myDescriptionSource "contextComment = \"For Weekly Challenges\", description = \"\", enabled = true, guid = #C308E4DB5BEB459D000000698D15FB94, lineVersion = 0, maxLength = 35, text = \"Cause Cold Vortex 100 times\""
+}
+
+UPlayChallenge "[UPlay Challenge] Heat Reaction"
+{
+	myTGOChallengeIds
+	{
+		string 5310b9b6-8059-4eb2-bd9a-3ba54536ca0c 5310b9b6-8059-4eb2-bd9a-3ba54536ca0c
+		string 9e185a61-205a-404f-a1aa-33a24866cef5 9e185a61-205a-404f-a1aa-33a24866cef5
+		string 3d73cbe2-60eb-451b-b9a7-b9b3403888f7 3d73cbe2-60eb-451b-b9a7-b9b3403888f7
+		string 1080397c-0b85-45cb-89fb-ab2bf78ce4a7 1080397c-0b85-45cb-89fb-ab2bf78ce4a7
+	}
+	myTGOSpaceIds = "UPlay Spaces"
+	myNameSource "contextComment = \"For Weekly Challenges\", description = \"\", enabled = true, guid = #C308E4DB5BEB45BC0000006E5217F7A8, lineVersion = 0, maxLength = 17, text = \"Heat Reaction\""
+	myDescriptionSource "contextComment = \"For Weekly Challenges\", description = \"\", enabled = true, guid = #C308E4DB5BEB45BC0000006FD314C640, lineVersion = 0, maxLength = 32, text = \"Cause Heat Blast 50 Times\""
+}
+
+UPlayChallenge "[UPlay Challenge] Cryo Reaction"
+{
+	myTGOChallengeIds
+	{
+		string 87552d5a-c9cc-469b-a1bc-df5f81d43ad2 87552d5a-c9cc-469b-a1bc-df5f81d43ad2
+		string 049c2a0f-0ea2-4fea-97f7-904985274e47 049c2a0f-0ea2-4fea-97f7-904985274e47
+		string 00da0143-4a6c-44bc-9cf4-6cd62fa4a5a7 00da0143-4a6c-44bc-9cf4-6cd62fa4a5a7
+		string bd9db198-ff1a-41f7-84c7-1bcf35c4676b bd9db198-ff1a-41f7-84c7-1bcf35c4676b
+	}
+	myTGOSpaceIds = "UPlay Spaces"
+	myNameSource "contextComment = \"For Weekly Challenges\", description = \"\", enabled = true, guid = #C308E4DB5BEB45CD00000074BEA5D4EA, lineVersion = 0, maxLength = 17, text = \"Cryo-Reaction\""
+	myDescriptionSource "contextComment = \"For Weekly Challenges\", description = \"\", enabled = true, guid = #C308E4DB5BEB45CD000000751C1C1BB9, lineVersion = 0, maxLength = 32, text = \"Cause Cryo-Blast 50 Times\""
+}
+
+UPlayChallenge "[UPlay Challenge] Breaking Physics"
+{
+	myTGOChallengeIds
+	{
+		string e08d2e9c-406d-4781-a0a0-f3cc4022e8f5 e08d2e9c-406d-4781-a0a0-f3cc4022e8f5
+		string 51e6f144-dfa8-403e-b8a2-f3ef75017ce0 51e6f144-dfa8-403e-b8a2-f3ef75017ce0
+		string 6426c178-7ca8-4f87-8d84-757603f9631d 6426c178-7ca8-4f87-8d84-757603f9631d
+		string 48a9b333-3af8-4b46-9e62-fdd581c8d9f0 48a9b333-3af8-4b46-9e62-fdd581c8d9f0
+	}
+	myTGOSpaceIds = "UPlay Spaces"
+	myNameSource "contextComment = \"For Weekly Challenges\", description = \"\", enabled = true, guid = #C308E4DB5BEB45CE000000766B7232F2, lineVersion = 0, maxLength = 21, text = \"Breaking Physics\""
+	myDescriptionSource "contextComment = \"For Weekly Challenges\", description = \"\", enabled = true, guid = #C308E4DB5BEB45CE00000077F6E19A42, lineVersion = 0, maxLength = 36, text = \"Cause Gravity Shock 25 Times\""
+}
+
+UPlayChallenge "[UPlay Challenge] Bunker Buster"
+{
+	myTGOChallengeIds
+	{
+		string cdbce47f-90de-488e-9028-0d5668a5fd27 cdbce47f-90de-488e-9028-0d5668a5fd27
+		string f499f4fe-fc7c-435c-a4ed-548652c859b8 f499f4fe-fc7c-435c-a4ed-548652c859b8
+		string 1a507f2d-d00d-4829-831b-bc1106e9e896 1a507f2d-d00d-4829-831b-bc1106e9e896
+		string e30fa871-9993-46c0-b3af-6b7431c5963f e30fa871-9993-46c0-b3af-6b7431c5963f
+	}
+	myTGOSpaceIds = "UPlay Spaces"
+	myNameSource "contextComment = \"For Weekly Challenges\", description = \"\", enabled = true, guid = #C308E4DB5BEB45CF00000078667302F0, lineVersion = 0, maxLength = 17, text = \"Bunker Buster\""
+	myDescriptionSource "contextComment = \"For Weekly Challenges\", description = \"\", enabled = true, guid = #C308E4DB5BEB45CF000000799A4E1C54, lineVersion = 0, maxLength = 48, text = \"Eliminate 10 Fortified Outlaw Turrets\""
+}
+
+UPlayChallenge "[UPlay Challenge] Test JFG"
+{
+	myTGOChallengeIds
+	{
+		string 16674683-3fbb-4ba5-bd6d-3e10d22450fc 16674683-3fbb-4ba5-bd6d-3e10d22450fc
+		string 897a5acd-e311-483c-9760-8c900c2f5276 897a5acd-e311-483c-9760-8c900c2f5276
+		string ba2e414f-df43-450a-94a6-dbcc97d9c86a ba2e414f-df43-450a-94a6-dbcc97d9c86a
+		string 46a27ef6-2f78-4335-bf69-b8dd68dcac1c 46a27ef6-2f78-4335-bf69-b8dd68dcac1c
+	}
+	myTGOSpaceIds = "UPlay Spaces"
+	myNameSource "contextComment = \"Do not translate\", description = \"\", enabled = true, guid = #C308E4DB5BEB4AAC00000039EAE3571B, lineVersion = 0, maxLength = 13, text = \"Test JFG\""
+	myDescriptionSource "contextComment = \"Do not translate\", description = \"\", enabled = true, guid = #C308E4DB5BEB4AAC0000003B1925FDEA, lineVersion = 0, maxLength = 13, text = \"Test JFG\""
+}
+
+UPlayChallengePrize "[UPlay Challenge Prize] Electrum"
+{
+	myTGOChallengeIds
+	{
+		string f00cfe05-0c1f-4b50-9037-f2f28a7381da f00cfe05-0c1f-4b50-9037-f2f28a7381da
+	}
+	myTGOSpaceIds = "UPlay Main Space"
+	myNameSource "contextComment = \"For Weekly Challenges\", description = \"\", enabled = true, guid = #C308E4DB5BEC39F40000003917E2D916, lineVersion = 0, maxLength = 13, text = \"Electrum\""
+}
+
+UPlayChallengePrize "[UPlay Challenge Prize] Nova"
+{
+	myTGOChallengeIds
+	{
+		string 367fdf31-c0e7-4718-886c-a0771f9e7fe8 367fdf31-c0e7-4718-886c-a0771f9e7fe8
+	}
+	myTGOSpaceIds = "UPlay Main Space"
+	myNameSource "contextComment = \"For Weekly Challenges\", description = \"\", enabled = true, guid = #C308E4DB5BEC3A000000003FB2BA0B50, lineVersion = 0, maxLength = 6, text = \"Nova\""
+}
+
+UPlayChallengePrize "[UPlay Challenge Prize] Imploder"
+{
+	myTGOChallengeIds
+	{
+		string 64a04571-9f67-4798-a76e-9b598059434c 64a04571-9f67-4798-a76e-9b598059434c
+	}
+	myTGOSpaceIds = "UPlay Main Space"
+	myNameSource "contextComment = \"For Weekly Challenges\", description = \"\", enabled = true, guid = #C308E4DB5BEC3A0100000043C2B7978D, lineVersion = 0, maxLength = 13, text = \"Imploder\""
+}
+
+UPlayChallengePrize "[UPlay Challenge Prize] Volcano"
+{
+	myTGOChallengeIds
+	{
+		string 30fbbb51-3a89-499d-9844-460b1ca46e63 30fbbb51-3a89-499d-9844-460b1ca46e63
+	}
+	myTGOSpaceIds = "UPlay Main Space"
+	myNameSource "contextComment = \"For Weekly Challenges\", description = \"\", enabled = true, guid = #C308E4DB5BEC3A0D0000004BDF868554, lineVersion = 0, maxLength = 11, text = \"Volcano\""
+}
+
+UPlayChallengePrize "[UPlay Challenge Prize] Fury Cannon"
+{
+	myTGOChallengeIds
+	{
+		string 34b1be17-e32d-429e-b063-79e1f1d0ac13 34b1be17-e32d-429e-b063-79e1f1d0ac13
+	}
+	myTGOSpaceIds = "UPlay Main Space"
+	myNameSource "contextComment = \"For Weekly Challenges\", description = \"\", enabled = true, guid = #C308E4DB5BEC3A0E0000004FF5F63A6A, lineVersion = 0, maxLength = 14, text = \"Fury Cannon\""
+}
+
+UPlayChallengePrize "[UPlay Challenge Prize] Crusher"
+{
+	myTGOChallengeIds
+	{
+		string 0011ed31-5b01-4ebc-a067-d2c51f6507f2 0011ed31-5b01-4ebc-a067-d2c51f6507f2
+	}
+	myTGOSpaceIds = "UPlay Main Space"
+	myNameSource "contextComment = \"For Weekly Challenges\", description = \"\", enabled = true, guid = #C308E4DB5BEC3A0F0000005325DBB31E, lineVersion = 0, maxLength = 11, text = \"Crusher\""
+}
+
+UPlayChallengePrize "[UPlay Challenge Prize] Hailstorm"
+{
+	myTGOChallengeIds
+	{
+		string 68d78cd0-1b9d-4dee-ad89-a72cc140156c 68d78cd0-1b9d-4dee-ad89-a72cc140156c
+	}
+	myTGOSpaceIds = "UPlay Main Space"
+	myNameSource "contextComment = \"For Weekly Challenges\", description = \"\", enabled = true, guid = #C308E4DB5BEC3A1C0000005D053C4236, lineVersion = 0, maxLength = 14, text = \"Hailstorm\""
+}
+
+UPlayChallengePrize "[UPlay Challenge Prize] Levitator"
+{
+	myTGOChallengeIds
+	{
+		string 35286c27-6c7c-4477-ba85-70eed2a2023a 35286c27-6c7c-4477-ba85-70eed2a2023a
+	}
+	myTGOSpaceIds = "UPlay Main Space"
+	myNameSource "contextComment = \"For Weekly Challenges\", description = \"\", enabled = true, guid = #C308E4DB5BEC3A1D0000006197DC1783, lineVersion = 0, maxLength = 14, text = \"Levitator\""
+}
+
+UPlayChallengePrize "[UPlay Challenge Prize] Nullifier"
+{
+	myTGOChallengeIds
+	{
+		string 1d5f6c22-e67d-44b9-91c3-5b3ea0f11e8a 1d5f6c22-e67d-44b9-91c3-5b3ea0f11e8a
+	}
+	myTGOSpaceIds = "UPlay Main Space"
+	myNameSource "contextComment = \"For Weekly Challenges\", description = \"\", enabled = true, guid = #C308E4DB5BEC3A1E00000065CC41E4F1, lineVersion = 0, maxLength = 14, text = \"Nullifier\""
+}
+
+UPlayChallengePrize "[UPlay Challenge Prize] Shockwave"
+{
+	myTGOChallengeIds
+	{
+		string 4cb45a46-2e09-4d4b-ae8e-ffbe359fa86e 4cb45a46-2e09-4d4b-ae8e-ffbe359fa86e
+	}
+	myTGOSpaceIds = "UPlay Main Space"
+	myNameSource "contextComment = \"For Weekly Challenges\", description = \"\", enabled = true, guid = #C308E4DB5BEC3A2000000069E37326A3, lineVersion = 0, maxLength = 14, text = \"Shockwave\""
+}
+
+UPlayChallengePrize "[UPlay Challenge Prize] Pulse"
+{
+	myTGOChallengeIds
+	{
+		string c80ad3e7-6d26-42ca-962b-2fd6f0155ece c80ad3e7-6d26-42ca-962b-2fd6f0155ece
+	}
+	myTGOSpaceIds = "UPlay Main Space"
+	myNameSource "contextComment = \"For Weekly Challenges\", description = \"\", enabled = true, guid = #C308E4DB5BEC3A33000000757B94394C, lineVersion = 0, maxLength = 8, text = \"Pulse\""
+}
+
+UPlayChallengePrize "[UPlay Challenge Prize] Iron Fist"
+{
+	myTGOChallengeIds
+	{
+		string 9bd1ed0d-5742-4e28-aaaf-04b00ab8ea1c 9bd1ed0d-5742-4e28-aaaf-04b00ab8ea1c
+	}
+	myTGOSpaceIds = "UPlay Main Space"
+	myNameSource "contextComment = \"For Weekly Challenges\", description = \"\", enabled = true, guid = #C308E4DB5BEC3A3400000079E313AA8A, lineVersion = 0, maxLength = 14, text = \"Iron Fist\""
+}
+
+UPlayChallengePrize "[UPlay Challenge Prize] Neptune"
+{
+	myTGOChallengeIds
+	{
+		string ffd26ea2-ddbf-4781-b905-b5b6e048b9e1 ffd26ea2-ddbf-4781-b905-b5b6e048b9e1
+	}
+	myTGOSpaceIds = "UPlay Main Space"
+	myNameSource "contextComment = \"For Weekly Challenges\", description = \"\", enabled = true, guid = #C308E4DB5BEC3A350000007DD7509460, lineVersion = 0, maxLength = 11, text = \"Neptune\""
+}
+
+UPlayChallengePrize "[UPlay Challenge Prize] Lance"
+{
+	myTGOChallengeIds
+	{
+		string f4027d1f-f4cf-4f31-a5cf-5119c8870985 f4027d1f-f4cf-4f31-a5cf-5119c8870985
+	}
+	myTGOSpaceIds = "UPlay Main Space"
+	myNameSource "contextComment = \"For Weekly Challenges\", description = \"\", enabled = true, guid = #C308E4DB5BEC3A4200000087326074EE, lineVersion = 0, maxLength = 8, text = \"Lance\""
+}
+
+UPlayChallengePrize "[UPlay Challenge Prize] Nadir"
+{
+	myTGOChallengeIds
+	{
+		string b7d77851-59b4-4952-8d81-f1a058d8bf71 b7d77851-59b4-4952-8d81-f1a058d8bf71
+	}
+	myTGOSpaceIds = "UPlay Main Space"
+	myNameSource "contextComment = \"For Weekly Challenges\", description = \"\", enabled = true, guid = #C308E4DB5BEC3A460000008D047F715E, lineVersion = 0, maxLength = 8, text = \"Nadir\""
+}
+
+UPlayChallengePrize "[UPlay Challenge Prize] Lance Wings"
+{
+	myTGOChallengeIds
+	{
+		string 71f890d5-2f4d-489b-a8e8-376feebb2d22 71f890d5-2f4d-489b-a8e8-376feebb2d22
+	}
+	myTGOSpaceIds = "UPlay Main Space"
+	myNameSource "contextComment = \"For Weekly Challenges\", description = \"\", enabled = true, guid = #C308E4DB5BEC3A4B00000093E790D420, lineVersion = 0, maxLength = 14, text = \"Lance Wings\""
+}
+
+UPlayChallengePrize "[UPlay Challenge Prize] Pulse Wings"
+{
+	myTGOChallengeIds
+	{
+		string 061c5f0b-2cdc-407b-aab4-86dc1905d3d4 061c5f0b-2cdc-407b-aab4-86dc1905d3d4
+	}
+	myTGOSpaceIds = "UPlay Main Space"
+	myNameSource "contextComment = \"For Weekly Challenges\", description = \"\", enabled = true, guid = #C308E4DB5BEC3A4D00000097CDC1BAAB, lineVersion = 0, maxLength = 14, text = \"Pulse Wings\""
+}
+
+UPlayChallengePrize "[UPlay Challenge Prize] Nadir Wings"
+{
+	myTGOChallengeIds
+	{
+		string 78e640e6-407a-4f93-a424-7f7ce3bbb4be 78e640e6-407a-4f93-a424-7f7ce3bbb4be
+	}
+	myTGOSpaceIds = "UPlay Main Space"
+	myNameSource "contextComment = \"For Weekly Challenges\", description = \"\", enabled = true, guid = #C308E4DB5BEC3A4E0000009B742E47FB, lineVersion = 0, maxLength = 14, text = \"Nadir Wings\""
+}
+
+UPlayChallengePrize "[UPlay Challenge Prize] Neptune Wings"
+{
+	myTGOChallengeIds
+	{
+		string 00bf9bcf-c780-4984-bc34-80359a380488 00bf9bcf-c780-4984-bc34-80359a380488
+	}
+	myTGOSpaceIds = "UPlay Main Space"
+	myNameSource "contextComment = \"For Weekly Challenges\", description = \"\", enabled = true, guid = #C308E4DB5BEC3A4F0000009F44FD7E3E, lineVersion = 0, maxLength = 17, text = \"Neptune Wings\""
+}
+
+UPlayChallengePrize "[UPlay Challenge Prize] 250K Electrum"
+{
+	myTGOChallengeIds
+	{
+		string 9dbb6324-d4a8-4b2f-b676-1d78476d576d 9dbb6324-d4a8-4b2f-b676-1d78476d576d
+	}
+	myTGOSpaceIds = "UPlay Main Space"
+	myNameSource "contextComment = \"WeeklyChallenge Reward\", description = \"ui-weekly-challenge-reward-250K-Electrum\", enabled = true, guid = #939A35415C376CE80002241B0DA44EE2, lineVersion = 0, maxLength = 17, text = \"250k Electrum\""
+}
+
+UPlayChallengePrize "[UPlay Challenge Prize] Trial 48h Hull Gauntlet"
+{
+	myTGOChallengeIds
+	{
+		string 35858057-74f5-4a40-bc89-4e7a455a077c 35858057-74f5-4a40-bc89-4e7a455a077c
+	}
+	myTGOSpaceIds = "UPlay Main Space"
+	myNameSource "contextComment = \"Weekly challenge reward that awards player with temporary, digital part that lasts for 48 hours\", description = \"ui-weekly-challenge-reward-Trial-48h-Hull-Gauntlet\", enabled = true, guid = #939A35415C376F5600023FFEDA49D23F, lineVersion = 0, maxLength = 23, text = \"48h Gauntlet Trial\""
+}
+
+UPlayChallengePrize "[UPlay Challenge Prize] Trial 48h Hull Nadir"
+{
+	myTGOChallengeIds
+	{
+		string 3a3b46fd-6639-4b2f-b048-aef884a0cdc2 3a3b46fd-6639-4b2f-b048-aef884a0cdc2
+	}
+	myTGOSpaceIds = "UPlay Main Space"
+	myNameSource "contextComment = \"Weekly challenge reward that awards player with temporary, digital part that lasts for 48 hours\", description = \"ui-weekly-challenge-reward-Trial-48h-Hull-Nadir\", enabled = true, guid = #939A35415C376F57000240020322E400, lineVersion = 0, maxLength = 18, text = \"48h Naid Trial\""
+}
+
+UPlayChallengePrize "[UPlay Challenge Prize] Trial 48h Hull Neptune"
+{
+	myTGOChallengeIds
+	{
+		string 44ad7fe8-7c07-4966-9e16-47816a830fb1 44ad7fe8-7c07-4966-9e16-47816a830fb1
+	}
+	myTGOSpaceIds = "UPlay Main Space"
+	myNameSource "contextComment = \"Weekly challenge reward that awards player with temporary, digital part that lasts for 48 hours\", description = \"ui-weekly-challenge-reward-Trial-48h-Hull-Neptune\", enabled = true, guid = #939A35415C376F580002400631C969BC, lineVersion = 0, maxLength = 22, text = \"48h Neptune Trial\""
+}
+
+UPlayChallengePrize "[UPlay Challenge Prize] Trial 48h Hull Lance"
+{
+	myTGOChallengeIds
+	{
+		string 24469f55-e2b0-4bf1-870b-4f538a3bd3bc 24469f55-e2b0-4bf1-870b-4f538a3bd3bc
+	}
+	myTGOSpaceIds = "UPlay Main Space"
+	myNameSource "contextComment = \"Weekly challenge reward that awards player with temporary, digital part that lasts for 48 hours\", description = \"ui-weekly-challenge-reward-Trial-48h-Hull-Lance\", enabled = true, guid = #939A35415C376F5A0002400AC8381F2E, lineVersion = 0, maxLength = 20, text = \"48h Lance Trial\""
+}
+
+UPlayChallengePrize "[UPlay Challenge Prize] Trial 48h Hull Pulse"
+{
+	myTGOChallengeIds
+	{
+		string 21db49fa-3a4f-4694-b15b-b9544a8446b3 21db49fa-3a4f-4694-b15b-b9544a8446b3
+	}
+	myTGOSpaceIds = "UPlay Main Space"
+	myNameSource "contextComment = \"Weekly challenge reward that awards player with temporary, digital part that lasts for 48 hours\", description = \"ui-weekly-challenge-reward-Trial-48h-Hull-Pulse\", enabled = true, guid = #939A35415C376F5A0002400E70D3441D, lineVersion = 0, maxLength = 20, text = \"48h Pulse Trial\""
+}
+
+UPlayChallengePrize "[UPlay Challenge Prize] Trial 48h Wings Neptune"
+{
+	myTGOChallengeIds
+	{
+		string b8021c9a-96dd-4552-891e-3427e14cf80e b8021c9a-96dd-4552-891e-3427e14cf80e
+	}
+	myTGOSpaceIds = "UPlay Main Space"
+	myNameSource "contextComment = \"Weekly challenge reward that awards player with temporary, digital part that lasts for 48 hours\", description = \"ui-weekly-challenge-reward-Trial-48h-Wings-Neptune\", enabled = true, guid = #939A35415C376F5C0002401254390B3A, lineVersion = 0, maxLength = 22, text = \"48h Neptune Trial\""
+}
+
+UPlayChallengePrize "[UPlay Challenge Prize] Trial 48h Wings Nadir"
+{
+	myTGOChallengeIds
+	{
+		string a274c0e7-f607-4c68-9bb7-7cb4d7fe369e a274c0e7-f607-4c68-9bb7-7cb4d7fe369e
+	}
+	myTGOSpaceIds = "UPlay Main Space"
+	myNameSource "contextComment = \"Weekly challenge reward that awards player with temporary, digital part that lasts for 48 hours\", description = \"ui-weekly-challenge-reward-Trial-48h-Wings-Nadir\", enabled = true, guid = #939A35415C376F5D00024016CE27070C, lineVersion = 0, maxLength = 20, text = \"48h Nadir Trial\""
+}
+
+UPlayChallengePrize "[UPlay Challenge Prize] Trial 48h Wings Pulse"
+{
+	myTGOChallengeIds
+	{
+		string 9b249c5d-5539-45bc-ade4-987fa53f14c9 9b249c5d-5539-45bc-ade4-987fa53f14c9
+	}
+	myTGOSpaceIds = "UPlay Main Space"
+	myNameSource "contextComment = \"Weekly challenge reward that awards player with temporary, digital part that lasts for 48 hours\", description = \"ui-weekly-challenge-reward-Trial-48h-Wings-Pulse\", enabled = true, guid = #939A35415C376F5E0002401AFE421156, lineVersion = 0, maxLength = 20, text = \"48h Pulse Trial\""
+}
+
+UPlayChallengePrize "[UPlay Challenge Prize] Trial 48h Wings Lance"
+{
+	myTGOChallengeIds
+	{
+		string bf2ad9f8-b906-493e-a1de-235a17053298 bf2ad9f8-b906-493e-a1de-235a17053298
+	}
+	myTGOSpaceIds = "UPlay Main Space"
+	myNameSource "contextComment = \"Weekly challenge reward that awards player with temporary, digital part that lasts for 48 hours\", description = \"ui-weekly-challenge-reward-Trial-48h-Wings-Lance\", enabled = true, guid = #939A35415C376F5F0002401E375CB621, lineVersion = 0, maxLength = 20, text = \"48h Lance Trial\""
+}
+
+UPlayChallengePrize "[UPlay Challenge Prize] Trial 48h Weapon Imploder"
+{
+	myTGOChallengeIds
+	{
+		string 53cdfb58-8738-43a5-88cf-ad9965f35870 53cdfb58-8738-43a5-88cf-ad9965f35870
+	}
+	myTGOSpaceIds = "UPlay Main Space"
+	myNameSource "contextComment = \"Weekly challenge reward that awards player with temporary, digital part that lasts for 48 hours\", description = \"ui-weekly-challenge-reward-Trial-48h-Weapon-Imploder\", enabled = true, guid = #939A35415C376F6000024022CFD8A5D9, lineVersion = 0, maxLength = 23, text = \"48h Imploder Trial\""
+}
+
+UPlayChallengePrize "[UPlay Challenge Prize] Trial 48h Weapon Volcano"
+{
+	myTGOChallengeIds
+	{
+		string eafb2163-14e5-4105-93db-5187e6a087d5 eafb2163-14e5-4105-93db-5187e6a087d5
+	}
+	myTGOSpaceIds = "UPlay Main Space"
+	myNameSource "contextComment = \"Weekly challenge reward that awards player with temporary, digital part that lasts for 48 hours\", description = \"ui-weekly-challenge-reward-Trial-48h-Weapon-Volcano\", enabled = true, guid = #939A35415C376F610002402616DEE646, lineVersion = 0, maxLength = 22, text = \"48h Volcano Trial\""
+}
+
+UPlayChallengePrize "[UPlay Challenge Prize] Trial 48h Weapon Nullifier"
+{
+	myTGOChallengeIds
+	{
+		string 18bff0ff-9b07-45d4-a6bf-18a372aaaefe 18bff0ff-9b07-45d4-a6bf-18a372aaaefe
+	}
+	myTGOSpaceIds = "UPlay Main Space"
+	myNameSource "contextComment = \"Weekly challenge reward that awards player with temporary, digital part that lasts for 48 hours\", description = \"ui-weekly-challenge-reward-Trial-48h-Weapon-Nullifier\", enabled = true, guid = #939A35415C376F620002402A8085037E, lineVersion = 0, maxLength = 25, text = \"48h Nullifier Trial\""
+}
+
+UPlayChallengePrize "[UPlay Challenge Prize] Trial 48h Weapon Crusher"
+{
+	myTGOChallengeIds
+	{
+		string 563cb2d4-affd-48a2-9c69-9002f0efca3c 563cb2d4-affd-48a2-9c69-9002f0efca3c
+	}
+	myTGOSpaceIds = "UPlay Main Space"
+	myNameSource "contextComment = \"Weekly challenge reward that awards player with temporary, digital part that lasts for 48 hours\", description = \"ui-weekly-challenge-reward-Trial-48h-Weapon-Crusher\", enabled = true, guid = #939A35415C376F630002402ED91A63D3, lineVersion = 0, maxLength = 22, text = \"48h Crusher Trial\""
+}
+
+UPlayChallengePrize "[UPlay Challenge Prize] Trial 48h Weapon Levitator"
+{
+	myTGOChallengeIds
+	{
+		string 4cad9f01-6b03-464b-a5f5-667b866e3aed 4cad9f01-6b03-464b-a5f5-667b866e3aed
+	}
+	myTGOSpaceIds = "UPlay Main Space"
+	myNameSource "contextComment = \"Weekly challenge reward that awards player with temporary, digital part that lasts for 48 hours\", description = \"ui-weekly-challenge-reward-Trial-48h-Weapon-Levitator\", enabled = true, guid = #939A35415C376F6400024032BC49C6FB, lineVersion = 0, maxLength = 25, text = \"48h Levitator Trial\""
+}
+
+UPlayChallengePrize "[UPlay Challenge Prize] Trial 48h Weapon Shockwave"
+{
+	myTGOChallengeIds
+	{
+		string f8610094-d7ce-47de-a954-4bc363e550c1 f8610094-d7ce-47de-a954-4bc363e550c1
+	}
+	myTGOSpaceIds = "UPlay Main Space"
+	myNameSource "contextComment = \"Weekly challenge reward that awards player with temporary, digital part that lasts for 48 hours\", description = \"ui-weekly-challenge-reward-Trial-48h-Weapon-Shockwave\", enabled = true, guid = #939A35415C376F6500024036F2CF783E, lineVersion = 0, maxLength = 25, text = \"48h Shockwave Trial\""
+}
+
+UPlayChallengePrize "[UPlay Challenge Prize] Trial 48h Weapon Iron Fist"
+{
+	myTGOChallengeIds
+	{
+		string cc67e285-86c4-4a4e-a997-0a7ce75c561c cc67e285-86c4-4a4e-a997-0a7ce75c561c
+	}
+	myTGOSpaceIds = "UPlay Main Space"
+	myNameSource "contextComment = \"Weekly challenge reward that awards player with temporary, digital part that lasts for 48 hours\", description = \"ui-weekly-challenge-reward-Trial-48h-Weapon-Iron-Fist\", enabled = true, guid = #939A35415C376F660002403A99C2E3AF, lineVersion = 0, maxLength = 25, text = \"48h Iron Fist Trial\""
+}
+
+UPlayChallengePrize "[UPlay Challenge Prize] Trial 48h Weapon Hailstorm"
+{
+	myTGOChallengeIds
+	{
+		string 821e9185-a1df-4c29-bf97-b36857e63fa4 821e9185-a1df-4c29-bf97-b36857e63fa4
+	}
+	myTGOSpaceIds = "UPlay Main Space"
+	myNameSource "contextComment = \"Weekly challenge reward that awards player with temporary, digital part that lasts for 48 hours\", description = \"ui-weekly-challenge-reward-Trial-48h-Weapon-Hailstorm\", enabled = true, guid = #939A35415C376F670002403E5CF03701, lineVersion = 0, maxLength = 25, text = \"48h Hailstorm Trial\""
+}
+

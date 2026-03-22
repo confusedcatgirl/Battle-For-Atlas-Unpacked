@@ -1,0 +1,27 @@
+include ./../../fruit/health/DamageTypes.fruit
+
+list DamageTypesList
+{
+	DamageType
+}
+
+class ScrollingCombatTextSettings
+{
+	bool myIsEnabled false					< tooltip = "Is Scrolling Text enabled?" >
+	bool myIsDistanceCullingEnabled true	< tooltip = "Cull text by distance" >
+	bool myIsClumpingEnabled true			< tooltip = "Consolidate streams of identical texts for an entity" >
+	
+	string myFontName "Arial"		< tooltip = "Default font file" >
+	int myFontSize 20				< tooltip = "Default font size" >
+	
+	float myTextDuration 5.0				< tooltip = "How long text should stick around for (in seconds)" >
+	float myTextConsolidationDistance2 1.0	< tooltip = "Any text closer than this distance will be consolidated into a single line" >
+	float myTextScrollSpeed 5.0
+	float myCullingDistance 300				< tooltip = "Text this far away from camera will not draw" >
+	
+	string myDamageFormat "<color hex=0xFFFFFF00>{DamageValue} <color hex=0xFFFFFFFF>(<color hex=0xFFFF0000>{DamageType}<color hex=0xFFFFFFFF>)"		< tooltip = "Formatting for how to display damage packets" >
+	string myHealingFormat "<color hex=0xFF00FF00>{HealValue} <color hex=0xFFFFFFFF>(<color hex=0xFF00FF00>{HealType}<color hex=0xFFFFFFFF>)"			< tooltip = "Formatting for how to display healing" >
+	string myImpactFormat "<color hex=0xFFFFFFFF>{ImpactValue} <color hex=0xFFFFFFFF>(<color hex=0xFFFFFFFF>{ImpactCategoryType}<color hex=0xFFFFFFFF>)" < tooltip = "Formatting for how to display impacts" >
+	
+	DamageTypesList myIgnoreTypes			< tooltip = "List of Damage types to ignore" >
+}

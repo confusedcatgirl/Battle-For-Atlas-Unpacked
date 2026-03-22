@@ -1,0 +1,30 @@
+include ./harvester_drake_dreadnought_reinforcement.msimunit
+include ./outlaw_defender_dreadnought_reinforcement.msimunit
+
+SimUnit outlaw_defender_elite_dreadnought_reinforcement < uid=DDDD6F5D5C38CC0100018B9AA6108444 > : outlaw_defender_dreadnought_reinforcement
+{
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo outlaw_defender_elite_dreadnought < uid=DDDD6F5D5C38CC0100018B9B8AB8EE55 >
+		{
+			myCountMin 1
+			myCountMax 1
+			myEntityFile ""
+			myElementSpawnInfo
+			{
+				SimUnitElementSpawnInfo outlaw_defender_elite_dreadnought
+				{
+					myEntityFile "onward/game system data/juice/ai/npc/outlaw_defender_elite_dreadnought.mnpc"
+				}
+			}
+			mySpaceSettings
+			{
+				myFormationFlightDist 150.0
+			}
+			myEnsurePhysicsClearance TRUE
+		}
+	}
+	myRevealedChallengeType Discover_OutlawElite
+	myUnlockedChallengeType Discover_OutlawElite
+}
+

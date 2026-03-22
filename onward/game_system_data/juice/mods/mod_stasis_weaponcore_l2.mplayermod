@@ -1,0 +1,69 @@
+include ./template_pod.mplayermod
+include ./tuning/mod_tuning_master.juice
+
+float "Weapon Damage" = Stasis_WeaponCore_l2_Damage
+float "Weapon Range" = Stasis_WeaponCore_l2_Range
+
+PlayerMod mod_stasis_weaponcore_l2 < uid=C91BB55159822BFE000884E599918FD8 > : template_pod
+{
+	myAttributeMods
+	{
+		AttributeMod Cold
+		{
+			myType DMG_Cold
+			myMultValue 1.0
+			myPercentageValue = "Weapon Damage"
+		}
+		AttributeMod Crush
+		{
+			myType DMG_Crush
+			myMultValue 1.0
+			myPercentageValue = "Weapon Damage"
+		}
+		AttributeMod Float
+		{
+			myType DMG_Float
+			myMultValue 1.0
+			myPercentageValue = "Weapon Damage"
+		}
+		AttributeMod Heat
+		{
+			myType DMG_Heat
+			myMultValue 1.0
+			myPercentageValue = "Weapon Damage"
+		}
+		AttributeMod Kinetic
+		{
+			myType DMG_Kinetic
+			myMultValue 1.0
+			myPercentageValue = "Weapon Damage"
+		}
+		AttributeMod Max
+		{
+			myType DMG_Max
+			myMultValue 1.0
+			myPercentageValue = "Weapon Damage"
+		}
+		AttributeMod UI_Weapon_Damage
+		{
+			myType UI_Weapon_Damage
+			myPercentageValue = "Weapon Damage"
+		}
+		AttributeMod Range
+		{
+			myType Weapon_Range
+			myAddValue = "Weapon Range"
+		}
+		AttributeMod "Space Range"
+		{
+			myType Weapon_Range_Space
+			myAddValue = "Weapon Range"
+		}
+		AttributeMod "UI Range"
+		{
+			myType UI_Weapon_Range
+			myAddValue = "Weapon Range"
+		}
+	}
+}
+

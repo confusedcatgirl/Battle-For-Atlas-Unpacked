@@ -1,0 +1,28 @@
+include ./fauna_base.mnpc
+
+NPC fauna_05 < uid=4A8282B956DD9FF600000056074B5B4B > : fauna_base
+{
+	myUIName_NonLocalized "Grinder Beetle"
+	myGraphObjectFile "onward/graph objects/character/fauna_05.mgraphobject"
+	myPhysicsCapsuleRadius 3.5
+	myPhysicsPusherCapsuleRadius 3.5
+	myPhysicsCapsuleOriented FALSE
+	myPhysicsPusherCapsule TRUE
+	myPhysicsCapsuleStart 0.0;4.0;3.5
+	myPhysicsCapsuleEnd 0.0;4.0;-2.0
+	myGroundOrientationFraction 1.0
+	myHitReactionConstants "onward/game system data/juice/combat/hitreactionsconstants_fauna_small.juice"
+	myPatternProfile < uid=4A8282B957F295C4005B6E0E4EEC4F4D > = "Fauna 05"
+	myDefaultMotionPattern < uid=4A8282B957F295C4005B6E0F39C05FB9 > = "Fauna 05 Default"
+	myAvoidanceRadius 5.0
+	myNPCType Fauna_05
+	myAnimSystemType Fauna_05
+	myLeggedness Quadruped
+	mySteeringParameters "onward/game system data/juice/ai/steering/fauna_05.juice"
+	myAIVisionConeTypeName SkittishFaunaVisionCone
+	myDefaultFootstepEvent 4D2BEF29A7E63D76767CA24E2A425896
+	myOnDeathChallenge Death_Fauna05
+	myOnDiscoveredChallenge Discover_Fauna05
+	myFullyScannedChallenge FullyScan_Fauna05
+}
+

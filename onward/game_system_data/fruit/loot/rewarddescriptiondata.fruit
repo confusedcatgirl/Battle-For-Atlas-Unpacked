@@ -1,0 +1,31 @@
+include "onward/game system data/fruit/progression/points.fruit"
+include "onward/game system data/fruit/loot/rewarddescriptiontype.fruit"
+include "onward/game system data/fruit/attributes/attributes.fruit"
+
+class RewardDescription_Base
+{
+	varmap myLocalizedRewardDescription < bhv = "localization" >
+	string mySprite < default = "mySpriteId = -455779427, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-placeholder.spritesheet\"" bhv="sprite" >
+	RewardDescriptionType myRewardDescriptionType
+}
+
+class RewardDescription_Points : RewardDescription_Base
+{
+	int myPointAmount
+	AttributeType myAffectedByAttributeMod Player_Invalid
+}
+
+class RewardDescription_SkillPoints : RewardDescription_Base
+{
+	int myPointAmount
+}
+
+list RewardDescription_Base_List
+{
+	RewardDescription_Base
+}
+
+class RewardDescriptionData
+{
+	RewardDescription_Base_List myRewardDescriptions
+}

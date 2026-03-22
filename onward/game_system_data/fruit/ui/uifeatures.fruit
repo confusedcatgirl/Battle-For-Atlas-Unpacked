@@ -1,0 +1,117 @@
+include "onward/game system data/fruit/player/player_options.fruit"
+
+enum UIFeatures
+{
+	None
+
+	< startCategory="HUD_General" >
+	HUD
+	Minimap
+	PlayerHealth
+	StaminaBar
+	PilotAbility
+	Reticule
+	TargetInformation
+	PartAttachmentInformation
+	ObjectiveText
+	Waypoints
+	NearbyAgentMarkers
+	ContextualButtonPrompts
+	NavigationalButtonPrompts
+	MissonBanner
+	CollectionBanner
+	DiscoveryExplorationBanner
+	PlanetDetailsBanner
+	WarEffortBar
+	PilotPIP
+	NPCPIP
+	TutorialMessage
+	StatusVignettes
+	FlyDamage
+	CurrencyCollection
+	HUDFrame
+	EncounterStrategyOverlay
+	SimAlert_PrimeLanded
+	SimAlert_DreadnoughtSpawned
+	SimAlert_CriticalInfectionThreshold
+	PhotoMode
+	
+	< startCategory="HUD_Controls" >
+	NavigationControls
+	HyperdriveControl
+	TakeOffControl
+	TU5_FastTravelDisabled_Equinox
+	
+	< startCategory="Menu_Elements" >
+	Starmap_Available
+	Starmap_PlanetView
+	Starmap_StarSystemView
+	Starmap_FastTravelEnabled
+	Starmap_EquinoxMenu
+	Starmap_PrimeAlerts
+	Outpost_Menu
+	Outpost_CanConstructObservationDecks
+	Outpost_CanConstructResearchBases
+	Outpost_CanConstructMiningCamps
+	Outpost_CanConstructDefenseBases
+	Outpost_HighlightOfferObjective
+	Outpost_HighlightDelivery
+	Outpost_HighlightModShop
+	Outpost_HighlightObservationDecks
+	Outpost_HighlightResearchBases
+	Outpost_HighlightMiningCamps
+	Outpost_HighlightDefenseBases
+	Outpost_HighlightAllianceTower
+	Outpost_Arena_HighlightGauntlet
+	Outpost_Arena_HighlightBrawl
+	Outpost_Arena_HighlightLaserdrome
+	Outpost_Arena_HighlightChampionBattle
+	Equinox_HighlightFirstStoryUpgrade
+	Equinox_HighlightSecondStoryUpgrade
+	Equinox_HighlightThirdStoryUpgrade
+	
+	< startCategory="HUD_Elements" >
+	Minimap_OutpostSlots
+	Minimap_ImpSheds
+	Minimap_Extractors
+	Minimap_Equinox
+	ActivityMarkers_BuildOutposts
+		
+	< startCategory="Cinematic_Controls" >
+	FadeIn
+	FadeOut
+	TitleCard
+	
+	< startCategory="Controls" >
+	EnableUIActions
+	Starmap_SequenceIntended
+
+	< startCategory="Debug" >
+	DEBUG_EnableAllOutposts
+	DEBUG_DisplayStarmapTimers
+	DEBUG_ClearCurrentShip
+	DEBUG_EnableStarmapFastTravel
+	DEBUG_SetLowExpiryTimerForParts
+	DEBUG_StarMapDisableFogOfWar
+	DEBUG_StarMapShowUnitDebug
+	
+	RequirePodOnShip
+}
+
+class UIFeaturePlayerBooleanOptionLink
+{
+	UIFeatures myUIFeature
+	PlayerBooleanOption myPlayerOption
+}
+
+class UIFeaturePlayerTriBoolOptionLink
+{
+	UIFeatures myUIFeature
+	PlayerTriBoolOption myPlayerOption
+}
+
+list UIFeaturePlayerOptionLinks
+{
+    UIFeaturePlayerBooleanOptionLink
+	UIFeaturePlayerTriBoolOptionLink
+}

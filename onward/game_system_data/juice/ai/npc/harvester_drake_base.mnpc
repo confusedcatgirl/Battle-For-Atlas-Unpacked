@@ -1,0 +1,135 @@
+include ./base_npc_space.mnpc
+include onward/skillscripts/npc_ability_harvester_drake_gatling.mskillscriptjuice
+include onward/skillscripts/npc_world_entry_harvester_cyclops_generic.mskillscriptjuice
+include onward/skillscripts/npc_world_entry_harvester_drake_generic.mskillscriptjuice
+include onward/skillscripts/npc_harvester_drake_vfx_listener.mskillscriptjuice
+
+NPC harvester_drake_base < uid=C92F4D3F576981D30000008B9D7AF822 > : base_npc_space
+{
+	myUIName "contextComment = \"The UI Name for the Drake\", description = \"uiname-harvester-drake-base\", enabled = true, guid = #1ABBD50B58B86B9D000148A19F289EBA, lineVersion = 0, maxLength = 8, text = \"Drake\""
+	myUIName_NonLocalized Drake
+	myGraphObjectFile "onward/graph objects/character/harvester_drake.mgraphobject"
+	myBehavior "onward/game system data/juice/ai/behavior/harvester_drake_space.mbehavior"
+	myGibSettings
+	{
+		myInitialSpeed 15.0
+		myInitialAngularSpeed 30.0
+		myDeleteGibsOutsideFOV TRUE
+		myGibTemplates
+		{
+			file "cranium plate" "onward/entity templates/ship_drake_craniumplate_gibs.mentitytemplate"
+			file gunflap "onward/entity templates/ship_drake_gunflap_gibs.mentitytemplate"
+			file gunleft "onward/entity templates/ship_drake_gunleft_gibs.mentitytemplate"
+			file gunlefttop "onward/entity templates/ship_drake_gunlefttop_gibs.mentitytemplate"
+			file gunrightbottom "onward/entity templates/ship_drake_gunrightbottom_gibs.mentitytemplate"
+			file gunrighttop "onward/entity templates/ship_drake_gunrighttop_gibs.mentitytemplate"
+			file stinger "onward/entity templates/ship_drake_stinger_gibs.mentitytemplate"
+			file stingerflap "onward/entity templates/ship_drake_stingerflap_gibs.mentitytemplate"
+			file torsohull "onward/entity templates/ship_drake_torsohull_gibs.mentitytemplate"
+			file torsoleftflap "onward/entity templates/ship_drake_torsoleftflap_gibs.mentitytemplate"
+			file torsorightflap "onward/entity templates/ship_drake_torsorightflap_gibs.mentitytemplate"
+		}
+	}
+	myHealthConfig < uid=4A8282B959F8E86800001DD7B061F842 > = "harvester_drake_base Health"
+	myFireReaction < uid=C308E4DB590742760000C34FD314E02D > = Space_Fire
+	myAbilityDefinitions
+	{
+		NPCAbilityDefinition Gatling
+		{
+			myGameAction NPC_Ability1
+			mySkillScript < uid=6D25F4C65A7E24060002723BFE1B6668 > = npc_ability_harvester_drake_gatling
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_harvester_drake_gatling.juice"
+			myEnabled TRUE
+		}
+		NPCAbilityDefinition "Homing Missiles"
+		{
+			myGameAction NPC_Ability2
+			mySkillScript < uid=6D25F4C65A7E24060002723CAEE2D86B > = npc_ability_homing_missile
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_homing_missiles.juice"
+			myEnabled FALSE
+		}
+		NPCAbilityDefinition Laser
+		{
+			myGameAction NPC_Ability3
+			mySkillScript < uid=6D25F4C65A7E24060002723DD544CDCB > = npc_ability_laser
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_laser.juice"
+			myEnabled FALSE
+		}
+		NPCAbilityDefinition "HyperDrive Jammer"
+		{
+			myGameAction NPC_Ability10
+			mySkillScript < uid=6D25F4C65A7E24060002723E307E7CA6 > = npc_ability_hyperdrive_jammer
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_hyperdrive_jammer.juice"
+			myEnabled TRUE
+		}
+		NPCAbilityDefinition "Heavy Gatling"
+		{
+			myGameAction NPC_Ability4
+			mySkillScript < uid=6D25F4C65A7E24060002723F157374E7 > = npc_ability_outlaw_heavy_gatling
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_outlaw_heavy_gatling.juice"
+			myEnabled FALSE
+		}
+	}
+	myPersistentScripts
+	{
+		SkillScript "VFX Listener" < uid=C92F4D3F5AD7AD460088C893CE8488A5 > = npc_harvester_drake_vfx_listener
+	}
+	myAttributeSettings "onward/game system data/juice/ai/attributes/harvester_drake_base.juice"
+	myCrowdControlAttributeSettings "onward/game system data/juice/ai/attributes/crowd control tiers/npc_cc_tier13.juice"
+	myDropTableOnDeath Kill_Drake_Drop_Table
+	myDropTableOnDamage Drake_Base_Incremental
+	myDamageDropInterval 0.25
+	myMass 600.0
+	myLinearInertiaThreshold 2200.0
+	myMaxLinearForce 450000.0
+	myDynamicFriction 0.0
+	myPhysicsCapsuleHeight 0.1
+	myPhysicsSupportHeight 0.0
+	myPhysicsCapsuleRadius 4.0
+	myPhysicsSnapToGround FALSE
+	myIsAffectedByGravity FALSE
+	myImpactCategorySettings "onward/game system data/juice/combat/impactcategorysettings_default_space.juice"
+	myNeedsGroundToSteer FALSE
+	myNeedsGroundToMove FALSE
+	myUseNavMeshForMovement FALSE
+	myPatternProfile < uid=C92F4D3F576981D30000008CE9BF2EDE > = "Harvester Drake"
+	myDefaultMotionPattern < uid=C92F4D3F576981D30000008DD8AEF382 > = "Harvester Drake Default"
+	myAvoidanceRadius 9.0
+	myNPCFaction Harvester
+	myNPCType Harvester_Drake
+	myAnimSystemType Civ_Raider
+	myThreatLevel 10.0
+	myBaseThreatProfile
+	{
+		myDeAggroRange 2000.0
+		myHarvesterBaseThreat 0.0
+		myCloseRange 100.0
+		myMediumRange 300.0
+		myLongRange 500.0
+		myExtremeRange 800.0
+	}
+	mySteeringParameters "onward/game system data/juice/ai/steering/civ_raider.juice"
+	myAgentController DefaultAgentController
+	myAIVisionConeTypeName DrakeVisionCone
+	myDamageReactionSettings "onward/game system data/juice/ai/reactions/damage_reactions_harvester_drake_base.juice"
+	myHitReactionRules "onward/game system data/juice/ai/reactions/reaction_rules_npc_space.juice"
+	myConstructionDuration 5.0
+	myDefaultNavigationType Newtonian
+	myOnDeathChallenge Death_Drake
+	myOnDiscoveredChallenge Discover_Drake
+	myPreWorldEntrySkillScript < uid=6D25F4C659EA1720000001AF6FA16D99 > = npc_world_entry_harvester_drake_generic
+	myUseVisualImpactProcessor TRUE
+	myVisualImpactSettings
+	{
+		myAngularStrengthMin 0.5
+		myAngularStrengthMax 2.0
+		myUseFixedMass TRUE
+		myFixedMass 100.0
+	}
+}
+

@@ -1,0 +1,36 @@
+include ./rareprop_slot.msimunit
+
+SimUnit grappler_base_pluckable_slot < uid=CC9485AB5C477C7600000085499D59FF > : rareprop_slot
+{
+	myUIName ""
+	myControlGraph onward/simworld/control/grappler_base_pluckable_slot.msimunitcontrolgraph
+	myCategory StoryTarget
+	mySubCategory PluckableBase
+	mySubCategoryVariant 1
+	myRadius 1.0
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo Resource < uid=CC9485AB5C477C7600000086051984B6 >
+		{
+			myCountMin 1
+			myCountMax 1
+			myIgnoreHealth FALSE
+			myIgnoreNavMesh TRUE
+			myIgnoreTerrain TRUE
+			myEntityFile "onward/entity templates/grappler_base_pluckable_slot.mentitytemplate"
+			myRealizeOnDetach FALSE
+			myAttachOffset 0.0;0.0;0.0
+		}
+	}
+	mySaveable FALSE
+	myNapTime 1.0
+	myNapWhenRealized FALSE
+	myNapIfHaveChildren FALSE
+	myUnRealizableUntilEvent TU5_Disable_LumiaReinforcements
+	myInterestSettings
+	{
+		myIsEnabled FALSE
+		myShouldLockValidTarget TRUE
+	}
+}
+

@@ -1,0 +1,34 @@
+include ./templates/template_l5.juice
+include "onward/game system data/juice/mods/mod_gravity_weaponcore_l5.mplayermod"
+
+Enhancement gravityweaponcore_l5 < uid=C91BB5515982282B0008842686633B58 > : "Level 5"
+{
+	myLocalizedName "contextComment = \"[Placeholder - do not translate]\nName for level 5 version of Gravity Weapon Core mod, which boosts effectiveness of Gravity-type weapons\", description = \"\", enabled = true, guid = #C91BB5515982282B00088425CF996EB4, lineVersion = 2, maxLength = 20, text = \"Crushing Ammo V\""
+	myLocalizedDescription "contextComment = \"Placeholder - do not translate]\nDescription for level 5 version of Gravity Weapon Core mod, which greatly boosts damage and range for gravity-type weapons. Targets inside a gravity effect (Gravity field or Black Hole) take even more damage. The weapon might spawn a black hole when damaging an enemy\", description = \"enhancement-description-gravity-weapon-core-5\", enabled = true, guid = #9E6AFEDA59D25A7200A860C459229E8F, lineVersion = 3, maxLength = 174, text = \"+100% Damage | +10% Range\n+50% Damage to targets in Gravity Effects\nChance to spawn Black Hole on damage\nEquip on Gravity type Weapons\""
+	myIconSprite "mySpriteId = 1043611335, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-mods-weapon-core.spritesheet\""
+	myPartFlavor Crush
+	myMod < uid=C91BB5515982282B000884278AC3A7F5 > = mod_gravity_weaponcore_l5
+	myEnhancementType WeaponCore
+	myEnhancementTrackType GravityWeaponCore
+	myDamageAffectors
+	{
+		DamageAffector_SpawnProjectile "Chance of Black Hole"
+		{
+			myCooldown 10.0
+			myChance = Gravity_WeaponCore_l5_ChanceBH
+			myLifetime 4.0
+			myEntityTemplate "onward/entity templates/projectile_black_hole.mentitytemplate"
+			mySpawnAtTarget FALSE
+		}
+		DamageAffector_TargetInsideVolume "Extra Damage to Targets inside Gravity Volume"
+		{
+			myDamageMultiplier = Gravity_WeaponCore_l5_ExtraDamage
+			myCategories
+			{
+				VolumeMitigationCategory "Gravity Well" GravityWell
+				VolumeMitigationCategory "Black Hole" BlackHole
+			}
+		}
+	}
+}
+

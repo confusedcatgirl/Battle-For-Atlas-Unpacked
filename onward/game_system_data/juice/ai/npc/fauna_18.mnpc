@@ -1,0 +1,57 @@
+include ./fauna_aggressive.mnpc
+include onward/skillscripts/npc_ability_fauna_shatter.mskillscriptjuice
+include onward/skillscripts/npc_ability_fauna_gatling.mskillscriptjuice
+include onward/skillscripts/npc_ability_fauna_knockback.mskillscriptjuice
+
+NPC fauna_18 < uid=D1E9B2CB58334872000000C6A897AF89 > : fauna_aggressive
+{
+	myUIName_NonLocalized Pentolope
+	myGraphObjectFile "onward/graph objects/character/fauna_18.mgraphobject"
+	myBehavior "onward/game system data/juice/ai/behavior/fauna_02.mbehavior"
+	myIsInitiallyAggressive TRUE
+	myAbilityDefinitions
+	{
+		NPCAbilityDefinition Shoot
+		{
+			myGameAction NPC_Ability1
+			mySkillScript < uid=C92F4D3F578CF19A016256EC8B2CF055 > = npc_ability_fauna_gatling
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_fauna_18_shoot.juice"
+		}
+		NPCAbilityDefinition Shatter
+		{
+			myGameAction NPC_Ability2
+			mySkillScript < uid=C92F4D3F578CF19A016256EC8B2CF055 > = npc_ability_fauna_shatter
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_fauna_shatter.juice"
+			myEnabled FALSE
+		}
+		NPCAbilityDefinition Knockback
+		{
+			myGameAction NPC_Ability4
+			mySkillScript < uid=93869D535A9EB95E00001CDAAFC2EEE2 > = npc_ability_fauna_knockback
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_fauna_18_knockback.juice"
+		}
+	}
+	myPhysicsCapsuleHeight 2.0
+	myPhysicsCapsuleRadius 3.0
+	myPhysicsPusherCapsuleRadius 5.5
+	myPhysicsPusherCapsule TRUE
+	myPhysicsCapsuleStart 0.0;13.0;9.0
+	myPhysicsCapsuleEnd 0.0;10.0;-2.0
+	myGroundOrientationFraction 0.5
+	myHitReactionConstants "onward/game system data/juice/combat/hitreactionsconstants_fauna_medium.juice"
+	myPatternProfile < uid=4A8282B957BB265B000000B05863A5B8 > = "Fauna 18"
+	myDefaultMotionPattern < uid=4A8282B957BB265B000000B11D2E91BA > = "Fauna 18 Default"
+	myAvoidanceRadius 6.0
+	myNPCType Fauna_18
+	myAnimSystemType Fauna_18
+	myLeggedness Biped
+	mySteeringParameters "onward/game system data/juice/ai/steering/fauna_03.juice"
+	myDefaultFootstepEvent 429DA0CD18970526DCF399B3E7351F9C
+	myOnDeathChallenge Death_Fauna18
+	myOnDiscoveredChallenge Discover_Fauna18
+	myFullyScannedChallenge FullyScan_Fauna18
+}
+

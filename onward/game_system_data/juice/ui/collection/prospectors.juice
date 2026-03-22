@@ -1,0 +1,110 @@
+include "onward/game system data/fruit/ui/collection/databasesubcategory.fruit"
+
+CustomDatabaseEntry Profile < uid=1ABBD50B584AE85700003039295554F9 >
+{
+	myLocalizedDescription "contextComment = \"Left blank to leave more room for the narrative text. Database tactics tips about the Prospector faction.\", description = \"collectibles_database_prospectors_profile_tactics\", enabled = true, guid = #1ABBD50B584AE84A00002FC9BB78F4BA, lineVersion = 1, maxLength = 350, text = \"|empty|\""
+	myLocalizedNarrative "contextComment = \"[PLACEHOLDER - do not translate].\nDatabase profile about the Prospector faction.\", description = \"collectibles_database_prospectors_profile_description\", enabled = true, guid = #A08A88CF589A3AEA000030D5ED46220C, lineVersion = 1, maxLength = 589, text = \"Prospectors represent the settled peoples of Atlas who were too stubborn to flee the awakening of the Legion. They, and their predecessors before them, have staked their claim on Atlas and will defend their right to live there to their last breath.\n\nEver industious, the Prospectors are committed to self-sufficiency, sustainably gathering the materials they need to survive and flourish in their environment, and defending their homes against invasion.\""
+	myPortrait onward/baked/textures/ui/icons/database_banner_large/prospectors/ui-database-prospectors-large.dds
+	mySprite "mySpriteId = 1882030365, mySpritesheet = F\"onward/ui/spritesheets/ui-icons-collection-database.spritesheet\""
+	myRevealedChallengeType Discover_Prospector
+	myUnlockedChallengeType Discover_Prospector
+	myCollectibleSubType Faction
+	myLocalizedName "contextComment = \"NName for the Prospector faction, shown in the Database entry profiling that faction\", description = \"collectibles_database_prospectors_profile_name\", enabled = true, guid = #1ABBD50B584AE84A00002FC742EB8ED9, lineVersion = 1, maxLength = 1, text = \"Prospectors\""
+}
+
+SimUnitDatabaseEntries Structures
+{
+	SimUnitDatabaseEntry "Mining Center" < uid=1ABBD50B59497A2C0001FCF3C59D1DA4 >
+	{
+		myLocalizedDescription "contextComment = \"[PLACEHOLDER - do not translate].\nTactical summary for Prospector mining camps, shown in the Database\", description = \"database-item-description-prospector-miningcenter\", enabled = true, guid = #A08A88CF588A61830002DF501D454037, lineVersion = 2, maxLength = 269, text = \"Produces regular shipments of Electrum,\nand Hoppers to speed up gathering from Electrum Veins\n\nCollects Mineral resources and equipment\n\nBuild Refineries to power outpost building\nand upgrades to the Equinox\""
+		myLocalizedShortDescription "contextComment = \"[PLACEHOLDER - do not translate]\nA short summary about Prospector mining outposts (refineries) & their benefits shown when selecting a refinery icon on the Starmap\", description = \"database-item-shortdescription-prospector-miningcenter\", enabled = true, guid = #9E6AFEDA59DFF7AF006EAC14EF3943E9, lineVersion = 0, maxLength = 200, text = \"Refineries collect surface Electrum in a sustainable way - ally with refineries for regular resource shipments.\""
+		myLocalizedNarrative "contextComment = \"[PLACEHOLDER - do not translate].\nNarrative blurb for Prospector mining camps, shown in the Database\", description = \"database-item-narrative-prospector-miningcenter\", enabled = true, guid = #A08A88CF588A61830002DF5101A1E919, lineVersion = 1, maxLength = 290, text = \"Prospectors have been living off of the land in Atlas for centuries, emphasizing a sustainable form of mining that allows them to maintain their ships and settlements without the polluting effects of the ancient Extractors.\""
+		myPortrait onward/baked/textures/ui/icons/database_banner_large/prospectors/ui-database-prospectors-mining-base-large.dds
+		mySprite "mySpriteId = -1935335034, mySpritesheet = F\"onward/ui/spritesheets/ui-icons-collection-database.spritesheet\""
+		myRevealedChallengeType Discover_ProspectorMiningCenter
+		myUnlockedChallengeType Discover_ProspectorMiningCenter
+		myDeathChallengeType Build_ProspectorMiningCenter
+		myCollectibleSubType Structure
+		mySuppressPipAutoUnlock TRUE
+		mySimUnitFiles
+		{
+			file "Normal Outposts" "onward/game system data/juice/sim/prospector_mining_center.msimunit"
+			file "Eli's Outpost" "onward/game system data/juice/sim/act_2_haven_mining_center.msimunit"
+		}
+	}
+	SimUnitDatabaseEntry "Defense Base" < uid=1ABBD50B59497A2C0001FCF2E8A74789 >
+	{
+		myLocalizedDescription "contextComment = \"[PLACEHOLDER - do not translate].\nTactical summary of Prospector defense bases, shown in the Database\", description = \"database-item-description-prospector-defensebase\", enabled = true, guid = #A08A88CF588A617D0002DF4A3C6F45FB, lineVersion = 1, maxLength = 251, text = \"Produce Watchtowers and Vigilante ships\nto patrol the planet & keep nearby settlements safe\n\nCollect Mineral resources to fortify defenses\n\nStrongest outpost in combat, use them to hold planets\""
+		myLocalizedShortDescription "contextComment = \"[PLACEHOLDER - do not translate]\nA short summary about Prospector defense outposts (armories) & their benefits shown when selecting an armory icon on the Starmap\", description = \"database-item-shortdescription-prospector-defensebase\", enabled = true, guid = #9E6AFEDA59DFF88A008CF7908E45B922, lineVersion = 0, maxLength = 200, text = \"Armories defend planets against Legion invasion, helping slow & reverse their spread.\""
+		myLocalizedNarrative "contextComment = \"[PLACEHOLDER - do not translate].\nNarrative blurb for Prospector defense bases, shown in the Database\", description = \"database-item-narrative-prospector-defensebase\", enabled = true, guid = #A08A88CF588A617D0002DF4B115A8054, lineVersion = 1, maxLength = 295, text = \"Armories fortify the land they occupy, ensuring that the march of the Legion is halted, at least for a while. They deploy numerous defense mechanisms, including watchtowers that fire on sight and a multitude of defensive units.\""
+		myPortrait onward/baked/textures/ui/icons/database_banner_large/prospectors/ui-database-prospectors-defense-base-large.dds
+		mySprite "mySpriteId = -898647895, mySpritesheet = F\"onward/ui/spritesheets/ui-icons-collection-database.spritesheet\""
+		myRevealedChallengeType Discover_ProspectorDefenseBase
+		myUnlockedChallengeType Discover_ProspectorDefenseBase
+		myDeathChallengeType Build_ProspectorDefenseBase
+		myCollectibleSubType Structure
+		mySuppressPipAutoUnlock TRUE
+		mySimUnitFiles
+		{
+			file 1 "onward/game system data/juice/sim/prospector_defense_base.msimunit"
+			file "Tundria Defense Base" "onward/game system data/juice/sim/act_4_tundria_defense_base.msimunit"
+			file "Galla's Armory" "onward/game system data/juice/sim/act_3_vylus_observatory.msimunit"
+		}
+	}
+	SimUnitDatabaseEntry Jails < uid=A08A88CF5BFED966000077EC2C56501A >
+	{
+		myLocalizedDescription "contextComment = \"A tactical/functional description of the Prospector Jails. For other structures (largely outposts), this is 2-3 bullet point sentence fragments.\", description = \"database-item-description-prospector-jail\", enabled = true, guid = #A08A88CF5BFED976000077F45AA37C7E, lineVersion = 1, maxLength = 53, text = \"[Prospector Jail - Tactical Description.]\""
+		myLocalizedShortDescription "contextComment = \"A short summary/description of the Prospector Jails, shown on the starmap rollover cards.\", description = \"database-item-shortdescription-prospector-jail\", enabled = true, guid = #A08A88CF5BFED977000077F5ECF4AF4C, lineVersion = 1, maxLength = 49, text = \"[Prospector Jail - Short Description.]\""
+		myLocalizedNarrative "contextComment = \"The narrative/lore behind Prospector jails.\", description = \"database-item-narrative-prospector-jail\", enabled = true, guid = #A08A88CF5BFED977000077F645926494, lineVersion = 1, maxLength = 39, text = \"[Prospector Jail - Narrative.]\""
+		myPortrait onward/baked/textures/UI/icons/database_banner_large/chronicles/ui-database-factionstories-prospector-start.dds
+		mySprite "mySpriteId = 2035089665, mySpritesheet = F\"onward/ui/spritesheets/ui-icons-collection-database-03.spritesheet\""
+		myBannerSprite "mySpriteId = 2035089665, mySpritesheet = F\"onward/ui/spritesheets/ui-icons-collection-database-03.spritesheet\""
+		myAttachScreenSprite "mySpriteId = 2035089665, mySpritesheet = F\"onward/ui/spritesheets/ui-icons-collection-database-03.spritesheet\""
+		myRevealedChallengeType Unlock_Prisons
+		myUnlockedChallengeType Unlock_Prisons
+		myCollectibleSubType Structure
+		mySimUnitFiles
+		{
+			file "Jail Simunit" "onward/game system data/juice/sim/prospector_jail.msimunit"
+			file "Jail Simunit 1" "onward/game system data/juice/sim/prospector_jail_01.msimunit"
+			file "Jail Simunit 2" "onward/game system data/juice/sim/prospector_jail_02.msimunit"
+			file "Jail Simunit 3" "onward/game system data/juice/sim/prospector_jail_03.msimunit"
+		}
+	}
+}
+
+SimUnitDatabaseEntries Units
+{
+	SimUnitDatabaseEntry Worker < uid=1ABBD50B59497A2C0001FCF59510E94F >
+	{
+		myLocalizedDescription "contextComment = \"[PLACEHOLDER - do not translate].\nA tactical summary of the prospector workers, shown in the Database\", description = \"database-item-description-prospector-worker\", enabled = true, guid = #A08A88CF588A61EF0002DF8FB6A682AF, lineVersion = 1, maxLength = 109, text = \"Produced by Prospector Refineries\n\nCollect Mineral resources from their surroundings\""
+		myLocalizedNarrative "contextComment = \"[PLACEHOLDER - do not translate].\nNarrative blurb about the Prospector worker units, shown in the Database\", description = \"database-item-narrative-prospector-worker\", enabled = true, guid = #A08A88CF588A61EF0002DF906FC8DB94, lineVersion = 1, maxLength = 330, text = \"Prospector miners are the driving force of the Prospector work force. Industrious and inventive, the miners are consistently mining and scavenging planets to maximize their use of the land and ensure it will be a safe, productive place for years to come.\""
+		myPortrait onward/baked/textures/ui/icons/database_banner_large/prospectors/ui-database-prospectors-worker-large.dds
+		mySprite "mySpriteId = -562393640, mySpritesheet = F\"onward/ui/spritesheets/ui-icons-collection-database.spritesheet\""
+		myRevealedChallengeType Discover_ProspectorWorker
+		myUnlockedChallengeType Discover_ProspectorWorker
+		myCollectibleSubType Unit
+		mySimUnitFiles
+		{
+			file 1 "onward/game system data/juice/sim/prospector_worker.msimunit"
+			file 2 "onward/game system data/juice/sim/prospector_worker_elite.msimunit"
+		}
+	}
+	SimUnitDatabaseEntry Defender < uid=1ABBD50B59497A2C0001FCF428F66CF5 >
+	{
+		myLocalizedDescription "contextComment = \"[PLACEHOLDER - do not translate].\nDatabase tactical summary for Prospector Defender units\", description = \"database-item-description-prospector-defender\", enabled = true, guid = #A08A88CF588A61F30002DF9558318075, lineVersion = 1, maxLength = 211, text = \"Produced from Prospector Armories,\npatrols & defends surrounding area\n\nMost effective allied combat unit,\nfight alongside them to help defeat\nstrong Legion forces\""
+		myLocalizedNarrative "contextComment = \"[PLACEHOLDER - do not translate].\nDatabase narrative blurb for Prospector Defender units\", description = \"database-item-narrative-prospector-defender\", enabled = true, guid = #A08A88CF588A61F30002DF967B4FDA99, lineVersion = 1, maxLength = 343, text = \"Protection was the word when it came to the design of the Prospector Vigilante. It is heavily armoured and is equipped with formidable weaponry, which in combination allows them to fend off any natural threats that might emerge around their camps or their miners. \""
+		myPortrait onward/baked/textures/ui/icons/database_banner_large/prospectors/ui-database-prospectors-defender-large.dds
+		mySprite "mySpriteId = -1697707596, mySpritesheet = F\"onward/ui/spritesheets/ui-icons-collection-database.spritesheet\""
+		myRevealedChallengeType Discover_ProspectorDefender
+		myUnlockedChallengeType Discover_ProspectorDefender
+		myCollectibleSubType Unit
+		mySimUnitFiles
+		{
+			file 1 "onward/game system data/juice/sim/prospector_defender.msimunit"
+			file 2 "onward/game system data/juice/sim/prospector_squad.msimunit"
+			file 3 "onward/game system data/juice/sim/prospector_defender_elite.msimunit"
+		}
+	}
+}
+

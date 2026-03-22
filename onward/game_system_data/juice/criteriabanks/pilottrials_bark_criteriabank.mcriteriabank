@@ -1,0 +1,142 @@
+include "onward/game system data/fruit/rulesystem/criteriabank.fruit"
+
+CriteriaBank pilottrials_bark_CriteriaBank < uid=71C719A75C07FB5A000002B7E16BF799 >
+{
+	myDescription "All Criteria for Pilot Trials"
+	myIntCriteria
+	{
+		Int_Criterion "Instigator is in the Lead" < uid=71C719A75C080D2B00000085FEE9D7FD >
+		{
+			myScope Instigator
+			compareType EqualToMax
+			label Overdrive_CurrPlacing
+		}
+		Int_Criterion "Instigator was in the Lead" < uid=71C719A75C09475D000002D2D1020D2E >
+		{
+			myScope Instigator
+			compareType EqualToMax
+			label Overdrive_LastPlacing
+		}
+		Int_Criterion "Player Is Not Leading" < uid=71C719A75C0E6B110000030E1A1DA051 >
+		{
+			compareType EqualToMax
+			label Overdrive_PlayerLeading
+			maxValue 0
+		}
+		Int_Criterion "Leader Lap1" < uid=71C719A75C0E909F0000039365778635 >
+		{
+			compareType EqualToMax
+			label Overdrive_LeaderLap
+			maxValue 1
+		}
+		Int_Criterion "Leader Lap2" < uid=71C719A75C0E909F00000394756CFC34 >
+		{
+			compareType EqualToMax
+			label Overdrive_LeaderLap
+			maxValue 2
+		}
+		Int_Criterion "Leader Last Lap" < uid=71C719A75C0E909F000003957F65A721 >
+		{
+			compareType EqualToMax
+			label Overdrive_LeaderLapsLeft
+			maxValue 1
+		}
+		Int_Criterion "Leader NOT Last Lap" < uid=71C719A75C0F988A00000379A047A6C6 >
+		{
+			compareType GreaterThanMin
+			label Overdrive_LeaderLapsLeft
+			minValue 1
+		}
+		Int_Criterion "Instigator Human Won Race" < uid=71C719A75C0FCB330000037FD4772352 >
+		{
+			myScope Instigator
+			compareType GreaterThanMin
+			label Overdrive_HumanWon
+		}
+		Int_Criterion "Instigator Human Lost Race" < uid=71C719A75C0FCB8400000380CE25E966 >
+		{
+			myScope Instigator
+			compareType EqualToMax
+			label Overdrive_HumanWon
+		}
+		Int_Criterion "Za Race Unlocked BloodedKings" < uid=600A30F35C4F450A00000038DC49573C >
+		{
+			myScope Global
+			compareType EqualToMax
+			label Race_Unlocked_BloodedKings
+			maxValue 1
+		}
+		Int_Criterion "Za Race Unlocked WildWinds" < uid=600A30F35C4F450A000000396AC6C5F5 >
+		{
+			myScope Global
+			compareType EqualToMax
+			label Race_Unlocked_WildWinds
+			maxValue 1
+		}
+		Int_Criterion "Za Race Unlocked Overlords" < uid=600A30F35C4F450A0000003AB84E5609 >
+		{
+			myScope Global
+			compareType EqualToMax
+			label Race_Unlocked_Overlords
+			maxValue 1
+		}
+		Int_Criterion "Za Race Unlocked Phantoms" < uid=600A30F35C4F450A0000003B1DA2F2E9 >
+		{
+			myScope Global
+			compareType EqualToMax
+			label Race_Unlocked_Phantoms
+			maxValue 1
+		}
+		Int_Criterion "Za Race Locked BloodedKings" < uid=600A30F35C4F450A0000003C8BC4B6D6 >
+		{
+			myScope Global
+			compareType EqualToMax
+			label Race_Unlocked_BloodedKings
+			maxValue 0
+		}
+		Int_Criterion "Za Race Locked WildWinds" < uid=600A30F35C4F450A0000003DD7712336 >
+		{
+			myScope Global
+			compareType EqualToMax
+			label Race_Unlocked_WildWinds
+			maxValue 0
+		}
+		Int_Criterion "Za Race Locked Overlords" < uid=600A30F35C4F450A0000003E1D45D9CF >
+		{
+			myScope Global
+			compareType EqualToMax
+			label Race_Unlocked_Overlords
+			maxValue 0
+		}
+		Int_Criterion "Za Race Locked Phantoms" < uid=600A30F35C4F450A0000003F177A5534 >
+		{
+			myScope Global
+			compareType EqualToMax
+			label Race_Unlocked_Phantoms
+			maxValue 0
+		}
+		Int_Criterion "Races are Locked" < uid=0A1D74E75C79AD2E000180668E196F96 >
+		{
+			compareType EqualToMax
+			label Races_Are_Unlocked
+		}
+		Int_Criterion "Races are Unlocked" < uid=0A1D74E75C79AD2E000180670A9C7638 >
+		{
+			compareType GreaterThanMin
+			label Races_Are_Unlocked
+		}
+	}
+	myFloatCriteria
+	{
+	}
+	myStringCriteria
+	{
+		String_Criterion "Cludge Instig Damage Type" < uid=71C719A75C080F070000008690679C43 >
+		{
+			myScope Instigator
+			label Last_Received_DamageType
+			value bumpy
+		}
+	}
+}
+

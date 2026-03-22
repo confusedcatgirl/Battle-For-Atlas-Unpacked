@@ -1,0 +1,980 @@
+include "onward/game system data/fruit/opportunitysystem/opportunitysystemconfig.fruit"
+
+float "Activity Expiration Close" 400.0
+float "Activity Expiration Medium" 600.0
+float "Activity Expiration Far" 700.0
+
+OnItConstraints OnItActivitiesContraintsBase
+{
+	myActivityConstraints
+	{
+		ActivityConstraint Attack
+		{
+			myActivityType Attack
+			myParticipant Always
+		}
+		ActivityConstraint Defend
+		{
+			myActivityType Defend
+			myParticipant Always
+		}
+		ActivityConstraint Deliver
+		{
+			myActivityType Deliver
+			myParticipant Always
+		}
+		ActivityConstraint DeliverAnalyzer
+		{
+			myActivityType DeliverAnalyzer
+			myParticipant Always
+		}
+		ActivityConstraint DeliverBomb
+		{
+			myActivityType DeliverBomb
+			myParticipant Always
+		}
+		ActivityConstraint DeliverStructure
+		{
+			myActivityType DeliverStructure
+			myParticipant Always
+		}
+		ActivityConstraint Find
+		{
+			myActivityType Find
+			myParticipant Always
+		}
+		ActivityConstraint Repair
+		{
+			myActivityType Repair
+			myParticipant Always
+		}
+		ActivityConstraint Solve
+		{
+			myActivityType Solve
+			myParticipant Always
+		}
+		ActivityConstraint Survive
+		{
+			myActivityType Survive
+			myParticipant Always
+		}
+	}
+}
+
+OpportunitySystemConfig "Opportunity System Config"
+{
+	myOpportunityManagerConfig
+	{
+		myBaseConfig
+		{
+			myApproachOnItTargetRange 600.0
+			myPlanetActivityTargetRange = "Activity Expiration Medium"
+			mySpaceActivityTargetRange 3000.0
+			myUILine_Completed "contextComment = \"\", description = \"opportunity-banner-complete-generic\", enabled = true, guid = #954305805B0D6F0500001DD29546FA90, lineVersion = 0, maxLength = 26, text = \"[Mission Successful]\""
+			myUILine_Expired "contextComment = \"\", description = \"opportunity-banner-expire-generic\", enabled = true, guid = #954305805B0D6F0500001DD49D4F2901, lineVersion = 0, maxLength = 21, text = \"[Mission Failed]\""
+		}
+		myAttackConfig
+		{
+			myApproachOnItTargetRange 600.0
+			myPlanetActivityTargetRange = "Activity Expiration Close"
+			myUILine_Completed "contextComment = \"\", description = \"\", enabled = true, guid = #9543058059CC1BEA000000364D81BEE0, lineVersion = 0, maxLength = 21, text = \"Target Destroyed\""
+			myUILine_Expired "contextComment = \"\", description = \"\", enabled = true, guid = #9543058059CC1BEA0000003836DF2BE4, lineVersion = 0, maxLength = 18, text = \"Mission Failed\""
+			myPlayerProximityRadius 400.0
+		}
+		myDefendConfig
+		{
+			myApproachOnItTargetRange 600.0
+			myPlanetActivityTargetRange = "Activity Expiration Close"
+			myUILine_Completed "contextComment = \"\", description = \"\", enabled = true, guid = #9543058059CC1C120000003E271BC125, lineVersion = 0, maxLength = 22, text = \"Defend Successful\""
+			myUILine_Expired "contextComment = \"\", description = \"\", enabled = true, guid = #9543058059CC1C120000004094A658B3, lineVersion = 0, maxLength = 18, text = \"Defense Failed\""
+			myDefendZoneRadius 300.0
+			myDefendRadiusList
+			{
+				DefendRadius Small
+				{
+					myDefendZoneRadius 150.0
+				}
+				DefendRadius Medium
+				{
+					mySize Medium
+					myDefendZoneRadius 200.0
+				}
+				DefendRadius Large
+				{
+					mySize Large
+				}
+				DefendRadius Enormous
+				{
+					mySize Enormous
+					myDefendZoneRadius 400.0
+				}
+			}
+		}
+		myFindConfig
+		{
+			myApproachOnItTargetRange 600.0
+			myPlanetActivityTargetRange = "Activity Expiration Medium"
+			myUILine_Completed "contextComment = \"The typical use case for this is that something asks you to goto a building like an outpost.  This text displays when player has arrived there.\", description = \"\", enabled = true, guid = #9543058059CC1C2600000046E1119FAC, lineVersion = 1, maxLength = 18, text = \"Target Reached\""
+			myUILine_Expired "contextComment = \"\", description = \"\", enabled = true, guid = #9543058059CC1C26000000486AA55B26, lineVersion = 0, maxLength = 18, text = \"Mission Failed\""
+		}
+		myDeliverConfig
+		{
+			myApproachOnItTargetRange 600.0
+			myPlanetActivityTargetRange = "Activity Expiration Medium"
+			myUILine_Completed "contextComment = \"\", description = \"\", enabled = true, guid = #9543058059CC1C390000004E63EA34BE, lineVersion = 0, maxLength = 20, text = \"Deliver Success\""
+			myUILine_Expired "contextComment = \"\", description = \"\", enabled = true, guid = #9543058059CC1C3900000050C38A2CCF, lineVersion = 0, maxLength = 18, text = \"Deliver Failed\""
+		}
+		myDeliverStructureConfig
+		{
+			myApproachOnItTargetRange 600.0
+			myPlanetActivityTargetRange = "Activity Expiration Medium"
+			myUILine_Completed "contextComment = \"\", description = \"\", enabled = true, guid = #9543058059CC1C480000005648D00153, lineVersion = 0, maxLength = 18, text = \"Tower Deployed\""
+			myUILine_Expired "contextComment = \"\", description = \"\", enabled = true, guid = #9543058059CC1C48000000582F093D58, lineVersion = 0, maxLength = 18, text = \"Mission Failed\""
+			myDeliverStructureRadius 100.0
+		}
+		mySurviveConfig
+		{
+			myApproachOnItTargetRange 600.0
+			myPlanetActivityTargetRange = "Activity Expiration Close"
+			myUILine_Completed "contextComment = \"\", description = \"\", enabled = true, guid = #9543058059CC1C5C0000005EC4797488, lineVersion = 0, maxLength = 22, text = \"Decode Successful\""
+			myUILine_Expired "contextComment = \"\", description = \"\", enabled = true, guid = #9543058059CC1C5C000000608ABFA969, lineVersion = 0, maxLength = 17, text = \"Decode Failed\""
+		}
+		myRepairConfig
+		{
+			myApproachOnItTargetRange 600.0
+			myPlanetActivityTargetRange = "Activity Expiration Close"
+			myUILine_Completed "contextComment = \"\", description = \"\", enabled = true, guid = #9543058059CC1C71000000662AD1D766, lineVersion = 0, maxLength = 22, text = \"Repair Successful\""
+			myUILine_Expired "contextComment = \"\", description = \"\", enabled = true, guid = #9543058059CC1C710000006845544B79, lineVersion = 0, maxLength = 18, text = \"Mission Failed\""
+		}
+		myLiberateConfig
+		{
+			myApproachOnItTargetRange = "Activity Expiration Medium"
+			myUILine_Completed "contextComment = \"\", description = \"Liberate_Success\", enabled = true, guid = #4A79E0E45AFB334900001DBA67C7C1CD, lineVersion = 0, maxLength = 27, text = \"Liberation Successful\""
+			myUILine_Expired "contextComment = \"\", description = \"Liberate_Fail\", enabled = true, guid = #4A79E0E45AFB334900001DBCDB8DE29B, lineVersion = 0, maxLength = 22, text = \"Liberation Failed\""
+			myHackableAssets
+			{
+				file Antenna "onward/game system data/juice/sim/goldrush_hackable_antenna.msimunit"
+				file Chest "onward/game system data/juice/sim/goldrush_hackable_chest.msimunit"
+			}
+		}
+		mySolveConfig
+		{
+			myApproachOnItTargetRange 600.0
+			myPlanetActivityTargetRange = "Activity Expiration Far"
+			myUILine_Completed "contextComment = \"\", description = \"\", enabled = true, guid = #9543058059CC1C830000006E4A0D2DA7, lineVersion = 0, maxLength = 17, text = \"Target Solved\""
+			myUILine_Expired "contextComment = \"\", description = \"\", enabled = true, guid = #9543058059CC1C8300000070E95C0450, lineVersion = 0, maxLength = 18, text = \"Mission Failed\""
+		}
+		myDeliveryBombConfig
+		{
+			myApproachOnItTargetRange 600.0
+			myPlanetActivityTargetRange = "Activity Expiration Medium"
+			myUILine_Completed "contextComment = \"\", description = \"\", enabled = true, guid = #9543058059CC1C8F000000762E8DC385, lineVersion = 0, maxLength = 18, text = \"Bomb Delivered\""
+			myUILine_Expired "contextComment = \"\", description = \"\", enabled = true, guid = #9543058059CC1C90000000789885C075, lineVersion = 0, maxLength = 18, text = \"Mission Failed\""
+		}
+		myDeliverAnalyzerConfig
+		{
+			myApproachOnItTargetRange 600.0
+			myPlanetActivityTargetRange = "Activity Expiration Medium"
+			myUILine_Completed "contextComment = \"\", description = \"\", enabled = true, guid = #9543058059CC1CA20000007E9EDF5E39, lineVersion = 0, maxLength = 23, text = \"Analyzer Delivered\""
+			myUILine_Expired "contextComment = \"\", description = \"\", enabled = true, guid = #9543058059CC1CA300000080AF4D7C77, lineVersion = 0, maxLength = 18, text = \"Mission Failed\""
+		}
+		myBuildOutpostConfig
+		{
+			myUILine_Completed "contextComment = \"The Banner we get when you complete a build outpost opportunity successfully.\", description = \"opportunity-banner-complete-buildoutpost\", enabled = true, guid = #954305805B0D6CCD00001DD6551C1706, lineVersion = 0, maxLength = 20, text = \"[Outpost Built]\""
+			myUILine_Expired "contextComment = \"The Banner we get when you complete a build outpost opportunity successfully.\", description = \"opportunity-banner-expire-buildoutpost\", enabled = true, guid = #954305805B0D6CCD00001DD8206E2793, lineVersion = 0, maxLength = 21, text = \"[Mission Failed]\""
+		}
+		myDeliverBatteryConfig
+		{
+			myPlanetActivityTargetRange = "Activity Expiration Medium"
+			myUILine_Completed "contextComment = \"\", description = \"DeliverBattery_Success\", enabled = true, guid = #4A79E0E45B0DAEF5000020903F9F4FFB, lineVersion = 0, maxLength = 25, text = \"[Battery Delivered]\""
+			myUILine_Expired "contextComment = \"\", description = \"DeliverBattery_Fail\", enabled = true, guid = #4A79E0E45B0DAEF600002092A6BA2EAC, lineVersion = 0, maxLength = 21, text = \"[Mission Failed]\""
+		}
+		mySiegeConfig
+		{
+			myApproachOnItTargetRange 500.0
+			myPlanetActivityTargetRange = "Activity Expiration Medium"
+			myUILine_Completed "contextComment = \"Banner for succeeding a Siege mission\", description = \"Siege_Success\", enabled = true, guid = #4A79E0E45B3140020000207A95A725A0, lineVersion = 0, maxLength = 21, text = \"[Siege Complete]\""
+			myUILine_Expired "contextComment = \"Banner for failing a Siege mission\", description = \"Siege_Failed\", enabled = true, guid = #4A79E0E45B31403E000020807BE23FBA, lineVersion = 0, maxLength = 21, text = \"[Mission Failed]\""
+			myPlayerProximityRadius 2500.0
+			mySiegeConfigSets
+			{
+				SiegeStagesConfigSet "Outlaw Outpost"
+				{
+					myWhoToOnItSignature
+					{
+						myCategoryList
+						{
+							SimUnitCategory "New SimUnitCategory (0)" Outpost
+						}
+						mySubCategoryList
+						{
+							SimUnitSubCategory "New SimUnitSubCategory (0)" OutlawBase
+						}
+						myFactionList
+						{
+							FactionType "New FactionType (0)" Outlaw
+						}
+					}
+					mySiegeStages
+					{
+						SiegeStagesConfig Turrets
+						{
+							myOpportunityStateToSet Siege_Defenses_1
+							myTargetUnits
+							{
+								SimUnitDiscoveryUnitFilter turrets
+								{
+									myCategoryList
+									{
+										SimUnitCategory "New SimUnitCategory (0)" SpaceOutpost
+									}
+									mySubCategoryList
+									{
+										SimUnitSubCategory "New SimUnitSubCategory (0)" Turret
+									}
+									mySubCategoryVariantList
+									{
+										int "New int (0)" 3
+									}
+								}
+							}
+						}
+						SiegeStagesConfig Fighters
+						{
+							myOpportunityStateToSet Siege_Defenses_2
+							mySearchRange 5000.0
+							myTargetUnits
+							{
+								SimUnitDiscoveryUnitFilter Fighters
+								{
+									myCategoryList
+									{
+										SimUnitCategory "New SimUnitCategory (0)" NPC
+									}
+									mySubCategoryList
+									{
+										SimUnitSubCategory "New SimUnitSubCategory (0)" SpaceReinforcement
+									}
+									myFactionList
+									{
+										FactionType "New FactionType (0)" Outlaw
+									}
+								}
+							}
+						}
+						SiegeStagesConfig Loot
+						{
+							myOpportunityStateToSet Siege_Loot
+							mySearchRange 5000.0
+							myDisableUnitMarkers TRUE
+							myTargetUnits
+							{
+								SimUnitDiscoveryUnitFilter "Outlaw loot crate"
+								{
+									myCategoryList
+									{
+										SimUnitCategory "New SimUnitCategory (0)" Chest
+									}
+									mySubCategoryList
+									{
+										SimUnitSubCategory "New SimUnitSubCategory (0)" OutlawBase
+									}
+									myFactionList
+									{
+										FactionType "New FactionType (0)" Outlaw
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		myDisableDefenseConfig
+		{
+			myPlanetActivityTargetRange = "Activity Expiration Medium"
+			myUILine_Completed "contextComment = \"Banner for completing a DisableDefence mission\", description = \"DisableDefence_Success\", enabled = true, guid = #4A79E0E45B3140EE00002084CF5B747D, lineVersion = 0, maxLength = 25, text = \"[Defences Disabled]\""
+			myUILine_Expired "contextComment = \"Banner for failing a DisableDefence mission\", description = \"DisableDefence_Failed\", enabled = true, guid = #4A79E0E45B3140EE00002086F2C879C3, lineVersion = 0, maxLength = 21, text = \"[Mission failed]\""
+			myTargetUnits
+			{
+				SimUnitDiscoveryUnitFilter Turrets
+				{
+					myCategoryList
+					{
+						SimUnitCategory "New SimUnitCategory (0)" Shipwreck
+					}
+					mySubCategoryList
+					{
+						SimUnitSubCategory "New SimUnitSubCategory (0)" Fortifications
+					}
+				}
+			}
+		}
+		myPresentedOpportunityConfig
+		{
+			myExpirationExcludedConcepts
+			{
+				RuleConceptType ON_ONIT_REQUESTED ON_ONIT_REQUESTED
+			}
+		}
+		myOnItConstraints
+		{
+			OnItConstraints AttackMissionConstraints : OnItActivitiesContraintsBase
+			{
+				myOnItType Attack
+				myActivityConstraints
+				{
+					ActivityConstraint Attack
+					{
+						myActivityType Attack
+						myParticipant Never
+					}
+					ActivityConstraint Defend
+					{
+						myActivityType Defend
+						myParticipant Requester
+					}
+					ActivityConstraint Deliver
+					{
+						myActivityType Deliver
+						myParticipant Never
+					}
+					ActivityConstraint DeliverAnalyzer
+					{
+						myActivityType DeliverAnalyzer
+						myParticipant Never
+					}
+					ActivityConstraint DeliverBomb
+					{
+						myActivityType DeliverBomb
+						myParticipant Never
+					}
+					ActivityConstraint DeliverStructure
+					{
+						myActivityType DeliverStructure
+						myParticipant Never
+					}
+					ActivityConstraint Find
+					{
+						myActivityType Find
+						myParticipant Never
+					}
+					ActivityConstraint Repair
+					{
+						myActivityType Repair
+						myParticipant Never
+						myAllowInRangeOfMission TRUE
+					}
+					ActivityConstraint Solve
+					{
+						myActivityType Solve
+						myParticipant Never
+					}
+					ActivityConstraint Survive
+					{
+						myActivityType Survive
+						myParticipant Never
+					}
+				}
+			}
+			OnItConstraints BuildOutpostMissionConstraints : OnItActivitiesContraintsBase
+			{
+				myOnItType BuildOutpost
+				myActivityConstraints
+				{
+					ActivityConstraint Attack
+					{
+						myActivityType Attack
+						myParticipant WhoToOnIt
+					}
+					ActivityConstraint Defend
+					{
+						myActivityType Defend
+						myParticipant Requester
+					}
+					ActivityConstraint Deliver
+					{
+						myActivityType Deliver
+						myParticipant Never
+					}
+					ActivityConstraint DeliverAnalyzer
+					{
+						myActivityType DeliverAnalyzer
+						myParticipant Never
+					}
+					ActivityConstraint DeliverBomb
+					{
+						myActivityType DeliverBomb
+						myParticipant Never
+					}
+					ActivityConstraint DeliverStructure
+					{
+						myActivityType DeliverStructure
+						myParticipant Never
+					}
+					ActivityConstraint Find
+					{
+						myActivityType Find
+						myParticipant Never
+					}
+					ActivityConstraint Repair
+					{
+						myActivityType Repair
+						myParticipant Never
+					}
+					ActivityConstraint Solve
+					{
+						myActivityType Solve
+						myParticipant Never
+					}
+					ActivityConstraint Survive
+					{
+						myActivityType Survive
+						myParticipant Never
+					}
+				}
+			}
+			OnItConstraints DefendMissionConstraints : OnItActivitiesContraintsBase
+			{
+				myOnItType Defend
+				myActivityConstraints
+				{
+					ActivityConstraint Attack
+					{
+						myActivityType Attack
+						myParticipant Never
+					}
+					ActivityConstraint Defend
+					{
+						myActivityType Defend
+						myParticipant Always
+					}
+					ActivityConstraint Deliver
+					{
+						myActivityType Deliver
+						myParticipant Never
+					}
+					ActivityConstraint DeliverAnalyzer
+					{
+						myActivityType DeliverAnalyzer
+						myParticipant Never
+					}
+					ActivityConstraint DeliverBomb
+					{
+						myActivityType DeliverBomb
+						myParticipant Never
+					}
+					ActivityConstraint DeliverStructure
+					{
+						myActivityType DeliverStructure
+						myParticipant Never
+					}
+					ActivityConstraint Find
+					{
+						myActivityType Find
+						myParticipant Never
+					}
+					ActivityConstraint Repair
+					{
+						myActivityType Repair
+						myParticipant WhoToOnIt
+						myAllowInRangeOfMission TRUE
+					}
+					ActivityConstraint Solve
+					{
+						myActivityType Solve
+						myParticipant Never
+					}
+					ActivityConstraint Survive
+					{
+						myActivityType Survive
+						myParticipant Never
+					}
+				}
+			}
+			OnItConstraints DeliverMissionConstraints : OnItActivitiesContraintsBase
+			{
+				myOnItType Deliver
+				myActivityConstraints
+				{
+					ActivityConstraint Attack
+					{
+						myActivityType Attack
+						myParticipant Never
+					}
+					ActivityConstraint Defend
+					{
+						myActivityType Defend
+						myParticipant Requester
+						myAllowInRangeOfMission TRUE
+					}
+					ActivityConstraint Deliver
+					{
+						myActivityType Deliver
+						myParticipant Never
+					}
+					ActivityConstraint DeliverAnalyzer
+					{
+						myActivityType DeliverAnalyzer
+						myParticipant Never
+					}
+					ActivityConstraint DeliverBomb
+					{
+						myActivityType DeliverBomb
+						myParticipant Never
+					}
+					ActivityConstraint DeliverStructure
+					{
+						myActivityType DeliverStructure
+						myParticipant Never
+					}
+					ActivityConstraint Find
+					{
+						myActivityType Find
+						myParticipant Never
+					}
+					ActivityConstraint Repair
+					{
+						myActivityType Repair
+						myParticipant Never
+					}
+					ActivityConstraint Solve
+					{
+						myActivityType Solve
+						myParticipant Never
+					}
+					ActivityConstraint Survive
+					{
+						myActivityType Survive
+						myParticipant Never
+					}
+				}
+			}
+			OnItConstraints DeliverAnalyzerMissionConstraints : OnItActivitiesContraintsBase
+			{
+				myOnItType DeliverAnalyzer
+				myActivityConstraints
+				{
+					ActivityConstraint Attack
+					{
+						myActivityType Attack
+						myParticipant Never
+						myAllowInRangeOfMission FALSE
+					}
+					ActivityConstraint Defend
+					{
+						myActivityType Defend
+						myParticipant Requester
+						myAllowInRangeOfMission TRUE
+					}
+					ActivityConstraint Deliver
+					{
+						myActivityType Deliver
+						myParticipant Never
+						myAllowInRangeOfMission FALSE
+					}
+					ActivityConstraint DeliverAnalyzer
+					{
+						myActivityType DeliverAnalyzer
+						myParticipant Never
+					}
+					ActivityConstraint DeliverBomb
+					{
+						myActivityType DeliverBomb
+						myParticipant Never
+						myAllowInRangeOfMission FALSE
+					}
+					ActivityConstraint DeliverStructure
+					{
+						myActivityType DeliverStructure
+						myParticipant Never
+						myAllowInRangeOfMission FALSE
+					}
+					ActivityConstraint Find
+					{
+						myActivityType Find
+						myParticipant Never
+						myAllowInRangeOfMission FALSE
+					}
+					ActivityConstraint Repair
+					{
+						myActivityType Repair
+						myParticipant Never
+						myAllowInRangeOfMission FALSE
+					}
+					ActivityConstraint Solve
+					{
+						myActivityType Solve
+						myParticipant Never
+						myAllowInRangeOfMission FALSE
+					}
+					ActivityConstraint Survive
+					{
+						myActivityType Survive
+						myParticipant Never
+						myAllowInRangeOfMission FALSE
+					}
+				}
+			}
+			OnItConstraints DeliverBombConstraints : OnItActivitiesContraintsBase
+			{
+				myOnItType DeliverBomb
+				myActivityConstraints
+				{
+					ActivityConstraint Attack
+					{
+						myActivityType Attack
+						myParticipant Never
+					}
+					ActivityConstraint Defend
+					{
+						myActivityType Defend
+						myParticipant Never
+					}
+					ActivityConstraint Deliver
+					{
+						myActivityType Deliver
+						myParticipant Never
+					}
+					ActivityConstraint DeliverAnalyzer
+					{
+						myActivityType DeliverAnalyzer
+						myParticipant Never
+					}
+					ActivityConstraint DeliverBomb
+					{
+						myActivityType DeliverBomb
+						myParticipant Never
+					}
+					ActivityConstraint DeliverStructure
+					{
+						myActivityType DeliverStructure
+						myParticipant Never
+					}
+					ActivityConstraint Find
+					{
+						myActivityType Find
+						myParticipant Never
+					}
+					ActivityConstraint Repair
+					{
+						myActivityType Repair
+						myParticipant Never
+					}
+					ActivityConstraint Solve
+					{
+						myActivityType Solve
+						myParticipant Never
+					}
+					ActivityConstraint Survive
+					{
+						myActivityType Survive
+						myParticipant Never
+					}
+				}
+			}
+			OnItConstraints DeliverStructureConstraints : OnItActivitiesContraintsBase
+			{
+				myOnItType DeliverStructure
+				myActivityConstraints
+				{
+					ActivityConstraint Attack
+					{
+						myActivityType Attack
+						myParticipant Never
+						myAllowInRangeOfMission FALSE
+					}
+					ActivityConstraint Defend
+					{
+						myActivityType Defend
+						myParticipant Always
+						myAllowInRangeOfMission TRUE
+					}
+					ActivityConstraint Deliver
+					{
+						myActivityType Deliver
+						myParticipant Never
+						myAllowInRangeOfMission FALSE
+					}
+					ActivityConstraint DeliverAnalyzer
+					{
+						myActivityType DeliverAnalyzer
+						myParticipant Never
+						myAllowInRangeOfMission FALSE
+					}
+					ActivityConstraint DeliverBomb
+					{
+						myActivityType DeliverBomb
+						myParticipant Never
+						myAllowInRangeOfMission FALSE
+					}
+					ActivityConstraint DeliverStructure
+					{
+						myActivityType DeliverStructure
+						myParticipant Never
+						myAllowInRangeOfMission FALSE
+					}
+					ActivityConstraint Find
+					{
+						myActivityType Find
+						myParticipant Never
+						myAllowInRangeOfMission FALSE
+					}
+					ActivityConstraint Repair
+					{
+						myActivityType Repair
+						myParticipant Never
+						myAllowInRangeOfMission FALSE
+					}
+					ActivityConstraint Solve
+					{
+						myActivityType Solve
+						myParticipant Never
+					}
+					ActivityConstraint Survive
+					{
+						myActivityType Survive
+						myParticipant Never
+					}
+				}
+			}
+			OnItConstraints FindMissionConstraints : OnItActivitiesContraintsBase
+			{
+				myOnItType Find
+				myActivityConstraints
+				{
+					ActivityConstraint Attack
+					{
+						myActivityType Attack
+						myParticipant Never
+					}
+					ActivityConstraint Defend
+					{
+						myActivityType Defend
+						myParticipant Requester
+						myAllowInRangeOfMission TRUE
+					}
+					ActivityConstraint Deliver
+					{
+						myActivityType Deliver
+						myParticipant Never
+					}
+					ActivityConstraint DeliverAnalyzer
+					{
+						myActivityType DeliverAnalyzer
+						myParticipant Never
+					}
+					ActivityConstraint DeliverBomb
+					{
+						myActivityType DeliverBomb
+						myParticipant Never
+						myAllowInRangeOfMission FALSE
+					}
+					ActivityConstraint DeliverStructure
+					{
+						myActivityType DeliverStructure
+						myParticipant Never
+						myAllowInRangeOfMission FALSE
+					}
+					ActivityConstraint Find
+					{
+						myActivityType Find
+						myParticipant Never
+					}
+					ActivityConstraint Repair
+					{
+						myActivityType Repair
+						myParticipant Never
+					}
+					ActivityConstraint Solve
+					{
+						myActivityType Solve
+						myParticipant Never
+					}
+					ActivityConstraint Survive
+					{
+						myActivityType Survive
+						myParticipant Never
+					}
+				}
+			}
+			OnItConstraints RepairMissionConstraints : OnItActivitiesContraintsBase
+			{
+				myOnItType Repair
+				myActivityConstraints
+				{
+					ActivityConstraint Attack
+					{
+						myActivityType Attack
+						myParticipant Always
+					}
+					ActivityConstraint Defend
+					{
+						myActivityType Defend
+						myParticipant WhoToOnIt
+						myAllowInRangeOfMission TRUE
+					}
+					ActivityConstraint Deliver
+					{
+						myActivityType Deliver
+						myParticipant Never
+					}
+					ActivityConstraint DeliverAnalyzer
+					{
+						myActivityType DeliverAnalyzer
+						myParticipant Never
+					}
+					ActivityConstraint DeliverBomb
+					{
+						myActivityType DeliverBomb
+						myParticipant Never
+					}
+					ActivityConstraint DeliverStructure
+					{
+						myActivityType DeliverStructure
+						myParticipant Never
+					}
+					ActivityConstraint Find
+					{
+						myActivityType Find
+						myParticipant Never
+					}
+					ActivityConstraint Repair
+					{
+						myActivityType Repair
+						myParticipant Never
+					}
+					ActivityConstraint Solve
+					{
+						myActivityType Solve
+						myParticipant Never
+					}
+					ActivityConstraint Survive
+					{
+						myActivityType Survive
+						myParticipant Never
+					}
+				}
+			}
+			OnItConstraints SolveMissionConstraints : OnItActivitiesContraintsBase
+			{
+				myOnItType Solve
+				myActivityConstraints
+				{
+					ActivityConstraint Attack
+					{
+						myActivityType Attack
+						myParticipant Never
+					}
+					ActivityConstraint Defend
+					{
+						myActivityType Defend
+						myParticipant Requester
+					}
+					ActivityConstraint Deliver
+					{
+						myActivityType Deliver
+						myParticipant Never
+					}
+					ActivityConstraint DeliverAnalyzer
+					{
+						myActivityType DeliverAnalyzer
+						myParticipant Never
+					}
+					ActivityConstraint DeliverBomb
+					{
+						myActivityType DeliverBomb
+						myParticipant Never
+					}
+					ActivityConstraint DeliverStructure
+					{
+						myActivityType DeliverStructure
+						myParticipant Never
+					}
+					ActivityConstraint Find
+					{
+						myActivityType Find
+						myParticipant Never
+					}
+					ActivityConstraint Repair
+					{
+						myActivityType Repair
+						myParticipant Never
+					}
+					ActivityConstraint Solve
+					{
+						myActivityType Solve
+						myParticipant Never
+					}
+					ActivityConstraint Survive
+					{
+						myActivityType Survive
+						myParticipant Never
+					}
+				}
+			}
+			OnItConstraints SurviveMissionConstraints : OnItActivitiesContraintsBase
+			{
+				myOnItType Survive
+				myActivityConstraints
+				{
+					ActivityConstraint Attack
+					{
+						myActivityType Attack
+						myParticipant Never
+					}
+					ActivityConstraint Defend
+					{
+						myActivityType Defend
+						myParticipant Never
+					}
+					ActivityConstraint Deliver
+					{
+						myActivityType Deliver
+						myParticipant Never
+					}
+					ActivityConstraint DeliverAnalyzer
+					{
+						myActivityType DeliverAnalyzer
+						myParticipant Never
+					}
+					ActivityConstraint DeliverBomb
+					{
+						myActivityType DeliverBomb
+						myParticipant Never
+					}
+					ActivityConstraint DeliverStructure
+					{
+						myActivityType DeliverStructure
+						myParticipant Never
+					}
+					ActivityConstraint Find
+					{
+						myActivityType Find
+						myParticipant Never
+					}
+					ActivityConstraint Repair
+					{
+						myActivityType Repair
+						myParticipant Never
+					}
+					ActivityConstraint Solve
+					{
+						myActivityType Solve
+						myParticipant Never
+					}
+					ActivityConstraint Survive
+					{
+						myActivityType Survive
+						myParticipant Never
+					}
+				}
+			}
+		}
+	}
+	myOnItKnowledgeConfig
+	{
+		myChanceOfFullKnowledge 0.0
+	}
+}
+

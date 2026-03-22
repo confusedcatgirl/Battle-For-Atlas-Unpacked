@@ -1,0 +1,33 @@
+include ./shipwreck_turret.mnpc
+
+NPC shipwreck_turret_hard < uid=93869D535BCCC4BA0000F9B1C35439D7 > : shipwreck_turret
+{
+	myUIName_NonLocalized "Shipwreck Turret Hard"
+
+	myHealthConfig < uid=93869D535BCCC4BA0000F9B2883359DC > = "shipwreck_turret_hard Health"
+	myAbilityDefinitions
+	{
+		NPCAbilityDefinition Gatling
+		{
+			myGameAction NPC_Ability1
+			mySkillScript < uid=939A35415BCE3A6600293CE79EA3B955 > = npc_ability_shipwreck_turret_gattling
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_shipwreck_turret_gattling.juice"
+		}
+		NPCAbilityDefinition Reflect
+		{
+			myGameAction NPC_Ability2
+			mySkillScript < uid=939A35415BCE3A6600293CE8DB3A3562 > = npc_ability_shipwreck_turret_reflect
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_shipwreck_turret_reflect_hard.juice"
+		}
+		NPCAbilityDefinition EMP
+		{
+			myGameAction NPC_Ability9
+			mySkillScript < uid=939A35415BCE3A6600293CE9732F1493 > = npc_ability_tower_watchtower_emp
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_tower_watchtower_emp.juice"
+		}
+	}
+}
+

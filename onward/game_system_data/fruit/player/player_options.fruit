@@ -1,0 +1,202 @@
+include "onward/game system data/fruit/core/common_types.fruit"
+
+enum PlayerBooleanOption
+{
+	UseMotionControls
+	InvertFlightPitchControl
+	InvertAimPitchControl
+	AlwaysQuickSwap
+	ControllerVibrationEnabled
+	FriendlyFireEnabled
+	RemoveStatusEffectHoldEnabled
+	AllowReverseCamera
+	AllowZoom
+	SpaceAutoLevelEnabled
+    HideLockedParts
+	EnablePhotoModeShortcut
+	Toggle_MouseInput
+
+	Audio_PS4_DualShockSounds
+
+	Display_Fullscreen
+	Display_VSync
+	Display_Extended
+	
+	Graphics_AmbientOcclusion
+	Graphics_Bloom
+	Graphics_MotionBlur
+	Graphics_Fog
+	Graphics_DOF
+	
+	Language_EnableSubtitles
+
+	UI_DisplayWarEffortBanner
+	UI_DisplayNavigationPrompts
+	UI_DisplayContextualPrompts
+	UI_DisplayObjectiveBanners
+	UI_DisplayDiscoveryBanners
+	UI_DisplayCollectibleBanners
+	UI_DisplayHUDFrame
+	UI_DisplayTutorialMessages
+	UI_DisplayVignettes
+	UI_DisplayFlyDamage
+	UI_DisplayWaypoints
+	UI_EnableHUD
+	UI_DisplayMinimap
+	UI_ShowMinimalHUD
+	
+	DEBUG
+}
+
+enum PlayerFloatOption
+{
+    CameraSensitivity
+	HorizontalSensitivity
+	VerticalSensitivity
+	LeftHorizontalSensitivity
+	LeftVerticalSensitivity
+	RightHorizontalSensitivity
+	RightVerticalSensitivity
+	MouseHorizontalSensitivity
+	MouseVerticalSensitivity
+
+
+	Audio_MasterVolume
+	Audio_SpeechVolume
+	Audio_SFXVolume
+	Audio_MusicVolume
+	Audio_AmbientVolume
+	Audio_CinematicVolume
+	
+	Language_SubtitleBackingOpacity
+	
+	UI_ScaleHUD
+	UI_ScaleMinimap
+}
+
+enum PlayerIntegerOption
+{
+	DifficultyType
+	AimAssistance
+	
+	Audio_Mix
+	
+	Display_Resolution
+	Display_MonitorIndex
+	Display_FPS
+	Display_RefreshRate
+	Display_AspectRatio
+	Display_WindowMode
+	Display_FieldOfView
+
+	Graphics_Anisotropy
+	Graphics_ShadowQuality
+	Graphics_ShadowDistance
+	Graphics_ReflectionQuality
+	Graphics_FoliageQuality
+	Graphics_LOD
+	Graphics_TextureQuality
+	Graphics_DrawDistance
+	Graphics_AAQuality
+	Graphics_ParticleEffects
+	Graphics_ConfigSettings
+
+	Language_SubtitleSize
+	
+	ColourScheme
+	
+	PlayerInput_Player1
+	PlayerInput_Player2
+}
+
+enum PlayerTriBoolOption
+{
+	ReticleState
+	InvertAimControl
+	InvertAimControlHorizontal
+	InvertFlightPitchControl
+	InvertAimPitchControl
+	AlwaysQuickSwap
+	UseAlternateBoostControl
+	
+	Language_TemperatureScale
+
+	UI_DisplayPlayerHealth
+	UI_DisplayPilotAbility
+	UI_DisplayPilotPiP
+	UI_DisplayNPCPiP
+	UI_DisplayTargetingInfo
+	UI_DisplayObjectives
+	UI_DisplayPartAttachment
+	UI_DisplayReticule
+	UI_DisplayCurrencyMode
+	UI_DisplayFlyInfo
+
+	InvertMouseAimControl
+	InvertMouseAimControlHorizontal
+}
+
+enum PlayerSelectionOption
+{
+	VoiceLanguage
+	MenuHudLanguage
+	SubtitleLanguage
+	
+}
+
+class BasePlayerOptionConfig < abstract=1 >
+{
+	bool myIsSlotSpecific false
+	bool myIsRestrictedToPrimaryPlayer false
+}
+
+class PlayerBooleanOptionConfig : BasePlayerOptionConfig
+{
+	PlayerBooleanOption myPlayerOption
+	bool myDefault
+}
+
+class PlayerFloatOptionConfig : BasePlayerOptionConfig
+{
+	PlayerFloatOption myPlayerOption
+	float myDefault
+}
+
+class PlayerIntegerOptionConfig : BasePlayerOptionConfig
+{
+	PlayerIntegerOption myPlayerOption
+	int myDefault
+}
+
+class PlayerTriBoolOptionConfig : BasePlayerOptionConfig
+{
+	PlayerTriBoolOption myPlayerOption
+	Tribool myDefault
+}
+
+list PlayerOptionConfigs
+{
+	PlayerBooleanOptionConfig
+	PlayerFloatOptionConfig
+	PlayerIntegerOptionConfig
+	PlayerTriBoolOptionConfig
+}
+
+list ControlGroupOptions
+{
+	PlayerBooleanOption
+	PlayerFloatOption
+	PlayerIntegerOption
+	PlayerTriBoolOption
+}
+
+class ControlGroup
+{
+	PlayerBooleanOption myControlOption
+	ControlGroupOptions myControlGroupOptions
+}
+
+list ControlGroupConfigs
+{
+	ControlGroup
+}

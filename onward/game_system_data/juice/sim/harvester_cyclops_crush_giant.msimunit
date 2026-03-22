@@ -1,0 +1,36 @@
+include "onward/game system data/fruit/sim/simunit.fruit"
+
+SimUnit harvester_cyclops_crush_giant < uid=4A79E0E459CD5F9F002569659E951A60 >
+{
+	myUIName "contextComment = \"The UI Name for the Elite Crush Cyclops\", description = \"uiname-harvester-cyclops-crush-generic\", enabled = true, guid = #4A79E0E459CD5F9F00256964BA6166F7, lineVersion = 0, maxLength = 25, text = \"Elite Crush Cyclops\""
+	myBehavior onward/simworld/behavior/harvester_extractor_defender_squad.msimunitbtgraph
+	myFaction Harvester
+	myCategory NPC
+	mySubCategory RaiderGiant
+	myAffinityType Crush
+	myMaxHealth 200.0
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo harvester_cyclops_crush < uid=4A79E0E459CD5F9F0025696648988CBE >
+		{
+			myCountMin 1
+			myCountMax 1
+			myElementSpawnInfo
+			{
+				SimUnitElementSpawnInfo harvester_cyclops_crush
+				{
+					myEntityFile "onward/game system data/juice/ai/npc/harvester_cyclops_crush_affinityloot.mnpc"
+				}
+			}
+		}
+	}
+	mySaveable FALSE
+	mySpawnAttachedSimUnit ./pickup_electrum_infused_03.msimunit
+	myPreserveSpawnInfo TRUE
+	mySkillLevelCoefficients
+	{
+		myParentSkillLevelMultiplier 1
+	}
+	myMissionTargetTexture onward/baked/textures/UI/icons/outpost_targets/outpost_target_sim_unit/ui-icon-outpost-target-crush-giant.dds
+}
+

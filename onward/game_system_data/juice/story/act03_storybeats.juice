@@ -1,0 +1,2996 @@
+include ./actions_library.juice
+include "onward/game system data/fruit/entity/faction.fruit"
+include "onward/game system data/fruit/ai/affinitytype.fruit"
+include "onward/game system data/fruit/sim/formationtype.fruit"
+include "onward/game system data/fruit/bones/bonecategory.fruit"
+include "onward/game system data/fruit/unitprogression/unitxppayloadtype.fruit"
+include "onward/game system data/fruit/progression/challenge_types.fruit"
+include "onward/game system data/juice/sim/act_2_icemage.msimunit"
+include "onward/game system data/juice/story/objectives/objectives.juice"
+include "onward/game system data/juice/sim/harvester_prime.msimunit"
+include "onward/game system data/juice/sim/ship_ally_rancor_act_structure.msimunit"
+include "onward/game system data/juice/sim/harvester_prime_dead_prop.msimunit"
+include "onward/game system data/juice/sim/act_3_vylus_dead_prime_spawn_location.msimunit"
+include "onward/game system data/juice/sim/harvester_dreadnought.msimunit"
+include "onward/game system data/juice/sim/harvester_cyclops_crush_giant.msimunit"
+include "onward/game system data/juice/sim/outpost slot.msimunit"
+include "onward/game system data/juice/sim/ld_gym_cyclops_giant_crush_and_probe.msimunit"
+include "onward/game system data/juice/sim/guard_giant_crush_imp_probe.msimunit"
+include "onward/game system data/juice/sim/act3_guard_giant_crush_imp_probe.msimunit"
+include "onward/game system data/juice/sim/act_3_vylus_observatory.msimunit"
+include "onward/game system data/juice/sim/act_3_crush_giant_slot.msimunit"
+include "onward/game system data/juice/sim/harvester_extractor_slot.msimunit"
+include "onward/game system data/juice/sim/ship_ally_sorren_act_structure.msimunit"
+
+StoryBeatData Act3_SEQ1_Start < uid=2B55C72B5909E01D0000004B0F25AA20 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_HealPlayerShips "Heal Player Ships"
+		{
+		}
+		StoryDataAction_AddFadeRequest Fade
+		{
+			myFadeRequestType Fade_Out
+		}
+		StoryDataAction_SetSpawnAssetBlockedOnPlanet "Block Primes on Vylus"
+		{
+			myShouldBlock TRUE
+			myPlanetUID CC9485AB560D8193000001B70208D164
+			mySimUnitAssetTargetPath "onward/game system data/juice/sim/harvester_prime.msimunit"
+		}
+		StoryDataAction_SetUIFeature "Remove Alliance Meter"
+		{
+			myUIFeature WarEffortBar
+		}
+		StoryDataAction_ResetRespawnCheckpoint "Reset Respawn Checkpoint"
+		{
+		}
+		StoryDataAction_SuppressNonStoryPips "Suppress Non-Story Pips"
+		{
+			myShouldSuppress TRUE
+		}
+		StoryDataAction_SetEncounterTimersEnabled "Disable Encounters"
+		{
+		}
+		StoryDataAction_SetGameAction "Disable Fast Travel"
+		{
+			mySetGameActionList
+			{
+				SetGameAction "Disable Fast Travel"
+				{
+					myGameAction PlayerQuery_CanFastTravel
+				}
+			}
+		}
+		StoryDataAction_UIDeferErrorMessages "Defer Error Messages Until After Starmap"
+		{
+			myEnabled TRUE
+		}
+		StoryDataAction_SetUIFeature "Disable Critical Infection"
+		{
+			myUIFeature SimAlert_CriticalInfectionThreshold
+			myIsSet FALSE
+		}
+		StoryDataAction_SetUIFeature "Disable Dreadnought Alert"
+		{
+			myUIFeature SimAlert_DreadnoughtSpawned
+			myIsSet FALSE
+		}
+	}
+	myStoryDataActionSets
+	{
+		StoryDataActionSet Cinematic
+		{
+			myStoryDataActions
+			{
+				StoryDataAction_CompleteStoryEvent "Complete Event"
+				{
+					myStoryEvent Act03
+				}
+				StoryDataAction_Cinematic "Play Cinematic"
+				{
+					myCinematicFile onward/baked/videos/CIN_ACT3.bk2
+				}
+			}
+		}
+	}
+}
+
+StoryBeatSequence Act3_SEQ1_PrimeSignalsSequence < uid=1EE141815A8ED64F00001B5941BBA14C >
+{
+	myStoryBeats
+	{
+		StoryBeatData "Lock Input" < uid=1EE141815A8DC87600001B6317614B52 > = "Starmap Player Control Lock"
+		StoryBeatData "Open the Starmap" < uid=9FD9E8185A1C92B50000203D292829AB >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_UIStarMapOpen "Open Starmap - Galaxy"
+				{
+					myViewType Galaxy
+				}
+				StoryDataAction_WaitForUIOnTopOfStack "Wait For Starmap On Top of Stack"
+				{
+					myMenu StarMap
+				}
+			}
+		}
+		StoryBeatData "Focus On Player" < uid=1EE141815AE8A34200001D77E13382F7 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_UIStarMapFocusOnSimUnit "Focus On Player"
+				{
+					myTargetSimUnitAssetPath "onward/game system data/juice/sim/player.msimunit"
+				}
+			}
+		}
+		StoryBeatData "Dialogue Line 1" < uid=9FD9E8185A26FE5D00002034C96C17B8 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_SoundEvent "Dialogue Line 1"
+				{
+					myAudioEvent
+					{
+						myGuid AA5A64085A13429F0000014B3780017E
+					}
+				}
+			}
+		}
+		StoryBeatData "Dialogue Line 2" < uid=9FD9E8185A30325C000024666A79E6C1 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_SoundEvent "Dialogue Line 2"
+				{
+					myAudioEvent
+					{
+						myGuid AA5A64085A2787E900000008D2EC7839
+					}
+				}
+			}
+		}
+		StoryBeatData "Prime 2 - Haven" < uid=9FD9E8185A1C92DB000020401246EC1D >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_UIStarMapFocusOnPlanet "Planet 03 - Haven"
+				{
+					myTargetPlanet 2B55C72B560BF25A00000071749BE491
+				}
+				StoryDataAction_WallClockWait Wait
+				{
+					mySecondsToWait 1.0
+				}
+				StoryDataAction_UIStarMapAddAlertOnPlanet "Alert 3"
+				{
+					myTargetPlanet 2B55C72B560BF25A00000071749BE491
+					myAlertType Prime
+				}
+			}
+		}
+		StoryBeatData "Prime 1 - Vylus" < uid=9FD9E8185A1C92DB0000203E25B0CD8B >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_UIStarMapFocusOnPlanet "Prime Planet 1"
+				{
+					myTargetPlanet CC9485AB560D8193000001B70208D164
+				}
+				StoryDataAction_WallClockWait Wait
+				{
+					mySecondsToWait 1.0
+				}
+				StoryDataAction_UIStarMapAddAlertOnPlanet "Prime Alert 1"
+				{
+					myTargetPlanet CC9485AB560D8193000001B70208D164
+					myAlertType Prime
+				}
+			}
+		}
+		StoryBeatData "Focus Back on Player" < uid=9FD9E8185A1C936E00002042D934BCD8 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_UIStarMapFocusOnSimUnit "Focus on Player"
+				{
+					myTargetSimUnitAssetPath "onward/game system data/juice/sim/player.msimunit"
+				}
+				StoryDataAction_WallClockWait "Wait 1"
+				{
+					mySecondsToWait 0.5
+				}
+			}
+		}
+		StoryBeatData "Add Alliance Meter" < uid=1EE141815A95DDEA00001B5E345CD617 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_SetUIFeature "Alliance Meter"
+				{
+					myUIFeature WarEffortBar
+					myIsSet TRUE
+				}
+			}
+		}
+		StoryBeatData "Dialogue Line 3" < uid=9FD9E8185A30335E0000246B9650EBAB >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_SoundEvent "Dialogue Line 3"
+				{
+					myAudioEvent
+					{
+						myGuid AC30EC1D5AC6C06200000001ABBD72E1
+					}
+				}
+			}
+		}
+		StoryBeatData "Dialogue Line 4" < uid=9FD9E8185A30337C0000246C3A5574C7 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_SoundEvent "Dialogue Line 4"
+				{
+					myAudioEvent
+					{
+						myGuid AA5A64085A7097AF00000004A2D6FF61
+					}
+				}
+			}
+		}
+		StoryBeatData "Focus on Vylus" < uid=1EE141815A8F1D1500001B5DC3F5B736 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_UIStarMapFocusOnPlanet "Focus on Vylus"
+				{
+					myTargetPlanet CC9485AB560D8193000001B70208D164
+				}
+				StoryDataAction_WallClockWait Wait
+				{
+					mySecondsToWait 0.3
+				}
+			}
+		}
+		StoryBeatData "Remove Alert" < uid=1EE141815A8F1E6100001B60B6CD31BB >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_UIStarMapRemoveAlertOnPlanet "Remove Alert"
+				{
+					myTargetPlanet CC9485AB560D8193000001B70208D164
+				}
+				StoryDataAction_WallClockWait Wait
+				{
+					mySecondsToWait 0.2
+				}
+			}
+		}
+		StoryBeatData "Add Alert" < uid=9FD9E8185A3032FE0000246964E44F98 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_UIStarMapAddAlertOnPlanet "Add Alert"
+				{
+					myTargetPlanet CC9485AB560D8193000001B70208D164
+					myAlertType Prime
+				}
+				StoryDataAction_WallClockWait Wait
+				{
+					mySecondsToWait 0.2
+				}
+			}
+		}
+		StoryBeatData "Remove Alert" < uid=9FD9E8185A3032A400002468C50D3482 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_UIStarMapRemoveAlertOnPlanet "Remove Alert"
+				{
+					myTargetPlanet CC9485AB560D8193000001B70208D164
+				}
+				StoryDataAction_WallClockWait Wait
+				{
+					mySecondsToWait 0.2
+				}
+			}
+		}
+		StoryBeatData "Add Alert" < uid=9FD9E8185A3040DB000024AC33D57590 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_UIStarMapAddAlertOnPlanet "Add Alert"
+				{
+					myTargetPlanet CC9485AB560D8193000001B70208D164
+					myAlertType Prime
+				}
+				StoryDataAction_WallClockWait Wait
+				{
+					mySecondsToWait 0.2
+				}
+			}
+		}
+		StoryBeatData "Remove Alert" < uid=1EE141815A8F1D1500001B5E6A42BD20 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_UIStarMapRemoveAlertOnPlanet "Remove Alert"
+				{
+					myTargetPlanet CC9485AB560D8193000001B70208D164
+				}
+				StoryDataAction_WallClockWait Wait
+				{
+					mySecondsToWait 0.2
+				}
+			}
+		}
+		StoryBeatData "Add Alert" < uid=1EE141815A8F1D1500001B5F55C57964 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_UIStarMapAddAlertOnPlanet "Add Alert"
+				{
+					myTargetPlanet CC9485AB560D8193000001B70208D164
+					myAlertType Prime
+				}
+				StoryDataAction_WallClockWait Wait
+				{
+					mySecondsToWait 0.2
+				}
+			}
+		}
+		StoryBeatData "Remove Alert" < uid=9FD9E8185A304127000024ADE55FED4B >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_UIStarMapRemoveAlertOnPlanet "Remove Alert"
+				{
+					myTargetPlanet CC9485AB560D8193000001B70208D164
+				}
+			}
+		}
+		StoryBeatData "Dialogue Line 5" < uid=1EE141815A8F167600001B5986D101F5 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_SoundEvent "Dialogue Line 5"
+				{
+					myAudioEvent
+					{
+						myGuid AA5A64085A7097AF00000002AB231714
+					}
+				}
+			}
+		}
+		StoryBeatData "Dialogue Line 6" < uid=1EE141815A8F167600001B5A407D2C64 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_SoundEvent "Dialogue Line 6"
+				{
+					myAudioEvent
+					{
+						myGuid AA5A64085A7097AF00000005306E2E91
+					}
+				}
+			}
+		}
+		StoryBeatData "Unlock Input" < uid=1EE141815A8DC87600001B6452AFE0E2 > = "Starmap Player Control Unlock"
+		StoryBeatData "Remove All other Alerts & Enable Prime UI Feature" < uid=9FD9E8185A30337C0000246D7C8B649A >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_UIStarMapRemoveAlertOnPlanet "Remove Alert 2"
+				{
+					myTargetPlanet CC9485AB560DABE6000000B1513C7CDA
+				}
+				StoryDataAction_UIStarMapRemoveAlertOnPlanet "Remove Alert 3"
+				{
+					myTargetPlanet CC9485AB560D322B0000007B1A4D3320
+				}
+				StoryDataAction_UIStarMapRemoveAlertOnPlanet "Remove Haven Alert"
+				{
+					myTargetPlanet 2B55C72B560BF25A00000071749BE491
+				}
+				StoryDataAction_UIStarMapRemoveAlertOnPlanet "Remove Vylus Alert"
+				{
+					myTargetPlanet CC9485AB560D8193000001B70208D164
+				}
+				StoryDataAction_SetUIFeature "Enable UI Feature - Prime Starmap Alerts"
+				{
+					myUIFeature Starmap_PrimeAlerts
+					myIsSet TRUE
+				}
+			}
+		}
+		StoryBeatData "Fade In" < uid=9FD9E8185A3042E3000024B225E6F629 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_AddFadeRequest Fade
+				{
+					myFadeTime 1.0
+				}
+				StoryDataAction_WallClockWait "Wait 1"
+				{
+					mySecondsToWait 1.0
+				}
+			}
+		}
+	}
+}
+
+StoryBeatData Act3_SEQ1_DialogueBeat1 < uid=9FD9E8185A8EF1DA00001BAED5CCF663 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_DialogLine "Dialogue SQ05 B1"
+		{
+			myDialogSequenceID 5
+			myDialogLineID 1
+		}
+		StoryDataAction_Wait "Wait 3"
+		{
+			mySecondsToWait 3.0
+		}
+	}
+}
+
+StoryBeatData Act3_SEQ1_DialogueBeat2 < uid=9FD9E8185A8EF05C00001B9944B76A5D >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_DialogLine "Dialogue - SQ05 B2"
+		{
+			myDialogSequenceID 5
+			myDialogLineID 2
+		}
+		StoryDataAction_Wait "Wait 3"
+		{
+			mySecondsToWait 3.0
+		}
+	}
+}
+
+StoryBeatData Act3_SEQ1_SetObjectiveGoToVylus < uid=9FD9E8185A1C8B8200002064B993BCBD >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_SetTarget "Set Target - Vylus"
+		{
+			mySimUnitAssetTarget "onward/game system data/juice/sim/act_3_vylus_destination.msimunit"
+			myTargetPlanet CC9485AB560D8193000001B70208D164
+			myShowWaypoint TRUE
+			myActivityType Find
+		}
+		StoryDataAction_CompleteChallenge "Complete Challenge: Vylus"
+		{
+			myChallengeToComplete Discover_Planet08
+		}
+	}
+}
+
+StoryBeatData Act3_SEQ1_DialogueBeat3 < uid=9FD9E8185A8EF38800001BAF2F088B15 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_DialogLine "Dialogue SQ7 B1"
+		{
+			myDialogSequenceID 7
+			myDialogLineID 1
+		}
+		StoryDataAction_Wait "Wait 3"
+		{
+			mySecondsToWait 2.0
+		}
+	}
+}
+
+StoryBeatData Act3_SEQ1_DialogueBeat4 < uid=9FD9E8185A8EF38800001BB0C3F766FC >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_DialogLine "Dialogue SQ7 B2"
+		{
+			myDialogSequenceID 7
+			myDialogLineID 2
+		}
+		StoryDataAction_WaitForArriveAtTarget "Wait for Distance - 25k"
+		{
+			myDistance 25000.0
+			myRequireInFOV FALSE
+		}
+		StoryDataAction_SuppressNonStoryPips "Enable Non-Story Pips"
+		{
+		}
+		StoryDataAction_SetEncounterTimersEnabled "Enable Encounters"
+		{
+			myEnabled TRUE
+		}
+	}
+}
+
+StoryBeatData Act3_SEQ1_HalfwayToVylus < uid=9FD9E8185A1DB257000020490A2B0000 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_Dialog "Dialogue - SQ09 - Halfway to Vylus"
+		{
+			myDialogSequenceID 9
+		}
+		StoryDataAction_WaitForArriveAtTarget "Distance to Vylus - 15k"
+		{
+			myDistance 15000.0
+			myRequireInFOV FALSE
+		}
+	}
+}
+
+StoryBeatData Act3_SEQ1_VylusArrival < uid=9FD9E8185A1DB2A90000204AC755D318 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_WaitForPlanetArrival "Wait for Planet Arrival - Vylus"
+		{
+			myPlanetUID CC9485AB560D8193000001B70208D164
+		}
+	}
+}
+
+StoryBeatData Act3_SEQ1_VylusArrivalDialogue < uid=9FD9E8185A1DB2A90000204B03C8EC19 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_SuppressNonStoryPips "Suppress Non-Story Pips"
+		{
+			myShouldSuppress TRUE
+		}
+		StoryDataAction_Dialog "Dialogue - SQ11 - Arrive at Vylus"
+		{
+			myCompleteImmediately FALSE
+			myDialogSequenceID 11
+			myPauseInOutpostMenu FALSE
+		}
+		StoryDataAction_SetObjective "Complete Chapter1.Sub1"
+		{
+			myObjectiveData < uid=9FD9E8185AA30C9100001BE8A9A26F20 > = Act3.Chapter1.Sub1
+			myObjectiveState Remove
+		}
+		StoryDataAction_SetGameAction "Enable Fast Travel"
+		{
+			mySetGameActionList
+			{
+				SetGameAction "Enable Fast Travel"
+				{
+					myGameAction PlayerQuery_CanFastTravel
+					myEnabled TRUE
+				}
+			}
+		}
+	}
+}
+
+StoryBeatData Act3_SEQ1_SetObjectiveFindthePrime < uid=9FD9E8185A1DB2C30000204C1F07BCB3 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_SetTarget "Set Target - Prime Location"
+		{
+			mySimUnitAssetTarget "onward/game system data/juice/sim/act_3_vylus_dead_prime_temp.msimunit"
+			myTargetKnowledge 100.0
+			myTargetPlanet CC9485AB560D8193000001B70208D164
+			myActivityType Find
+		}
+		StoryDataAction_WaitForArriveAtTarget "Wait for Distance to Target - 5k"
+		{
+			myDistance 5000.0
+			myRequireInFOV FALSE
+		}
+		StoryDataAction_Dialog "Dialogue - SQ14 - Find the Prime"
+		{
+			myDialogSequenceID 14
+		}
+		StoryDataAction_CompleteStoryEvent "StoryEvent - SetGallaDowned"
+		{
+			myStoryEvent Act03_SetGallaDowned
+		}
+		StoryDataAction_WaitForPlanetArrival "Wait For Planet Arrival"
+		{
+			myPlanetUID CC9485AB560D8193000001B70208D164
+		}
+		StoryDataAction_SuppressNonStoryPips "Enable Non-Story Pips"
+		{
+			myShouldSuppress FALSE
+		}
+	}
+}
+
+StoryBeatData Act3_SEQ1_HalfwayToPrime < uid=9FD9E8185A1DBF7A0000204F6036CB51 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_Dialog "Dialogue - SQ17 - Halfway to the Prime"
+		{
+			myDialogSequenceID 17
+		}
+		StoryDataAction_WaitForArriveAtTarget "Distance to Target - Close"
+		{
+			myDistance 700.0
+			myRequireInFOV FALSE
+		}
+	}
+}
+
+StoryBeatData Act3_SEQ1_ArriveAtPrime < uid=9FD9E8185A1DBF8E0000205042F601C0 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_Dialog "Dialogue - SQ19 - Dead Prime Spotted"
+		{
+			myDialogSequenceID 19
+			myPauseInOutpostMenu FALSE
+		}
+		StoryDataAction_WaitForArriveAtTarget "Wait for Distance - 300"
+		{
+			myDistance 300.0
+			myRequireInFOV FALSE
+		}
+	}
+	myStoryDataActionSets
+	{
+	}
+}
+
+StoryBeatData Act3_SEQ1_HelpGalla < uid=9FD9E8185A66060500001B5398932FCD >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_Dialog "Dialogue - SQ23 - Hey you!"
+		{
+			myDialogSequenceID 23
+		}
+		StoryDataAction_SetObjective "Complete Chapter1.Sub2"
+		{
+			myObjectiveData < uid=9FD9E8185AA30C7B00001BE562AC959E > = Act3.Chapter1.Sub2
+			myObjectiveState Remove
+		}
+	}
+}
+
+StoryBeatData Act3_SEQ1_WaitForClose < uid=9FD9E8185A32E55F000022AEA95FE873 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_SetTarget "Set Target - Downed Galla"
+		{
+			mySimUnitAssetTarget "onward/game system data/juice/sim/act_3_vylus_downed_galla.msimunit"
+			myTargetPlanet CC9485AB560D8193000001B70208D164
+			myActivityType Find
+		}
+		StoryDataAction_SendStoryToGameEvent "Enable Galla Interaction - S2GEvent"
+		{
+			myStoryToGameEvent Act03_EnableGallaRepair
+		}
+		StoryDataAction_WaitForArriveAtTarget "Wait for Arrive at Target"
+		{
+			myDistance 70.0
+			myRequireInFOV FALSE
+		}
+	}
+}
+
+StoryBeatData Act3_SEQ1_StartCamera < uid=9FD9E8185A1DC1E100002051FB93D9C1 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_SetObjective "Complete Chapter1.Sub3"
+		{
+			myObjectiveData < uid=9FD9E8185AA30CE600001BEBEC6A65CD > = Act3.Chapter1.Sub3
+			myObjectiveState Remove
+		}
+		StoryDataAction_SetTarget "Ghost Target"
+		{
+			mySimUnitAssetTarget "onward/game system data/juice/sim/act_3_vylus_downed_galla.msimunit"
+			myTargetPlanet CC9485AB560D8193000001B70208D164
+			myShowWaypoint FALSE
+		}
+	}
+	myStoryDataActionSets
+	{
+		StoryDataActionSet "Start Camera"
+		{
+			myStoryDataActions
+			{
+				StoryDataAction_StartDialogueCamera "Start Camera"
+				{
+					myTriggerOnPipInteraction FALSE
+					myPlayerPreset GallasDownedShip
+					myTargetPreset GallasDownedShip
+					myIsFullScreen TRUE
+					myAllowPIP TRUE
+				}
+				StoryDataAction_Dialog "Dialogue - SQ20 - Galla Aid Request"
+				{
+					myDialogSequenceID 20
+					myPauseInOutpostMenu FALSE
+				}
+			}
+		}
+	}
+}
+
+StoryBeatData Act3_SEQ1_EndConversation < uid=9FD9E8185A32E6BA000022AF4D9023C2 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_StopDialogueCamera "Stop Camera"
+		{
+		}
+		StoryDataAction_WallClockWait "Wait 1"
+		{
+			mySecondsToWait 1.0
+		}
+		StoryDataAction_SetObjective "Close Chapter 1"
+		{
+			myObjectiveData < uid=9FD9E8185AA30D4D00001BEFE045F758 > = Act3.Chapter1.Header
+			myObjectiveState Remove
+		}
+		StoryDataAction_SetTarget "Set Target Gallas Downed Ship"
+		{
+			mySimUnitAssetTarget "onward/game system data/juice/sim/act_3_vylus_downed_galla.msimunit"
+			myTargetPlanet CC9485AB560D8193000001B70208D164
+			myActivityType Repair
+		}
+	}
+}
+
+StoryBeatData Act3_SEQ1_WaitForGallaRepair < uid=9FD9E8185A9709A900001B98ED0348BF >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_SetGameAction "Enable PlayerQuery"
+		{
+			mySetGameActionList
+			{
+				SetGameAction Repair
+				{
+					myGameAction PlayerQuery_CanStartRepair
+					myEnabled TRUE
+				}
+			}
+		}
+		StoryDataAction_SendStoryToGameEvent "Enable Galla Repair for Listener"
+		{
+			myStoryToGameEvent Act03_EnableGallaRepair
+		}
+		StoryDataAction_CompleteStoryEvent "Galla is Repairable for Re-Approach"
+		{
+			myStoryEvent Act03_GallaRepairable
+		}
+	}
+	myStoryDataActionSets
+	{
+		StoryDataActionSet "Wait for Interact Hail/Repair"
+		{
+			myStoryDataActionSetType OR
+			myStoryDataActions
+			{
+				StoryDataAction_WaitForTargetInteraction "Wait for Interact Galla"
+				{
+					myInteractionType InteractionHail
+				}
+				StoryDataAction_WaitForTargetInteraction "Wait for Interact Repair"
+				{
+					myInteractionType InteractionRepair
+				}
+			}
+		}
+	}
+}
+
+StoryBeatData Act3_SEQ1_AttackCrushGiantDialogue < uid=9FD9E8185AD76C8900001DD890A10FA6 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_Dialog "Dialogue - SQ24 - Kill Crush Giant"
+		{
+			myDialogSequenceID 24
+		}
+		StoryDataAction_SendStoryToGameEvent "Galla Repaired Event"
+		{
+			myStoryToGameEvent Act03_DownedGallaRepaired
+		}
+		StoryDataAction_CompleteStoryEvent "Complete Galla Is Repaired to Disable ET"
+		{
+			myStoryEvent Act03_RepairedGalla
+		}
+		StoryDataAction_CompleteChallenge "Complete Vylus Encounter Challenge"
+		{
+			myChallengeToComplete Discover_VylusEncounter
+		}
+	}
+}
+
+StoryBeatData Act3_SEQ1_SetTargetCrushGiant < uid=1EE141815A98452F00001C52107F60B6 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_SetTarget "Set Target - Crush Giant Slot"
+		{
+			mySimUnitAssetTarget "onward/game system data/juice/sim/act_3_crush_giant_slot.msimunit"
+			myTargetPlanet CC9485AB560D8193000001B70208D164
+			myActivityType Find
+		}
+		StoryDataAction_SetObjective "Complete Chapter 2 Sub 1"
+		{
+			myObjectiveData < uid=9FD9E8185AD7688D00001DD6EB61C0BA > = Act3.Chapter2.Sub1
+			myObjectiveState Remove
+		}
+	}
+	myStoryDataActionSets
+	{
+	}
+}
+
+StoryBeatData Act3_SEQ1_DestroyCrushGiant < uid=9FD9E8185A302CB400002305E276E3B7 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_WaitForArriveAtTarget "Wait For Distance - Close"
+		{
+			myDistance 300.0
+			myRequireInFOV FALSE
+		}
+		StoryDataAction_Dialog "Dialogue SEQ22"
+		{
+			myDialogSequenceID 22
+		}
+	}
+	myStoryDataActionSets
+	{
+	}
+}
+
+StoryBeatData Act3_SEQ1_SpawnCrushGiant < uid=9FD9E8185A9711EC00001B973EBFD731 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_SpawnSimUnitNearSimUnitAsset "Spawn Crush Giant Near Outpost Slot"
+		{
+			mySimUnitAsset < uid=9FD9E8185AD7688D00001DD444818B36 > = act3_guard_giant_crush_imp_probe
+			myDistance 0.0
+			myPlanetUID CC9485AB560D8193000001B70208D164
+			myTargetAsset < uid=9FD9E8185AD7688D00001DD5E7D05264 > = act_3_crush_giant_slot
+		}
+		StoryDataAction_SetCoopLeashBreakEnabled "Disable Leash Teleport"
+		{
+			myEnabled FALSE
+		}
+	}
+}
+
+StoryBeatData Act3_SEQ1_SetDialogueCamera < uid=1EE141815A957BA600001B5C9FBFBD20 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_SetTarget "Set Target - Crush Giant"
+		{
+			mySimUnitAssetTarget "onward/game system data/juice/sim/act3_guard_giant_crush_imp_probe.msimunit"
+			myTargetPlanet CC9485AB560D8193000001B70208D164
+			myActivityType Attack
+		}
+		StoryDataAction_StartDialogueCamera "Set Dialogue Camera"
+		{
+			myTriggerOnPipInteraction FALSE
+			myPlayerPreset CrushGiantIntro
+			myTargetPreset CrushGiantIntro
+			myIsFullScreen TRUE
+			myReviveDeadPlayers TRUE
+		}
+		StoryDataAction_SuppressNonStoryPips "Suppress Non Story Pips"
+		{
+			myShouldSuppress TRUE
+		}
+		StoryDataAction_WallClockWait "Wait 7"
+		{
+			mySecondsToWait 7.0
+		}
+		StoryDataAction_SoundEvent "Camera Sound"
+		{
+			myAudioEvent
+			{
+				myGuid 4F096BED85B798165801AF2740C5DBAF
+			}
+			myCompleteImmediately TRUE
+		}
+	}
+}
+
+StoryBeatData Act3_SEQ1_StrategyOverlayCrushGiant < uid=1EE141815A957BA600001B5D5CB71A91 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_SoundEvent "Dialogue SQ135"
+		{
+			myAudioEvent
+			{
+				myGuid AC30EC1D5AC7B071000000035A09AC13
+			}
+			myCompleteImmediately TRUE
+		}
+		StoryDataAction_UIEncounterStrategyOverlayOpen "Strategy Overlay Crush Giant"
+		{
+			myGameAction UICancel
+			myEnemyType CrushGiant
+			myWeaponType1 Levitator
+			myWeaponType2 Shredder
+			myWeaponType3 FrostBarrage
+		}
+	}
+}
+
+StoryBeatData Act3_SEQ1_StrategyOverlayClose < uid=1EE141815AE09A9000001D780BEBDC75 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_StopDialogueCamera "Stop Dialogue Camera"
+		{
+		}
+		StoryDataAction_SetCoopLeashBreakEnabled "Enable Leash Teleport"
+		{
+		}
+	}
+}
+
+StoryBeatData Act3_SEQ1_WaitForDeath < uid=9FD9E8185A302CC7000023066D6FCE17 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_SendStoryToGameEvent "Send Story to Game Event - Remove Galla"
+		{
+			myStoryToGameEvent Act03_DownedGallaRepaired
+		}
+		StoryDataAction_CompleteStoryEvent "Complete Story Event - Galla Repaired"
+		{
+			myStoryEvent Act03_RepairedGalla
+		}
+		StoryDataAction_WaitForTargetDeath "Wait for Target Death - Crush Giant"
+		{
+			myCompleteIfNoTargetFound TRUE
+		}
+		StoryDataAction_Dialog "Dialogue - SQ28"
+		{
+			myCompleteImmediately TRUE
+			myDialogSequenceID 28
+		}
+		StoryDataAction_SuppressNonStoryPips "Enable Non Story Pips"
+		{
+		}
+	}
+}
+
+StoryBeatData Act3_SEQ1_CrushGiantDefeated < uid=9FD9E8185A1DC1F8000020520DA0F8BF >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_Dialog "Dialogue - SQ21 - Crush Giant Defeated"
+		{
+			myDialogSequenceID 21
+			myPauseInOutpostMenu FALSE
+		}
+		StoryDataAction_SetObjective "Complete Chapter 2 - Sub 2"
+		{
+			myObjectiveData < uid=9FD9E8185AA68D8000001C31DABFF4EF > = Act3.Chapter2.Sub2
+			myObjectiveState Remove
+		}
+		StoryDataAction_SetTarget "Clear Target"
+		{
+		}
+		StoryDataAction_CompleteStoryEvent "Remove Galla Event"
+		{
+			myStoryEvent Act03_RemoveGalla
+		}
+	}
+}
+
+StoryBeatData Act3_SEQ1_TargetGallasOutpost < uid=1EE141815A95BFB000001B5775E372D9 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_SetTarget "Set Target - Galla's Outpost"
+		{
+			mySimUnitAssetTarget "onward/game system data/juice/sim/act_3_vylus_observatory.msimunit"
+			myTargetPlanet CC9485AB560D8193000001B70208D164
+			myShowWaypoint TRUE
+			myActivityType Interact
+		}
+		StoryDataAction_CompleteStoryEvent "Complete Story Event - Unlock Armory Interaction"
+		{
+			myStoryEvent EnableDefenseBaseInteraction
+		}
+		StoryDataAction_SendStoryToGameEvent "Send Story to Game Event - Enable Armory Interaction (If already Realized)"
+		{
+			myStoryToGameEvent Act03_UnlockArmoryInteraction
+		}
+		StoryDataAction_WaitForArriveAtTarget "Wait for Target Arrival"
+		{
+			myDistance 400.0
+		}
+	}
+	myStoryDataActionSets
+	{
+		StoryDataActionSet "Dialogue OR Distance"
+		{
+			myStoryDataActionSetType OR
+			myStoryDataActions
+			{
+				StoryDataAction_WaitForArriveAtTarget "Wait For Target Arrival"
+				{
+					myDistance 400.0
+					myRequireInFOV FALSE
+				}
+				StoryDataAction_Dialog "Dialogue - SQ18 - Armories"
+				{
+					myDialogSequenceID 18
+				}
+			}
+		}
+	}
+}
+
+StoryBeatData Act3_SEQ2_GoToGallasOutpost < uid=9FD9E8185A272593000021FB4E2843AB >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_UIOutpostEnableConversationMode "Start Conversation Mode"
+		{
+			myTargetSimUnitAssetPath "onward/game system data/juice/sim/act_3_vylus_observatory.msimunit"
+		}
+		StoryDataAction_WaitForTargetInteraction "Wait for Interaction - Hail"
+		{
+			myInteractionType InteractionHail
+		}
+		StoryDataAction_TransitionStorySection "Enter Story Section - Disable Galla Outpost Missions"
+		{
+			myTransitionType Enter
+			myStorySection DisableGallaOutpostMissions
+		}
+	}
+	myStoryDataActionSets
+	{
+		StoryDataActionSet "Wait for"
+		{
+			myStoryDataActionSetType OR
+			myStoryDataActions
+			{
+				StoryDataAction_WaitForTargetInteraction "Wait for Interaction - Hail"
+				{
+					myInteractionType InteractionHail
+				}
+				StoryDataAction_Dialog "Dialogue - SQ26"
+				{
+					myDialogSequenceID 26
+				}
+			}
+		}
+	}
+}
+
+StoryBeatData Act3_SEQ2_GallaOutpostConversation < uid=9FD9E8185A2802FE000021FF4F30FEE1 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_Dialog "Dialogue - SQ25 - Conversation with Galla (Outpost)"
+		{
+			myDialogSequenceID 25
+			myPauseInOutpostMenu FALSE
+		}
+		StoryDataAction_SetObjective "Complete Chapter 2 Sub 3"
+		{
+			myObjectiveData < uid=9FD9E8185AA68F1A00001C37094A84C1 > = Act3.Chapter2.Sub3
+			myObjectiveState Remove
+		}
+	}
+	myStoryDataActionSets
+	{
+	}
+}
+
+StoryBeatData Act3_SEQ2_GallaEndOutpostConversation < uid=9FD9E8185A2802FE00002200F3328A10 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_UIOutpostDisableConversationMode "Disable Conversation Mode"
+		{
+			myTargetSimUnitAssetPath "onward/game system data/juice/sim/act_3_vylus_observatory.msimunit"
+		}
+		StoryDataAction_AllyWithTarget "Ally with Target"
+		{
+		}
+		StoryDataAction_CompleteStoryEvent "StoryEvent Galla Allied-in-Outpost"
+		{
+			myStoryEvent Galla_AlliedInOutpost
+		}
+		StoryDataAction_CompleteChallenge "Unlock Ally Challenge"
+		{
+			myChallengeToComplete Ally_ProspectorDefenseBase
+		}
+		StoryDataAction_TransitionStorySection "Enter Story Section - Enable Range Activities - Galla"
+		{
+			myTransitionType Enter
+			myStorySection Enable_EnterRangeActivities_Galla
+		}
+		StoryDataAction_SetObjective "Close Chapter 2"
+		{
+			myObjectiveData < uid=9FD9E8185AA69EA900001C73CE323E40 > = Act3.Chapter2.Header
+			myObjectiveState Remove
+		}
+		StoryDataAction_TransitionStorySection "Enter Ally Galla"
+		{
+			myTransitionType Enter
+			myStorySection Ally_Galla
+		}
+		StoryDataAction_SendStoryToGameEvent "Send Outpost Menu Close Event"
+		{
+			myStoryToGameEvent UI_CloseOutpostMenu
+		}
+	}
+}
+
+StoryBeatData Act3_SEQ2_BuildOutpostPopUp < uid=2B55C72B5B5622D5000022137FD92C64 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_UIOpenConfirmationDialog "Show Outpost Building Pop Up"
+		{
+			myConfirmationType Construct_Outposts
+		}
+	}
+}
+
+StoryBeatData Act3_SEQ2_BuildAnObservatory < uid=9FD9E8185A280F2900002204DB0415D8 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_Dialog "Dialogue - SQ27 - Build an Observatory"
+		{
+			myDialogSequenceID 27
+			myPauseInOutpostMenu FALSE
+		}
+		StoryDataAction_WaitForGameToStoryEvent "Wait for Observatory Built on Vylus"
+		{
+			myGameToStoryStoryEvent Build_ObservationDeck
+		}
+		StoryDataAction_CompleteStoryEvent "Complete StoryEvent - Unlock Outposts"
+		{
+			myStoryEvent UnlockBuildOutposts
+		}
+		StoryDataAction_SetUIFeature "Enable Outpost Slots - Minimap"
+		{
+			myUIFeature Minimap_OutpostSlots
+			myIsSet TRUE
+		}
+		StoryDataAction_SetTarget "Clear Target"
+		{
+		}
+		StoryDataAction_TransitionStorySection "Enter Story Section - Build Observatory"
+		{
+			myTransitionType Enter
+			myStorySection Act_03_Build_Observatory
+		}
+		StoryDataAction_CompleteStoryEvent "Complete Story Event - Unlock Replace Outposts"
+		{
+			myStoryEvent UnlockReplaceOutposts
+		}
+		StoryDataAction_TransitionStorySection "Enter StorySection - Build Alliance Gameloop"
+		{
+			myTransitionType Enter
+			myStorySection Act_03_BuildAlliance_GameLoop
+		}
+		StoryDataAction_SetUIFeature "Set UI Feature - Observatories"
+		{
+			myUIFeature Outpost_CanConstructObservationDecks
+			myIsSet TRUE
+		}
+		StoryDataAction_SetUIFeature "Highlight Build Observatory - Enable"
+		{
+			myUIFeature Outpost_HighlightObservationDecks
+			myIsSet TRUE
+		}
+	}
+}
+
+StoryBeatData Act3_SEQ2_ObservatoryBuilt < uid=9FD9E8185A28335A000020296D28A4AF >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_Dialog "Dialogue - SQ29 - Observatory Built"
+		{
+			myDialogSequenceID 29
+			myPauseInOutpostMenu FALSE
+		}
+		StoryDataAction_TransitionStorySection "Exit Story Section - Build Observatory"
+		{
+			myTransitionType Exit
+			myStorySection Act_03_Build_Observatory
+		}
+		StoryDataAction_SetObjective "Close Chapter 3 Sub 1"
+		{
+			myObjectiveData < uid=9FD9E8185AA692A700001C4FD17B713F > = Act3.Chapter3.Sub1
+			myObjectiveState Remove
+		}
+		StoryDataAction_SetUIFeature "Highlight Build Observatory - Disable"
+		{
+			myUIFeature Outpost_HighlightObservationDecks
+		}
+		StoryDataAction_CompleteStoryEvent "Complete Story Event - Vylus Observatory Built"
+		{
+			myStoryEvent Act03_VylusObservatoryBuilt
+		}
+	}
+}
+
+StoryBeatData Act3_SEQ2_ReturnToGalla < uid=9FD9E8185A2835250000202BE1AE25D4 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_WaitForTargetInteraction "Wait for Hail Gallas Outpost"
+		{
+			myInteractionType InteractionHail
+		}
+		StoryDataAction_UIOutpostEnableConversationMode "Enable Conversation Mode - Gallas Refinery"
+		{
+			myTargetSimUnitAssetPath "onward/game system data/juice/sim/act_3_vylus_observatory.msimunit"
+		}
+		StoryDataAction_SetTarget "Set Ghost Target - Gallas Refinery"
+		{
+			mySimUnitAssetTarget "onward/game system data/juice/sim/act_3_vylus_observatory.msimunit"
+			myTargetPlanet CC9485AB560D8193000001B70208D164
+			myShowWaypoint FALSE
+		}
+	}
+}
+
+StoryBeatData Act3_SEQ2_GallaConversationPostObservatory < uid=9FD9E8185A2835B200002032A5B6D84C >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_Dialog "Dialogue - SQ30 - Conversation"
+		{
+			myDialogSequenceID 30
+			myPauseInOutpostMenu FALSE
+		}
+	}
+	myStoryDataActionSets
+	{
+		StoryDataActionSet "Start Dialogue Camera"
+		{
+			myStoryDataActions
+			{
+			}
+		}
+	}
+}
+
+StoryBeatData Act3_SEQ2_GallaEndConversationPostObservatory < uid=9FD9E8185A2835C800002033C7DCEB1E >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_UIOutpostDisableConversationMode "Disable Conversation Mode"
+		{
+			myTargetSimUnitAssetPath "onward/game system data/juice/sim/act_3_vylus_observatory.msimunit"
+		}
+	}
+}
+
+StoryBeatData Act3_SEQ2_PostConverstationDialogue < uid=9FD9E8185A28468C0000217BA205E639 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_Dialog "Dialogue - SQ31 - Pre Starmap"
+		{
+			myDialogSequenceID 31
+			myPauseInOutpostMenu FALSE
+		}
+	}
+}
+
+StoryBeatSequence Act3_SEQ2_StarmapSequence_IntroduceAllianceMeter < uid=1EE141815A8ED64F00001B5A5E6007E7 >
+{
+	myStoryBeats
+	{
+		StoryBeatData "Force Open Starmap" < uid=9FD9E8185A28435300002172DB00F064 >
+		{
+			myStoryDataActions
+			{
+				StoryDataAction_UIStarMapOpen "Open Starmap"
+				{
+				}
+			}
+		}
+		StoryBeatData "Padding 2" < uid=9FD9E8185A28437700002173FBA47401 >
+		{
+			myStoryDataActions
+			{
+				StoryDataAction_WallClockWait Wait
+				{
+					mySecondsToWait 2.0
+				}
+			}
+		}
+		StoryBeatData "Dialogue - 1" < uid=9FD9E8185A2843770000217449D898CD >
+		{
+			myStoryDataActions
+			{
+				StoryDataAction_SoundEvent "Dialogue -1"
+				{
+					myAudioEvent
+					{
+						myGuid AA5A64085A28431B000000018E05F5CD
+					}
+				}
+			}
+		}
+		StoryBeatData "Padding 1" < uid=9FD9E8185A28439200002175B8621FAF >
+		{
+			myStoryDataActions
+			{
+				StoryDataAction_WallClockWait Wait
+				{
+					mySecondsToWait 1.0
+				}
+			}
+		}
+		StoryBeatData "Dialogue - 2" < uid=9FD9E8185A28439B00002176643D5B17 >
+		{
+			myStoryDataActions
+			{
+				StoryDataAction_SoundEvent "Dialogue - 2"
+				{
+					myAudioEvent
+					{
+						myGuid AA5A64085A28431B0000000394F66F87
+					}
+				}
+			}
+		}
+		StoryBeatData "Padding 2" < uid=9FD9E8185A28444C00002177BCE12FED >
+		{
+			myStoryDataActions
+			{
+				StoryDataAction_WallClockWait "Wait 2"
+				{
+					mySecondsToWait 2.0
+				}
+			}
+		}
+		StoryBeatData "Dialogue - 3" < uid=9FD9E8185A344A2400001E16C12863E9 >
+		{
+			myStoryDataActions
+			{
+				StoryDataAction_SoundEvent "Dialogue - 3"
+				{
+					myAudioEvent
+					{
+						myGuid AA5A64085A284CB100000001C1AF45D7
+					}
+				}
+			}
+		}
+		StoryBeatData "Padding 2" < uid=9FD9E8185A344A2400001E17F6C26DFF >
+		{
+		}
+		StoryBeatData "Dialogue - 4" < uid=9FD9E8185A344A2400001E182375B5FE >
+		{
+			myStoryDataActions
+			{
+				StoryDataAction_SoundEvent "Dialogue - 4"
+				{
+					myAudioEvent
+					{
+						myGuid AA5A64085A284CB100000002491A87DA
+					}
+				}
+			}
+		}
+	}
+}
+
+StoryBeatData Act3_SEQ2_BuildARefinery < uid=9FD9E8185A28464A000021783172D64C >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_WaitForGameToStoryEvent "Wait for Game to Story Event - Refinery Built on Vylus"
+		{
+			myGameToStoryStoryEvent Build_MiningCenter
+		}
+		StoryDataAction_SetTarget "Clear Target"
+		{
+			myShowWaypoint FALSE
+		}
+		StoryDataAction_SetUIFeature "Set UI Feature - Research Bases"
+		{
+			myUIFeature Outpost_CanConstructResearchBases
+			myIsSet TRUE
+		}
+		StoryDataAction_SetUIFeature "Set UI Feature - Mining Centers"
+		{
+			myUIFeature Outpost_CanConstructMiningCamps
+			myIsSet TRUE
+		}
+		StoryDataAction_SetUIFeature "Highlight Build Refinery - Enable"
+		{
+			myUIFeature Outpost_HighlightMiningCamps
+			myIsSet TRUE
+		}
+	}
+}
+
+StoryBeatData Act3_SEQ2_RefineryBuilt < uid=9FD9E8185A284C8900002185B3BB9B1B >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_SetSpawnAssetBlockedOnPlanet "Unblock Primes on Vylus"
+		{
+			myPlanetUID CC9485AB560D8193000001B70208D164
+			mySimUnitAssetTargetPath "onward/game system data/juice/sim/harvester_prime.msimunit"
+		}
+		StoryDataAction_Dialog "Dialogue - SQ34 - Refinery Built"
+		{
+			myDialogSequenceID 34
+			myPauseInOutpostMenu FALSE
+		}
+		StoryDataAction_SetObjective "Close Chapter 3 Sub 2"
+		{
+			myObjectiveData < uid=9FD9E8185AA6932700001C5704558B5E > = Act3.Chapter3.Sub2
+			myObjectiveState Remove
+		}
+		StoryDataAction_SetUIFeature "Highlight Build Refinery - Disable"
+		{
+			myUIFeature Outpost_HighlightMiningCamps
+		}
+	}
+}
+
+StoryBeatData Act3_SEQ2_ContinueToBuildAlliance < uid=9FD9E8185A284CE30000218782DE41AA >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_WaitForAllianceLevel "Wait for Alliance Percentage - 25%"
+		{
+			myObjectiveUID < uid=9FD9E8185AB1561800001C0DFD7BEB62 > = Act3.Chapter3.Sub3.Part1
+			myObjectiveAutoRemoves TRUE
+			myAllianceLevel 25
+			myPlanet CC9485AB560D8193000001B70208D164
+		}
+		StoryDataAction_Dialog "Dialogue - SQ33 - Warning Unknown Vessel"
+		{
+			myDialogSequenceID 33
+			myPauseInOutpostMenu FALSE
+		}
+		StoryDataAction_TransitionStorySection "Enter Story Section - Alliance"
+		{
+			myTransitionType Enter
+		}
+		StoryDataAction_CompleteStoryEvent "Story Event - Unlock Workshop Building"
+		{
+			myStoryEvent UnlockBuildResearchCenter
+		}
+	}
+}
+
+StoryBeatData Act3_SEQ2_AllianceAchieved < uid=9FD9E8185A284DC000002190CCB3984C >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_Dialog "Dialogue - SQ36 - Alliance Achieved"
+		{
+			myDialogSequenceID 36
+			myPauseInOutpostMenu FALSE
+		}
+		StoryDataAction_SetObjective "Complete Chapter 3 Sub 3"
+		{
+			myObjectiveData < uid=9FD9E8185AA69C0500001C6F5BDAFCAB > = Act3.Chapter3.Sub3
+			myObjectiveState Remove
+		}
+		StoryDataAction_SetUIFeature "Enable Prime Alerts"
+		{
+			myUIFeature Starmap_PrimeAlerts
+			myIsSet TRUE
+		}
+		StoryDataAction_SetUIFeature "Enable Prime Landed"
+		{
+			myUIFeature SimAlert_PrimeLanded
+			myIsSet TRUE
+		}
+		StoryDataAction_SetUIFeature "Enable Critical Infection"
+		{
+			myUIFeature SimAlert_CriticalInfectionThreshold
+			myIsSet TRUE
+		}
+	}
+}
+
+StoryBeatData Act3_SEQ2_SpawnPrimeVylus < uid=9FD9E8185AD8B73300001DC1C341CB29 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_SpawnSimUnitNearSimUnitAsset "Spawn Prime Near Extractor Slot"
+		{
+			mySimUnitAsset < uid=9FD9E8185B0DC84300001E129E509127 > = harvester_prime
+			myPlanetUID CC9485AB560D8193000001B70208D164
+			myTargetAsset < uid=9FD9E8185B0DC84300001E133A2E062E > = harvester_extractor_slot
+		}
+	}
+}
+
+StoryBeatData Act3_SEQ2_DialogueAfterPrime < uid=9FD9E8185B8EB9B80000223DB550D6E9 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_Dialog "Dialogue - SQ37 - Prime Arrived"
+		{
+			myDialogSequenceID 37
+			myPauseInOutpostMenu FALSE
+		}
+	}
+}
+
+StoryBeatData Act3_SEQ2_ReturnToGallaAfterAlliance < uid=9FD9E8185A284EA500002192AB130A53 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_SetTarget "Set Target - Gallas Armory"
+		{
+			mySimUnitAssetTarget "onward/game system data/juice/sim/act_3_vylus_observatory.msimunit"
+			myTargetPlanet CC9485AB560D8193000001B70208D164
+			myShowWaypoint TRUE
+		}
+		StoryDataAction_UIStarMapAddAlertOnSimUnit "Add Systemic Marker on Gallas Armory"
+		{
+			myTargetSimUnitAssetPath "onward/game system data/juice/sim/act_3_vylus_observatory.msimunit"
+			myAlertType Alliance
+		}
+		StoryDataAction_WaitForArriveAtTarget "Wait For Distance to Galla"
+		{
+			myDistance 2000.0
+		}
+	}
+}
+
+StoryBeatData Act3_SEQ2_WaitForDistanceToGalla < uid=1EE141815AE0C66900001D78D50EB094 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActionSets
+	{
+		StoryDataActionSet "Wait For"
+		{
+			myStoryDataActionSetType OR
+			myStoryDataActions
+			{
+				StoryDataAction_WaitForArriveAtTarget "Distance Check to Galla"
+				{
+					myDistance 100.0
+				}
+				StoryDataAction_Dialog "Dialogue - SQ40 - Build an Armory"
+				{
+					myDialogSequenceID 40
+					myPauseInOutpostMenu FALSE
+				}
+			}
+		}
+	}
+}
+
+StoryBeatData Act3_SEQ2_WaitForReturnForGalla < uid=9FD9E8185A2F0B1200002303ED465FF7 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_WaitForTargetInteraction "Wait for Interaction - Hail Gallas Outpost"
+		{
+			myInteractionType InteractionHail
+		}
+		StoryDataAction_UIOutpostEnableConversationMode "Enable Conversation Mode - Gallas Refinery"
+		{
+			myTargetSimUnitAssetPath "onward/game system data/juice/sim/act_3_vylus_observatory.msimunit"
+		}
+		StoryDataAction_UIStarMapAddAlertOnSimUnit "Add Alert on Gallas Outpost"
+		{
+			myTargetSimUnitAssetPath "onward/game system data/juice/sim/act_3_vylus_observatory.msimunit"
+			myAlertType Alliance
+		}
+	}
+}
+
+StoryBeatData Act3_SEQ2_GallaConverationPostAlliance < uid=9FD9E8185A2851250000219CC8620730 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_Dialog "Dialogue - SQ38 - Convo After Alliance"
+		{
+			myDialogSequenceID 38
+			myPauseInOutpostMenu FALSE
+		}
+		StoryDataAction_SetObjective "Complete Chapter 4 Sub 1"
+		{
+			myObjectiveData < uid=9FD9E8185AA6A07200001C810821278D > = Act3.Chapter4.Sub1
+			myObjectiveState Remove
+		}
+		StoryDataAction_UIStarMapRemoveAlertOnSimUnit "Remove systemic Marker on Galla Armory"
+		{
+			myTargetSimUnitAssetPath "onward/game system data/juice/sim/act_3_vylus_observatory.msimunit"
+		}
+	}
+	myStoryDataActionSets
+	{
+	}
+}
+
+StoryBeatData Act3_SEQ2_GallaEndConversationPostAlliance < uid=9FD9E8185A28513A0000219D8BD4F774 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_UIOutpostDisableConversationMode "Disable Conversation Mode"
+		{
+			myTargetSimUnitAssetPath "onward/game system data/juice/sim/act_3_vylus_observatory.msimunit"
+		}
+		StoryDataAction_SetObjective "Close Chapter 3"
+		{
+			myObjectiveData < uid=9FD9E8185AA69F1900001C78B45E2E2C > = Act3.Chapter3.Header
+			myObjectiveState Remove
+		}
+	}
+}
+
+StoryBeatData Act3_SEQ3_BuildAnArmory < uid=9FD9E8185A2852700000219EE77AAFDD >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_CompleteStoryEvent "Complete Story Event - Unlock Build Armories"
+		{
+			myStoryEvent UnlockBuildDefenseBase
+		}
+		StoryDataAction_SetUIFeature "Set UI Feature - Defense Bases"
+		{
+			myUIFeature Outpost_CanConstructDefenseBases
+			myIsSet TRUE
+		}
+		StoryDataAction_Wait "Wait 10"
+		{
+			mySecondsToWait 10.0
+		}
+		StoryDataAction_ResetRespawnCheckpoint "Reset Respawn Checkpoint"
+		{
+		}
+		StoryDataAction_SetTarget "Clear Target"
+		{
+			myShowWaypoint FALSE
+		}
+	}
+}
+
+StoryBeatData Act3_SEQ3_DialogueSQ40 < uid=1EE141815A95D14800001B508A07B0A7 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_WaitForGameToStoryEvent "Wait for Build Armory Event"
+		{
+			myGameToStoryStoryEvent Build_DefenseBase
+		}
+		StoryDataAction_SetUIFeature "Highlight Build Armory - Enable"
+		{
+			myUIFeature Outpost_HighlightDefenseBases
+			myIsSet TRUE
+		}
+	}
+}
+
+StoryBeatData Act3_SEQ3_AfterArmory < uid=9FD9E8185A28533A000021A7F00CB391 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_Dialog "Dialogue - 100 - Armory Built"
+		{
+			myDialogSequenceID 100
+			myPauseInOutpostMenu TRUE
+		}
+		StoryDataAction_TransitionStorySection "Exit Story Section - Build Alliance Gameloop"
+		{
+			myTransitionType Exit
+			myStorySection Act_03_BuildAlliance_GameLoop
+		}
+		StoryDataAction_CompleteStoryEvent "Make Gallas Outpost Killable"
+		{
+			myStoryEvent Act03_ReplaceGallasRefinery
+		}
+		StoryDataAction_SetObjective "Complete Chapter 4 Sub 2"
+		{
+			myObjectiveData < uid=9FD9E8185AA6A10E00001C89817921A2 > = Act3.Chapter4.Sub2
+			myObjectiveState Remove
+		}
+		StoryDataAction_SetUIFeature "Highlight Build Armory - Disable"
+		{
+			myUIFeature Outpost_HighlightDefenseBases
+		}
+	}
+}
+
+StoryBeatData Act3_SEQ3_ReturnToEquinox < uid=9FD9E8185A286EDF00002052C54AF6CE >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_SetTarget "Set Ghost Target - Equinox"
+		{
+			mySimUnitAssetTarget "onward/game system data/juice/sim/onward_equinox_space.msimunit"
+			myShowWaypoint FALSE
+		}
+		StoryDataAction_UIStarMapAddAlertOnSimUnit "Systemic Marker on Equinox"
+		{
+			myTargetSimUnitAssetPath "onward/game system data/juice/sim/onward_equinox_space.msimunit"
+			myAlertType Alliance
+		}
+		StoryDataAction_CompleteStoryEvent "Galla Leave Outpost"
+		{
+			myStoryEvent Galla_LeaveOutpost
+		}
+		StoryDataAction_TransitionStorySection "Exit Story Section - Disable Galla Outpost Missions"
+		{
+			myTransitionType Exit
+			myStorySection DisableGallaOutpostMissions
+		}
+	}
+}
+
+StoryBeatData Act3_SEQ3_WaitForArrivalAtEquinox < uid=9FD9E8185A2870E50000201C958CBE4B >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_WaitForArriveAtTarget "Wait for Distance to Equinox - 2k"
+		{
+			myDistance 2000.0
+			myRequireInFOV FALSE
+		}
+	}
+}
+
+StoryBeatData Act3_SEQ3_ArrivalDialogue < uid=9FD9E8185A5FD24500001B5545EF47B3 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_SetGameAction DisableHyperDrive
+		{
+			mySetGameActionList
+			{
+				SetGameAction HyperDrive
+				{
+					myGameAction PlayerQuery_CanStartHyperDrive
+				}
+			}
+		}
+		StoryDataAction_TriggerGameAction StopHyperDrive
+		{
+			myGameAction StopHyperDrive
+		}
+		StoryDataAction_Dialog "Dialogue - SQ43 - Sorren"
+		{
+			myCompleteImmediately FALSE
+			myDialogSequenceID 43
+			myPauseInOutpostMenu FALSE
+		}
+		StoryDataAction_SetEncounterTimersEnabled "Disable Encounters"
+		{
+		}
+		StoryDataAction_SetObjective "Complete Chapter 4 Sub 3"
+		{
+			myObjectiveData < uid=9FD9E8185AA6A16400001C91430AAB3A > = Act3.Chapter4.Sub3
+			myObjectiveState Remove
+		}
+		StoryDataAction_ResetRespawnCheckpoint "Reset Respawn Checkpoint"
+		{
+		}
+		StoryDataAction_UIStarMapRemoveAlertOnSimUnit "Remove Systemic Marker on Equinox"
+		{
+			myTargetSimUnitAssetPath "onward/game system data/juice/sim/onward_equinox_space.msimunit"
+		}
+		StoryDataAction_SuppressNonStoryPips "Suppress Non Story Pips"
+		{
+			myShouldSuppress TRUE
+		}
+		StoryDataAction_SetGameAction "Disable Fast Travel"
+		{
+			mySetGameActionList
+			{
+				SetGameAction "Disable Fast Travel"
+				{
+					myGameAction PlayerQuery_CanFastTravel
+				}
+			}
+		}
+		StoryDataAction_SetUIFeature "Disable UI Fast Travel"
+		{
+			myUIFeature Starmap_FastTravelEnabled
+			myIsSet FALSE
+		}
+		StoryDataAction_WallClockWait Wait
+		{
+			mySecondsToWait 6.5
+		}
+	}
+}
+
+StoryBeatData Act3_SEQ3_SorrenArrivalBink < uid=9FD9E8185A96D0A000001C3848C5CC78 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_CompleteStoryEvent "StoryEvent for Bink - Sorren Arrival"
+		{
+			myStoryEvent Act03_SorrenIntroCinematic
+		}
+		StoryDataAction_Cinematic Cinematic
+		{
+			myCinematicFile onward/baked/videos/Sorren_2.bk2
+		}
+		StoryDataAction_SpawnSimUnitNearPlayer "Spawn Sorren"
+		{
+			mySimUnitAsset < uid=2B55C72B5B19BAE600001DD3C1D9DAEB > = ship_ally_sorren_act_structure
+			myDistance 200.0
+			myLookAheadTime 0.0
+		}
+		StoryDataAction_SetTarget SetTargetOnSorren
+		{
+			mySimUnitAssetTarget "onward/game system data/juice/sim/ship_ally_sorren_act_structure.msimunit"
+			myShowWaypoint FALSE
+		}
+		StoryDataAction_StartDialogueCamera StartCamera
+		{
+			myIsTargetFirstSpeaker TRUE
+			myTriggerOnPipInteraction FALSE
+			myPlayerPreset SorrenCamera
+			myTargetPreset SorrenCamera
+			myTeleportPlayers TRUE
+			myTeleportLocalOffsetFromTarget 1.0;1.0;100.0
+			myIsFullScreen TRUE
+		}
+		StoryDataAction_Wait "Wait for 0.5"
+		{
+			mySecondsToWait 0.5
+		}
+		StoryDataAction_AddFadeRequest "Hold Black Screen"
+		{
+			myFadeRequestType Fade_Out
+			myFadeColor 0xffffffff
+		}
+	}
+}
+
+StoryBeatData Act3_SEQ3_StartSorrenCam < uid=9FD9E8185A32F4D6000022B73C1FAD5E >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_Dialog "Dialogue - SQ45 - Talk to Sorren"
+		{
+			myDialogSequenceID 45
+			myPauseInOutpostMenu FALSE
+		}
+		StoryDataAction_StopDialogueCamera StopCamera
+		{
+		}
+		StoryDataAction_AddFadeRequest FadeIn
+		{
+			myFadeColor 0xffffffff
+			myFadeTime 0.25
+		}
+	}
+	myStoryDataActionSets
+	{
+	}
+}
+
+StoryBeatData Act3_SEQ3_StGrandBink < uid=9FD9E8185A9825F800001BA8108F0028 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_StopDialogueCamera StopCamera
+		{
+		}
+		StoryDataAction_CompleteStoryEvent "Story Event - Sorren Outro/St Grand"
+		{
+			myStoryEvent Act03_SorrenOutroCinematic
+		}
+		StoryDataAction_Cinematic Cinematic
+		{
+			myCinematicFile onward/baked/videos/CIN_ACT3_STGRAND_VIDEO.bk2
+		}
+		StoryDataAction_AddFadeRequest BlackScreen
+		{
+			myFadeRequestType Hold
+		}
+	}
+}
+
+StoryBeatData Act3_SEQ4_SpawnDreadnought < uid=1EE141815A8EEE5D00001B6F4DC23F93 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_SetTarget "Target Dreadnaught Slot"
+		{
+			mySimUnitAssetTarget "onward/game system data/juice/sim/harvester_dreadnought_act3_slot.msimunit"
+			myShowWaypoint FALSE
+		}
+		StoryDataAction_CompleteStoryEvent "SpawnDreadnought Story Event"
+		{
+			myStoryEvent Act03_SpawnDreadnought
+		}
+		StoryDataAction_SetGameAction "Enable HyperDrive"
+		{
+			mySetGameActionList
+			{
+				SetGameAction Hyperdrive
+				{
+					myGameAction PlayerQuery_CanStartHyperDrive
+					myEnabled TRUE
+				}
+			}
+		}
+		StoryDataAction_CompleteStoryEvent "Complete Story Event - Allow Sorren Flight"
+		{
+			myStoryEvent Act03_AllowSorrenToFly
+		}
+	}
+}
+
+StoryBeatData Act3_SEQ4_HierarchyPopUp < uid=2B55C72B5B562D150000221541C220DA >
+{
+	myIsCheckpoint FALSE
+	myForceCompleteOptions
+	{
+		myEnabled TRUE
+		myCompleteOnGameToStoryEvent DreadnoughtCoreDestroyed
+	}
+	myStoryDataActions
+	{
+		StoryDataAction_UIOpenConfirmationDialog "Show Legion Hierarchy Pop Up"
+		{
+			myConfirmationType Introduce_LegionHierarchy
+		}
+	}
+}
+
+StoryBeatData Act3_SEQ4_DreadnaughtDialogue < uid=1EE141815A95BB2500001B52EFAD5538 >
+{
+	myIsCheckpoint FALSE
+	myForceCompleteOptions
+	{
+		myEnabled TRUE
+		myCompleteOnGameToStoryEvent DreadnoughtCoreDestroyed
+	}
+	myStoryDataActions
+	{
+		StoryDataAction_Dialog "Dreadnaught Dialogue"
+		{
+			myDialogSequenceID 48
+		}
+		StoryDataAction_SetGameAction "Enable Fast Travel"
+		{
+			mySetGameActionList
+			{
+				SetGameAction "Enable Fast Travel"
+				{
+					myGameAction PlayerQuery_CanFastTravel
+					myEnabled TRUE
+				}
+			}
+		}
+		StoryDataAction_SetUIFeature "Enable UI Fast Travel"
+		{
+			myUIFeature Starmap_FastTravelEnabled
+			myIsSet TRUE
+		}
+	}
+}
+
+StoryBeatData Act3_SEQ4_DreadnoughtPostObjective < uid=2B55C72B5B1A8ED100001EF3A77474A3 >
+{
+	myIsCheckpoint FALSE
+	myForceCompleteOptions
+	{
+		myEnabled TRUE
+		myCompleteOnGameToStoryEvent DreadnoughtCoreDestroyed
+	}
+	myStoryDataActions
+	{
+		StoryDataAction_Dialog "Dialogue post objective"
+		{
+			myDialogSequenceID 50
+		}
+		StoryDataAction_SetTarget "Target Dreadnought"
+		{
+			mySimUnitAssetTarget "onward/game system data/juice/sim/harvester_dreadnought.msimunit"
+			myShowWaypoint TRUE
+		}
+		StoryDataAction_CompleteStoryEvent "Complete Story Event - Sorren Joins Onward"
+		{
+			myStoryEvent Sorren_JoinOnward
+		}
+	}
+}
+
+StoryBeatSequence Act3_SEQ4_StarmapSequence[REMOVED] < uid=1EE141815A8ED64F00001B5B15679DB0 >
+{
+	myStoryBeats
+	{
+		StoryBeatData "Open Starmap" < uid=9FD9E8185A3ACD3F00001D733683917A >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_UIStarMapOpen "Open Starmap"
+				{
+					myViewType Galaxy
+					myTargetSimUnitAssetPath "onward/game system data/juice/sim/player.msimunit"
+				}
+			}
+		}
+		StoryBeatData "Lock Input" < uid=1EE141815A8DC98200001B653CDD9D41 > = "Starmap Player Control Lock"
+		StoryBeatData "Target Dreadnaught" < uid=1EE141815A8EEB5300001B6E2CDB988A >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_SetTarget "Target Dreadnaught"
+				{
+					mySimUnitAssetTarget "onward/game system data/juice/sim/harvester_dreadnought.msimunit"
+					myShowWaypoint FALSE
+				}
+			}
+		}
+		StoryBeatData "Focus on Player" < uid=1EE141815A8ED87700001B5CE7A9553B >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_UIStarMapFocusOnSimUnit "Focus on Player"
+				{
+					myTargetSimUnitAssetPath "onward/game system data/juice/sim/player.msimunit"
+				}
+			}
+		}
+		StoryBeatData "Wait 0.5" < uid=1EE141815A8EF6FD00001B74812B5E40 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_WallClockWait "Wait 2"
+				{
+					mySecondsToWait 0.5
+				}
+			}
+		}
+		StoryBeatData "Focus on Dreadnaught" < uid=1EE141815A8ED87700001B5D7B843943 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_UIStarMapFocusOnSimUnit "Focus on Dreadnaught"
+				{
+					myTargetSimUnitAssetPath "onward/game system data/juice/sim/harvester_dreadnought_act3_slot.msimunit"
+				}
+			}
+		}
+		StoryBeatData "Focus On Player" < uid=1EE141815A90395F00001B4C7287498F >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_UIStarMapFocusOnSimUnit "Focus On Player"
+				{
+					myTargetSimUnitAssetPath "onward/game system data/juice/sim/player.msimunit"
+				}
+			}
+		}
+		StoryBeatData "Unlock Input" < uid=1EE141815A8DC98200001B666429D11B > = "Starmap Player Control Unlock"
+		StoryBeatData "Wait 1" < uid=9FD9E8185A3ACDB000001D78113C52C5 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_WallClockWait "Wait 1"
+				{
+					mySecondsToWait 1.0
+				}
+			}
+		}
+	}
+}
+
+StoryBeatData Act3_SEQ4_CloseStarmap < uid=1EE141815A8EEA0A00001B5FD936F9D6 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_SendStoryToGameEvent "Close Starmap Event"
+		{
+			myStoryToGameEvent UI_CloseStarmap
+		}
+		StoryDataAction_SetTarget "Clear Target"
+		{
+			mySimUnitAssetTarget "onward/game system data/juice/sim/harvester_dreadnought.msimunit"
+			myShowWaypoint FALSE
+		}
+		StoryDataAction_WallClockWait "Wait 1"
+		{
+			mySecondsToWait 1.0
+		}
+		StoryDataAction_WaitForArriveAtTarget "Wait For Arrive Dreadnaught"
+		{
+			myDistance 600.0
+		}
+	}
+}
+
+StoryBeatData Act3_SEQ4_EngageTheDreadnought < uid=1EE141815A95BCCD00001B531BE2B05F >
+{
+	myIsCheckpoint FALSE
+	myForceCompleteOptions
+	{
+		myEnabled TRUE
+		myCompleteOnGameToStoryEvent DreadnoughtCoreDestroyed
+	}
+	myStoryDataActions
+	{
+		StoryDataAction_TransitionStorySection "Enter Story Section"
+		{
+			myTransitionType Enter
+			myStorySection Act_03_Destroy_Dreadnought
+		}
+		StoryDataAction_CompleteChallenge "Complete Challenge - Discover Dreadnought"
+		{
+			myChallengeToComplete Discover_Dreadnought
+		}
+		StoryDataAction_WaitForArriveAtTarget "Wait For Arrive At Dreadnaught"
+		{
+			myDistance 23500.0
+			myRequireInFOV FALSE
+		}
+		StoryDataAction_UIStarMapAddAlertOnSimUnit "Alliance Icon on Dreadnought"
+		{
+			myTargetSimUnitAssetPath "onward/game system data/juice/sim/harvester_dreadnought_act3_slot.msimunit"
+			myAlertType Alliance
+		}
+		StoryDataAction_SuppressNonStoryPips "Enable Non Story Pips"
+		{
+		}
+		StoryDataAction_SetEncounterTimersEnabled "Enable Encounters"
+		{
+			myEnabled TRUE
+		}
+	}
+	myStoryDataActionSets
+	{
+	}
+}
+
+StoryBeatData Act3_SEQ4_ApproachDreadnought < uid=1EE141815AB3B1CE00001BCC4394FDA4 >
+{
+	myIsCheckpoint FALSE
+	myForceCompleteOptions
+	{
+		myEnabled TRUE
+		myCompleteOnGameToStoryEvent DreadnoughtCoreDestroyed
+	}
+	myStoryDataActions
+	{
+	}
+	myStoryDataActionSets
+	{
+		StoryDataActionSet "Dialogue or Arrival"
+		{
+			myStoryDataActionSetType OR
+			myStoryDataActions
+			{
+				StoryDataAction_WaitForArriveAtTarget "Wait For Arrive At Dreadnought"
+				{
+					myDistance 3500.0
+					myRequireInFOV FALSE
+				}
+				StoryDataAction_Dialog "Dialogue - SQ60"
+				{
+					myDialogSequenceID 60
+				}
+			}
+		}
+	}
+}
+
+StoryBeatData Act3_SEQ4_SetDialogueCameraDreadnaught[REMOVED] < uid=1EE141815A95810200001B60E4BFA5B9 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_StartDialogueCamera SetDialogueCameraDreadnaught
+		{
+			myTriggerOnPipInteraction FALSE
+			myPlayerPreset DreadnoughtIntro
+			myTargetPreset DreadnoughtIntro
+			myTeleportPlayers FALSE
+			myIsFullScreen TRUE
+		}
+		StoryDataAction_WallClockWait "Wait 3"
+		{
+			mySecondsToWait 3.0
+		}
+	}
+	myStoryDataActionSets
+	{
+	}
+}
+
+StoryBeatData Act3_SEQ4_StrategyOverlayDreadnaught[REMOVED] < uid=1EE141815A95810200001B610038482D >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_UIEncounterStrategyOverlayOpen "Strategy Overlay Dreadnaught"
+		{
+			myGameAction UICancel
+			myEnemyType Dreadnought
+			myWeaponType1 Imploder
+			myWeaponType2 Levitator
+			myWeaponType3 Nullifier
+		}
+		StoryDataAction_WaitForGameAction "Wait For Close Overlay"
+		{
+			myGameAction UICancel
+		}
+	}
+}
+
+StoryBeatData Act3_SEQ4_SetDreadnaughtCoordsObjective < uid=9FD9E818595BCF6F000000CAF17829B4 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_Dialog "Dialogue - SQ52 - Dreadnought Intro"
+		{
+			myDialogSequenceID 52
+		}
+	}
+}
+
+StoryBeatData Act3_SEQ4_StopDialogueCamera < uid=1EE141815A95826400001B62584AA040 >
+{
+	myIsCheckpoint FALSE
+	myForceCompleteOptions
+	{
+		myEnabled TRUE
+		myCompleteOnGameToStoryEvent DreadnoughtCoreDestroyed
+	}
+	myStoryDataActions
+	{
+		StoryDataAction_Dialog "Dialogue SQ70 - Approaching Dreadnought"
+		{
+			myDialogSequenceID 70
+		}
+	}
+}
+
+StoryBeatData Act3_SEQ4_DistanceToDreadnoughtFar < uid=9FD9E81859C0445C0000008B79A653B9 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_Dialog "Dialogue - SQ53 - Distance to Dread"
+		{
+			myDialogSequenceID 53
+		}
+	}
+}
+
+StoryBeatData Act3_SEQ4_BranchingDialogue < uid=9FD9E818595696560000022FF5389A05 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_ConditionalDialog "Dialogue - 54/55"
+		{
+			myDialogSequenceID 54
+			mySimUnitCategory Prime
+			myPlanetUID CC9485AB560D8193000001B70208D164
+			myFailConditionSequenceID 55
+			myConditionNumber 1
+		}
+	}
+}
+
+StoryBeatData Act3_SEQ4_WaitForCloserArrival < uid=9FD9E818595BFAFD00001375C533A0BB >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_WaitForArriveAtTarget WaitForArriveAtDreadnought
+		{
+			myDistance 10000.0
+			myRequireInFOV FALSE
+		}
+	}
+}
+
+StoryBeatData Act3_SEQ4_DreadnoughtCinematic < uid=9FD9E818595BEFBA000012C29E2AB326 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+	}
+	myStoryDataActionSets
+	{
+		StoryDataActionSet Cinematic
+		{
+			myStoryDataActions
+			{
+				StoryDataAction_CompleteStoryEvent "Complete Event"
+				{
+					myStoryEvent FindDreadnought
+				}
+				StoryDataAction_Cinematic "Play Cinematic"
+				{
+					myCinematicFile onward/baked/videos/CIN_ACT3_Dreadnought.bk2
+				}
+			}
+		}
+	}
+}
+
+StoryBeatData Act3_SEQ4_TeleportPlayerPreDreadnought < uid=9FD9E81859DE6855000000821AA80FD4 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_SetTarget "Set Target - Player Spawn"
+		{
+			mySimUnitAssetTarget "onward/game system data/juice/sim/act_3_dreadnought_playerspawn.msimunit"
+			myShowWaypoint FALSE
+		}
+		StoryDataAction_SendStoryToGameEvent "Send Teleport Event"
+		{
+			myStoryToGameEvent StorySpaceTeleport
+		}
+		StoryDataAction_SetRespawnCheckpoint "Set Respawn Checkpoint"
+		{
+		}
+		StoryDataAction_Wait Wait
+		{
+			mySecondsToWait 1.0
+		}
+	}
+}
+
+StoryBeatData Act3_SEQ5_MoreTurrets < uid=9FD9E81859C1A2AB000001E0F30EF8BF >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+	}
+	myStoryDataActionSets
+	{
+		StoryDataActionSet "Dialogue OR Weakened"
+		{
+			myStoryDataActionSetType OR
+			myStoryDataActions
+			{
+				StoryDataAction_Dialog "Dialogue - SQ62 - More Eyes"
+				{
+					myDialogSequenceID 62
+				}
+				StoryDataAction_WaitForChallengeComplete "Weakened Challenge"
+				{
+					myChallenge Act3_DreadnoughtWeakened
+				}
+			}
+		}
+	}
+}
+
+StoryBeatData Act3_SEQ5_WaitForTutorialVolume < uid=9FD9E8185AC65C9000001CF30FFBDDDB >
+{
+	myIsCheckpoint FALSE
+	myForceCompleteOptions
+	{
+		myEnabled TRUE
+		myCompleteOnGameToStoryEvent DreadnoughtCoreDestroyed
+	}
+	myStoryDataActions
+	{
+		StoryDataAction_WaitForGameToStoryEvent "Wait for Tutorial Volume"
+		{
+			myGameToStoryStoryEvent Act_03_DreadnoughtEntered
+		}
+	}
+}
+
+StoryBeatData Act3_SEQ5_WaitForEntranceOpened < uid=9FD9E818595E6F68000001AA36D0CA41 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_WaitForGameToStoryEvent "Wait for Dreadnought Entrance Opened"
+		{
+			myGameToStoryStoryEvent DreadnoughtEntranceOpened
+		}
+	}
+}
+
+StoryBeatData Act3_SEQ5_WaitForDreadnoughtEntry < uid=9FD9E818595E6F2B000001A9AEC6F4A0 >
+{
+	myIsCheckpoint FALSE
+	myForceCompleteOptions
+	{
+		myEnabled TRUE
+		myCompleteOnGameToStoryEvent DreadnoughtCoreDestroyed
+	}
+	myStoryDataActions
+	{
+		StoryDataAction_WaitForGameToStoryEvent "Wait for Dreadnought Entry"
+		{
+			myGameToStoryStoryEvent DreadnoughtEntered
+		}
+		StoryDataAction_ShowTutorial "Show Dreadnought Tutorial"
+		{
+			myTutorial Dreadnought
+			myIsDocked TRUE
+			myTutorialDuration 20.0
+			myDockedDuration 20.0
+		}
+	}
+}
+
+StoryBeatData Act3_SEQ5_DialogueUponEnteringDreadnought < uid=9FD9E818595FBEE80000054984F98DDC >
+{
+	myIsCheckpoint FALSE
+	myForceCompleteOptions
+	{
+		myEnabled TRUE
+		myCompleteOnGameToStoryEvent DreadnoughtCoreDestroyed
+	}
+	myStoryDataActions
+	{
+		StoryDataAction_Dialog "Dialogue - SQ75"
+		{
+			myCompleteImmediately FALSE
+			myDialogSequenceID 75
+		}
+	}
+}
+
+StoryBeatData Act3_SEQ5_HalfwayToEngine < uid=9FD9E81859C28868000000262AF0E860 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_WaitForGameToStoryEvent "Wait for Engine Room Entered"
+		{
+			myGameToStoryStoryEvent DreadnoughtEngineEntered
+		}
+	}
+}
+
+StoryBeatData Act3_SEQ5_EngineEntered < uid=9FD9E81859C2888E0000002A18B2D088 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_Dialog "Dialogue - SQ78 - Entered Engine Compartment"
+		{
+			myCompleteImmediately FALSE
+			myDialogSequenceID 78
+		}
+		StoryDataAction_DismissTutorial "Dismiss Dreadnought Tutorial"
+		{
+			myTutorial Dreadnought
+		}
+	}
+}
+
+StoryBeatData Act3_SEQ5_DestroyDreadnought < uid=2B55C72B594932830000004D0B3C3998 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_WaitForGameToStoryEvent "Wait for Core to Be Destroyed"
+		{
+			myGameToStoryStoryEvent DreadnoughtCoreDestroyed
+		}
+	}
+	myStoryDataActionSets
+	{
+	}
+}
+
+StoryBeatData Act3_SEQ5_DreadnoughtDestroyed < uid=9FD9E81859C28A2A0000002EBFD512E3 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_CompleteChallenge "Complete Challenge - Destroy Dreadnought"
+		{
+			myChallengeToComplete DefeatDreadnought
+		}
+		StoryDataAction_UIStarMapRemoveAlertOnSimUnit "Remove Starlink Icon on Dreadnought"
+		{
+			myTargetSimUnitAssetPath "onward/game system data/juice/sim/harvester_dreadnought_act3_slot.msimunit"
+		}
+		StoryDataAction_SetObjective "Complete Chapter 5 Sub 1"
+		{
+			myObjectiveData < uid=9FD9E8185AA6A2A800001CA412122F68 > = Act3.Chapter5.Sub1
+			myObjectiveState Remove
+		}
+		StoryDataAction_SetTarget "Clear Target"
+		{
+		}
+	}
+	myStoryDataActionSets
+	{
+		StoryDataActionSet "Dialogue OR Volume"
+		{
+			myStoryDataActionSetType OR
+			myStoryDataActions
+			{
+				StoryDataAction_Dialog "Dialogue - SQ80 - Engine Destroyed"
+				{
+					myCompleteImmediately FALSE
+					myDialogSequenceID 80
+				}
+				StoryDataAction_WaitForGameToStoryEvent "Act 3 Dreadnought Exited G2SEvent"
+				{
+					myGameToStoryStoryEvent Act_03_DreadnoughtExited
+				}
+			}
+		}
+	}
+}
+
+StoryBeatData Act3_SEQ5_DreadnoughtCinematic < uid=9FD9E818595D1BA8000000C665F3687B >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_CompleteStoryEvent "Complete Story Event"
+		{
+			myStoryEvent DestroyDreadnought
+		}
+		StoryDataAction_Cinematic Cinematic
+		{
+			myCinematicFile onward/baked/videos/dreadnought_explosion.bk2
+		}
+		StoryDataAction_SendStoryToGameEvent "Story to Game Event - Solve Dreadnought"
+		{
+			myStoryToGameEvent DreadnoughtExited
+		}
+		StoryDataAction_TransitionStorySection "Exit Story Section"
+		{
+			myTransitionType Exit
+			myStorySection Act_03_Destroy_Dreadnought
+		}
+		StoryDataAction_CompleteChallenge "Complete Challenge - Act 3 Complete"
+		{
+			myChallengeToComplete Act3Complete
+		}
+		StoryDataAction_ResetRespawnCheckpoint "Reset Respawn Checkpoint"
+		{
+		}
+		StoryDataAction_SetObjective "Close Chapter 5"
+		{
+			myObjectiveData < uid=9FD9E8185AA6A30100001CAFCEA69EEB > = Act3.Chapter5.Header
+			myObjectiveState Remove
+		}
+		StoryDataAction_TeleportPlayer Teleport
+		{
+			myPlayer1Teleport
+			{
+				mySimUnitAssetPath "onward/game system data/juice/sim/act_4_startpoint.msimunit"
+			}
+		}
+	}
+}
+
+StoryBeatData Act3_SEQ5_Fade < uid=9FD9E818595FD0C70005A6B7F6196511 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_AddFadeRequest "Fade to Black"
+		{
+			myFadeRequestType Fade_Out
+			myFadeColor 0xff000000
+			myFadeTime 3.0
+		}
+		StoryDataAction_Wait Wait
+		{
+			mySecondsToWait 3.0
+		}
+		StoryDataAction_SetObjective "Complete Chapter 5 Sub 2"
+		{
+			myObjectiveData < uid=9FD9E8185AA6A2E500001CAA550E4176 > = Act3.Chapter5.Sub2
+			myObjectiveState Remove
+		}
+	}
+}
+
+StoryBeatData Act3_SEQ5_TeleportPlayer < uid=9FD9E8185978E41C00000984969FF638 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_SuppressNonStoryPips "Suppress Non-Story Pip for transition to Act4"
+		{
+			myShouldSuppress TRUE
+		}
+	}
+	myStoryDataActionSets
+	{
+		StoryDataActionSet "Teleport Player to Act4 Spawnpoint"
+		{
+			myStoryDataActions
+			{
+				StoryDataAction_SendStoryToGameEvent "Send Game to Story Event"
+				{
+					myStoryToGameEvent StorySpaceTeleport
+				}
+			}
+		}
+	}
+}
+
+StoryBeatData Act3.Objective.Chapter1.Header < uid=9FD9E8185AA2F62E00001D1D4151DAB6 >
+{
+	myActStartFlag TRUE
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_SetObjective "Close Act 2"
+		{
+			myObjectiveData < uid=9FD9E8185AAC417E00001D27D8B8D3D8 > = Act2.Chapter13.Header
+			myObjectiveState Remove
+		}
+		StoryDataAction_SetObjective Objective
+		{
+			myObjectiveData < uid=9FD9E8185AA2F6F600001D35A36CD7EA > = Act3.Chapter1.Header
+			myObjectiveState Active
+		}
+	}
+}
+
+StoryBeatData Act3.Objective.Chapter1.Sub1 < uid=9FD9E8185AA2F62E00001D1EE1F93D19 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_SetObjective Objective
+		{
+			myObjectiveData < uid=9FD9E8185AA2F6F600001D3614FFB97B > = Act3.Chapter1.Sub1
+			myObjectiveState Active
+		}
+	}
+}
+
+StoryBeatData Act3.Objective.Chapter1.Sub2 < uid=9FD9E8185AA2F62E00001D1F188EEADF >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_SetObjective Objective
+		{
+			myObjectiveData < uid=9FD9E8185AA2F6F600001D3764586E4F > = Act3.Chapter1.Sub2
+			myObjectiveState Active
+		}
+	}
+}
+
+StoryBeatData Act3.Objective.Chapter1.Sub3 < uid=9FD9E8185AA2F62E00001D204169EE01 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_SetObjective Objective
+		{
+			myObjectiveData < uid=9FD9E8185AA2F6F600001D38F1B8A86E > = Act3.Chapter1.Sub3
+			myObjectiveState Active
+		}
+	}
+}
+
+StoryBeatData Act3.Objective.Chapter2.Header < uid=9FD9E8185AA2F62E00001D218E2208F0 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_SetObjective Objective
+		{
+			myObjectiveData < uid=9FD9E8185AA2F7F000001D5904C6CE05 > = Act3.Chapter2.Header
+			myObjectiveState Active
+		}
+	}
+}
+
+StoryBeatData Act3.Objective.Chapter2.Sub1 < uid=9FD9E8185AA2F62E00001D22A61BFDD8 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_SetObjective Objective
+		{
+			myObjectiveData < uid=9FD9E8185AA2F7F000001D5A825C6DDF > = Act3.Chapter2.Sub1
+			myObjectiveState Active
+		}
+	}
+}
+
+StoryBeatData Act3.Objective.Chapter2.Sub2 < uid=9FD9E8185AA2F62E00001D23C9AC23D6 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_SetObjective Objective
+		{
+			myObjectiveData < uid=9FD9E8185AA2F7F000001D5BF182CB73 > = Act3.Chapter2.Sub2
+			myObjectiveState Active
+		}
+	}
+}
+
+StoryBeatData Act3.Objective.Chapter2.Sub3 < uid=9FD9E8185AA690FA00001C438F90E542 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_SetObjective Objective
+		{
+			myObjectiveData < uid=9FD9E8185AA6911700001C49B4A9266B > = Act3.Chapter2.Sub3
+			myObjectiveState Active
+		}
+	}
+}
+
+StoryBeatData Act3.Objective.Chapter3.Header < uid=9FD9E8185AA6903400001C3AEE4ADDD4 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_SetObjective Objective
+		{
+			myObjectiveData < uid=9FD9E8185AA690FA00001C446C8F76E8 > = Act3.Chapter3.Header
+			myObjectiveState Active
+		}
+	}
+}
+
+StoryBeatData Act3.Objective.Chapter3.Sub1 < uid=9FD9E8185AA6903400001C3BB37B2050 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_SetObjective Objective
+		{
+			myObjectiveData < uid=9FD9E8185AA690FA00001C455BA4C970 > = Act3.Chapter3.Sub1
+			myObjectiveState Active
+		}
+	}
+}
+
+StoryBeatData Act3.Objective.Chapter3.Sub2 < uid=9FD9E8185AA6903400001C3CAE8B8205 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_SetObjective Objective
+		{
+			myObjectiveData < uid=9FD9E8185AA690FA00001C46D6A6D90A > = Act3.Chapter3.Sub2
+			myObjectiveState Active
+		}
+	}
+}
+
+StoryBeatData Act3.Objective.Chapter3.Sub3 < uid=9FD9E8185AA2F62E00001D24C7BBC504 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_SetObjective Objective
+		{
+			myObjectiveData < uid=9FD9E8185AA2F7F000001D5CD6A20AFC > = Act3.Chapter3.Sub3
+			myObjectiveState Active
+		}
+	}
+}
+
+StoryBeatData Act3.Objective.Chapter4.Header < uid=9FD9E8185AA2F62E00001D255940308B >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_SetObjective "Close Chapter 3"
+		{
+			myObjectiveData < uid=9FD9E8185AA6A4F700001CB60B53423E > = Act3.Chapter3.Header
+			myObjectiveState Remove
+		}
+		StoryDataAction_SetObjective Objective
+		{
+			myObjectiveData < uid=9FD9E8185AA2F7F000001D5DE42640CB > = Act3.Chapter4.Header
+			myObjectiveState Active
+		}
+	}
+}
+
+StoryBeatData Act3.Objective.Chapter4.Sub1 < uid=9FD9E8185AA2F62E00001D2620CCF346 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_SetObjective Objective
+		{
+			myObjectiveData < uid=9FD9E8185AA2F7F000001D5E8575FB05 > = Act3.Chapter4.Sub1
+			myObjectiveState Active
+		}
+	}
+}
+
+StoryBeatData Act3.Objective.Chapter4.Sub2 < uid=9FD9E8185AA69A4800001C582C8FE87C >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_SetObjective Objective
+		{
+			myObjective "contextComment = \"\", description = \"\", enabled = true, guid = #9FD9E8185AA69B4E00001C65958B2E21, lineVersion = 0, maxLength = 1, text = \"|empty|\""
+			myObjectiveData < uid=9FD9E8185AA69B7200001C6A0F29EBEC > = Act3.Chapter4.Sub2
+			myObjectiveState Active
+		}
+	}
+}
+
+StoryBeatData Act3.Objective.Chapter4.Sub3 < uid=9FD9E8185AA69A4800001C596A5D4D72 >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_SetObjective Objective
+		{
+			myObjectiveData < uid=9FD9E8185AA69B7200001C6BC42C3E1A > = Act3.Chapter4.Sub3
+			myObjectiveState Active
+		}
+	}
+}
+
+StoryBeatData Act3.Objective.Chapter5.Header < uid=9FD9E8185AA2F62E00001D2788D6D61A >
+{
+	myIsCheckpoint FALSE
+	myStoryDataActions
+	{
+		StoryDataAction_SetObjective "Close Chapter 4"
+		{
+			myObjectiveData < uid=9FD9E8185AA6A1BA00001C970D1952E3 > = Act3.Chapter4.Header
+			myObjectiveState Remove
+		}
+		StoryDataAction_SetObjective Objective
+		{
+			myObjectiveData < uid=9FD9E8185AA2F7F000001D5F624B618B > = Act3.Chapter5.Header
+			myObjectiveState Active
+		}
+	}
+}
+
+StoryBeatData Act3.Objective.Chapter5.Sub1 < uid=9FD9E8185AA2F62E00001D28915CB1E1 >
+{
+	myIsCheckpoint FALSE
+	myForceCompleteOptions
+	{
+		myCompleteOnGameToStoryEvent DreadnoughtCoreDestroyed
+	}
+	myStoryDataActions
+	{
+		StoryDataAction_SetObjective Objective
+		{
+			myObjectiveData < uid=9FD9E8185AA2F7F000001D60A47872D4 > = Act3.Chapter5.Sub1
+			myObjectiveState Active
+		}
+	}
+}
+
+StoryBeatData Act3.Objective.Chapter5.Sub2 < uid=9FD9E8185AA6A27D00001CA00600532C >
+{
+	myIsCheckpoint FALSE
+	myForceCompleteOptions
+	{
+		myCompleteOnGameToStoryEvent DreadnoughtCoreDestroyed
+	}
+	myStoryDataActions
+	{
+		StoryDataAction_SetObjective Objective
+		{
+			myObjectiveData < uid=9FD9E8185AA6A27D00001CA1FE77A7FB > = Act3.Chapter5.Sub2
+			myObjectiveState Active
+		}
+	}
+}
+

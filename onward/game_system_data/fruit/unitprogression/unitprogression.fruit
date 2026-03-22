@@ -1,0 +1,35 @@
+include "onward/game system data/fruit/sim/simunit.fruit"
+include "onward/game system data/fruit/unitprogression/unitxppayloadtype.fruit"
+
+class UnitExperiencePayload
+{
+	UnitExperiencePayloadType myType
+	int myExperience 0
+}
+
+list UnitExperiencePayloadList
+{
+	UnitExperiencePayload
+}
+
+list UnitProgressionDefinitionList
+{
+	UnitProgressionDefinition
+}
+
+list UnitExperienceNeededPerLevel
+{
+	int
+}
+
+list UnitLevelDescriptions
+{
+	varmap myLevelDescription < bhv="localization" >
+}
+
+class UnitProgressionDefinition
+{
+	SimUnit* mySimUnitAsset < bhv=asset assettype="Sim Unit" >
+	UnitExperienceNeededPerLevel myUnitExperienceNeededPerLevel
+	UnitLevelDescriptions myLevelDescriptions
+}

@@ -1,0 +1,26 @@
+include ./templates/template_l2.juice
+include "onward/game system data/juice/mods/mod_gunner_weaponcore_l2.mplayermod"
+include ./damageaffectors/damage_affectors.juice
+
+Enhancement gunnerweaponcore_l2 < uid=C91BB5515980EC4000000039089A0E8E > : "Level 2"
+{
+	myLocalizedName "contextComment = \"[Placeholder - do not translate]\nName for level 2 version of Gunner Weapon Core, which makes it easier to rain a sustained hail of projectiles.\", description = \"\", enabled = true, guid = #C91BB5515980EC4000000038359C9363, lineVersion = 2, maxLength = 18, text = \"Tanker Ammo II\""
+	myLocalizedDescription "contextComment = \"[Placeholder - do not translate]\nDescription for level 2 version of Gunner Weapon Core, which reduces cost to fire weapon and recharges weapon energy when damaging targets.\", description = \"enhancement-description-gunner-weapon-core-2\", enabled = true, guid = #9E6AFEDA59D260A100A861180147DD2A, lineVersion = 2, maxLength = 96, text = \"+13% Damage\n+10% Damage to targets within 50m\nHeals for 20% of damage done\""
+	myIconSprite "mySpriteId = -1798864911, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-mods-weapon-core.spritesheet\""
+	myMod < uid=C91BB5515980EC400000003A590F2B37 > = mod_gunner_weaponcore_l2
+	myEnhancementType WeaponCore
+	myEnhancementTrackType GunnerWeaponCore
+	myDamageAffectors
+	{
+		DamageAffector_DamageToHealth "Damage Heals"
+		{
+			myDamageToHealthRatio = Gunner_WeaponCore_l2_DamageHP
+		}
+		DamageAffector_CloseRange "Close Range Damage"
+		{
+			myDamageMultiplier = Gunner_WeaponCore_l2_CloseDmg
+			myWithinMeters 50.0
+		}
+	}
+}
+

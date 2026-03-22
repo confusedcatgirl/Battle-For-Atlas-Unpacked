@@ -1,0 +1,412 @@
+include "onward/game system data/fruit/animation/animsys.fruit"
+
+SpecializationList mySpecializations
+{
+}
+
+FileList mySubsystems
+{
+}
+
+MotionPose "Ready (Idle)"
+{
+	myStateName Ready
+	myAnimModes Speed_Idle;Gravity_Low;Gravity_Normal;Gravity_High;AlertLevel_Idle;AlertLevel_Investigating;AlertLevel_Combat;MoveStyle_Default;
+	myAnimsOut "TR_IdleToWalk;TR_IdleToRun;TR_Healthy Idle To Polluted Idle;GTR_Into Sitting;GTR_Into Graze;"
+}
+
+MotionPose "Ready (Walk)"
+{
+	myStateName Ready
+	myAnimModes Speed_Walk;Gravity_Low;Gravity_Normal;Gravity_High;AlertLevel_Idle;AlertLevel_Investigating;AlertLevel_Combat;MoveStyle_Default;
+	myAnimsOut "TR_WalkToRun;TR_WalkToIdle;GTR_Into Sitting;GTR_Into Graze;"
+}
+
+MotionPose "Ready (Run)"
+{
+	myStateName Ready
+	myAnimModes Speed_Run;Gravity_Low;Gravity_Normal;Gravity_High;AlertLevel_Idle;AlertLevel_Investigating;AlertLevel_Combat;MoveStyle_Default;
+	myAnimsOut "TR_RunToWalk;TR_RunToIdle;GTR_Into Sitting;GTR_Into Graze;"
+}
+
+TransitionMotionState TR_IdleToWalk < uid=93869D5359BAD04500000625A84E20E9 >
+{
+	myEnabled TRUE
+	myTotalDuration 5.246666
+	myDistance 10.334702
+	myAnimationDuration 5.566667
+	myAnimationDistance 10.334702
+	myHorizontalDistance 10.334702
+	myVerticalDisplacement 0.000006
+	myAnimsOut "Ready (Walk);"
+	myDisplacementAngle -0.000348
+	myRotationAngle 0.0
+	myIsGlobalTransition FALSE
+	myGlobalTransitionPriority 0
+}
+
+TransitionMotionState TR_WalkToRun < uid=93869D5359BAD045000006263F0E3FAA >
+{
+	myEnabled TRUE
+	myTotalDuration 3.346667
+	myDistance 18.315508
+	myAnimationDuration 3.666667
+	myAnimationDistance 18.315508
+	myHorizontalDistance 18.315508
+	myVerticalDisplacement 0.000004
+	myAnimsOut "Ready (Run);"
+	myDisplacementAngle -0.000046
+	myRotationAngle 0.0
+	myIsGlobalTransition FALSE
+	myGlobalTransitionPriority 0
+}
+
+TransitionMotionState TR_RunToWalk < uid=93869D5359BAD04500000627B85E711A >
+{
+	myEnabled TRUE
+	myTotalDuration 1.546667
+	myDistance 12.071214
+	myAnimationDuration 1.866667
+	myAnimationDistance 12.071214
+	myHorizontalDistance 12.071214
+	myVerticalDisplacement 0.000004
+	myAnimsOut "Ready (Walk);"
+	myDisplacementAngle -0.000009
+	myRotationAngle 0.0
+	myIsGlobalTransition FALSE
+	myGlobalTransitionPriority 0
+}
+
+TransitionMotionState TR_RunToIdle < uid=93869D5359BAD04500000628F2A3B566 >
+{
+	myEnabled TRUE
+	myTotalDuration 5.18
+	myDistance 22.510941
+	myAnimationDuration 5.5
+	myAnimationDistance 22.510941
+	myHorizontalDistance 22.510939
+	myVerticalDisplacement 0.000004
+	myAnimsOut "Ready (Idle);"
+	myDisplacementAngle -0.000044
+	myRotationAngle 0.0
+	myIsGlobalTransition FALSE
+	myGlobalTransitionPriority 0
+}
+
+TransitionMotionState TR_IdleToRun < uid=93869D5359BAD045000006292B338AB3 >
+{
+	myEnabled TRUE
+	myTotalDuration 5.946667
+	myDistance 21.340508
+	myAnimationDuration 6.266667
+	myAnimationDistance 21.340508
+	myHorizontalDistance 21.340508
+	myVerticalDisplacement 0.000006
+	myAnimsOut "Ready (Run);"
+	myDisplacementAngle -0.000138
+	myRotationAngle 0.0
+	myIsGlobalTransition FALSE
+	myGlobalTransitionPriority 0
+}
+
+TransitionMotionState TR_WalkToIdle < uid=93869D5359BAD0450000062A658E1310 >
+{
+	myEnabled TRUE
+	myTotalDuration 3.846667
+	myDistance 4.291214
+	myAnimationDuration 4.166667
+	myAnimationDistance 4.291214
+	myHorizontalDistance 4.291214
+	myVerticalDisplacement 0.000004
+	myAnimsOut "Ready (Idle);"
+	myDisplacementAngle 0.0
+	myRotationAngle 0.0
+	myIsGlobalTransition FALSE
+	myGlobalTransitionPriority 0
+}
+
+OneshotMotionStateWithModes TurnOnSpot < uid=93869D5359BAD0450000062B2E13681A >
+{
+	myStateName TurnOnSpot
+	myTotalDuration 12.280001
+	myAnimationDuration 12.6
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myAnimsOut "GTR_Into Sitting;GTR_Into Graze;"
+	myAnimCommand StaticTurn
+	myDisplacementAngle 180.0
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;Gravity_Low;Gravity_Normal;Gravity_High;AlertLevel_Idle;AlertLevel_Investigating;MoveStyle_Default;MoveStyle_InCombat;
+}
+
+MotionPose "Ready (Idle (Polluted))"
+{
+	myStateName Ready
+	myAnimModes Speed_Idle;Gravity_Low;Gravity_Normal;Gravity_High;AlertLevel_Idle;AlertLevel_Investigating;AlertLevel_Combat;MoveStyle_Polluted;
+	myAnimsOut "TR_Idle To Walk (Polluted);GTR_Into Sitting;GTR_Into Graze;"
+}
+
+MotionPose "Ready (Walk (Polluted))"
+{
+	myStateName Ready
+	myAnimModes Speed_Walk;Gravity_Low;Gravity_Normal;Gravity_High;AlertLevel_Idle;AlertLevel_Investigating;AlertLevel_Combat;MoveStyle_Polluted;
+	myAnimsOut "GTR_Into Sitting;GTR_Into Graze;TR_WalkToRun (Polluted);"
+}
+
+TransitionMotionState "TR_Idle To Walk (Polluted)" < uid=93869D5359BAD0450000062CC1F4E03B >
+{
+	myEnabled TRUE
+	myTotalDuration 6.146667
+	myDistance 6.100975
+	myAnimationDuration 6.466667
+	myAnimationDistance 6.100975
+	myHorizontalDistance 6.100975
+	myVerticalDisplacement 0.000004
+	myAnimsOut "Ready (Walk (Polluted));"
+	myDisplacementAngle 0.000966
+	myRotationAngle 0.0
+	myIsGlobalTransition FALSE
+	myGlobalTransitionPriority 0
+}
+
+MotionPose Sitting
+{
+	myStateName Sitting
+	myAnimModes Speed_Idle;Gravity_Low;Gravity_Normal;Gravity_High;AlertLevel_Idle;AlertLevel_Investigating;AlertLevel_Combat;MoveStyle_Default;
+	myAnimsOut "GTR_From Sitting;TR_SitToRun;GTR_Into Graze;"
+}
+
+TransitionMotionState "GTR_Into Sitting" < uid=93869D5359BAD0450000062E632607E3 >
+{
+	myEnabled TRUE
+	myTotalDuration 2.58
+	myDistance 0.448055
+	myAnimationDuration 2.9
+	myAnimationDistance 0.448055
+	myHorizontalDistance 0.448055
+	myVerticalDisplacement 0.0
+	myAnimsOut Sitting;
+	myDisplacementAngle 119.124664
+	myRotationAngle 0.0
+	myIsGlobalTransition TRUE
+	myGlobalTransitionPriority 0
+}
+
+TransitionMotionState "GTR_From Sitting" < uid=93869D5359BAD0450000062FD6C0E025 >
+{
+	myEnabled TRUE
+	myTotalDuration 3.013333
+	myDistance 0.430691
+	myAnimationDuration 3.333333
+	myAnimationDistance 0.430691
+	myHorizontalDistance 0.43069
+	myVerticalDisplacement 0.0
+	myAnimsOut "roar;Ready (Idle);Ready (Walk);Ready (Run);Ready (Idle (Polluted));Ready (Walk (Polluted));Ready (Run (Polluted));TurnOnSpot;Graze;TurnOnSpot (Polluted);Backup (Normal);Backup (Polluted);Backup (Flee);TurnOnSpot (Flee);"
+	myDisplacementAngle -56.279411
+	myRotationAngle 0.0
+	myIsGlobalTransition TRUE
+	myGlobalTransitionPriority 0
+}
+
+MotionPose Graze
+{
+	myStateName Graze
+	myAnimModes Speed_Idle;Gravity_Low;Gravity_Normal;Gravity_High;AlertLevel_Idle;AlertLevel_Investigating;AlertLevel_Combat;MoveStyle_Default;
+	myAnimsOut "TR_IdleToRun;GTR_From Graze;GTR_Into Sitting;"
+}
+
+TransitionMotionState "GTR_Into Graze" < uid=93869D5359BAD04500000630B05337FE >
+{
+	myEnabled TRUE
+	myTotalDuration 1.846667
+	myDistance 1.179267
+	myAnimationDuration 2.166667
+	myAnimationDistance 1.179267
+	myHorizontalDistance 1.179267
+	myVerticalDisplacement 0.000002
+	myAnimsOut Graze;
+	myDisplacementAngle -2.661366
+	myRotationAngle 0.0
+	myIsGlobalTransition TRUE
+	myGlobalTransitionPriority 0
+}
+
+TransitionMotionState "GTR_From Graze" < uid=93869D5359BAD04500000631EA49CDFC >
+{
+	myEnabled TRUE
+	myTotalDuration 2.513333
+	myDistance 1.469177
+	myAnimationDuration 2.833333
+	myAnimationDistance 1.469177
+	myHorizontalDistance 1.469177
+	myVerticalDisplacement -0.000002
+	myAnimsOut "Ready (Idle);Ready (Walk);Ready (Run);Ready (Idle (Polluted));Ready (Walk (Polluted));Ready (Run (Polluted));Sitting;roar;TurnOnSpot;TurnOnSpot (Polluted);Backup (Normal);Backup (Polluted);Backup (Flee);TurnOnSpot (Flee);"
+	myDisplacementAngle 177.831116
+	myRotationAngle 0.0
+	myIsGlobalTransition TRUE
+	myGlobalTransitionPriority 0
+}
+
+OneshotMotionStateWithModes "TurnOnSpot (Polluted)" < uid=93869D5359BAD04500000632B903D649 >
+{
+	myStateName "TurnOnSpot (Polluted)"
+	myTotalDuration 14.946667
+	myDistance 0.0
+	myAnimationDuration 15.266666
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.0
+	myAnimsOut "GTR_Into Sitting;GTR_Into Graze;"
+	myAnimCommand StaticTurn
+	myDisplacementAngle 180.0
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;Gravity_Low;Gravity_Normal;Gravity_High;AlertLevel_Idle;AlertLevel_Investigating;AlertLevel_Combat;MoveStyle_Polluted;
+}
+
+TransitionMotionState "TR_Healthy Idle To Polluted Idle" < uid=93869D5359BAD0450000063441D6EEBF >
+{
+	myEnabled TRUE
+	myTotalDuration 5.08
+	myDistance 0.97264
+	myAnimationDuration 5.4
+	myAnimationDistance 0.97264
+	myHorizontalDistance 0.97264
+	myVerticalDisplacement 0.0
+	myAnimsOut "Ready (Idle (Polluted));"
+	myDisplacementAngle 0.0
+	myRotationAngle 0.0
+	myIsGlobalTransition FALSE
+	myGlobalTransitionPriority 0
+}
+
+TransitionMotionState TR_SitToRun < uid=93869D5359BAD045000006364242DE29 >
+{
+	myEnabled TRUE
+	myTotalDuration 4.613333
+	myDistance 23.818579
+	myAnimationDuration 4.933333
+	myAnimationDistance 23.818579
+	myHorizontalDistance 23.818579
+	myVerticalDisplacement 0.000004
+	myAnimsOut "Ready (Run);"
+	myDisplacementAngle -0.000041
+	myRotationAngle 0.0
+	myIsGlobalTransition FALSE
+	myGlobalTransitionPriority 0
+}
+
+MotionPose "Ready (Run (Polluted))"
+{
+	myStateName Ready
+	myAnimModes Speed_Run;Gravity_Low;Gravity_Normal;Gravity_High;AlertLevel_Idle;AlertLevel_Investigating;AlertLevel_Combat;MoveStyle_Polluted;
+	myAnimsOut "GTR_Into Sitting;GTR_Into Graze;TR_RunToWalk (Polluted);"
+}
+
+TransitionMotionState "TR_WalkToRun (Polluted)" < uid=93869D5359BAD04500000637B4E3690D >
+{
+	myEnabled TRUE
+	myTotalDuration 4.18
+	myDistance 11.639396
+	myAnimationDuration 4.5
+	myAnimationDistance 11.639396
+	myHorizontalDistance 11.639396
+	myVerticalDisplacement 0.000004
+	myAnimsOut "Ready (Run (Polluted));"
+	myDisplacementAngle -0.000026
+	myRotationAngle 0.0
+	myIsGlobalTransition FALSE
+	myGlobalTransitionPriority 0
+}
+
+TransitionMotionState "TR_RunToWalk (Polluted)" < uid=93869D5359BAD0450000063842B6CA38 >
+{
+	myEnabled TRUE
+	myTotalDuration 5.746666
+	myDistance 14.103566
+	myAnimationDuration 6.066667
+	myAnimationDistance 14.103566
+	myHorizontalDistance 14.103566
+	myVerticalDisplacement 0.000004
+	myAnimsOut "Ready (Walk (Polluted));"
+	myDisplacementAngle 0.000115
+	myRotationAngle 0.0
+	myIsGlobalTransition FALSE
+	myGlobalTransitionPriority 0
+}
+
+OneshotMotionStateWithModes "TurnOnSpot (Flee)" < uid=93869D5359BAD0450000063C0F3AC60F >
+{
+	myEnabled TRUE
+	myStateName "TurnOnSpot (Flee)"
+	myTotalDuration 12.280001
+	myAnimationDuration 12.6
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myAnimsOut "GTR_Into Sitting;GTR_Into Graze;"
+	myAnimCommand StaticTurn
+	myDisplacementAngle 180.0
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;Gravity_Low;Gravity_Normal;Gravity_High;AlertLevel_Combat;MoveStyle_Default;MoveStyle_InCombat;
+}
+
+OneshotMotionStateWithModes "Backup (Normal)" < uid=93869D535AF5B78C010DFC43D582FD40 >
+{
+	myEnabled TRUE
+	myStateName Backup
+	myTotalDuration 3.68
+	myDistance 4.371676
+	myAnimationDuration 4.0
+	myAnimationDistance 4.371676
+	myHorizontalDistance 4.371676
+	myVerticalDisplacement 0.000004
+	myAnimsOut "GTR_Into Sitting;GTR_Into Graze;"
+	myAnimCommand Backup
+	myDisplacementAngle -179.999817
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;Gravity_Low;Gravity_Normal;Gravity_High;AlertLevel_Idle;AlertLevel_Investigating;MoveStyle_Default;MoveStyle_InCombat;
+}
+
+OneshotMotionStateWithModes "Backup (Flee)" < uid=93869D535AF5B78C010DFC44BADCC446 >
+{
+	myEnabled TRUE
+	myStateName Backup
+	myTotalDuration 3.68
+	myDistance 4.371676
+	myAnimationDuration 4.0
+	myAnimationDistance 4.371676
+	myHorizontalDistance 4.371676
+	myVerticalDisplacement 0.000004
+	myAnimsOut "GTR_Into Sitting;GTR_Into Graze;"
+	myAnimCommand Backup
+	myDisplacementAngle -179.999817
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;Gravity_Low;Gravity_Normal;Gravity_High;AlertLevel_Combat;MoveStyle_Default;MoveStyle_InCombat;
+}
+
+OneshotMotionStateWithModes "Backup (Polluted)" < uid=93869D535AF5B78C010DFC45B8A3676D >
+{
+	myEnabled TRUE
+	myStateName Backup
+	myTotalDuration 8.146667
+	myDistance 5.05025
+	myAnimationDuration 8.466666
+	myAnimationDistance 5.05025
+	myHorizontalDistance 5.05025
+	myVerticalDisplacement 0.000004
+	myAnimsOut "GTR_Into Sitting;GTR_Into Graze;"
+	myAnimCommand Backup
+	myDisplacementAngle -179.999832
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;Gravity_Low;Gravity_Normal;Gravity_High;AlertLevel_Idle;AlertLevel_Investigating;AlertLevel_Combat;MoveStyle_Polluted;
+}
+
+OneshotMotionStateWithModes roar < uid=93869D535B61F4BA008A70525EFC3585 >
+{
+	myEnabled TRUE
+	myStateName roar
+	myTotalDuration 7.646667
+	myDistance 0.004903
+	myAnimationDuration 7.966667
+	myAnimationDistance 0.004903
+	myHorizontalDistance 0.004903
+	myVerticalDisplacement 0.0
+	myAnimsOut "GTR_Into Sitting;GTR_Into Graze;"
+	myAnimCommand roar
+	myDisplacementAngle 110.09523
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;Gravity_Low;Gravity_Normal;Gravity_High;AlertLevel_Idle;AlertLevel_Investigating;AlertLevel_Combat;MoveStyle_Default;MoveStyle_InCombat;MoveStyle_Polluted;
+}
+

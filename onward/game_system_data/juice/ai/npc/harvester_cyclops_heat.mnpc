@@ -1,0 +1,188 @@
+include ./harvester_cyclops_base.mnpc
+include onward/skillscripts/harvester_cyclops_heat_ability_salvo.mskillscriptjuice
+include onward/skillscripts/npc_controller_context_harvester_cyclops_generic_dash.mskillscriptjuice
+include onward/skillscripts/harvester_cyclops_heat_bazooka.mskillscriptjuice
+include onward/skillscripts/npc_affinity_harvester_cyclops_heat_enter.mskillscriptjuice
+include onward/skillscripts/npc_affinity_harvester_cyclops_heat_running.mskillscriptjuice
+include onward/skillscripts/npc_affinity_harvester_cyclops_heat_exit.mskillscriptjuice
+include onward/skillscripts/npc_ability_harvester_cyclops_heat_spread_bazooka.mskillscriptjuice
+include "onward/game system data/juice/mods/npc_mod_harvester_cyclops_heat_affinity_general.mnpcmod"
+include "onward/game system data/juice/mods/npc_mod_harvester_cyclops_heat_affinity_jetpack.mnpcmod"
+include onward/skillscripts/npc_controller_context_harvester_cyclops_world_entry.mskillscriptjuice
+include onward/skillscripts/npc_controller_context_harvester_cyclops_heat_dash.mskillscriptjuice
+include onward/skillscripts/harvester_cyclops_heat_ability_jetpack.mskillscriptjuice
+include onward/skillscripts/npc_controller_context_harvester_cyclops_crush_world_entry.mskillscriptjuice
+include onward/skillscripts/npc_controller_context_harvester_cyclops_heat_world_entry.mskillscriptjuice
+include onward/skillscripts/npc_ability_harvester_cyclops_heat_flameblast.mskillscriptjuice
+include "onward/game system data/juice/mods/harvester_cyclops_heat_affinity_resistances.mnpcmod"
+include onward/skillscripts/npc_controller_context_harvester_cyclops_heat_jetpack_divebomb.mskillscriptjuice
+include onward/skillscripts/npc_controller_context_harvester_cyclops_heat_jetpack.mskillscriptjuice
+include onward/skillscripts/npc_controller_context_harvester_cyclops_heat_dead.mskillscriptjuice
+include onward/skillscripts/harvester_cyclops_heat_maintain_jetpack_hitreactions.mskillscriptjuice
+include onward/skillscripts/npc_controller_context_dormant.mskillscriptjuice
+
+NPC harvester_cyclops_heat < uid=C92F4D3F56CDF77900000079F7D08342 > : harvester_cyclops_base
+{
+	myUIName "contextComment = \"Name of the Fire Giant\", description = \"uiname-harvester-cyclops-heat\", enabled = true, guid = #93869D535AB152CA00001D2DACD4FB3C, lineVersion = 0, maxLength = 16, text = \"Fire Giant\""
+	myUIName_NonLocalized "Fire Cyclops"
+	myGraphObjectFile "onward/graph objects/character/harvester_05.mgraphobject"
+	myBehavior "onward/game system data/juice/ai/behavior/harvester_cyclops_heat.mbehavior"
+	myExitWorldAffector ""
+	myGibSettings
+	{
+		myLifetime 60.0
+		myInitialSpeed 30.0
+		myGibTemplates
+		{
+			file "New file (0)" "onward/entity templates/harvester_cyclops_forearm_GIBS.mentitytemplate"
+			file "New file (2)" "onward/entity templates/harvester_cyclops_hand_GIBS.mentitytemplate"
+			file "New file (3)" "onward/entity templates/harvester_cyclops_head_GIBS.mentitytemplate"
+			file "New file (0)" "onward/entity templates/harvester_cyclops_leftleg_GIBS.mentitytemplate"
+			file "New file (1)" "onward/entity templates/harvester_cyclops_shin_right_GIBS.mentitytemplate"
+			file "New file (2)" "onward/entity templates/harvester_cyclops_thigh_right_GIBS.mentitytemplate"
+			file "New file (3)" "onward/entity templates/harvester_cyclops_torso_GIBS.mentitytemplate"
+			file "New file (3)" "onward/entity templates/harvester_05_shoulder_gibs.mentitytemplate"
+			file "New file (3)" "onward/entity templates/harvester_05_shoulderflap_gibs.mentitytemplate"
+			file "New file (3)" "onward/entity templates/harvester_05_headplate_gibs.mentitytemplate"
+		}
+	}
+	myHealthConfig < uid=4A8282B959F8E85300001DD219A73ABA > = "harvester_cyclops_heat Health"
+	myDeathSettings
+	{
+		myDeathCullTime 0.2
+		myEventDeathCullTime 0.0
+		myWaitForEvent TRUE
+	}
+	mySunderReaction < uid=C91BB55157FFDE4C000000969A11DB4C > = Affinity_Sunder
+	myFireReaction < uid=C91BB55157FFDD9200000081B6EA1243 > = Affinity_Fire
+	myChillReaction < uid=939A354159B994220003DCFB2E59D4DA > = Heat_Cyclops_Chill
+	myFreezeReaction < uid=4A8282B95994C0FC0097ADD382FEBA80 > = Heat_Cyclops_Freeze
+	myStasisReaction < uid=C91BB55157FFDD92000000828F6651AB > = Heat_Cyclops_Stasis
+	myStasisOverloadReaction < uid=C91BB55157FFE2470024DDE7186831E7 > = Heat_Cyclops_StasisOverload
+	myAbilityDefinitions
+	{
+		NPCAbilityDefinition "Primary Attack - Bazooka"
+		{
+			myGameAction NPC_Ability1
+			mySkillScript < uid=C92F4D3F57A0A3E800000090B349F0D9 > = harvester_cyclops_heat_bazooka
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_harvester_cyclops_heat_bazooka.juice"
+		}
+		NPCAbilityDefinition "Secondary Attack - Salvo"
+		{
+			myGameAction NPC_Ability2
+			mySkillScript < uid=C92F4D3F57A3A6F9002F8246C287941A > = harvester_cyclops_heat_ability_salvo
+			myInputType Tap_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_harvester_cyclops_heat_salvo.juice"
+		}
+		NPCAbilityDefinition Jetpack
+		{
+			myGameAction NPC_Ability3
+			mySkillScript < uid=C92F4D3F591F07C1000001F74265C08E > = harvester_cyclops_heat_ability_jetpack
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_harvester_cyclops_heat_jetpack.juice"
+		}
+		NPCAbilityDefinition Flameblast
+		{
+			myGameAction NPC_Ability4
+			mySkillScript < uid=4A8282B959763EE7000001801E31D879 > = npc_ability_harvester_cyclops_heat_flameblast
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_harvester_cyclops_heat_flameblast.juice"
+		}
+		NPCAbilityDefinition "Primary Attack (Affine) - Spread Bazooka"
+		{
+			myGameAction NPC_Ability5
+			mySkillScript < uid=C92F4D3F57BB39DC004B3BC01286FE50 > = npc_ability_harvester_cyclops_heat_spread_bazooka
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_harvester_cyclops_heat_bazooka_affinity.juice"
+		}
+	}
+	myControllerContextDefinitions
+	{
+		ControllerContextDefinition Dash
+		{
+			myContextType Dash
+			mySkillScript < uid=C92F4D3F57A0A408000000939693A7BA > = npc_controller_context_harvester_cyclops_heat_dash
+		}
+		ControllerContextDefinition "World Entry"
+		{
+			myContextType WorldEntry
+			mySkillScript < uid=C92F4D3F5826487F002DF9B97FB4A493 > = npc_controller_context_harvester_cyclops_heat_world_entry
+		}
+		ControllerContextDefinition Jetpack
+		{
+			myContextType Jetpack
+			mySkillScript < uid=4A8282B959A438A40000019DA26C1E89 > = npc_controller_context_harvester_cyclops_heat_jetpack
+		}
+		ControllerContextDefinition "Jetpack Divebomb"
+		{
+			myContextType JetpackDivebomb
+			mySkillScript < uid=4A8282B9598C90150014DAE9E1950604 > = npc_controller_context_harvester_cyclops_heat_jetpack_divebomb
+		}
+		ControllerContextDefinition Dead
+		{
+			myContextType Dead
+			mySkillScript < uid=4A8282B959F0F919000001C7A1793C90 > = npc_controller_context_harvester_cyclops_heat_dead
+		}
+		ControllerContextDefinition Dormant
+		{
+			myContextType Dormant
+			mySkillScript < uid=C92F4D3F5B2A6989000022CFEC86C51E > = npc_controller_context_dormant
+		}
+	}
+	myAffinityDefinition
+	{
+		myAffinityType Fire
+		myDuration 24.0
+		myEnterSkillScript < uid=C92F4D3F57BB3262000000E8B528E1BE > = npc_affinity_harvester_cyclops_heat_enter
+		myRunningSkillScript < uid=C92F4D3F57BB3262000000E9F671DFDE > = npc_affinity_harvester_cyclops_heat_running
+		myExitSkillScript < uid=C92F4D3F57BB3262000000EA6042ED6E > = npc_affinity_harvester_cyclops_heat_exit
+		myMods
+		{
+			NPCAffinityModItem "General Mod"
+			{
+				myMod < uid=C92F4D3F57E024290009AD570B5A7FA8 > = npc_mod_harvester_cyclops_heat_affinity_general
+			}
+			NPCAffinityModItem "Fire Armor"
+			{
+				myMod < uid=4A8282B9597A60200091E2E38E008BDA > = harvester_cyclops_heat_affinity_resistances
+			}
+		}
+	}
+	myPersistentScripts
+	{
+		SkillScript "VFX Listener" < uid=4A8282B95AFDC10D00001E9578E81BBD > = harvester_cyclops_vfx_listener
+		SkillScript "Jetpack Hit Reaction Translator" < uid=4A8282B95AFDC10D00001E966EADD198 > = harvester_cyclops_heat_maintain_jetpack_hitreactions
+	}
+	myResistanceSettings "onward/game system data/juice/ai/resistance/heat_affinity_resistance.juice"
+	myAttributeSettings "onward/game system data/juice/ai/attributes/harvester_cyclops_heat.juice"
+	myCrowdControlAttributeSettings "onward/game system data/juice/ai/attributes/crowd control tiers/npc_cc_tier5.juice"
+	myDropTableOnDeath Kill_Giant_Heat_Drop_Table
+	myDropTableOnAffinityWeaknessDeathId AffinityKill_Giant_Heat
+	myDropTableOnDamage Cyclops_Affinity_Weakness
+	myDamageDropInterval 0.3
+	myDamageDropOnWeakness TRUE
+	myIncludeDamageDropZero TRUE
+	myBreakElectrumOnWeakness TRUE
+	myPhysicsCapsuleHeight 9.0
+	myPhysicsSupportHeight -11.5
+	myPhysicsCapsuleRadius 7.0
+	myPatternProfile < uid=4A8282B95908EC6400253859A6A9B8D8 > = "Harvester Cyclops Heat"
+	myDefaultMotionPattern < uid=4A8282B95908EC640025385A837ABE2E > = "Harvester Cyclops Heat Default"
+	myAvoidanceRadius 9.0
+	myNPCType Harvester_Cyclops_Heat
+	myAnimSystemType Harvester_Cyclops_Heat
+	myThreatLevel 13.0
+	myWeapon
+	{
+		myWeaponType Bazooka
+		myDamageType Heat
+	}
+	mySquadSettings "onward/game system data/juice/ai/squad/cyclops_squad_with_imps.juice"
+	myDefaultFootstepEvent 4836E0FE99A7FC8C50B65842D656E0B2
+	myDamageReactionSettings "onward/game system data/juice/ai/reactions/damage_reactions_harvester_cyclops_heat.juice"
+	myHitReactionRules "onward/game system data/juice/ai/reactions/reaction_rules_npc_large.juice"
+	myOnDeathChallenge Death_CyclopsHeat
+	myOnDiscoveredChallenge Discover_CyclopsHeat
+	myOnAffinityActiveDeathChallenge Combat_AffinityActiveDeath_FireGiant
+}
+

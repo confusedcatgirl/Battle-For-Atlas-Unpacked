@@ -1,0 +1,424 @@
+include "onward/game system data/fruit/health/damageaffectors.fruit"
+include "onward/game system data/juice/mods/tuning/mod_tuning_master.juice"
+
+DamageAffector_CloseRange Operator_CloseRange
+{
+	myDamageMultiplier 0.5
+	myWithinMeters 50.0
+}
+
+DamageAffector_LowHealth Assault_LowHealth
+{
+	myDamageMultiplier 0.5
+	myLowHealthPercent 0.5
+}
+
+DamageAffector_BodyPart Sniper_Headshot_50%
+{
+	myDamageMultiplier 0.5
+	myBodyPart Head
+}
+
+DamageAffector_BodyPart Sniper_Headshot_100%
+{
+	myDamageMultiplier 1.0
+	myBodyPart Head
+}
+
+DamageAffector_BodyPartStun Sniper_Headshot_Stun
+{
+	myBodyPart Head
+	myChanceToStunPerDamage 0.0005
+	myStunTime 2.0
+}
+
+DamageAffector_PlayerZoomed Sniper_ADS
+{
+	myDamageMultiplier 0.5
+}
+
+DamageAffector_DamageToEnergy Gunner_DamageToEnergy_Low
+{
+	myDamageToEnergyRatio 0.25
+}
+
+DamageAffector_DamageToEnergy Gunner_DamageToEnergy_High
+{
+	myDamageToEnergyRatio 0.5
+}
+
+DamageAffector_EnableSeige Gunner_EnableSeige
+{
+}
+
+DamageAffector_DamageToHealth Revenant_DamageToHealth
+{
+	myDamageToHealthRatio 0.5
+	myShouldHealPastSegment FALSE
+}
+
+DamageAffector_DamageToEnergy Revenant_DamageToEnergy
+{
+	myDamageToEnergyRatio 0.2
+}
+
+DamageAffector_DamageToHealth Revenant_DamageToHealth_pastSegments
+{
+	myDamageToHealthRatio 0.5
+	myShouldHealPastSegment TRUE
+}
+
+DamageAffector_StatusEffect Ice_ExtraDamage_vs_Chill_&_Freeze
+{
+	myDamageMultiplier 0.5
+	myStatusEffectType Chill
+	myStatusEffectTypes
+	{
+		StatusEffectType Chill Chill
+		StatusEffectType Freeze Freeze
+	}
+}
+
+DamageAffector_StatusEffect Stasis_ExtraDamage_vs_Stasis
+{
+	myDamageMultiplier 0.5
+	myStatusEffectType Stasis
+}
+
+DamageAffector_StatusEffect Warden_ExtraDamage_vs_AnySE_l1
+{
+	myDamageMultiplier 0.25
+	myAnyStatusEffect TRUE
+}
+
+DamageAffector_StatusEffect Warden_ExtraDamage_vs_AnySE_l2
+{
+	myDamageMultiplier 0.5
+	myAnyStatusEffect TRUE
+}
+
+DamageAffector_StatusEffect Warden_ExtraDamage_vs_AnySE_l3
+{
+	myDamageMultiplier 0.75
+	myAnyStatusEffect TRUE
+}
+
+DamageAffector_StatusEffect Warden_ExtraDamage_vs_AnySE_l4
+{
+	myDamageMultiplier 1.0
+	myAnyStatusEffect TRUE
+}
+
+DamageAffector_StatusEffect Warden_ExtraDamage_vs_AnySE_l5
+{
+	myDamageMultiplier 1.25
+	myAnyStatusEffect TRUE
+}
+
+DamageAffector_Weakness Warden_Weakness_low
+{
+	myDamageMultiplier 0.5
+}
+
+DamageAffector_Weakness Warden_Weakness_high
+{
+	myDamageMultiplier 1.0
+}
+
+DamageAffector_WeaknessStun Warden_Weakness_Stun
+{
+	myChanceToStunPerDamage 0.0005
+	myStunTime 2.0
+}
+
+DamageAffector_FriendlyDamageBoost Commander_AlliedDamageBoost_50
+{
+	myDamageMultiplier 0.5
+	myDistanceThreshold 500.0
+}
+
+DamageAffector_FriendlyDamageBoost Commander_AlliedDamageBoost_100
+{
+	myDamageMultiplier 1.0
+	myDistanceThreshold 500.0
+}
+
+DamageAffector_FriendlyDamageResistance Defender_ShieldAllies
+{
+	myDamageMultiplier -0.25
+	myDistanceThreshold 500.0
+}
+
+NPCTypeList NPCsAffectedByWeaponImpactMod
+{
+	NPCType Harvester_Cyclops Harvester_Cyclops
+	NPCType Harvester_Cyclops_Infused_Cold Harvester_Cyclops_Infused_Cold
+	NPCType Harvester_Cyclops_Infused_Heat Harvester_Cyclops_Infused_Heat
+	NPCType Harvester_Cyclops_Infused_Crush Harvester_Cyclops_Infused_Crush
+	NPCType Harvester_Cyclops_Shielded Harvester_Cyclops_Shielded
+	NPCType Harvester_Imp Harvester_Imp
+	NPCType Harvester_Imp_Cold Harvester_Imp_Cold
+	NPCType Harvester_Imp_Heat Harvester_Imp_Heat
+	NPCType Harvester_Imp_Crush Harvester_Imp_Crush
+	NPCType Harvester_Imp_Crush Harvester_Imp_Crush
+	NPCType Harvester_Drake Harvester_Drake
+	NPCType Harvester_Drake_Heat Harvester_Drake_Heat
+	NPCType Outlaw_Defender Outlaw_Defender
+	NPCType Harvester_Probe Harvester_Probe
+}
+
+DamageAffector_CauseStumble WeaponImpact_CauseStumble_L1
+{
+	myNPCTypes = NPCsAffectedByWeaponImpactMod
+	myChance = Impact_Weapon_Mod_l1_StumbleChance
+}
+
+DamageAffector_CauseStumble WeaponImpact_CauseStumble_L2
+{
+	myNPCTypes = NPCsAffectedByWeaponImpactMod
+	myChance = Impact_Weapon_Mod_l2_StumbleChance
+}
+
+DamageAffector_CauseStumble WeaponImpact_CauseStumble_L3
+{
+	myNPCTypes = NPCsAffectedByWeaponImpactMod
+	myChance = Impact_Weapon_Mod_l3_StumbleChance
+}
+
+DamageAffector_CauseStumble WeaponImpact_CauseStumble_L4
+{
+	myNPCTypes = NPCsAffectedByWeaponImpactMod
+	myChance = Impact_Weapon_Mod_l4_StumbleChance
+}
+
+DamageAffector_CauseStumble WeaponImpact_CauseStumble_L5
+{
+	myNPCTypes = NPCsAffectedByWeaponImpactMod
+	myChance = Impact_Weapon_Mod_l5_StumbleChance
+}
+
+DamageAffector_SpawnProjectile GravityCore_SpawnBlackHole
+{
+	myCooldown 10.0
+	myChance 0.01
+	myLifetime 4.0
+	myEntityTemplate "onward/entity templates/projectile_black_hole.mentitytemplate"
+	mySpawnAtTarget TRUE
+}
+
+DamageAffector_DamageFromManifestation GravityArmour_PreventBlackHoleDamage
+{
+	myDamageMultiplier -1.0
+	myDamageType Crush
+}
+
+DamageAffector_TargetInsideVolume GravityCore_ExtraDamageToTargetsInGravityVolume
+{
+	myDamageMultiplier 0.5
+	myCategories
+	{
+		VolumeMitigationCategory "Gravity Well" GravityWell
+		VolumeMitigationCategory "Black Hole" BlackHole
+	}
+}
+
+DamageAffector_MitigateProjectileDamageInsideVolume GravityArmour_PreventProjectileDamageInsideBlackHole
+{
+	myDamageMultiplier -1.0
+	myCategories
+	{
+		VolumeMitigationCategory BlackHole BlackHole
+	}
+}
+
+DamageAffector_SeigeModifier Seige_DamageModifier_Level1
+{
+	mySeigeModifier 0.1
+}
+
+DamageAffector_SeigeModifier Seige_DamageModifier_Level2
+{
+	mySeigeModifier 0.2
+}
+
+DamageAffector_SeigeModifier Seige_DamageModifier_Level3
+{
+	mySeigeModifier 0.3
+}
+
+DamageAffector_CriticalModifier Critical_DamageModifier_Level1
+{
+	myCriticalModifier 0.1
+}
+
+DamageAffector_CriticalModifier Critical_DamageModifier_Level2
+{
+	myCriticalModifier 0.2
+}
+
+DamageAffector_CriticalModifier Critical_DamageModifier_Level3
+{
+	myCriticalModifier 0.3
+}
+
+DamageAffector_LastStand Last_Stand_Damage_Inc_L1
+{
+	myDamageMultiplier 0.1
+}
+
+DamageAffector_LastStand Last_Stand_Damage_Inc_L2
+{
+	myDamageMultiplier 0.2
+}
+
+DamageAffector_LastStand Last_Stand_Damage_Inc_L3
+{
+	myDamageMultiplier 0.3
+}
+
+DamageAffector_DamageResistanceAroundAllies Damage_Resistance_Around_Allies_L1
+{
+	myDamageMultiplier -0.05
+}
+
+DamageAffector_DamageResistanceAroundAllies Damage_Resistance_Around_Allies_L2
+{
+	myDamageMultiplier -0.1
+}
+
+DamageAffector_DamageResistanceAroundAllies Damage_Resistance_Around_Allies_L3
+{
+	myDamageMultiplier -0.15
+}
+
+DamageAffector_DamageBoostAroundAllies Damage_Boost_Around_Allies_L1
+{
+	myDamageMultiplier 0.1
+}
+
+DamageAffector_DamageBoostAroundAllies Damage_Boost_Around_Allies_L2
+{
+	myDamageMultiplier 0.2
+}
+
+DamageAffector_DamageBoostAroundAllies Damage_Boost_Around_Allies_L3
+{
+	myDamageMultiplier 0.3
+}
+
+DamageAffector_ShatterLootDrop IceBreaker_L1
+{
+	myLootDropTable IceBreaker_Perk_1_Drop_Table
+}
+
+DamageAffector_ShatterLootDrop IceBreaker_L2
+{
+	myLootDropTable IceBreaker_Perk_2_Drop_Table
+}
+
+DamageAffector_ShatterLootDrop IceBreaker_L3
+{
+	myLootDropTable IceBreaker_Perk_3_Drop_Table
+}
+
+DamageAffector_RamResistance "Ram Resistance"
+{
+	myDamageMultiplier -0.95
+	myGameActionStates
+	{
+		GameActionState Dashing IsBoosting
+		GameActionState Ramming IsRamming
+	}
+	myRequireAll FALSE
+}
+
+DamageAffector_CriticalModifier WardenWeaponBooster_l1
+{
+	myCriticalModifier = Warden_Weapon_Mod_l1_Critical
+}
+
+DamageAffector_CriticalModifier WardenWeaponBooster_l2
+{
+	myCriticalModifier = Warden_Weapon_Mod_l2_Critical
+}
+
+DamageAffector_CriticalModifier WardenWeaponBooster_l3
+{
+	myCriticalModifier = Warden_Weapon_Mod_l3_Critical
+}
+
+DamageAffector_CriticalModifier WardenWeaponBooster_l4
+{
+	myCriticalModifier = Warden_Weapon_Mod_l4_Critical
+}
+
+DamageAffector_CriticalModifier WardenWeaponBooster_l5
+{
+	myCriticalModifier = Warden_Weapon_Mod_l5_Critical
+}
+
+DamageAffector_DamageResistanceAroundAllies AllianceArmorDamageResistancePlayer
+{
+	myDamageMultiplier -0.1
+}
+
+DamageAffector_FriendlyDamageResistance AllianceArmorDamageResistanceAllies
+{
+	myDamageMultiplier -0.1
+	myDistanceThreshold 500.0
+}
+
+DamageAffector_DamageBoostAroundAllies AllianceCoreDamageBoostPlayer
+{
+	myDamageMultiplier 0.1
+}
+
+DamageAffector_FriendlyDamageBoost AllianceCoreDamageBoostAllies
+{
+	myDamageMultiplier 0.1
+	myDistanceThreshold 500.0
+}
+
+DamageAffector_PlayerDamageBoostOnKill RelicOfEternityDamageBoostOnKill
+{
+	myDamageMultiplier = Warden_Weapon_Relic_4_ExtraDamage
+	myDamageBoostTime = Warden_Weapon_Relic_4_DamageDuration
+}
+
+DamageAffector_BreakShield ShieldParryBreak
+{
+	myDamageMultiplier -0.5
+	myCooldownTime 0.5
+}
+
+DamageAffector_DamageResistanceAroundAllies CommanderArmor_ResistanceNearAllies_l3
+{
+	myDamageMultiplier = Templar_Armor_l3_AllyResist
+}
+
+DamageAffector_DamageResistanceAroundAllies CommanderArmor_ResistanceNearAllies_l4
+{
+	myDamageMultiplier = Templar_Armor_l4_AllyResist
+}
+
+DamageAffector_DamageResistanceAroundAllies CommanderArmor_ResistanceNearAllies_l5
+{
+	myDamageMultiplier = Templar_Armor_l5_AllyResist
+}
+
+DamageAffector_EquinoxUpgrade_IncreasedDurability EquinoxUpgrade_IncreasedDurability
+{
+	myDamageMultiplier -0.5
+}
+
+DamageAffector_EquinoxUpgrade_IncreasedDamage EquinoxUpgrade_IncreasedDamage
+{
+	myDamageMultiplier 0.25
+}
+
+DamageAffector_CauseStumble Relic_CauseStumble
+{
+	myNPCTypes = NPCsAffectedByWeaponImpactMod
+	myChance = Warden_Weapon_Relic_4_StumbleChance
+}
+

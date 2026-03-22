@@ -1,0 +1,38 @@
+include ./template_hull.mplayermod
+include ./tuning/mod_tuning_master.juice
+
+float "Elemental Resistance" = Warden_Armor_l1_ElementalResist
+
+PlayerMod mod_warden_armour_l1 < uid=C91BB5515980C3730000010D53DEE691 > : template_hull
+{
+	myAttributeMods
+	{
+		AttributeMod "Heat Resist"
+		{
+			myType DMG_Resist_Heat
+			myAddValue 0.0
+			myMultValue = "Elemental Resistance"
+		}
+		AttributeMod "Cold Resist"
+		{
+			myType DMG_Resist_Cold
+			myMultValue = "Elemental Resistance"
+		}
+		AttributeMod "Float Resist"
+		{
+			myType DMG_Resist_Float
+			myMultValue = "Elemental Resistance"
+		}
+		AttributeMod "Gravity Resist"
+		{
+			myType DMG_Resist_Crush
+			myMultValue = "Elemental Resistance"
+		}
+		AttributeMod Defense
+		{
+			myType PartStat_Defense
+			myAddValue = Warden_Armor_l1_Defense
+		}
+	}
+}
+

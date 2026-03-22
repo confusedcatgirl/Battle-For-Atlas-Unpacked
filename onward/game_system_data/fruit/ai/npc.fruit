@@ -1,0 +1,378 @@
+include "onward/game system data/fruit/abilityinput/abilityinput.fruit"
+include "onward/game system data/fruit/ai/affinity.fruit"
+include "onward/game system data/fruit/ai/contexts.fruit"
+include "onward/game system data/fruit/ai/motion/motionenums.fruit"
+include "onward/game system data/fruit/ai/motion/motionenums.fruit"
+include "onward/game system data/fruit/ai/motion/motionpattern.fruit"
+include "onward/game system data/fruit/ai/motion/patternprofiles.fruit"
+include "onward/game system data/fruit/ai/health.fruit"
+include "onward/game system data/fruit/ai/npctype.fruit"
+include "onward/game system data/fruit/ai/shatterresponse.fruit"
+include "onward/game system data/fruit/ai/threatprofiles.fruit"
+include "onward/game system data/fruit/animation/animsys.fruit"
+include "onward/game system data/fruit/attachments/attachments.fruit"
+include "onward/game system data/fruit/attributes/attributes.fruit"
+include "onward/game system data/fruit/bones/bonecategory.fruit"
+include "onward/game system data/fruit/entity/faction.fruit"
+include "onward/game system data/fruit/entity/realization.fruit"
+include "onward/game system data/fruit/environment/Resources.fruit"
+include "onward/game system data/fruit/health/DamageTypes.fruit"
+include "onward/game system data/fruit/input/gameinput.fruit"
+include "onward/game system data/fruit/interact/interactablecustomtype.fruit"
+include "onward/game system data/fruit/physics/impact.fruit"
+include "onward/game system data/fruit/sound/collisionpresets.fruit"
+include "onward/game system data/fruit/statuseffects/statuseffects.fruit"
+include "onward/game system data/fruit/ui/uilocalizedinteractiontext.fruit"
+include "onward/game system data/fruit/progression/challenge_types.fruit"
+
+include "onward/skillscripts/skillscript.fruit"
+
+enum AgentControllerType
+{
+	DefaultAgentController
+	GroundBased
+	Flying
+}
+
+enum SquadAssociationType
+{
+	None
+	Member
+	Leader
+}
+
+enum NPCLeggednessType
+{
+	None
+	Biped
+	Quadruped
+}
+
+enum NPCPilotTrialIdentityType
+{
+	None
+	Blooded_Kings
+	Overlords
+	Original
+	Phantoms
+}
+
+enum NPCWeaponType < useCategories=1 >
+{
+	< startCategory="POD Deployment Analogues" >
+	Bazooka
+	Beam
+	Gatling
+	Pulse
+	< startCategory="Fauna Specific" >
+	Shatter
+}
+
+enum NPCArmorType
+{
+	Invalid
+	Light
+	Medium
+	Heavy
+}
+
+enum NPCGoalType < useCategories=1 >
+{
+	Invalid
+	BuildDefenseBase
+	BuildObservationDeck
+	BuildResearchBase
+	BuildMiningCenter
+	BuildTower
+	Deliver
+	DestroyOutpost
+	DestroyUnit
+	Gather
+	Guard
+	Move
+	Patrol
+	PlantExtractor
+	Repair
+	RegisterWithOutpost
+	ReturnHome
+	ScanPOI
+	Scavenge
+	SeekPOI
+	Wander
+	Disabled
+	
+	< startCategory="Deprecated" >
+	BuildGenerator
+	BuildOutpost
+	BuildWatchtower
+}
+
+enum AgentNavigationType
+{
+	Invalid
+	Ground
+	Air
+	Atmosphere
+	Prime
+	Skimmer
+	Newtonian
+	Homing
+}
+
+class NPCWeapon
+{
+	NPCWeaponType myWeaponType
+	DamageType myDamageType
+}
+
+class NPCDeathSettings
+{
+	float	myDeathCullTime 1.0 < tooltip="Amount of time until the NPC exits the world after a normal / ragdoll death" >
+	float	myEventDeathCullTime 1.0 < tooltip="Amount of time until the NPC exits the world after an animation death event" >
+	float	myCollisionDeathCullTime .01 < tooltip="Amount of time until the NPC exits the world after a flight collision death" >
+
+	bool	myWaitForEvent FALSE < tooltip="Prevent removal from the world after death until a Death event is triggered via animation" >
+	bool	myDieOnFlightStaticCollision FALSE < tooltip="Should this NPC die if it collides with static non-Agents while flying?" >
+	bool	myDieOnFlightDynamicCollision FALSE < tooltip="Should this NPC die if it collides with dynamic non-Agents while flying?" >
+	bool	myDieOnPlayerCollision FALSE < tooltip="Should this NPC die if it collides with player?" >
+	bool	myDieOnNPCCollision FALSE < tooltip="Should this NPC die if it collides with another NPC?" >
+}
+
+class NPCAbilityDefinition
+{
+	GameAction myGameAction "None"
+	SkillScript* mySkillScript
+	AbilityInputType myInputType
+	file myAttributesFile < types=*.juice tooltip="Juice file containing attribute settings" >
+	bool myEnabled TRUE
+}
+
+list NPCAbilityDefinitionList
+{
+	NPCAbilityDefinition
+}
+
+list NPCPersistentScriptList
+{
+	SkillScript*
+}
+
+class NPCPersistentScriptSettings
+{
+	NPCPersistentScriptList mySkillScripts
+}
+
+list EntityTemplateList
+{
+	file < bhv="asset" assettype="Entity Template" >
+}
+
+class NPCGibSettings
+{
+	float myLifetime 10.0 < tooltip="Lifetime of gibs, in seconds" >
+	float myInitialSpeed 40.0 < tooltip="Initial speed of gibs when spawned" >
+	float myInitialAngularSpeed 5.0 < tooltip="Initial angular speed of gibs when spawned" >
+	bool myDeleteGibsOutsideFOV false < tooltip="Delete gibs when they are outside FOV" >
+	EntityTemplateList myGibTemplates
+}
+
+class NPC < uid=auto >
+{
+	varmap myUIName	< bhv = "localization" >
+	string myUIName_NonLocalized < tooltip="Temporary until localization is hooked up and we can use myUIName" >
+
+	file myGraphObjectFile "" < bhv="asset" assettype="Object" >
+	file myBehavior < bhv="asset" assettype="Behavior" >
+	bool myIsInitiallyAggressive true
+	file myExitWorldAffector < bhv="asset" assettype="Entity Template" >
+	NPCGibSettings myGibSettings
+	
+	BaseNPCHealthConfig* myHealthConfig
+	bool myIsInvulnerable false < tooltip="If true, this NPC is completely invulnerable." >
+	bool myOnlyAllowDamageFromBodyParts false < tooltip="If true, damage not explicitly targeting a body part is ignore." >
+	
+	NPCDeathSettings myDeathSettings
+// Status Effect Reactions
+	StatusEffectReaction* mySunderReaction
+	StatusEffectReaction* myFireReaction
+	StatusEffectReaction* myChillReaction
+	StatusEffectReaction* myFreezeReaction
+	StatusEffectReaction* myStasisReaction
+	StatusEffectReaction* myStasisOverloadReaction
+	StatusEffectReaction* myGravityReaction
+	StatusEffectReaction* myEntangleReaction
+	StatusEffectReaction* myCorrosionReaction
+	StatusEffectReaction* myBlackholeReaction
+// End SE Reactions
+
+	NPCAbilityDefinitionList myAbilityDefinitions
+	ControllerContextDefinitionList myControllerContextDefinitions
+	NPCAffinityDefinition myAffinityDefinition
+	NPCPersistentScriptList myPersistentScripts
+	
+	file	myResistanceSettings < types=*.juice >
+	file	myAttributeSettings < types=*.juice >
+	file    myCrowdControlAttributeSettings "onward/game system data/juice/ai/attributes/crowd control tiers/npc_cc_tier1.juice" < types=*.juice >
+
+	string 	myDropTableOnDeath Default_Drop_Table < tooltip="Drop table to invoke on death" >
+	string 	myDropTableOnAffinityWeaknessDeathId Default_Drop_Table < tooltip="Drop table to invoke on death from affinity damage weakness" >
+	string 	myDropTableOnDamage Default_Drop_Table < tooltip="Drop table to invoke on damage" >
+	float	myDamageDropInterval 0 < tooltip="[0-1] Damage Drop every x percent health" >
+	bool	myDamageDropOnWeakness false < tooltip="Damage Drop only on weakness?" >
+	bool	myIncludeDamageDropZero false < tooltip="Damage Drop at zero?" >
+	bool	myBreakElectrumOnWeakness false < tooltip="Break off Electrum?" >
+	float	myWeaknessDeathDropPercent 1.0 < tooltip="[0-1] How much affinity weakness damage needs to be taken in order to drop affinity table on death." >
+	
+	float   myAwarenessDistance 120.0 < tooltip="spherical steering awareness distance, in meters" >
+	float   myAwarenessDistanceLargeEntity 0.0 < tooltip="should awareness scan for Dreadnoughts and the like" >
+	float   myAwarenessDistanceAsteroid 0.0 < tooltip="should awareness scan for Asteroids" >
+	float   myHomingProjectileAlertProximity 200.0 < tooltip="Alert raised when a homing missile gets within this distance (OGame_AgentNodeMissileLockAlertListener)" >
+
+	float   myMass 100.0 < tooltip="initial unmodified physics mass." >
+	float   myRotationalInertiaThreshold 2.0 < tooltip="rotational impulse must exceed this to affect the NPC" >
+	float   myLinearInertiaThreshold 2.0 < tooltip="linear impulse must exceed this to affect the NPC" >
+	vec3f   myRotationalForceMultiplier 1.0;1.0;1.0 < tooltip="yaw,pitch,roll multipliers on rotational forces" >
+	vec3f   myLinearForceMultiplier 1.0;1.0;1.0 < tooltip="left,up,fwd multipliers on linear forces" >
+	float   myMaxRotationalForce 2.0 < tooltip="rotational impulse clamped to this value" >
+	float   myMaxLinearForce 5.0 < tooltip="linear impulse clamped to this value" >
+
+	float   myMaxForce 1000.0 < tooltip="Newtons" >
+	float   myStaticFriction 0.196
+	float   myDynamicFriction 0.096
+	float	myMaxFrictionTorque 1.0
+
+	float   myPhysicsCapsuleHeight 3.0 < tooltip="Total Capsule height including the end-caps (in meters)" >
+	float   myPhysicsSupportHeight 0   < tooltip="Distance of capsule base from ground (in meters)" >
+
+	float   myPhysicsCapsuleRadius 1.0 < tooltip="Capsule radius (in meters)" >
+	float   myPhysicsPusherCapsuleRadius 2.0 < tooltip="Capsule radius (in meters)" >
+
+	bool    myPhysicsCapsuleOriented false < tooltip="oriented capsule" >	
+	bool    myPhysicsPusherCapsule false < tooltip="pusher capsule" >
+	vec3f   myPhysicsCapsuleStart 0.0;0.0;0.0
+	vec3f   myPhysicsCapsuleEnd 0.0;0.0;0.0
+
+	float   myGroundOrientationFraction 0.0 < tooltip="Does this NPC orient to follow Ground Contours? How Much [0.0 1.0]" >
+	float   myMaxFootDropFactor 0.5 < tooltip="This multiplied by local hip height is the most the foot will be lowered to reach the ground." >
+
+	bool    myPhysicsSnapToGround true < tooltip="Does this walk or skim?" >
+	bool	myIsCollisionEnabled true < tooltip="Does my capsule collide with anything?" >
+	bool	myHasSkinnedCollision false < tooltip="Does this npc have skinned collision that should collide with props, agents, etc. instead of the capsule?" >
+
+	bool    myIsAffectedByGravity true < tooltip="NOTE: This state can be changed at run time, this flag only guarantees initial state." >
+
+	file myHitReactionConstants < types=*.juice default="onward/game system data/juice/combat/hitreactionsconstants.juice" >
+	file myImpactCategorySettings < types=*.juice default="onward/game system data/juice/combat/impactcategorysettings.juice" >
+		
+	bool	myIsMobile true < tooltip="Can I move at all?(i.e. turret) " >
+	bool    myNeedsGroundToSteer true < tooltip="can I still control my facing when floated" >
+	bool    myNeedsGroundToMove true < tooltip="can I still control my velocity when floated" >
+	bool    myUseNavMeshForMovement true < tooltip="should I use the navmesh instead of point-to-point pathfinding?" >
+
+	CollisionSoundPreset* myCollisionSoundPreset
+	
+	PatternProfile* myPatternProfile
+	MotionPattern* myDefaultMotionPattern
+
+	float   myAvoidanceRadius 3.0  < tooltip="avoidance sphere radius (in meters)" >
+
+	FactionType myNPCFaction Unaligned < tooltip="To what Faction does this NPC belong" >
+	NPCType myNPCType Invalid < tooltip="What type of NPC is this" >
+	AnimSystemType myAnimSystemType None
+	AnimSpecialization myAnimSpecialization None
+	NPCLeggednessType myLeggedness None
+	NPCPilotTrialIdentityType myPilotTrialIdentity None
+
+	float myLookAtMaxDegreesPerSecond 120.0 < tooltip="How fast the head turns" >
+	float myLookAtMovementSpeedInfluence 1.0 < tooltip="How much the current movement speed changes the head turn speed" >
+
+	float myThreatBudget 28.0   < tooltip="Per-npc override of Combat Director Engagement budget" >
+	float myAttackerBudget 17.0 < tooltip="Per-npc override of Combat Director Token budget" >
+	float myThreatLevel 1.0 < tooltip="threat level from 1.0 to 18.0" >
+	
+	BaseThreatProfile myBaseThreatProfile
+	ActionThreatProfile myActionThreatProfile
+	bool myVisibleToAwareness true
+	
+	NPCWeapon myWeapon < tooltip="The weapon definition used by generic NPCs.  More complex NPCs will likely not use this." >
+
+	bool myIsFlocking false < tooltip="should NPCs of this type flock together by default?" >
+	bool myIsSquadLeader false < tooltip="should NPCs of this type Lead a squad? (Deprecated)" >
+
+	SquadAssociationType mySquadAssociationType None
+	file mySquadSettings < types=*.juice >
+	file mySteeringParameters < types=*.juice default="onward/game system data/juice/ai/steering/default_npc.juice" >
+
+	AgentControllerType myAgentController DefaultAgentController	< tooltip="Specify the Agent Controller to use">
+	string myAIVisionConeTypeName SampleVisionCone
+
+	bool myIsInteractProxy false
+	bool myIsTargetable   true
+    bool myIsShieldRamTarget true
+    bool myIsAimAssistTarget true
+	bool myIsInteractable false
+	bool myIsScannable true
+	bool myIsRepairable false
+	bool myIsHailable false
+    bool myIsPluckable false
+	file myInteractableSkillscript < types=*.mskillscriptgraph >
+	InteractableTextType myInteractableTextType Invalid < tooltip="DEPRECATED.  To be removed. -nseyler" >
+	InteractableTextType myHailableTextType Interact
+	InteractableTextType myScannableTextType ResearchFauna
+	InteractableTextType myRepairableTextType RepairUnit
+	int myTargetConceptCooldown 5000
+	float myInteractDistance 50.0
+	file myInteractableConfig < types=*.juice tooltip="DEPRECATED. To be removed. -nseyler" >
+    InteractableCustomType myInteractableCustomType
+	file myHailableConfig "onward/game system data/juice/interact/hailable.juice" < types=*.juice >
+	file myScannableConfig "onward/game system data/juice/interact/scannable.juice" < types=*.juice >
+	file myRepairableConfig "onward/game system data/juice/interact/repairable.juice" < types=*.juice >
+	file myPluckableConfig "onward/game system data/juice/interact/pluckable.juice" < types=*.juice >
+
+	ImpactSettings myImpactSettings
+
+	file myLeftFootstepEffectFile "" < types=*.mgraphobject >
+	file myRightFootstepEffectFile "" < types=*.mgraphobject >
+	file myFrontLeftFootstepEffectFile "" < types=*.mgraphobject >
+	file myFrontRightFootstepEffectFile "" < types=*.mgraphobject >
+	uid myDefaultFootstepEvent < bhv=AudioID type=Event >
+
+	RealizationEventType myFootstepRealizationEventType
+
+	file myDamageReactionSettings < types=*.juice >
+
+	file myAttachmentSettings < types=*.juice >
+
+	file myHitReactionRules < types=*.juice >
+	
+	float myConstructionDuration 0.0 < tooltip="Time expected for this unit to 'construct' upon creation" >
+
+	AgentNavigationType myDefaultNavigationType Ground < tooltip="Navigation type this agent will use by default" >
+	bool myUseNavMeshContextLayer false
+	bool myNavMeshContextLayerKill true
+	bool myDiscoverOnDamage					< default = false tooltip = "When NPC takes damage, it completes its OnDiscoveredChallenge" >
+	ChallengeType myOnDeathChallenge
+	ChallengeType myOnDeathSecondaryChallenge
+	ChallengeType myOnDiscoveredChallenge
+    ChallengeType myFullyScannedChallenge
+	ChallengeType myOnAffinityActiveDeathChallenge
+	
+	SkillScript* myPreWorldEntrySkillScript < tooltip="Skill Script run before world entry animation" >
+
+	bool myUseVisualImpactProcessor FALSE < tooltip="Use VisualImpactProcessor to generate a impact reaction transform for VisualImpactTransform GameIO" >
+	
+	VisualImpactSettings myVisualImpactSettings
+	
+	bool myAttachSimProxyToBoneCategory FALSE < tooltip="Attach proxies to bone socket?" >
+	BoneCategory mySimProxyAttachmentBoneCategory < tooltip="Attached proxies will be put on this bone socket" >
+	
+	bool myAllowDormancy TRUE
+	bool myAllowCombatWhileDormant FALSE
+	
+	bool myHasProjectileResponse < default = false tooltip = "Entity has response to projectiles" >
+	
+	int mySkillLevelOffset 0 < tooltip="Offset from SimUnit skill level" >
+	
+	float myPilotTrialStumbleMaxRotationRateRadPerSec 3.14159 < tooltip="[Pilot Trial Only] Is the max rotation rate in radiant per second when ragdoll stumble effect is triggered" >
+	float myPilotTrialStumbleMaxLinearSpeedPerSec 15.0 < tooltip="[Pilot Trial Only] Is the max linear speed per second when ragdoll stumble effect is triggered" >
+}

@@ -1,0 +1,47 @@
+include ./outlaw_defender_ground.mnpc
+include onward/skillscripts/npc_ability_outlaw_flameblast.mskillscriptjuice
+
+NPC outlaw_defender_ground_elite < uid=DDDD6F5D5AEA175000001F0D2600C580 > : outlaw_defender_ground
+{
+	myUIName "contextComment = \"[Placeholder - do not translate] Elite variant of the outlaw defender on the ground, tougher and with better loot\", description = \"uiname-outlaw-defender-ground-elite\", enabled = true, guid = #DDDD6F5D5AEA176B00001F103F8A6A6B, lineVersion = 0, maxLength = 16, text = \"Outlaw Elite\""
+	myUIName_NonLocalized "Outlaw Defender Elite"
+	myGraphObjectFile "onward/graph objects/character/outlaw_02_ground.mgraphobject"
+	myBehavior "onward/game system data/juice/ai/behavior/outlaw_defender_ground_advanced.mbehavior"
+	myHealthConfig < uid=67883D265AF315C500035EEC6A12FF3C > = "outlaw_defender_ground_elite Health"
+	myAbilityDefinitions
+	{
+		NPCAbilityDefinition Gatling
+		{
+			myGameAction NPC_Ability1
+			mySkillScript < uid=DDDD6F5D5AF1F51400083223BA73C89E > = npc_ability_outlaw_gatling_ground
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_outlaw_ground_elite_gatling.juice"
+		}
+		NPCAbilityDefinition "Flame Blast"
+		{
+			myGameAction NPC_Ability3
+			mySkillScript < uid=DDDD6F5D5AF1F5300008322572C27AAE > = npc_ability_outlaw_flameblast
+			myInputType Tap_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_outlaw_flameblast.juice"
+		}
+	}
+	myResistanceSettings "onward/game system data/juice/ai/resistance/prospector_defender_resistance.juice"
+	myAttributeSettings "onward/game system data/juice/ai/attributes/outlaw_defender_ground_elite.juice"
+	myDropTableOnDeath Kill_Outlaw_Elite_Drop_Table
+	myMass 22000.0
+	myPhysicsCapsuleRadius 3.0
+	myPhysicsCapsuleStart -3.0;0.5;0.0
+	myPhysicsCapsuleEnd 3.0;0.5;0.0
+	myCrowdControlAttributeSettings "onward/game system data/juice/ai/attributes/crowd control tiers/npc_cc_tier3.juice"
+	myImpactCategorySettings "onward/game system data/juice/combat/impactcategorysettings_skimmer_elite.juice"
+	myPatternProfile < uid=67883D265AF345590019A9C268D06639 > = "Outlaw Ground Elite"
+	myDefaultMotionPattern < uid=67883D265AF344B100139D76E0084FA3 > = "Outlaw Ground Elite Default"
+	myAvoidanceRadius 7.0
+	myNPCType Outlaw_Defender_Ground_Elite
+	myAnimSystemType Outlaw_Defender_Elite
+	myThreatLevel 9.0
+	myHitReactionRules "onward/game system data/juice/ai/reactions/reaction_rules_npc_outlaw_elite.juice"
+	myOnDeathChallenge Death_OutlawElite
+	myOnDiscoveredChallenge Discover_OutlawElite
+}
+

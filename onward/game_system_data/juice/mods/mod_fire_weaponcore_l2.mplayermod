@@ -1,0 +1,69 @@
+include ./template_pod.mplayermod
+include ./tuning/mod_tuning_master.juice
+
+float "Weapon Damage" = Fire_WeaponCore_l2_Damage
+float "Energy Reduction" = Fire_WeaponCore_l2_EnergyCost
+
+PlayerMod mod_fire_weaponcore_l2 < uid=C91BB5515982266E000883744D935866 > : template_pod
+{
+	myAttributeMods
+	{
+		AttributeMod Cold
+		{
+			myType DMG_Cold
+			myMultValue 1.0
+			myPercentageValue = "Weapon Damage"
+		}
+		AttributeMod Crush
+		{
+			myType DMG_Crush
+			myMultValue 1.0
+			myPercentageValue = "Weapon Damage"
+		}
+		AttributeMod Float
+		{
+			myType DMG_Float
+			myMultValue 1.0
+			myPercentageValue = "Weapon Damage"
+		}
+		AttributeMod Heat
+		{
+			myType DMG_Heat
+			myMultValue 1.0
+			myPercentageValue = "Weapon Damage"
+		}
+		AttributeMod Kinetic
+		{
+			myType DMG_Kinetic
+			myMultValue 1.0
+			myPercentageValue = "Weapon Damage"
+		}
+		AttributeMod Max
+		{
+			myType DMG_Max
+			myMultValue 1.0
+			myPercentageValue = "Weapon Damage"
+		}
+		AttributeMod "Area Heat"
+		{
+			myType DMG_Area_Heat
+			myPercentageValue = "Weapon Damage"
+		}
+		AttributeMod UI_Weapon_Damage
+		{
+			myType UI_Weapon_Damage
+			myPercentageValue = "Weapon Damage"
+		}
+		AttributeMod "Energy Efficiency"
+		{
+			myType Ability_Energy
+			myMultValue = "Energy Reduction"
+		}
+		AttributeMod UI_Weapon_Energy
+		{
+			myType UI_Weapon_Energy
+			myMultValue = "Energy Reduction"
+		}
+	}
+}
+

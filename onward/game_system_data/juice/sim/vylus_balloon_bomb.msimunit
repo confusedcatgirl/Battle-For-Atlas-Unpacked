@@ -1,0 +1,24 @@
+include ./mini_enemy_06_reinforcement.msimunit
+
+SimUnit vylus_balloon_bomb < uid=93869D535BB7748900002757726F8A9C > : mini_enemy_06_reinforcement
+{
+	myUIName "contextComment = \"\", description = \"ui-name-mini-enemy-06-vylus\", enabled = true, guid = #93869D535BB7749D00002761F8157D1B, lineVersion = 0, maxLength = 23, text = \"Vylus Balloon Bomb\""
+	myRadius 10.0
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo "baloon bomb" < uid=6D25F4C65BC62F92006B03AA05BD6283 >
+		{
+			myCountMin 2
+			myCountMax 3
+			myEntitySize 10.0
+			myElementSpawnInfo
+			{
+				SimUnitElementSpawnInfo mini_enemy_06
+				{
+					myEntityFile "onward/game system data/juice/ai/npc/vylus_balloon_bomb.mnpc"
+				}
+			}
+		}
+	}
+}
+

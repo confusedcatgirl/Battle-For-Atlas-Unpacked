@@ -1,0 +1,22 @@
+include ./template_pod.mplayermod
+
+float "Weapon Damage" = Stasis_Weapon_Mod_l2_Damage
+
+PlayerMod mod_stasis_weaponmod_l2 < uid=C91BB55159836811000002182FF221B1 > : template_pod
+{
+	myAttributeMods
+	{
+		AttributeMod Stasis
+		{
+			myType DMG_Float
+			myMultValue 1.0
+			myPercentageValue  = "Weapon Damage"
+		}
+		AttributeMod UI_Weapon_Damage
+		{
+			myType UI_Weapon_Damage
+			myPercentageValue = "Weapon Damage"
+		}
+	}
+}
+

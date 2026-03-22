@@ -1,0 +1,407 @@
+include "onward/game system data/juice/input/inputactions.juice"
+include "onward/game system data/juice/input/inputactions_alt.juice"
+include "onward/game system data/fruit/input/gameinput.fruit"
+
+TriggerGameAction "[General] Can Respawn"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup IsDead
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalActionGroup NotOnSplineAndDead
+				{
+					myConditionalInputActions
+					{
+						ConditionalGameActionState "Not on Spline"
+						{
+							myNegate TRUE
+							myGameActionState IsOnSpline
+						}
+						ConditionalGameActionState IsDead
+						{
+							myGameActionState IsDead
+						}
+					}
+				}
+				ConditionalActionGroup OnSplineAndAllDead
+				{
+					myConditionalInputActions
+					{
+						ConditionalGameActionState OnSpline
+						{
+							myGameActionState IsOnSpline
+						}
+						ConditionalGameActionState AllDead
+						{
+							myGameActionState AreAllPlayersDead
+						}
+					}
+				}
+			}
+		}
+		ConditionalGameActionState InFullScreenDialogue
+		{
+			myNegate TRUE
+			myGameActionState InFullScreenDialogue
+		}
+	}
+	myGameAction PlayerQuery_CanRespawn
+}
+
+TriggerGameAction "[General] Respawn"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameActionState IsPrimaryPlayer
+		{
+			myGameActionState IsPrimaryPlayer
+		}
+		ConditionalGameAction PlayerQuery_CanRespawn
+		{
+			myRequireNewInput TRUE
+			myGameAction PlayerQuery_CanRespawn
+		}
+		ConditionalActionGroup "INPUT RESPAWN"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction Hold
+				{
+					myInputActionType HoldDownAfterTime
+					myTimer 2000
+					myInputAction = Y_TRIANGLE
+				}
+				ConditionalInputAction "Keyboard Respawn"
+				{
+					myInputActionType HoldDownAfterTime
+					myTimer 2000
+					myInputAction = KB_JUMP
+				}
+			}
+		}
+	}
+	myGameAction Respawn
+}
+
+TriggerGameAction "[General] PlayerQuery_IsAttemptingToExitPlanety"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameActionState IsAttemptingToExitPlanet
+		{
+			myGameActionState IsAttemptingToExitPlanet
+		}
+	}
+	myGameAction PlayerQuery_IsAttemptingToExitPlanet
+}
+
+TriggerGameAction "[General] Scan"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "INPUT SCAN"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Press X (Square)"
+				{
+					myInputActionType PressAndReleaseBeforeTime
+					myTimer 250
+					myInputAction = X_SQUARE
+				}
+				ConditionalInputAction "Keyboard Scan"
+				{
+					myInputActionType PressAndReleaseBeforeTime
+					myTimer 250
+					myInputAction = KB_INTERACT
+				}
+			}
+		}
+	}
+	myGameAction Scan
+}
+
+TriggerGameAction "[General] Interact"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "INPUT INTERACT"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Hold X (Square)"
+				{
+					myInputActionType HoldDownAfterTime
+					myTimer 1000
+					myInputAction = X_SQUARE
+				}
+				ConditionalInputAction "Keyboard Interact"
+				{
+					myInputActionType HoldDownAfterTime
+					myTimer 1000
+					myInputAction = KB_INTERACT
+				}
+			}
+		}
+	}
+	myGameAction Interact
+}
+
+TriggerGameAction "[General] Drop"
+{
+	myConditionalInputActions
+	{
+		ConditionalActionGroup "INPUT DROP"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Press D-Pad Down)"
+				{
+					myInputActionType ReleaseBeforeTime
+					myTimer 150
+					myInputAction = D_PAD_DOWN
+				}
+				ConditionalInputAction "Keyboard Drop"
+				{
+					myInputActionType ReleaseBeforeTime
+					myTimer 150
+					myInputAction = KB_DROP
+				}
+			}
+		}
+	}
+	myGameAction Drop
+}
+
+TriggerGameAction "[General] Can Start Follow"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameActionState "Is Primary"
+		{
+			myNegate TRUE
+			myGameActionState IsPrimaryPlayer
+		}
+		ConditionalGameActionState "Is Alive"
+		{
+			myNegate TRUE
+			myGameActionState IsDead
+		}
+		ConditionalGameActionState "Is Primary player Alive"
+		{
+			myNegate TRUE
+			myGameActionState IsPrimaryPlayerDead
+		}
+		ConditionalGameActionState NotInsideDreadnought
+		{
+			myNegate TRUE
+			myGameActionState InsideDreadnought
+		}
+	}
+	myGameAction PlayerQuery_CanStartFollow
+}
+
+TriggerGameAction "[General] Start Follow"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameAction PlayerQuery_CanStartFollow
+		{
+			myRequireNewInput TRUE
+			myGameAction PlayerQuery_CanStartFollow
+		}
+		ConditionalActionGroup Follow
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalInputAction "Press d pad direction"
+				{
+					myInputActionType HoldDownAfterTime
+					myTimer 500
+					myInputAction = D_PAD_RIGHT
+				}
+				ConditionalInputAction "Press Tab"
+				{
+					myInputActionType HoldDownAfterTime
+					myTimer 500
+					myInputAction = KB_LOADOUTALT
+				}
+			}
+		}
+	}
+	myGameAction StartFollow
+}
+
+TriggerGameAction "[General] Stop Follow"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameActionState "Is Following"
+		{
+			myGameActionState IsInFollowMode
+		}
+		ConditionalGameActionState "Is Not In Planetary Transition"
+		{
+			myNegate TRUE
+			myGameActionState IsInPlanetaryTransition
+		}
+		ConditionalGameActionState "Is Not Deactivated"
+		{
+			myNegate TRUE
+			myGameActionState IsDeactivated
+		}
+		ConditionalGameActionState "Is Not Pilot Trial Disabling Inputs"
+		{
+			myNegate TRUE
+			myGameActionState IsPilotTrialDisablingAllInputs
+		}
+		ConditionalActionGroup "Press Any Actions"
+		{
+			myOperator Or
+			myConditionalInputActions
+			{
+				ConditionalGameAction PodOne
+				{
+					myGameAction PodOne
+				}
+				ConditionalGameAction PodTwo
+				{
+					myGameAction PodTwo
+				}
+				ConditionalGameAction PodThree
+				{
+					myGameAction PodThree
+				}
+				ConditionalInputAction LeftStickUp
+				{
+					myInputAction = LEFT_STICK_UP_45
+				}
+				ConditionalInputAction LeftStickDown
+				{
+					myInputAction = LEFT_STICK_DOWN_45
+				}
+				ConditionalInputAction LeftStickLeft
+				{
+					myInputAction = LEFT_STICK_LEFT_45
+				}
+				ConditionalInputAction LeftStickRight
+				{
+					myInputAction = LEFT_STICK_RIGHT_45
+				}
+				ConditionalInputAction RightStickUp
+				{
+					myInputAction = RIGHT_STICK_UP_45
+				}
+				ConditionalInputAction RightStickDown
+				{
+					myInputAction = RIGHT_STICK_DOWN_45
+				}
+				ConditionalInputAction RightStickLeft
+				{
+					myInputAction = RIGHT_STICK_LEFT_45
+				}
+				ConditionalInputAction RightStickRight
+				{
+					myInputAction = RIGHT_STICK_RIGHT_45
+				}
+				ConditionalGameAction DashStart
+				{
+					myGameAction DashStart
+				}
+				ConditionalGameAction ManeuverStart
+				{
+					myGameAction ManeuverStart
+				}
+				ConditionalGameAction JetEngine
+				{
+					myGameAction JetEngine
+				}
+				ConditionalGameAction FlightEngineStart
+				{
+					myGameAction FlightEngineStart
+				}
+				ConditionalInputAction LB
+				{
+					myInputActionType PressedAfterTime
+					myTimer 300
+					myInputAction = RIGHT_BUMPER_R1
+				}
+			}
+		}
+	}
+	myGameAction StopFollow
+}
+
+TriggerGameAction "[General] PlayerQuery_IsPrimaryPlayer"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameActionState IsPrimaryPlayer
+		{
+			myGameActionState IsPrimaryPlayer
+		}
+	}
+	myGameAction PlayerQuery_IsPrimaryPlayer
+}
+
+TriggerGameAction "[General] Archeology Scan Pulse"
+{
+	myConditionalInputActions
+	{
+		ConditionalInputAction "Press L3"
+		{
+			myInputAction = LEFT_STICK_BUTTON
+		}
+		ConditionalGameActionState CanActivateArcheologyScanPulse
+		{
+			myGameActionState CanActivateArcheologyScanPulse
+		}
+		ConditionalGameActionState NotIsArcheologyScanPulseActive
+		{
+			myNegate TRUE
+			myGameActionState IsArcheologyScanPulseActive
+		}
+	}
+	myGameAction ArcheologyScanPulse
+}
+
+TriggerGameAction "[General] PlayerQuery_CanNPCAttach"
+{
+	myConditionalInputActions
+	{
+		ConditionalGameActionState IsRagdoll
+		{
+			myNegate TRUE
+			myGameActionState IsRagdoll
+		}
+		ConditionalGameActionState IsFlippedOver
+		{
+			myNegate TRUE
+			myGameActionState IsFlippedOver
+		}
+		ConditionalGameActionState InDialogue
+		{
+			myNegate TRUE
+			myGameActionState InDialogue
+		}
+		ConditionalGameActionState IsShieldParryActive
+		{
+			myNegate TRUE
+			myGameActionState IsShieldParryActive
+		}
+		ConditionalGameActionState IsImpAttachEnabled
+		{
+			myGameActionState IsImpAttachEnabled
+		}
+	}
+	myGameAction PlayerQuery_CanNPCAttach
+}
+

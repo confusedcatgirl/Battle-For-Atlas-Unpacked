@@ -1,0 +1,142 @@
+include "onward/game system data/fruit/player/player_options.fruit"
+
+enum OGame_UIPlayerRangeOption
+{
+	HorizontalSensitivity
+}
+
+enum OGame_UIOptionType
+{
+	Boolean
+	Range
+	NamedInteger
+	TriBool
+	Selection
+	Action
+}
+
+enum OGame_UIOptionAction
+{
+	Open_Controller_Layout
+	Open_Colourblind_Settings
+	Open_Screen_Scale
+	Open_Gamma
+	Open_KeyMappingPC
+}
+
+class BaseMenuItem < uid=auto abstract=1 >
+{
+	varmap myName < bhv = "localization" >
+	varmap myDescription < bhv = "localization" >
+	bool myAvailableOnXboxOne true
+	bool myAvailableOnPS4 true
+	bool myAvailableOnNintendoSwitch true
+	bool myAvailableOnPC true
+	bool myIsPlayerOption true
+	bool myIsSlotSpecific false
+	bool myIsRestrictedToPrimaryPlayer false
+	bool myAvailableOnDigitalSKU true
+
+	OGame_UIOptionType myOptionType < hidden=1 >
+}
+
+class BooleanMenuItem : BaseMenuItem
+{
+	PlayerBooleanOption myBooleanOption
+	OGame_UIOptionType myOptionType Boolean < hidden=1 >
+}
+
+class RangeMenuItem : BaseMenuItem
+{
+	PlayerFloatOption myFloatOption
+	float myMinRange -1
+	float myMaxRange -1
+	float myMinRemap 0
+	float myMaxRemap 1
+	float myStep 0.05
+	OGame_UIOptionType myOptionType Range < hidden=1 >
+}
+
+class NamedIntegerEntry
+{
+	int myValue
+	varmap myText < bhv = "localization" >
+}
+
+list NamedIntegerEntryList
+{
+	NamedIntegerEntry
+}
+
+class NamedIntegerMenuItem : BaseMenuItem
+{
+	PlayerIntegerOption myIntegerOption
+	NamedIntegerEntryList myEntries
+	OGame_UIOptionType myOptionType NamedInteger < hidden=1 >
+}
+
+class TriBoolMenuItem : BaseMenuItem
+{
+	PlayerTriBoolOption myTriBoolOption
+	OGame_UIOptionType myOptionType TriBool < hidden=1 >
+
+	varmap myFalseText < bhv = "localization" >
+	varmap myMaybeText < bhv = "localization" >
+	varmap myTrueText < bhv = "localization" >
+}
+
+class SelectionMenuItem : BaseMenuItem
+{
+	PlayerSelectionOption mySelectionOption
+	bool myUsesSprites FALSE
+	OGame_UIOptionType myOptionType Selection < hidden=1 >
+}
+
+class ActionMenuItem : BaseMenuItem
+{
+	OGame_UIOptionAction myOptionAction
+	OGame_UIOptionType myOptionType Action < hidden=1 >
+}
+
+list SubMenuItems
+{
+	BaseMenuItem
+}
+
+enum OGame_UIOptionMenu
+{
+	Gameplay
+	Languages_Subtitles
+	Audio
+	Visual
+	Graphics
+	Display
+	
+	Return_To_Title
+	Ubisoft_Club
+	Credits
+	DEBUG
+	Legacy
+	News
+	Photo_Mode
+
+	Keyboard_Mouse_Options
+	Controller
+	Hud
+	Quit_To_Desktop
+}
+
+class UIOptionMenuDescription < uid=auto >
+{
+	OGame_UIOptionMenu myOption
+	varmap myTitle < bhv = "localization" >
+	bool myIsSlotSpecific false
+	bool myIsRestrictedToPrimaryPlayer false
+
+	SubMenuItems myMenuItems
+}
+
+list UIMenuItems
+{
+	UIOptionMenuDescription
+}

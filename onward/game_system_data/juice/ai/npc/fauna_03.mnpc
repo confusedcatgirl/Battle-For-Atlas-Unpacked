@@ -1,0 +1,30 @@
+include ./fauna_base.mnpc
+
+NPC fauna_03 < uid=4A8282B956D86F320000006CEB5AFFEF > : fauna_base
+{
+	myUIName_NonLocalized Blub-Blub
+	myGraphObjectFile "onward/graph objects/character/fauna_03.mgraphobject"
+	myPhysicsCapsuleHeight 3.0
+	myPhysicsSupportHeight -2.0
+	myPhysicsCapsuleRadius 2.0
+	myPhysicsPusherCapsuleRadius 4.5
+	myPhysicsCapsuleOriented FALSE
+	myPhysicsPusherCapsule TRUE
+	myPhysicsCapsuleStart 0.0;12.0;10.0
+	myPhysicsCapsuleEnd 0.0;8.0;-2.0
+	myGroundOrientationFraction 0.5
+	myHitReactionConstants "onward/game system data/juice/combat/hitreactionsconstants_fauna_medium.juice"
+	myPatternProfile < uid=4A8282B957BB265B000000B05863A5B8 > = "Fauna 03"
+	myDefaultMotionPattern < uid=4A8282B957BB265B000000B11D2E91BA > = "Fauna 03 Default"
+	myAvoidanceRadius 5.0
+	myNPCType Fauna_03
+	myAnimSystemType Fauna_03
+	myLeggedness Biped
+	mySteeringParameters "onward/game system data/juice/ai/steering/fauna_03.juice"
+	myAIVisionConeTypeName SkittishFaunaVisionCone
+	myDefaultFootstepEvent 4FC318F25E87E886CAD4376E24B9B29A
+	myOnDeathChallenge Death_Fauna03
+	myOnDiscoveredChallenge Discover_Fauna03
+	myFullyScannedChallenge FullyScan_Fauna03
+}
+

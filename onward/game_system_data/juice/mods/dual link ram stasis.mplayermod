@@ -1,0 +1,39 @@
+include ./template_pod.mplayermod
+
+PlayerMod "dual link ram stasis" < uid=C91BB5515848945F0000033F8B8549DC > : template_pod
+{
+	myAttributeMods
+	{
+		AttributeMod "damage * 2"
+		{
+			myType DMG_Float
+			myMultValue 2.0
+		}
+		AttributeMod "energy * .9"
+		{
+			myType Ability_Energy
+			myMultValue 0.9
+		}
+		AttributeMod "energy over time * .9"
+		{
+			myType Ability_Energy2
+			myMultValue 0.9
+		}
+		AttributeMod "stasis * 2"
+		{
+			myType StatusEffect_Stasis
+			myMultValue 2.0
+		}
+		AttributeMod "charge time * .5"
+		{
+			myType Ability_ChargeTime
+			myMultValue 0.5
+		}
+	}
+	myActivationTypes
+	{
+		ModActivationType OnEquip OnEquip
+	}
+	myIcon onward/baked/textures/ui/pilot_skills/ui_pilotskills_icon_locked7.dds
+}
+

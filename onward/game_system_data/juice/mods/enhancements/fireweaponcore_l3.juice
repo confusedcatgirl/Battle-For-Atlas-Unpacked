@@ -1,0 +1,21 @@
+include ./templates/template_l3.juice
+include "onward/game system data/juice/mods/mod_fire_weaponcore_l3.mplayermod"
+
+Enhancement fireweaponcore_l3 < uid=C91BB5515982255100088314569811F2 > : "Level 3"
+{
+	myLocalizedName "contextComment = \"[Placeholder - do not translate]\nName for Level 3 version of Fire Weapon Core mod, which boosts effectiveness of Heat-type weapons\", description = \"\", enabled = true, guid = #C91BB5515982255100088313A24BEB4F, lineVersion = 2, maxLength = 23, text = \"Scorching Ammo III\""
+	myLocalizedDescription "contextComment = \"[Placeholder - do not translate]\nDescription for level 3 version of Fire Weapon Core mod, which can only be equipped to Heat-type weapons and boosts damage, rate of fire, and adds a chance that shooting a damaged target will drop a health regenerating pickup\", description = \"enhancement-dscription-fire-weapon-core-3\", enabled = true, guid = #9E6AFEDA59D257EA00A86092A593AECA, lineVersion = 2, maxLength = 107, text = \"+20% Damage\n+50 Fire Rate\n+Heals for 10% of Damage done\nEquip on Heat type weapons\""
+	myIconSprite "mySpriteId = -1236023428, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-mods-weapon-core.spritesheet\""
+	myPartFlavor Heat
+	myMod < uid=C91BB5515982255100088315770660E2 > = mod_fire_weaponcore_l3
+	myEnhancementType WeaponCore
+	myEnhancementTrackType FireWeaponCore
+	myDamageAffectors
+	{
+		DamageAffector_DamageToHealth "Damage to Health"
+		{
+			myDamageToHealthRatio = Fire_WeaponCore_l3_DmgToHealth
+		}
+	}
+}
+

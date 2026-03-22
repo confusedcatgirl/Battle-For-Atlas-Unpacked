@@ -1,0 +1,63 @@
+include ./harvester_imp_base.mnpc
+include onward/skillscripts/npc_affinity_harvester_imp_crush_enter.mskillscriptjuice
+include onward/skillscripts/npc_affinity_harvester_imp_crush_exit.mskillscriptjuice
+include onward/skillscripts/npc_affinity_harvester_imp_crush_running.mskillscriptjuice
+
+NPC harvester_imp_crush < uid=C92F4D3F57E14C3A0004F937D6B1F405 > : harvester_imp_base
+{
+	myUIName "contextComment = \"The UI Name for the Crush Imp\", description = \"uiname-harvester-imp-crush\", enabled = true, guid = #93869D535AB15B0B00001D6ACF6F15F6, lineVersion = 0, maxLength = 14, text = \"Crush Imp\""
+	myUIName_NonLocalized "Crush Imp"
+	myGraphObjectFile "onward/graph objects/character/harvester_09.mgraphobject"
+	myHealthConfig < uid=4A8282B959F8E98200001DF5FE1D65AF > = "harvester_imp_crush Health"
+	myFireReaction < uid=C92F4D3F591DD027000001D7B6788647 > = Base_Fire
+	myGravityReaction < uid=4A8282B95818DDC40091EB1738ACBD3B > = Affinity_Gravity
+	myBlackholeReaction < uid=939A354159DFA8DA00288962887688FE > = Affinity_BlackHole
+	myAbilityDefinitions
+	{
+		NPCAbilityDefinition "Jump Attach"
+		{
+			myGameAction NPC_Ability1
+			mySkillScript < uid=4A8282B9587D3C7E001170E22A7ECEDE > = npc_ability_imp_attach
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_harvester_imp_crush_jump_attach.juice"
+		}
+		NPCAbilityDefinition "Self Destruct"
+		{
+			myGameAction NPC_Ability2
+			mySkillScript < uid=4A8282B9587D3C7E001170E3D2B27B97 > = npc_ability_harvester_imp_generic_self_destruct
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_harvester_imp_crush_self_destruct.juice"
+		}
+		NPCAbilityDefinition "Rock Throw"
+		{
+			myGameAction NPC_Ability3
+			mySkillScript < uid=4A8282B95AA8087F0308AC148119A527 > = npc_ability_harvester_imp_generic_rock_throw
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_harvester_imp_generic_rock_throw.juice"
+		}
+	}
+	myAffinityDefinition
+	{
+		myAffinityType Crush
+		myDuration 10.0
+		myEnterSkillScript < uid=4A8282B95877C74F0000030A6B55F1E4 > = npc_affinity_harvester_imp_crush_enter
+		myRunningSkillScript < uid=4A8282B95877C74F0000030BD96C4F37 > = npc_affinity_harvester_imp_crush_running
+		myExitSkillScript < uid=4A8282B95877C74F0000030C700D24A4 > = npc_affinity_harvester_imp_crush_exit
+	}
+	myResistanceSettings "onward/game system data/juice/ai/resistance/crush_affinity_resistance.juice"
+	myAttributeSettings "onward/game system data/juice/ai/attributes/harvester_imp_crush.juice"
+	myCrowdControlAttributeSettings "onward/game system data/juice/ai/attributes/crowd control tiers/npc_cc_tier2.juice"
+	myDropTableOnDeath Kill_Imp_Crush_Drop_Table
+	myDropTableOnAffinityWeaknessDeathId AffinityKill_Imp_Crush
+	myPhysicsCapsuleHeight 1.5
+	myPhysicsSupportHeight -1.5
+	myPhysicsCapsuleRadius 1.0
+	myPatternProfile < uid=4A8282B9590A1F4A000001F16D935AEA > = "Harvester Imp Crush"
+	myDefaultMotionPattern < uid=4A8282B9590A1F4A000001F2BAD55163 > = "Harvester Imp Crush Default"
+	myAvoidanceRadius 1.5
+	myNPCType Harvester_Imp_Crush
+	myAnimSystemType Harvester_Imp_Crush
+	myDefaultFootstepEvent 42A127576B790403733984991E3C0DAD
+	myHitReactionRules "onward/game system data/juice/ai/reactions/reaction_rules_npc_medium.juice"
+	myOnDeathChallenge Death_ImpCrush
+	myOnDiscoveredChallenge Discover_ImpCrush
+	myHackLevel 2
+}
+

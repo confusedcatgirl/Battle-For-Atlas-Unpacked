@@ -1,0 +1,70 @@
+include "onward/game system data/fruit/sim/simunit.fruit"
+
+SimUnit creep_imp_leader_cold < uid=8A9CA2865A74DD0300003CE3E39A612C >
+{
+	myUIName "contextComment = \"\", description = \"uiname-creep_squad\", enabled = true, guid = #954305805A4E54B300001B7BA4957E83, lineVersion = 1, maxLength = 14, text = \"Imp Squad\""
+	myBehavior onward/simworld/behavior/creep_squad.msimunitbtgraph
+	myFaction Harvester
+	myCategory NPC
+	mySubCategory CreepSquad
+	mySubCategoryVariant 0
+	myRadius 8.0
+	mySpeed 40.0
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo Imp < uid=8A9CA2865A74DD0300003CE4BDDD7E28 >
+		{
+			myCountMin 1
+			myCountMax 4
+			myEntitySize 2.0
+			myEntityFile ""
+			myElementSpawnInfo
+			{
+				SimUnitElementSpawnInfo Imp
+				{
+					myEntityFile "onward/game system data/juice/ai/npc/harvester_imp_base.mnpc"
+				}
+			}
+		}
+		SimUnitEntitySpawnInfo FireImp < uid=8A9CA2865A74DD0300003CE53A3E08D4 >
+		{
+			myCountMin 0
+			myCountMax 0
+			myElementSpawnInfo
+			{
+				SimUnitElementSpawnInfo FireImps
+				{
+					myEntityFile "onward/game system data/juice/ai/npc/harvester_imp_heat.mnpc"
+				}
+			}
+		}
+		SimUnitEntitySpawnInfo ColdImp < uid=8A9CA2865A74DD0300003CE695A7F3BD >
+		{
+			myCountMin 1
+			myCountMax 1
+			myElementSpawnInfo
+			{
+				SimUnitElementSpawnInfo imp
+				{
+					myEntityFile "onward/game system data/juice/ai/npc/harvester_imp_cold.mnpc"
+				}
+			}
+		}
+		SimUnitEntitySpawnInfo CrushImp < uid=8A9CA2865A74DD0300003CE7A5047324 >
+		{
+			myElementSpawnInfo
+			{
+				SimUnitElementSpawnInfo imps
+				{
+					myEntityFile "onward/game system data/juice/ai/npc/harvester_imp_crush.mnpc"
+				}
+			}
+		}
+	}
+	myRealizeOnLeader FALSE
+	mySkillLevelCoefficients
+	{
+		myParentSkillLevelMultiplier 1
+	}
+}
+

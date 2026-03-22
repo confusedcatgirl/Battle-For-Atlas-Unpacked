@@ -1,0 +1,533 @@
+include "onward/game system data/fruit/animation/animsys.fruit"
+
+SpecializationList mySpecializations
+{
+}
+
+FileList mySubsystems
+{
+}
+
+MotionPose "Ready (Idle / IC)"
+{
+	myStateName Ready
+	myAnimModes Speed_Idle;MoveStyle_InCombat;
+	myAnimsOut "TR_IC Idle To OOC Idle;TR_IC Idle To IC Run;GTR_To Dash;GTR_ToRagdoll;GTR_To Die;GTR_To Dormant;"
+}
+
+TransitionMotionState GTR_FromRagdoll < uid=4A8282B9573A27F5000734D3D132E298 >
+{
+	myEnabled FALSE
+	myTotalDuration 0.0
+	myDistance 0.0
+	myAnimationDuration 0.0
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.0
+	myAnimsOut "IC TurnOnSpot;Ready (Idle / IC);Ready (Idle / OOC);Ready (Run / IC);Ready (Walk OOC (Also used IC));OOC TurnOnSpot;Dash;Stumble;Jump And Attach;Jump Attach Fail;AttachedToAgent;RamSuccess;Die;War Cry;Dormant;Stunned;Throw;EnterWorld;PreEnterWorld;ExitWorld;"
+	myDisplacementAngle 0.0
+	myRotationAngle 0.0
+	myIsGlobalTransition TRUE
+	myGlobalTransitionPriority 0
+}
+
+MotionPose "Ready (Idle / OOC)"
+{
+	myStateName Ready
+	myAnimModes Speed_Idle;MoveStyle_Default;MoveStyle_Polluted;
+	myAnimsOut "TR_OOC Idle To IC Idle;TR_OOC Idle To OOC Walk;GTR_To Dash;GTR_ToRagdoll;GTR_To Die;GTR_To Dormant;"
+}
+
+TransitionMotionState "TR_IC Idle To OOC Idle" < uid=4A8282B9573A27F5000734D43C194A91 >
+{
+	myEnabled TRUE
+	myTotalDuration 0.846667
+	myDistance 0.0
+	myAnimationDuration 1.166667
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.0
+	myAnimsOut "Ready (Idle / OOC);"
+	myDisplacementAngle 0.0
+	myRotationAngle 0.0
+	myIsGlobalTransition FALSE
+	myGlobalTransitionPriority 0
+}
+
+MotionPose "Ready (Run / IC)"
+{
+	myStateName Ready
+	myAnimModes Speed_Run;MoveStyle_InCombat;
+	myAnimsOut "Jump And Attach;TR_IC Run To IC Idle;TR_OC Run To OOC Walk;GTR_To Dash;GTR_ToRagdoll;GTR_To Die;GTR_To Dormant;"
+}
+
+TransitionMotionState "TR_IC Idle To IC Run" < uid=4A8282B9573A27F5000734D52A8F96BB >
+{
+	myEnabled TRUE
+	myTotalDuration 0.18
+	myDistance 1.831636
+	myAnimationDuration 0.5
+	myAnimationDistance 1.831636
+	myHorizontalDistance 1.831636
+	myVerticalDisplacement 0.0
+	myAnimsOut "Ready (Run / IC);Jump And Attach;"
+	myDisplacementAngle -0.000066
+	myRotationAngle 0.0
+	myIsGlobalTransition FALSE
+	myGlobalTransitionPriority 0
+}
+
+TransitionMotionState "TR_IC Run To IC Idle" < uid=4A8282B9573A27F5000734D6802EAFAD >
+{
+	myEnabled TRUE
+	myTotalDuration 0.18
+	myDistance 2.080481
+	myAnimationDuration 0.5
+	myAnimationDistance 2.080481
+	myHorizontalDistance 2.080481
+	myVerticalDisplacement 0.000002
+	myAnimsOut "Ready (Idle / IC);"
+	myDisplacementAngle 0.0
+	myRotationAngle 0.0
+	myIsGlobalTransition FALSE
+	myGlobalTransitionPriority 0
+}
+
+MotionPose "Ready (Walk OOC (Also used IC))"
+{
+	myStateName Ready
+	myAnimModes Speed_Walk;MoveStyle_Default;MoveStyle_InCombat;MoveStyle_Polluted;
+	myAnimsOut "TR_OOC Walk To IC Run;TR_OOC Walk To OOC Idle;GTR_To Dash;GTR_ToRagdoll;GTR_To Die;GTR_To Dormant;"
+}
+
+TransitionMotionState "TR_OC Run To OOC Walk" < uid=4A8282B9573A27F5000734D7C64EBB12 >
+{
+	myEnabled TRUE
+	myTotalDuration 0.413333
+	myDistance 9.033174
+	myAnimationDuration 0.733333
+	myAnimationDistance 9.033174
+	myHorizontalDistance 9.033174
+	myVerticalDisplacement 0.000004
+	myAnimsOut "Ready (Walk OOC (Also used IC));"
+	myDisplacementAngle -0.000066
+	myRotationAngle 0.0
+	myIsGlobalTransition FALSE
+	myGlobalTransitionPriority 0
+}
+
+TransitionMotionState "TR_OOC Idle To IC Idle" < uid=4A8282B9573A27F5000734D830F52C88 >
+{
+	myEnabled FALSE
+	myTotalDuration 0.0
+	myDistance 0.0
+	myAnimationDuration 0.0
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.0
+	myAnimsOut "Ready (Idle / IC);"
+	myDisplacementAngle 0.0
+	myRotationAngle 0.0
+	myIsGlobalTransition FALSE
+	myGlobalTransitionPriority 0
+}
+
+TransitionMotionState "TR_OOC Walk To IC Run" < uid=4A8282B9573A27F5000734D966995E63 >
+{
+	myEnabled TRUE
+	myTotalDuration 0.613333
+	myDistance 9.405841
+	myAnimationDuration 0.933333
+	myAnimationDistance 9.405841
+	myHorizontalDistance 9.405841
+	myVerticalDisplacement 0.000004
+	myAnimsOut "Ready (Run / IC);"
+	myDisplacementAngle 0.000105
+	myRotationAngle 0.0
+	myIsGlobalTransition FALSE
+	myGlobalTransitionPriority 0
+}
+
+TransitionMotionState "TR_OOC Walk To OOC Idle" < uid=4A8282B9573A27F5000734DA933FC6DA >
+{
+	myEnabled TRUE
+	myTotalDuration 0.513333
+	myDistance 0.0
+	myAnimationDuration 0.833333
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.0
+	myAnimsOut "Ready (Idle / OOC);"
+	myDisplacementAngle 0.0
+	myRotationAngle 0.0
+	myIsGlobalTransition FALSE
+	myGlobalTransitionPriority 0
+}
+
+TransitionMotionState "TR_OOC Idle To OOC Walk" < uid=4A8282B9573A27F5000734DCB9129063 >
+{
+	myEnabled TRUE
+	myTotalDuration 0.146667
+	myDistance 0.570904
+	myAnimationDuration 0.466667
+	myAnimationDistance 0.570904
+	myHorizontalDistance 0.570904
+	myVerticalDisplacement 0.0
+	myAnimsOut "Ready (Walk OOC (Also used IC));"
+	myDisplacementAngle 0.0
+	myRotationAngle 0.0
+	myIsGlobalTransition FALSE
+	myGlobalTransitionPriority 0
+}
+
+OneshotMotionStateWithModes Dash < uid=4A8282B9573A27F5000734DD15D4AB64 >
+{
+	myEnabled TRUE
+	myStateName Dash
+	myTotalDuration 0.0
+	myDistance 0.0
+	myAnimationDuration 0.0
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.0
+	myAnimsOut "GTR_From Dash;TR_From Dash;GTR_To Die;GTR_To Dormant;GTR_ToRagdoll;"
+	myAnimCommand Dash
+	myDisplacementAngle 0.0
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;MoveStyle_Default;MoveStyle_InCombat;MoveStyle_Polluted;
+}
+
+TransitionMotionState "GTR_To Dash" < uid=4A8282B9573A27F5000734DE78B0B612 >
+{
+	myEnabled TRUE
+	myTotalDuration 0.08
+	myDistance 3.57698
+	myAnimationDuration 0.4
+	myAnimationDistance 3.57698
+	myHorizontalDistance 3.57698
+	myVerticalDisplacement 0.000004
+	myAnimsOut Dash;
+	myDisplacementAngle 0.0
+	myRotationAngle 0.0
+	myIsGlobalTransition TRUE
+	myGlobalTransitionPriority 0
+}
+
+TransitionMotionState "GTR_From Dash" < uid=4A8282B9573A27F5000734DF8B15A6C9 >
+{
+	myEnabled TRUE
+	myTotalDuration 2.68
+	myDistance 14.100974
+	myAnimationDuration 3.0
+	myAnimationDistance 14.100974
+	myHorizontalDistance 14.100974
+	myVerticalDisplacement 0.000004
+	myAnimsOut "IC TurnOnSpot;Ready (Idle / IC);Ready (Idle / OOC);Ready (Run / IC);Ready (Walk OOC (Also used IC));OOC TurnOnSpot;Stumble;Jump And Attach;Jump Attach Fail;AttachedToAgent;RamSuccess;Die;War Cry;Dormant;Stunned;Throw;EnterWorld;PreEnterWorld;Ragdoll_Recover;ExitWorld;"
+	myDisplacementAngle 0.000016
+	myRotationAngle 5.675251
+	myIsGlobalTransition TRUE
+	myGlobalTransitionPriority 0
+}
+
+OneshotMotionStateWithModes Stumble < uid=C92F4D3F5783F65A000000BC23AD42B0 >
+{
+	myEnabled TRUE
+	myStateName Stumble
+	myTotalDuration 2.88
+	myDistance 8.257482
+	myAnimationDuration 3.2
+	myAnimationDistance 8.257482
+	myHorizontalDistance 8.257482
+	myVerticalDisplacement 0.000004
+	myAnimsOut "GTR_To Dash;GTR_ToRagdoll;GTR_To Die;GTR_To Dormant;"
+	myAnimCommand Stumble
+	myDisplacementAngle 179.999908
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;MoveStyle_Default;MoveStyle_InCombat;MoveStyle_Polluted;
+}
+
+OneshotMotionState "Jump And Attach" < uid=4A8282B9578904FE0000012937A06CBC >
+{
+	myEnabled TRUE
+	myStateName "Jump And Attach"
+	myTotalDuration 0.7
+	myDistance 20.373964
+	myAnimationDuration 0.7
+	myAnimationDistance 20.373964
+	myHorizontalDistance 20.373964
+	myVerticalDisplacement 0.000004
+	myAnimsOut "GTR_To Dash;GTR_ToRagdoll;GTR_To Die;GTR_To Dormant;"
+	myAnimCommand JumpAndAttach
+	myDisplacementAngle -2.757942
+	myPlayability WhenInMovement
+}
+
+OneshotMotionState "Jump Attach Fail" < uid=4A8282B9578D36E80022F22189E96F5D >
+{
+	myEnabled TRUE
+	myStateName "Jump Attach Fail"
+	myTotalDuration 3.0
+	myDistance 0.0
+	myAnimationDuration 3.0
+	myAnimsOut "GTR_To Dash;GTR_ToRagdoll;GTR_To Die;GTR_To Dormant;"
+	myAnimCommand JumpAttachFail
+	myDisplacementAngle -0.0001
+}
+
+MotionPose AttachedToAgent
+{
+	myStateName AttachedToAgent
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;MoveStyle_Default;MoveStyle_InCombat;MoveStyle_Polluted;
+	myAnimsOut "GTR_To Dash;GTR_ToRagdoll;GTR_To Die;GTR_To Dormant;"
+}
+
+OneshotMotionState RamSuccess < uid=4A8282B95797C1EF000000DFE9643239 >
+{
+	myEnabled TRUE
+	myStateName RamSuccess
+	myTotalDuration 0.446667
+	myDistance 0.0
+	myAnimationDuration 0.766667
+	myAnimsOut "GTR_To Dash;GTR_ToRagdoll;GTR_To Die;GTR_To Dormant;"
+	myAnimCommand RamSuccess
+	myDisplacementAngle 0.0
+}
+
+TransitionMotionState GTR_ToRagdoll < uid=4A8282B957AB8EF100000151594B6802 >
+{
+	myEnabled FALSE
+	myTotalDuration 0.0
+	myDistance 0.0
+	myAnimationDuration 0.0
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.0
+	myAnimsOut Ragdoll_Recover;
+	myDisplacementAngle 0.0
+	myRotationAngle 0.0
+	myIsGlobalTransition TRUE
+	myGlobalTransitionPriority 0
+}
+
+OneshotMotionStateWithModes "IC TurnOnSpot" < uid=4A8282B957AB8F1F00000152D1CF1BA5 >
+{
+	myStateName "IC TurnOnSpot"
+	myTotalDuration 1.68
+	myDistance 0.0
+	myAnimationDuration 2.0
+	myAnimsOut "GTR_To Dash;GTR_ToRagdoll;GTR_To Die;GTR_To Dormant;"
+	myAnimCommand StaticTurn
+	myDisplacementAngle 0.0
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;MoveStyle_InCombat;
+}
+
+OneshotMotionStateWithModes "OOC TurnOnSpot" < uid=4A8282B957AB8F1F0000015323AEAEF3 >
+{
+	myStateName "OOC TurnOnSpot"
+	myTotalDuration 3.346667
+	myDistance 0.0
+	myAnimationDuration 3.666667
+	myAnimsOut "GTR_To Dash;GTR_ToRagdoll;GTR_To Die;GTR_To Dormant;"
+	myAnimCommand StaticTurn
+	myDisplacementAngle 0.0
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;MoveStyle_Default;MoveStyle_Polluted;
+}
+
+TransitionMotionState "GTR_To Die" < uid=4A8282B957BCA90800000190109CE031 >
+{
+	myEnabled TRUE
+	myTotalDuration 1.48
+	myDistance 3.356136
+	myAnimationDuration 1.8
+	myAnimationDistance 3.356136
+	myHorizontalDistance 3.356136
+	myVerticalDisplacement 0.000004
+	myAnimsOut Die;
+	myDisplacementAngle -0.006307
+	myRotationAngle 0.0
+	myIsGlobalTransition TRUE
+	myGlobalTransitionPriority 0
+}
+
+OneshotMotionStateWithModes Die < uid=4A8282B957BCB52E01F0BA5D7ADE08FF >
+{
+	myEnabled TRUE
+	myStateName Die
+	myTotalDuration 0.0
+	myDistance 0.0
+	myAnimationDuration 0.0
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.0
+	myAnimsOut "GTR_To Dash;GTR_ToRagdoll;GTR_To Dormant;"
+	myAnimCommand Die
+	myDisplacementAngle 0.0
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;MoveStyle_Default;MoveStyle_InCombat;MoveStyle_Polluted;
+}
+
+OneshotMotionStateWithModes "War Cry" < uid=4A8282B957BCBC7F02C04E0E0E2FD787 >
+{
+	myEnabled TRUE
+	myStateName "War Cry"
+	myTotalDuration 2.013333
+	myDistance 0.0
+	myAnimationDuration 2.333333
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.0
+	myAnimsOut "GTR_To Dash;GTR_ToRagdoll;GTR_To Die;GTR_To Dormant;"
+	myAnimCommand "War Cry"
+	myDisplacementAngle 0.0
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;MoveStyle_Default;MoveStyle_InCombat;MoveStyle_Polluted;
+}
+
+TransitionMotionState "GTR_To Dormant" < uid=4A8282B9581B978C00000405C507FA10 >
+{
+	myEnabled TRUE
+	myTotalDuration 1.513333
+	myDistance 0.0
+	myAnimationDuration 1.833333
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.0
+	myAnimsOut Dormant;
+	myDisplacementAngle 0.0
+	myRotationAngle 0.0
+	myIsGlobalTransition TRUE
+	myGlobalTransitionPriority 0
+}
+
+TransitionMotionState "GTR_From Dormant" < uid=4A8282B9581B978C00000406A98729CC >
+{
+	myEnabled TRUE
+	myTotalDuration 1.346667
+	myDistance 0.0
+	myAnimationDuration 1.666667
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.0
+	myAnimsOut "Dash;Ragdoll_Recover;Die;IC TurnOnSpot;Ready (Idle / IC);Ready (Idle / OOC);Ready (Run / IC);Ready (Walk OOC (Also used IC));OOC TurnOnSpot;Stumble;Jump And Attach;Jump Attach Fail;AttachedToAgent;RamSuccess;War Cry;Stunned;Throw;EnterWorld;PreEnterWorld;ExitWorld;"
+	myDisplacementAngle 0.0
+	myRotationAngle 0.0
+	myIsGlobalTransition TRUE
+	myGlobalTransitionPriority 0
+}
+
+MotionPose Dormant
+{
+	myStateName Dormant
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;MoveStyle_Default;MoveStyle_InCombat;MoveStyle_Polluted;
+	myAnimsOut "GTR_To Dash;GTR_From Dormant;GTR_ToRagdoll;GTR_To Die;"
+}
+
+MotionPose Stunned
+{
+	myStateName Stunned
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;MoveStyle_Default;MoveStyle_InCombat;MoveStyle_Polluted;
+	myAnimsOut "GTR_To Dash;GTR_ToRagdoll;GTR_To Die;GTR_To Dormant;"
+}
+
+OneshotMotionStateWithModes EnterWorld < uid=C92F4D3F58249D440000034E2CED1549 >
+{
+	myEnabled TRUE
+	myStateName EnterWorld
+	myTotalDuration 0.946667
+	myDistance 0.0
+	myAnimationDuration 1.266667
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.0
+	myAnimsOut "GTR_To Dash;GTR_ToRagdoll;GTR_To Die;GTR_To Dormant;"
+	myAnimCommand EnterWorld
+	myDisplacementAngle 0.0
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;MoveStyle_Default;MoveStyle_InCombat;MoveStyle_Polluted;
+}
+
+TransitionMotionState "TR_From Dash" < uid=4A8282B95903B765006826F84252828C >
+{
+	myEnabled FALSE
+	myTotalDuration 0.0
+	myDistance 0.0
+	myAnimationDuration 0.0
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.0
+	myAnimsOut Stumble;AttachedToAgent;RamSuccess;Die;Stunned;Ragdoll_Recover;
+	myDisplacementAngle 0.0
+	myRotationAngle 0.0
+	myIsGlobalTransition FALSE
+	myGlobalTransitionPriority 0
+}
+
+MotionPose PreEnterWorld
+{
+	myStateName PreEnterWorld
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;MoveStyle_Default;MoveStyle_InCombat;MoveStyle_Polluted;
+	myAnimsOut "GTR_To Dash;GTR_ToRagdoll;GTR_To Die;GTR_To Dormant;"
+}
+
+LayerMotionState "UpperBody_OnFire (Global)"
+{
+	myLayerName UpperBody_OnFire
+	myTotalDuration 0.0
+	myIsLoop TRUE
+}
+
+LayerMotionState "UpperBody_OnFire (Local)"
+{
+	myLayerName UpperBody_OnFire
+	myTotalDuration 0.0
+	myIsLoop TRUE
+	mySupportedStatesAndPoses "IC TurnOnSpot;Ready (Run / IC);Ready (Walk OOC (Also used IC));OOC TurnOnSpot;"
+}
+
+LayerMotionState "UpperBody_OnFire (Idle)"
+{
+	myLayerName UpperBody_OnFire
+	myTotalDuration 0.0
+	myIsLoop TRUE
+	mySupportedStatesAndPoses "Ready (Idle / IC);Ready (Idle / OOC);"
+}
+
+OneshotMotionState Ragdoll_Recover < uid=4A8282B959B2CBA300107B6A0899BED5 >
+{
+	myEnabled TRUE
+	myStateName Ragdoll_Recover
+	myTotalDuration 5.68
+	myDistance 4.495073
+	myAnimationDuration 6.0
+	myAnimationDistance 4.495073
+	myHorizontalDistance 4.495073
+	myVerticalDisplacement 0.000004
+	myAnimsOut "GTR_FromRagdoll;GTR_To Dash;GTR_To Die;GTR_To Dormant;"
+	myAnimCommand Ragdoll_Recover
+	myDisplacementAngle 0.006654
+}
+
+OneshotMotionStateWithModes Throw < uid=4A8282B95A8DBE90006772DCD93C138F >
+{
+	myEnabled TRUE
+	myStateName Throw
+	myTotalDuration 1.68
+	myDistance 0.0
+	myAnimationDuration 2.0
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.0
+	myAnimsOut "GTR_To Dash;GTR_ToRagdoll;GTR_To Die;GTR_To Dormant;"
+	myAnimCommand Throw
+	myDisplacementAngle 0.0
+	myAnimModes Speed_Idle;Speed_Walk;Speed_Run;MoveStyle_Default;MoveStyle_InCombat;MoveStyle_Polluted;
+}
+
+OneshotMotionState ExitWorld < uid=C92F4D3F5BD87A6C0095BCAC284DF3E7 >
+{
+	myStateName ExitWorld
+	myTotalDuration 1.666667
+	myDistance 0.0
+	myAnimationDuration 1.666667
+	myAnimationDistance 0.0
+	myHorizontalDistance 0.0
+	myVerticalDisplacement 0.0
+	myAnimsOut "GTR_To Dash;GTR_ToRagdoll;GTR_To Die;GTR_To Dormant;"
+	myDisplacementAngle 0.0
+}
+

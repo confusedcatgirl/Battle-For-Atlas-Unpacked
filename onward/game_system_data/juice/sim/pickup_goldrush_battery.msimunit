@@ -1,0 +1,25 @@
+include ./pickup_goldrush_equipment.msimunit
+include ./pickup_base.msimunit
+
+SimUnit pickup_goldrush_battery < uid=CC9485AB5AF5E23F00001ED62A28F292 > : pickup_base
+{
+	myUIName "contextComment = \"[DO NOT TRANSLATE] - Generic name for GoldRush Pickup\", description = \"uiname-pickup-goldrush-battery\", enabled = true, guid = #CC9485AB5AF5E23F00001ED5641D353F, lineVersion = 1, maxLength = 11, text = \"Battery\""
+	mySubCategory Battery
+	mySubCategoryVariant 0
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo InteractablePickup < uid=CC9485AB5AF5E23F00001ED76F3C3659 >
+		{
+			myCountMin 1
+			myCountMax 1
+			myIgnoreNavMesh FALSE
+			myIgnoreTerrain FALSE
+			myEntityFile "onward/entity templates/pickup_goldrush_battery.mentitytemplate"
+		}
+	}
+	myIsValidPickupTarget FALSE
+	mySelfDestructAfterUnrealized TRUE
+	myIconSprite "mySpriteId = 861665083, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-inventory-cores-and-nova.spritesheet\""
+	myMissionTargetTexture onward/baked/textures/UI/icons/outpost_targets/outpost_target_sim_unit/ui-icon-outpost-target-goldrush-battery.dds
+}
+

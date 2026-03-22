@@ -1,0 +1,144 @@
+include ./base_npc_space.mnpc
+include onward/skillscripts/npc_ability_harvester_drake_gatling.mskillscriptjuice
+include onward/skillscripts/npc_world_entry_harvester_cyclops_generic.mskillscriptjuice
+include onward/skillscripts/npc_world_entry_harvester_drake_generic.mskillscriptjuice
+include onward/skillscripts/npc_harvester_drake_vfx_listener.mskillscriptjuice
+
+NPC Pilot_Trial_Followed_Racer_Test < uid=5BF54C035C1A278D000003E9251E7463 > : base_npc_space
+{
+	myUIName "contextComment = \"The UI Name for the Drake\", description = \"uiname-harvester-drake-base\", enabled = true, guid = #5BF54C035C1A278D000003E8FC082A5D, lineVersion = 0, maxLength = 8, text = \"Drake\""
+	myUIName_NonLocalized Drake
+	myGraphObjectFile "onward/graph objects/character/followed_racer_test.mgraphobject"
+	myBehavior "onward/game system data/juice/ai/behavior/pilot_trial_followed_racer.mbehavior"
+	myGibSettings
+	{
+		myInitialSpeed 15.0
+		myInitialAngularSpeed 30.0
+		myDeleteGibsOutsideFOV TRUE
+		myGibTemplates
+		{
+			file "cranium plate" "onward/entity templates/ship_drake_craniumplate_gibs.mentitytemplate"
+			file gunflap "onward/entity templates/ship_drake_gunflap_gibs.mentitytemplate"
+			file gunleft "onward/entity templates/ship_drake_gunleft_gibs.mentitytemplate"
+			file gunlefttop "onward/entity templates/ship_drake_gunlefttop_gibs.mentitytemplate"
+			file gunrightbottom "onward/entity templates/ship_drake_gunrightbottom_gibs.mentitytemplate"
+			file gunrighttop "onward/entity templates/ship_drake_gunrighttop_gibs.mentitytemplate"
+			file stinger "onward/entity templates/ship_drake_stinger_gibs.mentitytemplate"
+			file stingerflap "onward/entity templates/ship_drake_stingerflap_gibs.mentitytemplate"
+			file torsohull "onward/entity templates/ship_drake_torsohull_gibs.mentitytemplate"
+			file torsoleftflap "onward/entity templates/ship_drake_torsoleftflap_gibs.mentitytemplate"
+			file torsorightflap "onward/entity templates/ship_drake_torsorightflap_gibs.mentitytemplate"
+		}
+	}
+	myHealthConfig < uid=5BF54C035C1A278D000003EA4224DBE2 > = "harvester_drake_base Health"
+	myDeathSettings
+	{
+		myDieOnFlightStaticCollision FALSE
+	}
+	myFireReaction < uid=5BF54C035C1A278D000003EBB698A650 > = Space_Fire
+	myAbilityDefinitions
+	{
+		NPCAbilityDefinition Gatling
+		{
+			myGameAction NPC_Ability1
+			mySkillScript < uid=5BF54C035C1A278D000003EC0B7F281C > = npc_ability_harvester_drake_gatling
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_harvester_drake_gatling.juice"
+			myEnabled TRUE
+		}
+		NPCAbilityDefinition "Homing Missiles"
+		{
+			myGameAction NPC_Ability2
+			mySkillScript < uid=5BF54C035C1A278D000003EDDD14F87C > = npc_ability_homing_missile
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_homing_missiles.juice"
+			myEnabled FALSE
+		}
+		NPCAbilityDefinition Laser
+		{
+			myGameAction NPC_Ability3
+			mySkillScript < uid=5BF54C035C1A278D000003EEB98BD3F7 > = npc_ability_laser
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_laser.juice"
+			myEnabled FALSE
+		}
+		NPCAbilityDefinition "HyperDrive Jammer"
+		{
+			myGameAction NPC_Ability10
+			mySkillScript < uid=5BF54C035C1A278D000003EFCA5248B0 > = npc_ability_hyperdrive_jammer
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_hyperdrive_jammer.juice"
+			myEnabled TRUE
+		}
+		NPCAbilityDefinition "Heavy Gatling"
+		{
+			myGameAction NPC_Ability4
+			mySkillScript < uid=5BF54C035C1A278D000003F0389FA62E > = npc_ability_outlaw_heavy_gatling
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_outlaw_heavy_gatling.juice"
+			myEnabled FALSE
+		}
+	}
+	myPersistentScripts
+	{
+		SkillScript "VFX Listener" < uid=5BF54C035C1A278D000003F142326E59 > = npc_harvester_drake_vfx_listener
+	}
+	myAttributeSettings "onward/game system data/juice/ai/attributes/harvester_drake_base.juice"
+	myCrowdControlAttributeSettings "onward/game system data/juice/ai/attributes/crowd control tiers/npc_cc_tier3.juice"
+	myDropTableOnDeath Kill_Drake_Drop_Table
+	myDropTableOnDamage Drake_Base_Incremental
+	myDamageDropInterval 0.25
+	myMass 600.0
+	myLinearInertiaThreshold 2200.0
+	myMaxLinearForce 450000.0
+	myDynamicFriction 0.0
+	myPhysicsCapsuleHeight 0.1
+	myPhysicsSupportHeight 0.0
+	myPhysicsCapsuleRadius 6.0
+	myPhysicsSnapToGround FALSE
+	myIsCollisionEnabled FALSE
+	myHasSkinnedCollision FALSE
+	myIsAffectedByGravity FALSE
+	myImpactCategorySettings "onward/game system data/juice/combat/impactcategorysettings_default_space.juice"
+	myNeedsGroundToSteer FALSE
+	myNeedsGroundToMove FALSE
+	myUseNavMeshForMovement FALSE
+	myPatternProfile < uid=5BF54C035C1A278D000003F2A5C11983 > = "Harvester Drake"
+	myDefaultMotionPattern < uid=5BF54C035C1A278D000003F3FD8ED243 > = "Harvester Drake Intercept"
+	myAvoidanceRadius 9.0
+	myNPCFaction Harvester
+	myNPCType Harvester_Drake
+	myAnimSystemType Civ_Raider
+	myThreatLevel 10.0
+	myBaseThreatProfile
+	{
+		myDeAggroRange 2000.0
+		myHarvesterBaseThreat 0.0
+		myCloseRange 100.0
+		myMediumRange 300.0
+		myLongRange 500.0
+		myExtremeRange 800.0
+	}
+	myVisibleToAwareness FALSE
+	mySteeringParameters "onward/game system data/juice/ai/race/victorylap_racer.juice"
+	myAgentController DefaultAgentController
+	myAIVisionConeTypeName DrakeVisionCone
+	myIsTargetable FALSE
+	myIsScannable FALSE
+	myDamageReactionSettings "onward/game system data/juice/ai/reactions/damage_reactions_harvester_drake_base.juice"
+	myHitReactionRules "onward/game system data/juice/ai/reactions/reaction_rules_npc_space.juice"
+	myConstructionDuration 5.0
+	myDefaultNavigationType Newtonian
+	myOnDeathChallenge Death_Drake
+	myOnDiscoveredChallenge Discover_Drake
+	myPreWorldEntrySkillScript < uid=5BF54C035C1A278D000003F438E5B50A > = npc_world_entry_harvester_drake_generic
+	myUseVisualImpactProcessor TRUE
+	myVisualImpactSettings
+	{
+		myAngularStrengthMin 0.5
+		myAngularStrengthMax 2.0
+		myUseFixedMass TRUE
+		myFixedMass 100.0
+	}
+}
+

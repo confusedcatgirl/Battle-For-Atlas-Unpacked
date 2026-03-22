@@ -1,0 +1,241 @@
+include "onward/game system data/fruit/ui/uifirmware_messages.fruit"
+
+FirmwareUpdateErrors myFirmwareUpdateErrors
+{
+	myFallBackError
+	{
+		myTitle "contextComment = \"[Placeholder – DO NOT TRANSLATE]\nThis is the fallback message displayed if no entry is found in the Error List\", description = \"ui-firmware-message-update-error-fallback-title\", enabled = true, guid = #B612095358EFDE6C0000B46E1D2DA5CB, lineVersion = 0, maxLength = 60, text = \"There was an error flashing firmware to device\""
+		myMessage "contextComment = \"[Placeholder – DO NOT TRANSLATE]\nThis is the fallback message displayed if no entry is found in the Error List\", description = \"ui-firmware-message-update-error-fallback-message\", enabled = true, guid = #B612095358EFDD25000095938B1AD87A, lineVersion = 0, maxLength = 53, text = \"Contact Support at www.onward.com/support\""
+		myErrorCode STARLINK-20
+	}
+}
+
+FirmwareToySwapErrors myToySwapErrors
+{
+	myFallBackError
+	{
+		myTitle "contextComment = \"[Placeholder – DO NOT TRANSLATE]\", description = \"fallback-toyswap-error-title\", enabled = true, guid = #B61209535938375D00008895F4BF2098, lineVersion = 0, maxLength = 26, text = \"Fallback Error Title\""
+		myErrorList
+		{
+			ToySwapMessage PS4
+			{
+				myText "contextComment = \"[Placeholder – DO NOT TRANSLATE]\", description = \"fallback-toyswap-error-ps4-message\", enabled = true, guid = #B6120953593836ED00008889217CF233, lineVersion = 0, maxLength = 29, text = \"Fallback Error for PS4\""
+			}
+			ToySwapMessage XboxOne
+			{
+				myPlatformType XboxOne
+				myText "contextComment = \"[Placeholder – DO NOT TRANSLATE]\", description = \"fallback-toyswap-error-xboxone-message\", enabled = true, guid = #B6120953593837180000888DCC3ADA9C, lineVersion = 0, maxLength = 35, text = \"Fallback Error for Xbox One\""
+			}
+			ToySwapMessage Switch
+			{
+				myPlatformType Switch
+				myText "contextComment = \"[Placeholder – DO NOT TRANSLATE]\", description = \"fallback-toyswap-error-switch-message\", enabled = true, guid = #B61209535938371C00008891AB75A335, lineVersion = 0, maxLength = 32, text = \"Fallback Error for Switch\""
+			}
+			ToySwapMessage PC
+			{
+				myPlatformType PC
+				myText "contextComment = \"fallback error message for toy swap errors\", description = \"fallback-toyswap-error-pc-message\", enabled = true, guid = #A1CDB8165C5A791D0001554666A4A2B1, lineVersion = 0, maxLength = 200, text = \"[Please remove all weapons, wings, ship, and pilot, \n\nNext, unplug your Mount\n\nPlug your Mount back in\n\nRe-Link your pilot, ship, and parts one at a time]\""
+			}
+		}
+		myErrorCode STARLINK-10
+	}
+	myMessages
+	{
+		FirmwareToySwapError Error_FuturePart
+		{
+			myMountState Error_FuturePart
+			myTitle "contextComment = \"[Placeholder – DO NOT TRANSLATE]\", description = \"toyswap-error_futurepart-title\", enabled = true, guid = #B6120953593E9C950001DC90C9060CCF, lineVersion = 1, maxLength = 20, text = \"Update Required\""
+			myErrorList
+			{
+				ToySwapMessage PS4
+				{
+					myText "contextComment = \"[Placeholder – DO NOT TRANSLATE]\", description = \"toyswap-error_futurepart-ps4\", enabled = true, guid = #B6120953593EA0CD0001DC964D77A81B, lineVersion = 1, maxLength = 172, text = \"You need to update your game to use this part.\n\nPlease connect your PS4 to the Internet to update Starlink™ to the latest version.\""
+				}
+				ToySwapMessage XboxOne
+				{
+					myPlatformType XboxOne
+					myText "contextComment = \"[Placeholder – DO NOT TRANSLATE]\", description = \"toyswap-error_futurepart-xboxone\", enabled = true, guid = #B6120953593EA1650001DC9ABAB559AA, lineVersion = 1, maxLength = 178, text = \"You need to update your game to use this part.\n\nPlease connect your Xbox One to the Internet to update Starlink™ to the latest version.\""
+				}
+				ToySwapMessage Switch
+				{
+					myPlatformType Switch
+					myText "contextComment = \"[Placeholder – DO NOT TRANSLATE]\", description = \"toyswap-error_futurepart-switch\", enabled = true, guid = #B6120953593EA1840001DC9E6C0741E8, lineVersion = 1, maxLength = 176, text = \"You need to update your game to use this part.\n\nPlease connect your Switch to the Internet to update Starlink™ to the latest version.\""
+				}
+				ToySwapMessage PC
+				{
+					myPlatformType PC
+					myText "contextComment = \"toy swap error displayed when update is required\", description = \"toyswap-error-futurepart-pc\", enabled = true, guid = #A1CDB8165C5A7DFC0002CD98F9E5F85F, lineVersion = 0, maxLength = 194, text = \"[You need to update your version of Starlink: Battle for Atlas™ to use this part.\n\nPlease connect to the Internet to update to the latest version.]\""
+				}
+			}
+			myErrorCode STARLINK-50
+		}
+		FirmwareToySwapError Disconnected
+		{
+			myTitle "contextComment = \"[Placeholder – DO NOT TRANSLATE]\", description = \"toyswap-disconnected-title\", enabled = true, guid = #B6120953593EA2600001DCA4AC6CA075, lineVersion = 1, maxLength = 22, text = \"No Mount Detected\""
+			myErrorList
+			{
+				ToySwapMessage PS4
+				{
+					myText "contextComment = \"[Placeholder – DO NOT TRANSLATE]\", description = \"toyswap-disconnected-ps4\", enabled = true, guid = #B6120953593EA3560001DCA85D774114, lineVersion = 1, maxLength = 140, text = \"1. Unplug the Mount cable from both the Mount and the PS4. \n2. Reconnect the Mount, or try a different cable\""
+				}
+				ToySwapMessage XboxOne
+				{
+					myPlatformType XboxOne
+					myText "contextComment = \"[Placeholder – DO NOT TRANSLATE]\", description = \"toyswap-disconnected-xboxone\", enabled = true, guid = #B6120953593EA6F40001DCAE92B278CB, lineVersion = 1, maxLength = 370, text = \"1. Grip your mount by the middle bridge and bottom tab.\n2. Pull back firmly to disconnect the Mount.\n3. Turn off your wireless controller by holding the Guide Button \n4. Turn your controller on, or use a different controller \n5. Reconnect your Mount, pressing in firmly until it clicks\""
+				}
+				ToySwapMessage Switch
+				{
+					myPlatformType Switch
+					myText "contextComment = \"[Placeholder – DO NOT TRANSLATE]\", description = \"toyswap-disconnected-switch\", enabled = true, guid = #B6120953593EA73F0001DCB28DF77F16, lineVersion = 1, maxLength = 272, text = \"1. Disconnect your Joycon controllers from the controller Mount\n2. Turn off both Joycon controllers by holding the power button\n3. Turn your controllers back on\n4. Re-connect your Mount and parts one at a time\""
+				}
+				ToySwapMessage PC
+				{
+					myPlatformType PC
+					myText "contextComment = \"Instructions for attaching or detaching mount from controller\", description = \"toyswap-disconnected-pc\", enabled = true, guid = #A1CDB8165C5A7F1F00033A08FBD1D053, lineVersion = 0, maxLength = 247, text = \"[Connect the Starlink Mount onto your controller, pressing firmly until it clicks into place\n\nTo remove or adjust your Mount,\n\nhold the Mount and controller in each hand and pull them apart]\""
+				}
+			}
+			myErrorCode STARLINK-00
+		}
+		FirmwareToySwapError Error_UnknownPart
+		{
+			myMountState Error_UnknownPart
+			myTitle "contextComment = \"[Placeholder – DO NOT TRANSLATE]\", description = \"toyswap-unknownpart-title\", enabled = true, guid = #B61209535940398E0001B37129E5CF40, lineVersion = 1, maxLength = 16, text = \"Check Part\""
+			myErrorList
+			{
+				ToySwapMessage PS4
+				{
+					myText "contextComment = \"[Placeholder – DO NOT TRANSLATE]\", description = \"toyswap-error_unknownpart-ps4\", enabled = true, guid = #B612095359403B300001B37BF5D0A1F4, lineVersion = 1, maxLength = 183, text = \"There is a part that can not be identified.\n\n1. Disconnect and reconnect the unidentified part\n2. Try connecting the part to a different port\""
+				}
+				ToySwapMessage XboxOne
+				{
+					myPlatformType XboxOne
+					myText "contextComment = \"[Placeholder – DO NOT TRANSLATE]\", description = \"toyswap-error_unknownpart-xboxone\", enabled = true, guid = #B612095359403B300001B37D3C624449, lineVersion = 1, maxLength = 183, text = \"There is a part that can not be identified.\n\n1. Disconnect and reconnect the unidentified part\n2. Try connecting the part to a different port\""
+				}
+				ToySwapMessage Switch
+				{
+					myPlatformType Switch
+					myText "contextComment = \"[Placeholder – DO NOT TRANSLATE]\", description = \"toyswap-error_unknownpart-switch\", enabled = true, guid = #B612095359403B340001B37F1C5212E0, lineVersion = 1, maxLength = 183, text = \"There is a part that can not be identified.\n\n1. Disconnect and reconnect the unidentified part\n2. Try connecting the part to a different port\""
+				}
+				ToySwapMessage PC
+				{
+					myPlatformType PC
+					myText "contextComment = \"instructions for user to relink part when the part cannot be identified\", description = \"toyswap-error-unknownpart-pc\", enabled = true, guid = #A1CDB8165C5A8C81000485CA68B41930, lineVersion = 0, maxLength = 162, text = \"[There is a part that cannot be identified\n\nPlease remove and re-Link that part\n\nOr try Linking the part to a different port]\""
+				}
+			}
+			myErrorCode STARLINK-40
+		}
+		FirmwareToySwapError Error_ElectricalIssue
+		{
+			myMountState Error_ElectricalIssue
+			myTitle "contextComment = \"[Placeholder – DO NOT TRANSLATE]\", description = \"toyswap-electricalissue-title\", enabled = true, guid = #1ABBD50B5982215D00016513ABE628AE, lineVersion = 2, maxLength = 23, text = \"Connectivity Issue\""
+			myErrorList
+			{
+				ToySwapMessage PS4
+				{
+					myText "contextComment = \"[Placeholder – DO NOT TRANSLATE]\", description = \"toyswap-electricalissue-ps4\", enabled = true, guid = #1ABBD50B598226CD0002084776D9FA3E, lineVersion = 1, maxLength = 214, text = \"Please remove all Weapons, Wings, Ship, and Pilot.\n\nNext, unplug your Mount from your PS4 console.\n\nPlug your Mount back in, and re-connect your parts one at a time.\""
+				}
+				ToySwapMessage XboxOne
+				{
+					myPlatformType XboxOne
+					myText "contextComment = \"[Placeholder – DO NOT TRANSLATE]\", description = \"toyswap-electricalissue-xboxone\", enabled = true, guid = #1ABBD50B598226CF00020848F89F6E24, lineVersion = 1, maxLength = 367, text = \"Please remove all Weapons, Wings, Ship, and Pilot.\n\nNext, grip your Mount by the middle bridge and bottom tab. Pull back firmly to disconnect it.\n\nTurn off your controller by holding the Guide button.\n\nTurn your controller back on, and re-connect your Mount and parts one at a time.\""
+				}
+				ToySwapMessage Switch
+				{
+					myPlatformType Switch
+					myText "contextComment = \"[Placeholder – DO NOT TRANSLATE]\", description = \"toyswap-electricalissue-switch\", enabled = true, guid = #1ABBD50B598226D00002084996B8E3DC, lineVersion = 1, maxLength = 344, text = \"Please remove all Weapons, Wings, Ship, and Pilot.\n\nNext, disconnect your Joycon controllers from the controller Mount.\n\nTurn off both Joycon controllers by holding the power button.\n\nTurn your controllers back on, and re-connect your Mount and parts one at a time.\""
+				}
+				ToySwapMessage PC
+				{
+					myPlatformType PC
+					myText "contextComment = \"instruction set for player to detach mount and reattach it in case of an electrical issue  \", description = \"toyswap-electricalissue-pc\", enabled = true, guid = #A1CDB8165C5A8DF800052864DBEF01A6, lineVersion = 0, maxLength = 198, text = \"[Please remove all weapons, wings, ship, and pilot\n\nNext, unplug your Mount\n\nPlug your Mount back in\n\nRe-Link your pilot, ship, and parts one at a time]\""
+				}
+			}
+			myErrorCode STARLINK-12
+		}
+		FirmwareToySwapError Error_ManufacturingDefect
+		{
+			myMountState Error_ManufacturingDefect
+			myTitle "contextComment = \"[Placeholder – DO NOT TRANSLATE]\", description = \"toyswap-manufacturing-title\", enabled = true, guid = #1ABBD50B5982215D0001651565B41ACE, lineVersion = 1, maxLength = 14, text = \"Mount Issue\""
+			myErrorList
+			{
+				ToySwapMessage PS4
+				{
+					myText "contextComment = \"[Placeholder – DO NOT TRANSLATE]\", description = \"toyswap-manufacturing-ps4\", enabled = true, guid = #1ABBD50B598226B300020844689CCA93, lineVersion = 1, maxLength = 214, text = \"Please remove all Weapons, Wings, Ship, and Pilot.\n\nNext, unplug your Mount from your PS4 console.\n\nPlug your Mount back in, and re-connect your parts one at a time.\""
+				}
+				ToySwapMessage XboxOne
+				{
+					myPlatformType XboxOne
+					myText "contextComment = \"[Placeholder – DO NOT TRANSLATE]\", description = \"toyswap-manufacturing-xboxone\", enabled = true, guid = #1ABBD50B598226B400020845EC905B30, lineVersion = 1, maxLength = 367, text = \"Please remove all Weapons, Wings, Ship, and Pilot.\n\nNext, grip your Mount by the middle bridge and bottom tab. Pull back firmly to disconnect it.\n\nTurn off your controller by holding the Guide button.\n\nTurn your controller back on, and re-connect your Mount and parts one at a time.\""
+				}
+				ToySwapMessage Switch
+				{
+					myPlatformType Switch
+					myText "contextComment = \"[Placeholder – DO NOT TRANSLATE]\", description = \"toyswap-manufacturing-switch\", enabled = true, guid = #1ABBD50B598226B500020846103FA773, lineVersion = 1, maxLength = 344, text = \"Please remove all Weapons, Wings, Ship, and Pilot.\n\nNext, disconnect your Joycon controllers from the controller Mount.\n\nTurn off both Joycon controllers by holding the power button.\n\nTurn your controllers back on, and re-connect your Mount and parts one at a time.\""
+				}
+				ToySwapMessage PC
+				{
+					myPlatformType PC
+					myText "contextComment = \"instruction set for player to detach mount and reattach it in case of a manufacuring defect error \", description = \"toyswap-manufacturing-pc\", enabled = true, guid = #A1CDB8165C5A8E70000545F06BBF815F, lineVersion = 0, maxLength = 198, text = \"[Please remove all weapons, wings, ship, and pilot\n\nNext, unplug your Mount\n\nPlug your Mount back in\n\nRe-Link your pilot, ship, and parts one at a time]\""
+				}
+			}
+			myErrorCode STARLINK-11
+		}
+		FirmwareToySwapError Error_TamperingDetected
+		{
+			myMountState Error_TamperingDetected
+			myTitle "contextComment = \"[Placeholder – DO NOT TRANSLATE]\", description = \"toyswap-temperingdetected-title\", enabled = true, guid = #1ABBD50B5982215D00016517CE1FF8AF, lineVersion = 1, maxLength = 14, text = \"Mount Issue\""
+			myErrorList
+			{
+				ToySwapMessage PS4
+				{
+					myText "contextComment = \"[Placeholder – DO NOT TRANSLATE]\", description = \"toyswap-temperingdetected-ps4\", enabled = true, guid = #1ABBD50B598225CE00020841ED2D34A4, lineVersion = 1, maxLength = 214, text = \"Please remove all Weapons, Wings, Ship, and Pilot.\n\nNext, unplug your Mount from your PS4 console.\n\nPlug your Mount back in, and re-connect your parts one at a time.\""
+				}
+				ToySwapMessage XboxOne
+				{
+					myPlatformType XboxOne
+					myText "contextComment = \"[Placeholder – DO NOT TRANSLATE]\", description = \"toyswap-temperingdetected-xboxone\", enabled = true, guid = #1ABBD50B598225D200020842F900AA63, lineVersion = 1, maxLength = 367, text = \"Please remove all Weapons, Wings, Ship, and Pilot.\n\nNext, grip your Mount by the middle bridge and bottom tab. Pull back firmly to disconnect it.\n\nTurn off your controller by holding the Guide button.\n\nTurn your controller back on, and re-connect your Mount and parts one at a time.\""
+				}
+				ToySwapMessage Switch
+				{
+					myPlatformType Switch
+					myText "contextComment = \"[Placeholder – DO NOT TRANSLATE]\", description = \"toyswap-temperingdetected-switch\", enabled = true, guid = #1ABBD50B598225E700020843853C7795, lineVersion = 1, maxLength = 344, text = \"Please remove all Weapons, Wings, Ship, and Pilot.\n\nNext, disconnect your Joycon controllers from the controller Mount.\n\nTurn off both Joycon controllers by holding the power button.\n\nTurn your controllers back on, and re-connect your Mount and parts one at a time.\""
+				}
+				ToySwapMessage PC
+				{
+					myPlatformType PC
+					myText "contextComment = \"instruction set for player to detach mount and reattach it in case of a tampering detected error \", description = \"toyswap-temperingdetected-pc\", enabled = true, guid = #A1CDB8165C5A8F8E00058E903D4BC539, lineVersion = 0, maxLength = 198, text = \"[Please remove all weapons, wings, ship, and pilot\n\nNext, unplug your Mount\n\nPlug your Mount back in\n\nRe-Link your pilot, ship, and parts one at a time]\""
+				}
+			}
+			myErrorCode STARLINK-13
+		}
+		FirmwareToySwapError Error_ConsoleIncompatible
+		{
+			myMountState Error_ConsoleIncompatible
+			myTitle "contextComment = \"Title shown on error screen when attaching a Pilot, Ship, Wing, or Weapon that's exclusive to a different console than the one the player is playing on. (eg. this toy might be usable only on the Nintendo Switch, so connecting it on the Xbox One will show this error)\", description = \"toyswap-incompatible-title\", enabled = true, guid = #9E6AFEDA5AEB546300001D74570235B5, lineVersion = 0, maxLength = 21, text = \"Cannot Link Part\"}"
+			myErrorList
+			{
+				ToySwapMessage PS4
+				{
+					myText "contextComment = \"Toy swap error shown when the player tries to connect a part (Pilot, Ship, Wing, or Weapon) that's exclusive to a different console than the one they're playing on (PS4). The player cannot use this toy on their current console, and must detach it and use a different toy instead.\", description = \"toyswap-incompatible-ps4\", enabled = true, guid = #9E6AFEDA5AEB54C500001D7A1AC30688, lineVersion = 0, maxLength = 126, text = \"This part cannot be used on Starlink™ for PlayStation 4.\n\nPlease Link a different part instead.\""
+				}
+				ToySwapMessage XboxOne
+				{
+					myPlatformType XboxOne
+					myText "contextComment = \"Toy swap error shown when the player tries to connect a part (Pilot, Ship, Wing, or Weapon) that's exclusive to a different console than the one they're playing on (Xbox One). The player cannot use this toy on their current console, and must detach it and use a different toy instead.\", description = \"toyswap-incompatible-xbox\", enabled = true, guid = #9E6AFEDA5AEB54C300001D78B5950662, lineVersion = 0, maxLength = 120, text = \"This part cannot be used on Starlink™ for Xbox One.\n\nPlease Link a different part instead.\""
+				}
+				ToySwapMessage Switch
+				{
+					myPlatformType Switch
+					myText "contextComment = \"Toy swap error shown when the player tries to connect a part (Pilot, Ship, Wing, or Weapon) that's exclusive to a different console than the one they're playing on (Nintendo Switch). The player cannot use this toy on their current console, and must detach it and use a different toy instead.\", description = \"toyswap-incompatible-switch\", enabled = true, guid = #9E6AFEDA5AEB54C300001D7660920E27, lineVersion = 0, maxLength = 129, text = \"This part cannot be used on Starlink™ for Nintendo Switch.\n\nPlease Link a different part instead.\""
+				}
+				ToySwapMessage PC
+				{
+					myPlatformType PC
+					myText "contextComment = \"Toy swap error shown when the player tries to connect a part (Pilot, Ship, Wing, or Weapon) that's exclusive to a different console than the one they're playing on (PC). The player cannot use this toy on PC, and must detach it and use a different toy instead.\", description = \"toyswap-incompatible-pc\", enabled = true, guid = #A1CDB8165C5A8FF20005B9E816622E7C, lineVersion = 0, maxLength = 127, text = \"[This part cannot be used in Starlink: Battle for Atlas™\n\nPlease Link a different part instead.]\""
+				}
+			}
+			myErrorCode STARLINK-30
+		}
+	}
+}
+

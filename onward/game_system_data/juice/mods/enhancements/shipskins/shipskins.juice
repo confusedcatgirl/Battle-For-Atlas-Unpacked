@@ -1,0 +1,835 @@
+include "onward/game system data/juice/paintjobs/paintjobs.juice"
+include "onward/game system data/juice/mods/enhancements/templates/template_shipskin_epic.juice"
+include "onward/game system data/juice/mods/enhancements/templates/template_shipskin_legendary.juice"
+include "onward/game system data/juice/mods/enhancements/templates/template_shipskin_rare.juice"
+include "onward/game system data/fruit/progression/challenge_types.fruit"
+include "onward/entity templates/definitions/shippart.fruit"
+include "onward/game system data/fruit/entity/faction.fruit"
+include "onward/game system data/fruit/attributes/attributes.fruit"
+include "onward/game system data/fruit/buffs/buff.fruit"
+include onward/skillscripts/skillscript.fruit
+include "onward/game system data/fruit/health/damageaffectors.fruit"
+include "onward/game system data/fruit/physics/impactaffectors.fruit"
+include "onward/game system data/fruit/progression/reward.fruit"
+
+Enhancement Race_Rare_Paintjob_1 < uid=939A35415C3CD4F3000003CB90C45EAA > : "Ship Skin Rare"
+{
+	myLocalizedName "contextComment = \"UI name for a Race paint mod of Rare quality that can change player's ship appearance\", description = \"enhancement-name-Race_Rare_Paintjob_1-ship-paint\", enabled = true, guid = #939A35415C3CD4140000031D92D829EB, lineVersion = 0, maxLength = 30, text = \"[Race_Rare_Paintjob_1] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a Race paint mod of Rare quality that can change player's ship appearance\", description = \"enhancement-description-Race_Rare_Paintjob_1-ship-paint\", enabled = true, guid = #939A35415C3CD41600000320BD16B0EC, lineVersion = 0, maxLength = 46, text = \"[Race_Rare_Paintjob_1 Description] \"}"
+	myPaintJob < uid=939A35415C59B7B10000003869C839E7 > = Generic_002_Rare
+}
+
+Enhancement Race_Rare_Paintjob_2 < uid=939A35415C3CD4F3000003CC7610DE36 > : "Ship Skin Rare"
+{
+	myLocalizedName "contextComment = \"UI name for a Race paint mod of Rare quality that can change player's ship appearance\", description = \"enhancement-name-Race_Rare_Paintjob_2-ship-paint\", enabled = true, guid = #939A35415C3CD41800000321EED241D4, lineVersion = 0, maxLength = 30, text = \"[Race_Rare_Paintjob_2] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a Race paint mod of Rare quality that can change player's ship appearance\", description = \"enhancement-description-Race_Rare_Paintjob_2-ship-paint\", enabled = true, guid = #939A35415C3CD419000003227A573716, lineVersion = 0, maxLength = 46, text = \"[Race_Rare_Paintjob_2 Description] \"}"
+	myPaintJob < uid=939A35415C59B7B100000039707AEA4E > = Generic_005_rare
+}
+
+Enhancement Race_Rare_Paintjob_3 < uid=939A35415C3CD4F3000003CDBF607C49 > : "Ship Skin Rare"
+{
+	myLocalizedName "contextComment = \"UI name for a Race paint mod of Rare quality that can change player's ship appearance\", description = \"enhancement-name-Race_Rare_Paintjob_3-ship-paint\", enabled = true, guid = #939A35415C3CD41D0000032591B5569F, lineVersion = 0, maxLength = 30, text = \"[Race_Rare_Paintjob_3] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a Race paint mod of Rare quality that can change player's ship appearance\", description = \"enhancement-description-Race_Rare_Paintjob_3-ship-paint\", enabled = true, guid = #939A35415C3CD41E0000032652992C38, lineVersion = 0, maxLength = 46, text = \"[Race_Rare_Paintjob_3 Description] \"}"
+	myPaintJob < uid=939A35415C59B7B10000003A757EBA50 > = Generic_007_Rare
+}
+
+Enhancement Race_Rare_Paintjob_4 < uid=939A35415C3CD4F3000003CEA425E383 > : "Ship Skin Rare"
+{
+	myLocalizedName "contextComment = \"UI name for a Race paint mod of Rare quality that can change player's ship appearance\", description = \"enhancement-name-Race_Rare_Paintjob_4-ship-paint\", enabled = true, guid = #939A35415C3CD42200000329AB14C13E, lineVersion = 0, maxLength = 30, text = \"[Race_Rare_Paintjob_4] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a Race paint mod of Rare quality that can change player's ship appearance\", description = \"enhancement-description-Race_Rare_Paintjob_4-ship-paint\", enabled = true, guid = #939A35415C3CD4220000032A3077C088, lineVersion = 0, maxLength = 46, text = \"[Race_Rare_Paintjob_4 Description] \"}"
+	myPaintJob < uid=939A35415C59B7B10000003BA2F4CC55 > = Generic_011_rare
+}
+
+Enhancement Race_Rare_Paintjob_5 < uid=939A35415C3CD4F3000003CF16A6C8A3 > : "Ship Skin Rare"
+{
+	myLocalizedName "contextComment = \"UI name for a Race paint mod of Rare quality that can change player's ship appearance\", description = \"enhancement-name-Race_Rare_Paintjob_5-ship-paint\", enabled = true, guid = #939A35415C3CD4260000032D6791EBBA, lineVersion = 0, maxLength = 30, text = \"[Race_Rare_Paintjob_5] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a Race paint mod of Rare quality that can change player's ship appearance\", description = \"enhancement-description-Race_Rare_Paintjob_5-ship-paint\", enabled = true, guid = #939A35415C3CD4270000032EE96C1440, lineVersion = 0, maxLength = 46, text = \"[Race_Rare_Paintjob_5 Description] \"}"
+	myPaintJob < uid=939A35415C59B7B10000003C8ADBDEED > = Dev_Legion
+}
+
+Enhancement Race_Rare_Paintjob_6 < uid=939A35415C3CD4F3000003D0E6B7452F > : "Ship Skin Rare"
+{
+	myLocalizedName "contextComment = \"UI name for a Race paint mod of Rare quality that can change player's ship appearance\", description = \"enhancement-name-Race_Rare_Paintjob_6-ship-paint\", enabled = true, guid = #939A35415C3CD42A000003318D712C02, lineVersion = 0, maxLength = 30, text = \"[Race_Rare_Paintjob_6] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a Race paint mod of Rare quality that can change player's ship appearance\", description = \"enhancement-description-Race_Rare_Paintjob_6-ship-paint\", enabled = true, guid = #939A35415C3CD42B000003320436E7F8, lineVersion = 0, maxLength = 46, text = \"[Race_Rare_Paintjob_6 Description] \"}"
+	myPaintJob < uid=939A35415C59B7B10000003D2D547D62 > = Generic_015_Rare
+}
+
+Enhancement Race_Epic_Paintjob_1 < uid=939A35415C3CD4F3000003D15A89EF84 > : "Ship Skin Epic"
+{
+	myLocalizedName "contextComment = \"UI name for a Race paint mod of Epic quality that can change player's ship appearance\", description = \"enhancement-name-Race_Epic_Paintjob_1-ship-paint\", enabled = true, guid = #939A35415C3CD42F00000335F5C52CF3, lineVersion = 0, maxLength = 30, text = \"[Race_Epic_Paintjob_1] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a Race paint mod of Epic quality that can change player's ship appearance\", description = \"enhancement-description-Race_Epic_Paintjob_1-ship-paint\", enabled = true, guid = #939A35415C3CD43000000336467F1C94, lineVersion = 0, maxLength = 46, text = \"[Race_Epic_Paintjob_1 Description] \"}"
+	myPaintJob < uid=939A35415C59B7B10000003EAD78EEA2 > = Generic_002_Epic
+}
+
+Enhancement Race_Epic_Paintjob_2 < uid=939A35415C3CD4F3000003D2D13B26AD > : "Ship Skin Epic"
+{
+	myLocalizedName "contextComment = \"UI name for a Race paint mod of Epic quality that can change player's ship appearance\", description = \"enhancement-name-Race_Epic_Paintjob_2-ship-paint\", enabled = true, guid = #939A35415C3CD433000003396A71B8EB, lineVersion = 0, maxLength = 30, text = \"[Race_Epic_Paintjob_2] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a Race paint mod of Epic quality that can change player's ship appearance\", description = \"enhancement-description-Race_Epic_Paintjob_2-ship-paint\", enabled = true, guid = #939A35415C3CD4340000033AD454928D, lineVersion = 0, maxLength = 46, text = \"[Race_Epic_Paintjob_2 Description] \"}"
+	myPaintJob < uid=939A35415C59B7B10000003FA9EA093C > = Generic_005_epic
+}
+
+Enhancement Race_Epic_Paintjob_3 < uid=939A35415C3CD4F3000003D3F1F80FF9 > : "Ship Skin Epic"
+{
+	myLocalizedName "contextComment = \"UI name for a Race paint mod of Epic quality that can change player's ship appearance\", description = \"enhancement-name-Race_Epic_Paintjob_3-ship-paint\", enabled = true, guid = #939A35415C3CD4380000033DB65B5C96, lineVersion = 0, maxLength = 30, text = \"[Race_Epic_Paintjob_3] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a Race paint mod of Epic quality that can change player's ship appearance\", description = \"enhancement-description-Race_Epic_Paintjob_3-ship-paint\", enabled = true, guid = #939A35415C3CD4390000033EC6EB702A, lineVersion = 0, maxLength = 46, text = \"[Race_Epic_Paintjob_3 Description] \"}"
+	myPaintJob < uid=939A35415C59B7B100000040FD92865A > = Generic_007_Epic
+}
+
+Enhancement Race_Epic_Paintjob_4 < uid=939A35415C3CD4F3000003D4AD3AB2D4 > : "Ship Skin Epic"
+{
+	myLocalizedName "contextComment = \"UI name for a Race paint mod of Epic quality that can change player's ship appearance\", description = \"enhancement-name-Race_Epic_Paintjob_4-ship-paint\", enabled = true, guid = #939A35415C3CD43D0000034159B3ACBF, lineVersion = 0, maxLength = 30, text = \"[Race_Epic_Paintjob_4] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a Race paint mod of Epic quality that can change player's ship appearance\", description = \"enhancement-description-Race_Epic_Paintjob_4-ship-paint\", enabled = true, guid = #939A35415C3CD43E00000342C444ED83, lineVersion = 0, maxLength = 46, text = \"[Race_Epic_Paintjob_4 Description] \"}"
+	myPaintJob < uid=939A35415C59B7B10000004173A34BE7 > = Generic_011_epic
+}
+
+Enhancement Race_Epic_Paintjob_5 < uid=939A35415C3CD4F3000003D5B8DA9D38 > : "Ship Skin Epic"
+{
+	myLocalizedName "contextComment = \"UI name for a Race paint mod of Epic quality that can change player's ship appearance\", description = \"enhancement-name-Race_Epic_Paintjob_5-ship-paint\", enabled = true, guid = #939A35415C3CD4410000034576605003, lineVersion = 0, maxLength = 30, text = \"[Race_Epic_Paintjob_5] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a Race paint mod of Epic quality that can change player's ship appearance\", description = \"enhancement-description-Race_Epic_Paintjob_5-ship-paint\", enabled = true, guid = #939A35415C3CD4420000034695AB83B9, lineVersion = 0, maxLength = 46, text = \"[Race_Epic_Paintjob_5 Description] \"}"
+	myPaintJob < uid=939A35415C59B7B10000004219C4B6CF > = Generic_015_Epic
+}
+
+Enhancement Race_Legendary_Paintjob_1 < uid=939A35415C3CD4F3000003D6B0DCCAC0 > : "Ship Skin Legendary"
+{
+	myLocalizedName "contextComment = \"UI name for a Race paint mod of Legendary quality that can change player's ship appearance\", description = \"enhancement-name-Race_Legendary_Paintjob_1-ship-paint\", enabled = true, guid = #939A35415C3CD446000003491B0AD02E, lineVersion = 0, maxLength = 36, text = \"[Race_Legendary_Paintjob_1] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a Race paint mod of Legendary quality that can change player's ship appearance\", description = \"enhancement-description-Race_Legendary_Paintjob_1-ship-paint\", enabled = true, guid = #939A35415C3CD4460000034AD2752EBD, lineVersion = 0, maxLength = 52, text = \"[Race_Legendary_Paintjob_1 Description] \"}"
+	myPaintJob < uid=939A35415C59B7B100000043E09EFF22 > = Generic_002_Legendary
+}
+
+Enhancement Race_Legendary_Paintjob_2 < uid=939A35415C3CD4F3000003D7816A9CE5 > : "Ship Skin Legendary"
+{
+	myLocalizedName "contextComment = \"UI name for a Race paint mod of Legendary quality that can change player's ship appearance\", description = \"enhancement-name-Race_Legendary_Paintjob_2-ship-paint\", enabled = true, guid = #939A35415C3CD4580000034D2628FC15, lineVersion = 0, maxLength = 36, text = \"[Race_Legendary_Paintjob_2] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a Race paint mod of Legendary quality that can change player's ship appearance\", description = \"enhancement-description-Race_Legendary_Paintjob_2-ship-paint\", enabled = true, guid = #939A35415C3CD45A0000034E5D533EAB, lineVersion = 0, maxLength = 52, text = \"[Race_Legendary_Paintjob_2 Description] \"}"
+	myPaintJob < uid=939A35415C59B7B1000000448957153D > = Generic_005_legendary
+}
+
+Enhancement Race_Legendary_Paintjob_3 < uid=939A35415C3CD4F3000003D8F9BE320E > : "Ship Skin Legendary"
+{
+	myLocalizedName "contextComment = \"UI name for a Race paint mod of Legendary quality that can change player's ship appearance\", description = \"enhancement-name-Race_Legendary_Paintjob_3-ship-paint\", enabled = true, guid = #939A35415C3CD45D00000351D7F2786E, lineVersion = 0, maxLength = 36, text = \"[Race_Legendary_Paintjob_3] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a Race paint mod of Legendary quality that can change player's ship appearance\", description = \"enhancement-description-Race_Legendary_Paintjob_3-ship-paint\", enabled = true, guid = #939A35415C3CD45E000003521390A25D, lineVersion = 0, maxLength = 52, text = \"[Race_Legendary_Paintjob_3 Description] \"}"
+	myPaintJob < uid=939A35415C59B7B100000045E0C28B83 > = Generic_007_Legendary
+}
+
+Enhancement Race_Legendary_Paintjob_4 < uid=939A35415C3CD4F3000003D995E1435C > : "Ship Skin Legendary"
+{
+	myLocalizedName "contextComment = \"UI name for a Race paint mod of Legendary quality that can change player's ship appearance\", description = \"enhancement-name-Race_Legendary_Paintjob_4-ship-paint\", enabled = true, guid = #939A35415C3CD462000003556CC95DC0, lineVersion = 0, maxLength = 36, text = \"[Race_Legendary_Paintjob_4] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a Race paint mod of Legendary quality that can change player's ship appearance\", description = \"enhancement-description-Race_Legendary_Paintjob_4-ship-paint\", enabled = true, guid = #939A35415C3CD46300000356FADD984E, lineVersion = 0, maxLength = 52, text = \"[Race_Legendary_Paintjob_4 Description] \"}"
+	myPaintJob < uid=939A35415C59B7B100000046DC8C2B9A > = Generic_011_legendary
+}
+
+Enhancement Race_Legendary_Paintjob_5 < uid=939A35415C3CD4F3000003DAC33D11EA > : "Ship Skin Legendary"
+{
+	myLocalizedName "contextComment = \"UI name for a Race paint mod of Legendary quality that can change player's ship appearance\", description = \"enhancement-name-Race_Legendary_Paintjob_5-ship-paint\", enabled = true, guid = #939A35415C3CD466000003599D884F4C, lineVersion = 0, maxLength = 36, text = \"[Race_Legendary_Paintjob_5] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a Race paint mod of Legendary quality that can change player's ship appearance\", description = \"enhancement-description-Race_Legendary_Paintjob_5-ship-paint\", enabled = true, guid = #939A35415C3CD4670000035A8B81AB5B, lineVersion = 0, maxLength = 52, text = \"[Race_Legendary_Paintjob_5 Description] \"}"
+	myPaintJob < uid=939A35415C59B7B100000047CBFCB8C6 > = Generic_015_Legendary
+}
+
+Enhancement Arena_Rare_Paintjob_1 < uid=939A35415C3CD4F3000003DB166530DC > : "Ship Skin Rare"
+{
+	myLocalizedName "contextComment = \"UI name for a Arena paint mod of Rare quality that can change player's ship appearance\", description = \"enhancement-name-Arena_Rare_Paintjob_1-ship-paint\", enabled = true, guid = #939A35415C3CD46C0000035D4D7DD725, lineVersion = 0, maxLength = 31, text = \"[Arena_Rare_Paintjob_1] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a Arena paint mod of Rare quality that can change player's ship appearance\", description = \"enhancement-description-Arena_Rare_Paintjob_1-ship-paint\", enabled = true, guid = #939A35415C3CD46D0000035ECB2076A2, lineVersion = 0, maxLength = 47, text = \"[Arena_Rare_Paintjob_1 Description] \"}"
+	myPaintJob < uid=939A35415C59B7B100000048FA33A279 > = Generic_021_Rare
+}
+
+Enhancement Arena_Rare_Paintjob_2 < uid=939A35415C3CD4F3000003DC1E435E5C > : "Ship Skin Rare"
+{
+	myLocalizedName "contextComment = \"UI name for a Arena paint mod of Rare quality that can change player's ship appearance\", description = \"enhancement-name-Arena_Rare_Paintjob_2-ship-paint\", enabled = true, guid = #939A35415C3CD47300000361EF3A3653, lineVersion = 0, maxLength = 31, text = \"[Arena_Rare_Paintjob_2] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a Arena paint mod of Rare quality that can change player's ship appearance\", description = \"enhancement-description-Arena_Rare_Paintjob_2-ship-paint\", enabled = true, guid = #939A35415C3CD475000003622767D870, lineVersion = 0, maxLength = 47, text = \"[Arena_Rare_Paintjob_2 Description] \"}"
+	myPaintJob < uid=939A35415C59B7B1000000490E59B02F > = Generic_026_Rare
+}
+
+Enhancement Arena_Rare_Paintjob_3 < uid=939A35415C3CD4F3000003DD8127056B > : "Ship Skin Rare"
+{
+	myLocalizedName "contextComment = \"UI name for a Arena paint mod of Rare quality that can change player's ship appearance\", description = \"enhancement-name-Arena_Rare_Paintjob_3-ship-paint\", enabled = true, guid = #939A35415C3CD479000003651C4BEACE, lineVersion = 0, maxLength = 31, text = \"[Arena_Rare_Paintjob_3] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a Arena paint mod of Rare quality that can change player's ship appearance\", description = \"enhancement-description-Arena_Rare_Paintjob_3-ship-paint\", enabled = true, guid = #939A35415C3CD47A0000036605F6156F, lineVersion = 0, maxLength = 47, text = \"[Arena_Rare_Paintjob_3 Description] \"}"
+	myPaintJob < uid=939A35415C59B7B10000004AB3349A85 > = Generic_039_Rare
+}
+
+Enhancement Arena_Rare_Paintjob_4 < uid=939A35415C3CD4F3000003DEAABEE6E4 > : "Ship Skin Rare"
+{
+	myLocalizedName "contextComment = \"UI name for a Arena paint mod of Rare quality that can change player's ship appearance\", description = \"enhancement-name-Arena_Rare_Paintjob_4-ship-paint\", enabled = true, guid = #939A35415C3CD47E0000036929D07530, lineVersion = 0, maxLength = 31, text = \"[Arena_Rare_Paintjob_4] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a Arena paint mod of Rare quality that can change player's ship appearance\", description = \"enhancement-description-Arena_Rare_Paintjob_4-ship-paint\", enabled = true, guid = #939A35415C3CD47F0000036A9C384008, lineVersion = 0, maxLength = 47, text = \"[Arena_Rare_Paintjob_4 Description] \"}"
+	myPaintJob < uid=939A35415C59B7B10000004B9D203EAD > = Outlaw_002_Rare
+}
+
+Enhancement Arena_Epic_Paintjob_1 < uid=939A35415C3CD4F3000003DF9562C0BF > : "Ship Skin Epic"
+{
+	myLocalizedName "contextComment = \"UI name for a Arena paint mod of Epic quality that can change player's ship appearance\", description = \"enhancement-name-Arena_Epic_Paintjob_1-ship-paint\", enabled = true, guid = #939A35415C3CD4840000036D6AD56426, lineVersion = 0, maxLength = 31, text = \"[Arena_Epic_Paintjob_1] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a Arena paint mod of Epic quality that can change player's ship appearance\", description = \"enhancement-description-Arena_Epic_Paintjob_1-ship-paint\", enabled = true, guid = #939A35415C3CD4850000036E34B35174, lineVersion = 0, maxLength = 47, text = \"[Arena_Epic_Paintjob_1 Description] \"}"
+	myPaintJob < uid=939A35415C59B7B10000004CFA67671A > = Generic_021_Epic
+}
+
+Enhancement Arena_Epic_Paintjob_2 < uid=939A35415C3CD4F3000003E091D7DDF1 > : "Ship Skin Epic"
+{
+	myLocalizedName "contextComment = \"UI name for a Arena paint mod of Epic quality that can change player's ship appearance\", description = \"enhancement-name-Arena_Epic_Paintjob_2-ship-paint\", enabled = true, guid = #939A35415C3CD48800000371B97E1EF2, lineVersion = 0, maxLength = 31, text = \"[Arena_Epic_Paintjob_2] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a Arena paint mod of Epic quality that can change player's ship appearance\", description = \"enhancement-description-Arena_Epic_Paintjob_2-ship-paint\", enabled = true, guid = #939A35415C3CD4890000037217E8C058, lineVersion = 0, maxLength = 47, text = \"[Arena_Epic_Paintjob_2 Description] \"}"
+	myPaintJob < uid=939A35415C59B7B10000004D397C68B1 > = Generic_026_Epic
+}
+
+Enhancement Arena_Epic_Paintjob_3 < uid=939A35415C3CD4F3000003E128629EFD > : "Ship Skin Epic"
+{
+	myLocalizedName "contextComment = \"UI name for a Arena paint mod of Epic quality that can change player's ship appearance\", description = \"enhancement-name-Arena_Epic_Paintjob_3-ship-paint\", enabled = true, guid = #939A35415C3CD48D000003751ADD6891, lineVersion = 0, maxLength = 31, text = \"[Arena_Epic_Paintjob_3] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a Arena paint mod of Epic quality that can change player's ship appearance\", description = \"enhancement-description-Arena_Epic_Paintjob_3-ship-paint\", enabled = true, guid = #939A35415C3CD48E000003764B668192, lineVersion = 0, maxLength = 47, text = \"[Arena_Epic_Paintjob_3 Description] \"}"
+	myPaintJob < uid=939A35415C59B7B10000004E2E8B3DA9 > = Generic_039_Epic
+}
+
+Enhancement Arena_Epic_Paintjob_4 < uid=939A35415C3CD4F3000003E275B6D4D3 > : "Ship Skin Epic"
+{
+	myLocalizedName "contextComment = \"UI name for a Arena paint mod of Epic quality that can change player's ship appearance\", description = \"enhancement-name-Arena_Epic_Paintjob_4-ship-paint\", enabled = true, guid = #939A35415C3CD492000003798E5DC979, lineVersion = 0, maxLength = 31, text = \"[Arena_Epic_Paintjob_4] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a Arena paint mod of Epic quality that can change player's ship appearance\", description = \"enhancement-description-Arena_Epic_Paintjob_4-ship-paint\", enabled = true, guid = #939A35415C3CD4930000037AF148A331, lineVersion = 0, maxLength = 47, text = \"[Arena_Epic_Paintjob_4 Description] \"}"
+	myPaintJob < uid=939A35415C59B7B10000004FB2C2BB83 > = Outlaw_002_Epic
+}
+
+Enhancement Arena_Legendary_Paintjob_1 < uid=939A35415C3CD4F3000003E3F65285E2 > : "Ship Skin Legendary"
+{
+	myLocalizedName "contextComment = \"UI name for a Arena paint mod of Legendary quality that can change player's ship appearance\", description = \"enhancement-name-Arena_Legendary_Paintjob_1-ship-paint\", enabled = true, guid = #939A35415C3CD4970000037D60A58613, lineVersion = 0, maxLength = 38, text = \"[Arena_Legendary_Paintjob_1] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a Arena paint mod of Legendary quality that can change player's ship appearance\", description = \"enhancement-description-Arena_Legendary_Paintjob_1-ship-paint\", enabled = true, guid = #939A35415C3CD4980000037ED440F01D, lineVersion = 0, maxLength = 53, text = \"[Arena_Legendary_Paintjob_1 Description] \"}"
+	myPaintJob < uid=939A35415C59B7B100000050735C4576 > = Generic_021_Legendary
+}
+
+Enhancement Arena_Legendary_Paintjob_2 < uid=939A35415C3CD4F3000003E4D945F68C > : "Ship Skin Legendary"
+{
+	myLocalizedName "contextComment = \"UI name for a Arena paint mod of Legendary quality that can change player's ship appearance\", description = \"enhancement-name-Arena_Legendary_Paintjob_2-ship-paint\", enabled = true, guid = #939A35415C3CD49B000003818A684EA7, lineVersion = 0, maxLength = 38, text = \"[Arena_Legendary_Paintjob_2] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a Arena paint mod of Legendary quality that can change player's ship appearance\", description = \"enhancement-description-Arena_Legendary_Paintjob_2-ship-paint\", enabled = true, guid = #939A35415C3CD49C00000382597B87EF, lineVersion = 0, maxLength = 53, text = \"[Arena_Legendary_Paintjob_2 Description] \"}"
+	myPaintJob < uid=939A35415C59B7B100000051A9BF924C > = Generic_026_Legendary
+}
+
+Enhancement Arena_Legendary_Paintjob_3 < uid=939A35415C3CD4F3000003E5E5EC0E2F > : "Ship Skin Legendary"
+{
+	myLocalizedName "contextComment = \"UI name for a Arena paint mod of Legendary quality that can change player's ship appearance\", description = \"enhancement-name-Arena_Legendary_Paintjob_3-ship-paint\", enabled = true, guid = #939A35415C3CD4A0000003852F85014F, lineVersion = 0, maxLength = 38, text = \"[Arena_Legendary_Paintjob_3] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a Arena paint mod of Legendary quality that can change player's ship appearance\", description = \"enhancement-description-Arena_Legendary_Paintjob_3-ship-paint\", enabled = true, guid = #939A35415C3CD4A100000386AA44BFAF, lineVersion = 0, maxLength = 53, text = \"[Arena_Legendary_Paintjob_3 Description] \"}"
+	myPaintJob < uid=939A35415C59B7B100000052DEAE94A7 > = Dev_Flameskin
+}
+
+Enhancement Arena_Legendary_Paintjob_4 < uid=939A35415C3CD4F3000003E6263F4E0D > : "Ship Skin Legendary"
+{
+	myLocalizedName "contextComment = \"UI name for a Arena paint mod of Legendary quality that can change player's ship appearance\", description = \"enhancement-name-Arena_Legendary_Paintjob_4-ship-paint\", enabled = true, guid = #939A35415C3CD4A4000003897690EDD2, lineVersion = 0, maxLength = 38, text = \"[Arena_Legendary_Paintjob_4] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a Arena paint mod of Legendary quality that can change player's ship appearance\", description = \"enhancement-description-Arena_Legendary_Paintjob_4-ship-paint\", enabled = true, guid = #939A35415C3CD4A50000038AF9A69D68, lineVersion = 0, maxLength = 53, text = \"[Arena_Legendary_Paintjob_4 Description] \"}"
+	myPaintJob < uid=939A35415C59B7B10000005379173252 > = Generic_039_Legendary
+}
+
+Enhancement Shop_Rare_Paintjob_1 < uid=939A35415C3CD4F3000003E74420A2BD > : "Ship Skin Rare"
+{
+	myLocalizedName "contextComment = \"UI name for a Shop paint mod of Rare quality that can change player's ship appearance\", description = \"enhancement-name-Shop_Rare_Paintjob_1-ship-paint\", enabled = true, guid = #939A35415C3CD4A80000038D55CB977D, lineVersion = 0, maxLength = 30, text = \"[Shop_Rare_Paintjob_1] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a Shop paint mod of Rare quality that can change player's ship appearance\", description = \"enhancement-description-Shop_Rare_Paintjob_1-ship-paint\", enabled = true, guid = #939A35415C3CD4AA0000038E984B0D71, lineVersion = 0, maxLength = 46, text = \"[Shop_Rare_Paintjob_1 Description] \"}"
+	myPaintJob < uid=939A35415C59B7B100000054E8F1BFF3 > = Dev_Glory
+}
+
+Enhancement Shop_Rare_Paintjob_2 < uid=939A35415C3CD4F3000003E8B227CD23 > : "Ship Skin Rare"
+{
+	myLocalizedName "contextComment = \"UI name for a Shop paint mod of Rare quality that can change player's ship appearance\", description = \"enhancement-name-Shop_Rare_Paintjob_2-ship-paint\", enabled = true, guid = #939A35415C3CD4B0000003911C72C5A9, lineVersion = 0, maxLength = 30, text = \"[Shop_Rare_Paintjob_2] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a Shop paint mod of Rare quality that can change player's ship appearance\", description = \"enhancement-description-Shop_Rare_Paintjob_2-ship-paint\", enabled = true, guid = #939A35415C3CD4B000000392DC9263D3, lineVersion = 0, maxLength = 46, text = \"[Shop_Rare_Paintjob_2 Description] \"}"
+	myPaintJob < uid=939A35415C59B7B100000055BD897D53 > = Dev_Chevron
+}
+
+Enhancement Shop_Rare_Paintjob_3 < uid=939A35415C3CD4F3000003E9373F303E > : "Ship Skin Rare"
+{
+	myLocalizedName "contextComment = \"UI name for a Shop paint mod of Rare quality that can change player's ship appearance\", description = \"enhancement-name-Shop_Rare_Paintjob_3-ship-paint\", enabled = true, guid = #939A35415C3CD4B400000395C6B4DC2A, lineVersion = 0, maxLength = 30, text = \"[Shop_Rare_Paintjob_3] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a Shop paint mod of Rare quality that can change player's ship appearance\", description = \"enhancement-description-Shop_Rare_Paintjob_3-ship-paint\", enabled = true, guid = #939A35415C3CD4B5000003968977B3D4, lineVersion = 0, maxLength = 46, text = \"[Shop_Rare_Paintjob_3 Description] \"}"
+	myPaintJob < uid=939A35415C59B7B1000000561728CDE9 > = Dev_Flower
+}
+
+Enhancement Shop_Rare_Paintjob_4 < uid=939A35415C3CD4F3000003EAEBAC5FF2 > : "Ship Skin Rare"
+{
+	myLocalizedName "contextComment = \"UI name for a Shop paint mod of Rare quality that can change player's ship appearance\", description = \"enhancement-name-Shop_Rare_Paintjob_4-ship-paint\", enabled = true, guid = #939A35415C3CD4B900000399A494CB82, lineVersion = 0, maxLength = 30, text = \"[Shop_Rare_Paintjob_4] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a Shop paint mod of Rare quality that can change player's ship appearance\", description = \"enhancement-description-Shop_Rare_Paintjob_4-ship-paint\", enabled = true, guid = #939A35415C3CD4BA0000039A904925D7, lineVersion = 0, maxLength = 46, text = \"[Shop_Rare_Paintjob_4 Description] \"}"
+	myPaintJob < uid=939A35415C59B7B100000057D76DE8FC > = Outlaw_003_rare
+}
+
+Enhancement Shop_Rare_Paintjob_5 < uid=939A35415C3CD4F3000003EBAAD83D70 > : "Ship Skin Rare"
+{
+	myLocalizedName "contextComment = \"UI name for a Shop paint mod of Rare quality that can change player's ship appearance\", description = \"enhancement-name-Shop_Rare_Paintjob_5-ship-paint\", enabled = true, guid = #939A35415C3CD4BD0000039D1CC0BAC8, lineVersion = 0, maxLength = 30, text = \"[Shop_Rare_Paintjob_5] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a Shop paint mod of Rare quality that can change player's ship appearance\", description = \"enhancement-description-Shop_Rare_Paintjob_5-ship-paint\", enabled = true, guid = #939A35415C3CD4BE0000039EC57E431A, lineVersion = 0, maxLength = 46, text = \"[Shop_Rare_Paintjob_5 Description] \"}"
+	myPaintJob < uid=939A35415C59B7B100000058B206DBC5 > = Outlaw_004_Rare
+}
+
+Enhancement Shop_Rare_Paintjob_6 < uid=939A35415C3CD4F3000003EC261AB3DD > : "Ship Skin Rare"
+{
+	myLocalizedName "contextComment = \"UI name for a Shop paint mod of Rare quality that can change player's ship appearance\", description = \"enhancement-name-Shop_Rare_Paintjob_6-ship-paint\", enabled = true, guid = #939A35415C3CD4C2000003A1D365211D, lineVersion = 0, maxLength = 30, text = \"[Shop_Rare_Paintjob_6] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a Shop paint mod of Rare quality that can change player's ship appearance\", description = \"enhancement-description-Shop_Rare_Paintjob_6-ship-paint\", enabled = true, guid = #939A35415C3CD4C3000003A2E434CEF8, lineVersion = 0, maxLength = 46, text = \"[Shop_Rare_Paintjob_6 Description] \"}"
+	myPaintJob < uid=939A35415C59B7B10000005944934B33 > = Outlaw_006_Rare
+}
+
+Enhancement Shop_Epic_Paintjob_1 < uid=939A35415C3CD4F3000003EDE86AC9E0 > : "Ship Skin Epic"
+{
+	myLocalizedName "contextComment = \"UI name for a Shop paint mod of Epic quality that can change player's ship appearance\", description = \"enhancement-name-Shop_Epic_Paintjob_1-ship-paint\", enabled = true, guid = #939A35415C3CD4C6000003A5CE72AEBF, lineVersion = 0, maxLength = 30, text = \"[Shop_Epic_Paintjob_1] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a Shop paint mod of Epic quality that can change player's ship appearance\", description = \"enhancement-description-Shop_Epic_Paintjob_1-ship-paint\", enabled = true, guid = #939A35415C3CD4C7000003A68C73FA87, lineVersion = 0, maxLength = 46, text = \"[Shop_Epic_Paintjob_1 Description] \"}"
+	myPaintJob < uid=939A35415C59B7B10000005A158581CD > = Outlaw_003_epic
+}
+
+Enhancement Shop_Epic_Paintjob_2 < uid=939A35415C3CD4F3000003EE61B048D0 > : "Ship Skin Epic"
+{
+	myLocalizedName "contextComment = \"UI name for a Shop paint mod of Epic quality that can change player's ship appearance\", description = \"enhancement-name-Shop_Epic_Paintjob_2-ship-paint\", enabled = true, guid = #939A35415C3CD4CB000003A9E38BB15B, lineVersion = 0, maxLength = 30, text = \"[Shop_Epic_Paintjob_2] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a Shop paint mod of Epic quality that can change player's ship appearance\", description = \"enhancement-description-Shop_Epic_Paintjob_2-ship-paint\", enabled = true, guid = #939A35415C3CD4CC000003AAF03FC86F, lineVersion = 0, maxLength = 46, text = \"[Shop_Epic_Paintjob_2 Description] \"}"
+	myPaintJob < uid=939A35415C59B7B10000005BAD17A189 > = Outlaw_004_Epic
+}
+
+Enhancement Shop_Epic_Paintjob_3 < uid=939A35415C3CD4F3000003EF0AE8CA2B > : "Ship Skin Epic"
+{
+	myLocalizedName "contextComment = \"UI name for a Shop paint mod of Epic quality that can change player's ship appearance\", description = \"enhancement-name-Shop_Epic_Paintjob_3-ship-paint\", enabled = true, guid = #939A35415C3CD4CF000003ADA3E5440F, lineVersion = 0, maxLength = 30, text = \"[Shop_Epic_Paintjob_3] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a Shop paint mod of Epic quality that can change player's ship appearance\", description = \"enhancement-description-Shop_Epic_Paintjob_3-ship-paint\", enabled = true, guid = #939A35415C3CD4D0000003AEAD979CAC, lineVersion = 0, maxLength = 46, text = \"[Shop_Epic_Paintjob_3 Description] \"}"
+	myPaintJob < uid=939A35415C59B7B10000005C294B9F1D > = Outlaw_006_Epic
+}
+
+Enhancement Shop_Epic_Paintjob_4 < uid=939A35415C3CD4F3000003F0F99F14F0 > : "Ship Skin Epic"
+{
+	myLocalizedName "contextComment = \"UI name for a Shop paint mod of Epic quality that can change player's ship appearance\", description = \"enhancement-name-Shop_Epic_Paintjob_4-ship-paint\", enabled = true, guid = #939A35415C3CD4D5000003B14D2DE0FF, lineVersion = 0, maxLength = 30, text = \"[Shop_Epic_Paintjob_4] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a Shop paint mod of Epic quality that can change player's ship appearance\", description = \"enhancement-description-Shop_Epic_Paintjob_4-ship-paint\", enabled = true, guid = #939A35415C3CD4D6000003B25C4E670A, lineVersion = 0, maxLength = 46, text = \"[Shop_Epic_Paintjob_4 Description] \"}"
+	myPaintJob < uid=939A35415C59B7B10000005DF75F83D4 > = Outlaw_007_Epic
+}
+
+Enhancement Shop_Epic_Paintjob_5 < uid=939A35415C3CD4F3000003F14704E7EA > : "Ship Skin Epic"
+{
+	myLocalizedName "contextComment = \"UI name for a Shop paint mod of Epic quality that can change player's ship appearance\", description = \"enhancement-name-Shop_Epic_Paintjob_5-ship-paint\", enabled = true, guid = #939A35415C3CD4DA000003B5E7F51590, lineVersion = 0, maxLength = 30, text = \"[Shop_Epic_Paintjob_5] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a Shop paint mod of Epic quality that can change player's ship appearance\", description = \"enhancement-description-Shop_Epic_Paintjob_5-ship-paint\", enabled = true, guid = #939A35415C3CD4DB000003B6C8AC4853, lineVersion = 0, maxLength = 46, text = \"[Shop_Epic_Paintjob_5 Description] \"}"
+	myPaintJob < uid=939A35415C59B7B10000005ECEEDFF1B > = Outlaw_008_epic
+}
+
+Enhancement Shop_Legendary_Paintjob_1 < uid=939A35415C3CD4F3000003F2A411D112 > : "Ship Skin Legendary"
+{
+	myLocalizedName "contextComment = \"UI name for a Shop paint mod of Legendary quality that can change player's ship appearance\", description = \"enhancement-name-Shop_Legendary_Paintjob_1-ship-paint\", enabled = true, guid = #939A35415C3CD4DF000003B970B15F97, lineVersion = 0, maxLength = 36, text = \"[Shop_Legendary_Paintjob_1] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a Shop paint mod of Legendary quality that can change player's ship appearance\", description = \"enhancement-description-Shop_Legendary_Paintjob_1-ship-paint\", enabled = true, guid = #939A35415C3CD4E0000003BADAF56F02, lineVersion = 0, maxLength = 52, text = \"[Shop_Legendary_Paintjob_1 Description] \"}"
+	myPaintJob < uid=939A35415C59B7B10000005FDEE614A6 > = Outlaw_002_Legendary
+}
+
+Enhancement Shop_Legendary_Paintjob_2 < uid=939A35415C3CD4F3000003F3E8E4EE29 > : "Ship Skin Legendary"
+{
+	myLocalizedName "contextComment = \"UI name for a Shop paint mod of Legendary quality that can change player's ship appearance\", description = \"enhancement-name-Shop_Legendary_Paintjob_2-ship-paint\", enabled = true, guid = #939A35415C3CD4E3000003BD77CC49C4, lineVersion = 0, maxLength = 36, text = \"[Shop_Legendary_Paintjob_2] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a Shop paint mod of Legendary quality that can change player's ship appearance\", description = \"enhancement-description-Shop_Legendary_Paintjob_2-ship-paint\", enabled = true, guid = #939A35415C3CD4E4000003BE0630B540, lineVersion = 0, maxLength = 52, text = \"[Shop_Legendary_Paintjob_2 Description] \"}"
+	myPaintJob < uid=939A35415C59B7B100000060AB20CB10 > = Outlaw_003_legendary
+}
+
+Enhancement Shop_Legendary_Paintjob_3 < uid=939A35415C3CD4F3000003F4E9DD5F51 > : "Ship Skin Legendary"
+{
+	myLocalizedName "contextComment = \"UI name for a Shop paint mod of Legendary quality that can change player's ship appearance\", description = \"enhancement-name-Shop_Legendary_Paintjob_3-ship-paint\", enabled = true, guid = #939A35415C3CD4E8000003C12D1602A8, lineVersion = 0, maxLength = 36, text = \"[Shop_Legendary_Paintjob_3] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a Shop paint mod of Legendary quality that can change player's ship appearance\", description = \"enhancement-description-Shop_Legendary_Paintjob_3-ship-paint\", enabled = true, guid = #939A35415C3CD4E9000003C2AE0F28FF, lineVersion = 0, maxLength = 52, text = \"[Shop_Legendary_Paintjob_3 Description] \"}"
+	myPaintJob < uid=939A35415C59B7B100000061A06ABC83 > = Outlaw_004_Legendary
+}
+
+Enhancement Shop_Legendary_Paintjob_4 < uid=939A35415C3CD4F3000003F58986CE37 > : "Ship Skin Legendary"
+{
+	myLocalizedName "contextComment = \"UI name for a Shop paint mod of Legendary quality that can change player's ship appearance\", description = \"enhancement-name-Shop_Legendary_Paintjob_4-ship-paint\", enabled = true, guid = #939A35415C3CD4EC000003C5AFD7DC26, lineVersion = 0, maxLength = 36, text = \"[Shop_Legendary_Paintjob_4] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a Shop paint mod of Legendary quality that can change player's ship appearance\", description = \"enhancement-description-Shop_Legendary_Paintjob_4-ship-paint\", enabled = true, guid = #939A35415C3CD4ED000003C6784851F3, lineVersion = 0, maxLength = 52, text = \"[Shop_Legendary_Paintjob_4 Description] \"}"
+	myPaintJob < uid=939A35415C59B7B10000006201DE9AB2 > = Outlaw_006_Legendary
+}
+
+Enhancement ProspectorStory_Rare_Paintjob_1 < uid=939A35415C3CD4F3000003F6A3350754 > : "Ship Skin Rare"
+{
+	myLocalizedName "contextComment = \"UI name for a ProspectorStory paint mod of Rare quality that can change player's ship appearance\", description = \"enhancement-name-ProspectorStory_Rare_Paintjob_1-ship-paint\", enabled = true, guid = #939A35415C3CD4F1000003C96B1455A8, lineVersion = 0, maxLength = 44, text = \"[ProspectorStory_Rare_Paintjob_1] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a ProspectorStory paint mod of Rare quality that can change player's ship appearance\", description = \"enhancement-description-ProspectorStory_Rare_Paintjob_1-ship-paint\", enabled = true, guid = #939A35415C3CD4F2000003CA51E956F0, lineVersion = 0, maxLength = 60, text = \"[ProspectorStory_Rare_Paintjob_1 Description] \"}"
+	myPaintJob < uid=939A35415C59B7B100000063EF73FD0B > = Dev_Lines
+}
+
+Enhancement ProspectorStory_Rare_Paintjob_2 < uid=939A35415C3CD4F3000003F76C6F20BD > : "Ship Skin Rare"
+{
+	myLocalizedName "contextComment = \"UI name for a ProspectorStory paint mod of Rare quality that can change player's ship appearance\", description = \"enhancement-name-ProspectorStory_Rare_Paintjob_2-ship-paint\", enabled = true, guid = #939A35415C3CD668000004880BEE15FF, lineVersion = 0, maxLength = 44, text = \"[ProspectorStory_Rare_Paintjob_2] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a ProspectorStory paint mod of Rare quality that can change player's ship appearance\", description = \"enhancement-description-ProspectorStory_Rare_Paintjob_2-ship-paint\", enabled = true, guid = #939A35415C3CD66A0000048951FB49BC, lineVersion = 0, maxLength = 60, text = \"[ProspectorStory_Rare_Paintjob_2 Description] \"}"
+	myPaintJob < uid=939A35415C59B7B10000006442A6D3BE > = Expedition_005_Rare
+}
+
+Enhancement ProspectorStory_Rare_Paintjob_3 < uid=939A35415C3CD4F3000003F86F4BDDB6 > : "Ship Skin Rare"
+{
+	myLocalizedName "contextComment = \"UI name for a ProspectorStory paint mod of Rare quality that can change player's ship appearance\", description = \"enhancement-name-ProspectorStory_Rare_Paintjob_3-ship-paint\", enabled = true, guid = #939A35415C3CD66D0000048C487A1E31, lineVersion = 0, maxLength = 44, text = \"[ProspectorStory_Rare_Paintjob_3] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a ProspectorStory paint mod of Rare quality that can change player's ship appearance\", description = \"enhancement-description-ProspectorStory_Rare_Paintjob_3-ship-paint\", enabled = true, guid = #939A35415C3CD66E0000048DC347082B, lineVersion = 0, maxLength = 60, text = \"[ProspectorStory_Rare_Paintjob_3 Description] \"}"
+	myPaintJob < uid=939A35415C59B7B100000065B7DDF1CD > = Gemini_004_Rare
+}
+
+Enhancement ProspectorStory_Epic_Paintjob_1 < uid=939A35415C3CD4F3000003F9D003511E > : "Ship Skin Epic"
+{
+	myLocalizedName "contextComment = \"UI name for a ProspectorStory paint mod of Epic quality that can change player's ship appearance\", description = \"enhancement-name-ProspectorStory_Epic_Paintjob_1-ship-paint\", enabled = true, guid = #939A35415C3CD673000004901B456EDA, lineVersion = 0, maxLength = 44, text = \"[ProspectorStory_Epic_Paintjob_1] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a ProspectorStory paint mod of Epic quality that can change player's ship appearance\", description = \"enhancement-description-ProspectorStory_Epic_Paintjob_1-ship-paint\", enabled = true, guid = #939A35415C3CD67400000491E0B83BC9, lineVersion = 0, maxLength = 60, text = \"[ProspectorStory_Epic_Paintjob_1 Description] \"}"
+	myPaintJob < uid=939A35415C59B7B1000000664223E68E > = Expedition_005_Epic
+}
+
+Enhancement ProspectorStory_Epic_Paintjob_2 < uid=939A35415C3CD4F3000003FADB07E3ED > : "Ship Skin Epic"
+{
+	myLocalizedName "contextComment = \"UI name for a ProspectorStory paint mod of Epic quality that can change player's ship appearance\", description = \"enhancement-name-ProspectorStory_Epic_Paintjob_2-ship-paint\", enabled = true, guid = #939A35415C3CD6780000049446391802, lineVersion = 0, maxLength = 44, text = \"[ProspectorStory_Epic_Paintjob_2] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a ProspectorStory paint mod of Epic quality that can change player's ship appearance\", description = \"enhancement-description-ProspectorStory_Epic_Paintjob_2-ship-paint\", enabled = true, guid = #939A35415C3CD67900000495677E057F, lineVersion = 0, maxLength = 60, text = \"[ProspectorStory_Epic_Paintjob_2 Description] \"}"
+	myPaintJob < uid=939A35415C59B7B10000006732C8D064 > = Gemini_004_Epic
+}
+
+Enhancement ProspectorStory_Epic_Paintjob_3 < uid=939A35415C3CD4F3000003FBCE785AF8 > : "Ship Skin Epic"
+{
+	myLocalizedName "contextComment = \"UI name for a ProspectorStory paint mod of Epic quality that can change player's ship appearance\", description = \"enhancement-name-ProspectorStory_Epic_Paintjob_3-ship-paint\", enabled = true, guid = #939A35415C3CD67D000004982D5BC76B, lineVersion = 0, maxLength = 44, text = \"[ProspectorStory_Epic_Paintjob_3] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a ProspectorStory paint mod of Epic quality that can change player's ship appearance\", description = \"enhancement-description-ProspectorStory_Epic_Paintjob_3-ship-paint\", enabled = true, guid = #939A35415C3CD67E00000499BA996A42, lineVersion = 0, maxLength = 60, text = \"[ProspectorStory_Epic_Paintjob_3 Description] \"}"
+	myPaintJob < uid=939A35415C59B7B1000000684687CEA0 > = Gemini_005_Epic
+}
+
+Enhancement ProspectorStory_Legendary_Paintjob_1 < uid=939A35415C3CD4F3000003FCFFEF88EC > : "Ship Skin Legendary"
+{
+	myLocalizedName "contextComment = \"UI name for a ProspectorStory paint mod of Legendary quality that can change player's ship appearance\", description = \"enhancement-name-ProspectorStory_Legendary_Paintjob_1-ship-paint\", enabled = true, guid = #939A35415C3CD6810000049CC066F329, lineVersion = 0, maxLength = 51, text = \"[ProspectorStory_Legendary_Paintjob_1] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a ProspectorStory paint mod of Legendary quality that can change player's ship appearance\", description = \"enhancement-description-ProspectorStory_Legendary_Paintjob_1-ship-paint\", enabled = true, guid = #939A35415C3CD6830000049DB1DC5A1D, lineVersion = 0, maxLength = 66, text = \"[ProspectorStory_Legendary_Paintjob_1 Description] \"}"
+	myPaintJob < uid=939A35415C59B7B1000000691E8C0C24 > = Dev_Royal
+}
+
+Enhancement ExpeditionStory_Rare_Paintjob_1 < uid=939A35415C3CD4F3000003FD35AEBDAE > : "Ship Skin Rare"
+{
+	myLocalizedName "contextComment = \"UI name for a ExpeditionStory paint mod of Rare quality that can change player's ship appearance\", description = \"enhancement-name-ExpeditionStory_Rare_Paintjob_1-ship-paint\", enabled = true, guid = #939A35415C3CD686000004A07518FCEC, lineVersion = 0, maxLength = 44, text = \"[ExpeditionStory_Rare_Paintjob_1] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a ExpeditionStory paint mod of Rare quality that can change player's ship appearance\", description = \"enhancement-description-ExpeditionStory_Rare_Paintjob_1-ship-paint\", enabled = true, guid = #939A35415C3CD687000004A126474CE0, lineVersion = 0, maxLength = 60, text = \"[ExpeditionStory_Rare_Paintjob_1 Description] \"}"
+	myPaintJob < uid=939A35415C59B7B10000006A43C68EED > = Expedition_001_Rare
+}
+
+Enhancement ExpeditionStory_Rare_Paintjob_2 < uid=939A35415C3CD4F3000003FED152287D > : "Ship Skin Rare"
+{
+	myLocalizedName "contextComment = \"UI name for a ExpeditionStory paint mod of Rare quality that can change player's ship appearance\", description = \"enhancement-name-ExpeditionStory_Rare_Paintjob_2-ship-paint\", enabled = true, guid = #939A35415C3CD68B000004A4D2FB8D37, lineVersion = 0, maxLength = 44, text = \"[ExpeditionStory_Rare_Paintjob_2] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a ExpeditionStory paint mod of Rare quality that can change player's ship appearance\", description = \"enhancement-description-ExpeditionStory_Rare_Paintjob_2-ship-paint\", enabled = true, guid = #939A35415C3CD68C000004A5CEC7FBC4, lineVersion = 0, maxLength = 60, text = \"[ExpeditionStory_Rare_Paintjob_2 Description] \"}"
+	myPaintJob < uid=939A35415C59B7B10000006B37F93D01 > = Expedition_003_Rare
+}
+
+Enhancement ExpeditionStory_Rare_Paintjob_3 < uid=939A35415C3CD4F3000003FFDDF10735 > : "Ship Skin Rare"
+{
+	myLocalizedName "contextComment = \"UI name for a ExpeditionStory paint mod of Rare quality that can change player's ship appearance\", description = \"enhancement-name-ExpeditionStory_Rare_Paintjob_3-ship-paint\", enabled = true, guid = #939A35415C3CD68F000004A87716F02D, lineVersion = 0, maxLength = 44, text = \"[ExpeditionStory_Rare_Paintjob_3] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a ExpeditionStory paint mod of Rare quality that can change player's ship appearance\", description = \"enhancement-description-ExpeditionStory_Rare_Paintjob_3-ship-paint\", enabled = true, guid = #939A35415C3CD691000004A986FE3CD0, lineVersion = 0, maxLength = 60, text = \"[ExpeditionStory_Rare_Paintjob_3 Description] \"}"
+	myPaintJob < uid=939A35415C59B7B10000006C4F730790 > = Generic_001_Rare
+}
+
+Enhancement ExpeditionStory_Epic_Paintjob_1 < uid=939A35415C3CD4F3000004005EDA5C8F > : "Ship Skin Epic"
+{
+	myLocalizedName "contextComment = \"UI name for a ExpeditionStory paint mod of Epic quality that can change player's ship appearance\", description = \"enhancement-name-ExpeditionStory_Epic_Paintjob_1-ship-paint\", enabled = true, guid = #939A35415C3CD694000004AC0F4C71C9, lineVersion = 0, maxLength = 44, text = \"[ExpeditionStory_Epic_Paintjob_1] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a ExpeditionStory paint mod of Epic quality that can change player's ship appearance\", description = \"enhancement-description-ExpeditionStory_Epic_Paintjob_1-ship-paint\", enabled = true, guid = #939A35415C3CD695000004AD7823D44C, lineVersion = 0, maxLength = 60, text = \"[ExpeditionStory_Epic_Paintjob_1 Description] \"}"
+	myPaintJob < uid=939A35415C59B7B10000006D31E0CF76 > = Generic_003_Epic
+}
+
+Enhancement ExpeditionStory_Epic_Paintjob_2 < uid=939A35415C3CD4F3000004011ED9D937 > : "Ship Skin Epic"
+{
+	myLocalizedName "contextComment = \"UI name for a ExpeditionStory paint mod of Epic quality that can change player's ship appearance\", description = \"enhancement-name-ExpeditionStory_Epic_Paintjob_2-ship-paint\", enabled = true, guid = #939A35415C3CD78F0000051CA545451F, lineVersion = 0, maxLength = 44, text = \"[ExpeditionStory_Epic_Paintjob_2] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a ExpeditionStory paint mod of Epic quality that can change player's ship appearance\", description = \"enhancement-description-ExpeditionStory_Epic_Paintjob_2-ship-paint\", enabled = true, guid = #939A35415C3CD7900000051D2A9EAC99, lineVersion = 0, maxLength = 60, text = \"[ExpeditionStory_Epic_Paintjob_2 Description] \"}"
+	myPaintJob < uid=939A35415C59B7B10000006E46269E41 > = Generic_001_Epic
+}
+
+Enhancement ExpeditionStory_Epic_Paintjob_3 < uid=939A35415C3CD4F3000004025E880B51 > : "Ship Skin Epic"
+{
+	myLocalizedName "contextComment = \"UI name for a ExpeditionStory paint mod of Epic quality that can change player's ship appearance\", description = \"enhancement-name-ExpeditionStory_Epic_Paintjob_3-ship-paint\", enabled = true, guid = #939A35415C3CD79400000520EF4AEC95, lineVersion = 0, maxLength = 44, text = \"[ExpeditionStory_Epic_Paintjob_3] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a ExpeditionStory paint mod of Epic quality that can change player's ship appearance\", description = \"enhancement-description-ExpeditionStory_Epic_Paintjob_3-ship-paint\", enabled = true, guid = #939A35415C3CD79500000521306F6F81, lineVersion = 0, maxLength = 60, text = \"[ExpeditionStory_Epic_Paintjob_3 Description] \"}"
+	myPaintJob < uid=939A35415C59B7B10000006FB8C9B2B1 > = Generic_038_epic
+}
+
+Enhancement ExpeditionStory_Legendary_Paintjob_1 < uid=939A35415C3CD4F3000004030B15671A > : "Ship Skin Legendary"
+{
+	myLocalizedName "contextComment = \"UI name for a ExpeditionStory paint mod of Legendary quality that can change player's ship appearance\", description = \"enhancement-name-ExpeditionStory_Legendary_Paintjob_1-ship-paint\", enabled = true, guid = #939A35415C3CD79800000524EB478196, lineVersion = 0, maxLength = 51, text = \"[ExpeditionStory_Legendary_Paintjob_1] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a ExpeditionStory paint mod of Legendary quality that can change player's ship appearance\", description = \"enhancement-description-ExpeditionStory_Legendary_Paintjob_1-ship-paint\", enabled = true, guid = #939A35415C3CD79900000525A01FE818, lineVersion = 0, maxLength = 66, text = \"[ExpeditionStory_Legendary_Paintjob_1 Description] \"}"
+	myPaintJob < uid=939A35415C59B7B1000000706F516DBF > = Dev_Wardish_Blue
+}
+
+Enhancement Legion_Legendary_Paintjob_1 < uid=939A35415C3CD4F30000040BF6E53E21 > : "Ship Skin Legendary"
+{
+	myLocalizedName "contextComment = \"UI name for a Legion paint mod of Legendary quality that can change player's ship appearance\", description = \"enhancement-name-Legion_Legendary_Paintjob_1-ship-paint\", enabled = true, guid = #939A35415C3CD7C1000005447CECF64A, lineVersion = 0, maxLength = 39, text = \"[Legion_Legendary_Paintjob_1] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a Legion paint mod of Legendary quality that can change player's ship appearance\", description = \"enhancement-description-Legion_Legendary_Paintjob_1-ship-paint\", enabled = true, guid = #939A35415C3CD7C20000054514166AE8, lineVersion = 0, maxLength = 55, text = \"[Legion_Legendary_Paintjob_1 Description] \"}"
+	myPaintJob < uid=939A35415C59B7B10000007158FD845C > = Dev_Wardish_Gold
+}
+
+Enhancement ProspectorDelivery_Rare_Paintjob_1 < uid=939A35415C3CD4F30000040C78DED874 > : "Ship Skin Rare"
+{
+	myLocalizedName "contextComment = \"UI name for a ProspectorDelivery paint mod of Rare quality that can change player's ship appearance\", description = \"enhancement-name-ProspectorDelivery_Rare_Paintjob_1-ship-paint\", enabled = true, guid = #939A35415C3CD7C600000548D698DBC8, lineVersion = 0, maxLength = 48, text = \"[ProspectorDelivery_Rare_Paintjob_1] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a ProspectorDelivery paint mod of Rare quality that can change player's ship appearance\", description = \"enhancement-description-ProspectorDelivery_Rare_Paintjob_1-ship-paint\", enabled = true, guid = #939A35415C3CD7C700000549717EAAD9, lineVersion = 0, maxLength = 64, text = \"[ProspectorDelivery_Rare_Paintjob_1 Description] \"}"
+	myPaintJob < uid=939A35415C59B7B1000000722A5BCD94 > = Gemini_005_Rare
+}
+
+Enhancement ProspectorDelivery_Rare_Paintjob_2 < uid=939A35415C3CD4F30000040D81EBBD52 > : "Ship Skin Rare"
+{
+	myLocalizedName "contextComment = \"UI name for a ProspectorDelivery paint mod of Rare quality that can change player's ship appearance\", description = \"enhancement-name-ProspectorDelivery_Rare_Paintjob_2-ship-paint\", enabled = true, guid = #939A35415C3CD7CA0000054C681C4C3B, lineVersion = 0, maxLength = 48, text = \"[ProspectorDelivery_Rare_Paintjob_2] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a ProspectorDelivery paint mod of Rare quality that can change player's ship appearance\", description = \"enhancement-description-ProspectorDelivery_Rare_Paintjob_2-ship-paint\", enabled = true, guid = #939A35415C3CD7CB0000054DECB00B83, lineVersion = 0, maxLength = 64, text = \"[ProspectorDelivery_Rare_Paintjob_2 Description] \"}"
+	myPaintJob < uid=939A35415C59B7B100000073DFF2AE54 > = Generic_017_Rare
+}
+
+Enhancement ProspectorDelivery_Epic_Paintjob_1 < uid=939A35415C3CD4F30000040E3E135C74 > : "Ship Skin Epic"
+{
+	myLocalizedName "contextComment = \"UI name for a ProspectorDelivery paint mod of Epic quality that can change player's ship appearance\", description = \"enhancement-name-ProspectorDelivery_Epic_Paintjob_1-ship-paint\", enabled = true, guid = #939A35415C3CD7CF000005502C2699B1, lineVersion = 0, maxLength = 48, text = \"[ProspectorDelivery_Epic_Paintjob_1] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a ProspectorDelivery paint mod of Epic quality that can change player's ship appearance\", description = \"enhancement-description-ProspectorDelivery_Epic_Paintjob_1-ship-paint\", enabled = true, guid = #939A35415C3CD7D00000055140A663A5, lineVersion = 0, maxLength = 64, text = \"[ProspectorDelivery_Epic_Paintjob_1 Description] \"}"
+	myPaintJob < uid=939A35415C59B7B1000000743B2A1C80 > = Dev_RoseGold
+}
+
+Enhancement ExpeditionDelivery_Rare_Paintjob_1 < uid=939A35415C3CD4F30000040FE1D879A1 > : "Ship Skin Rare"
+{
+	myLocalizedName "contextComment = \"UI name for a ExpeditionDelivery paint mod of Rare quality that can change player's ship appearance\", description = \"enhancement-name-ExpeditionDelivery_Rare_Paintjob_1-ship-paint\", enabled = true, guid = #939A35415C3CD7D300000554DDB032D3, lineVersion = 0, maxLength = 48, text = \"[ExpeditionDelivery_Rare_Paintjob_1] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a ExpeditionDelivery paint mod of Rare quality that can change player's ship appearance\", description = \"enhancement-description-ExpeditionDelivery_Rare_Paintjob_1-ship-paint\", enabled = true, guid = #939A35415C3CD7D400000555AE78D98B, lineVersion = 0, maxLength = 64, text = \"[ExpeditionDelivery_Rare_Paintjob_1 Description] \"}"
+	myPaintJob < uid=939A35415C59B7B1000000758F41A0DD > = Generic_038_rare
+}
+
+Enhancement ExpeditionDelivery_Rare_Paintjob_2 < uid=939A35415C3CD4F3000004106F4B0096 > : "Ship Skin Rare"
+{
+	myLocalizedName "contextComment = \"UI name for a ExpeditionDelivery paint mod of Rare quality that can change player's ship appearance\", description = \"enhancement-name-ExpeditionDelivery_Rare_Paintjob_2-ship-paint\", enabled = true, guid = #939A35415C3CD7DA000005580A54C3FB, lineVersion = 0, maxLength = 48, text = \"[ExpeditionDelivery_Rare_Paintjob_2] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a ExpeditionDelivery paint mod of Rare quality that can change player's ship appearance\", description = \"enhancement-description-ExpeditionDelivery_Rare_Paintjob_2-ship-paint\", enabled = true, guid = #939A35415C3CD7DB000005596288F7BB, lineVersion = 0, maxLength = 64, text = \"[ExpeditionDelivery_Rare_Paintjob_2 Description] \"}"
+	myPaintJob < uid=939A35415C59B7B1000000767B82EBCC > = Prospector_007_rare
+}
+
+Enhancement ExpeditionDelivery_Epic_Paintjob_1 < uid=939A35415C3CD4F300000411B3962100 > : "Ship Skin Epic"
+{
+	myLocalizedName "contextComment = \"UI name for a ExpeditionDelivery paint mod of Epic quality that can change player's ship appearance\", description = \"enhancement-name-ExpeditionDelivery_Epic_Paintjob_1-ship-paint\", enabled = true, guid = #939A35415C3CD7DF0000055CE3BF268F, lineVersion = 0, maxLength = 48, text = \"[ExpeditionDelivery_Epic_Paintjob_1] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a ExpeditionDelivery paint mod of Epic quality that can change player's ship appearance\", description = \"enhancement-description-ExpeditionDelivery_Epic_Paintjob_1-ship-paint\", enabled = true, guid = #939A35415C3CD7E00000055DC6AF206C, lineVersion = 0, maxLength = 64, text = \"[ExpeditionDelivery_Epic_Paintjob_1 Description] \"}"
+	myPaintJob < uid=939A35415C59B7B10000007731486AE6 > = Prospector_007_legendary
+}
+
+Enhancement Planet1_Rare_Paintjob_1 < uid=939A35415C3CD4F30000041217C23BFA > : "Ship Skin Rare"
+{
+	myLocalizedName "contextComment = \"UI name for a Planet1 paint mod of Rare quality that can change player's ship appearance\", description = \"enhancement-name-Planet1_Rare_Paintjob_1-ship-paint\", enabled = true, guid = #939A35415C3CD7E400000560FB9BA264, lineVersion = 0, maxLength = 34, text = \"[Planet1_Rare_Paintjob_1] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a Planet1 paint mod of Rare quality that can change player's ship appearance\", description = \"enhancement-description-Planet1_Rare_Paintjob_1-ship-paint\", enabled = true, guid = #939A35415C3CD7E5000005614488513B, lineVersion = 0, maxLength = 49, text = \"[Planet1_Rare_Paintjob_1 Description] \"}"
+	myPaintJob < uid=939A35415C59B7B1000000785AEDBE53 > = Generic_036_rare
+}
+
+Enhancement Planet1_Epic_Paintjob_1 < uid=939A35415C3CD4F30000041335F55DD2 > : "Ship Skin Epic"
+{
+	myLocalizedName "contextComment = \"UI name for a Planet1 paint mod of Epic quality that can change player's ship appearance\", description = \"enhancement-name-Planet1_Epic_Paintjob_1-ship-paint\", enabled = true, guid = #939A35415C3CD7E900000564A976D061, lineVersion = 0, maxLength = 34, text = \"[Planet1_Epic_Paintjob_1] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a Planet1 paint mod of Epic quality that can change player's ship appearance\", description = \"enhancement-description-Planet1_Epic_Paintjob_1-ship-paint\", enabled = true, guid = #939A35415C3CD7EB00000565AF714DFD, lineVersion = 0, maxLength = 49, text = \"[Planet1_Epic_Paintjob_1 Description] \"}"
+	myPaintJob < uid=939A35415C59B7B100000079D828BA9B > = Generic_036_epic
+}
+
+Enhancement Planet1_Epic_Paintjob_2 < uid=939A35415C3CD4F300000414028DA44A > : "Ship Skin Epic"
+{
+	myLocalizedName "contextComment = \"UI name for a Planet1 paint mod of Epic quality that can change player's ship appearance\", description = \"enhancement-name-Planet1_Epic_Paintjob_2-ship-paint\", enabled = true, guid = #939A35415C3CD7F300000568263E1531, lineVersion = 0, maxLength = 34, text = \"[Planet1_Epic_Paintjob_2] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a Planet1 paint mod of Epic quality that can change player's ship appearance\", description = \"enhancement-description-Planet1_Epic_Paintjob_2-ship-paint\", enabled = true, guid = #939A35415C3CD7F4000005690305AAAE, lineVersion = 0, maxLength = 49, text = \"[Planet1_Epic_Paintjob_2 Description] \"}"
+	myPaintJob < uid=939A35415C59B7B10000007AB498F6D9 > = Generic_036_Epic_v2
+}
+
+Enhancement Planet1_Legendary_Paintjob_1 < uid=939A35415C3CD4F30000041500111B3A > : "Ship Skin Legendary"
+{
+	myLocalizedName "contextComment = \"UI name for a Planet1 paint mod of Legendary quality that can change player's ship appearance\", description = \"enhancement-name-Planet1_Legendary_Paintjob_1-ship-paint\", enabled = true, guid = #939A35415C3CD80A0000056CC9A04D26, lineVersion = 0, maxLength = 40, text = \"[Planet1_Legendary_Paintjob_1] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a Planet1 paint mod of Legendary quality that can change player's ship appearance\", description = \"enhancement-description-Planet1_Legendary_Paintjob_1-ship-paint\", enabled = true, guid = #939A35415C3CD80B0000056DE7DEDE66, lineVersion = 0, maxLength = 56, text = \"[Planet1_Legendary_Paintjob_1 Description] \"}"
+	myPaintJob < uid=939A35415C59B7B10000007BC6F5A5F6 > = Generic_036_legendary
+}
+
+Enhancement Planet2_Rare_Paintjob_1 < uid=939A35415C3CD4F300000416060AED29 > : "Ship Skin Rare"
+{
+	myLocalizedName "contextComment = \"UI name for a Planet2 paint mod of Rare quality that can change player's ship appearance\", description = \"enhancement-name-Planet2_Rare_Paintjob_1-ship-paint\", enabled = true, guid = #939A35415C3CD81100000606E1265255, lineVersion = 0, maxLength = 34, text = \"[Planet2_Rare_Paintjob_1] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a Planet2 paint mod of Rare quality that can change player's ship appearance\", description = \"enhancement-description-Planet2_Rare_Paintjob_1-ship-paint\", enabled = true, guid = #939A35415C3CD81200000607DD41A09B, lineVersion = 0, maxLength = 49, text = \"[Planet2_Rare_Paintjob_1 Description] \"}"
+	myPaintJob < uid=939A35415C59B7B10000007CF1DD845D > = Generic_040_Rare
+}
+
+Enhancement Planet2_Epic_Paintjob_1 < uid=939A35415C3CD4F300000417998E3BF7 > : "Ship Skin Epic"
+{
+	myLocalizedName "contextComment = \"UI name for a Planet2 paint mod of Epic quality that can change player's ship appearance\", description = \"enhancement-name-Planet2_Epic_Paintjob_1-ship-paint\", enabled = true, guid = #939A35415C3CD8160000060A171230A6, lineVersion = 0, maxLength = 34, text = \"[Planet2_Epic_Paintjob_1] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a Planet2 paint mod of Epic quality that can change player's ship appearance\", description = \"enhancement-description-Planet2_Epic_Paintjob_1-ship-paint\", enabled = true, guid = #939A35415C3CD8170000060BC7870FA7, lineVersion = 0, maxLength = 49, text = \"[Planet2_Epic_Paintjob_1 Description] \"}"
+	myPaintJob < uid=939A35415C59B7B10000007D6CBC049F > = Generic_040_Epic
+}
+
+Enhancement Planet2_Epic_Paintjob_2 < uid=939A35415C3CD4F300000418F64E7378 > : "Ship Skin Epic"
+{
+	myLocalizedName "contextComment = \"UI name for a Planet2 paint mod of Epic quality that can change player's ship appearance\", description = \"enhancement-name-Planet2_Epic_Paintjob_2-ship-paint\", enabled = true, guid = #939A35415C3CD81B0000060E2E430E1C, lineVersion = 0, maxLength = 34, text = \"[Planet2_Epic_Paintjob_2] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a Planet2 paint mod of Epic quality that can change player's ship appearance\", description = \"enhancement-description-Planet2_Epic_Paintjob_2-ship-paint\", enabled = true, guid = #939A35415C3CD81C0000060FD146C644, lineVersion = 0, maxLength = 49, text = \"[Planet2_Epic_Paintjob_2 Description] \"}"
+	myPaintJob < uid=939A35415C59B7B10000007E1FE119EF > = Generic_040_Epic_v2
+}
+
+Enhancement Planet2_Legendary_Paintjob_1 < uid=939A35415C3CD4F3000004197E0E6E40 > : "Ship Skin Legendary"
+{
+	myLocalizedName "contextComment = \"UI name for a Planet2 paint mod of Legendary quality that can change player's ship appearance\", description = \"enhancement-name-Planet2_Legendary_Paintjob_1-ship-paint\", enabled = true, guid = #939A35415C3CD82000000612F84BA69E, lineVersion = 0, maxLength = 40, text = \"[Planet2_Legendary_Paintjob_1] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a Planet2 paint mod of Legendary quality that can change player's ship appearance\", description = \"enhancement-description-Planet2_Legendary_Paintjob_1-ship-paint\", enabled = true, guid = #939A35415C3CD822000006131FD82B35, lineVersion = 0, maxLength = 56, text = \"[Planet2_Legendary_Paintjob_1 Description] \"}"
+	myPaintJob < uid=939A35415C59B7B10000007F7450D5F0 > = Generic_040_Legendary
+}
+
+Enhancement Planet3_Rare_Paintjob_1 < uid=939A35415C3CD4F30000041A2F3CA70D > : "Ship Skin Rare"
+{
+	myLocalizedName "contextComment = \"UI name for a Planet3 paint mod of Rare quality that can change player's ship appearance\", description = \"enhancement-name-Planet3_Rare_Paintjob_1-ship-paint\", enabled = true, guid = #939A35415C3CD82600000616DF43B7CB, lineVersion = 0, maxLength = 34, text = \"[Planet3_Rare_Paintjob_1] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a Planet3 paint mod of Rare quality that can change player's ship appearance\", description = \"enhancement-description-Planet3_Rare_Paintjob_1-ship-paint\", enabled = true, guid = #939A35415C3CD82700000617011CAE95, lineVersion = 0, maxLength = 49, text = \"[Planet3_Rare_Paintjob_1 Description] \"}"
+	myPaintJob < uid=939A35415C59B7B10000008069B2484B > = Generic_033_rare
+}
+
+Enhancement Planet3_Epic_Paintjob_1 < uid=939A35415C3CD4F30000041BC785709E > : "Ship Skin Epic"
+{
+	myLocalizedName "contextComment = \"UI name for a Planet3 paint mod of Epic quality that can change player's ship appearance\", description = \"enhancement-name-Planet3_Epic_Paintjob_1-ship-paint\", enabled = true, guid = #939A35415C3CD82B0000061A4E000D4F, lineVersion = 0, maxLength = 34, text = \"[Planet3_Epic_Paintjob_1] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a Planet3 paint mod of Epic quality that can change player's ship appearance\", description = \"enhancement-description-Planet3_Epic_Paintjob_1-ship-paint\", enabled = true, guid = #939A35415C3CD82C0000061BAA8C6A1C, lineVersion = 0, maxLength = 49, text = \"[Planet3_Epic_Paintjob_1 Description] \"}"
+	myPaintJob < uid=939A35415C59B7B100000081E5A6211E > = Generic_033_epic
+}
+
+Enhancement Planet3_Epic_Paintjob_2 < uid=939A35415C3CD4F30000041C42D50EA5 > : "Ship Skin Epic"
+{
+	myLocalizedName "contextComment = \"UI name for a Planet3 paint mod of Epic quality that can change player's ship appearance\", description = \"enhancement-name-Planet3_Epic_Paintjob_2-ship-paint\", enabled = true, guid = #939A35415C3CD8310000061E7ABB7677, lineVersion = 0, maxLength = 34, text = \"[Planet3_Epic_Paintjob_2] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a Planet3 paint mod of Epic quality that can change player's ship appearance\", description = \"enhancement-description-Planet3_Epic_Paintjob_2-ship-paint\", enabled = true, guid = #939A35415C3CD8320000061FB3AE2FB6, lineVersion = 0, maxLength = 49, text = \"[Planet3_Epic_Paintjob_2 Description] \"}"
+	myPaintJob < uid=939A35415C59B7B100000082F29F7224 > = Generic_033_epic_v2
+}
+
+Enhancement Planet3_Legendary_Paintjob_1 < uid=939A35415C3CD4F30000041D4FA414D1 > : "Ship Skin Legendary"
+{
+	myLocalizedName "contextComment = \"UI name for a Planet3 paint mod of Legendary quality that can change player's ship appearance\", description = \"enhancement-name-Planet3_Legendary_Paintjob_1-ship-paint\", enabled = true, guid = #939A35415C3CD8360000062287DA3097, lineVersion = 0, maxLength = 40, text = \"[Planet3_Legendary_Paintjob_1] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a Planet3 paint mod of Legendary quality that can change player's ship appearance\", description = \"enhancement-description-Planet3_Legendary_Paintjob_1-ship-paint\", enabled = true, guid = #939A35415C3CD8370000062345CB6C45, lineVersion = 0, maxLength = 56, text = \"[Planet3_Legendary_Paintjob_1 Description] \"}"
+	myPaintJob < uid=939A35415C59B7B1000000830092C6D2 > = Generic_033_legendary
+}
+
+Enhancement Planet4_Rare_Paintjob_1 < uid=939A35415C3CD4F30000041E856AD6E7 > : "Ship Skin Rare"
+{
+	myLocalizedName "contextComment = \"UI name for a Planet4 paint mod of Rare quality that can change player's ship appearance\", description = \"enhancement-name-Planet4_Rare_Paintjob_1-ship-paint\", enabled = true, guid = #939A35415C3CD83C00000626AF4AA391, lineVersion = 0, maxLength = 34, text = \"[Planet4_Rare_Paintjob_1] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a Planet4 paint mod of Rare quality that can change player's ship appearance\", description = \"enhancement-description-Planet4_Rare_Paintjob_1-ship-paint\", enabled = true, guid = #939A35415C3CD83D00000627B1FD5B79, lineVersion = 0, maxLength = 49, text = \"[Planet4_Rare_Paintjob_1 Description] \"}"
+	myPaintJob < uid=939A35415C59B7B100000084FB99269B > = Generic_035_rare
+}
+
+Enhancement Planet4_Epic_Paintjob_1 < uid=939A35415C3CD4F30000041F69874754 > : "Ship Skin Epic"
+{
+	myLocalizedName "contextComment = \"UI name for a Planet4 paint mod of Epic quality that can change player's ship appearance\", description = \"enhancement-name-Planet4_Epic_Paintjob_1-ship-paint\", enabled = true, guid = #939A35415C3CD8410000062A1AAD1624, lineVersion = 0, maxLength = 34, text = \"[Planet4_Epic_Paintjob_1] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a Planet4 paint mod of Epic quality that can change player's ship appearance\", description = \"enhancement-description-Planet4_Epic_Paintjob_1-ship-paint\", enabled = true, guid = #939A35415C3CD8420000062B41D0A09B, lineVersion = 0, maxLength = 49, text = \"[Planet4_Epic_Paintjob_1 Description] \"}"
+	myPaintJob < uid=939A35415C59B7B1000000852FE34627 > = Generic_035_epic
+}
+
+Enhancement Planet4_Epic_Paintjob_2 < uid=939A35415C3CD4F30000042083CDCCE7 > : "Ship Skin Epic"
+{
+	myLocalizedName "contextComment = \"UI name for a Planet4 paint mod of Epic quality that can change player's ship appearance\", description = \"enhancement-name-Planet4_Epic_Paintjob_2-ship-paint\", enabled = true, guid = #939A35415C3CD8460000062E3326532E, lineVersion = 0, maxLength = 34, text = \"[Planet4_Epic_Paintjob_2] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a Planet4 paint mod of Epic quality that can change player's ship appearance\", description = \"enhancement-description-Planet4_Epic_Paintjob_2-ship-paint\", enabled = true, guid = #939A35415C3CD8470000062FF736F9A9, lineVersion = 0, maxLength = 49, text = \"[Planet4_Epic_Paintjob_2 Description] \"}"
+	myPaintJob < uid=939A35415C59B7B10000008626E41FAD > = Generic_035_Epic_v2
+}
+
+Enhancement Planet4_Legendary_Paintjob_1 < uid=939A35415C3CD4F300000421ECA042D3 > : "Ship Skin Legendary"
+{
+	myLocalizedName "contextComment = \"UI name for a Planet4 paint mod of Legendary quality that can change player's ship appearance\", description = \"enhancement-name-Planet4_Legendary_Paintjob_1-ship-paint\", enabled = true, guid = #939A35415C3CD84A00000632ACFEA8BF, lineVersion = 0, maxLength = 40, text = \"[Planet4_Legendary_Paintjob_1] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a Planet4 paint mod of Legendary quality that can change player's ship appearance\", description = \"enhancement-description-Planet4_Legendary_Paintjob_1-ship-paint\", enabled = true, guid = #939A35415C3CD84C00000635FEF4AF22, lineVersion = 0, maxLength = 56, text = \"[Planet4_Legendary_Paintjob_1 Description] \"}"
+	myPaintJob < uid=939A35415C59B7B100000087B0D6E9F5 > = Generic_035_legendary
+}
+
+Enhancement Planet5_Rare_Paintjob_1 < uid=939A35415C3CD4F3000004223FAE6C4E > : "Ship Skin Rare"
+{
+	myLocalizedName "contextComment = \"UI name for a Planet5 paint mod of Rare quality that can change player's ship appearance\", description = \"enhancement-name-Planet5_Rare_Paintjob_1-ship-paint\", enabled = true, guid = #939A35415C3CD84F00000636A7165B13, lineVersion = 0, maxLength = 34, text = \"[Planet5_Rare_Paintjob_1] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a Planet5 paint mod of Rare quality that can change player's ship appearance\", description = \"enhancement-description-Planet5_Rare_Paintjob_1-ship-paint\", enabled = true, guid = #939A35415C3CD85000000637642984FE, lineVersion = 0, maxLength = 49, text = \"[Planet5_Rare_Paintjob_1 Description] \"}"
+	myPaintJob < uid=939A35415C59B7B1000000888249AC8A > = Generic_042_Rare
+}
+
+Enhancement Planet5_Epic_Paintjob_1 < uid=939A35415C3CD4F3000004236C403108 > : "Ship Skin Epic"
+{
+	myLocalizedName "contextComment = \"UI name for a Planet5 paint mod of Epic quality that can change player's ship appearance\", description = \"enhancement-name-Planet5_Epic_Paintjob_1-ship-paint\", enabled = true, guid = #939A35415C3CD855000006EAB0CBA013, lineVersion = 0, maxLength = 34, text = \"[Planet5_Epic_Paintjob_1] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a Planet5 paint mod of Epic quality that can change player's ship appearance\", description = \"enhancement-description-Planet5_Epic_Paintjob_1-ship-paint\", enabled = true, guid = #939A35415C3CD857000006EB26D74551, lineVersion = 0, maxLength = 49, text = \"[Planet5_Epic_Paintjob_1 Description] \"}"
+	myPaintJob < uid=939A35415C59B7B100000089B7AE109A > = Generic_042_Epic
+}
+
+Enhancement Planet5_Epic_Paintjob_2 < uid=939A35415C3CD4F30000042481076293 > : "Ship Skin Epic"
+{
+	myLocalizedName "contextComment = \"UI name for a Planet5 paint mod of Epic quality that can change player's ship appearance\", description = \"enhancement-name-Planet5_Epic_Paintjob_2-ship-paint\", enabled = true, guid = #939A35415C3CD85A000006EE61BF605E, lineVersion = 0, maxLength = 34, text = \"[Planet5_Epic_Paintjob_2] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a Planet5 paint mod of Epic quality that can change player's ship appearance\", description = \"enhancement-description-Planet5_Epic_Paintjob_2-ship-paint\", enabled = true, guid = #939A35415C3CD85B000006EFFDDE5CF5, lineVersion = 0, maxLength = 49, text = \"[Planet5_Epic_Paintjob_2 Description] \"}"
+	myPaintJob < uid=939A35415C59B7B10000008AB1B168B5 > = Generic_042_Epic_v2
+}
+
+Enhancement Planet5_Legendary_Paintjob_1 < uid=939A35415C3CD4F3000004256F5F1EBA > : "Ship Skin Legendary"
+{
+	myLocalizedName "contextComment = \"UI name for a Planet5 paint mod of Legendary quality that can change player's ship appearance\", description = \"enhancement-name-Planet5_Legendary_Paintjob_1-ship-paint\", enabled = true, guid = #939A35415C3CD85F000006F2BA2AA0D4, lineVersion = 0, maxLength = 40, text = \"[Planet5_Legendary_Paintjob_1] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a Planet5 paint mod of Legendary quality that can change player's ship appearance\", description = \"enhancement-description-Planet5_Legendary_Paintjob_1-ship-paint\", enabled = true, guid = #939A35415C3CD861000006F3B51C7A90, lineVersion = 0, maxLength = 56, text = \"[Planet5_Legendary_Paintjob_1 Description] \"}"
+	myPaintJob < uid=939A35415C59B7B10000008BB62FA637 > = Generic_042_Legendary
+}
+
+Enhancement Planet6_Rare_Paintjob_1 < uid=939A35415C3CD4F30000042623DFC303 > : "Ship Skin Rare"
+{
+	myLocalizedName "contextComment = \"UI name for a Planet6 paint mod of Rare quality that can change player's ship appearance\", description = \"enhancement-name-Planet6_Rare_Paintjob_1-ship-paint\", enabled = true, guid = #939A35415C3CD866000006F66BA2557A, lineVersion = 0, maxLength = 34, text = \"[Planet6_Rare_Paintjob_1] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a Planet6 paint mod of Rare quality that can change player's ship appearance\", description = \"enhancement-description-Planet6_Rare_Paintjob_1-ship-paint\", enabled = true, guid = #939A35415C3CD867000006F73D3C6A64, lineVersion = 0, maxLength = 49, text = \"[Planet6_Rare_Paintjob_1 Description] \"}"
+	myPaintJob < uid=939A35415C59B7B10000008C79CD6184 > = Generic_013_Rare
+}
+
+Enhancement Planet6_Epic_Paintjob_1 < uid=939A35415C3CD4F3000004274E7A7E01 > : "Ship Skin Epic"
+{
+	myLocalizedName "contextComment = \"UI name for a Planet6 paint mod of Epic quality that can change player's ship appearance\", description = \"enhancement-name-Planet6_Epic_Paintjob_1-ship-paint\", enabled = true, guid = #939A35415C3CD86B000006FA402BA6BA, lineVersion = 0, maxLength = 34, text = \"[Planet6_Epic_Paintjob_1] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a Planet6 paint mod of Epic quality that can change player's ship appearance\", description = \"enhancement-description-Planet6_Epic_Paintjob_1-ship-paint\", enabled = true, guid = #939A35415C3CD86C000006FB9E9A8B91, lineVersion = 0, maxLength = 49, text = \"[Planet6_Epic_Paintjob_1 Description] \"}"
+	myPaintJob < uid=939A35415C59B7B10000008DBE2084E7 > = Generic_013_Epic
+}
+
+Enhancement Planet6_Epic_Paintjob_2 < uid=939A35415C3CD4F300000428F4D39EA7 > : "Ship Skin Epic"
+{
+	myLocalizedName "contextComment = \"UI name for a Planet6 paint mod of Epic quality that can change player's ship appearance\", description = \"enhancement-name-Planet6_Epic_Paintjob_2-ship-paint\", enabled = true, guid = #939A35415C3CD870000006FE36B71077, lineVersion = 0, maxLength = 34, text = \"[Planet6_Epic_Paintjob_2] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a Planet6 paint mod of Epic quality that can change player's ship appearance\", description = \"enhancement-description-Planet6_Epic_Paintjob_2-ship-paint\", enabled = true, guid = #939A35415C3CD871000006FF7C3BD333, lineVersion = 0, maxLength = 49, text = \"[Planet6_Epic_Paintjob_2 Description] \"}"
+	myPaintJob < uid=939A35415C59B7B10000008E84EEA756 > = Generic_013_Epic_v2
+}
+
+Enhancement Planet6_Legendary_Paintjob_1 < uid=939A35415C3CD4F30000042963EEE449 > : "Ship Skin Legendary"
+{
+	myLocalizedName "contextComment = \"UI name for a Planet6 paint mod of Legendary quality that can change player's ship appearance\", description = \"enhancement-name-Planet6_Legendary_Paintjob_1-ship-paint\", enabled = true, guid = #939A35415C3CD875000007029190AFA2, lineVersion = 0, maxLength = 40, text = \"[Planet6_Legendary_Paintjob_1] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a Planet6 paint mod of Legendary quality that can change player's ship appearance\", description = \"enhancement-description-Planet6_Legendary_Paintjob_1-ship-paint\", enabled = true, guid = #939A35415C3CD87600000703339054E8, lineVersion = 0, maxLength = 56, text = \"[Planet6_Legendary_Paintjob_1 Description] \"}"
+	myPaintJob < uid=939A35415C59B7B10000008F4F3BB7E2 > = Generic_013_Legendary
+}
+
+Enhancement Planet7_Rare_Paintjob_1 < uid=939A35415C3CD4F30000042ABEF4F4EC > : "Ship Skin Rare"
+{
+	myLocalizedName "contextComment = \"UI name for a Planet7 paint mod of Rare quality that can change player's ship appearance\", description = \"enhancement-name-Planet7_Rare_Paintjob_1-ship-paint\", enabled = true, guid = #939A35415C3CD87A000007063D485719, lineVersion = 0, maxLength = 34, text = \"[Planet7_Rare_Paintjob_1] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a Planet7 paint mod of Rare quality that can change player's ship appearance\", description = \"enhancement-description-Planet7_Rare_Paintjob_1-ship-paint\", enabled = true, guid = #939A35415C3CD87B000007078CCE734C, lineVersion = 0, maxLength = 49, text = \"[Planet7_Rare_Paintjob_1 Description] \"}"
+	myPaintJob < uid=939A35415C59B7B1000000905DE83EC0 > = Generic_047_Rare
+}
+
+Enhancement Planet7_Epic_Paintjob_1 < uid=939A35415C3CD4F30000042B23E31F45 > : "Ship Skin Epic"
+{
+	myLocalizedName "contextComment = \"UI name for a Planet7 paint mod of Epic quality that can change player's ship appearance\", description = \"enhancement-name-Planet7_Epic_Paintjob_1-ship-paint\", enabled = true, guid = #939A35415C3CD8800000070ABF792FB1, lineVersion = 0, maxLength = 34, text = \"[Planet7_Epic_Paintjob_1] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a Planet7 paint mod of Epic quality that can change player's ship appearance\", description = \"enhancement-description-Planet7_Epic_Paintjob_1-ship-paint\", enabled = true, guid = #939A35415C3CD8820000070B40D27F01, lineVersion = 0, maxLength = 49, text = \"[Planet7_Epic_Paintjob_1 Description] \"}"
+	myPaintJob < uid=939A35415C59B7B100000091E7558E26 > = Generic_047_Epic
+}
+
+Enhancement Planet7_Epic_Paintjob_2 < uid=939A35415C3CD4F30000042C4BAD9B38 > : "Ship Skin Epic"
+{
+	myLocalizedName "contextComment = \"UI name for a Planet7 paint mod of Epic quality that can change player's ship appearance\", description = \"enhancement-name-Planet7_Epic_Paintjob_2-ship-paint\", enabled = true, guid = #939A35415C3CD8860000070E1EFD7307, lineVersion = 0, maxLength = 34, text = \"[Planet7_Epic_Paintjob_2] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a Planet7 paint mod of Epic quality that can change player's ship appearance\", description = \"enhancement-description-Planet7_Epic_Paintjob_2-ship-paint\", enabled = true, guid = #939A35415C3CD8870000070FCD042DAE, lineVersion = 0, maxLength = 49, text = \"[Planet7_Epic_Paintjob_2 Description] \"}"
+	myPaintJob < uid=939A35415C59B7B1000000921670518D > = Generic_047_Epic_v2
+}
+
+Enhancement Planet7_Legendary_Paintjob_1 < uid=939A35415C3CD4F30000042D5F75F2A8 > : "Ship Skin Legendary"
+{
+	myLocalizedName "contextComment = \"UI name for a Planet7 paint mod of Legendary quality that can change player's ship appearance\", description = \"enhancement-name-Planet7_Legendary_Paintjob_1-ship-paint\", enabled = true, guid = #939A35415C3CD88B0000071263A95AC8, lineVersion = 0, maxLength = 40, text = \"[Planet7_Legendary_Paintjob_1] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a Planet7 paint mod of Legendary quality that can change player's ship appearance\", description = \"enhancement-description-Planet7_Legendary_Paintjob_1-ship-paint\", enabled = true, guid = #939A35415C3CD88C000007138F2C624E, lineVersion = 0, maxLength = 56, text = \"[Planet7_Legendary_Paintjob_1 Description] \"}"
+	myPaintJob < uid=939A35415C59B7B10000009384667006 > = Generic_047_Legendary
+}
+
+Enhancement OutlawStory_Rare_Paintjob_1 < uid=939A35415C4889DC00000054B798B2B5 > : "Ship Skin Rare"
+{
+	myLocalizedName "contextComment = \"UI name for a OutlawStory paint mod of Rare quality that can change player's ship appearance\", description = \"enhancement-name-OutlawStory_Rare_Paintjob_1-ship-paint\", enabled = true, guid = #939A35415C4889B50000003A85AC67C6, lineVersion = 0, maxLength = 39, text = \"[OutlawStory_Rare_Paintjob_1] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a OutlawStory paint mod of Rare quality that can change player's ship appearance\", description = \"enhancement-description-OutlawStory_Rare_Paintjob_1-ship-paint\", enabled = true, guid = #939A35415C4889B60000003BBBA162AB, lineVersion = 0, maxLength = 55, text = \"[OutlawStory_Rare_Paintjob_1 Description] \"}"
+	myPaintJob < uid=939A35415C59B7B10000009498644074 > = Outlaw_007_Rare
+}
+
+Enhancement OutlawStory_Rare_Paintjob_2 < uid=939A35415C4889DC00000055B67DBC87 > : "Ship Skin Rare"
+{
+	myLocalizedName "contextComment = \"UI name for a OutlawStory paint mod of Rare quality that can change player's ship appearance\", description = \"enhancement-name-OutlawStory_Rare_Paintjob_2-ship-paint\", enabled = true, guid = #939A35415C4889BA0000003EE91B7C2F, lineVersion = 0, maxLength = 39, text = \"[OutlawStory_Rare_Paintjob_2] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a OutlawStory paint mod of Rare quality that can change player's ship appearance\", description = \"enhancement-description-OutlawStory_Rare_Paintjob_2-ship-paint\", enabled = true, guid = #939A35415C4889BB0000003F591FEF9D, lineVersion = 0, maxLength = 55, text = \"[OutlawStory_Rare_Paintjob_2 Description] \"}"
+	myPaintJob < uid=939A35415C59B7B100000095D30BC9E0 > = Outlaw_008_rare
+}
+
+Enhancement OutlawStory_Rare_Paintjob_3 < uid=939A35415C4889DC000000562DB731B9 > : "Ship Skin Rare"
+{
+	myLocalizedName "contextComment = \"UI name for a OutlawStory paint mod of Rare quality that can change player's ship appearance\", description = \"enhancement-name-OutlawStory_Rare_Paintjob_3-ship-paint\", enabled = true, guid = #939A35415C4889BF00000042E1350B84, lineVersion = 0, maxLength = 39, text = \"[OutlawStory_Rare_Paintjob_3] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a OutlawStory paint mod of Rare quality that can change player's ship appearance\", description = \"enhancement-description-OutlawStory_Rare_Paintjob_3-ship-paint\", enabled = true, guid = #939A35415C4889C00000004347F07338, lineVersion = 0, maxLength = 55, text = \"[OutlawStory_Rare_Paintjob_3 Description] \"}"
+	myPaintJob < uid=939A35415C59B7B10000009647631635 > = Prospector_002_Rare
+}
+
+Enhancement OutlawStory_Epic_Paintjob_1 < uid=939A35415C4889DC0000005735987AC3 > : "Ship Skin Epic"
+{
+	myLocalizedName "contextComment = \"UI name for a OutlawStory paint mod of Epic quality that can change player's ship appearance\", description = \"enhancement-name-OutlawStory_Epic_Paintjob_1-ship-paint\", enabled = true, guid = #939A35415C4889C400000046804B0A88, lineVersion = 0, maxLength = 39, text = \"[OutlawStory_Epic_Paintjob_1] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a OutlawStory paint mod of Epic quality that can change player's ship appearance\", description = \"enhancement-description-OutlawStory_Epic_Paintjob_1-ship-paint\", enabled = true, guid = #939A35415C4889C50000004744E6C00A, lineVersion = 0, maxLength = 55, text = \"[OutlawStory_Epic_Paintjob_1 Description] \"}"
+	myPaintJob < uid=939A35415C59B7B100000097F032B89F > = Prospector_002_Epic
+}
+
+Enhancement OutlawStory_Epic_Paintjob_2 < uid=939A35415C4889DC0000005847E76BDF > : "Ship Skin Epic"
+{
+	myLocalizedName "contextComment = \"UI name for a OutlawStory paint mod of Epic quality that can change player's ship appearance\", description = \"enhancement-name-OutlawStory_Epic_Paintjob_2-ship-paint\", enabled = true, guid = #939A35415C4889C90000004A5FCD7AE5, lineVersion = 0, maxLength = 39, text = \"[OutlawStory_Epic_Paintjob_2] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a OutlawStory paint mod of Epic quality that can change player's ship appearance\", description = \"enhancement-description-OutlawStory_Epic_Paintjob_2-ship-paint\", enabled = true, guid = #939A35415C4889C90000004B2D590786, lineVersion = 0, maxLength = 55, text = \"[OutlawStory_Epic_Paintjob_2 Description] \"}"
+	myPaintJob < uid=939A35415C59B7B1000000984AEF210D > = Prospector_003_Epic
+}
+
+Enhancement OutlawStory_Epic_Paintjob_3 < uid=939A35415C4889DC000000591C257E20 > : "Ship Skin Epic"
+{
+	myLocalizedName "contextComment = \"UI name for a OutlawStory paint mod of Epic quality that can change player's ship appearance\", description = \"enhancement-name-OutlawStory_Epic_Paintjob_3-ship-paint\", enabled = true, guid = #939A35415C4889CE0000004E0D17E41A, lineVersion = 0, maxLength = 39, text = \"[OutlawStory_Epic_Paintjob_3] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a OutlawStory paint mod of Epic quality that can change player's ship appearance\", description = \"enhancement-description-OutlawStory_Epic_Paintjob_3-ship-paint\", enabled = true, guid = #939A35415C4889D800000053CEBAD1B5, lineVersion = 0, maxLength = 55, text = \"[OutlawStory_Epic_Paintjob_3 Description] \"}"
+	myPaintJob < uid=939A35415C59B7B100000099C726A579 > = Prospector_004_epic
+}
+
+Enhancement OutlawStory_Legendary_Paintjob_1 < uid=939A35415C4889DC0000005A888BBEE4 > : "Ship Skin Legendary"
+{
+	myLocalizedName "contextComment = \"UI name for a OutlawStory paint mod of Legendary quality that can change player's ship appearance\", description = \"enhancement-name-OutlawStory_Legendary_Paintjob_1-ship-paint\", enabled = true, guid = #939A35415C4889D2000000512945143D, lineVersion = 0, maxLength = 46, text = \"[OutlawStory_Legendary_Paintjob_1] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a OutlawStory paint mod of Legendary quality that can change player's ship appearance\", description = \"enhancement-description-OutlawStory_Legendary_Paintjob_1-ship-paint\", enabled = true, guid = #939A35415C4889D3000000529BC0123B, lineVersion = 0, maxLength = 61, text = \"[OutlawStory_Legendary_Paintjob_1 Description] \"}"
+	myPaintJob < uid=939A35415C59B7B10000009A98ABD116 > = Dev_Punk
+}
+
+Enhancement Developer_Legendary_Paintjob_1 < uid=939A35415C4B304C00000088FCE40176 > : "Ship Skin Legendary"
+{
+	myLocalizedName "contextComment = \"UI name for a Developer paint mod of Legendary quality that can change player's ship appearance\", description = \"enhancement-name-Developer_Legendary_Paintjob_1-ship-paint\", enabled = true, guid = #939A35415C4B2FF10000003AF5588973, lineVersion = 0, maxLength = 43, text = \"[Developer_Legendary_Paintjob_1] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a Developer paint mod of Legendary quality that can change player's ship appearance\", description = \"enhancement-description-Developer_Legendary_Paintjob_1-ship-paint\", enabled = true, guid = #939A35415C4B2FF20000003B13C24EC4, lineVersion = 0, maxLength = 58, text = \"[Developer_Legendary_Paintjob_1 Description] \"}"
+	myPaintJob < uid=939A35415C59B7B10000009BFD3874DC > = Generic_034_Legendary
+}
+
+Enhancement Developer_Legendary_Paintjob_2 < uid=939A35415C4B304C0000008900ECBEA3 > : "Ship Skin Epic"
+{
+	myLocalizedName "contextComment = \"UI name for a Developer paint mod of Legendary quality that can change player's ship appearance\", description = \"enhancement-name-Developer_Legendary_Paintjob_2-ship-paint\", enabled = true, guid = #939A35415C4B2FF60000003E47BD3EB3, lineVersion = 0, maxLength = 43, text = \"[Developer_Legendary_Paintjob_2] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a Developer paint mod of Legendary quality that can change player's ship appearance\", description = \"enhancement-description-Developer_Legendary_Paintjob_2-ship-paint\", enabled = true, guid = #939A35415C4B2FF70000003F4608ECEE, lineVersion = 0, maxLength = 58, text = \"[Developer_Legendary_Paintjob_2 Description] \"}"
+	myPaintJob < uid=939A35415C59B7B10000009CCEECC53F > = Generic_017_Epic
+}
+
+Enhancement Developer_Legendary_Paintjob_3 < uid=939A35415C4B304C0000008A2F9A6D95 > : "Ship Skin Epic"
+{
+	myLocalizedName "contextComment = \"UI name for a Developer paint mod of Legendary quality that can change player's ship appearance\", description = \"enhancement-name-Developer_Legendary_Paintjob_3-ship-paint\", enabled = true, guid = #939A35415C4B2FFB0000004215A2CFD4, lineVersion = 0, maxLength = 43, text = \"[Developer_Legendary_Paintjob_3] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a Developer paint mod of Legendary quality that can change player's ship appearance\", description = \"enhancement-description-Developer_Legendary_Paintjob_3-ship-paint\", enabled = true, guid = #939A35415C4B2FFC0000004314CC3E12, lineVersion = 0, maxLength = 58, text = \"[Developer_Legendary_Paintjob_3 Description] \"}"
+	myPaintJob < uid=939A35415C59B7B10000009D3C13BCF6 > = Prospector_006_epic
+}
+
+Enhancement Developer_Legendary_Paintjob_4 < uid=939A35415C4B304C0000008B0A25C883 > : "Ship Skin Rare"
+{
+	myLocalizedName "contextComment = \"UI name for a Developer paint mod of Legendary quality that can change player's ship appearance\", description = \"enhancement-name-Developer_Legendary_Paintjob_4-ship-paint\", enabled = true, guid = #939A35415C4B2FFF000000469940AA2E, lineVersion = 0, maxLength = 43, text = \"[Developer_Legendary_Paintjob_4] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a Developer paint mod of Legendary quality that can change player's ship appearance\", description = \"enhancement-description-Developer_Legendary_Paintjob_4-ship-paint\", enabled = true, guid = #939A35415C4B300000000047EC092BBA, lineVersion = 0, maxLength = 58, text = \"[Developer_Legendary_Paintjob_4 Description] \"}"
+	myPaintJob < uid=939A35415C59B7B10000009EFAF6F903 > = Prospector_003_Rare
+}
+
+Enhancement Developer_Legendary_Paintjob_5 < uid=939A35415C4B304C0000008CD6169700 > : "Ship Skin Rare"
+{
+	myLocalizedName "contextComment = \"UI name for a Developer paint mod of Legendary quality that can change player's ship appearance\", description = \"enhancement-name-Developer_Legendary_Paintjob_5-ship-paint\", enabled = true, guid = #939A35415C4B30040000004AB6572394, lineVersion = 0, maxLength = 43, text = \"[Developer_Legendary_Paintjob_5] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a Developer paint mod of Legendary quality that can change player's ship appearance\", description = \"enhancement-description-Developer_Legendary_Paintjob_5-ship-paint\", enabled = true, guid = #939A35415C4B30050000004B13A69A1F, lineVersion = 0, maxLength = 58, text = \"[Developer_Legendary_Paintjob_5 Description] \"}"
+	myPaintJob < uid=939A35415C59B7B10000009FC456EC15 > = Prospector_004_rare
+}
+
+Enhancement Developer_Legendary_Paintjob_6 < uid=939A35415C4B304C0000008DB36A32C7 > : "Ship Skin Rare"
+{
+	myLocalizedName "contextComment = \"UI name for a Developer paint mod of Legendary quality that can change player's ship appearance\", description = \"enhancement-name-Developer_Legendary_Paintjob_6-ship-paint\", enabled = true, guid = #939A35415C4B30090000004E21A3594D, lineVersion = 0, maxLength = 43, text = \"[Developer_Legendary_Paintjob_6] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a Developer paint mod of Legendary quality that can change player's ship appearance\", description = \"enhancement-description-Developer_Legendary_Paintjob_6-ship-paint\", enabled = true, guid = #939A35415C4B300A0000004F06F24904, lineVersion = 0, maxLength = 58, text = \"[Developer_Legendary_Paintjob_6 Description] \"}"
+	myPaintJob < uid=939A35415C59B7B1000000A06C3B0C9D > = Prospector_006_rare
+}
+
+Enhancement Developer_Legendary_Paintjob_7 < uid=939A35415C4B304C0000008E4F6017FA > : "Ship Skin Rare"
+{
+	myLocalizedName "contextComment = \"UI name for a Developer paint mod of Legendary quality that can change player's ship appearance\", description = \"enhancement-name-Developer_Legendary_Paintjob_7-ship-paint\", enabled = true, guid = #939A35415C4B300E00000052B484FAD3, lineVersion = 0, maxLength = 43, text = \"[Developer_Legendary_Paintjob_7] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a Developer paint mod of Legendary quality that can change player's ship appearance\", description = \"enhancement-description-Developer_Legendary_Paintjob_7-ship-paint\", enabled = true, guid = #939A35415C4B300F0000005320AA3F2E, lineVersion = 0, maxLength = 58, text = \"[Developer_Legendary_Paintjob_7 Description] \"}"
+	myPaintJob < uid=939A35415C59B7B1000000A1CD6EF9E0 > = Generic_046_rare
+}
+
+Enhancement Developer_Legendary_Paintjob_8 < uid=939A35415C4B304C0000008F6B25AF45 > : "Ship Skin Legendary"
+{
+	myLocalizedName "contextComment = \"UI name for a Developer paint mod of Legendary quality that can change player's ship appearance\", description = \"enhancement-name-Developer_Legendary_Paintjob_8-ship-paint\", enabled = true, guid = #939A35415C4B3013000000562E039D32, lineVersion = 0, maxLength = 43, text = \"[Developer_Legendary_Paintjob_8] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a Developer paint mod of Legendary quality that can change player's ship appearance\", description = \"enhancement-description-Developer_Legendary_Paintjob_8-ship-paint\", enabled = true, guid = #939A35415C4B3014000000575F218493, lineVersion = 0, maxLength = 58, text = \"[Developer_Legendary_Paintjob_8 Description] \"}"
+	myPaintJob < uid=939A35415C59B7B1000000A2801D3FAF > = Outlaw_007_Legendary
+}
+
+Enhancement Developer_Legendary_Paintjob_9 < uid=939A35415C4B304C0000009009E99BB6 > : "Ship Skin Legendary"
+{
+	myLocalizedName "contextComment = \"UI name for a Developer paint mod of Legendary quality that can change player's ship appearance\", description = \"enhancement-name-Developer_Legendary_Paintjob_9-ship-paint\", enabled = true, guid = #939A35415C4B30180000005AE53AB160, lineVersion = 0, maxLength = 43, text = \"[Developer_Legendary_Paintjob_9] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a Developer paint mod of Legendary quality that can change player's ship appearance\", description = \"enhancement-description-Developer_Legendary_Paintjob_9-ship-paint\", enabled = true, guid = #939A35415C4B30190000005BB66CB448, lineVersion = 0, maxLength = 58, text = \"[Developer_Legendary_Paintjob_9 Description] \"}"
+}
+
+Enhancement Developer_Legendary_Paintjob_10 < uid=939A35415C4B304C00000091EBF76C46 > : "Ship Skin Legendary"
+{
+	myLocalizedName "contextComment = \"UI name for a Developer paint mod of Legendary quality that can change player's ship appearance\", description = \"enhancement-name-Developer_Legendary_Paintjob_10-ship-paint\", enabled = true, guid = #939A35415C4B301D0000005EF5D01AA0, lineVersion = 0, maxLength = 44, text = \"[Developer_Legendary_Paintjob_10] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a Developer paint mod of Legendary quality that can change player's ship appearance\", description = \"enhancement-description-Developer_Legendary_Paintjob_10-ship-paint\", enabled = true, guid = #939A35415C4B301D0000005F26CD3EA6, lineVersion = 0, maxLength = 60, text = \"[Developer_Legendary_Paintjob_10 Description] \"}"
+}
+
+Enhancement Developer_Legendary_Paintjob_11 < uid=939A35415C4B304C00000092A4676905 > : "Ship Skin Legendary"
+{
+	myLocalizedName "contextComment = \"UI name for a Developer paint mod of Legendary quality that can change player's ship appearance\", description = \"enhancement-name-Developer_Legendary_Paintjob_11-ship-paint\", enabled = true, guid = #939A35415C4B30210000006280B38AEA, lineVersion = 0, maxLength = 44, text = \"[Developer_Legendary_Paintjob_11] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a Developer paint mod of Legendary quality that can change player's ship appearance\", description = \"enhancement-description-Developer_Legendary_Paintjob_11-ship-paint\", enabled = true, guid = #939A35415C4B302100000063CFC4AC54, lineVersion = 0, maxLength = 60, text = \"[Developer_Legendary_Paintjob_11 Description] \"}"
+}
+
+Enhancement Developer_Legendary_Paintjob_12 < uid=939A35415C4B304C00000093E27EA54B > : "Ship Skin Legendary"
+{
+	myLocalizedName "contextComment = \"UI name for a Developer paint mod of Legendary quality that can change player's ship appearance\", description = \"enhancement-name-Developer_Legendary_Paintjob_12-ship-paint\", enabled = true, guid = #939A35415C4B302500000066CA7F86E0, lineVersion = 0, maxLength = 44, text = \"[Developer_Legendary_Paintjob_12] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a Developer paint mod of Legendary quality that can change player's ship appearance\", description = \"enhancement-description-Developer_Legendary_Paintjob_12-ship-paint\", enabled = true, guid = #939A35415C4B302600000067203335F7, lineVersion = 0, maxLength = 60, text = \"[Developer_Legendary_Paintjob_12 Description] \"}"
+}
+
+Enhancement Developer_Legendary_Paintjob_13 < uid=939A35415C4B304C00000094A70FA699 > : "Ship Skin Legendary"
+{
+	myLocalizedName "contextComment = \"UI name for a Developer paint mod of Legendary quality that can change player's ship appearance\", description = \"enhancement-name-Developer_Legendary_Paintjob_13-ship-paint\", enabled = true, guid = #939A35415C4B30290000006A55FDA99D, lineVersion = 0, maxLength = 44, text = \"[Developer_Legendary_Paintjob_13] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a Developer paint mod of Legendary quality that can change player's ship appearance\", description = \"enhancement-description-Developer_Legendary_Paintjob_13-ship-paint\", enabled = true, guid = #939A35415C4B302A0000006BECD8B258, lineVersion = 0, maxLength = 60, text = \"[Developer_Legendary_Paintjob_13 Description] \"}"
+}
+
+Enhancement Developer_Legendary_Paintjob_14 < uid=939A35415C4B304C00000095F7CA7B62 > : "Ship Skin Legendary"
+{
+	myLocalizedName "contextComment = \"UI name for a Developer paint mod of Legendary quality that can change player's ship appearance\", description = \"enhancement-name-Developer_Legendary_Paintjob_14-ship-paint\", enabled = true, guid = #939A35415C4B302D0000006E5E82C57A, lineVersion = 0, maxLength = 44, text = \"[Developer_Legendary_Paintjob_14] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a Developer paint mod of Legendary quality that can change player's ship appearance\", description = \"enhancement-description-Developer_Legendary_Paintjob_14-ship-paint\", enabled = true, guid = #939A35415C4B302E0000006F77E1F680, lineVersion = 0, maxLength = 60, text = \"[Developer_Legendary_Paintjob_14 Description] \"}"
+}
+
+Enhancement Developer_Legendary_Paintjob_15 < uid=939A35415C4B304C00000096687A0BDF > : "Ship Skin Legendary"
+{
+	myLocalizedName "contextComment = \"UI name for a Developer paint mod of Legendary quality that can change player's ship appearance\", description = \"enhancement-name-Developer_Legendary_Paintjob_15-ship-paint\", enabled = true, guid = #939A35415C4B303200000072781B1896, lineVersion = 0, maxLength = 44, text = \"[Developer_Legendary_Paintjob_15] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a Developer paint mod of Legendary quality that can change player's ship appearance\", description = \"enhancement-description-Developer_Legendary_Paintjob_15-ship-paint\", enabled = true, guid = #939A35415C4B3032000000730036B4E3, lineVersion = 0, maxLength = 60, text = \"[Developer_Legendary_Paintjob_15 Description] \"}"
+}
+
+Enhancement Developer_Legendary_Paintjob_16 < uid=939A35415C4B304C000000977F39AF66 > : "Ship Skin Legendary"
+{
+	myLocalizedName "contextComment = \"UI name for a Developer paint mod of Legendary quality that can change player's ship appearance\", description = \"enhancement-name-Developer_Legendary_Paintjob_16-ship-paint\", enabled = true, guid = #939A35415C4B303600000076E573509C, lineVersion = 0, maxLength = 44, text = \"[Developer_Legendary_Paintjob_16] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a Developer paint mod of Legendary quality that can change player's ship appearance\", description = \"enhancement-description-Developer_Legendary_Paintjob_16-ship-paint\", enabled = true, guid = #939A35415C4B3037000000775057717D, lineVersion = 0, maxLength = 60, text = \"[Developer_Legendary_Paintjob_16 Description] \"}"
+}
+
+Enhancement Developer_Legendary_Paintjob_17 < uid=939A35415C4B304C00000098A5D8F576 > : "Ship Skin Legendary"
+{
+	myLocalizedName "contextComment = \"UI name for a Developer paint mod of Legendary quality that can change player's ship appearance\", description = \"enhancement-name-Developer_Legendary_Paintjob_17-ship-paint\", enabled = true, guid = #939A35415C4B303A0000007A892AA06E, lineVersion = 0, maxLength = 44, text = \"[Developer_Legendary_Paintjob_17] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a Developer paint mod of Legendary quality that can change player's ship appearance\", description = \"enhancement-description-Developer_Legendary_Paintjob_17-ship-paint\", enabled = true, guid = #939A35415C4B303B0000007B621DF4AF, lineVersion = 0, maxLength = 60, text = \"[Developer_Legendary_Paintjob_17 Description] \"}"
+}
+
+Enhancement Developer_Legendary_Paintjob_18 < uid=939A35415C4B304C00000099016D9BC4 > : "Ship Skin Legendary"
+{
+	myLocalizedName "contextComment = \"UI name for a Developer paint mod of Legendary quality that can change player's ship appearance\", description = \"enhancement-name-Developer_Legendary_Paintjob_18-ship-paint\", enabled = true, guid = #939A35415C4B303F0000007E18D58F00, lineVersion = 0, maxLength = 44, text = \"[Developer_Legendary_Paintjob_18] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a Developer paint mod of Legendary quality that can change player's ship appearance\", description = \"enhancement-description-Developer_Legendary_Paintjob_18-ship-paint\", enabled = true, guid = #939A35415C4B30400000007F95E0B839, lineVersion = 0, maxLength = 60, text = \"[Developer_Legendary_Paintjob_18 Description] \"}"
+}
+
+Enhancement Developer_Legendary_Paintjob_19 < uid=939A35415C4B304C0000009AB9F14CC5 > : "Ship Skin Legendary"
+{
+	myLocalizedName "contextComment = \"UI name for a Developer paint mod of Legendary quality that can change player's ship appearance\", description = \"enhancement-name-Developer_Legendary_Paintjob_19-ship-paint\", enabled = true, guid = #939A35415C4B304500000082B9F577E1, lineVersion = 0, maxLength = 44, text = \"[Developer_Legendary_Paintjob_19] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a Developer paint mod of Legendary quality that can change player's ship appearance\", description = \"enhancement-description-Developer_Legendary_Paintjob_19-ship-paint\", enabled = true, guid = #939A35415C4B30460000008329443196, lineVersion = 0, maxLength = 60, text = \"[Developer_Legendary_Paintjob_19 Description] \"}"
+}
+
+Enhancement Developer_Legendary_Paintjob_20 < uid=939A35415C4B304C0000009B0B018602 > : "Ship Skin Legendary"
+{
+	myLocalizedName "contextComment = \"UI name for a Developer paint mod of Legendary quality that can change player's ship appearance\", description = \"enhancement-name-Developer_Legendary_Paintjob_20-ship-paint\", enabled = true, guid = #939A35415C4B304A000000864B4C82A1, lineVersion = 0, maxLength = 44, text = \"[Developer_Legendary_Paintjob_20] \"}"
+	myLocalizedDescription "contextComment = \"UI description for a Developer paint mod of Legendary quality that can change player's ship appearance\", description = \"enhancement-description-Developer_Legendary_Paintjob_20-ship-paint\", enabled = true, guid = #939A35415C4B304B00000087438CC2DF, lineVersion = 0, maxLength = 60, text = \"[Developer_Legendary_Paintjob_20 Description] \"}"
+}
+

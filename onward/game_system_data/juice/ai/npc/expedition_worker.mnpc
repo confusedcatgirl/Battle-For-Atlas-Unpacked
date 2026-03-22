@@ -1,0 +1,35 @@
+include onward/skillscripts/npc_ability_expedition_worker_gatling.mskillscriptjuice
+include ./base_faction_unit.mnpc
+include onward/skillscripts/npc_ability_expedition_missile_volley.mskillscriptjuice
+
+NPC expedition_worker < uid=4A8282B956DDFEDA000000B2AA1AAF77 > : base_faction_unit
+{
+	myUIName_NonLocalized "Expedition Worker"
+	myGraphObjectFile "onward/graph objects/character/expedition_worker.mgraphobject"
+	myBehavior "onward/game system data/juice/ai/behavior/expedition_worker.mbehavior"
+	myIsInitiallyAggressive FALSE
+	myHealthConfig < uid=4A8282B959F8988E00001DDD0744F386 > = "expedition_worker Health"
+	myAbilityDefinitions
+	{
+		NPCAbilityDefinition "Primary Attack - Gatling"
+		{
+			myGameAction NPC_Ability1
+			mySkillScript < uid=93869D5357BEF4F2000000397C3DB690 > = npc_ability_expedition_worker_gatling
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_expedition_worker_gatling.juice"
+		}
+	}
+	myDropTableOnDeath Worker_Drop_Table
+	myPhysicsCapsuleRadius 1.5
+	myPhysicsCapsuleEnd 0.0;0.5;0.5
+	myPatternProfile < uid=C92F4D3F58ECE8E80028525A59F851C5 > = "Expedition Worker"
+	myDefaultMotionPattern < uid=C92F4D3F58ECE8E80028525B03C7868F > = "Expedition Worker Default"
+	myAvoidanceRadius 5.0
+	myNPCFaction Expedition
+	myNPCType Expedition_Worker
+	myAnimSystemType Expedition_Worker
+	myThreatLevel 2.0
+	myOnDeathChallenge Death_ExpeditionWorker
+	myOnDiscoveredChallenge Discover_ExpeditionWorker
+}
+

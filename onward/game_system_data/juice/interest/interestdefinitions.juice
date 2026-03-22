@@ -1,0 +1,3523 @@
+include "onward/game system data/fruit/interest/interest.fruit"
+include "onward/game system data/fruit/entity/faction.fruit"
+include "onward/game system data/juice/sim/warden_structure_controltower.msimunit"
+include "onward/game system data/juice/sim/warden_structure_cultivator.msimunit"
+include "onward/game system data/juice/sim/warden_structure_northanchor.msimunit"
+include "onward/game system data/juice/sim/warden_structure_southanchor.msimunit"
+include "onward/game system data/juice/sim/warden_structure_teraform.msimunit"
+include "onward/game system data/juice/sim/fauna_analyzer.msimunit"
+include "onward/game system data/fruit/ai/affinitytype.fruit"
+include "onward/game system data/fruit/sim/formationtype.fruit"
+include "onward/game system data/fruit/bones/bonecategory.fruit"
+include "onward/game system data/fruit/unitprogression/unitxppayloadtype.fruit"
+include "onward/game system data/fruit/story/storyevent.fruit"
+include "onward/game system data/fruit/story/storydataactions.fruit"
+include "onward/game system data/juice/sim/act1_imp_shed.msimunit"
+include "onward/game system data/juice/sim/act_2_encrypted_legion_data_core.msimunit"
+
+InterestPriority "Extractor Core (On Extractor)" < uid=4A79E0E4591B5CA40000006164FB7F3E >
+{
+	myInterestComponents
+	{
+		InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+		{
+		}
+		InterestPriorityComponentCategory Category
+		{
+			myCategory ExtractorCore
+		}
+		InterestPriorityComponentFaction Faction
+		{
+		}
+		InterestPriorityComponentAttachedToParent "Attached To Parent"
+		{
+			myAttachmentParentFactions
+			{
+				FactionType Faction Harvester
+			}
+			myAttachmentParentCategories
+			{
+				SimUnitCategory Category Extractor
+			}
+			myAttachmentParentSubCategories
+			{
+			}
+		}
+		InterestPriorityComponentStoryAct "Story Act"
+		{
+			myMinAct 2
+		}
+		InterestPriorityComponentStorySection "Story Section"
+		{
+			myStorySections
+			{
+				StorySection "Act 02 Refinery Chest Opened" Act_02_Refinery_Chest_Opened
+				StorySection "Act 03 BuildAlliance GameLoop" Act_03_BuildAlliance_GameLoop
+				StorySection "Act 04 Alliance GameLoop" Act_04_Alliance_GameLoop
+			}
+		}
+	}
+	myMaxDistance PlanetWide
+}
+
+InterestPriority "Extractor Core (Unattached)" < uid=4A79E0E4591B55FE00000054915DA6C4 >
+{
+	myInterestComponents
+	{
+		InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+		{
+		}
+		InterestPriorityComponentCategory Category
+		{
+			myCategory ExtractorCore
+		}
+		InterestPriorityComponentFaction Faction
+		{
+		}
+		InterestPriorityComponentStoryAct "Story Act"
+		{
+			myMinAct 3
+		}
+		InterestPriorityComponentAttachedToParent "Attached To Parent"
+		{
+			myIsNotAttachedTo TRUE
+			myAttachmentParentFactions
+			{
+				FactionType Faction Harvester
+			}
+			myAttachmentParentCategories
+			{
+				SimUnitCategory Category Extractor
+			}
+		}
+	}
+	myMaxDistance PlanetWide
+}
+
+InterestPriority "Prime Core (Unattached)" < uid=4A79E0E4591B57610000005E3D9C9FB7 >
+{
+	myInterestComponents
+	{
+		InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+		{
+		}
+		InterestPriorityComponentCategory Category
+		{
+			myCategory PrimeCore
+		}
+		InterestPriorityComponentFaction Faction
+		{
+		}
+	}
+	myMaxDistance PlanetWide
+}
+
+InterestPriority "Probe - Flight Recorder" < uid=4A79E0E4595B9F87000000CA4844A90B >
+{
+	myInterestComponents
+	{
+		InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+		{
+			myAllianceRequirement Either
+		}
+		InterestPriorityComponentCategory Category
+		{
+			myCategory Hackable
+		}
+		InterestPriorityComponentSubCategory SubCategory
+		{
+			mySubCategory FlightRecorder
+		}
+		InterestPriorityComponentFaction Faction
+		{
+			myFaction Harvester
+		}
+		InterestPriorityComponentStoryAct "Story Act"
+		{
+			myMinAct 2
+		}
+		InterestPriorityComponentAttachedToParent "Attached To Parent"
+		{
+			myAttachmentParentFactions
+			{
+				FactionType Legion Harvester
+			}
+			myAttachmentParentCategories
+			{
+				SimUnitCategory Category NPC
+			}
+			myAttachmentParentSubCategories
+			{
+				SimUnitSubCategory SubCategory Probe
+			}
+		}
+		InterestPriorityComponentStorySection "Story Section"
+		{
+			myStorySections
+			{
+				StorySection "Enable MissionType Survival" Enable_MissionType_Survival
+				StorySection "Act 03 BuildAlliance Gameloop" Act_03_BuildAlliance_GameLoop
+				StorySection "Act 04 Alliance Gameloop" Act_04_Alliance_GameLoop
+			}
+		}
+	}
+	myMaxDistance PlanetWide
+}
+
+InterestPriority "Legion Data Core" < uid=4A79E0E459B2DEED0000008207683438 >
+{
+	myInterestComponents
+	{
+		InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+		{
+		}
+		InterestPriorityComponentCategory Category
+		{
+			myCategory Hackable
+		}
+		InterestPriorityComponentSubCategory SubCategory
+		{
+			mySubCategory DataCore
+		}
+		InterestPriorityComponentFaction Faction
+		{
+			myFaction Harvester
+		}
+		InterestPriorityComponentStoryAct "Story Act"
+		{
+			myMinAct 2
+		}
+		InterestPriorityComponentStorySection "Story Section"
+		{
+			myStorySections
+			{
+				StorySection Act_02_Hack_the_Drake Act_02_Hack_The_Drake
+				StorySection "Alliance Gameloop" Act_04_Alliance_GameLoop
+				StorySection "Enable MissionType Survival" Enable_MissionType_Survival
+			}
+		}
+		InterestPriorityComponentSolvedState "Solved State"
+		{
+		}
+	}
+	myMaxDistance PlanetWide
+}
+
+InterestPriority "Legion Data Core - Act 2" < uid=9FD9E8185A02023B00001EA7BBAE3D5F >
+{
+	myInterestComponents
+	{
+		InterestPriorityComponentStoryAct "Story Act"
+		{
+			myMinAct 2
+			myMaxAct 2
+		}
+		InterestPriorityComponentStorySection "Story Section"
+		{
+			myStorySections
+			{
+				StorySection Act_02_Hack_the_Drake Act_02_Hack_The_Drake
+			}
+		}
+		InterestPriorityComponentSolvedState "Solved State"
+		{
+		}
+		InterestPriorityComponentSimUnitAsset "Sim Unit Asset"
+		{
+			mySimUnitAsset < uid=4A79E0E45AD7617800001D9463F3045E > = act_2_encrypted_legion_data_core
+		}
+	}
+	myMaxDistance PlanetWide
+}
+
+InterestPriority "Raiding Party" < uid=4A79E0E4595B9E0B000000C8DBE72FDE >
+{
+	myInterestComponents
+	{
+		InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+		{
+			myAllianceRequirement Either
+		}
+		InterestPriorityComponentCategory Category
+		{
+			myCategory NPC
+		}
+		InterestPriorityComponentSubCategory SubCategory
+		{
+			mySubCategory Raider
+		}
+		InterestPriorityComponentFaction Faction
+		{
+			myFaction Harvester
+		}
+		InterestPriorityComponentStoryAct "Story Act"
+		{
+			myMinAct 2
+		}
+		InterestPriorityComponentStorySection "Story Section"
+		{
+			myStorySections
+			{
+				StorySection "Act 02 Refinery Chest Opened" Act_02_Refinery_Chest_Opened
+				StorySection "Act 03 BuildAlliance GameLoop" Act_03_BuildAlliance_GameLoop
+				StorySection "Act 04 Alliance GameLoop" Act_04_Alliance_GameLoop
+			}
+		}
+		InterestPriorityComponentDormancyState "Dormancy State"
+		{
+		}
+	}
+	myMaxDistance PlanetWide
+}
+
+InterestPriority "Raiding Party (Dormant)" < uid=4A79E0E45A26CBDE00001FF6728EFC9D >
+{
+	myInterestComponents
+	{
+		InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+		{
+			myAllianceRequirement Either
+		}
+		InterestPriorityComponentCategory Category
+		{
+			myCategory NPC
+		}
+		InterestPriorityComponentSubCategory SubCategory
+		{
+			mySubCategory Raider
+		}
+		InterestPriorityComponentFaction Faction
+		{
+			myFaction Harvester
+		}
+		InterestPriorityComponentStoryAct "Story Act"
+		{
+			myMinAct 2
+		}
+		InterestPriorityComponentStorySection "Story Section"
+		{
+			myStorySections
+			{
+				StorySection "Act 02 Refinery Chest Opened" Act_02_Refinery_Chest_Opened
+				StorySection "Act 03 BuildAlliance GameLoop" Act_03_BuildAlliance_GameLoop
+				StorySection "Act 04 Alliance GameLoop" Act_04_Alliance_GameLoop
+			}
+		}
+		InterestPriorityComponentDormancyState "Dormancy State"
+		{
+			myDormancyStateRequirementFlag TRUE
+		}
+	}
+	myMaxDistance PlanetWide
+}
+
+InterestPriority "Affinity Giant" < uid=4A79E0E45994560F00000035E1137228 >
+{
+	myInterestComponents
+	{
+		InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+		{
+			myAllianceRequirement Either
+		}
+		InterestPriorityComponentCategory Category
+		{
+			myCategory NPC
+		}
+		InterestPriorityComponentSubCategory SubCategory
+		{
+			mySubCategory RaiderGiant
+		}
+		InterestPriorityComponentFaction Faction
+		{
+			myFaction Harvester
+		}
+		InterestPriorityComponentStoryAct "Story Act"
+		{
+			myMinAct 2
+		}
+		InterestPriorityComponentStorySection "Story Section"
+		{
+			myStorySections
+			{
+				StorySection "Act 02 Refinery Chest Opened" Act_02_Refinery_Chest_Opened
+				StorySection "Act 03 BuildAlliance GameLoop" Act_03_BuildAlliance_GameLoop
+				StorySection "Act 04 Alliance GameLoop" Act_04_Alliance_GameLoop
+			}
+		}
+		InterestPriorityComponentDormancyState "Dormancy State"
+		{
+		}
+	}
+	myMaxDistance PlanetWide
+}
+
+InterestPriority "Affinity Giant (Dormant)" < uid=4A79E0E45A67920500001B4A0B119BE0 >
+{
+	myInterestComponents
+	{
+		InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+		{
+			myAllianceRequirement Either
+		}
+		InterestPriorityComponentCategory Category
+		{
+			myCategory NPC
+		}
+		InterestPriorityComponentSubCategory SubCategory
+		{
+			mySubCategory RaiderGiant
+		}
+		InterestPriorityComponentFaction Faction
+		{
+			myFaction Harvester
+		}
+		InterestPriorityComponentStoryAct "Story Act"
+		{
+			myMinAct 2
+		}
+		InterestPriorityComponentStorySection "Story Section"
+		{
+			myStorySections
+			{
+				StorySection "Act 02 Refinery Chest Opened" Act_02_Refinery_Chest_Opened
+				StorySection "Act 03 BuildAlliance GameLoop" Act_03_BuildAlliance_GameLoop
+				StorySection "Act 04 Alliance GameLoop" Act_04_Alliance_GameLoop
+			}
+		}
+		InterestPriorityComponentDormancyState "Dormancy State"
+		{
+			myDormancyStateRequirementFlag TRUE
+		}
+	}
+	myMaxDistance PlanetWide
+}
+
+InterestPriority "Legion Dreadnought" < uid=4A79E0E45963D5E70000007906C4CC42 >
+{
+	myInterestComponents
+	{
+		InterestPriorityComponentCategory Category
+		{
+			myCategory Dreadnought
+		}
+		InterestPriorityComponentFaction Faction
+		{
+			myFaction Harvester
+		}
+		InterestPriorityComponentStoryAct "Story Act"
+		{
+			myMinAct 3
+		}
+		InterestPriorityComponentSolvedState "Solved State"
+		{
+		}
+	}
+	myMaxDistance SolarSystem
+}
+
+InterestPriorityBucket "Legion Units" < uid=4A79E0E45915D1FB0000004F442DEC29 >
+{
+	myInterestList
+	{
+		InterestPriorityDynamic "Raiding Party" < uid=4A79E0E45995D1AA0000003D02BC0D11 > : "Raiding Party"
+		{
+			myMaxDistance PlanetWide
+			myWeight 20
+		}
+		InterestPriorityDynamic "Probe - Flight Recorder" < uid=4A79E0E45995D1AA0000003E24ECDA3C > : "Probe - Flight Recorder"
+		{
+			myMaxDistance PlanetWide
+			myWeight 10
+		}
+	}
+}
+
+InterestPriority "Legion Prime" < uid=4A79E0E45915D2F900000053E1641D3D >
+{
+	myInterestComponents
+	{
+		InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+		{
+			myAllianceRequirement Either
+		}
+		InterestPriorityComponentCategory Category
+		{
+			myCategory Prime
+		}
+		InterestPriorityComponentFaction Faction
+		{
+			myFaction Harvester
+		}
+		InterestPriorityComponentStoryAct "Story Act"
+		{
+			myMinAct 3
+		}
+	}
+	myMaxDistance PlanetWide
+}
+
+InterestPriority "Creep Shed" < uid=4A79E0E4595B9D8E000000C61E10C1F5 >
+{
+	myInterestComponents
+	{
+		InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+		{
+			myAllianceRequirement Either
+		}
+		InterestPriorityComponentCategory Category
+		{
+			myCategory Outpost
+		}
+		InterestPriorityComponentSubCategory SubCategory
+		{
+			mySubCategory CreepShed
+		}
+		InterestPriorityComponentFaction Faction
+		{
+			myFaction Harvester
+		}
+		InterestPriorityComponentStoryAct "Story Act"
+		{
+			myMinAct 2
+		}
+		InterestPriorityComponentStorySection "Story Section"
+		{
+			myStorySections
+			{
+				StorySection "Act 02 Refinery Chest Opened" Act_02_Refinery_Chest_Opened
+				StorySection "Act 03 BuildAlliance GameLoop" Act_03_BuildAlliance_GameLoop
+				StorySection "Act 04 Alliance GameLoop" Act_04_Alliance_GameLoop
+			}
+		}
+	}
+	myMaxDistance PlanetWide
+}
+
+InterestPriorityDynamic "Creep Shed Act 1" < uid=9FD9E8185980E9790000008237D4A3EA >
+{
+	myInterestComponents
+	{
+		InterestPriorityComponentSimUnitAsset "Imp Shed"
+		{
+			mySimUnitAsset < uid=9FD9E8185980E97900000083879C044B > = act1_imp_shed
+		}
+		InterestPriorityComponentStorySection "Story Section"
+		{
+			myStorySections
+			{
+				StorySection "Crash Landing Story Section" Act_01_Crash_Landing
+			}
+		}
+	}
+	myMaxDistance PlanetWide
+	myWeight 100
+	myNeverSkip TRUE
+}
+
+InterestPriority Extractor < uid=4A79E0E4595B9D8E000000C76C4D2B95 >
+{
+	myInterestComponents
+	{
+		InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+		{
+			myAllianceRequirement Either
+		}
+		InterestPriorityComponentCategory Category
+		{
+			myCategory Extractor
+		}
+		InterestPriorityComponentFaction Faction
+		{
+			myFaction Harvester
+		}
+		InterestPriorityComponentStoryAct "Story Act"
+		{
+			myMinAct 2
+		}
+		InterestPriorityComponentStorySection "Story Section"
+		{
+			myStorySections
+			{
+				StorySection "Act 02 Refinery Chest Opened" Act_02_Refinery_Chest_Opened
+				StorySection "Act 03 BuildAlliance GameLoop" Act_03_BuildAlliance_GameLoop
+				StorySection "Act 04 Alliance GameLoop" Act_04_Alliance_GameLoop
+			}
+		}
+		InterestPriorityComponentDormancyState "Dormancy State"
+		{
+		}
+	}
+	myMaxDistance PlanetWide
+}
+
+InterestPriority "Extractor (Dormant)" < uid=4A79E0E45A26C26000001FF5C075A3FB >
+{
+	myInterestComponents
+	{
+		InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+		{
+			myAllianceRequirement Either
+		}
+		InterestPriorityComponentCategory Category
+		{
+			myCategory Extractor
+		}
+		InterestPriorityComponentFaction Faction
+		{
+			myFaction Harvester
+		}
+		InterestPriorityComponentStoryAct "Story Act"
+		{
+			myMinAct 2
+		}
+		InterestPriorityComponentStorySection "Story Section"
+		{
+			myStorySections
+			{
+				StorySection "Act 02 Refinery Chest Opened" Act_02_Refinery_Chest_Opened
+				StorySection "Act 03 BuildAlliance GameLoop" Act_03_BuildAlliance_GameLoop
+				StorySection "Act 04 Alliance GameLoop" Act_04_Alliance_GameLoop
+			}
+		}
+		InterestPriorityComponentDormancyState "Dormancy State"
+		{
+			myDormancyStateRequirementFlag TRUE
+		}
+	}
+	myMaxDistance PlanetWide
+}
+
+InterestPriorityBucket "Legion Structures" < uid=4A79E0E45915D34B000000542D91F2E2 >
+{
+	myInterestList
+	{
+		InterestPriorityDynamic "Creep Shed" < uid=4A79E0E45915D34B000000559C02D160 > : "Creep Shed"
+		{
+			myInterestComponents
+			{
+				InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+				{
+					myAllianceRequirement Allied
+				}
+				InterestPriorityComponentCategory Category
+				{
+					myCategory Outpost
+				}
+				InterestPriorityComponentSubCategory SubCategory
+				{
+					mySubCategory CreepShed
+				}
+				InterestPriorityComponentFaction Faction
+				{
+					myFaction Harvester
+				}
+				InterestPriorityComponentStoryAct "Story Act"
+				{
+					myMinAct 2
+				}
+			}
+			myMaxDistance PlanetWide
+			myWeight 10
+		}
+		InterestPriorityDynamic Extractor < uid=4A79E0E45915D34B0000005649B3CA7C > : Extractor
+		{
+			myMaxDistance PlanetWide
+			myWeight 15
+		}
+	}
+}
+
+InterestPriority "Unallied Outpost" < uid=4A79E0E45915D4DA0000005788FFBB82 >
+{
+	myInterestComponents
+	{
+		InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+		{
+			myAllianceRequirement UnAllied
+		}
+		InterestPriorityComponentCategory Category
+		{
+			myCategory Outpost
+		}
+		InterestPriorityComponentCreepLevel "Creep Level"
+		{
+			myMinCreepLevel 0.0
+			myMaxCreepLevel 0.5
+		}
+		InterestPriorityComponentFactionList "Faction List"
+		{
+			myFactions
+			{
+				FactionType Prospector Prospector
+				FactionType Expedition Expedition
+			}
+		}
+		InterestPriorityComponentStoryAct "Story Act"
+		{
+			myMinAct 2
+		}
+		InterestPriorityComponentStorySection "Story Section"
+		{
+			myStorySections
+			{
+				StorySection "Act 02 Refinery Chest Opened" Act_02_Refinery_Chest_Opened
+				StorySection "Act 03 BuildAlliance GameLoop" Act_03_BuildAlliance_GameLoop
+				StorySection "Act 04 Alliance GameLoop" Act_04_Alliance_GameLoop
+			}
+		}
+	}
+	myMaxDistance PlanetWide
+}
+
+InterestPriority "Child Under Attack" < uid=4A79E0E45915F288000000582A5B4E9D >
+{
+	myInterestComponents
+	{
+		InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+		{
+			myAllianceRequirement Either
+		}
+		InterestPriorityComponentUnitUnderAttack "Unit Under Attack"
+		{
+			myUseCombatRequirementsFlag TRUE
+			myCombatRequirements
+			{
+				myTargetMinHealth 5.0
+				myTargetCombatantsMinHealth 5.0
+				myTargetcombatantsMaxHealth 1000.0
+				myMinSkillDelta -2
+				myMaxSkillDelta 2
+				myAttackerExclusionFilters
+				{
+					SimUnitDiscoveryUnitFilter Probe
+					{
+						myCategoryList
+						{
+							SimUnitCategory NPC NPC
+						}
+						mySubCategoryList
+						{
+							SimUnitSubCategory Probe Probe
+						}
+						myFactionList
+						{
+							FactionType Harvester Harvester
+						}
+					}
+					SimUnitDiscoveryUnitFilter Player
+					{
+						myFactionList
+						{
+							FactionType Player Player
+						}
+					}
+					SimUnitDiscoveryUnitFilter Prime
+					{
+						myCategoryList
+						{
+							SimUnitCategory Prime Prime
+						}
+						myFactionList
+						{
+							FactionType Harvester Harvester
+						}
+					}
+				}
+			}
+		}
+		InterestPriorityComponentStoryAct "Story Act"
+		{
+			myMinAct 2
+		}
+	}
+	mySearchRestriction Children
+	myMaxDistance PlanetWide
+}
+
+InterestPriority Minerals < uid=4A79E0E45915F2E500000059A0581367 >
+{
+	myInterestComponents
+	{
+		InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+		{
+			myAllianceRequirement Allied
+		}
+		InterestPriorityComponentCategory Category
+		{
+			myCategory Pickup
+		}
+		InterestPriorityComponentSubCategory SubCategory
+		{
+			mySubCategory MineralSample
+		}
+		InterestPriorityComponentCreepLevel "Creep Level"
+		{
+			myMaxCreepLevel 0.5
+		}
+		InterestPriorityComponentAttachedToParent "Attached To Parent"
+		{
+			myAttachmentParentCategories
+			{
+				SimUnitCategory Category Resource
+			}
+			myAttachmentParentSubCategories
+			{
+				SimUnitSubCategory SubCategory Minerals
+			}
+		}
+		InterestPriorityComponentStorySection "Story Section"
+		{
+			myStorySections
+			{
+				StorySection "Act 02 Refinery Chest Opened" Act_02_Refinery_Chest_Opened
+				StorySection "Act 03 BuildAlliance GameLoop" Act_03_BuildAlliance_GameLoop
+				StorySection "Act 04 Alliance GameLoop" Act_04_Alliance_GameLoop
+			}
+		}
+	}
+	myMaxDistance PlanetWide
+}
+
+InterestPriority "Minerals Rare" < uid=4A79E0E45915F2F80000005A776FCD3A >
+{
+	myInterestComponents
+	{
+		InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+		{
+			myAllianceRequirement Either
+		}
+		InterestPriorityComponentCategory Category
+		{
+			myCategory Pickup
+		}
+		InterestPriorityComponentSubCategory SubCategory
+		{
+			mySubCategory MineralSampleRare
+		}
+		InterestPriorityComponentCreepLevel "Creep Level"
+		{
+			myMaxCreepLevel 0.5
+		}
+		InterestPriorityComponentAttachedToParent "Attached To Parent"
+		{
+			myAttachmentParentCategories
+			{
+				SimUnitCategory Category Resource
+			}
+			myAttachmentParentSubCategories
+			{
+				SimUnitSubCategory SubCategory MineralsRare
+			}
+		}
+		InterestPriorityComponentStorySection "Story Section"
+		{
+			myStorySections
+			{
+				StorySection "Act 02 Refinery Chest Opened" Act_02_Refinery_Chest_Opened
+				StorySection "Act 02 Gather Electrum GameLoop" Act_02_GatherElectrum_GameLoop
+				StorySection "Act 03 BuildAlliance GameLoop" Act_03_BuildAlliance_GameLoop
+				StorySection "Act 04 Alliance GameLoop" Act_04_Alliance_GameLoop
+			}
+		}
+	}
+	myMaxDistance PlanetWide
+}
+
+InterestPriority "Goldrush Equipment" < uid=4A79E0E45915F3120000005B02394BFE >
+{
+	myInterestComponents
+	{
+		InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+		{
+			myAllianceRequirement Either
+		}
+		InterestPriorityComponentCategory Category
+		{
+			myCategory Pickup
+		}
+		InterestPriorityComponentSubCategory SubCategory
+		{
+			mySubCategory GoldrushEquipment
+		}
+		InterestPriorityComponentStorySection "Story Section"
+		{
+			myStorySections
+			{
+				StorySection "Act 02 Refinery Chest Opened" Act_02_Refinery_Chest_Opened
+				StorySection "Act 03 BuildAlliance GameLoop" Act_03_BuildAlliance_GameLoop
+				StorySection "Act 04 Alliance GameLoop" Act_04_Alliance_GameLoop
+			}
+		}
+	}
+	myMaxDistance PlanetWide
+}
+
+InterestPriority "Corrupted Nova (General)" < uid=4A79E0E4595149D80000004E0EBD6E75 >
+{
+	myInterestComponents
+	{
+		InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+		{
+		}
+		InterestPriorityComponentCategory Category
+		{
+			myCategory Pickup
+		}
+		InterestPriorityComponentSubCategory SubCategory
+		{
+			mySubCategory ElectrumInfused
+		}
+		InterestPriorityComponentCreepLevel "Creep Level"
+		{
+			myMaxCreepLevel 0.5
+		}
+		InterestPriorityComponentAttachedToParent "Attached To Parent"
+		{
+			myAttachmentParentSubCategories
+			{
+				SimUnitSubCategory SubCategory ElectrumInfusedBase
+			}
+		}
+		InterestPriorityComponentStorySection "Story Section"
+		{
+			myStorySections
+			{
+				StorySection "Act 02 Refinery Chest Opened" Act_02_Refinery_Chest_Opened
+				StorySection "Act 03 BuildAlliance GameLoop" Act_03_BuildAlliance_GameLoop
+				StorySection "Act 04 Alliance GameLoop" Act_04_Alliance_GameLoop
+			}
+		}
+	}
+	myMaxDistance PlanetWide
+}
+
+InterestPriority "Corrupted Nova (On RaiderGiant)" < uid=4A79E0E45995BC7F0000003745599401 > : "Corrupted Nova (General)"
+{
+	myInterestComponents
+	{
+		InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+		{
+		}
+		InterestPriorityComponentCategory Category
+		{
+			myCategory Pickup
+		}
+		InterestPriorityComponentSubCategory SubCategory
+		{
+			mySubCategory ElectrumInfused
+		}
+		InterestPriorityComponentCreepLevel "Creep Level"
+		{
+			myMaxCreepLevel 1.0
+		}
+		InterestPriorityComponentAttachedToParent "Attached To Parent"
+		{
+			myAttachmentParentFactions
+			{
+				FactionType Faction Harvester
+			}
+			myAttachmentParentCategories
+			{
+				SimUnitCategory Category NPC
+			}
+			myAttachmentParentSubCategories
+			{
+				SimUnitSubCategory SubCategory RaiderGiant
+			}
+		}
+		InterestPriorityComponentStorySection "Story Section"
+		{
+			myStorySections
+			{
+				StorySection "Act 02 Refinery Chest Opened" Act_02_Refinery_Chest_Opened
+				StorySection "Act 03 BuildAlliance GameLoop" Act_03_BuildAlliance_GameLoop
+				StorySection "Act 04 Alliance GameLoop" Act_04_Alliance_GameLoop
+			}
+		}
+	}
+	myMaxDistance PlanetWide
+}
+
+InterestPriority "Corrupted Nova - Heat" < uid=4A79E0E45915F32A0000005CF2E6C282 >
+{
+	myInterestComponents
+	{
+		InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+		{
+		}
+		InterestPriorityComponentCategory Category
+		{
+			myCategory Pickup
+		}
+		InterestPriorityComponentSubCategory SubCategory
+		{
+			mySubCategory ElectrumInfused
+		}
+		InterestPriorityComponentCreepLevel "Creep Level"
+		{
+			myMaxCreepLevel 0.5
+		}
+		InterestPriorityComponentAttachedToParent "Attached To Parent"
+		{
+			myAttachmentParentSubCategories
+			{
+				SimUnitSubCategory SubCategory ElectrumInfusedBase
+			}
+		}
+		InterestPriorityComponentStorySection "Story Section"
+		{
+			myStorySections
+			{
+				StorySection "Act 02 Refinery Chest Opened" Act_02_Refinery_Chest_Opened
+				StorySection "Act 03 BuildAlliance GameLoop" Act_03_BuildAlliance_GameLoop
+				StorySection "Act 04 Alliance GameLoop" Act_04_Alliance_GameLoop
+			}
+		}
+	}
+	myMaxDistance PlanetWide
+}
+
+InterestPriority "Corrupted Nova - Cold" < uid=4A79E0E45915F32A0000005D92453492 >
+{
+	myInterestComponents
+	{
+		InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+		{
+		}
+		InterestPriorityComponentCategory Category
+		{
+			myCategory Pickup
+		}
+		InterestPriorityComponentSubCategory SubCategory
+		{
+			mySubCategory ElectrumInfusedCold
+		}
+		InterestPriorityComponentCreepLevel "Creep Level"
+		{
+			myMaxCreepLevel 0.5
+		}
+		InterestPriorityComponentAttachedToParent "Attached To Parent"
+		{
+			myAttachmentParentSubCategories
+			{
+				SimUnitSubCategory SubCategory ElectrumInfusedBase
+			}
+		}
+		InterestPriorityComponentStorySection "Story Section"
+		{
+			myStorySections
+			{
+				StorySection "Act 02 Refinery Chest Opened" Act_02_Refinery_Chest_Opened
+				StorySection "Act 03 BuildAlliance GameLoop" Act_03_BuildAlliance_GameLoop
+				StorySection "Act 04 Alliance GameLoop" Act_04_Alliance_GameLoop
+			}
+		}
+	}
+	myMaxDistance PlanetWide
+}
+
+InterestPriority "Corrupted Nova - Crush" < uid=4A79E0E45915F32A0000005E9B4A3DFD >
+{
+	myInterestComponents
+	{
+		InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+		{
+		}
+		InterestPriorityComponentCategory Category
+		{
+			myCategory Pickup
+		}
+		InterestPriorityComponentSubCategory SubCategory
+		{
+			mySubCategory ElectrumInfusedCrush
+		}
+		InterestPriorityComponentCreepLevel "Creep Level"
+		{
+			myMaxCreepLevel 0.5
+		}
+		InterestPriorityComponentAttachedToParent "Attached To Parent"
+		{
+			myAttachmentParentSubCategories
+			{
+				SimUnitSubCategory SubCategory ElectrumInfusedBase
+			}
+		}
+		InterestPriorityComponentStorySection "Story Section"
+		{
+			myStorySections
+			{
+				StorySection "Act 02 Refinery Chest Opened" Act_02_Refinery_Chest_Opened
+				StorySection "Act 03 BuildAlliance GameLoop" Act_03_BuildAlliance_GameLoop
+				StorySection "Act 04 Alliance GameLoop" Act_04_Alliance_GameLoop
+			}
+		}
+	}
+	myMaxDistance PlanetWide
+}
+
+InterestPriorityBucket "All Corrupted Nova" < uid=4A79E0E45915FE1500000973C687C366 >
+{
+	myInterestList
+	{
+		InterestPriorityDynamic "Corrupted Nova - Heat" < uid=4A79E0E4592490BA000002BBD0A2A3A9 > : "Corrupted Nova - Heat"
+		{
+			myMinDistance Zero
+			myMaxDistance PlanetWide
+			myWeight 10
+		}
+		InterestPriorityDynamic "Corrupted Nova - Cold" < uid=4A79E0E4592490BA000002BC014B79D5 > : "Corrupted Nova - Cold"
+		{
+			myMinDistance Zero
+			myMaxDistance PlanetWide
+			myWeight 10
+		}
+		InterestPriorityDynamic "Corrupted Nova - Crush" < uid=4A79E0E4592490BA000002BD3D60EDA0 > : "Corrupted Nova - Crush"
+		{
+			myMinDistance Zero
+			myMaxDistance PlanetWide
+			myWeight 10
+		}
+	}
+}
+
+InterestPriority "Goldrush Equipment - Act 2" < uid=2B55C72B596E362B0000004BAF4E379F >
+{
+	myInterestComponents
+	{
+		InterestPriorityComponentCategory Category
+		{
+			myCategory Pickup
+		}
+		InterestPriorityComponentSubCategory SubCategory
+		{
+			mySubCategory GoldrushEquipment
+		}
+		InterestPriorityComponentSubCategoryVariant Variant
+		{
+			myVariant 2
+		}
+		InterestPriorityComponentStoryAct "Act 2"
+		{
+			myMinAct 2
+			myMaxAct 2
+		}
+		InterestPriorityComponentStorySection "Story Section"
+		{
+			myStorySections
+			{
+				StorySection "Mining Alliance Section" Act_02_Mining_Alliance
+			}
+		}
+	}
+	myMaxDistance PlanetWide
+}
+
+InterestPriority "Goldrush Chest" < uid=4A79E0E45915F34D0000005F53E4F3D1 >
+{
+	myInterestComponents
+	{
+		InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+		{
+			myAllianceRequirement Either
+		}
+		InterestPriorityComponentCategory Category
+		{
+			myCategory Chest
+		}
+		InterestPriorityComponentSubCategory SubCategory
+		{
+			mySubCategory ChestGoldrush
+		}
+		InterestPriorityComponentCreepLevel "Creep Level"
+		{
+			myMaxCreepLevel 0.5
+		}
+		InterestPriorityComponentStoryAct "Story Act"
+		{
+			myMinAct 2
+		}
+		InterestPriorityComponentStorySection "Story Section"
+		{
+			myStorySections
+			{
+				StorySection "Open Refinery Chest" Act_02_GatherElectrum_GameLoop
+				StorySection "Act 02 Travel To Sonatus" Act_02_Travel_To_Sonatus
+				StorySection "Enable Enter Range Activities Fern" Enable_EnterRangeActivities_Fern
+				StorySection "Alliance Gameloop" Act_04_Alliance_GameLoop
+			}
+		}
+		InterestPriorityComponentSolvedState Unsolved
+		{
+		}
+	}
+	myMaxDistance PlanetWide
+}
+
+InterestPriority "Bomb Core" < uid=4A79E0E4591B58320000005F266FCC42 >
+{
+	myInterestComponents
+	{
+		InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+		{
+		}
+		InterestPriorityComponentCategory Category
+		{
+			myCategory Pickup
+		}
+		InterestPriorityComponentSubCategory SubCategory
+		{
+			mySubCategory InfusedElectrumBombCore
+		}
+	}
+	myMaxDistance PlanetWide
+}
+
+InterestPriority Bomb < uid=4A79E0E4591B5832000000602964C085 >
+{
+	myInterestComponents
+	{
+		InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+		{
+		}
+		InterestPriorityComponentCategory Category
+		{
+			myCategory Pickup
+		}
+		InterestPriorityComponentSubCategory SubCategory
+		{
+			mySubCategory InfusedElectrumBomb
+		}
+	}
+	myMaxDistance PlanetWide
+}
+
+InterestPriority "Goldrush Wreckage" < uid=4A79E0E4591C53E40000007AF4546035 >
+{
+	myInterestComponents
+	{
+		InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+		{
+			myAllianceRequirement Either
+		}
+		InterestPriorityComponentCategory Category
+		{
+			myCategory Pickup
+		}
+		InterestPriorityComponentSubCategory SubCategory
+		{
+			mySubCategory GoldrushWreckage
+		}
+		InterestPriorityComponentCreepLevel "Creep Level"
+		{
+			myMaxCreepLevel 0.5
+		}
+		InterestPriorityComponentSubCategoryVariant "Variant 1 - Cockpit"
+		{
+			myVariant 1
+		}
+		InterestPriorityComponentSubCategoryVariant "Variant 2 - Helium Diffuser"
+		{
+			myVariant 2
+		}
+		InterestPriorityComponentStoryAct "Story Act"
+		{
+			myMinAct 2
+		}
+	}
+	myMaxDistance PlanetWide
+}
+
+InterestPriority "Outpost Under Attack" < uid=4A79E0E4591C55040000021265DC9F25 >
+{
+	myInterestComponents
+	{
+		InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+		{
+			myAllianceRequirement Allied
+		}
+		InterestPriorityComponentCategory Category
+		{
+			myCategory Outpost
+		}
+		InterestPriorityComponentFactionList "Faction List"
+		{
+			myFactions
+			{
+				FactionType Prospector Prospector
+				FactionType "Prospector Allied" ProspectorAllied
+				FactionType Expedition Expedition
+				FactionType "Expedition Allied" ExpeditionAllied
+			}
+		}
+		InterestPriorityComponentCreepLevel "Creep Level"
+		{
+			myMaxCreepLevel 0.5
+		}
+		InterestPriorityComponentUnitUnderAttack "Unit Under Attack"
+		{
+			myUseCombatRequirementsFlag TRUE
+			myCombatRequirements
+			{
+				myTargetMinHealth 5.0
+				myTargetMaxHealth 1000.0
+				myTargetCombatantsMinHealth 10.0
+				myTargetcombatantsMaxHealth 5000.0
+				myMinSkillDelta -5
+				myMaxSkillDelta 5
+				myAttackerExclusionFilters
+				{
+					SimUnitDiscoveryUnitFilter "Outlaw Faction"
+					{
+						myCategoryList
+						{
+							SimUnitCategory NPC NPC
+						}
+						myFactionList
+						{
+							FactionType Outlaw Outlaw
+						}
+					}
+				}
+			}
+		}
+		InterestPriorityComponentStoryAct "Story Act"
+		{
+			myMinAct 2
+		}
+		InterestPriorityComponentStorySection "Story Section"
+		{
+			myStorySections
+			{
+				StorySection "Act 02 Refinery Chest Opened" Act_02_Refinery_Chest_Opened
+				StorySection "Act 03 BuildAlliance GameLoop" Act_03_BuildAlliance_GameLoop
+				StorySection "Act 04 Alliance GameLoop" Act_04_Alliance_GameLoop
+			}
+		}
+	}
+	myMaxDistance PlanetWide
+}
+
+InterestPriority "Fauna 01" < uid=4A79E0E45942D845000001969F97DAF6 >
+{
+	myInterestComponents
+	{
+		InterestPriorityComponentAllianceRequirement AllianceRequirement
+		{
+		}
+		InterestPriorityComponentCategory Category
+		{
+			myCategory NPC
+		}
+		InterestPriorityComponentSubCategory SubCategory
+		{
+			mySubCategory Fauna_01
+		}
+		InterestPriorityComponentFaction Faction
+		{
+			myFaction Fauna
+		}
+		InterestPriorityComponentStoryAct "Story Act"
+		{
+			myMinAct 2
+		}
+	}
+	myMaxDistance PlanetWide
+}
+
+InterestPriority "Fauna 02" < uid=4A79E0E45942D84500000197AA7212E4 >
+{
+	myInterestComponents
+	{
+		InterestPriorityComponentAllianceRequirement AllianceRequirement
+		{
+		}
+		InterestPriorityComponentCategory Category
+		{
+			myCategory NPC
+		}
+		InterestPriorityComponentSubCategory SubCategory
+		{
+			mySubCategory Fauna_02
+		}
+		InterestPriorityComponentFaction Faction
+		{
+			myFaction Fauna
+		}
+		InterestPriorityComponentStoryAct "Story Act"
+		{
+			myMinAct 2
+		}
+	}
+	myMaxDistance PlanetWide
+}
+
+InterestPriority "Fauna 03" < uid=4A79E0E45942D845000001982F17EAF7 >
+{
+	myInterestComponents
+	{
+		InterestPriorityComponentAllianceRequirement AllianceRequirement
+		{
+		}
+		InterestPriorityComponentCategory Category
+		{
+			myCategory NPC
+		}
+		InterestPriorityComponentSubCategory SubCategory
+		{
+			mySubCategory Fauna_03
+		}
+		InterestPriorityComponentFaction Faction
+		{
+			myFaction Fauna
+		}
+		InterestPriorityComponentStoryAct "Story Act"
+		{
+			myMinAct 2
+		}
+	}
+	myMaxDistance PlanetWide
+}
+
+InterestPriorityBucket "All Fauna" < uid=4A79E0E45942D8CF00000199FC7B0079 >
+{
+	myInterestList
+	{
+		InterestPriorityDynamic "Fauna 01" < uid=4A79E0E45942D8CF0000019ADD1A356A > : "Fauna 01"
+		{
+			myWeight 10
+		}
+		InterestPriorityDynamic "Fauna 02" < uid=4A79E0E45942D8CF0000019BE7C5F91F > : "Fauna 02"
+		{
+			myWeight 10
+		}
+		InterestPriorityDynamic "Fauna 03" < uid=4A79E0E45942D8CF0000019C7715F742 > : "Fauna 03"
+		{
+			myWeight 10
+		}
+	}
+}
+
+InterestPriority "Fauna Analyzer" < uid=4A79E0E4596516D200000186ADEB8602 >
+{
+	myInterestComponents
+	{
+		InterestPriorityComponentSimUnitAsset "Sim Unit Asset"
+		{
+			mySimUnitAsset < uid=4A79E0E45965172E0000018700E5F78A > = fauna_analyzer
+		}
+		InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+		{
+			myAllianceRequirement Either
+		}
+		InterestPriorityComponentStoryAct "Story Act"
+		{
+			myMinAct 2
+		}
+		InterestPriorityComponentHasInterestTarget "Analyzer has Interest"
+		{
+		}
+		InterestPriorityComponentAttachedToParent "Attached To Parent"
+		{
+			myIsNotAttachedTo TRUE
+			myAttachmentParentFactions
+			{
+				FactionType Player Player
+			}
+		}
+	}
+	mySearchRestriction Children
+}
+
+InterestPriority "Warden Cultivator" < uid=4A79E0E459638EF0000000680176118C >
+{
+	myInterestComponents
+	{
+		InterestPriorityComponentSimUnitAsset "Sim Unit Asset"
+		{
+			mySimUnitAsset < uid=4A79E0E459638EF000000069F3206DC2 > = warden_structure_cultivator
+		}
+		InterestPriorityComponentSolvedState Unsolved
+		{
+		}
+	}
+	myMaxDistance Far
+}
+
+InterestPriority "Warden Control Tower" < uid=4A79E0E459638E77000000646332E45E >
+{
+	myInterestComponents
+	{
+		InterestPriorityComponentSimUnitAsset "Sim Unit Asset"
+		{
+			mySimUnitAsset < uid=4A79E0E459638E7700000065FA6118B8 > = warden_structure_controltower
+		}
+		InterestPriorityComponentSolvedState Unsolved
+		{
+		}
+	}
+	myMaxDistance Far
+}
+
+InterestPriority "Warden North Anchor" < uid=4A79E0E459638EF000000066D1C16B9E >
+{
+	myInterestComponents
+	{
+		InterestPriorityComponentSimUnitAsset "Sim Unit Asset"
+		{
+			mySimUnitAsset < uid=4A79E0E459638EF000000067F5920B74 > = warden_structure_northanchor
+		}
+		InterestPriorityComponentSolvedState Unsolved
+		{
+		}
+	}
+	myMaxDistance Far
+}
+
+InterestPriority "Warden South Anchor" < uid=4A79E0E459638F290000006A296775A3 >
+{
+	myInterestComponents
+	{
+		InterestPriorityComponentSimUnitAsset "Sim Unit Asset"
+		{
+			mySimUnitAsset < uid=4A79E0E459638F290000006B4CCB1250 > = warden_structure_southanchor
+		}
+		InterestPriorityComponentSolvedState Unsolved
+		{
+		}
+	}
+	myMaxDistance Far
+}
+
+InterestPriority "Warden Terraformer" < uid=4A79E0E459638DFB00000061669FEABA >
+{
+	myInterestComponents
+	{
+		InterestPriorityComponentSimUnitAsset "Sim Unit Asset"
+		{
+			mySimUnitAsset < uid=4A79E0E459638E7700000063EBD9F5DF > = warden_structure_teraform
+		}
+		InterestPriorityComponentSolvedState Unsolved
+		{
+		}
+	}
+	myMaxDistance Far
+}
+
+InterestPriority "Warden Puzzle (Unsolved)" < uid=4A79E0E459B6B1D2000000361DA16B74 >
+{
+	myInterestComponents
+	{
+		InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+		{
+		}
+		InterestPriorityComponentCategory Category
+		{
+			myCategory Landmark
+		}
+		InterestPriorityComponentSubCategory Subcategory
+		{
+			mySubCategory WardenRuin
+		}
+		InterestPriorityComponentSolvedState "Solved State"
+		{
+		}
+		InterestPriorityComponentStoryAct "Story Act"
+		{
+			myMinAct 2
+		}
+		InterestPriorityComponentStorySection "Story Section"
+		{
+			myStorySections
+			{
+				StorySection "Refinery Chest Opened" Act_02_Refinery_Chest_Opened
+				StorySection "Alliance Gameloop" Act_04_Alliance_GameLoop
+			}
+		}
+	}
+	myMaxDistance PlanetWide
+}
+
+InterestPriority "Electrum Vein" < uid=4A79E0E45967D7C00000008DD31B76AC >
+{
+	myInterestComponents
+	{
+		InterestPriorityComponentCategory Category
+		{
+			myCategory Resource
+		}
+		InterestPriorityComponentSubCategory SubCategory
+		{
+			mySubCategory ElectrumVein
+		}
+		InterestPriorityComponentStoryAct "Story Act"
+		{
+			myMinAct 2
+		}
+		InterestPriorityComponentUnitsInRange "Sibling Search"
+		{
+			mySearchCriteria < uid=F2C5C6925A37E50700001D7F4338D0A7 >
+			{
+				myInterestComponents
+				{
+					InterestPriorityComponentCategory "Sibling Tower Category"
+					{
+						myCategory Tower
+					}
+				}
+				mySearchRestriction Siblings
+				myMaxDistance 100.0
+				myMinDetectedUnitsRequired 2
+				mySucceedWhenSearchFailsFlag TRUE
+			}
+		}
+	}
+	myMaxDistance PlanetWide
+}
+
+InterestPriority "Outpost Slot" < uid=4A79E0E45A8DA37100001B5D616B9AC1 >
+{
+	myInterestComponents
+	{
+		InterestPriorityComponentCategory Category
+		{
+			myCategory OutpostSlot
+		}
+		InterestPriorityComponentFactionList "Faction List"
+		{
+			myFactions
+			{
+				FactionType Unaligned Unaligned
+				FactionType Harvester Harvester
+			}
+		}
+		InterestPriorityComponentStoryAct "Story Act"
+		{
+			myMinAct 3
+		}
+		InterestPriorityComponentStorySection "Story Sections"
+		{
+			myStorySections
+			{
+				StorySection "Act 3 - Build Alliance" Act_03_BuildAlliance_GameLoop
+				StorySection "Act 4 - Upgrade Starlink" Act_04_Upgrade_Starlink
+				StorySection "Act 4 - Alliance Gameloop" Act_04_Alliance_GameLoop
+			}
+		}
+		InterestPriorityComponentLevel Level
+		{
+			myMinimumLevel 2
+		}
+	}
+	myMaxDistance PlanetWide
+}
+
+InterestPriority "Probe - Flight Recorder (GameLoop)" < uid=4A79E0E459A58B9A0000003CED1C6B0A > : "Probe - Flight Recorder"
+{
+	myInterestComponents
+	{
+		InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+		{
+			myAllianceRequirement Either
+		}
+		InterestPriorityComponentCategory Category
+		{
+			myCategory Hackable
+		}
+		InterestPriorityComponentSubCategory SubCategory
+		{
+			mySubCategory FlightRecorder
+		}
+		InterestPriorityComponentFaction Faction
+		{
+			myFaction Harvester
+		}
+		InterestPriorityComponentStoryAct "Story Act"
+		{
+			myMinAct 2
+		}
+		InterestPriorityComponentAttachedToParent "Attached To Parent"
+		{
+			myAttachmentParentFactions
+			{
+				FactionType Legion Harvester
+			}
+			myAttachmentParentCategories
+			{
+				SimUnitCategory Category NPC
+			}
+			myAttachmentParentSubCategories
+			{
+				SimUnitSubCategory SubCategory Probe
+			}
+		}
+		InterestPriorityComponentStorySection "Story Section"
+		{
+			myStorySections
+			{
+				StorySection "Open Refinery Chest" Act_03_BuildAlliance_GameLoop
+				StorySection "Act 4 Alliance Gameloop" Act_04_Alliance_GameLoop
+				StorySection "Enable MissionType Survival" Enable_MissionType_Survival
+			}
+		}
+		InterestPriorityComponentWarEffort "War Effort"
+		{
+			myMinThreshold Threshold_50
+		}
+		InterestPriorityComponentSolvedState "Solved State"
+		{
+		}
+		InterestPriorityComponentDormancyState "Dormancy State"
+		{
+		}
+	}
+}
+
+InterestPriority "Extractor (GameLoop)" < uid=4A79E0E45963934100000072256FF89E > : Extractor
+{
+	myInterestComponents
+	{
+		InterestPriorityComponentCategory Category
+		{
+			myCategory Extractor
+		}
+		InterestPriorityComponentFaction Faction
+		{
+			myFaction Harvester
+		}
+		InterestPriorityComponentStoryAct "Story Act"
+		{
+			myMinAct 2
+		}
+		InterestPriorityComponentWarEffort "War Effort"
+		{
+			myMinThreshold Threshold_25
+		}
+		InterestPriorityComponentStorySection "Story Section"
+		{
+			myStorySections
+			{
+				StorySection "Act 3 - Build Alliance" Act_03_BuildAlliance_GameLoop
+				StorySection "Act 3 - Destroy Dreadnought" Act_03_Destroy_Dreadnought
+				StorySection "Act 4 - Upgrade Starlink" Act_04_Upgrade_Starlink
+				StorySection "Act 4 - Alliance Gameloop" Act_04_Alliance_GameLoop
+			}
+		}
+		InterestPriorityComponentDormancyState "Dormancy State"
+		{
+		}
+	}
+}
+
+InterestPriority "Extractor - Dormant (GameLoop)" < uid=4A79E0E45A67853900001B489F7CD1A4 > : "Extractor (GameLoop)"
+{
+	myInterestComponents
+	{
+		InterestPriorityComponentCategory Category
+		{
+			myCategory Extractor
+		}
+		InterestPriorityComponentFaction Faction
+		{
+			myFaction Harvester
+		}
+		InterestPriorityComponentStoryAct "Story Act"
+		{
+			myMinAct 2
+		}
+		InterestPriorityComponentWarEffort "War Effort"
+		{
+			myMinThreshold Threshold_25
+		}
+		InterestPriorityComponentStorySection "Story Section"
+		{
+			myStorySections
+			{
+				StorySection "Act 3 - Build Alliance" Act_03_BuildAlliance_GameLoop
+				StorySection "Act 3 - Destroy Dreadnought" Act_03_Destroy_Dreadnought
+				StorySection "Act 4 - Upgrade Starlink" Act_04_Upgrade_Starlink
+				StorySection "Act 4 - Alliance Gameloop" Act_04_Alliance_GameLoop
+			}
+		}
+		InterestPriorityComponentDormancyState "Dormancy State"
+		{
+			myDormancyStateRequirementFlag TRUE
+		}
+	}
+}
+
+InterestPriority "Raiding Party (GameLoop)" < uid=4A79E0E4596393BF00000073700276ED > : "Raiding Party"
+{
+	myInterestComponents
+	{
+		InterestPriorityComponentCategory Category
+		{
+			myCategory NPC
+		}
+		InterestPriorityComponentSubCategory SubCategory
+		{
+			mySubCategory Raider
+		}
+		InterestPriorityComponentFaction Faction
+		{
+			myFaction Harvester
+		}
+		InterestPriorityComponentStoryAct "Story Act"
+		{
+			myMinAct 2
+		}
+		InterestPriorityComponentWarEffort "War Effort"
+		{
+			myMinThreshold Threshold_50
+		}
+		InterestPriorityComponentStorySection "Story Section"
+		{
+			myStorySections
+			{
+				StorySection "Destroy Prime" Act_02_Destroy_Prime
+				StorySection "Destroy Dreadnought" Act_03_Destroy_Dreadnought
+				StorySection "Upgrade Starlink" Act_04_Upgrade_Starlink
+				StorySection "Act 4 Alliance Gameloop" Act_04_Alliance_GameLoop
+			}
+		}
+	}
+}
+
+InterestPriority "Outpost Under Attack  - Unallied (GameLoop)" < uid=4A79E0E459639485000000741D2C31FA > : "Outpost Under Attack"
+{
+	myInterestComponents
+	{
+		InterestPriorityComponentCategory Category
+		{
+			myCategory Outpost
+		}
+		InterestPriorityComponentFactionList "Faction List"
+		{
+			myFactions
+			{
+				FactionType Prospector Prospector
+				FactionType Expedition Expedition
+			}
+		}
+		InterestPriorityComponentUnitUnderAttack "Unit Under Attack"
+		{
+			myUseCombatRequirementsFlag TRUE
+			myCombatRequirements
+			{
+				myTargetMinHealth 5.0
+				myTargetCombatantsMinHealth 5.0
+				myTargetcombatantsMaxHealth 1000.0
+				myMinSkillDelta -2
+				myMaxSkillDelta 2
+				myAttackerExclusionFilters
+				{
+					SimUnitDiscoveryUnitFilter Probe
+					{
+						myCategoryList
+						{
+							SimUnitCategory NPC NPC
+						}
+						mySubCategoryList
+						{
+							SimUnitSubCategory Probe Probe
+						}
+						myFactionList
+						{
+							FactionType Harvester Harvester
+						}
+					}
+					SimUnitDiscoveryUnitFilter Player
+					{
+						myFactionList
+						{
+							FactionType Player Player
+						}
+					}
+					SimUnitDiscoveryUnitFilter Prime
+					{
+						myCategoryList
+						{
+							SimUnitCategory Prime Prime
+						}
+						myFactionList
+						{
+							FactionType Harvester Harvester
+						}
+					}
+				}
+			}
+		}
+		InterestPriorityComponentStoryAct "Story Act"
+		{
+			myMinAct 2
+		}
+		InterestPriorityComponentStorySection "Story Section"
+		{
+			myStorySections
+			{
+				StorySection "Act 3 - Build Alliance" Act_03_BuildAlliance_GameLoop
+				StorySection "Act 4 - Upgrade Starlink" Act_04_Upgrade_Starlink
+				StorySection "Act 4 - Alliance Gameloop" Act_04_Alliance_GameLoop
+			}
+		}
+	}
+}
+
+InterestPriority "Outpost Under Attack - Allied (GameLoop)" < uid=4A79E0E45963E29F0000007A27BFA2D1 > : "Outpost Under Attack  - Unallied (GameLoop)"
+{
+	myInterestComponents
+	{
+		InterestPriorityComponentCategory Category
+		{
+			myCategory Outpost
+		}
+		InterestPriorityComponentFactionList "Faction List"
+		{
+			myFactions
+			{
+				FactionType "Prospector Allied" ProspectorAllied
+				FactionType "Expedition Allied" ExpeditionAllied
+			}
+		}
+		InterestPriorityComponentUnitUnderAttack "Unit Under Attack"
+		{
+			myUseCombatRequirementsFlag TRUE
+			myCombatRequirements
+			{
+				myTargetMinHealth 5.0
+				myTargetCombatantsMinHealth 5.0
+				myTargetcombatantsMaxHealth 1000.0
+				myMinSkillDelta -2
+				myMaxSkillDelta 2
+				myAttackerExclusionFilters
+				{
+					SimUnitDiscoveryUnitFilter Probe
+					{
+						myCategoryList
+						{
+							SimUnitCategory NPC NPC
+						}
+						mySubCategoryList
+						{
+							SimUnitSubCategory Probe Probe
+						}
+						myFactionList
+						{
+							FactionType Harvester Harvester
+						}
+					}
+					SimUnitDiscoveryUnitFilter Player
+					{
+						myFactionList
+						{
+							FactionType Player Player
+						}
+					}
+					SimUnitDiscoveryUnitFilter Prime
+					{
+						myCategoryList
+						{
+							SimUnitCategory Prime Prime
+						}
+						myFactionList
+						{
+							FactionType Harvester Harvester
+						}
+					}
+				}
+			}
+		}
+		InterestPriorityComponentStoryAct "Story Act"
+		{
+			myMinAct 2
+		}
+		InterestPriorityComponentStorySection "Story Section"
+		{
+			myStorySections
+			{
+				StorySection "Act 3 - Build Alliance" Act_03_BuildAlliance_GameLoop
+				StorySection "Upgrade Starlink" Act_04_Upgrade_Starlink
+				StorySection "Act 4 Alliance Gameloop" Act_04_Alliance_GameLoop
+			}
+		}
+	}
+}
+
+InterestPriority "Unallied Outpost (GameLoop)" < uid=4A79E0E45963B79100000075B5C87950 > : "Unallied Outpost"
+{
+	myInterestComponents
+	{
+		InterestPriorityComponentCategory Category
+		{
+			myCategory Outpost
+		}
+		InterestPriorityComponentFactionList "Faction List"
+		{
+			myFactions
+			{
+				FactionType Prospector Prospector
+				FactionType Expedition Expedition
+			}
+		}
+		InterestPriorityComponentStoryAct "Story Act"
+		{
+			myMinAct 2
+		}
+		InterestPriorityComponentStorySection "Story Section"
+		{
+			myStorySections
+			{
+				StorySection "Act 02 Travel To Sonatus" Act_02_Travel_To_Sonatus
+				StorySection "Enable Enter Range Activities Fern" Enable_EnterRangeActivities_Fern
+				StorySection "Act 3 - Destroy Dreadnought" Act_03_BuildAlliance_GameLoop
+				StorySection "Act 4 - Upgrade Starlink" Act_04_Upgrade_Starlink
+				StorySection "Act 4 - Alliance Gameloop" Act_04_Alliance_GameLoop
+			}
+		}
+		InterestPriorityComponentWarEffort "War Effort"
+		{
+			myEffortType Alliance
+			myMaxThreshold Threshold_75
+		}
+	}
+	myMaxDistance Far
+}
+
+InterestPriority "Creep Shed (GameLoop)" < uid=4A79E0E45963B85600000076EF39CC7F > : "Creep Shed"
+{
+	myInterestComponents
+	{
+		InterestPriorityComponentCategory Category
+		{
+			myCategory Outpost
+		}
+		InterestPriorityComponentSubCategory SubCategory
+		{
+			mySubCategory CreepShed
+		}
+		InterestPriorityComponentFaction Faction
+		{
+			myFaction Harvester
+		}
+		InterestPriorityComponentStoryAct "Story Act"
+		{
+			myMinAct 2
+		}
+		InterestPriorityComponentWarEffort "War Effort - Legion"
+		{
+			myMaxThreshold Threshold_50
+		}
+		InterestPriorityComponentWarEffort "War Effort - Alliance"
+		{
+			myEffortType Alliance
+			myMaxThreshold Threshold_75
+		}
+		InterestPriorityComponentStorySection "Story Section"
+		{
+			myStorySections
+			{
+				StorySection "Build Observatory" Act_03_Build_Observatory
+				StorySection "Destroy Dreadnought" Act_03_Destroy_Dreadnought
+				StorySection "Upgrade Starlink" Act_04_Upgrade_Starlink
+				StorySection "Act 4 Alliance Gameloop" Act_04_Alliance_GameLoop
+			}
+		}
+	}
+	myMaxDistance Far
+}
+
+InterestPriority "Legion Prime (GameLoop)" < uid=4A79E0E459D544E800000052F1419078 > : "Legion Prime"
+{
+	myInterestComponents
+	{
+		InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+		{
+			myAllianceRequirement Either
+		}
+		InterestPriorityComponentCategory Category
+		{
+			myCategory Prime
+		}
+		InterestPriorityComponentFaction Faction
+		{
+			myFaction Harvester
+		}
+		InterestPriorityComponentStoryAct "Story Act"
+		{
+			myMinAct 3
+		}
+		InterestPriorityComponentKnowledge Knowledge
+		{
+			myCompareType EqualTo
+			myCompareValue 100.0
+		}
+		InterestPriorityComponentWarEffort "War Effort"
+		{
+			myMinThreshold Threshold_25
+		}
+		InterestPriorityComponentStorySection "Story Section"
+		{
+			myStorySections
+			{
+				StorySection "Act 3 - Destroy Dreadnought" Act_03_Destroy_Dreadnought
+				StorySection "Act 4 - Upgrade Starlink" Act_04_Upgrade_Starlink
+				StorySection "Act 4 - Alliance Gameloop" Act_04_Alliance_GameLoop
+			}
+		}
+	}
+}
+
+InterestPriority "Outpost Slot (GameLoop)" < uid=4A79E0E459D4ECF4000000370724898E >
+{
+	myInterestComponents
+	{
+		InterestPriorityComponentCategory Category
+		{
+			myCategory OutpostSlot
+		}
+		InterestPriorityComponentFactionList "Faction List"
+		{
+			myFactions
+			{
+				FactionType Unaligned Unaligned
+				FactionType Harvester Harvester
+			}
+		}
+		InterestPriorityComponentStoryAct "Story Act"
+		{
+			myMinAct 3
+		}
+		InterestPriorityComponentStorySection "Story Sections"
+		{
+			myStorySections
+			{
+				StorySection "Act 3 - Build Alliance" Act_03_BuildAlliance_GameLoop
+				StorySection "Act 4 - Upgrade Starlink" Act_04_Upgrade_Starlink
+				StorySection "Act 4 - Alliance Gameloop" Act_04_Alliance_GameLoop
+			}
+		}
+		InterestPriorityComponentWarEffort "War Effort - Alliance"
+		{
+			myEffortType Alliance
+			myMaxThreshold Threshold_75
+		}
+	}
+	myMaxDistance PlanetWide
+}
+
+InterestPriority "Electrum Vein (GameLoop)" < uid=4A79E0E459D79F210000003568D4D54C > : "Electrum Vein"
+{
+	myInterestComponents
+	{
+		InterestPriorityComponentCategory Category
+		{
+			myCategory Resource
+		}
+		InterestPriorityComponentSubCategory SubCategory
+		{
+			mySubCategory ElectrumVein
+		}
+		InterestPriorityComponentStoryAct "Story Act"
+		{
+			myMinAct 2
+			myMaxAct 2
+		}
+		InterestPriorityComponentStorySection "Story Section"
+		{
+			myStorySections
+			{
+				StorySection "Act 2 Gather Electrum" Act_02_GatherElectrum_GameLoop
+			}
+		}
+		InterestPriorityComponentWarEffort "War Effort - Alliance"
+		{
+			myEffortType Alliance
+			myMaxThreshold Threshold_75
+		}
+	}
+}
+
+InterestPriority Tower < uid=4A79E0E45967935A0000004E30CE607C >
+{
+	myInterestComponents
+	{
+		InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+		{
+			myAllianceRequirement Allied
+		}
+		InterestPriorityComponentCategory Category
+		{
+			myCategory Tower
+		}
+		InterestPriorityComponentSubCategory SubCategory
+		{
+		}
+		InterestPriorityComponentFactionList "Faction List"
+		{
+		}
+	}
+	mySearchRestriction Children
+	myMaxDistance PlanetWide
+}
+
+InterestPriority "Prospector WatchTower" < uid=4A79E0E45967927E0000004D3D1211DD > : Tower
+{
+	myInterestComponents
+	{
+		InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+		{
+			myAllianceRequirement Allied
+		}
+		InterestPriorityComponentCategory Category
+		{
+			myCategory Tower
+		}
+		InterestPriorityComponentSubCategory SubCategory
+		{
+			mySubCategory Watchtower
+		}
+		InterestPriorityComponentFactionList "Faction List"
+		{
+			myFactions
+			{
+				FactionType "Prospector Allied" ProspectorAllied
+				FactionType Prospector Prospector
+			}
+		}
+		InterestPriorityComponentStoryAct "Story Act"
+		{
+			myMinAct 2
+		}
+		InterestPriorityComponentAttachedToParent "Attached To Parent"
+		{
+			myIsNotAttachedTo TRUE
+			myAttachmentParentFactions
+			{
+			}
+			myAttachmentParentCategories
+			{
+				SimUnitCategory Category NPC
+			}
+			myAttachmentParentSubCategories
+			{
+				SimUnitSubCategory SubCategory Worker
+			}
+		}
+		InterestPriorityComponentHasInterestTarget "Has Interest Target"
+		{
+		}
+	}
+}
+
+InterestPriority "Expedition Repair Station" < uid=4A79E0E45967BAD50000004F38853FFC > : Tower
+{
+	myInterestComponents
+	{
+		InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+		{
+			myAllianceRequirement Allied
+		}
+		InterestPriorityComponentCategory Category
+		{
+			myCategory Tower
+		}
+		InterestPriorityComponentSubCategory SubCategory
+		{
+			mySubCategory RepairStation
+		}
+		InterestPriorityComponentFactionList "Faction List"
+		{
+			myFactions
+			{
+				FactionType "Expedition Allied" ExpeditionAllied
+				FactionType Expedition Expedition
+			}
+		}
+		InterestPriorityComponentStoryAct "Story Act"
+		{
+			myMinAct 2
+		}
+		InterestPriorityComponentAttachedToParent "Attached To Parent"
+		{
+			myIsNotAttachedTo TRUE
+			myAttachmentParentCategories
+			{
+				SimUnitCategory Category NPC
+			}
+			myAttachmentParentSubCategories
+			{
+				SimUnitSubCategory SubCategory Worker
+			}
+		}
+		InterestPriorityComponentHasInterestTarget "Has Interest Target"
+		{
+		}
+	}
+}
+
+InterestPriority "Expedition Observation Tower" < uid=4A79E0E45967BB6900000050F65A62A8 > : Tower
+{
+	myInterestComponents
+	{
+		InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+		{
+			myAllianceRequirement Allied
+		}
+		InterestPriorityComponentCategory Category
+		{
+			myCategory Tower
+		}
+		InterestPriorityComponentSubCategory SubCategory
+		{
+			mySubCategory ObservatoryTower
+		}
+		InterestPriorityComponentFactionList "Faction List"
+		{
+			myFactions
+			{
+				FactionType "Expedition Allied" ExpeditionAllied
+				FactionType Expedition Expedition
+			}
+		}
+		InterestPriorityComponentStoryAct "Story Act"
+		{
+			myMinAct 2
+		}
+		InterestPriorityComponentAttachedToParent "Attached To Parent"
+		{
+			myIsNotAttachedTo TRUE
+			myAttachmentParentCategories
+			{
+				SimUnitCategory Category NPC
+			}
+			myAttachmentParentSubCategories
+			{
+				SimUnitSubCategory SubCategory Worker
+			}
+		}
+		InterestPriorityComponentHasInterestTarget "Has Interest Target"
+		{
+		}
+	}
+}
+
+InterestPriority "Prospector Electrum Hopper" < uid=4A79E0E45967BB69000000515B6B1947 > : Tower
+{
+	myInterestComponents
+	{
+		InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+		{
+			myAllianceRequirement Allied
+		}
+		InterestPriorityComponentStorySection "Story Section"
+		{
+			myStorySections
+			{
+				StorySection "Chest Opened" Act_02_Refinery_Chest_Opened
+			}
+		}
+		InterestPriorityComponentCategory Category
+		{
+			myCategory Tower
+		}
+		InterestPriorityComponentSubCategory SubCategory
+		{
+			mySubCategory ElectrumHopper
+		}
+		InterestPriorityComponentFactionList "Faction List"
+		{
+			myFactions
+			{
+				FactionType "Prospector Allied" ProspectorAllied
+				FactionType Prospector Prospector
+			}
+		}
+		InterestPriorityComponentAttachedToParent "Attached to Parent"
+		{
+			myIsNotAttachedTo TRUE
+			myAttachmentParentCategories
+			{
+				SimUnitCategory Category NPC
+			}
+			myAttachmentParentSubCategories
+			{
+				SimUnitSubCategory SubCategory Worker
+			}
+		}
+		InterestPriorityComponentHasInterestTarget "Has Interest Target"
+		{
+		}
+	}
+}
+
+InterestPriority "Expedition Outpost" < uid=C92F4D3F596913190057B586F965DE5E >
+{
+	myInterestComponents
+	{
+		InterestPriorityComponentCategory Category
+		{
+			myCategory Outpost
+		}
+		InterestPriorityComponentFactionList Factions
+		{
+			myFactions
+			{
+				FactionType Expedition Expedition
+				FactionType ExpeditionAllied ExpeditionAllied
+			}
+		}
+	}
+	myMaxDistance VeryFar
+}
+
+InterestPriority "Prospector Outpost" < uid=C92F4D3F596913190057B58721C633DB >
+{
+	myInterestComponents
+	{
+		InterestPriorityComponentCategory Category
+		{
+			myCategory Outpost
+		}
+		InterestPriorityComponentFactionList Factions
+		{
+			myFactions
+			{
+				FactionType Expedition Prospector
+				FactionType ExpeditionAllied ProspectorAllied
+			}
+		}
+	}
+	myMaxDistance VeryFar
+}
+
+InterestPriority "Allied Outpost" < uid=1E68E5355980A21B000168D08077D8C4 >
+{
+	myInterestComponents
+	{
+		InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+		{
+			myAllianceRequirement Allied
+		}
+		InterestPriorityComponentCategory Category
+		{
+			myCategory Outpost
+		}
+		InterestPriorityComponentCreepLevel "Creep Level"
+		{
+			myMinCreepLevel 0.0
+			myMaxCreepLevel 1.0
+		}
+		InterestPriorityComponentFactionList "Faction List"
+		{
+			myFactions
+			{
+				FactionType Prospector ProspectorAllied
+				FactionType Expedition ExpeditionAllied
+			}
+		}
+		InterestPriorityComponentStoryAct "Story Act"
+		{
+			myMinAct 2
+		}
+		InterestPriorityComponentStorySection "Story Section"
+		{
+			myStorySections
+			{
+				StorySection "Act 02 Refinery Chest Opened" Act_02_Refinery_Chest_Opened
+				StorySection "Act 03 BuildAlliance GameLoop" Act_03_BuildAlliance_GameLoop
+				StorySection "Act 04 Alliance GameLoop" Act_04_Alliance_GameLoop
+			}
+		}
+	}
+	myMaxDistance PlanetWide
+}
+
+InterestPriority "Allied Defense Base" < uid=1E68E535598495B3000238C7DB16F93A >
+{
+	myInterestComponents
+	{
+		InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+		{
+			myAllianceRequirement Allied
+		}
+		InterestPriorityComponentCategory Category
+		{
+			myCategory Outpost
+		}
+		InterestPriorityComponentCreepLevel "Creep Level"
+		{
+			myMinCreepLevel 0.0
+			myMaxCreepLevel 1.0
+		}
+		InterestPriorityComponentFactionList "Faction List"
+		{
+			myFactions
+			{
+				FactionType Prospector ProspectorAllied
+			}
+		}
+		InterestPriorityComponentStoryAct "Story Act"
+		{
+			myMinAct 2
+		}
+		InterestPriorityComponentStorySection "Story Section"
+		{
+			myStorySections
+			{
+				StorySection "Act 02 Refinery Chest Opened" Act_02_Refinery_Chest_Opened
+				StorySection "Act 03 BuildAlliance GameLoop" Act_03_BuildAlliance_GameLoop
+				StorySection "Act 04 Alliance GameLoop" Act_04_Alliance_GameLoop
+			}
+		}
+		InterestPriorityComponentSubCategory SubCategory
+		{
+			mySubCategory DefenseBase
+		}
+	}
+	myMaxDistance VeryFar
+}
+
+InterestPriority "Allied Observation Deck" < uid=1E68E5355989D7CE0001AB375F63B2CE >
+{
+	myInterestComponents
+	{
+		InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+		{
+			myAllianceRequirement Allied
+		}
+		InterestPriorityComponentCategory Category
+		{
+			myCategory Outpost
+		}
+		InterestPriorityComponentCreepLevel "Creep Level"
+		{
+			myMinCreepLevel 0.0
+			myMaxCreepLevel 1.0
+		}
+		InterestPriorityComponentFactionList "Faction List"
+		{
+			myFactions
+			{
+				FactionType Prospector ExpeditionAllied
+			}
+		}
+		InterestPriorityComponentStoryAct "Story Act"
+		{
+			myMinAct 2
+		}
+		InterestPriorityComponentStorySection "Story Section"
+		{
+			myStorySections
+			{
+				StorySection "Act 02 Refinery Chest Opened" Act_02_Refinery_Chest_Opened
+				StorySection "Act 03 BuildAlliance GameLoop" Act_03_BuildAlliance_GameLoop
+				StorySection "Act 04 Alliance GameLoop" Act_04_Alliance_GameLoop
+			}
+		}
+		InterestPriorityComponentSubCategory SubCategory
+		{
+			mySubCategory ObservationDeck
+		}
+	}
+	myMaxDistance VeryFar
+}
+
+InterestPriority "Allied Mining Center" < uid=1E68E5355989D7CE0001AB38AAEE1B32 >
+{
+	myInterestComponents
+	{
+		InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+		{
+			myAllianceRequirement Allied
+		}
+		InterestPriorityComponentCategory Category
+		{
+			myCategory Outpost
+		}
+		InterestPriorityComponentCreepLevel "Creep Level"
+		{
+			myMinCreepLevel 0.0
+			myMaxCreepLevel 1.0
+		}
+		InterestPriorityComponentFactionList "Faction List"
+		{
+			myFactions
+			{
+				FactionType Prospector ProspectorAllied
+			}
+		}
+		InterestPriorityComponentStoryAct "Story Act"
+		{
+			myMinAct 2
+		}
+		InterestPriorityComponentStorySection "Story Section"
+		{
+			myStorySections
+			{
+				StorySection "Act 02 Refinery Chest Opened" Act_02_Refinery_Chest_Opened
+				StorySection "Act 03 BuildAlliance GameLoop" Act_03_BuildAlliance_GameLoop
+				StorySection "Act 04 Alliance GameLoop" Act_04_Alliance_GameLoop
+			}
+		}
+		InterestPriorityComponentSubCategory SubCategory
+		{
+			mySubCategory MiningCenter
+		}
+	}
+	myMaxDistance VeryFar
+}
+
+InterestPriority "Allied Research Base" < uid=1E68E5355989D7CE0001AB39995E442B >
+{
+	myInterestComponents
+	{
+		InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+		{
+			myAllianceRequirement Allied
+		}
+		InterestPriorityComponentCategory Category
+		{
+			myCategory Outpost
+		}
+		InterestPriorityComponentCreepLevel "Creep Level"
+		{
+			myMinCreepLevel 0.0
+			myMaxCreepLevel 1.0
+		}
+		InterestPriorityComponentFactionList "Faction List"
+		{
+			myFactions
+			{
+				FactionType Prospector ExpeditionAllied
+			}
+		}
+		InterestPriorityComponentStoryAct "Story Act"
+		{
+			myMinAct 2
+		}
+		InterestPriorityComponentStorySection "Story Section"
+		{
+			myStorySections
+			{
+				StorySection "Act 02 Refinery Chest Opened" Act_02_Refinery_Chest_Opened
+				StorySection "Act 03 BuildAlliance GameLoop" Act_03_BuildAlliance_GameLoop
+				StorySection "Act 04 Alliance GameLoop" Act_04_Alliance_GameLoop
+			}
+		}
+		InterestPriorityComponentSubCategory SubCategory
+		{
+			mySubCategory ResearchBase
+		}
+	}
+	myMaxDistance VeryFar
+}
+
+InterestPriority "Flora (General)" < uid=4A79E0E4591F55C4000001F20A9B7A8A >
+{
+	myInterestComponents
+	{
+		InterestPriorityComponentAllianceRequirement AllianceRequirement
+		{
+			myAllianceRequirement Either
+		}
+		InterestPriorityComponentCategory Category
+		{
+			myCategory Pickup
+		}
+		InterestPriorityComponentSubCategory SubCategory
+		{
+			mySubCategory RareFlora
+		}
+		InterestPriorityComponentCreepLevel "Creep Level"
+		{
+			myMaxCreepLevel 0.5
+		}
+		InterestPriorityComponentAttachedToParent "Attached To Parent"
+		{
+			myAttachmentParentCategories
+			{
+				SimUnitCategory Category PickupBase
+			}
+			myAttachmentParentSubCategories
+			{
+				SimUnitSubCategory SubCategory PluckableBase
+			}
+		}
+		InterestPriorityComponentStoryAct "Story Act"
+		{
+			myMinAct 2
+		}
+		InterestPriorityComponentSubCategoryVariant "Variant 1"
+		{
+			myVariant 1
+		}
+		InterestPriorityComponentSubCategoryVariant "Variant 6"
+		{
+			myVariant 6
+		}
+		InterestPriorityComponentSubCategoryVariant "Variant 9"
+		{
+			myVariant 9
+		}
+		InterestPriorityComponentSubCategoryVariant "Variant 10"
+		{
+			myVariant 10
+		}
+		InterestPriorityComponentSubCategoryVariant "Variant 13"
+		{
+			myVariant 13
+		}
+		InterestPriorityComponentSubCategoryVariant "Variant 16"
+		{
+			myVariant 16
+		}
+		InterestPriorityComponentSubCategoryVariant "Variant 20"
+		{
+			myVariant 20
+		}
+	}
+	myMaxDistance PlanetWide
+}
+
+InterestPriority "Chest - X-Factor" < uid=4A79E0E459B7FC93000000402C1E669A >
+{
+	myInterestComponents
+	{
+		InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+		{
+		}
+		InterestPriorityComponentCategory Category
+		{
+			myCategory Landmark
+		}
+		InterestPriorityComponentSubCategory SubCategory
+		{
+			mySubCategory X_Factor
+		}
+		InterestPriorityComponentFaction Faction
+		{
+		}
+		InterestPriorityComponentStoryAct "Story Act"
+		{
+			myMinAct 2
+		}
+		InterestPriorityComponentStorySection "Story Section"
+		{
+			myStorySections
+			{
+				StorySection "Act 2 Gather Electrum" Act_02_GatherElectrum_GameLoop
+				StorySection "Act 4 Alliance Gameloop" Act_04_Alliance_GameLoop
+			}
+		}
+	}
+	myMaxDistance PlanetWide
+}
+
+InterestPriority "Chest - TAG" < uid=4A79E0E459B803FD000000427AC4495D >
+{
+	myInterestComponents
+	{
+		InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+		{
+		}
+		InterestPriorityComponentCategory Category
+		{
+			myCategory Puzzle
+		}
+		InterestPriorityComponentSubCategory SubCategory
+		{
+			mySubCategory Container
+		}
+		InterestPriorityComponentFaction Faction
+		{
+		}
+		InterestPriorityComponentSolvedState "Solved State"
+		{
+		}
+		InterestPriorityComponentStoryAct "Story Act"
+		{
+			myMinAct 2
+		}
+	}
+	myMaxDistance PlanetWide
+}
+
+InterestPriority "Science Camp" < uid=4A79E0E45A329C9E000023F954F81281 >
+{
+	myInterestComponents
+	{
+		InterestPriorityComponentCategory Category
+		{
+			myCategory Structure
+		}
+		InterestPriorityComponentSubCategory SubCategory
+		{
+			mySubCategory ScienceCamp
+		}
+		InterestPriorityComponentStoryAct StoryAct
+		{
+			myMinAct 2
+		}
+		InterestPriorityComponentUnitsInRange "Sibling Tower Search"
+		{
+			mySearchCriteria < uid=F2C5C6925A3826F0002521943D6CD952 >
+			{
+				myInterestComponents
+				{
+					InterestPriorityComponentCategory "Tower Category"
+					{
+						myCategory Tower
+					}
+				}
+				mySearchRestriction Siblings
+				myMaxDistance 100.0
+				mySucceedWhenSearchFailsFlag TRUE
+			}
+		}
+	}
+	myMaxDistance PlanetWide
+}
+
+InterestPriorityComponentUnitsInRange "COMPONENT - Sibling Towers In Range"
+{
+	mySearchCriteria < uid=F2C5C6925A38251C0017149B235CC336 >
+	{
+		myInterestComponents
+		{
+			InterestPriorityComponentCategory "Tower Category"
+			{
+				myCategory Tower
+			}
+		}
+		mySearchRestriction Siblings
+		myMaxDistance 100.0
+		mySucceedWhenSearchFailsFlag TRUE
+	}
+}
+
+InterestPriority "Fauna Sample 01" < uid=4A79E0E45A5E588500001CBC9F6C1AD8 >
+{
+	myInterestComponents
+	{
+		InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+		{
+		}
+		InterestPriorityComponentCategory Category
+		{
+			myCategory Pickup
+		}
+		InterestPriorityComponentSubCategory SubCategory
+		{
+			mySubCategory FaunaSample
+		}
+		InterestPriorityComponentSubCategoryVariant "SubCategory Variant"
+		{
+			myVariant 1
+		}
+		InterestPriorityComponentFaction Faction
+		{
+			myFaction Fauna
+		}
+		InterestPriorityComponentStoryAct "Story Act"
+		{
+			myMinAct 2
+		}
+		InterestPriorityComponentAttachedToParent "Attached To Parent"
+		{
+			myAttachmentParentFactions
+			{
+				FactionType Fauna Fauna
+			}
+			myAttachmentParentCategories
+			{
+				SimUnitCategory NPC NPC
+			}
+		}
+	}
+	myMaxDistance PlanetWide
+}
+
+InterestPriority "Fauna Sample 06" < uid=4A79E0E45A5E595100001CBF0DDA5D3A >
+{
+	myInterestComponents
+	{
+		InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+		{
+		}
+		InterestPriorityComponentCategory Category
+		{
+			myCategory Pickup
+		}
+		InterestPriorityComponentSubCategory SubCategory
+		{
+			mySubCategory FaunaSample
+		}
+		InterestPriorityComponentSubCategoryVariant "SubCategory Variant"
+		{
+			myVariant 6
+		}
+		InterestPriorityComponentFaction Faction
+		{
+			myFaction Fauna
+		}
+		InterestPriorityComponentStoryAct "Story Act"
+		{
+			myMinAct 2
+		}
+		InterestPriorityComponentAttachedToParent "Attached To Parent"
+		{
+			myAttachmentParentFactions
+			{
+				FactionType Fauna Fauna
+			}
+			myAttachmentParentCategories
+			{
+				SimUnitCategory NPC NPC
+			}
+		}
+	}
+	myMaxDistance PlanetWide
+}
+
+InterestPriority "Fauna Samples" < uid=4A79E0E45A5E5BF000001CC1B930FF5C >
+{
+	myInterestComponents
+	{
+		InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+		{
+		}
+		InterestPriorityComponentCategory Category
+		{
+			myCategory Pickup
+		}
+		InterestPriorityComponentSubCategory SubCategory
+		{
+			mySubCategory FaunaSample
+		}
+		InterestPriorityComponentFaction Faction
+		{
+			myFaction Fauna
+		}
+		InterestPriorityComponentStoryAct "Story Act"
+		{
+			myMinAct 2
+		}
+		InterestPriorityComponentAttachedToParent "Attached To Parent"
+		{
+			myAttachmentParentFactions
+			{
+				FactionType Fauna Fauna
+			}
+			myAttachmentParentCategories
+			{
+				SimUnitCategory NPC NPC
+			}
+		}
+	}
+	myMaxDistance PlanetWide
+}
+
+InterestPriorityDynamic "Data Sample" < uid=1E68E5355A6F3F5300001B0A32B4E52E >
+{
+	myInterestComponents
+	{
+		InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+		{
+		}
+		InterestPriorityComponentCategory Category
+		{
+			myCategory Pickup
+		}
+		InterestPriorityComponentSubCategory SubCategory
+		{
+			mySubCategory DataSample
+		}
+		InterestPriorityComponentFaction Faction
+		{
+		}
+		InterestPriorityComponentCreepLevel "Creep Level"
+		{
+			myMaxCreepLevel 0.5
+		}
+		InterestPriorityComponentStoryAct "Story Act"
+		{
+			myMinAct 2
+		}
+		InterestPriorityComponentAttachedToParent "Attached To Parent"
+		{
+			myAttachmentParentFactions
+			{
+				FactionType Unaligned Unaligned
+			}
+			myAttachmentParentCategories
+			{
+				SimUnitCategory PickupBase PickupBase
+			}
+			myAttachmentParentSubCategories
+			{
+				SimUnitSubCategory PluckableBase PluckableBase
+			}
+		}
+	}
+	myMaxDistance PlanetWide
+}
+
+InterestPriorityBucket "Act 02 Mining Centre Interest Bucket" < uid=4A79E0E45A8D81AC00001B8078B5D057 >
+{
+	myInterestList
+	{
+		InterestPriority "Rare Minerals Medium" < uid=2B55C72B5A9710D400001B5881AFAE22 > : "Minerals Rare"
+		{
+			myInterestComponents
+			{
+				InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+				{
+					myAllianceRequirement Either
+				}
+				InterestPriorityComponentCategory Category
+				{
+					myCategory Pickup
+				}
+				InterestPriorityComponentSubCategory SubCategory
+				{
+					mySubCategory MineralSampleRare
+				}
+				InterestPriorityComponentCreepLevel "Creep Level"
+				{
+					myMaxCreepLevel 0.5
+				}
+				InterestPriorityComponentAttachedToParent "Attached To Parent"
+				{
+					myAttachmentParentCategories
+					{
+						SimUnitCategory Category Resource
+					}
+					myAttachmentParentSubCategories
+					{
+						SimUnitSubCategory SubCategory MineralsRare
+					}
+				}
+				InterestPriorityComponentStorySection "Story Section"
+				{
+					myStorySections
+					{
+						StorySection "Act 02 Ally with Eli" Act_02_Ally_With_Eli
+					}
+				}
+				InterestPriorityComponentStoryAct "Story Act"
+				{
+					myMinAct 2
+					myMaxAct 2
+				}
+			}
+			myMinDistance Medium
+			myMaxDistance Far
+		}
+		InterestPriority "Rare Minerals Far" < uid=2B55C72B5A9710D400001B591DF19EDF > : "Minerals Rare"
+		{
+			myInterestComponents
+			{
+				InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+				{
+					myAllianceRequirement Either
+				}
+				InterestPriorityComponentCategory Category
+				{
+					myCategory Pickup
+				}
+				InterestPriorityComponentSubCategory SubCategory
+				{
+					mySubCategory MineralSampleRare
+				}
+				InterestPriorityComponentCreepLevel "Creep Level"
+				{
+					myMaxCreepLevel 0.5
+				}
+				InterestPriorityComponentAttachedToParent "Attached To Parent"
+				{
+					myAttachmentParentCategories
+					{
+						SimUnitCategory Category Resource
+					}
+					myAttachmentParentSubCategories
+					{
+						SimUnitSubCategory SubCategory MineralsRare
+					}
+				}
+				InterestPriorityComponentStorySection "Story Section"
+				{
+					myStorySections
+					{
+						StorySection "Act 02 Ally with Eli" Act_02_Ally_With_Eli
+					}
+				}
+				InterestPriorityComponentStoryAct "Story Act"
+				{
+					myMinAct 2
+					myMaxAct 2
+				}
+			}
+			myMinDistance Far
+			myMaxDistance VeryFar
+		}
+		InterestPriority "Rare Minerals" < uid=4A79E0E45A8D822900001B82F6C1B1D8 > : "Minerals Rare"
+		{
+			myInterestComponents
+			{
+				InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+				{
+					myAllianceRequirement Either
+				}
+				InterestPriorityComponentCategory Category
+				{
+					myCategory Pickup
+				}
+				InterestPriorityComponentSubCategory SubCategory
+				{
+					mySubCategory MineralSampleRare
+				}
+				InterestPriorityComponentCreepLevel "Creep Level"
+				{
+					myMaxCreepLevel 0.5
+				}
+				InterestPriorityComponentAttachedToParent "Attached To Parent"
+				{
+					myAttachmentParentCategories
+					{
+						SimUnitCategory Category Resource
+					}
+					myAttachmentParentSubCategories
+					{
+						SimUnitSubCategory SubCategory MineralsRare
+					}
+				}
+				InterestPriorityComponentStorySection "Story Section"
+				{
+					myStorySections
+					{
+						StorySection "Act 02 Ally with Eli" Act_02_Ally_With_Eli
+					}
+				}
+				InterestPriorityComponentStoryAct "Story Act"
+				{
+					myMinAct 2
+					myMaxAct 2
+				}
+			}
+		}
+		InterestPriority "Goldrush Equipment - Act 2" < uid=4A79E0E45A8D833600001B8399FFB4A6 > = "Goldrush Equipment - Act 2"
+		InterestPriority "Legion Data Core - Act 2" < uid=4A79E0E45A8D833600001B844F1EF8A6 > = "Legion Data Core - Act 2"
+		InterestPriority "Electrum Hopper - Act 2" < uid=4A79E0E45A8D833600001B85AC907534 > : "Prospector Electrum Hopper"
+		{
+			myInterestComponents
+			{
+				InterestPriorityComponentCategory Category
+				{
+					myCategory Tower
+				}
+				InterestPriorityComponentSubCategory SubCategory
+				{
+					mySubCategory ElectrumHopper
+				}
+				InterestPriorityComponentStoryAct "Story Act"
+				{
+					myMinAct 2
+					myMaxAct 2
+				}
+				InterestPriorityComponentStorySection "Story Section"
+				{
+					myStorySections
+					{
+						StorySection "Act 02 Electrum Vein" Act_02_Electrum_Vein
+					}
+				}
+			}
+			myMaxDistance Far
+		}
+	}
+}
+
+InterestPriority "Goldrush Satellite Array" < uid=4A79E0E45A96D95300001B560E82DD91 >
+{
+	myInterestComponents
+	{
+		InterestPriorityComponentCategory Category
+		{
+			myCategory Landmark
+		}
+		InterestPriorityComponentSubCategory SubCategory
+		{
+			mySubCategory GoldrushRuin
+		}
+		InterestPriorityComponentSubCategoryVariant "SubCategory Variant"
+		{
+			myVariant 2
+		}
+		InterestPriorityComponentStoryAct "Story Act"
+		{
+			myMinAct 4
+		}
+		InterestPriorityComponentSolvedState "Solved State"
+		{
+		}
+	}
+	myMaxDistance PlanetWide
+}
+
+InterestPriority "Space Chest - Outlaw" < uid=4A79E0E45A99A77D00001B66B91EDE81 >
+{
+	myInterestComponents
+	{
+		InterestPriorityComponentCategory Category
+		{
+			myCategory Chest
+		}
+		InterestPriorityComponentSubCategory SubCategory
+		{
+			mySubCategory OutlawBase
+		}
+		InterestPriorityComponentStoryAct "Story Act"
+		{
+			myMinAct 4
+		}
+		InterestPriorityComponentStorySection "Story Section"
+		{
+			myStorySections
+			{
+				StorySection "Act 04 Alliance GameLoop" Act_04_Alliance_GameLoop
+			}
+		}
+		InterestPriorityComponentKnowledge Knowledge
+		{
+			myCompareType EqualTo
+			myCompareValue 100.0
+		}
+		InterestPriorityComponentSolvedState "Solved State"
+		{
+		}
+	}
+	myMaxDistance SolarSystem
+}
+
+InterestPriority "Space Chest - TAG" < uid=4A79E0E45A99A77D00001B6747632C01 >
+{
+	myInterestComponents
+	{
+		InterestPriorityComponentCategory Category
+		{
+			myCategory Puzzle
+		}
+		InterestPriorityComponentSubCategory SubCategory
+		{
+			mySubCategory ChestMod
+		}
+		InterestPriorityComponentStoryAct "Story Act"
+		{
+			myMinAct 4
+		}
+		InterestPriorityComponentStorySection "Story Section"
+		{
+			myStorySections
+			{
+				StorySection "Act 04 Alliance GameLoop" Act_04_Alliance_GameLoop
+			}
+		}
+		InterestPriorityComponentKnowledge Knowledge
+		{
+			myCompareType EqualTo
+			myCompareValue 100.0
+		}
+		InterestPriorityComponentSolvedState "Solved State"
+		{
+		}
+	}
+	myMaxDistance SolarSystem
+}
+
+InterestPriority "Legion Prime (Sector)" < uid=4A79E0E45AC6657F00001CAD2B3CE0B4 > : "Legion Prime (GameLoop)"
+{
+	myInterestComponents
+	{
+		InterestPriorityComponentCategory Category
+		{
+			myCategory Prime
+		}
+		InterestPriorityComponentFaction Faction
+		{
+			myFaction Harvester
+		}
+		InterestPriorityComponentStoryAct "Story Act"
+		{
+			myMinAct 4
+		}
+		InterestPriorityComponentWarEffort "War Effort"
+		{
+			myEffortType Alliance
+			myMinThreshold Threshold_25
+		}
+		InterestPriorityComponentUnitInSector "Unit In Sector"
+		{
+		}
+		InterestPriorityComponentLevel Level
+		{
+		}
+	}
+	myMaxDistance SolarSystem
+}
+
+InterestPriority "Legion Dreadnought (Sector)" < uid=4A79E0E45AC666C100001CAE19F13A5D > : "Legion Dreadnought"
+{
+	myInterestComponents
+	{
+		InterestPriorityComponentCategory Category
+		{
+			myCategory Dreadnought
+		}
+		InterestPriorityComponentFaction Faction
+		{
+			myFaction Harvester
+		}
+		InterestPriorityComponentStoryAct "Story Act"
+		{
+			myMinAct 3
+		}
+		InterestPriorityComponentSolvedState "Solved State"
+		{
+		}
+		InterestPriorityComponentUnitInSector "Unit In Sector"
+		{
+		}
+	}
+}
+
+InterestPriority "Rogue Outlaws" < uid=1E68E5355B0D91550000208B3585A059 >
+{
+	myInterestComponents
+	{
+		InterestPriorityComponentCategory Category
+		{
+			myCategory NPC
+		}
+		InterestPriorityComponentSubCategory SubCategory
+		{
+			mySubCategory Rogue
+		}
+		InterestPriorityComponentFaction Faction
+		{
+			myFaction Outlaw
+		}
+		InterestPriorityComponentStoryAct "Story Act"
+		{
+			myMinAct 2
+		}
+		InterestPriorityComponentStorySection "Story Section"
+		{
+			myStorySections
+			{
+				StorySection "Act 02 Refinery Chest Opened" Act_02_Refinery_Chest_Opened
+				StorySection "Act 03 BuildAlliance GameLoop" Act_03_BuildAlliance_GameLoop
+				StorySection "Act 04 Alliance GameLoop" Act_04_Alliance_GameLoop
+			}
+		}
+	}
+}
+
+InterestPriority "Goldrush Site" < uid=4A79E0E45AFAE1CB00001DAF7401B717 >
+{
+	myInterestComponents
+	{
+		InterestPriorityComponentCategory Category
+		{
+			myCategory Landmark
+		}
+		InterestPriorityComponentSubCategory SubCategory
+		{
+			mySubCategory GoldrushRuin
+		}
+		InterestPriorityComponentStoryAct "Story Act"
+		{
+			myMinAct 2
+		}
+		InterestPriorityComponentFactionList "Faction List"
+		{
+			myFactions
+			{
+				FactionType Unaligned Unaligned
+				FactionType Harvester Harvester
+				FactionType Outlaw Outlaw
+			}
+		}
+		InterestPriorityComponentStorySection "Story Section"
+		{
+			myStorySections
+			{
+				StorySection "Act 02 Refinery Chest Opened" Act_02_Refinery_Chest_Opened
+				StorySection "Act 03 Build Alliance GameLoop" Act_03_BuildAlliance_GameLoop
+				StorySection "Act 04 Alliance GameLoop" Act_04_Alliance_GameLoop
+			}
+		}
+	}
+	myMaxDistance PlanetWide
+}
+
+InterestPriority Battery < uid=1E68E5355AFDD1B000350351E2FB7C70 >
+{
+	myInterestComponents
+	{
+		InterestPriorityComponentCategory Category
+		{
+			myCategory Pickup
+		}
+		InterestPriorityComponentSubCategory SubCategory
+		{
+			mySubCategory Battery
+		}
+		InterestPriorityComponentStoryAct "Story Act"
+		{
+			myMinAct 2
+		}
+		InterestPriorityComponentFactionList "Faction List"
+		{
+			myFactions
+			{
+				FactionType "Prospector Allied" ProspectorAllied
+			}
+		}
+		InterestPriorityComponentStorySection "Story Section"
+		{
+			myStorySections
+			{
+				StorySection "Act 02 Refinery Chest Opened" Act_02_Refinery_Chest_Opened
+				StorySection "Act 03 Build Alliance GameLoop" Act_03_BuildAlliance_GameLoop
+				StorySection "Act 04 Alliance GameLoop" Act_04_Alliance_GameLoop
+			}
+		}
+		InterestPriorityComponentAttachedToParent "Attached To Parent"
+		{
+			myIsNotAttachedTo TRUE
+			myAttachmentParentFactions
+			{
+				FactionType Player Player
+			}
+		}
+	}
+	myMaxDistance PlanetWide
+}
+
+InterestPriority "Fauna Infection" < uid=1E68E5355B15959B00001EF2202C17A9 >
+{
+	myInterestComponents
+	{
+		InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+		{
+		}
+		InterestPriorityComponentCategory Category
+		{
+			myCategory Pickup
+		}
+		InterestPriorityComponentSubCategory SubCategory
+		{
+			mySubCategory Infection
+		}
+		InterestPriorityComponentFaction Faction
+		{
+			myFaction Harvester
+		}
+		InterestPriorityComponentStoryAct "Story Act"
+		{
+			myMinAct 2
+		}
+		InterestPriorityComponentAttachedToParent "Attached To Parent"
+		{
+			myAttachmentParentFactions
+			{
+				FactionType Fauna Fauna
+			}
+			myAttachmentParentCategories
+			{
+				SimUnitCategory NPC NPC
+			}
+		}
+	}
+	myMinDistance Zero
+	myMaxDistance PlanetWide
+}
+
+InterestPriority "Outlaw Outpost" < uid=4A79E0E45B323D1900002090C55EF9CC >
+{
+	myInterestComponents
+	{
+		InterestPriorityComponentCategory Category
+		{
+			myCategory Outpost
+		}
+		InterestPriorityComponentSubCategory SubCategory
+		{
+			mySubCategory OutlawBase
+		}
+		InterestPriorityComponentSubCategoryVariant SubCategoryVariant
+		{
+			myVariant 0
+		}
+		InterestPriorityComponentFaction Faction
+		{
+			myFaction Outlaw
+		}
+		InterestPriorityComponentSolvedState "Solved State"
+		{
+		}
+		InterestPriorityComponentUnitInSector "Unit In Sector"
+		{
+		}
+		InterestPriorityComponentStoryAct "Story Act"
+		{
+			myMinAct 3
+		}
+	}
+	myMaxDistance SolarSystem
+	myEvaluateClosestFirst TRUE
+}
+
+InterestPriority "Outlaw Fusebox" < uid=4A79E0E45B747FF200002206A37D4044 >
+{
+	myInterestComponents
+	{
+		InterestPriorityComponentAllianceRequirement "Alliance Requirement"
+		{
+		}
+		InterestPriorityComponentCategory Category
+		{
+			myCategory Shipwreck
+		}
+		InterestPriorityComponentSubCategory SubCategory
+		{
+			mySubCategory GuardPoint
+		}
+		InterestPriorityComponentFaction Faction
+		{
+			myFaction Outlaw
+		}
+		InterestPriorityComponentStoryAct "Story Act"
+		{
+			myMinAct 2
+		}
+		InterestPriorityComponentStorySection "Story Section"
+		{
+			myStorySections
+			{
+				StorySection "Act 02 Refinery Chest Opened" Act_02_Refinery_Chest_Opened
+				StorySection "Act 03 BuildAlliance GameLoop" Act_03_BuildAlliance_GameLoop
+				StorySection "Act 04 Alliance GameLoop" Act_04_Alliance_GameLoop
+			}
+		}
+		InterestPriorityComponentCreepLevel "Creep Level"
+		{
+			myMaxCreepLevel 1.0
+		}
+		InterestPriorityComponentSolvedState "Solved State"
+		{
+			mySolvedStateRequirementFlag FALSE
+		}
+	}
+	myMaxDistance PlanetWide
+}
+

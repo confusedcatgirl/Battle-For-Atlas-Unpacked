@@ -1,0 +1,58 @@
+include "onward/game system data/fruit/interact/interact.fruit"
+include "onward/game system data/juice/sim/prospector_bounty_towable_base.msimunit"
+
+PluckableStageConfigCapture WantedOutlawCapture_ExampleConfig
+{
+	mySwayParams1
+	{
+		myMinOffset 2.5;2.5;0.0
+		myMaxOffset 5.0;5.0;0.0
+		myMinSineModifier 1.0;2.0;0.5
+		myMaxSineModifier 1.0;2.0;0.5
+	}
+	mySwayParams2
+	{
+		myMinOffset 10.0;5.0;0.0
+		myMaxOffset 15.0;7.5;0.0
+		myMinSineModifier 0.25;0.3525;0.5
+		myMaxSineModifier 0.25;0.3525;0.5
+	}
+}
+
+Pluckable PluckableDefault
+{
+	myTargetingCooldown 1.0
+	myInteractRange 150.0
+	myInteractableTextType Towable_Pluck
+	myMiniGameType Capture
+	myMaxDistance 75.0
+	myMinImpulseDistance 8.0
+	myStageAdvanceImpulse 25.0
+	myDamageImpulse 5.0
+	myShouldPullInteractor TRUE
+	myShouldApplyImpactOnBreak FALSE
+	myShouldStartWhenShieldIsDown TRUE
+	myShouldDecreaseStageOnImpact TRUE
+	myMinImpactCategoryForDecrease Large
+	myDisableUntilStoryEvent TU5_ProspectorGrappler_Collected
+	myPostCompletionOptions
+	{
+		myDestroy TRUE
+	}
+	myStageConfigs
+	{
+		PluckableStageConfigCapture "Stage 1" = WantedOutlawCapture_ExampleConfig
+		PluckableStageConfigCapture "Stage 2" = WantedOutlawCapture_ExampleConfig
+		PluckableStageConfigCapture "Stage 3" = WantedOutlawCapture_ExampleConfig
+		PluckableStageConfigCapture "Stage 4" = WantedOutlawCapture_ExampleConfig
+		PluckableStageConfigShieldRam "Stage 5"
+		{
+		}
+		PluckableStageConfigSpawnItem "Stage 6"
+		{
+			mySimUnitAsset < uid=600A30F35C0FE0210000003884995206 > = prospector_bounty_towable_base
+			myInheritParent TRUE
+		}
+	}
+}
+

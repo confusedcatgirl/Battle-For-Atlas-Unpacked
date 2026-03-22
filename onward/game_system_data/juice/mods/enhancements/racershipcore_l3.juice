@@ -1,0 +1,21 @@
+include "onward/game system data/juice/mods/mod_racer_shipcore_l3.mplayermod"
+include ./templates/template_l3.juice
+
+Enhancement racershipcore_l3 < uid=C91BB551596FA5F80000009E9A94C812 > : "Level 3"
+{
+	myLocalizedName "contextComment = \"[Placeholder - do not translate]\nName for level 3 version of a Ship Core that increases the ship's speed & boosting capabilities\", description = \"\", enabled = true, guid = #C91BB551596FC1B3005B6198C10CF051, lineVersion = 2, maxLength = 21, text = \"Fighter Core III\"}"
+	myLocalizedDescription "contextComment = \"[Placeholder - do not translate]\nDescription for level 3 version of a Ship Core that increases the ship's speed & boosting capabilities\", description = \"enhancement-description-racer-ship-core-3\", enabled = true, guid = #CC339F6CDD414318A937054311ABC92E, lineVersion = 1, maxLength = 66, text = \"+60 Speed\n+20 Handling\nPrecision Shots charge Boost\"}"
+	myIconSprite "mySpriteId = -1898887246, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-mods-ship-core.spritesheet\""
+	myIsHullEnhancement TRUE
+	myMod < uid=C91BB551596FA624000000C15DBFB4FD > = mod_racer_shipcore_l3
+	myEnhancementType ShipCore
+	myEnhancementTrackType RacerShipCore
+	myDamageAffectors
+	{
+		DamageAffector_PrecisionStamina "Precision Stamina"
+		{
+			myAmount = Racer_Core_l3_HeadshotStamina
+		}
+	}
+}
+

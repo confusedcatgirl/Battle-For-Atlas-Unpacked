@@ -1,0 +1,4408 @@
+include "onward/game system data/fruit/progression/challenges.fruit"
+include "onward/game system data/fruit/progression/reward_definitions.fruit"
+include "onward/game system data/juice/mods/enhancements/assaultweaponcore_l3.juice"
+include "onward/game system data/juice/mods/enhancements/stuntshipcore_l3.juice"
+include "onward/game system data/juice/mods/enhancements/critical_lasers_l1.juice"
+include "onward/game system data/juice/mods/enhancements/shipskins/shipskins.juice"
+
+Achievement "[Trophy] Stellar" < uid=C308E4DB5A05FA1600001E6E9AA566E3 >
+{
+	myLocalizedName "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A05F9F600001E6807A872BF, lineVersion = 1, maxLength = 11, text = \"Stellar\""
+	myLocalizedDescription "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A05F9F600001E69CD66D00B, lineVersion = 0, maxLength = 22, text = \"Earn All Trophies\""
+	myTrophyId 0
+}
+
+Achievement "[Trophy] We Have Liftoff" < uid=C308E4DB59F9C81A00001C1594F610F7 >
+{
+	myCondition
+	{
+		AchievementCondition_Challenge "Planet To Space" < uid=C308E4DB59F9C81A00001C165269613F >
+		{
+			myChallenges
+			{
+				ChallengeType PlanetToSpace Navigation_EnterSpaceFromPlanet
+			}
+		}
+	}
+	myLinkedUPlayActions
+	{
+		LinkedUPlayAction "We Have Liftoff"
+		{
+			myUPlayIdActionId 101
+			myUPlayLocalizationId ONWXP02
+			myNameSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A4D2C3400016BD62B9F4272, lineVersion = 0, maxLength = 20, text = \"We Have Liftoff\""
+			myDescriptionSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A4D2C3400016BD702D625CA, lineVersion = 0, maxLength = 57, text = \"Enter space from a planet for the first time\""
+		}
+	}
+	myLocalizedName "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A05EF0E00001E6A5137FEB5, lineVersion = 0, maxLength = 20, text = \"We Have Liftoff\""
+	myLocalizedDescription "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A05EF5800001E86B4509461, lineVersion = 0, maxLength = 57, text = \"Enter space from a planet for the first time\""
+	myTrophyId 1
+	myXBLAchievementId 56
+	myStatisticType Achievement_WeHaveLiftoff
+}
+
+Achievement "[Trophy] New Frontiers" < uid=C308E4DB59F9E6D500152263E3253173 >
+{
+	myCondition
+	{
+		AchievementCondition_Challenge "Discover Any Planet other than 01/03/07" < uid=C308E4DB59F9FE0300018CB8A1A5E770 >
+		{
+			myChallenges
+			{
+				ChallengeType Discover_Planet04 Discover_Planet04
+				ChallengeType Discover_Planet05 Discover_Planet05
+				ChallengeType Visit_Planet08 Visit_Planet08
+				ChallengeType Discover_Planet15 Discover_Planet15
+			}
+		}
+	}
+	myLocalizedName "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A05EFB200001E979EAE8F92, lineVersion = 0, maxLength = 17, text = \"New Frontiers\""
+	myLocalizedDescription "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A05EFB200001E98A0B34F16, lineVersion = 0, maxLength = 27, text = \"Discover a new planet\""
+	myTrophyId 2
+	myXBLAchievementId 57
+	myStatisticType Achievement_NewFrontiers
+}
+
+Achievement "[Trophy] Tune-Up" < uid=C308E4DB59FCB761000BB3D7181DA5C9 >
+{
+	myCondition
+	{
+		AchievementCondition_Challenge "Equip your first mod" < uid=C308E4DB59FCB761000BB3D8BCB8FECF >
+		{
+			myChallenges
+			{
+				ChallengeType Progression_EquipPartEnhancementOnScreen Progression_EquipPartEnhancementOnScreen
+				ChallengeType Progression_EquipPartEnhancement Progression_EquipPartEnhancement
+			}
+			myOperator All
+		}
+	}
+	myLocalizedName "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A05F05800001EC1C68B12C4, lineVersion = 0, maxLength = 11, text = \"Tune-Up\""
+	myLocalizedDescription "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A05F05800001EC21E941AC7, lineVersion = 0, maxLength = 26, text = \"Equip your first mod\""
+	myTrophyId 3
+	myXBLAchievementId 58
+	myStatisticType Achievement_TuneUp
+}
+
+Achievement "[Trophy] The Bigger They Are" < uid=C308E4DB59F9C8BB00001C19B89EBECA >
+{
+	myCondition
+	{
+		AchievementCondition_Challenge "Destroy A Prime" < uid=C308E4DB59F9C8BB00001C1AA1E7507F >
+		{
+			myChallenges
+			{
+				ChallengeType Death_Prime Death_Prime
+			}
+			myOperator All
+		}
+	}
+	myLinkedUPlayActions
+	{
+		LinkedUPlayAction "The Bigger They Are"
+		{
+			myUPlayIdActionId 102
+			myUPlayLocalizationId ONWXP03
+			myNameSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A4D2C4E00016BDFFF7065F0, lineVersion = 0, maxLength = 25, text = \"The Bigger They Are…\""
+			myDescriptionSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A4D2C4E00016BE0B0135FE0, lineVersion = 0, maxLength = 20, text = \"Destroy A Prime\""
+		}
+	}
+	myLocalizedName "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A05EF2F00001E72DFE6D2D3, lineVersion = 0, maxLength = 25, text = \"The Bigger They Are…\""
+	myLocalizedDescription "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A05EF4A00001E83C1509679, lineVersion = 0, maxLength = 20, text = \"Destroy A Prime\""
+	myTrophyId 4
+	myXBLAchievementId 59
+	myStatisticType Achievement_TheBiggerTheyAre
+}
+
+Achievement "[Trophy] Jailbreak" < uid=C308E4DB59F9C90900001C1B21E9F85A >
+{
+	myCondition
+	{
+		AchievementCondition_Challenge "Destroy a Dreadnought" < uid=C308E4DB59F9C90900001C1CE645837F >
+		{
+			myChallenges
+			{
+				ChallengeType "Act III Complete" Act3Complete
+			}
+		}
+	}
+	myLinkedUPlayActions
+	{
+		LinkedUPlayAction Jailbreak
+		{
+			myUPlayIdActionId 103
+			myUPlayLocalizationId ONWXP04
+			myNameSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A4D2C6300016BE64CB9849E, lineVersion = 0, maxLength = 14, text = \"Jailbreak\""
+			myDescriptionSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A4D2C6300016BE7C7294240, lineVersion = 0, maxLength = 27, text = \"Destroy a Dreadnought\""
+		}
+	}
+	myLocalizedName "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A05EF3500001E7670FA5671, lineVersion = 0, maxLength = 14, text = \"Jailbreak\""
+	myLocalizedDescription "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A05EF8A00001E8D59DB4E96, lineVersion = 0, maxLength = 27, text = \"Destroy a Dreadnought\""
+	myTrophyId 5
+	myXBLAchievementId 60
+	myStatisticType Achievement_Jailbreak
+}
+
+Achievement "[Trophy] Boldly Go" < uid=C308E4DB59FA2DB200001C2BA3E6AE2B >
+{
+	myCondition
+	{
+		AchievementCondition_Challenge "Complete Act 4" < uid=C308E4DB59FA2DB200001C2C5D456568 >
+		{
+			myChallenges
+			{
+				ChallengeType Progression_CompletelyUpgradeEquinox_DriveReactor Progression_CompletelyUpgradeEquinox_DriveReactor
+			}
+			myOperator All
+		}
+	}
+	myLinkedUPlayActions
+	{
+		LinkedUPlayAction "Boldly Go"
+		{
+			myUPlayIdActionId 104
+			myUPlayLocalizationId ONWXP05
+			myNameSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A4D2C6F00016BF074DE40A7, lineVersion = 0, maxLength = 14, text = \"Boldly Go\""
+			myDescriptionSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A4D2C6F00016BF14498D5A0, lineVersion = 0, maxLength = 18, text = \"Complete Act 4\""
+		}
+	}
+	myLocalizedName "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A05EFEF00001EA3E4373233, lineVersion = 0, maxLength = 14, text = \"Boldly Go\""
+	myLocalizedDescription "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A05EFEF00001EA482E22475, lineVersion = 0, maxLength = 18, text = \"Complete Act 4\""
+	myTrophyId 6
+	myXBLAchievementId 61
+	myStatisticType Achievement_BoldlyGo
+}
+
+Achievement "[Trophy] Savior of Atlas" < uid=C308E4DB59FA2DF900001C2D49A3FC40 >
+{
+	myCondition
+	{
+		AchievementCondition_Challenge "Complete Act 5" < uid=C308E4DB59FA2DF900001C2ECFF412D8 >
+		{
+			myChallenges
+			{
+				ChallengeType Progression_CompleteGame Progression_CompleteGame
+			}
+			myOperator All
+		}
+	}
+	myLinkedUPlayActions
+	{
+		LinkedUPlayAction "Savior of Atlas"
+		{
+			myUPlayIdActionId 105
+			myUPlayLocalizationId ONWXP06
+			myNameSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A4D2C7D00016BF7EA5A2594, lineVersion = 0, maxLength = 20, text = \"Savior of Atlas\""
+			myDescriptionSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A4D2C7D00016BF88DF9CE90, lineVersion = 0, maxLength = 14, text = \"Defeat Grax\""
+		}
+	}
+	myLocalizedName "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A05F00900001EA957F48572, lineVersion = 0, maxLength = 20, text = \"Savior of Atlas\""
+	myLocalizedDescription "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A05F00900001EAA1181E7C6, lineVersion = 0, maxLength = 14, text = \"Defeat Grax\""
+	myTrophyId 7
+	myXBLAchievementId 62
+	myStatisticType Achievement_SaviorOfAtlas
+}
+
+Achievement "[Trophy] Perfect Union" < uid=C308E4DB5A1F204500002035A1E7EE57 >
+{
+	myCondition
+	{
+		AchievementCondition_RepeatCount "Build Alliance Tower 7 Times" < uid=C308E4DB5A1F204500002036C8C25989 >
+		{
+			myConditions
+			{
+				AchievementCondition_Challenge "Build Alliance Tower" < uid=C308E4DB5A1F20450000203777926A9F >
+				{
+					myChallenges
+					{
+						ChallengeType Build_AllianceTower Build_AllianceTower
+					}
+					myOperator All
+				}
+			}
+			myRepeatCount 7
+		}
+	}
+	myLocalizedName "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A1F1F9C0000202C555D737D, lineVersion = 0, maxLength = 17, text = \"Perfect Union\""
+	myLocalizedDescription "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A1F1F9C0000202D0A0DECCD, lineVersion = 0, maxLength = 51, text = \"Build an Alliance Tower on every planet\""
+	myLocalizedAwardedDescription "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A1F1F9C0000202E0545A4FE, lineVersion = 0, maxLength = 51, text = \"Build an Alliance Tower on every planet\""
+	myTrophyId 8
+	myXBLAchievementId 63
+	myStatisticType Achievement_PerfectUnion
+}
+
+Achievement "[Trophy] Scavenger" < uid=C308E4DB5A0C803D000021FC89D818BD >
+{
+	myCondition
+	{
+		AchievementCondition_RepeatCount "10 Times" < uid=C308E4DB5AC689B70020EC80F858BC4E >
+		{
+			myConditions
+			{
+				AchievementCondition_Challenge "Loot Derelict Ship in Space" < uid=C308E4DB5AC689B70020EC811A1B5F62 >
+				{
+					myChallenges
+					{
+						ChallengeType Loot_DelerictSpaceship Loot_DelerictSpaceship
+					}
+					myOperator Any
+					myAnyCount 1
+				}
+			}
+			myRepeatCount 10
+		}
+	}
+	myLocalizedName "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A0C8018000021F302F0A15A, lineVersion = 0, maxLength = 14, text = \"Scavenger\""
+	myLocalizedDescription "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A0C8018000021F525BB3F60, lineVersion = 1, maxLength = 40, text = \"Loot 10 derelict ships in space\""
+	myTrophyId 9
+	myXBLAchievementId 64
+	myStatisticType Achievement_Scavenger
+}
+
+Achievement "[Trophy] Space Police" < uid=C308E4DB5A1F23B00000204336A5E49A >
+{
+	myCondition
+	{
+		AchievementCondition_RepeatCount "Neutralize 5 Outlaw Outposts" < uid=C308E4DB5A1F23B00000204458CB1C7A >
+		{
+			myConditions
+			{
+				AchievementCondition_Challenge "Defeat outpost" < uid=C308E4DB5A1F23B000002045CDD54CDD >
+				{
+					myChallenges
+					{
+						ChallengeType Death_OutlawBase Death_OutlawBase
+						ChallengeType Death_OutlawStronghold Death_OutlawStronghold
+					}
+				}
+			}
+			myRepeatCount 5
+		}
+	}
+	myLinkedUPlayActions
+	{
+		LinkedUPlayAction "Space Police"
+		{
+			myUPlayIdActionId 106
+			myUPlayLocalizationId ONWXP07
+			myNameSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A4E946D00001BB2D938A09A, lineVersion = 0, maxLength = 16, text = \"Space Police\""
+			myDescriptionSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A4E946D00001BB3918FAE8E, lineVersion = 0, maxLength = 48, text = \"Neutralize 5 Outlaw Outposts in space\""
+		}
+	}
+	myLocalizedName "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A1F23500000203A8A4B6788, lineVersion = 0, maxLength = 16, text = \"Space Police\""
+	myLocalizedDescription "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A1F23500000203B6E6922CC, lineVersion = 0, maxLength = 48, text = \"Neutralize 5 Outlaw Outposts in Space\""
+	myLocalizedAwardedDescription "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A1F23500000203C05D0D5F9, lineVersion = 0, maxLength = 48, text = \"Neutralize 5 Outlaw Outposts in Space\""
+	myTrophyId 10
+	myXBLAchievementId 65
+	myStatisticType Achievement_SpacePolice
+}
+
+Achievement "[Trophy] Upcycling" < uid=C308E4DB59FCB7A30013D62E5AC911A9 >
+{
+	myCondition
+	{
+		AchievementCondition_Challenge "Use fusion to upgrade a mod to a higher rarity tier" < uid=C308E4DB59FCB7A30013D62F7C811E66 >
+		{
+			myChallenges
+			{
+				ChallengeType Progression_FusePartEnhancement Progression_FusePartEnhancement
+			}
+			myOperator All
+		}
+	}
+	myLinkedUPlayActions
+	{
+		LinkedUPlayAction Upcycling
+		{
+			myUPlayIdActionId 109
+			myUPlayLocalizationId ONWXP10
+			myNameSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A4E94B000001BB9D446B7D9, lineVersion = 0, maxLength = 14, text = \"Upcycling\""
+			myDescriptionSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A4E94B000001BBA86C1CDA8, lineVersion = 0, maxLength = 49, text = \"Use Fusion to craft a higher-level Mod\""
+		}
+	}
+	myLocalizedName "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A05F06000001EC778BE63C6, lineVersion = 0, maxLength = 14, text = \"Upcycling\""
+	myLocalizedDescription "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A05F06000001EC892F80E93, lineVersion = 0, maxLength = 60, text = \"Use fusion to upgrade a mod to a higher rarity\""
+	myTrophyId 11
+	myXBLAchievementId 66
+	myStatisticType Achievement_UpCycling
+}
+
+Achievement "[Trophy] LegendaryModder" < uid=C308E4DB5A0C8F8F01EBA8ADEF179097 >
+{
+	myCondition
+	{
+		AchievementCondition_Challenge "Collect or Fuse a Legendary Mod" < uid=C308E4DB5A0CA952000021088FE3BA22 >
+		{
+			myChallenges
+			{
+				ChallengeType Progression_AcquirePartEnhancementLegendary Progression_AcquirePartEnhancementLegendary
+			}
+			myOperator All
+		}
+	}
+	myLinkedUPlayActions
+	{
+		LinkedUPlayAction "Legendary Modder"
+		{
+			myUPlayIdActionId 110
+			myUPlayLocalizationId ONWXP11
+			myNameSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A4F8BAA00001D2F74EFEB4B, lineVersion = 0, maxLength = 21, text = \"Legendary Modder\""
+			myDescriptionSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A4F8BAA00001D31B4D9F590, lineVersion = 0, maxLength = 30, text = \"Acquire a Legendary Mod\""
+		}
+	}
+	myLocalizedName "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A0C8FA801EF1FCAE45524B3, lineVersion = 0, maxLength = 21, text = \"Legendary Modder\""
+	myLocalizedDescription "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A0C8FA801EF1FCBA5540F79, lineVersion = 0, maxLength = 40, text = \"Collect or fuse a Legendary mod\""
+	myTrophyId 12
+	myXBLAchievementId 67
+	myStatisticType Achievement_LegendaryModder
+}
+
+Achievement "[Trophy] Memory of the Wardens" < uid=C308E4DB5A1F241C0000204B94F1524B >
+{
+	myCondition
+	{
+		AchievementCondition_Challenge "Warden Mod" < uid=C308E4DB5A1F241C0000204C6DD1CDF3 >
+		{
+			myChallenges
+			{
+				ChallengeType WardenRelic_Ship_01_Acquired WardenRelic_Ship_01_Acquired
+				ChallengeType WardenRelic_Ship_02_Acquired WardenRelic_Ship_02_Acquired
+				ChallengeType WardenRelic_Ship_03_Acquired WardenRelic_Ship_03_Acquired
+				ChallengeType WardenRelic_Weapon_01_Acquired WardenRelic_Weapon_01_Acquired
+				ChallengeType WardenRelic_Weapon_02_Acquired WardenRelic_Weapon_02_Acquired
+				ChallengeType WardenRelic_Weapon_03_Acquired WardenRelic_Weapon_03_Acquired
+				ChallengeType WardenRelic_Weapon_04_Acquired WardenRelic_Weapon_04_Acquired
+			}
+		}
+	}
+	myLocalizedName "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A1F24480000205027A416B2, lineVersion = 0, maxLength = 27, text = \"Memory of the Wardens\""
+	myLocalizedDescription "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A1F244800002051C54E6DFA, lineVersion = 0, maxLength = 25, text = \"Find a Warden Relic\""
+	myLocalizedAwardedDescription "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A1F2448000020523B880A8E, lineVersion = 0, maxLength = 25, text = \"Find a Warden Relic\""
+	myTrophyId 13
+	myXBLAchievementId 68
+	myStatisticType Achievement_MemoryOfTheWardens
+}
+
+Achievement "[Trophy] Fully Loaded" < uid=C308E4DB5A0C7B4D000021644585EB6F >
+{
+	myCondition
+	{
+		AchievementCondition_Challenge "Equip 8 mods at once" < uid=C308E4DB5A0CA6AA000D6EC868B263E4 >
+		{
+			myChallenges
+			{
+				ChallengeType Progression_EquipEightPartEnhancementsAtOnce Progression_EquipEightRarePartEnhancementsAtOnce
+				ChallengeType Progression_EquipPartEnhancementOnScreen Progression_EquipPartEnhancementOnScreen
+			}
+			myOperator All
+		}
+	}
+	myLocalizedName "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A0C8DF201B2AD06EA4B0BB2, lineVersion = 0, maxLength = 16, text = \"Fully Loaded\""
+	myLocalizedDescription "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A0C8DF201B2AD073865C8D5, lineVersion = 1, maxLength = 48, text = \"Equip 8 (rare or higher) mods at once\""
+	myLocalizedAwardedDescription "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5AA6CC540000432EFA4D7C4B, lineVersion = 0, maxLength = 48, text = \"Equip 8 (rare or higher) mods at once\""
+	myTrophyId 14
+	myXBLAchievementId 69
+	myStatisticType Achievement_FullyLoaded
+}
+
+Achievement "[Trophy] Decked Out" < uid=C308E4DB5A1F25820000205C8275E534 >
+{
+	myCondition
+	{
+		AchievementCondition_Challenge "Equip Epic Mods in all ship slots" < uid=C308E4DB5A6A57E20181E37C490AE62C >
+		{
+			myChallenges
+			{
+				ChallengeType Progression_EquipEpicEnhacementsAllShipSlots Progression_EquipEpicEnhancementsAllShipSlots
+				ChallengeType Progression_EquipPartEnhancementOnScreen Progression_EquipPartEnhancementOnScreen
+			}
+			myOperator All
+		}
+	}
+	myLinkedUPlayActions
+	{
+		LinkedUPlayAction "Decked Out"
+		{
+			myUPlayIdActionId 119
+			myUPlayLocalizationId ONWXP20
+			myNameSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A4F8BC000001D373EE75EAE, lineVersion = 0, maxLength = 16, text = \"Decked Out\""
+			myDescriptionSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A4F8BC000001D39355BC682, lineVersion = 0, maxLength = 69, text = \"Fill every unlocked mod slot on a ship with Epic mods\""
+		}
+	}
+	myLocalizedName "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A2AFF5400004F4E76029340, lineVersion = 0, maxLength = 16, text = \"Decked Out\""
+	myLocalizedDescription "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A2AFF5400004F4FE6DB5883, lineVersion = 0, maxLength = 57, text = \"Fill every mod slot on a ship with Epic mods\""
+	myLocalizedAwardedDescription "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A2AFF5400004F509EACB493, lineVersion = 0, maxLength = 57, text = \"Fill every mod slot on a ship with Epic mods\""
+	myTrophyId 15
+	myXBLAchievementId 70
+	myStatisticType Achievement_DeckedOut
+}
+
+Achievement "[Trophy] Astronomer" < uid=C308E4DB59F9FE0300018CB97F58AB91 >
+{
+	myCondition
+	{
+		AchievementCondition_Challenge "Discover All [7] Planets" < uid=C308E4DB59F9FE0300018CBA5B887159 >
+		{
+			myChallenges
+			{
+				ChallengeType Discover_Planet01 Discover_Planet01
+				ChallengeType Discover_Planet03 Discover_Planet03
+				ChallengeType Discover_Planet04 Discover_Planet04
+				ChallengeType Discover_Planet05 Discover_Planet05
+				ChallengeType Discover_Planet07 Discover_Planet07
+				ChallengeType Discover_Planet08 Discover_Planet08
+				ChallengeType Discover_Planet15 Discover_Planet15
+			}
+			myOperator All
+		}
+	}
+	myLocalizedName "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A05EFC800001E9D88613C65, lineVersion = 0, maxLength = 16, text = \"Astronomer\""
+	myLocalizedDescription "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A05EFC800001E9E161B1BE8, lineVersion = 0, maxLength = 43, text = \"Discover all the planets in Atlas\""
+	myTrophyId 16
+	myXBLAchievementId 71
+	myStatisticType Achievement_Astronomer
+}
+
+Achievement "[Trophy] Cartographer" < uid=C308E4DB5A020FBD00001E95331D5605 >
+{
+	myCondition
+	{
+		AchievementCondition_Challenge "Fully Explore a Planet" < uid=C308E4DB5A020FBD00001E96CBBF15CC >
+		{
+			myChallenges
+			{
+				ChallengeType Progression_FullyExplorePlanet Progression_FullyExplorePlanet
+			}
+			myOperator All
+		}
+	}
+	myLinkedUPlayActions
+	{
+		LinkedUPlayAction Cartographer
+		{
+			myUPlayIdActionId 127
+			myUPlayLocalizationId ONWXP28
+			myNameSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A4F8BE200001D4181A574D5, lineVersion = 0, maxLength = 16, text = \"Cartographer\""
+			myDescriptionSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A4F8BE200001D43D10462CA, lineVersion = 0, maxLength = 49, text = \"Explore the entire surface of a planet\""
+		}
+	}
+	myLocalizedName "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A05F0E700001EFA0F25C602, lineVersion = 0, maxLength = 16, text = \"Cartographer\""
+	myLocalizedDescription "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A05F0E700001EFB9D99C3BC, lineVersion = 0, maxLength = 29, text = \"Fully Explore a Planet\""
+	myTrophyId 17
+	myXBLAchievementId 72
+	myStatisticType Achievement_Cartographer
+}
+
+Achievement "[Trophy] Explorer" < uid=C308E4DB59FA30B100001C2F59F56AFB >
+{
+	myCondition
+	{
+		AchievementCondition_Challenge "Discover All Database Entries on any planet" < uid=C308E4DB5A72411700015821F2A153D8 >
+		{
+			myChallenges
+			{
+				ChallengeType Discover_Planet01_AllCollectibles Discover_Planet01_AllCollectibles
+				ChallengeType Discover_Planet03_AllCollectibles Discover_Planet03_AllCollectibles
+				ChallengeType Discover_Planet04_AllCollectibles Discover_Planet04_AllCollectibles
+				ChallengeType Discover_Planet05_AllCollectibles Discover_Planet05_AllCollectibles
+				ChallengeType Discover_Planet07_AllCollectibles Discover_Planet07_AllCollectibles
+				ChallengeType Discover_Planet08_AllCollectibles Discover_Planet08_AllCollectibles
+				ChallengeType Discover_Planet15_AllCollectibles Discover_Planet15_AllCollectibles
+			}
+		}
+	}
+	myLocalizedName "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A05F01B00001EAF9CC8B859, lineVersion = 0, maxLength = 13, text = \"Explorer\""
+	myLocalizedDescription "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A05F01B00001EB04E33E88C, lineVersion = 0, maxLength = 48, text = \"Discover all landmarks on all planets\""
+	myTrophyId 18
+	myXBLAchievementId 73
+	myStatisticType Achievement_Explorer
+}
+
+Achievement "[Trophy] Xenobiologist" < uid=C308E4DB59F9D56400132C3B20F299FA >
+{
+	myCondition
+	{
+		AchievementCondition_Challenge "Discover [5] Animal Species" < uid=C308E4DB59F9D56400132C3CE9105D6B >
+		{
+			myChallenges
+			{
+				ChallengeType FullyScan_Fauna01 FullyScan_Fauna01
+				ChallengeType FullyScan_Fauna02 FullyScan_Fauna02
+				ChallengeType FullyScan_Fauna03 FullyScan_Fauna03
+				ChallengeType FullyScan_Fauna04 FullyScan_Fauna04
+				ChallengeType FullyScan_Fauna05 FullyScan_Fauna05
+				ChallengeType FullyScan_Fauna06 FullyScan_Fauna06
+				ChallengeType FullyScan_Fauna07 FullyScan_Fauna07
+				ChallengeType FullyScan_Fauna08 FullyScan_Fauna08
+				ChallengeType FullyScan_Fauna09 FullyScan_Fauna09
+				ChallengeType FullyScan_Fauna10 FullyScan_Fauna10
+				ChallengeType FullyScan_Fauna11 FullyScan_Fauna11
+				ChallengeType FullyScan_Fauna12 FullyScan_Fauna12
+				ChallengeType FullyScan_Fauna13 FullyScan_Fauna13
+				ChallengeType FullyScan_Fauna14 FullyScan_Fauna14
+				ChallengeType FullyScan_Fauna15 FullyScan_Fauna15
+				ChallengeType FullyScan_Fauna16 FullyScan_Fauna16
+				ChallengeType FullyScan_Fauna17 FullyScan_Fauna17
+				ChallengeType FullyScan_Fauna18 FullyScan_Fauna18
+				ChallengeType FullyScan_Fauna19 FullyScan_Fauna19
+				ChallengeType FullyScan_Fauna20 FullyScan_Fauna20
+				ChallengeType FullyScan_Fauna21 FullyScan_Fauna21
+			}
+			myChallenges_TU3
+			{
+				ChallengeType Discover_Planet01_Worm Discover_Planet01_Worm
+				ChallengeType Discover_Planet15_Worm Discover_Planet15_Worm
+			}
+			myOperator Any
+			myAnyCount 5
+			myRequiresMigration TRUE
+		}
+	}
+	myLocalizedName "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A05EF3900001E7A377F7748, lineVersion = 0, maxLength = 17, text = \"Xenobiologist\""
+	myLocalizedDescription "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A05EF9900001E91C09AA03A, lineVersion = 0, maxLength = 32, text = \"Discover 5 Animal Species\""
+	myTrophyId 19
+	myXBLAchievementId 74
+	myStatisticType Achievement_Xenobiologist
+}
+
+Achievement "[Trophy] Dolittle" < uid=C308E4DB59F9D74B0012C0B44CFAAE23 >
+{
+	myCondition
+	{
+		AchievementCondition_Challenge "Discover Every Animal Species" < uid=C308E4DB59F9D74B0012C0B51A671F9C >
+		{
+			myChallenges
+			{
+				ChallengeType FullyScan_Fauna01 FullyScan_Fauna01
+				ChallengeType FullyScan_Fauna02 FullyScan_Fauna02
+				ChallengeType FullyScan_Fauna03 FullyScan_Fauna03
+				ChallengeType FullyScan_Fauna04 FullyScan_Fauna04
+				ChallengeType FullyScan_Fauna05 FullyScan_Fauna05
+				ChallengeType FullyScan_Fauna06 FullyScan_Fauna06
+				ChallengeType FullyScan_Fauna07 FullyScan_Fauna07
+				ChallengeType FullyScan_Fauna08 FullyScan_Fauna08
+				ChallengeType FullyScan_Fauna09 FullyScan_Fauna09
+				ChallengeType FullyScan_Fauna10 FullyScan_Fauna10
+				ChallengeType FullyScan_Fauna11 FullyScan_Fauna11
+				ChallengeType FullyScan_Fauna12 FullyScan_Fauna12
+				ChallengeType FullyScan_Fauna13 FullyScan_Fauna13
+				ChallengeType FullyScan_Fauna14 FullyScan_Fauna14
+				ChallengeType FullyScan_Fauna15 FullyScan_Fauna15
+				ChallengeType FullyScan_Fauna16 FullyScan_Fauna16
+				ChallengeType FullyScan_Fauna17 FullyScan_Fauna17
+				ChallengeType FullyScan_Fauna18 FullyScan_Fauna18
+				ChallengeType FullyScan_Fauna19 FullyScan_Fauna19
+				ChallengeType FullyScan_Fauna20 FullyScan_Fauna20
+				ChallengeType FullyScan_Fauna21 FullyScan_Fauna21
+			}
+			myChallenges_TU3
+			{
+				ChallengeType Discover_Planet01_Worm Discover_Planet01_Worm
+				ChallengeType Discover_Planet15_Worm Discover_Planet15_Worm
+			}
+			myOperator All
+			myRequiresMigration TRUE
+		}
+	}
+	myLinkedUPlayActions
+	{
+		LinkedUPlayAction Dolittle
+		{
+			myUPlayIdActionId 129
+			myUPlayLocalizationId ONWXP30
+			myNameSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A4F8C5200001D597CFBFAE2, lineVersion = 0, maxLength = 13, text = \"Dolittle\""
+			myDescriptionSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A4F8C5200001D5B250BE9F3, lineVersion = 0, maxLength = 57, text = \"Discover every major animal species on Atlas\""
+		}
+	}
+	myLocalizedName "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A05EF3D00001E7EB7B87C7F, lineVersion = 0, maxLength = 13, text = \"Dolittle\""
+	myLocalizedDescription "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A05EFA800001E9409E6F8A1, lineVersion = 0, maxLength = 38, text = \"Discover Every Animal Species\""
+	myTrophyId 20
+	myXBLAchievementId 75
+	myStatisticType Achievement_Dolittle
+}
+
+Achievement "[Trophy] Sharpshooter" < uid=C308E4DB5A0B4D8E0002733181B78F32 >
+{
+	myCondition
+	{
+		AchievementCondition_RepeatCount "Get 10 Headshots" < uid=C308E4DB5A0B4D8E000273322DCA4C69 >
+		{
+			myConditions
+			{
+				AchievementCondition_Challenge Headshot < uid=C308E4DB5A0B4DB700027339B6337995 >
+				{
+					myChallenges
+					{
+						ChallengeType Combat_HeadShot Combat_HeadShot
+					}
+					myOperator All
+				}
+			}
+			myRepeatCount 10
+		}
+	}
+	myLocalizedName "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A0B4D6A0002732862B4B397, lineVersion = 0, maxLength = 16, text = \"Sharpshooter\""
+	myLocalizedDescription "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A0B4D6A0002732A0132BE2D, lineVersion = 1, maxLength = 77, text = \"Defeat 10 targets by shooting precisely at their weak spots\""
+	myLocalizedAwardedDescription "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A9FF1F500014784615202E9, lineVersion = 0, maxLength = 77, text = \"Defeat 10 targets by shooting precisely at their weak spots\""
+	myTrophyId 21
+	myXBLAchievementId 76
+	myStatisticType Achievement_Sharpshooter
+}
+
+Achievement "[Trophy] Counter Master" < uid=C308E4DB5A0C7F70000021AAA52457F6 >
+{
+	myCondition
+	{
+		AchievementCondition_RepeatCount "Successfully Parry [10] Times" < uid=C308E4DB5A9D98F5002FD92E75CCA348 >
+		{
+			myConditions
+			{
+				AchievementCondition_Challenge "Successfully Parry" < uid=C308E4DB5A9D98F5002FD92F57EB322B >
+				{
+					myChallenges
+					{
+						ChallengeType Combat_Parry Combat_Parry
+					}
+					myOperator All
+					myAnyCount 1
+				}
+			}
+			myRepeatCount 10
+		}
+	}
+	myLocalizedName "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A0C7F62000021A1A02F3BA0, lineVersion = 1, maxLength = 18, text = \"Counter Master\""
+	myLocalizedDescription "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A0C7F62000021A3EACCD73F, lineVersion = 1, maxLength = 70, text = \"Time a block perfectly to counter an attack 10 times\""
+	myLocalizedAwardedDescription "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A94670C00001B368F582B83, lineVersion = 0, maxLength = 70, text = \"Time a block perfectly to counter an attack 10 times\""
+	myTrophyId 22
+	myXBLAchievementId 77
+	myStatisticType Achievement_HardToHit
+}
+
+Achievement "[Trophy] Close Scrape" < uid=C308E4DB5A0C7FB8000021C31FBE2398 >
+{
+	myCondition
+	{
+		AchievementCondition_RepeatCount "Defeat an Extractor or Prime with your shield down" < uid=C308E4DB5A2593F400019F327E2CAA8F >
+		{
+			myConditions
+			{
+				AchievementCondition_Challenge "Defeat Extractor or Prime" < uid=C308E4DB5A2593F400019F33E32E730C >
+				{
+					myChallenges
+					{
+						ChallengeType Death_Extractor Death_Extractor
+						ChallengeType Death_Prime Death_Prime
+					}
+				}
+				AchievementCondition_GameActionState "Shields Down" < uid=C308E4DB5A2593F400019F345145C904 >
+				{
+					myGameActionStates
+					{
+						GameActionState IsShieldAvailable IsShieldAvailable
+						GameActionState IsDead IsDead
+					}
+					myNotCondition TRUE
+					myAnyPlayer TRUE
+				}
+			}
+			myIsSynchronous TRUE
+		}
+	}
+	myLocalizedName "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A0C7F81000021BAAA606857, lineVersion = 0, maxLength = 16, text = \"Close Scrape\""
+	myLocalizedDescription "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A2AFF7B00004F6107066EF4, lineVersion = 0, maxLength = 66, text = \"Defeat an Extractor or Prime with your shields down\""
+	myLocalizedAwardedDescription "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A2AFF7B00004F628B064C72, lineVersion = 0, maxLength = 66, text = \"Defeat an Extractor or Prime with your shields down\""
+	myTrophyId 23
+	myXBLAchievementId 78
+	myStatisticType Achievement_CloseScrape
+}
+
+Achievement "[Trophy] Cryogenic" < uid=C308E4DB5A00900000001C2BA70D6699 >
+{
+	myCondition
+	{
+		AchievementCondition_RepeatCount "Shatter 5 Frozen Targets" < uid=C308E4DB5A00900000001C2CBAF0735B >
+		{
+			myConditions
+			{
+				AchievementCondition_Challenge "Shatter Target" < uid=C308E4DB5A00900000001C2D03E6980D >
+				{
+					myChallenges
+					{
+						ChallengeType Status_Effect_Shatter Status_Effect_Shatter
+					}
+					myOperator All
+				}
+			}
+			myRepeatCount 5
+		}
+	}
+	myLocalizedName "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A05F07500001ECDBE26C6E9, lineVersion = 0, maxLength = 14, text = \"Cryogenic\""
+	myLocalizedDescription "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A05F07500001ECE0B03C653, lineVersion = 1, maxLength = 31, text = \"Shatter 5 Frozen Targets\""
+	myLocalizedAwardedDescription "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5AA6CC0200003F34F1358218, lineVersion = 0, maxLength = 31, text = \"Shatter 5 Frozen Targets\""
+	myTrophyId 24
+	myXBLAchievementId 79
+	myStatisticType Achievement_Cyrogenic
+}
+
+Achievement "[Trophy] Blowing Off Steam" < uid=C308E4DB5A00903A00001C2EA83EADDA >
+{
+	myCondition
+	{
+		AchievementCondition_RepeatCount "Thermal Shock [10] Targets" < uid=C308E4DB5A00903A00001C2F64CB2FEA >
+		{
+			myConditions
+			{
+				AchievementCondition_Challenge "Thermal Shock Target" < uid=C308E4DB5A00903A00001C305D98E283 >
+				{
+					myChallenges
+					{
+						ChallengeType Status_Effect_ThermalShock Status_Effect_ThermalShock
+					}
+					myOperator All
+				}
+			}
+			myRepeatCount 10
+		}
+	}
+	myLocalizedName "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A05F08800001ED30EF27903, lineVersion = 0, maxLength = 22, text = \"Blowing Off Steam\""
+	myLocalizedDescription "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A05F08800001ED4FC3B118A, lineVersion = 0, maxLength = 31, text = \"Thermal Shock 10 Targets\""
+	myTrophyId 25
+	myXBLAchievementId 80
+	myStatisticType Achievement_BlowingOffSteam
+}
+
+Achievement "[Trophy] Bubblebath" < uid=C308E4DB5A00917000001DBD1509FC8D >
+{
+	myCondition
+	{
+		AchievementCondition_Challenge "Hit [5] targets with a single float blast" < uid=C308E4DB5A00917000001DBEC0E4C6A0 >
+		{
+			myChallenges
+			{
+				ChallengeType Status_Effect_FiveTargets_FloatBlast Status_Effect_FiveTargets_FloatBlast
+			}
+			myOperator All
+		}
+	}
+	myLocalizedName "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A05F09A00001ED9D62E501B, lineVersion = 0, maxLength = 16, text = \"Bubblebath\""
+	myLocalizedDescription "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A05F09A00001EDA9C5CEB55, lineVersion = 0, maxLength = 51, text = \"Hit 5 targets with a single float blast\""
+	myTrophyId 26
+	myXBLAchievementId 81
+	myStatisticType Achievement_Bubblebath
+}
+
+Achievement "[Trophy] Singularity" < uid=C308E4DB5A0B4F35000273D658E69F86 >
+{
+	myCondition
+	{
+		AchievementCondition_Challenge "Trap [3] targets in a single black hole" < uid=C308E4DB5A0B4F35000273D712C27421 >
+		{
+			myChallenges
+			{
+				ChallengeType Status_Effect_ThreeTargets_BlackHole Status_Effect_ThreeTargets_BlackHole
+			}
+			myOperator All
+		}
+	}
+	myLocalizedName "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A0B4F3C000273F796A0E4D9, lineVersion = 0, maxLength = 14, text = \"Singularity\""
+	myLocalizedDescription "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A0B4F3C000273F94FCACABE, lineVersion = 1, maxLength = 48, text = \"Trap 3 targets in a single black hole\""
+	myLocalizedAwardedDescription "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A9FF17900013E487440EE1A, lineVersion = 0, maxLength = 48, text = \"Trap 3 targets in a single black hole\""
+	myTrophyId 27
+	myXBLAchievementId 82
+	myStatisticType Achievement_Singularity
+}
+
+Achievement "[Trophy] Firefighter" < uid=C308E4DB5A202D1100002029B3E0357D >
+{
+	myCondition
+	{
+		AchievementCondition_Challenge "Use Cold to defeat a Fire Giant" < uid=C308E4DB5A202D110000202A514CC80D >
+		{
+			myChallenges
+			{
+				ChallengeType Combat_ColdDeath_FireGiant Combat_ColdDeath_FireGiant
+			}
+			myOperator All
+		}
+	}
+	myLocalizedName "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A202CDE000020206A632B67, lineVersion = 0, maxLength = 14, text = \"Firefighter\""
+	myLocalizedDescription "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A202CDE0000202106DA2030, lineVersion = 0, maxLength = 40, text = \"Use Cold to defeat a Fire Giant\""
+	myLocalizedAwardedDescription "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A202CDE000020224A1DF383, lineVersion = 0, maxLength = 40, text = \"Use Cold to defeat a Fire Giant\""
+	myTrophyId 28
+	myXBLAchievementId 83
+	myStatisticType Achievement_Firefighter
+}
+
+Achievement "[Trophy] Antifreeze" < uid=C308E4DB5A202D4800002034316E6AC2 >
+{
+	myCondition
+	{
+		AchievementCondition_Challenge "Use Heat to defeat a Frost Giant" < uid=C308E4DB5A202D480000203593CE6942 >
+		{
+			myChallenges
+			{
+				ChallengeType Combat_HeatDeath_IceGiant Combat_HeatDeath_IceGiant
+			}
+			myOperator All
+		}
+	}
+	myLocalizedName "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A202D230000202B0A8B54DD, lineVersion = 0, maxLength = 16, text = \"Antifreeze\""
+	myLocalizedDescription "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A202D230000202CF3C10CA2, lineVersion = 0, maxLength = 42, text = \"Use Heat to defeat a Frost Giant\""
+	myLocalizedAwardedDescription "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A202D230000202D4138847A, lineVersion = 0, maxLength = 42, text = \"Use Heat to defeat a Frost Giant\""
+	myTrophyId 29
+	myXBLAchievementId 84
+	myStatisticType Achievement_Antifreeze
+}
+
+Achievement "[Trophy] Helping Hand" < uid=C308E4DB5A202DA20000203F53303B30 >
+{
+	myCondition
+	{
+		AchievementCondition_Challenge "In COOP, repair your partner after they get shot down" < uid=C308E4DB5A202DA200002040D3F8EC5E >
+		{
+			myChallenges
+			{
+				ChallengeType Coop_Repair Coop_Repair
+			}
+			myOperator All
+		}
+	}
+	myLocalizedName "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A202D6700002036034DF846, lineVersion = 0, maxLength = 16, text = \"Helping Hand\""
+	myLocalizedDescription "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A202D6700002037FD5BD59B, lineVersion = 0, maxLength = 69, text = \"In COOP, repair your partner after they get shot down\""
+	myLocalizedAwardedDescription "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A202D6700002038BF218888, lineVersion = 0, maxLength = 69, text = \"In COOP, repair your partner after they get shot down\""
+	myTrophyId 30
+	myXBLAchievementId 85
+	myStatisticType Achievement_HelpingHand
+}
+
+Achievement "[Trophy] Tag Team" < uid=C308E4DB5A202DCE0000204ABF9F0AFE >
+{
+	myCondition
+	{
+		AchievementCondition_RepeatCount "In COOP, defeat a Prime together" < uid=C308E4DB5A202DCE0000204BD74776C3 >
+		{
+			myConditions
+			{
+				AchievementCondition_Challenge "Defeat a Prime" < uid=C308E4DB5A202E140000204CE3C5E305 >
+				{
+					myChallenges
+					{
+						ChallengeType Death_Prime Death_Prime
+					}
+					myOperator All
+				}
+				AchievementCondition_GameActionState "Be in Coop" < uid=C308E4DB5A202E550000204D6EF78455 >
+				{
+					myGameActionStates
+					{
+						GameActionState IsInCoop IsInCoop
+					}
+				}
+			}
+			myIsSynchronous TRUE
+		}
+	}
+	myLocalizedName "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A202DAF000020413BB49681, lineVersion = 0, maxLength = 13, text = \"Tag Team\""
+	myLocalizedDescription "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A202DAF000020427ADF2C63, lineVersion = 0, maxLength = 42, text = \"In COOP, defeat a Prime together\""
+	myLocalizedAwardedDescription "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A202DAF00002043A8E471B3, lineVersion = 0, maxLength = 42, text = \"In COOP, defeat a Prime together\""
+	myTrophyId 31
+	myXBLAchievementId 86
+	myStatisticType Achievement_TagTeam
+}
+
+Achievement "[Trophy] Science" < uid=C308E4DB5A1F1E1400002029839B9281 >
+{
+	myCondition
+	{
+		AchievementCondition_Challenge "Build your first workshop" < uid=C308E4DB5A1F1E140000202AA834EE7C >
+		{
+			myChallenges
+			{
+				ChallengeType Build_ExpeditionResearchBase Build_ExpeditionResearchBase
+			}
+			myOperator All
+		}
+	}
+	myLinkedUPlayActions
+	{
+		LinkedUPlayAction Science
+		{
+			myUPlayIdActionId 135
+			myUPlayLocalizationId ONWXP36
+			myNameSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A4F8CB500001D6F646D6245, lineVersion = 0, maxLength = 13, text = \"Science!\""
+			myDescriptionSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A4F8CB500001D718C4ABCEF, lineVersion = 0, maxLength = 36, text = \"Build an Expedition Workshop\""
+		}
+	}
+	myLocalizedName "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A1F1DB1000020202FE92A1C, lineVersion = 0, maxLength = 13, text = \"Science!\""
+	myLocalizedDescription "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A1F1DB1000020213181EEC2, lineVersion = 0, maxLength = 32, text = \"Build your first workshop\""
+	myLocalizedAwardedDescription "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A1F1DB1000020222D7C811B, lineVersion = 0, maxLength = 32, text = \"Build your first workshop\""
+	myTrophyId 32
+	myXBLAchievementId 87
+	myStatisticType Achievement_Science
+}
+
+Achievement "[Trophy] Strength in Unity" < uid=C308E4DB5A202F10000020584E348082 >
+{
+	myCondition
+	{
+		AchievementCondition_RepeatCount "Ally or Build all 5 Oupost Types" < uid=C308E4DB5A6B8FE600001B3475170310 >
+		{
+			myConditions
+			{
+				AchievementCondition_Challenge "Any Observation Deck" < uid=C308E4DB5A6B8FE600001B3523EC6C67 >
+				{
+					myChallenges
+					{
+						ChallengeType Ally_ExpeditionObservationDeck Ally_ExpeditionObservationDeck
+						ChallengeType Build_ExpeditionObservationDeck Build_ExpeditionObservationDeck
+					}
+				}
+				AchievementCondition_Challenge "Any Research Base" < uid=C308E4DB5A6B903D00001B365092DD81 >
+				{
+					myChallenges
+					{
+						ChallengeType Ally_ExpeditionResearchBase Ally_ExpeditionResearchBase
+						ChallengeType Build_ExpeditionResearchBase Build_ExpeditionResearchBase
+					}
+				}
+				AchievementCondition_Challenge "Any Defense Base" < uid=C308E4DB5A6B903D00001B371A799F65 >
+				{
+					myChallenges
+					{
+						ChallengeType Ally_ProspectorDefenseBase Ally_ProspectorDefenseBase
+						ChallengeType Build_ProspectorDefenseBase Build_ProspectorDefenseBase
+					}
+				}
+				AchievementCondition_Challenge "Any Mining Center" < uid=C308E4DB5A6B903D00001B38D7BB10B9 >
+				{
+					myChallenges
+					{
+						ChallengeType Ally_ProspectorMiningCenter Ally_ProspectorMiningCenter
+						ChallengeType Build_ProspectorMiningCenter Build_ProspectorMiningCenter
+					}
+				}
+				AchievementCondition_Challenge "Any Alliance Tower" < uid=C308E4DB5A6B903D00001B399774D17D >
+				{
+					myChallenges
+					{
+						ChallengeType Build_AllianceTower Build_AllianceTower
+					}
+				}
+			}
+		}
+	}
+	myLinkedUPlayActions
+	{
+		LinkedUPlayAction "Strength in Unity"
+		{
+			myUPlayIdActionId 136
+			myUPlayLocalizationId ONWXP37
+			myNameSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A4F8CCC00001D77CB7AC01B, lineVersion = 0, maxLength = 22, text = \"Strength in Unity\""
+			myDescriptionSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A4F8CCC00001D79B1A1B090, lineVersion = 0, maxLength = 38, text = \"Ally with all 5 Outpost types\""
+		}
+	}
+	myLocalizedName "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A202EFE0000204FC565210D, lineVersion = 0, maxLength = 22, text = \"Strength in Unity\""
+	myLocalizedDescription "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A202EFE0000205009742F6F, lineVersion = 0, maxLength = 38, text = \"Ally with all 5 Outpost types\""
+	myLocalizedAwardedDescription "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A202EFE00002051DB73D738, lineVersion = 0, maxLength = 38, text = \"Ally with all 5 Outpost types\""
+	myTrophyId 33
+	myXBLAchievementId 88
+	myStatisticType Achievement_StrengthInUnity
+}
+
+Achievement "[Trophy] Prosperity" < uid=C308E4DB5A00B94C000148C50016A100 >
+{
+	myCondition
+	{
+		AchievementCondition_Challenge "Gain 100% Alliance on a planet" < uid=C308E4DB5A00B94C000148C69D9C6584 >
+		{
+			myChallenges
+			{
+				ChallengeType Progression_FullyAllyWithPlanet01 Progression_FullyAllyWithPlanet01
+				ChallengeType Progression_FullyAllyWithPlanet03 Progression_FullyAllyWithPlanet03
+				ChallengeType Progression_FullyAllyWithPlanet04 Progression_FullyAllyWithPlanet04
+				ChallengeType Progression_FullyAllyWithPlanet05 Progression_FullyAllyWithPlanet05
+				ChallengeType Progression_FullyAllyWithPlanet07 Progression_FullyAllyWithPlanet07
+				ChallengeType Progression_FullyAllyWithPlanet08 Progression_FullyAllyWithPlanet08
+				ChallengeType Progression_FullyAllyWithPlanet15 Progression_FullyAllyWithPlanet15
+			}
+		}
+	}
+	myLinkedUPlayActions
+	{
+		LinkedUPlayAction Prosperity
+		{
+			myUPlayIdActionId 137
+			myUPlayLocalizationId ONWXP38
+			myNameSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A55308000001D4C61D9EFD4, lineVersion = 0, maxLength = 16, text = \"Prosperity\""
+			myDescriptionSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A55308000001D4E24BA32BB, lineVersion = 0, maxLength = 39, text = \"Gain 100% Alliance on a planet\""
+		}
+	}
+	myLocalizedName "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A05F0AC00001EDF7738D8EA, lineVersion = 0, maxLength = 16, text = \"Prosperity\""
+	myLocalizedDescription "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A05F0B600001EE3DFA908A9, lineVersion = 0, maxLength = 39, text = \"Gain 100% Alliance on a planet\""
+	myTrophyId 34
+	myXBLAchievementId 89
+	myStatisticType Achievement_Prosperity
+}
+
+Achievement "[Trophy] Diplomatic Network" < uid=C308E4DB5A0C80AE000022380C0F59C7 >
+{
+	myCondition
+	{
+		AchievementCondition_RepeatCount "25% Alliance on every planet at once" < uid=C308E4DB5A25677B00001FEAAB204A71 >
+		{
+			myConditions
+			{
+				AchievementCondition_Alliance Planet_01 < uid=C308E4DB5A25677B00001FEBDADC1BC3 >
+				{
+					myPlanetName planet_01
+					myAllianceThreshold 25
+				}
+				AchievementCondition_Alliance Planet_03 < uid=C308E4DB5A25677B00001FECDDE791D6 >
+				{
+					myPlanetName planet_03
+					myAllianceThreshold 25
+				}
+				AchievementCondition_Alliance Planet_04 < uid=C308E4DB5A25780600001FE2156D9D31 >
+				{
+					myPlanetName planet_04
+					myAllianceThreshold 25
+				}
+				AchievementCondition_Alliance Planet_05 < uid=C308E4DB5A25780600001FE31274D8F0 >
+				{
+					myPlanetName planet_05
+					myAllianceThreshold 25
+				}
+				AchievementCondition_Alliance Planet_07 < uid=C308E4DB5A25780600001FE43D9B56C1 >
+				{
+					myPlanetName planet_07
+					myAllianceThreshold 25
+				}
+				AchievementCondition_Alliance Planet_08 < uid=C308E4DB5A25780600001FE57938CBB5 >
+				{
+					myPlanetName planet_08
+					myAllianceThreshold 25
+				}
+				AchievementCondition_Alliance Planet_15 < uid=C308E4DB5A25780600001FE600C555B6 >
+				{
+					myPlanetName planet_15
+					myAllianceThreshold 25
+				}
+			}
+		}
+	}
+	myLinkedUPlayActions
+	{
+		LinkedUPlayAction "Diplomatic Network"
+		{
+			myUPlayIdActionId 138
+			myUPlayLocalizationId ONWXP39
+			myNameSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A5530A700001D58924AB03B, lineVersion = 0, maxLength = 23, text = \"Diplomatic Network\""
+			myDescriptionSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A5530A700001D5A520A2998, lineVersion = 0, maxLength = 53, text = \"Get at least 25% alliance on every planet\""
+		}
+	}
+	myLocalizedName "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A0C80AE0000224212BC45F1, lineVersion = 0, maxLength = 23, text = \"Diplomatic Network\""
+	myLocalizedDescription "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A0C80AE0000224465BD2879, lineVersion = 0, maxLength = 53, text = \"Get at least 25% alliance on every planet\""
+	myTrophyId 35
+	myXBLAchievementId 90
+	myStatisticType Achievement_DiplomaticNetwork
+}
+
+Achievement "[Trophy] Ship Mastery" < uid=C308E4DB5A020C0A0000479B0D49A7D2 >
+{
+	myCondition
+	{
+		AchievementCondition_RepeatCount "Earn [3] Skill Points from Ships" < uid=C308E4DB5A020C0A0000479C7B8395A1 >
+		{
+			myConditions
+			{
+				AchievementCondition_SkillPoint "Earn Skill Point From Ship" < uid=C308E4DB5A020C0A0000479D5EBEF3C9 >
+				{
+				}
+			}
+			myRepeatCount 3
+		}
+	}
+	myLinkedUPlayActions
+	{
+		LinkedUPlayAction "Ship Mastery"
+		{
+			myUPlayIdActionId 139
+			myUPlayLocalizationId ONWXP40
+			myNameSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A5530D000001D6440939509, lineVersion = 0, maxLength = 16, text = \"Ship Mastery\""
+			myDescriptionSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A5530D000001D66467E0397, lineVersion = 0, maxLength = 39, text = \"Earn 3 skill points from ships\""
+		}
+	}
+	myLocalizedName "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A0C82590017310B024A18C9, lineVersion = 0, maxLength = 16, text = \"Ship Mastery\""
+	myLocalizedDescription "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A0C82590017310CBEE22917, lineVersion = 0, maxLength = 39, text = \"Earn 3 skill points from ships\""
+	myTrophyId 36
+	myXBLAchievementId 91
+	myStatisticType Achievement_ShipMastery
+}
+
+Achievement "[Trophy] Weapon Mastery" < uid=C308E4DB5A020C0A0000479E861F7281 >
+{
+	myCondition
+	{
+		AchievementCondition_RepeatCount "Earn [6] Skill Points from Weapons" < uid=C308E4DB5A020C0A0000479FC62822A7 >
+		{
+			myConditions
+			{
+				AchievementCondition_SkillPoint "Earn Skill Point From Weapon" < uid=C308E4DB5A020C0A000047A0A161895E >
+				{
+					myEarner AnyPod
+				}
+			}
+			myRepeatCount 6
+		}
+	}
+	myLinkedUPlayActions
+	{
+		LinkedUPlayAction "Weapon Mastery"
+		{
+			myUPlayIdActionId 140
+			myUPlayLocalizationId ONWXP41
+			myNameSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A5530FC00001D72A5E0E192, lineVersion = 0, maxLength = 18, text = \"Weapon Mastery\""
+			myDescriptionSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A5530FC00001D74C8F94303, lineVersion = 0, maxLength = 62, text = \"Earn 6 Pilot Skill points from mastering Weapons\""
+		}
+	}
+	myLocalizedName "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A0C827B001BDFEC166ADA8C, lineVersion = 0, maxLength = 18, text = \"Weapon Mastery\""
+	myLocalizedDescription "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A0C827B001BDFED4113329E, lineVersion = 1, maxLength = 62, text = \"Earn 6 Pilot Skill points from mastering Weapons\""
+	myTrophyId 37
+	myXBLAchievementId 92
+	myStatisticType Achievement_WeaponMastery
+}
+
+Achievement "[Trophy] Mentor" < uid=C308E4DB5A0B4FA2000274102CA2A0BF >
+{
+	myCondition
+	{
+		AchievementCondition_Challenge "Buy a keystone skill" < uid=C308E4DB5A0B4FA2000274119DF85338 >
+		{
+			myChallenges
+			{
+				ChallengeType Progression_EquipKeystonePilotSkill Progression_EquipKeystonePilotSkill
+			}
+			myOperator All
+		}
+	}
+	myLocalizedName "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A0B4F670002740785ED8289, lineVersion = 0, maxLength = 10, text = \"Mentor\""
+	myLocalizedDescription "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A0B4F6700027409336E558B, lineVersion = 0, maxLength = 36, text = \"Buy a pilot's keystone skill\"}"
+	myTrophyId 38
+	myXBLAchievementId 93
+	myStatisticType Achievement_Mentor
+}
+
+Achievement "[Trophy] Ace" < uid=C308E4DB5A0C811D000022933E87DA55 >
+{
+	myCondition
+	{
+		AchievementCondition_SkillPoint "Spend 14 Skill Points with a Pilot" < uid=C308E4DB5A71F14D00539040A809D5D7 >
+		{
+			myEarner Pilot
+			myAmount 14
+			myUseSpentPoints TRUE
+		}
+	}
+	myLocalizedName "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A0C810C0000228A3D870F0A, lineVersion = 0, maxLength = 5, text = \"Ace\""
+	myLocalizedDescription "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A0C810C0000228CC2CDB4CC, lineVersion = 0, maxLength = 43, text = \"Reach Level 15 with any one pilot\""
+	myTrophyId 39
+	myXBLAchievementId 94
+	myStatisticType Achievement_Ace
+}
+
+Achievement "[Trophy] Home Sweet Home" < uid=C308E4DB59FB1B9A000188CE39DA4BDA >
+{
+	myCondition
+	{
+		AchievementCondition_RepeatCount "Complete an Equinox Upgrade [20] Times" < uid=C308E4DB59FB1B9A000188CFE369895C >
+		{
+			myConditions
+			{
+				AchievementCondition_Challenge "Equinox Upgrade" < uid=C308E4DB59FB1B9A000188D00CE06265 >
+				{
+					myChallenges
+					{
+						ChallengeType Progression_UpgradeEquinox Progression_UpgradeEquinox
+					}
+					myOperator All
+				}
+			}
+			myRepeatCount 8
+		}
+	}
+	myLinkedUPlayActions
+	{
+		LinkedUPlayAction "Home Sweet Home"
+		{
+			myUPlayIdActionId 144
+			myUPlayLocalizationId ONWXP45
+			myNameSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A8C3C4300001B4A6B13C8ED, lineVersion = 0, maxLength = 20, text = \"Home Sweet Home\""
+			myDescriptionSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A8C3C4300001B4B49343330, lineVersion = 0, maxLength = 31, text = \"Build 8 Equinox Upgrades\""
+		}
+	}
+	myLocalizedName "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A05F02700001EB5CCD73655, lineVersion = 0, maxLength = 20, text = \"Home Sweet Home\""
+	myLocalizedDescription "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A05F02700001EB6B1FFEC72, lineVersion = 1, maxLength = 31, text = \"Build 8 Equinox Upgrades\""
+	myTrophyId 40
+	myXBLAchievementId 95
+	myStatisticType Achievement_HomeSweetHome
+}
+
+Achievement "[Trophy] State of the Art" < uid=C308E4DB59FB1BE2000197F4AC93F32E >
+{
+	myCondition
+	{
+		AchievementCondition_Challenge "Upgrade two sections of the Equinox to their maximum level" < uid=C308E4DB59FB1BE2000197F547FCF9FD >
+		{
+			myChallenges
+			{
+				ChallengeType Progression_CompletelyUpgradeEquinox_DriveReactor Progression_CompletelyUpgradeEquinox_DriveReactor
+				ChallengeType Progression_CompletelyUpgradeEquinox_Part_Upgrades Progression_CompletelyUpgradeEquinox_Part_Upgrades
+				ChallengeType Progression_CompletelyUpgradeEquinox_Mod_Upgrades Progression_CompletelyUpgradeEquinox_Mod_Upgrades
+				ChallengeType Progression_CompletelyUpgradeEquinox_Towing_Upgrades Progression_CompletelyUpgradeEquinox_Towing_Upgrades
+				ChallengeType Progression_CompletelyUpgradeEquinox_Warden_Upgrades Progression_CompletelyUpgradeEquinox_Warden_Upgrades
+				ChallengeType Progression_CompletelyUpgradeEquinox_Expedition_Upgrades Progression_CompletelyUpgradeEquinox_Expedition_Upgrades
+				ChallengeType Progression_CompletelyUpgradeEquinox_Prospector_Upgrades Progression_CompletelyUpgradeEquinox_Prospector_Upgrades
+				ChallengeType Progression_CompletelyUpgradeEquinox_Outlaw_Upgrades Progression_CompletelyUpgradeEquinox_Outlaw_Upgrades
+				ChallengeType Progression_CompletelyUpgradeEquinox_Alliance_Upgrades Progression_CompletelyUpgradeEquinox_Alliance_Upgrades
+			}
+			myOperator Any
+			myAnyCount 2
+		}
+	}
+	myLocalizedName "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A05F04000001EBB81EB48EB, lineVersion = 0, maxLength = 21, text = \"State of the Art\""
+	myLocalizedDescription "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A05F04000001EBCFE165AA7, lineVersion = 1, maxLength = 75, text = \"Upgrade two sections of the Equinox to their maximum level\""
+	myTrophyId 41
+	myXBLAchievementId 96
+	myStatisticType Achievement_StateOfTheArt
+}
+
+AchievementStatistic "[HeroStat] Pilots" < uid=C308E4DB5A04C5A400001E6AC835B1B6 >
+{
+	myCondition
+	{
+		AchievementCondition_Challenge "All Pilots" < uid=C308E4DB5A04C5A400001E6B67E9EBE2 >
+		{
+			myChallenges
+			{
+				ChallengeType Attach_Chase Attach_Chase
+				ChallengeType Attach_Judge Attach_Judge
+				ChallengeType Attach_Mason Attach_Mason
+				ChallengeType Attach_Levi Attach_Levi
+				ChallengeType Attach_Shaide Attach_Shaide
+				ChallengeType Attach_Fern Attach_Fern
+				ChallengeType Attach_Hunter Attach_Hunter
+				ChallengeType Attach_Kharl Attach_Kharl
+				ChallengeType Attach_Eli Attach_Eli
+				ChallengeType Attach_Startail Attach_Startail
+				ChallengeType Attach_Rancor Attach_Rancor
+				ChallengeType Attach_Razor Attach_Razor
+				ChallengeType Attach_Galla Attach_Galla
+				ChallengeType Attach_Haywire Attach_Haywire
+			}
+			myOperator All
+		}
+	}
+	myLocalizedName "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A05F11700001F0CAC1E9DA1, lineVersion = 0, maxLength = 10, text = \"Pilots\""
+	myLocalizedDescription "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A05F11700001F0D0B2C1A4E, lineVersion = 0, maxLength = 34, text = \"Number of Collected Pilots\""
+	myStatisticType HeroStat_Pilots
+}
+
+AchievementStatistic "[HeroStat] Pods" < uid=C308E4DB5A04C5DC00001E6CEE500CB8 >
+{
+	myCondition
+	{
+		AchievementCondition_Challenge "All Pods" < uid=C308E4DB5A04C5DC00001E6D1A7BF40A >
+		{
+			myChallenges
+			{
+				ChallengeType Attach_Meteor Attach_Meteor
+				ChallengeType Attach_MeteorMk2 Attach_MeteorMk2
+				ChallengeType Attach_Levitator Attach_Levitator
+				ChallengeType Attach_LevitatorMk2 Attach_LevitatorMk2
+				ChallengeType Attach_Shockwave Attach_Shockwave
+				ChallengeType Attach_FrostMine Attach_FrostMine
+				ChallengeType Attach_FlameThrower Attach_FlameThrower
+				ChallengeType Attach_HailStorm Attach_HailStorm
+				ChallengeType Attach_Volcano Attach_Volcano
+				ChallengeType Attach_VolcanoMk2 Attach_VolcanoMk2
+				ChallengeType Attach_ChargeFreezeRay Attach_ChargeFreezeRay
+				ChallengeType Attach_ChargeFreezeRayMk2 Attach_ChargeFreezeRayMk2
+				ChallengeType Attach_Crusher Attach_Crusher
+				ChallengeType Attach_IceMissile Attach_IceMissile
+				ChallengeType Attach_Shredder Attach_Shredder
+				ChallengeType Attach_ShredderMk2 Attach_ShredderMk2
+				ChallengeType Attach_IronFist Attach_IronFist
+				ChallengeType Attach_Nullifier Attach_Nullifier
+				ChallengeType Attach_NullifierMk2 Attach_NullifierMk2
+				ChallengeType Attach_TidalWave Attach_TidalWave
+				ChallengeType Attach_Jaunt Attach_Jaunt
+				ChallengeType Attach_Imploder Attach_Imploder
+				ChallengeType Attach_ImploderMk2 Attach_ImploderMk2
+				ChallengeType Attach_Fireball Attach_Fireball
+				ChallengeType Attach_GaussGun Attach_GaussGun
+				ChallengeType Attach_GaussGunMk2 Attach_GaussGunMk2
+			}
+			myOperator All
+		}
+	}
+	myLocalizedName "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A05F13400001F12469D9698, lineVersion = 0, maxLength = 8, text = \"Weapons\""
+	myLocalizedDescription "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A05F13400001F1303F164C1, lineVersion = 0, maxLength = 40, text = \"Number of Collected Weapon Pods\""
+	myStatisticType HeroStat_Pods
+}
+
+AchievementStatistic "[HeroStat[ Hulls" < uid=C308E4DB5A04C5DC00001E6E7FA64EF2 >
+{
+	myCondition
+	{
+		AchievementCondition_Challenge "All Hulls" < uid=C308E4DB5A04C5DC00001E6F57380C1F >
+		{
+			myChallenges
+			{
+				ChallengeType Attach_Red1 Attach_Red1
+				ChallengeType Attach_Gravcraft Attach_Gravcraft
+				ChallengeType Attach_Zenith Attach_Zenith
+				ChallengeType Attach_Starblade Attach_Starblade
+				ChallengeType Attach_Nomad Attach_Nomad
+				ChallengeType Attach_Gauntlet Attach_Gauntlet
+				ChallengeType Attach_Nadir Attach_Nadir
+				ChallengeType Attach_Marauder Attach_Marauder
+				ChallengeType Attach_Scramble Attach_Scramble
+				ChallengeType Attach_Cerberus Attach_Cerberus
+			}
+			myOperator All
+		}
+	}
+	myLocalizedName "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A05F14700001F186CACF579, lineVersion = 1, maxLength = 8, text = \"Ships\""
+	myLocalizedDescription "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A05F14700001F1991DDED02, lineVersion = 0, maxLength = 32, text = \"Number of Collected Ships\""
+	myStatisticType HeroStat_Hulls
+}
+
+AchievementStatistic "[HeroStat] InitiativeLevel" < uid=C308E4DB5A1D7785000020001A190359 >
+{
+	myCondition
+	{
+		AchievementCondition_RepeatCount "Count Skill Points Earned" < uid=C308E4DB5A1D77850000200184511EA7 >
+		{
+			myConditions
+			{
+				AchievementCondition_InitiativePoint "Gain a Skill Point" < uid=C308E4DB5A1D7785000020023397A7AB >
+				{
+				}
+			}
+			myRepeatCount -1
+		}
+	}
+	myLocalizedName "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A1D78A0000219F4048D44D9, lineVersion = 0, maxLength = 21, text = \"Initiative Level\""
+	myLocalizedDescription "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A1D78A0000219F5A65B2E27, lineVersion = 0, maxLength = 21, text = \"Initiative Level\""
+	myStatisticType HeroStat_SkillPoints
+}
+
+AchievementStatistic "[HeroStat] Kills" < uid=C308E4DB5A1EDDFC00002026F92C150E >
+{
+	myCondition
+	{
+		AchievementCondition_RepeatCount "Count Legion Units Destroyed" < uid=C308E4DB5A1EDDFC000020273DFAD060 >
+		{
+			myConditions
+			{
+				AchievementCondition_Challenge "Destroy Legion Unit" < uid=C308E4DB5A1EDDFC0000202833579135 >
+				{
+					myChallenges
+					{
+						ChallengeType LegionKill LegionKill
+						ChallengeType Death_Dreadnought Death_Dreadnought
+					}
+				}
+			}
+			myRepeatCount -1
+		}
+	}
+	myLocalizedName "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A1EDD8B00002020550EBE60, lineVersion = 0, maxLength = 29, text = \"Legion Units Destroyed\""
+	myStatisticType HeroStat_Kills
+}
+
+Achievement "[UPlay] First Contact" < uid=C308E4DB5A1EFB57000020324821A049 >
+{
+	myCondition
+	{
+		AchievementCondition_Challenge "Get Your First Mission" < uid=C308E4DB5A1EFB57000020339A735CF6 >
+		{
+			myChallenges
+			{
+				ChallengeType StoryProgression_FirstMission StoryProgression_FirstMission
+			}
+			myOperator All
+		}
+	}
+	myLinkedUPlayActions
+	{
+		LinkedUPlayAction "First Contact"
+		{
+			myUPlayIdActionId 1
+			myUPlayLocalizationId ONWACTION01
+			myNameSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A4D2C9200016BFDB87887D6, lineVersion = 0, maxLength = 17, text = \"First Contact\""
+			myDescriptionSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A4D2C9200016BFE96112672, lineVersion = 0, maxLength = 29, text = \"Get your first mission\""
+			myShowUPlayActionUnlock TRUE
+		}
+	}
+	myLocalizedName "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A1EFAA000002020E2108C72, lineVersion = 0, maxLength = 17, text = \"First Contact\""
+	myLocalizedDescription "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A1EFAA000002021759F5171, lineVersion = 0, maxLength = 29, text = \"Get your first mission\""
+	myLocalizedAwardedDescription "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A1EFAA000002022A3C6D10C, lineVersion = 0, maxLength = 29, text = \"Get your first mission\""
+	myUplayId 1
+	myIsAwardedInTrialMode TRUE
+}
+
+Achievement "[UPlay] Eye of the Storm" < uid=C308E4DB5A1EFB5700002034DF811A5F >
+{
+	myCondition
+	{
+		AchievementCondition_Challenge Defeat_Extractor < uid=C308E4DB5A1EFB5700002035F0EF6E16 >
+		{
+			myChallenges
+			{
+				ChallengeType Death_Extractor Death_Extractor
+			}
+			myOperator All
+		}
+	}
+	myLinkedUPlayActions
+	{
+		LinkedUPlayAction "Eye of the Storm"
+		{
+			myUPlayIdActionId 2
+			myUPlayLocalizationId ONWACTION02
+			myNameSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A4E94FD00001BC18823A3DE, lineVersion = 0, maxLength = 21, text = \"Eye of the Storm\""
+			myDescriptionSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A4E94FD00001BC2BE8FDB60, lineVersion = 0, maxLength = 32, text = \"Defeat a Legion Extractor\""
+			myShowUPlayActionUnlock TRUE
+		}
+	}
+	myLocalizedName "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A1EFB280000202977442F9C, lineVersion = 0, maxLength = 21, text = \"Eye of the Storm\""
+	myLocalizedDescription "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A1EFB280000202A6DD820E2, lineVersion = 0, maxLength = 34, text = \"Defeat the First Extractor\""
+	myLocalizedAwardedDescription "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A1EFB280000202BD364B5F0, lineVersion = 0, maxLength = 34, text = \"Defeat the First Extractor\""
+	myUplayId 2
+	myIsAwardedInTrialMode TRUE
+}
+
+Achievement "[UPlay] Self Improvement" < uid=C308E4DB59F9C86600001C177BDF6A2B >
+{
+	myCondition
+	{
+		AchievementCondition_Challenge "Equip Pilot Skill" < uid=C308E4DB59F9C86600001C189CCB740C >
+		{
+			myChallenges
+			{
+				ChallengeType "Equip Skill" Progression_EquipPilotSkill
+			}
+		}
+	}
+	myLinkedUPlayActions
+	{
+		LinkedUPlayAction "Self Improvement"
+		{
+			myUPlayIdActionId 3
+			myUPlayLocalizationId ONWACTION03
+			myNameSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A4D2CBA0001757D27D912D7, lineVersion = 0, maxLength = 21, text = \"Self Improvement\""
+			myDescriptionSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A4D2CBA0001757EE1ABF0CF, lineVersion = 0, maxLength = 36, text = \"Equip your first Pilot Skill\""
+			myShowUPlayActionUnlock TRUE
+		}
+	}
+	myLocalizedName "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A05EF2200001E6E7D7C1AEA, lineVersion = 0, maxLength = 21, text = \"Self Improvement\""
+	myLocalizedDescription "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A05EF7600001E8A2B609200, lineVersion = 0, maxLength = 36, text = \"Equip your first Pilot Skill\""
+	myUplayId 3
+	myStatisticType None
+	myIsAwardedInTrialMode TRUE
+}
+
+Achievement "[UPlay] Lawbringer" < uid=C308E4DB5A1EFC2800002040D316EA02 >
+{
+	myCondition
+	{
+		AchievementCondition_RepeatCount "Neutralize All Outlaw Outposts" < uid=C308E4DB5A4E95E800001BCFDEEE6044 >
+		{
+			myConditions
+			{
+				AchievementCondition_Challenge "Defeat Outlaw Outpost" < uid=C308E4DB5A4E95E800001BD07313CC22 >
+				{
+					myChallenges
+					{
+						ChallengeType Death_OutlawBase Death_OutlawBase
+					}
+					myOperator All
+				}
+			}
+			myRepeatCount 15
+		}
+	}
+	myLinkedUPlayActions
+	{
+		LinkedUPlayAction Lawbringer
+		{
+			myUPlayIdActionId 107
+			myUPlayLocalizationId ONWXP08
+			myNameSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A4E954C00001BC9290D7884, lineVersion = 0, maxLength = 16, text = \"Lawbringer\""
+			myDescriptionSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A4E954C00001BCAB773EEC1, lineVersion = 0, maxLength = 40, text = \"Neutralize every Outlaw Outpost\""
+		}
+	}
+	myLocalizedName "contextComment = \"\", description = \"\", enabled = false, guid = #C308E4DB5A1EFBC400002037B51DD501, lineVersion = 0, maxLength = 27, text = \"Defeat Outlaw Outpost\""
+	myLocalizedDescription "contextComment = \"\", description = \"\", enabled = false, guid = #C308E4DB5A1EFBC4000020386299721F, lineVersion = 0, maxLength = 34, text = \"Defeat Each Outlaw Outpost\""
+	myLocalizedAwardedDescription "contextComment = \"\", description = \"\", enabled = false, guid = #C308E4DB5A1EFBC400002039E98D3F84, lineVersion = 0, maxLength = 34, text = \"Defeat Each Outlaw Outpost\""
+	myUplayId 4
+	myIsAwardedInTrialMode TRUE
+}
+
+Achievement "[UPlay] Dark Zone" < uid=C308E4DB5A1EFC8300002045532A988A >
+{
+	myCondition
+	{
+		AchievementCondition_RepeatCount "Defeat 5 Outlaw Leaders" < uid=C308E4DB5A4EA50300001BA8F3F33161 >
+		{
+			myConditions
+			{
+				AchievementCondition_Challenge "Defeat Outlaw Leader" < uid=C308E4DB5A4EA50300001BA9E8223641 >
+				{
+					myChallenges
+					{
+						ChallengeType Death_OutlawLeader Death_OutlawLeader
+					}
+					myOperator All
+				}
+				AchievementCondition_GameActionState "While in Space" < uid=9E6AFEDA5B4E24D303B128378DEB4FE9 >
+				{
+					myGameActionStates
+					{
+						GameActionState "In Space" InSpace
+					}
+					myAnyPlayer TRUE
+				}
+			}
+			myRepeatCount 5
+			myIsSynchronous TRUE
+		}
+	}
+	myLinkedUPlayActions
+	{
+		LinkedUPlayAction "Dark Zone"
+		{
+			myUPlayIdActionId 4
+			myUPlayLocalizationId ONWACTION04
+			myNameSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A4E960E00001BD5F0D1DB03, lineVersion = 0, maxLength = 14, text = \"Dark Zone\""
+			myDescriptionSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A4E960E00001BD63F2C3A62, lineVersion = 0, maxLength = 42, text = \"Defeat 5 Outlaw Leaders in space\""
+			myShowUPlayActionUnlock TRUE
+		}
+	}
+	myLocalizedName "contextComment = \"\", description = \"\", enabled = false, guid = #C308E4DB5A1EFCF5000020528363D6AB, lineVersion = 0, maxLength = 14, text = \"Dark Zone\""
+	myLocalizedDescription "contextComment = \"\", description = \"\", enabled = false, guid = #C308E4DB5A1EFCF500002053496131C2, lineVersion = 1, maxLength = 42, text = \"Defeat 5 Outlaw Leaders in space\""
+	myLocalizedAwardedDescription "contextComment = \"\", description = \"\", enabled = false, guid = #C308E4DB5A1EFCF5000020545E81C237, lineVersion = 1, maxLength = 42, text = \"Defeat 5 Outlaw Leaders in space\""
+	myUplayId 5
+	myIsAwardedInTrialMode TRUE
+}
+
+Achievement "[UPlay] Dread Nothing" < uid=C308E4DB5A1EFCC90000204DD892F25C >
+{
+	myCondition
+	{
+		AchievementCondition_RepeatCount "Defeat 4 Dreadnoughts" < uid=C308E4DB5A25C26800001FE1FEC6C6C7 >
+		{
+			myConditions
+			{
+				AchievementCondition_Challenge "Defeat Dreadnought" < uid=C308E4DB5A25C26800001FE2BF7F64B7 >
+				{
+					myChallenges
+					{
+						ChallengeType Death_Dreadnought Death_Dreadnought
+					}
+				}
+			}
+			myRepeatCount 4
+		}
+	}
+	myLinkedUPlayActions
+	{
+		LinkedUPlayAction "Dread Nothing"
+		{
+			myUPlayIdActionId 5
+			myUPlayLocalizationId ONWACTION05
+			myNameSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A4E965800001BDE683AFA55, lineVersion = 0, maxLength = 17, text = \"Dread Nothing\""
+			myDescriptionSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A4E965800001BDF05E5575A, lineVersion = 0, maxLength = 36, text = \"Defeat 4 Legion Dreadnoughts\""
+			myShowUPlayActionUnlock TRUE
+		}
+	}
+	myLocalizedName "contextComment = \"\", description = \"\", enabled = false, guid = #C308E4DB5A1EFD120000205EB3C1F79B, lineVersion = 0, maxLength = 17, text = \"Dread Nothing\""
+	myLocalizedDescription "contextComment = \"\", description = \"\", enabled = false, guid = #C308E4DB5A1EFD120000205F7552819C, lineVersion = 0, maxLength = 26, text = \"Defeat a Dreadnought\""
+	myLocalizedAwardedDescription "contextComment = \"\", description = \"\", enabled = false, guid = #C308E4DB5A1EFD120000206015F9514E, lineVersion = 0, maxLength = 26, text = \"Defeat a Dreadnought\""
+	myUplayId 6
+	myIsAwardedInTrialMode TRUE
+}
+
+Achievement "[UPlay] Treasure Hunter" < uid=C308E4DB5A1F01D2000020DC2B61D9D6 >
+{
+	myCondition
+	{
+		AchievementCondition_Challenge "Collect All Warden Relics" < uid=C308E4DB5A1F01D2000020DD77B9C26F >
+		{
+			myChallenges
+			{
+				ChallengeType WardenRelic_Ship_01_Acquired WardenRelic_Ship_01_Acquired
+				ChallengeType WardenRelic_Ship_02_Acquired WardenRelic_Ship_02_Acquired
+				ChallengeType WardenRelic_Ship_03_Acquired WardenRelic_Ship_03_Acquired
+				ChallengeType WardenRelic_Weapon_01_Acquired WardenRelic_Weapon_01_Acquired
+				ChallengeType WardenRelic_Weapon_02_Acquired WardenRelic_Weapon_02_Acquired
+				ChallengeType WardenRelic_Weapon_03_Acquired WardenRelic_Weapon_03_Acquired
+				ChallengeType WardenRelic_Weapon_04_Acquired WardenRelic_Weapon_04_Acquired
+			}
+			myOperator All
+		}
+	}
+	myLinkedUPlayActions
+	{
+		LinkedUPlayAction "Treasure Hunter"
+		{
+			myUPlayIdActionId 118
+			myUPlayLocalizationId ONWXP19
+			myNameSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A552D4100001BCC392EEA75, lineVersion = 0, maxLength = 20, text = \"Treasure Hunter\""
+			myDescriptionSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A552D4100001BCE2EFEC0EC, lineVersion = 0, maxLength = 31, text = \"Find all 7 Warden Relics\""
+			myIsBadgeUnlock TRUE
+		}
+		LinkedUPlayAction "Treasure Hunter Badge"
+		{
+			myUPlayIdActionId 1001
+			myUPlayLocalizationId ONWBADGE01
+			myNameSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A552D6700001BE0DAFBCAB5, lineVersion = 0, maxLength = 20, text = \"Treasure Hunter\""
+			myDescriptionSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A552D6700001BE2B01911EB, lineVersion = 0, maxLength = 31, text = \"Find all 7 Warden Relics\""
+		}
+	}
+	myIsAwardedInTrialMode TRUE
+}
+
+Achievement "[UPlay] Taxonomist" < uid=C308E4DB5A0C7F12000021874659C205 >
+{
+	myCondition
+	{
+		AchievementCondition_Challenge "Discover every creature robot or ship" < uid=C308E4DB5A259B4800001FE24C1ACC96 >
+		{
+			myChallenges
+			{
+				ChallengeType Discover_CyclopsGeneric Discover_CyclopsGeneric
+				ChallengeType Discover_CyclopsGenericHeat Discover_CyclopsGenericHeat
+				ChallengeType Discover_CyclopsGenericCold Discover_CyclopsGenericCold
+				ChallengeType Discover_CyclopsGenericCrush Discover_CyclopsGenericCrush
+				ChallengeType Discover_CyclopsGenericShielded Discover_CyclopsGenericShielded
+				ChallengeType Discover_CyclopsHeat Discover_CyclopsHeat
+				ChallengeType Discover_CyclopsCold Discover_CyclopsCold
+				ChallengeType Discover_CyclopsCrush Discover_CyclopsCrush
+				ChallengeType Discover_CyclopsGolden Discover_CyclopsGolden
+				ChallengeType Discover_ExpeditionWorker Discover_ExpeditionWorker
+				ChallengeType Discover_ExpeditionDefender Discover_ExpeditionDefender
+				ChallengeType Discover_Extractor Discover_Extractor
+				ChallengeType Discover_Dreadnought Discover_Dreadnought
+				ChallengeType Discover_Drake Discover_Drake
+				ChallengeType Discover_DrakeElite Discover_DrakeElite
+				ChallengeType Discover_ImpGeneric Discover_ImpGeneric
+				ChallengeType Discover_ImpHeat Discover_ImpHeat
+				ChallengeType Discover_ImpCold Discover_ImpCold
+				ChallengeType Discover_ImpCrush Discover_ImpCrush
+				ChallengeType "Discover_OutlawWorker (Scrapper)" Discover_OutlawWorker
+				ChallengeType "Discover_OutlawElite (Reaper)" Discover_OutlawElite
+				ChallengeType "Discover_OutlawLeader (Warlord)" Discover_OutlawLeader
+				ChallengeType Discover_Prime Discover_Prime
+				ChallengeType Discover_Probe Discover_Probe
+				ChallengeType Discover_ProspectorWorker Discover_ProspectorWorker
+				ChallengeType Discover_ProspectorDefender Discover_ProspectorDefender
+				ChallengeType FullyScan_Fauna01 FullyScan_Fauna01
+				ChallengeType FullyScan_Fauna02 FullyScan_Fauna02
+				ChallengeType FullyScan_Fauna03 FullyScan_Fauna03
+				ChallengeType FullyScan_Fauna04 FullyScan_Fauna04
+				ChallengeType FullyScan_Fauna05 FullyScan_Fauna05
+				ChallengeType FullyScan_Fauna06 FullyScan_Fauna06
+				ChallengeType FullyScan_Fauna07 FullyScan_Fauna07
+				ChallengeType FullyScan_Fauna08 FullyScan_Fauna08
+				ChallengeType FullyScan_Fauna09 FullyScan_Fauna09
+				ChallengeType FullyScan_Fauna10 FullyScan_Fauna10
+				ChallengeType FullyScan_Fauna11 FullyScan_Fauna11
+				ChallengeType FullyScan_Fauna12 FullyScan_Fauna12
+				ChallengeType FullyScan_Fauna13 FullyScan_Fauna13
+				ChallengeType FullyScan_Fauna14 FullyScan_Fauna14
+				ChallengeType FullyScan_Fauna15 FullyScan_Fauna15
+				ChallengeType FullyScan_Fauna16 FullyScan_Fauna16
+				ChallengeType FullyScan_Fauna17 FullyScan_Fauna17
+				ChallengeType FullyScan_Fauna18 FullyScan_Fauna18
+				ChallengeType FullyScan_Fauna19 FullyScan_Fauna19
+				ChallengeType FullyScan_Fauna20 FullyScan_Fauna20
+				ChallengeType FullyScan_Fauna21 FullyScan_Fauna21
+			}
+			myChallenges_TU3
+			{
+				ChallengeType Discover_Planet01_Worm Discover_Planet01_Worm
+				ChallengeType Discover_Planet15_Worm Discover_Planet15_Worm
+			}
+			myChallenges_TU5
+			{
+				ChallengeType Discover_OutlawMech Discover_OutlawMech
+				ChallengeType Discover_OutlawTank Discover_OutlawTank
+				ChallengeType Death_OutlawDreadnaught Death_OutlawDreadnaught
+				ChallengeType Discover_Sentinel Discover_Sentinel
+				ChallengeType Discover_Obelisk Discover_Obelisk
+				ChallengeType Discover_XHole Discover_xHole
+			}
+			myOperator All
+			myRequiresMigration TRUE
+		}
+	}
+	myLinkedUPlayActions
+	{
+		LinkedUPlayAction Taxonomist
+		{
+			myUPlayIdActionId 128
+			myUPlayLocalizationId ONWXP29
+			myNameSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A4F8C0500001D4BC12FE1E2, lineVersion = 0, maxLength = 16, text = \"Taxonomist\""
+			myDescriptionSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A4F8C0500001D4DF4B514BE, lineVersion = 0, maxLength = 72, text = \"Catalog every creature, robot, or ship in your Database\""
+			myIsBadgeUnlock TRUE
+		}
+		LinkedUPlayAction "Taxonomist Badge"
+		{
+			myUPlayIdActionId 1007
+			myUPlayLocalizationId ONWBADGE08
+			myNameSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A8734A10003A2B99EB32156, lineVersion = 0, maxLength = 16, text = \"Taxonomist\""
+			myDescriptionSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A8734A10003A2BAC1C8AB6E, lineVersion = 0, maxLength = 72, text = \"Catalog every creature, robot, or ship in your Database\""
+		}
+	}
+	myLocalizedName "contextComment = \"\", description = \"\", enabled = false, guid = #C308E4DB5A0C7EA30000217E9E111E50, lineVersion = 1, maxLength = 16, text = \"Taxonomist\""
+	myLocalizedDescription "contextComment = \"\", description = \"\", enabled = false, guid = #C308E4DB5A0C7EA3000021803D64D3B2, lineVersion = 1, maxLength = 0, text = \"|empty|\""
+	myUPlayIncrementalAchievementId 2
+	myIsAwardedInTrialMode TRUE
+}
+
+Achievement "[UPlay] Curious" < uid=C308E4DB5A0218530036331C28D41F0E >
+{
+	myCondition
+	{
+		AchievementCondition_Challenge "Upgrade an Expedition Outpost to Max Level" < uid=C308E4DB5A0218530036331D54E34573 >
+		{
+			myChallenges
+			{
+				ChallengeType Progression_FullyUpgradeExpeditionOutpost Progression_FullyUpgradeExpeditionOutpost
+			}
+			myOperator All
+		}
+	}
+	myLinkedUPlayActions
+	{
+		LinkedUPlayAction Curious
+		{
+			myUPlayIdActionId 6
+			myUPlayLocalizationId ONWACTION06
+			myNameSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A55302F00001D3416AEBA67, lineVersion = 0, maxLength = 11, text = \"Curious\""
+			myDescriptionSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A55302F00001D3662C73D80, lineVersion = 0, maxLength = 56, text = \"Level up an Expedition Outpost to max level\""
+			myShowUPlayActionUnlock TRUE
+		}
+	}
+	myLocalizedName "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A05F0F600001F004D905493, lineVersion = 0, maxLength = 11, text = \"Curious\""
+	myLocalizedDescription "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A05F0F600001F015D2AD103, lineVersion = 0, maxLength = 55, text = \"Upgrade an Expedition Outpost to Max Level\""
+	myIsAwardedInTrialMode TRUE
+}
+
+Achievement "[UPlay] Industrious" < uid=C308E4DB5A0218A30040C4C7221C704D >
+{
+	myCondition
+	{
+		AchievementCondition_Challenge "Upgrade a Prospector Outpost to Max Level" < uid=C308E4DB5A0218A30040C4C806130402 >
+		{
+			myChallenges
+			{
+				ChallengeType Progression_FullyUpgradeProspectorOutpost Progression_FullyUpgradeProspectorOutpost
+			}
+			myOperator All
+		}
+	}
+	myLinkedUPlayActions
+	{
+		LinkedUPlayAction Industrious
+		{
+			myUPlayIdActionId 7
+			myUPlayLocalizationId ONWACTION07
+			myNameSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A55305C00001D4082983E96, lineVersion = 0, maxLength = 14, text = \"Industrious\""
+			myDescriptionSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A55305C00001D42C0C53143, lineVersion = 0, maxLength = 53, text = \"Upgrade a Prospector Outpost to Max Level\""
+			myShowUPlayActionUnlock TRUE
+		}
+	}
+	myLocalizedName "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A05F10300001F0657BCF9DE, lineVersion = 0, maxLength = 14, text = \"Industrious\""
+	myLocalizedDescription "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A05F10300001F0795A5CA73, lineVersion = 0, maxLength = 53, text = \"Upgrade a Prospector Outpost to Max Level\""
+	myIsAwardedInTrialMode TRUE
+}
+
+Achievement "[UPlay] Adept" < uid=C308E4DB5A1F03F20000210D0F890F73 >
+{
+	myCondition
+	{
+		AchievementCondition_SkillPoint "Gain 4 Skill Points (Level 5)" < uid=C308E4DB5A1F03F20000210EC6F89BB3 >
+		{
+			myEarner Pilot
+			myAmount 4
+		}
+	}
+	myLinkedUPlayActions
+	{
+		LinkedUPlayAction Adept
+		{
+			myUPlayIdActionId 8
+			myUPlayLocalizationId ONWACTION08
+			myNameSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A4D31F70001830C42D3A1DD, lineVersion = 0, maxLength = 8, text = \"Adept\""
+			myDescriptionSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A4D31F70001830EC78CFBC7, lineVersion = 0, maxLength = 39, text = \"Train a Pilot up to Level Five\""
+			myShowUPlayActionUnlock TRUE
+		}
+	}
+	myLocalizedName "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A1F03C6000021086F584924, lineVersion = 1, maxLength = 46, text = \"Reach level Five with any one pilot\""
+	myIsAwardedInTrialMode TRUE
+}
+
+Achievement "[UPlay] Team Builder" < uid=C308E4DB5A1F045300002112CD57B5B2 >
+{
+	myCondition
+	{
+		AchievementCondition_Challenge "Collect 3 Pilots" < uid=C308E4DB5A1F0453000021130A2E446B >
+		{
+			myChallenges
+			{
+				ChallengeType Attach_Chase Attach_Chase
+				ChallengeType Attach_Judge Attach_Judge
+				ChallengeType Attach_Mason Attach_Mason
+				ChallengeType Attach_Levi Attach_Levi
+				ChallengeType Attach_Shaide Attach_Shaide
+				ChallengeType Attach_Fern Attach_Fern
+				ChallengeType Attach_Hunter Attach_Hunter
+				ChallengeType Attach_Kharl Attach_Kharl
+				ChallengeType Attach_Eli Attach_Eli
+				ChallengeType Attach_Startail Attach_Startail
+				ChallengeType Attach_Rancor Attach_Rancor
+				ChallengeType Attach_Razor Attach_Razor
+				ChallengeType Attach_Galla Attach_Galla
+				ChallengeType Attach_Haywire Attach_Haywire
+			}
+			myAnyCount 3
+		}
+	}
+	myLinkedUPlayActions
+	{
+		LinkedUPlayAction "Team Builder"
+		{
+			myUPlayIdActionId 141
+			myUPlayLocalizationId ONWXP42
+			myNameSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A55317500001D8041357337, lineVersion = 0, maxLength = 16, text = \"Team Builder\""
+			myDescriptionSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A55317500001D8222838379, lineVersion = 0, maxLength = 42, text = \"Recruit 3 Pilots into your Fleet\""
+			myIsBadgeUnlock TRUE
+		}
+		LinkedUPlayAction "Team Builder Badge"
+		{
+			myUPlayIdActionId 1009
+			myUPlayLocalizationId ONWBADGE10
+			myNameSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A5531A500001D88099520D4, lineVersion = 0, maxLength = 16, text = \"Team Builder\""
+			myDescriptionSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A5531A500001D8A014CF1A6, lineVersion = 0, maxLength = 42, text = \"Recruit 3 Pilots into your Fleet\""
+		}
+	}
+	myLocalizedName "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A1F045300002116965A15BC, lineVersion = 0, maxLength = 16, text = \"Team Builder\""
+	myLocalizedDescription "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A1F045300002117EE2F1600, lineVersion = 0, maxLength = 21, text = \"Collect 3 Pilots\""
+	myLocalizedAwardedDescription "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A1F045300002118A3ACCB8B, lineVersion = 0, maxLength = 21, text = \"Collect 3 Pilots\""
+	myIsAwardedInTrialMode TRUE
+}
+
+Achievement "[UPlay] Fleet Commander" < uid=C308E4DB5A1F045300002114ADBC0E40 >
+{
+	myCondition
+	{
+		AchievementCondition_Challenge "Collect 3 Ships" < uid=C308E4DB5A1F0480000021227F5F1BAF >
+		{
+			myChallenges
+			{
+				ChallengeType Attach_Red1 Attach_Red1
+				ChallengeType Attach_Gravcraft Attach_Gravcraft
+				ChallengeType Attach_Zenith Attach_Zenith
+				ChallengeType Attach_Starblade Attach_Starblade
+				ChallengeType Attach_Nomad Attach_Nomad
+				ChallengeType Attach_Gauntlet Attach_Gauntlet
+				ChallengeType Attach_Nadir Attach_Nadir
+				ChallengeType Attach_Marauder Attach_Marauder
+				ChallengeType Attach_Scramble Attach_Scramble
+				ChallengeType Attach_Cerberus Attach_Cerberus
+			}
+			myAnyCount 3
+		}
+	}
+	myLinkedUPlayActions
+	{
+		LinkedUPlayAction "Fleet Commander"
+		{
+			myUPlayIdActionId 142
+			myUPlayLocalizationId ONWXP43
+			myNameSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A5531EA00001D90E0E05B1B, lineVersion = 0, maxLength = 20, text = \"Fleet Commander\""
+			myDescriptionSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A5531EA00001D92BEA47A3F, lineVersion = 0, maxLength = 20, text = \"Collect 3 Ships\""
+			myIsBadgeUnlock TRUE
+		}
+		LinkedUPlayAction "Fleet Commander Badge"
+		{
+			myUPlayIdActionId 1010
+			myUPlayLocalizationId ONWBADGE11
+			myNameSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A55320F00001D987AFEA545, lineVersion = 0, maxLength = 20, text = \"Fleet Commander\""
+			myDescriptionSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A55320F00001D9AA0A17E21, lineVersion = 0, maxLength = 20, text = \"Collect 3 Ships\""
+		}
+	}
+	myLocalizedName "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A1F0492000021290949762E, lineVersion = 0, maxLength = 20, text = \"Fleet Commander\""
+	myLocalizedDescription "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A1F04920000212A952B4CB5, lineVersion = 0, maxLength = 20, text = \"Collect 3 Ships\""
+	myLocalizedAwardedDescription "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A1F04920000212B67DF6A36, lineVersion = 0, maxLength = 20, text = \"Collect 3 Ships\""
+	myIsAwardedInTrialMode TRUE
+}
+
+Achievement "[UPlay] Weapons Specialist" < uid=C308E4DB5A1F045300002115E6D0D6F1 >
+{
+	myCondition
+	{
+		AchievementCondition_Challenge "Collect 6 Weapons" < uid=C308E4DB5A1F04A60000213283700916 >
+		{
+			myChallenges
+			{
+				ChallengeType Attach_Meteor Attach_Meteor
+				ChallengeType Attach_MeteorMk2 Attach_MeteorMk2
+				ChallengeType Attach_Levitator Attach_Levitator
+				ChallengeType Attach_LevitatorMk2 Attach_LevitatorMk2
+				ChallengeType Attach_Shockwave Attach_Shockwave
+				ChallengeType Attach_FrostMine Attach_FrostMine
+				ChallengeType Attach_FlameThrower Attach_FlameThrower
+				ChallengeType Attach_HailStorm Attach_HailStorm
+				ChallengeType Attach_Volcano Attach_Volcano
+				ChallengeType Attach_VolcanoMk2 Attach_VolcanoMk2
+				ChallengeType Attach_ChargeFreezeRay Attach_ChargeFreezeRay
+				ChallengeType Attach_ChargeFreezeRayMk2 Attach_ChargeFreezeRayMk2
+				ChallengeType Attach_Crusher Attach_Crusher
+				ChallengeType Attach_IceMissile Attach_IceMissile
+				ChallengeType Attach_Shredder Attach_Shredder
+				ChallengeType Attach_ShredderMk2 Attach_ShredderMk2
+				ChallengeType Attach_IronFist Attach_IronFist
+				ChallengeType Attach_Nullifier Attach_Nullifier
+				ChallengeType Attach_NullifierMk2 Attach_NullifierMk2
+				ChallengeType Attach_TidalWave Attach_TidalWave
+				ChallengeType Attach_Jaunt Attach_Jaunt
+				ChallengeType Attach_Imploder Attach_Imploder
+				ChallengeType Attach_ImploderMk2 Attach_ImploderMk2
+				ChallengeType Attach_Fireball Attach_Fireball
+				ChallengeType Attach_GaussGun Attach_GaussGun
+				ChallengeType Attach_GaussGunMk2 Attach_GaussGunMk2
+			}
+			myAnyCount 6
+		}
+	}
+	myLinkedUPlayActions
+	{
+		LinkedUPlayAction "Weapons Specialist"
+		{
+			myUPlayIdActionId 143
+			myUPlayLocalizationId ONWXP44
+			myNameSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A55323600001DA08A70D46F, lineVersion = 0, maxLength = 23, text = \"Weapons Specialist\""
+			myDescriptionSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A55323600001DA2F8BF12B8, lineVersion = 0, maxLength = 38, text = \"Arm your fleet with 6 Weapons\""
+			myIsBadgeUnlock TRUE
+		}
+		LinkedUPlayAction "Weapons Specialist Badge"
+		{
+			myUPlayIdActionId 1011
+			myUPlayLocalizationId ONWBADGE12
+			myNameSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A55325F00001DA8C712A961, lineVersion = 0, maxLength = 23, text = \"Weapons Specialist\""
+			myDescriptionSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A55325F00001DAA909C586A, lineVersion = 0, maxLength = 38, text = \"Arm your fleet with 6 Weapons\""
+		}
+	}
+	myLocalizedName "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A1F04A600002133136BDB38, lineVersion = 0, maxLength = 23, text = \"Weapons Specialist\""
+	myLocalizedDescription "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A1F04A600002134835D44ED, lineVersion = 1, maxLength = 38, text = \"Arm your fleet with 6 Weapons\""
+	myLocalizedAwardedDescription "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A1F04A600002135B8DB96CF, lineVersion = 0, maxLength = 22, text = \"Collect 6 Weapons\""
+	myIsAwardedInTrialMode TRUE
+}
+
+Achievement "[UPlay] Elementalist" < uid=C308E4DB5A0B4E2C00027346A1243F89 >
+{
+	myCondition
+	{
+		AchievementCondition_Challenge "Perform Each Elemental Combo" < uid=C308E4DB5A0B4E2C0002734709225F23 >
+		{
+			myChallenges
+			{
+				ChallengeType Status_Effect_ThermalShock Status_Effect_ThermalShock
+				ChallengeType Status_Effect_HeatVortex Status_Effect_HeatVortex
+				ChallengeType Status_Effect_ColdVortex Status_Effect_ColdVortex
+				ChallengeType Status_Effect_StasisOverload Status_Effect_StasisOverload
+				ChallengeType Status_Effect_HeatBlast Status_Effect_HeatBlast
+				ChallengeType Status_Effect_ColdBlast Status_Effect_ColdBlast
+				ChallengeType Status_Effect_GravityBlast Status_Effect_GravityBlast
+				ChallengeType Status_Effect_Shatter Status_Effect_Shatter
+			}
+			myOperator All
+		}
+	}
+	myLinkedUPlayActions
+	{
+		LinkedUPlayAction Elementalist
+		{
+			myUPlayIdActionId 134
+			myUPlayLocalizationId ONWXP35
+			myNameSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A4F8C8A00001D65AA307387, lineVersion = 0, maxLength = 16, text = \"Elementalist\""
+			myDescriptionSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A4F8C8A00001D67422511F9, lineVersion = 0, maxLength = 38, text = \"Perform every Elemental Combo\""
+			myIsBadgeUnlock TRUE
+		}
+		LinkedUPlayAction "Elementalist Badge"
+		{
+			myUPlayIdActionId 1008
+			myUPlayLocalizationId ONWBADGE09
+			myNameSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A626E3F00001B62CC2B1CA1, lineVersion = 0, maxLength = 38, text = \"Perform every Elemental Combo\""
+			myDescriptionSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A626E3F00001B635F9AE580, lineVersion = 0, maxLength = 38, text = \"Perform every Elemental Combo\""
+		}
+	}
+	myLocalizedName "contextComment = \"\", description = \"\", enabled = false, guid = #C308E4DB5A0B4E9E000273C17FF83023, lineVersion = 0, maxLength = 16, text = \"Elementalist\""
+	myLocalizedDescription "contextComment = \"\", description = \"\", enabled = false, guid = #C308E4DB5A0B4E9E000273C3BBA31D3F, lineVersion = 0, maxLength = 43, text = \"Perform each Elemental Combo once\""
+	myIsAwardedInTrialMode TRUE
+}
+
+Achievement "[UPlay] Power" < uid=C308E4DB5A4EA98A00001BAD21C75C74 >
+{
+	myCondition
+	{
+		AchievementCondition_Challenge "Find the Relic of Power" < uid=C308E4DB5A4EA98A00001BAE0D769DC1 >
+		{
+			myChallenges
+			{
+				ChallengeType WardenRelic_Weapon_01_Acquired WardenRelic_Weapon_01_Acquired
+			}
+			myOperator All
+		}
+	}
+	myLinkedUPlayActions
+	{
+		LinkedUPlayAction Power
+		{
+			myUPlayIdActionId 111
+			myUPlayLocalizationId ONWXP12
+			myNameSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A4F85DA00001BC32CA4336F, lineVersion = 0, maxLength = 8, text = \"Power\""
+			myDescriptionSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A4F85DA00001BC55E495990, lineVersion = 0, maxLength = 30, text = \"Find the Relic of Power\""
+		}
+	}
+	myIsAwardedInTrialMode TRUE
+}
+
+Achievement "[UPlay] Harmony" < uid=C308E4DB5A4EAB7B00001BC470D090E0 >
+{
+	myCondition
+	{
+		AchievementCondition_Challenge "Find the Relic of the Elements" < uid=C308E4DB5A4EAB7B00001BC5EACBEBAA >
+		{
+			myChallenges
+			{
+				ChallengeType WardenRelic_Weapon_02_Acquired WardenRelic_Weapon_02_Acquired
+			}
+			myOperator All
+		}
+	}
+	myLinkedUPlayActions
+	{
+		LinkedUPlayAction Harmony
+		{
+			myUPlayIdActionId 112
+			myUPlayLocalizationId ONWXP13
+			myNameSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A4F860800001BD116333C82, lineVersion = 0, maxLength = 11, text = \"Harmony\""
+			myDescriptionSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A4F860800001BD377B4D85F, lineVersion = 0, maxLength = 39, text = \"Find the Relic of the Elements\""
+		}
+	}
+	myIsAwardedInTrialMode TRUE
+}
+
+Achievement "[UPlay] Fate" < uid=C308E4DB5A4EAB7B00001BC6166C02EB >
+{
+	myCondition
+	{
+		AchievementCondition_Challenge "Find the Relic of Fate" < uid=C308E4DB5A4EAB7B00001BC7F1875802 >
+		{
+			myChallenges
+			{
+				ChallengeType WardenRelic_Weapon_03_Acquired WardenRelic_Weapon_03_Acquired
+			}
+			myOperator All
+		}
+	}
+	myLinkedUPlayActions
+	{
+		LinkedUPlayAction Fate
+		{
+			myUPlayIdActionId 113
+			myUPlayLocalizationId ONWXP14
+			myNameSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A4F862A00001BDF3A17088C, lineVersion = 0, maxLength = 6, text = \"Fate\""
+			myDescriptionSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A4F862A00001BE16433E99F, lineVersion = 0, maxLength = 29, text = \"Find the Relic of Fate\""
+		}
+	}
+	myIsAwardedInTrialMode TRUE
+}
+
+Achievement "[UPlay] Eternity" < uid=C308E4DB5A4EAB7B00001BC805248142 >
+{
+	myCondition
+	{
+		AchievementCondition_Challenge "Find the Relic of Eternity" < uid=C308E4DB5A4EAB7B00001BC9B007ACF7 >
+		{
+			myChallenges
+			{
+				ChallengeType WardenRelic_Weapon_04_Acquired WardenRelic_Weapon_04_Acquired
+			}
+			myOperator All
+		}
+	}
+	myLinkedUPlayActions
+	{
+		LinkedUPlayAction Eternity
+		{
+			myUPlayIdActionId 114
+			myUPlayLocalizationId ONWXP15
+			myNameSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A4F863E00001BED16B9F85A, lineVersion = 0, maxLength = 13, text = \"Eternity\""
+			myDescriptionSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A4F863E00001BEFED386A12, lineVersion = 0, maxLength = 34, text = \"Find the Relic of Eternity\""
+		}
+	}
+	myIsAwardedInTrialMode TRUE
+}
+
+Achievement "[UPlay] Knowledge" < uid=C308E4DB5A4EAB7B00001BCAC60A9B46 >
+{
+	myCondition
+	{
+		AchievementCondition_Challenge "Find the Relic of Knowledge" < uid=C308E4DB5A4EAB7B00001BCB0D868CCD >
+		{
+			myChallenges
+			{
+				ChallengeType WardenRelic_Ship_01_Acquired WardenRelic_Ship_01_Acquired
+			}
+			myOperator All
+		}
+	}
+	myLinkedUPlayActions
+	{
+		LinkedUPlayAction Knowledge
+		{
+			myUPlayIdActionId 115
+			myUPlayLocalizationId ONWXP16
+			myNameSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A4F865F00001BFB9D28061A, lineVersion = 0, maxLength = 14, text = \"Knowledge\""
+			myDescriptionSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A4F865F00001BFDF0434D3E, lineVersion = 0, maxLength = 35, text = \"Find the Relic of Knowledge\""
+		}
+	}
+	myIsAwardedInTrialMode TRUE
+}
+
+Achievement "[UPlay] Energy" < uid=C308E4DB5A4EAB7B00001BCC2C8932AE >
+{
+	myCondition
+	{
+		AchievementCondition_Challenge "Find the Relic of Energy" < uid=C308E4DB5A4EAB7B00001BCDA16443DC >
+		{
+			myChallenges
+			{
+				ChallengeType WardenRelic_Ship_02_Acquired WardenRelic_Ship_02_Acquired
+			}
+			myOperator All
+		}
+	}
+	myLinkedUPlayActions
+	{
+		LinkedUPlayAction Energy
+		{
+			myUPlayIdActionId 116
+			myUPlayLocalizationId ONWXP17
+			myNameSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A4F867000001C09EDD36161, lineVersion = 0, maxLength = 10, text = \"Energy\""
+			myDescriptionSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A4F867000001C0BC8756AB0, lineVersion = 0, maxLength = 31, text = \"Find the Relic of Energy\""
+		}
+	}
+	myIsAwardedInTrialMode TRUE
+}
+
+Achievement "[UPlay] Protection" < uid=C308E4DB5A4EAB7B00001BCE33262C1D >
+{
+	myCondition
+	{
+		AchievementCondition_Challenge "Find the Relic of Protection" < uid=C308E4DB5A4EAB7B00001BCF0AFF2E50 >
+		{
+			myChallenges
+			{
+				ChallengeType WardenRelic_Ship_03_Acquired WardenRelic_Ship_03_Acquired
+			}
+			myOperator All
+		}
+	}
+	myLinkedUPlayActions
+	{
+		LinkedUPlayAction Protection
+		{
+			myUPlayIdActionId 117
+			myUPlayLocalizationId ONWXP18
+			myNameSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A4F868400001C17E85E4FB4, lineVersion = 0, maxLength = 13, text = \"Protection\""
+			myDescriptionSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A4F868400001C192339B2A4, lineVersion = 0, maxLength = 36, text = \"Find the Relic of Protection\""
+		}
+	}
+	myIsAwardedInTrialMode TRUE
+}
+
+Achievement "[UPlay] The Sand" < uid=C308E4DB5A4F87C700001C64B53B42D0 >
+{
+	myCondition
+	{
+		AchievementCondition_Challenge Discover < uid=C308E4DB5A4F87C700001C65089B9068 >
+		{
+			myChallenges
+			{
+				ChallengeType Discover_Planet01 Discover_Planet01
+			}
+		}
+	}
+	myLinkedUPlayActions
+	{
+		LinkedUPlayAction "The Sand"
+		{
+			myUPlayIdActionId 120
+			myUPlayLocalizationId ONWXP21
+			myNameSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A4F86E600001C4F6E10D34F, lineVersion = 0, maxLength = 13, text = \"The Sand\""
+			myDescriptionSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A4F86E600001C51E655F759, lineVersion = 0, maxLength = 30, text = \"Discover a desert world\""
+		}
+	}
+	myIsAwardedInTrialMode TRUE
+}
+
+Achievement "[UPlay] The Jungle" < uid=C308E4DB5A4F87C700001C66B97A325D >
+{
+	myCondition
+	{
+		AchievementCondition_Challenge "The Jungle" < uid=C308E4DB5A4F87C700001C6735A64204 >
+		{
+			myChallenges
+			{
+				ChallengeType Discover_Planet03 Discover_Planet03
+			}
+		}
+	}
+	myLinkedUPlayActions
+	{
+		LinkedUPlayAction "The Jungle"
+		{
+			myUPlayIdActionId 121
+			myUPlayLocalizationId ONWXP22
+			myNameSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A4F87B600001C5D8D7CB07D, lineVersion = 0, maxLength = 16, text = \"The Jungle\""
+			myDescriptionSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A4F87B600001C5F64CF5EA3, lineVersion = 0, maxLength = 31, text = \"Discover a verdant world\""
+		}
+	}
+	myIsAwardedInTrialMode TRUE
+}
+
+Achievement "[UPlay] The Song" < uid=C308E4DB5A4F880800001C76436CD1F8 >
+{
+	myCondition
+	{
+		AchievementCondition_Challenge "The Song" < uid=C308E4DB5A4F880800001C77FE041DF9 >
+		{
+			myChallenges
+			{
+				ChallengeType Discover_Planet07 Discover_Planet07
+			}
+		}
+	}
+	myLinkedUPlayActions
+	{
+		LinkedUPlayAction "The Song"
+		{
+			myUPlayIdActionId 122
+			myUPlayLocalizationId ONWXP23
+			myNameSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A4F87F800001C6FDA050C21, lineVersion = 0, maxLength = 13, text = \"The Song\""
+			myDescriptionSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A4F87F800001C712E58A0A7, lineVersion = 0, maxLength = 32, text = \"Discover a sonorous world\""
+		}
+	}
+	myIsAwardedInTrialMode TRUE
+}
+
+Achievement "[UPlay] The Memory" < uid=C308E4DB5A4F885E00001C94A03D7D61 >
+{
+	myCondition
+	{
+		AchievementCondition_Challenge "The Memory" < uid=C308E4DB5A4F885E00001C95B13C948B >
+		{
+			myChallenges
+			{
+				ChallengeType Discover_Planet04 Discover_Planet04
+			}
+		}
+	}
+	myLinkedUPlayActions
+	{
+		LinkedUPlayAction "The Memory"
+		{
+			myUPlayIdActionId 123
+			myUPlayLocalizationId ONWXP24
+			myNameSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A4F884700001C8B24B7CAB5, lineVersion = 0, maxLength = 16, text = \"The Memory\""
+			myDescriptionSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A4F885900001C91D678ED00, lineVersion = 0, maxLength = 30, text = \"Discover a somber world\""
+		}
+	}
+	myIsAwardedInTrialMode TRUE
+}
+
+Achievement "[UPlay] The Plague" < uid=C308E4DB5A4F88FB00001CB279AB6A64 >
+{
+	myCondition
+	{
+		AchievementCondition_Challenge "The Plague" < uid=C308E4DB5A4F88FB00001CB37F80DD65 >
+		{
+			myChallenges
+			{
+				ChallengeType Discover_Planet08 Discover_Planet08
+			}
+		}
+	}
+	myLinkedUPlayActions
+	{
+		LinkedUPlayAction "The Plague"
+		{
+			myUPlayIdActionId 124
+			myUPlayLocalizationId ONWXP25
+			myNameSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A4F88AE00001C9D72A1B760, lineVersion = 0, maxLength = 16, text = \"The Plague\""
+			myDescriptionSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A4F88AE00001C9F4F87C6BE, lineVersion = 0, maxLength = 34, text = \"Discover an infected world\""
+		}
+	}
+	myIsAwardedInTrialMode TRUE
+}
+
+Achievement "[UPlay] The Fire" < uid=C308E4DB5A4F88FB00001CB4802D032E >
+{
+	myCondition
+	{
+		AchievementCondition_Challenge "The Fire" < uid=C308E4DB5A4F88FB00001CB5D69E0288 >
+		{
+			myChallenges
+			{
+				ChallengeType Discover_Planet15 Discover_Planet15
+			}
+		}
+	}
+	myLinkedUPlayActions
+	{
+		LinkedUPlayAction "The Fire"
+		{
+			myUPlayIdActionId 125
+			myUPlayLocalizationId ONWXP26
+			myNameSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A4F88EE00001CAB172C8E7B, lineVersion = 0, maxLength = 13, text = \"The Fire\""
+			myDescriptionSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A4F88EE00001CAD57F3DED8, lineVersion = 0, maxLength = 34, text = \"Discover a scorching world\""
+		}
+	}
+	myIsAwardedInTrialMode TRUE
+}
+
+Achievement "[UPlay] The Glacier" < uid=C308E4DB5A4F894F00001CCA6FD96CC4 >
+{
+	myCondition
+	{
+		AchievementCondition_Challenge "The Glacier" < uid=C308E4DB5A4F894F00001CCB15C0E602 >
+		{
+			myChallenges
+			{
+				ChallengeType Discover_Planet05 Discover_Planet05
+			}
+		}
+	}
+	myLinkedUPlayActions
+	{
+		LinkedUPlayAction "The Glacier"
+		{
+			myUPlayIdActionId 126
+			myUPlayLocalizationId ONWXP27
+			myNameSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A4F893B00001CC350D1B086, lineVersion = 0, maxLength = 14, text = \"The Glacier\""
+			myDescriptionSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A4F893B00001CC51CE7B903, lineVersion = 0, maxLength = 27, text = \"Discover an icy world\""
+		}
+	}
+	myIsAwardedInTrialMode TRUE
+}
+
+Achievement "[UPlay] Gulliver" < uid=C308E4DB5A4F89A800001CE0BE8CAA3C >
+{
+	myCondition
+	{
+		AchievementCondition_Challenge "Discover every Giant" < uid=C308E4DB5A4F89A800001CE1A2E60BFF >
+		{
+			myChallenges
+			{
+				ChallengeType Discover_CyclopsHeat Discover_CyclopsHeat
+				ChallengeType Discover_CyclopsCold Discover_CyclopsCold
+				ChallengeType Discover_CyclopsCrush Discover_CyclopsCrush
+			}
+			myOperator All
+		}
+	}
+	myLinkedUPlayActions
+	{
+		LinkedUPlayAction Gulliver
+		{
+			myUPlayIdActionId 130
+			myUPlayLocalizationId ONWXP31
+			myNameSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A4F899D00001CD92B59EE51, lineVersion = 0, maxLength = 13, text = \"Gulliver\""
+			myDescriptionSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A4F899D00001CDBED2E6261, lineVersion = 0, maxLength = 26, text = \"Discover every Giant\""
+		}
+	}
+	myIsAwardedInTrialMode TRUE
+}
+
+Achievement "[UPlay] Odysseus" < uid=C308E4DB5A4F89D200001CF472E4D7D7 >
+{
+	myCondition
+	{
+		AchievementCondition_Challenge "Discover every Cyclops" < uid=C308E4DB5A4F89D200001CF54AAF6A70 >
+		{
+			myChallenges
+			{
+				ChallengeType Discover_CyclopsGeneric Discover_CyclopsGeneric
+				ChallengeType Discover_CyclopsGenericHeat Discover_CyclopsGenericHeat
+				ChallengeType Discover_CyclopsGenericCold Discover_CyclopsGenericCold
+				ChallengeType Discover_CyclopsGenericCrush Discover_CyclopsGenericCrush
+				ChallengeType Discover_CyclopsGenericShielded Discover_CyclopsGenericShielded
+			}
+			myOperator All
+		}
+	}
+	myLinkedUPlayActions
+	{
+		LinkedUPlayAction Odysseus
+		{
+			myUPlayIdActionId 131
+			myUPlayLocalizationId ONWXP32
+			myNameSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A4F89E800001CFF516700FF, lineVersion = 0, maxLength = 13, text = \"Odysseus\""
+			myDescriptionSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A4F89F500001D072C069BC3, lineVersion = 0, maxLength = 29, text = \"Discover every Cyclops\""
+		}
+	}
+	myLocalizedName "contextComment = \"\", description = \"\", enabled = false, guid = #C308E4DB5A4F89D200001CF7794673BB, lineVersion = 0, maxLength = 1, text = \"|empty|\""
+	myIsAwardedInTrialMode TRUE
+}
+
+Achievement "[UPlay] Impish" < uid=C308E4DB5A4F8A4100001D1A6AC8FC30 >
+{
+	myCondition
+	{
+		AchievementCondition_Challenge "Discover every Imp" < uid=C308E4DB5A4F8A4100001D1BBD7E3A16 >
+		{
+			myChallenges
+			{
+				ChallengeType Discover_ImpGeneric Discover_ImpGeneric
+				ChallengeType Discover_ImpHeat Discover_ImpHeat
+				ChallengeType Discover_ImpCold Discover_ImpCold
+				ChallengeType Discover_ImpCrush Discover_ImpCrush
+			}
+			myOperator All
+		}
+	}
+	myLinkedUPlayActions
+	{
+		LinkedUPlayAction Impish
+		{
+			myUPlayIdActionId 132
+			myUPlayLocalizationId ONWXP33
+			myNameSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A4F8A2800001D1336C16B98, lineVersion = 0, maxLength = 10, text = \"Impish\""
+			myDescriptionSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A4F8A2800001D15229CFC63, lineVersion = 0, maxLength = 23, text = \"Discover every Imp\""
+		}
+	}
+	myIsAwardedInTrialMode TRUE
+}
+
+Achievement "[UPlay] Legionnaire" < uid=C308E4DB5A4F8A8A00001D2A874DC507 >
+{
+	myCondition
+	{
+		AchievementCondition_Challenge "Discover every Legion Archetype" < uid=C308E4DB5A4F8A8A00001D2B3BC8671C >
+		{
+			myChallenges
+			{
+				ChallengeType Discover_CyclopsGeneric Discover_CyclopsGeneric
+				ChallengeType Discover_CyclopsGenericHeat Discover_CyclopsGenericHeat
+				ChallengeType Discover_CyclopsGenericCold Discover_CyclopsGenericCold
+				ChallengeType Discover_CyclopsGenericCrush Discover_CyclopsGenericCrush
+				ChallengeType Discover_CyclopsGenericShielded Discover_CyclopsGenericShielded
+				ChallengeType Discover_CyclopsHeat Discover_CyclopsHeat
+				ChallengeType Discover_CyclopsCold Discover_CyclopsCold
+				ChallengeType Discover_CyclopsCrush Discover_CyclopsCrush
+				ChallengeType Discover_Extractor Discover_Extractor
+				ChallengeType Discover_Dreadnought Discover_Dreadnought
+				ChallengeType Discover_Drake Discover_Drake
+				ChallengeType Discover_DrakeElite Discover_DrakeElite
+				ChallengeType Death_ImpShed Death_ImpShed
+				ChallengeType Discover_ImpGeneric Discover_ImpGeneric
+				ChallengeType Discover_ImpHeat Discover_ImpHeat
+				ChallengeType Discover_ImpCold Discover_ImpCold
+				ChallengeType Discover_ImpCrush Discover_ImpCrush
+				ChallengeType Discover_Prime Discover_Prime
+				ChallengeType Discover_Probe Discover_Probe
+			}
+			myChallenges_TU3
+			{
+				ChallengeType Discover_Sentinel Discover_Sentinel
+				ChallengeType Discover_Obelisk Discover_Obelisk
+				ChallengeType Discover_XHole Discover_xHole
+			}
+			myOperator All
+			myRequiresMigration TRUE
+		}
+	}
+	myLinkedUPlayActions
+	{
+		LinkedUPlayAction Legionnaire
+		{
+			myUPlayIdActionId 133
+			myUPlayLocalizationId ONWXP34
+			myNameSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A4F8A7900001D234159431B, lineVersion = 0, maxLength = 14, text = \"Legionnaire\""
+			myDescriptionSource "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A4F8A7900001D25CD6829C9, lineVersion = 0, maxLength = 40, text = \"Discover every Legion Archetype\""
+		}
+	}
+	myIsAwardedInTrialMode TRUE
+}
+
+Achievement "[Player] Attach_Chase" < uid=C308E4DB59EA018C00016464698ED230 >
+{
+	myCondition
+	{
+		AchievementCondition_Challenge Attach_Chase < uid=C308E4DB5A6F5D8D00001B32E3E0BE31 >
+		{
+			myChallenges
+			{
+				ChallengeType Attach_Chase Attach_Chase
+			}
+		}
+	}
+	myRewards
+	{
+	}
+	myIsAwardedInTrialMode FALSE
+}
+
+Achievement "[Player] Attach_Judge" < uid=C308E4DB59EA01C800016CB7971B63EE >
+{
+	myCondition
+	{
+		AchievementCondition_Challenge Attach_Judge < uid=C308E4DB5A6F5E7000001B45F97BADC6 >
+		{
+			myChallenges
+			{
+				ChallengeType Attach_Judge Attach_Judge
+			}
+		}
+	}
+	myRewards
+	{
+	}
+	myIsAwardedInTrialMode FALSE
+}
+
+Achievement "[Player] Attach_Mason" < uid=C308E4DB59EA01C800016CB8F878B0D4 >
+{
+	myCondition
+	{
+		AchievementCondition_Challenge Attach_Mason < uid=C308E4DB5A6F5E7000001B46426ABB14 >
+		{
+			myChallenges
+			{
+				ChallengeType Attach_Mason Attach_Mason
+			}
+		}
+	}
+	myRewards
+	{
+	}
+	myIsAwardedInTrialMode FALSE
+}
+
+Achievement "[Player] Attach_Levi" < uid=C308E4DB59EA01C800016CB94A825F84 >
+{
+	myCondition
+	{
+		AchievementCondition_Challenge Attach_Levi < uid=C308E4DB5A6F5E7000001B473B40FE3E >
+		{
+			myChallenges
+			{
+				ChallengeType Attach_Levi Attach_Levi
+			}
+		}
+	}
+	myRewards
+	{
+	}
+	myIsAwardedInTrialMode FALSE
+}
+
+Achievement "[Player] Attach_Shaide" < uid=C308E4DB59EA01C800016CBA55821BB6 >
+{
+	myCondition
+	{
+		AchievementCondition_Challenge Attach_Shaide < uid=C308E4DB5A6F5E7000001B4809946A36 >
+		{
+			myChallenges
+			{
+				ChallengeType Attach_Shaide Attach_Shaide
+			}
+		}
+	}
+	myRewards
+	{
+	}
+	myIsAwardedInTrialMode FALSE
+}
+
+Achievement "[Player] Attach_Fern" < uid=C308E4DB59EA01C800016CBB19CA06FB >
+{
+	myCondition
+	{
+		AchievementCondition_Challenge Attach_Fern < uid=C308E4DB5A6F5E9800001B61D376C582 >
+		{
+			myChallenges
+			{
+				ChallengeType Attach_Fern Attach_Fern
+			}
+		}
+	}
+	myRewards
+	{
+	}
+	myIsAwardedInTrialMode FALSE
+}
+
+Achievement "[Player] Attach_Hunter" < uid=C308E4DB59EA01C800016CBC2409EB06 >
+{
+	myCondition
+	{
+		AchievementCondition_Challenge Attach_Hunter < uid=C308E4DB5A6F5E9800001B6224CD4141 >
+		{
+			myChallenges
+			{
+				ChallengeType Attach_Hunter Attach_Hunter
+			}
+		}
+	}
+	myRewards
+	{
+	}
+	myIsAwardedInTrialMode FALSE
+}
+
+Achievement "[Player] Attach_Kharl" < uid=C308E4DB59EA01C800016CBD7C2FEE7C >
+{
+	myCondition
+	{
+		AchievementCondition_Challenge Attach_Kharl < uid=C308E4DB5A6F5E9800001B63843A25BE >
+		{
+			myChallenges
+			{
+				ChallengeType Attach_Kharl Attach_Kharl
+			}
+		}
+	}
+	myRewards
+	{
+	}
+	myIsAwardedInTrialMode FALSE
+}
+
+Achievement "[Player] Attach_Eli" < uid=C308E4DB59EA01C800016CBE393515E4 >
+{
+	myCondition
+	{
+		AchievementCondition_Challenge Attach_Eli < uid=C308E4DB5A6F5E9800001B64AB247164 >
+		{
+			myChallenges
+			{
+				ChallengeType Attach_Eli Attach_Eli
+			}
+		}
+	}
+	myRewards
+	{
+	}
+	myIsAwardedInTrialMode FALSE
+}
+
+Achievement "[Player] Attach_Startail" < uid=C308E4DB59EA030900000028A805E9E0 >
+{
+	myCondition
+	{
+		AchievementCondition_Challenge Attach_Startail < uid=C308E4DB5A6F5EB600001B77E6399A5E >
+		{
+			myChallenges
+			{
+				ChallengeType Attach_Startail Attach_Startail
+			}
+		}
+	}
+	myRewards
+	{
+	}
+	myIsAwardedInTrialMode FALSE
+}
+
+Achievement "[Player] Attach_Rancor" < uid=C308E4DB59EA030900000029EE08C510 >
+{
+	myCondition
+	{
+		AchievementCondition_Challenge Attach_Rancor < uid=C308E4DB5A6F5EB600001B783FEA9BA3 >
+		{
+			myChallenges
+			{
+				ChallengeType Attach_Rancor Attach_Rancor
+			}
+		}
+	}
+	myRewards
+	{
+	}
+	myIsAwardedInTrialMode FALSE
+}
+
+Achievement "[Player] Attach_Razor" < uid=C308E4DB59EA03090000002A9B881F34 >
+{
+	myCondition
+	{
+		AchievementCondition_Challenge Attach_Razor < uid=C308E4DB5A6F5EC800001B8BB905CE08 >
+		{
+			myChallenges
+			{
+				ChallengeType Attach_Razor Attach_Razor
+			}
+		}
+	}
+	myRewards
+	{
+	}
+	myIsAwardedInTrialMode FALSE
+}
+
+Achievement "[Player] Attach_Galla" < uid=C308E4DB59EA03090000002B6312E5CC >
+{
+	myCondition
+	{
+		AchievementCondition_Challenge Attach_Galla < uid=C308E4DB5A6F5EC800001B8C628C55D5 >
+		{
+			myChallenges
+			{
+				ChallengeType Attach_Galla Attach_Galla
+			}
+		}
+	}
+	myRewards
+	{
+	}
+	myIsAwardedInTrialMode FALSE
+}
+
+Achievement "[Player] Attach_Haywire" < uid=C308E4DB59EA03090000002D4C573369 >
+{
+	myCondition
+	{
+		AchievementCondition_Challenge Attach_Haywire < uid=C308E4DB5A6F5ED900001BAC2FF4E12B >
+		{
+			myChallenges
+			{
+				ChallengeType Attach_Haywire Attach_Haywire
+			}
+		}
+	}
+	myRewards
+	{
+	}
+	myIsAwardedInTrialMode FALSE
+}
+
+Achievement "[Player] Attach_Scramble" < uid=C308E4DB5AC3DF3200001CCD246F6814 >
+{
+	myCondition
+	{
+		AchievementCondition_Challenge Attach_Scramble < uid=C308E4DB5AC3DF3200001CCE151B0F41 >
+		{
+			myChallenges
+			{
+				ChallengeType Attach_Scramble Attach_Scramble
+			}
+		}
+	}
+	myRewards
+	{
+		ProgressionRewardEnhancement "Stunt Core" < uid=C308E4DB5AC3DF3200001CCF352A5389 >
+		{
+			myEnhancement < uid=C308E4DB5AC3E00700001CE52606400C > = stuntshipcore_l3
+		}
+	}
+	myIsAwardedInTrialMode FALSE
+}
+
+Achievement "[Player] Attach_Cerberus" < uid=C308E4DB5AC3DF3200001CD017C646E0 >
+{
+	myCondition
+	{
+		AchievementCondition_Challenge Attach_Cerberus < uid=C308E4DB5AC3DF3200001CD148B6A3C4 >
+		{
+			myChallenges
+			{
+				ChallengeType Attach_Cerberus Attach_Cerberus
+			}
+		}
+	}
+	myRewards
+	{
+		ProgressionRewardEnhancement "Assault Ammo" < uid=C308E4DB5AC3DF3200001CD2851ACC94 >
+		{
+			myEnhancement < uid=C308E4DB5AC3E00700001CE6D301B158 > = assaultweaponcore_l3
+		}
+	}
+	myIsAwardedInTrialMode FALSE
+}
+
+Achievement "[Player] Complete_Act1" < uid=C308E4DB59EA1C8E0000003A8B4FE5D0 >
+{
+	myCondition
+	{
+		AchievementCondition_Challenge Complete_Act1 < uid=C308E4DB5A6F5FA700001BE0379F4343 >
+		{
+			myChallenges
+			{
+				ChallengeType Act1Complete Act1Complete
+			}
+		}
+	}
+	myRewards
+	{
+		ProgressionRewardSkillPointToAllPilots AddSkillPointToAllPilots < uid=C308E4DB59EA30A800012B60472A474E >
+		{
+		}
+	}
+	myIsAwardedInTrialMode FALSE
+}
+
+Achievement "[Player] Complete_Act2" < uid=C308E4DB59EA30D200012B6D6B8F7C86 >
+{
+	myCondition
+	{
+		AchievementCondition_Challenge Complete_Act2 < uid=C308E4DB5A6F5FA700001BE1528CEBAE >
+		{
+			myChallenges
+			{
+				ChallengeType Act2Complete Act2Complete
+			}
+		}
+	}
+	myRewards
+	{
+		ProgressionRewardSkillPointToAllPilots AddSkillPointToAllPilots < uid=C308E4DB59EA30FC00012B852343306F >
+		{
+		}
+	}
+	myIsAwardedInTrialMode FALSE
+}
+
+Achievement "[Player] Complete_Act3" < uid=C308E4DB59EA30D200012B6ED9F3EE08 >
+{
+	myCondition
+	{
+		AchievementCondition_Challenge Complete_Act3 < uid=C308E4DB5A6F5FA700001BE2B30A321C >
+		{
+			myChallenges
+			{
+				ChallengeType Act3Complete Act3Complete
+			}
+		}
+	}
+	myRewards
+	{
+		ProgressionRewardSkillPointToAllPilots AddSkillPointToAllPilots < uid=C308E4DB59EA30FC00012B861B63166A >
+		{
+		}
+	}
+}
+
+Achievement "[Player] Complete_Act4" < uid=C308E4DB59EA30D200012B6FDCE20A1C >
+{
+	myCondition
+	{
+		AchievementCondition_Challenge Complete_Act4 < uid=C308E4DB5A6F5FA700001BE3A87F788A >
+		{
+			myChallenges
+			{
+				ChallengeType Act4Complete Act4Complete
+			}
+		}
+	}
+	myRewards
+	{
+		ProgressionRewardSkillPointToAllPilots AddSkillPointToAllPilots < uid=C308E4DB59EA30FC00012B87745BC09F >
+		{
+		}
+	}
+}
+
+Achievement "[Player] Complete_Act5" < uid=C308E4DB59EA30D200012B7044599644 >
+{
+	myCondition
+	{
+		AchievementCondition_Challenge Complete_Act5 < uid=C308E4DB5A6F5FA700001BE46537B39D >
+		{
+			myChallenges
+			{
+				ChallengeType DefeatGrax DefeatGrax
+			}
+		}
+	}
+	myRewards
+	{
+		ProgressionRewardSkillPointToAllPilots AddSkillPointToAllPilots < uid=C308E4DB59EA30FC00012B88382BE9A6 >
+		{
+		}
+	}
+}
+
+Achievement "[Player] Parry" < uid=939A35415B6370500000221C87F1F3B1 >
+{
+	myCondition
+	{
+		AchievementCondition_Challenge "Parry Challenge" < uid=939A35415B6370500000221D97748C13 >
+		{
+			myChallenges
+			{
+				ChallengeType Parry Combat_Parry
+			}
+		}
+	}
+	myRewards
+	{
+		ProgressionRewardExperiencePoints Experience < uid=939A35415B6370BD0000222A7E027AB7 >
+		{
+			myAmount 10
+		}
+	}
+	myIsRepeatable TRUE
+	myIsPlayerInstanced TRUE
+}
+
+Achievement "[Player] Elemental Combo" < uid=939A35415B6376FB0000225B93854123 >
+{
+	myCondition
+	{
+		AchievementCondition_Challenge "Elemental Combo" < uid=939A35415B6376FB0000225C97641769 >
+		{
+			myChallenges
+			{
+				ChallengeType Shatter Status_Effect_Shatter
+				ChallengeType "Thermal Shock" Status_Effect_ThermalShock
+				ChallengeType "Heat Blast" Status_Effect_HeatBlast
+				ChallengeType "Gravity Blast" Status_Effect_GravityBlast
+				ChallengeType "Ice Blast" Status_Effect_ColdBlast
+				ChallengeType "Stasis Overload" Status_Effect_StasisOverload
+				ChallengeType "Heat Vortex" Status_Effect_HeatVortex
+				ChallengeType "Cold Vortex" Status_Effect_ColdVortex
+			}
+		}
+	}
+	myRewards
+	{
+		ProgressionRewardExperiencePoints Experience < uid=939A35415B63770C0000226385506496 >
+		{
+			myAmount 5
+		}
+	}
+	myIsRepeatable TRUE
+	myIsPlayerInstanced TRUE
+	myIsAwardedInTrialMode TRUE
+}
+
+Achievement "[Player] Trick" < uid=C308E4DB5A6F4D9800001B161A9687AD >
+{
+	myCondition
+	{
+		AchievementCondition_Challenge "Any Trick" < uid=C308E4DB5A6F4D9800001B1795BA328E >
+		{
+			myChallenges
+			{
+				ChallengeType Trick_Left Trick_Left
+				ChallengeType Trick_Right Trick_Right
+				ChallengeType Trick_Forward Trick_Forward
+				ChallengeType Trick_Backward Trick_Backward
+			}
+		}
+	}
+	myRewards
+	{
+		ProgressionRewardStreakProgress Streak < uid=C308E4DB5A6F4F4400001B227A99E4CF >
+		{
+			myAmount 1
+			myType Trick
+		}
+		ProgressionRewardExperiencePoints Experience < uid=C308E4DB5A6F4F4400001B23A5FCD734 >
+		{
+			myExperiencePointType Navigation
+			myAmount 2
+		}
+	}
+	myIsRepeatable TRUE
+	myIsPlayerInstanced TRUE
+	myIsAwardedInTrialMode TRUE
+}
+
+Achievement "[Player] Discover Everything on Planet 01" < uid=C308E4DB5A72279A0002B36D75911296 >
+{
+	myCondition
+	{
+		AchievementCondition_Challenge "Discover Everything on Planet 01" < uid=C308E4DB5A72279A0002B36EB7778005 >
+		{
+			myChallenges
+			{
+				ChallengeType Discover_Planet01_NamedAreaA Discover_Planet01_NamedAreaA
+				ChallengeType Discover_Planet01_NamedAreaB Discover_Planet01_NamedAreaB
+				ChallengeType Discover_Planet01_NamedAreaC Discover_Planet01_NamedAreaC
+				ChallengeType FullyScan_Fauna01 FullyScan_Fauna01
+				ChallengeType FullyScan_Fauna14 FullyScan_Fauna14
+				ChallengeType FullyScan_Fauna03 FullyScan_Fauna03
+				ChallengeType Discover_FloraSample01 Discover_FloraSample01
+				ChallengeType Discover_FloraSample02 Discover_FloraSample02
+				ChallengeType Discover_FloraSample03 Discover_FloraSample03
+				ChallengeType Discover_FaunaSample01 Discover_FaunaSample01
+				ChallengeType Discover_Planet01_XFactor Discover_Planet01_XFactor
+			}
+			myChallenges_TU3
+			{
+				ChallengeType Discover_Planet01_Worm Discover_Planet01_Worm
+				ChallengeType Discover_Planet01_WormScale Discover_Planet01_WormScale
+			}
+			myOperator All
+			myRequiresMigration TRUE
+		}
+	}
+	myRewards
+	{
+		ProgressionRewardChallenge Challenge < uid=C308E4DB5A722BC700001B0BA39E8E1E >
+		{
+			myChallengeType Discover_Planet01_AllCollectibles
+		}
+	}
+}
+
+Achievement "[Player] Discover Everything on Planet 03" < uid=C308E4DB5A72279A0002B36F9380FB73 >
+{
+	myCondition
+	{
+		AchievementCondition_Challenge "Discover Everything on Planet 03" < uid=C308E4DB5A72279A0002B3700B0F086B >
+		{
+			myChallenges
+			{
+				ChallengeType Discover_Planet03_NamedAreaA Discover_Planet03_NamedAreaA
+				ChallengeType Discover_Planet03_NamedAreaB Discover_Planet03_NamedAreaB
+				ChallengeType Discover_Planet03_NamedAreaC Discover_Planet03_NamedAreaC
+				ChallengeType FullyScan_Fauna06 FullyScan_Fauna06
+				ChallengeType FullyScan_Fauna02 FullyScan_Fauna02
+				ChallengeType FullyScan_Fauna05 FullyScan_Fauna05
+				ChallengeType Discover_FloraSample04 Discover_FloraSample04
+				ChallengeType Discover_FloraSample05 Discover_FloraSample05
+				ChallengeType Discover_FloraSample06 Discover_FloraSample06
+				ChallengeType Discover_FaunaSample06 Discover_FaunaSample06
+				ChallengeType Discover_Planet03_XFactor Discover_Planet03_XFactor
+			}
+			myChallenges_TU3
+			{
+				ChallengeType Discover_Planet03_Anchor Discover_Planet03_Anchor
+			}
+			myOperator All
+			myRequiresMigration TRUE
+		}
+	}
+	myRewards
+	{
+		ProgressionRewardChallenge Challenge < uid=C308E4DB5A722BE400001B18AFA16D33 >
+		{
+			myChallengeType Discover_Planet03_AllCollectibles
+		}
+	}
+}
+
+Achievement "[Player] Discover Everything on Planet 04" < uid=C308E4DB5A72279A0002B371F6F7AE3E >
+{
+	myCondition
+	{
+		AchievementCondition_Challenge "Discover Everything on Planet 04" < uid=C308E4DB5A7227AF0002B38E9F4AE357 >
+		{
+			myChallenges
+			{
+				ChallengeType Discover_Planet04_NamedAreaA Discover_Planet04_NamedAreaA
+				ChallengeType Discover_Planet04_NamedAreaB Discover_Planet04_NamedAreaB
+				ChallengeType Discover_Planet04_NamedAreaC Discover_Planet04_NamedAreaC
+				ChallengeType FullyScan_Fauna12 FullyScan_Fauna12
+				ChallengeType FullyScan_Fauna11 FullyScan_Fauna11
+				ChallengeType FullyScan_Fauna15 FullyScan_Fauna15
+				ChallengeType Discover_FloraSample07 Discover_FloraSample07
+				ChallengeType Discover_FloraSample08 Discover_FloraSample08
+				ChallengeType Discover_FloraSample09 Discover_FloraSample09
+				ChallengeType Discover_FaunaSample12 Discover_FaunaSample12
+				ChallengeType Discover_Planet04_XFactor Discover_Planet04_XFactor
+			}
+			myChallenges_TU3
+			{
+				ChallengeType Discover_Planet04_Bomb Discover_Planet04_Bomb
+			}
+			myOperator All
+			myRequiresMigration TRUE
+		}
+	}
+	myRewards
+	{
+		ProgressionRewardChallenge Challenge < uid=C308E4DB5A722BFB00001B2B13D03978 >
+		{
+			myChallengeType Discover_Planet04_AllCollectibles
+		}
+	}
+}
+
+Achievement "[Player] Discover Everything on Planet 05" < uid=C308E4DB5A72279A0002B372FD8B6F4D >
+{
+	myCondition
+	{
+		AchievementCondition_Challenge "Discover Everything on Planet 05" < uid=C308E4DB5A7227AF0002B38FA3558C59 >
+		{
+			myChallenges
+			{
+				ChallengeType Discover_Planet05_NamedAreaA Discover_Planet05_NamedAreaA
+				ChallengeType Discover_Planet05_NamedAreaB Discover_Planet05_NamedAreaB
+				ChallengeType Discover_Planet05_NamedAreaC Discover_Planet05_NamedAreaC
+				ChallengeType FullyScan_Fauna08 FullyScan_Fauna08
+				ChallengeType FullyScan_Fauna13 FullyScan_Fauna13
+				ChallengeType FullyScan_Fauna04 FullyScan_Fauna04
+				ChallengeType Discover_FloraSample10 Discover_FloraSample10
+				ChallengeType Discover_FloraSample11 Discover_FloraSample11
+				ChallengeType Discover_FloraSample12 Discover_FloraSample12
+				ChallengeType Discover_FaunaSample08 Discover_FaunaSample08
+				ChallengeType Discover_Planet05_XFactor Discover_Planet05_XFactor
+			}
+			myChallenges_TU3
+			{
+				ChallengeType Discover_Planet05_Anchor Discover_Planet05_Anchor
+			}
+			myOperator All
+			myRequiresMigration TRUE
+		}
+	}
+	myRewards
+	{
+		ProgressionRewardChallenge Challenge < uid=C308E4DB5A722C0F00001B3E8612CC17 >
+		{
+			myChallengeType Discover_Planet05_AllCollectibles
+		}
+	}
+}
+
+Achievement "[Player] Discover Everything on Planet 07" < uid=C308E4DB5A72279A0002B373694448EC >
+{
+	myCondition
+	{
+		AchievementCondition_Challenge "Discover Everything on Planet 07" < uid=C308E4DB5A7227ED0002B3B4F2B49C45 >
+		{
+			myChallenges
+			{
+				ChallengeType Discover_Planet07_NamedAreaA Discover_Planet07_NamedAreaA
+				ChallengeType Discover_Planet07_NamedAreaB Discover_Planet07_NamedAreaB
+				ChallengeType Discover_Planet07_NamedAreaC Discover_Planet07_NamedAreaC
+				ChallengeType FullyScan_Fauna09 FullyScan_Fauna09
+				ChallengeType FullyScan_Fauna07 FullyScan_Fauna07
+				ChallengeType FullyScan_Fauna10 FullyScan_Fauna10
+				ChallengeType Discover_FloraSample13 Discover_FloraSample13
+				ChallengeType Discover_FloraSample14 Discover_FloraSample14
+				ChallengeType Discover_FloraSample15 Discover_FloraSample15
+				ChallengeType Discover_FaunaSample09 Discover_FaunaSample09
+				ChallengeType Discover_Planet07_XFactor Discover_Planet07_XFactor
+			}
+			myOperator All
+			myRequiresMigration TRUE
+		}
+	}
+	myRewards
+	{
+		ProgressionRewardChallenge Challenge < uid=C308E4DB5A722C1E00001B51C713722C >
+		{
+			myChallengeType Discover_Planet07_AllCollectibles
+		}
+	}
+}
+
+Achievement "[Player] Discover Everything on Planet 08" < uid=C308E4DB5A72279A0002B3741A7B59FF >
+{
+	myCondition
+	{
+		AchievementCondition_Challenge "Discover Everything on Planet 08" < uid=C308E4DB5A7227ED0002B3B553A2BF7A >
+		{
+			myChallenges
+			{
+				ChallengeType Discover_Planet08_NamedAreaA Discover_Planet08_NamedAreaA
+				ChallengeType Discover_Planet08_NamedAreaB Discover_Planet08_NamedAreaB
+				ChallengeType Discover_Planet08_NamedAreaC Discover_Planet08_NamedAreaC
+				ChallengeType FullyScan_Fauna16 FullyScan_Fauna16
+				ChallengeType FullyScan_Fauna21 FullyScan_Fauna21
+				ChallengeType FullyScan_Fauna18 FullyScan_Fauna18
+				ChallengeType Discover_FloraSample16 Discover_FloraSample16
+				ChallengeType Discover_FloraSample17 Discover_FloraSample17
+				ChallengeType Discover_FloraSample18 Discover_FloraSample18
+				ChallengeType Discover_FaunaSample16 Discover_FaunaSample16
+				ChallengeType Discover_Planet08_XFactor Discover_Planet08_XFactor
+			}
+			myChallenges_TU3
+			{
+				ChallengeType Discover_Planet08_Bomb Discover_Planet08_Bomb
+			}
+			myOperator All
+			myRequiresMigration TRUE
+		}
+	}
+	myRewards
+	{
+		ProgressionRewardChallenge Challenge < uid=C308E4DB5A722C2F00001B64EF6A9C0D >
+		{
+			myChallengeType Discover_Planet08_AllCollectibles
+		}
+	}
+}
+
+Achievement "[Player] Discover Everything on Planet 15" < uid=C308E4DB5A72279A0002B37551B682D0 >
+{
+	myCondition
+	{
+		AchievementCondition_Challenge "Discover Everything on Planet 15" < uid=C308E4DB5A7227ED0002B3B6A7E0364E >
+		{
+			myChallenges
+			{
+				ChallengeType Discover_Planet15_NamedAreaA Discover_Planet15_NamedAreaA
+				ChallengeType Discover_Planet15_NamedAreaB Discover_Planet15_NamedAreaB
+				ChallengeType Discover_Planet15_NamedAreaC Discover_Planet15_NamedAreaC
+				ChallengeType FullyScan_Fauna19 FullyScan_Fauna19
+				ChallengeType FullyScan_Fauna20 FullyScan_Fauna20
+				ChallengeType FullyScan_Fauna17 FullyScan_Fauna17
+				ChallengeType Discover_FloraSample19 Discover_FloraSample19
+				ChallengeType Discover_FloraSample20 Discover_FloraSample20
+				ChallengeType Discover_FloraSample21 Discover_FloraSample21
+				ChallengeType Discover_FaunaSample19 Discover_FaunaSample19
+				ChallengeType Discover_Planet15_XFactor Discover_Planet15_XFactor
+			}
+			myChallenges_TU3
+			{
+				ChallengeType Discover_Planet01_Worm Discover_Planet15_Worm
+				ChallengeType Discover_Planet15_WormScale Discover_Planet15_WormScale
+			}
+			myOperator All
+			myRequiresMigration TRUE
+		}
+	}
+	myRewards
+	{
+		ProgressionRewardChallenge Challenge < uid=C308E4DB5A722C4000001B773DCB83A0 >
+		{
+			myChallengeType Discover_Planet15_AllCollectibles
+		}
+	}
+}
+
+Achievement "[Player] Discover Everything on Crimson Moon" < uid=42BB0A2F5C5DA90A0004C514A8E2076B >
+{
+	myCondition
+	{
+		AchievementCondition_Challenge "Discover Everything on Crimson Moon" < uid=42BB0A2F5C5DA90A0004C5152D3E3432 >
+		{
+			myChallenges
+			{
+				ChallengeType Discover_Moon01_Biome01 Discover_Moon01_Biome01
+				ChallengeType Discover_Moon01_Biome02 Discover_Moon01_Biome02
+				ChallengeType Discover_Moon01_Biome03 Discover_Moon01_Biome03
+				ChallengeType Discover_Moon01_Biome04 Discover_Moon01_Biome04
+			}
+			myOperator All
+			myRequiresMigration TRUE
+		}
+	}
+	myRewards
+	{
+		ProgressionRewardChallenge Challenge < uid=42BB0A2F5C5DA90A0004C51609BA79E5 >
+		{
+			myChallengeType Discover_Moon01_AllCollectibles
+		}
+	}
+}
+
+Achievement "[Player] Discover Any Outlaw" < uid=9E6AFEDA5AFC797B000C00B02EB408E5 >
+{
+	myCondition
+	{
+		AchievementCondition_Challenge "Any Outlaw" < uid=9E6AFEDA5AFC797B000C00B1A35B1302 >
+		{
+			myChallenges
+			{
+				ChallengeType Base Discover_OutlawBase
+				ChallengeType Mine Death_OutlawMine
+				ChallengeType Worker Discover_OutlawWorker
+				ChallengeType Defender Discover_OutlawDefender
+				ChallengeType Elite Death_OutlawElite
+				ChallengeType Leader Discover_OutlawLeader
+			}
+			myChallenges_TU5
+			{
+				ChallengeType Discover_OutlawMech Discover_OutlawMech
+				ChallengeType Discover_OutlawTank Discover_OutlawTank
+				ChallengeType Death_OutlawDreadnaught Death_OutlawDreadnaught			
+			}
+		}
+	}
+	myRewards
+	{
+		ProgressionRewardChallenge "Discover Outlaw Faction" < uid=9E6AFEDA5AFC797B000C00B2644727ED >
+		{
+			myChallengeType Discover_Outlaws
+		}
+	}
+}
+
+Achievement "[Player] Discover Any Expedition" < uid=9E6AFEDA5AFC80D70002AB465A30900E >
+{
+	myCondition
+	{
+		AchievementCondition_Challenge "Any Expedition (Act 1)" < uid=9E6AFEDA5AFC80D70002AB4729545D51 >
+		{
+			myChallenges
+			{
+				ChallengeType Observatory Discover_ExpeditionObservationDeck
+				ChallengeType Worker Discover_ExpeditionWorker
+			}
+		}
+	}
+	myRewards
+	{
+		ProgressionRewardChallenge "Discover Expedition Faction" < uid=9E6AFEDA5AFC80D70002AB4824CE2115 >
+		{
+			myChallengeType Discover_Expedition
+		}
+	}
+}
+
+Achievement "[Player] Discover Any Prospector" < uid=9E6AFEDA5AFC81750002F4BBD4D7CC95 >
+{
+	myCondition
+	{
+		AchievementCondition_Challenge "Any Prospector (Act 2)" < uid=9E6AFEDA5AFC81750002F4BC1CEAC25F >
+		{
+			myChallenges
+			{
+				ChallengeType Refinery Discover_ProspectorMiningCenter
+				ChallengeType Worker Discover_ProspectorWorker
+			}
+		}
+	}
+	myRewards
+	{
+		ProgressionRewardChallenge "Discover Prospector Faction" < uid=9E6AFEDA5AFC81750002F4BDC1948CAD >
+		{
+			myChallengeType Discover_Prospector
+		}
+	}
+}
+
+Achievement "[Player] Discover Sector B" < uid=9E6AFEDA5B04662C000423498A7BA2A1 >
+{
+	myCondition
+	{
+		AchievementCondition_Challenge "Any Planet or Unique POI" < uid=9E6AFEDA5B04662C0004234AA03D08D1 >
+		{
+			myChallenges
+			{
+				ChallengeType Vylus Discover_Planet05
+				ChallengeType Tundria Discover_Planet08
+				ChallengeType "Shattered Planet" Discover_SpaceLandmark_06
+				ChallengeType "The Chunk" Discover_SpaceLandmark_05
+			}
+		}
+	}
+	myRewards
+	{
+		ProgressionRewardChallenge "Discover Sector B" < uid=9E6AFEDA5B04662C0004234B607433DE >
+		{
+			myChallengeType Discover_SpaceLandmark_04
+		}
+	}
+}
+
+Achievement "[Player] Discover Sector C" < uid=9E6AFEDA5B04668C000450182C84BF57 >
+{
+	myCondition
+	{
+		AchievementCondition_Challenge "Any Planet or Unique POI" < uid=9E6AFEDA5B04668C00045019DCAA8332 >
+		{
+			myChallenges
+			{
+				ChallengeType Necrom Discover_Planet04
+				ChallengeType Ashar Discover_Planet15
+				ChallengeType "Derelict Dreadnought" Discover_SpaceLandmark_07
+			}
+		}
+	}
+	myRewards
+	{
+		ProgressionRewardChallenge "Discover Sector C" < uid=9E6AFEDA5B04668C0004501AA5D42C3F >
+		{
+			myChallengeType Discover_SpaceLandmark_03
+		}
+	}
+}
+
+Achievement "[Player] Discover Warden Spires" < uid=9E6AFEDA5B05E711000247E63B5DF9EA >
+{
+	myCondition
+	{
+		AchievementCondition_Challenge "Solve or Act Structure" < uid=9E6AFEDA5B05E87200001D8C5C3192DB >
+		{
+			myChallenges
+			{
+				ChallengeType Solve WardenPuzzleSolved
+				ChallengeType "Eli Tells You" Unlock_WardenSpire
+			}
+		}
+	}
+	myRewards
+	{
+		ProgressionRewardChallenge "Discover Warden Spires" < uid=9E6AFEDA5B05E711000247E7B6873D11 >
+		{
+			myChallengeType Discover_WardenSpires
+		}
+	}
+}
+
+Achievement "[Player] Discover Expedition Workers from Observatories" < uid=9E6AFEDA5B2D06B30036947643CBD890 >
+{
+	myCondition
+	{
+		AchievementCondition_Challenge "Discover Observatory" < uid=9E6AFEDA5B2D06B3003694778F54EFD8 >
+		{
+			myChallenges
+			{
+				ChallengeType Observatory Discover_ExpeditionObservationDeck
+			}
+		}
+	}
+	myRewards
+	{
+		ProgressionRewardChallenge "Discover Workers" < uid=9E6AFEDA5B2D06B3003694785A6692AE >
+		{
+			myChallengeType Discover_ExpeditionWorker
+		}
+	}
+}
+
+Achievement "[Player] Discover Expedition Defenders from Workshops" < uid=9E6AFEDA5B2D06B300369479DF8C6D53 >
+{
+	myCondition
+	{
+		AchievementCondition_Challenge "Discover Workshop" < uid=9E6AFEDA5B2D06B30036947AC29E216A >
+		{
+			myChallenges
+			{
+				ChallengeType Workshop Discover_ExpeditionResearchBase
+			}
+		}
+	}
+	myRewards
+	{
+		ProgressionRewardChallenge "Discover Defenders" < uid=9E6AFEDA5B2D06B30036947BEA9C3CCE >
+		{
+			myChallengeType Discover_ExpeditionDefender
+		}
+	}
+}
+
+Achievement "[Player] Discover Expedition Workers from Refineries" < uid=9E6AFEDA5B2D06B30036947C840130D1 >
+{
+	myCondition
+	{
+		AchievementCondition_Challenge "Discover Refinery" < uid=9E6AFEDA5B2D06B30036947D385B33F7 >
+		{
+			myChallenges
+			{
+				ChallengeType Refinery Discover_ProspectorMiningCenter
+			}
+		}
+	}
+	myRewards
+	{
+		ProgressionRewardChallenge "Discover Workers" < uid=9E6AFEDA5B2D06B30036947E0BFDD0E7 >
+		{
+			myChallengeType Discover_ProspectorWorker
+		}
+	}
+}
+
+Achievement "[Player] Discover Expedition Defenders from Armories" < uid=9E6AFEDA5B2D06B30036947F008CE71A >
+{
+	myCondition
+	{
+		AchievementCondition_Challenge "Discover Armory" < uid=9E6AFEDA5B2D06B3003694808D86D862 >
+		{
+			myChallenges
+			{
+				ChallengeType Armory Discover_ProspectorDefenseBase
+			}
+		}
+	}
+	myRewards
+	{
+		ProgressionRewardChallenge "Discover Defenders" < uid=9E6AFEDA5B2D06B3003694816CA386AE >
+		{
+			myChallengeType Discover_ProspectorDefender
+		}
+	}
+}
+
+Achievement "[Player] Scan_Fauna01" < uid=42BB0A2F5B366C400194C24425163A4F >
+{
+	myCondition
+	{
+		AchievementCondition_RepeatCount "Repeat 5" < uid=42BB0A2F5B366C400194C245F2C2BE50 >
+		{
+			myConditions
+			{
+				AchievementCondition_Challenge Discover_Fauna01 < uid=42BB0A2F5B366C400194C2466BA7DB1C >
+				{
+					myChallenges
+					{
+						ChallengeType Discover_Fauna01 Discover_Fauna01
+					}
+					myAnyCount 1
+				}
+			}
+			myRepeatCount 3
+		}
+	}
+	myRewards
+	{
+		ProgressionRewardChallenge FullyScan_Fauna01 < uid=42BB0A2F5B3B913D0013F3C1AB89CC16 >
+		{
+			myChallengeType FullyScan_Fauna01
+		}
+	}
+	myStatisticType Stat_ScanFauna01
+	myIsAwardedInTrialMode TRUE
+}
+
+Achievement "[Player] Scan_Fauna02" < uid=42BB0A2F5B3BD06700002243D95B6C9C >
+{
+	myCondition
+	{
+		AchievementCondition_RepeatCount "Repeat 5" < uid=42BB0A2F5B3BD067000022448A3BD8FC >
+		{
+			myConditions
+			{
+				AchievementCondition_Challenge Discover_Fauna02 < uid=42BB0A2F5B3BD06700002245B58B7B92 >
+				{
+					myChallenges
+					{
+						ChallengeType Discover_Fauna02 Discover_Fauna02
+					}
+					myAnyCount 1
+				}
+			}
+			myRepeatCount 3
+		}
+	}
+	myRewards
+	{
+		ProgressionRewardChallenge FullyScan_Fauna02 < uid=42BB0A2F5B3BD06700002246CD20C343 >
+		{
+			myChallengeType FullyScan_Fauna02
+		}
+	}
+	myStatisticType Stat_ScanFauna02
+	myIsAwardedInTrialMode TRUE
+}
+
+Achievement "[Player] Scan_Fauna03" < uid=42BB0A2F5B3BD06700002247CF1D69F7 >
+{
+	myCondition
+	{
+		AchievementCondition_RepeatCount "Repeat 5" < uid=42BB0A2F5B3BD067000022489BB5B4D0 >
+		{
+			myConditions
+			{
+				AchievementCondition_Challenge Discover_Fauna03 < uid=42BB0A2F5B3BD06700002249750C1BDF >
+				{
+					myChallenges
+					{
+						ChallengeType Discover_Fauna03 Discover_Fauna03
+					}
+					myAnyCount 1
+				}
+			}
+			myRepeatCount 3
+		}
+	}
+	myRewards
+	{
+		ProgressionRewardChallenge FullyScan_Fauna03 < uid=42BB0A2F5B3BD0670000224ABEFDF4E6 >
+		{
+			myChallengeType FullyScan_Fauna03
+		}
+	}
+	myStatisticType Stat_ScanFauna03
+	myIsAwardedInTrialMode TRUE
+}
+
+Achievement "[Player] Scan_Fauna04" < uid=42BB0A2F5B3BD0670000224B9A8B601F >
+{
+	myCondition
+	{
+		AchievementCondition_RepeatCount "Repeat 5" < uid=42BB0A2F5B3BD0670000224CACAE54AA >
+		{
+			myConditions
+			{
+				AchievementCondition_Challenge Discover_Fauna04 < uid=42BB0A2F5B3BD0670000224DB9697003 >
+				{
+					myChallenges
+					{
+						ChallengeType Discover_Fauna04 Discover_Fauna04
+					}
+					myAnyCount 1
+				}
+			}
+			myRepeatCount 3
+		}
+	}
+	myRewards
+	{
+		ProgressionRewardChallenge FullyScan_Fauna04 < uid=42BB0A2F5B3BD0670000224EE862F90C >
+		{
+			myChallengeType FullyScan_Fauna04
+		}
+	}
+	myStatisticType Stat_ScanFauna04
+	myIsAwardedInTrialMode TRUE
+}
+
+Achievement "[Player] Scan_Fauna05" < uid=42BB0A2F5B3BD0670000224F2928F787 >
+{
+	myCondition
+	{
+		AchievementCondition_RepeatCount "Repeat 5" < uid=42BB0A2F5B3BD06700002250F7FDFD0C >
+		{
+			myConditions
+			{
+				AchievementCondition_Challenge Discover_Fauna05 < uid=42BB0A2F5B3BD0670000225105E66298 >
+				{
+					myChallenges
+					{
+						ChallengeType Discover_Fauna05 Discover_Fauna05
+					}
+					myAnyCount 1
+				}
+			}
+			myRepeatCount 3
+		}
+	}
+	myRewards
+	{
+		ProgressionRewardChallenge FullyScan_Fauna05 < uid=42BB0A2F5B3BD06700002252FAB351B1 >
+		{
+			myChallengeType FullyScan_Fauna05
+		}
+	}
+	myStatisticType Stat_ScanFauna05
+	myIsAwardedInTrialMode TRUE
+}
+
+Achievement "[Player] Scan_Fauna06" < uid=42BB0A2F5B3BD06700002253944915AF >
+{
+	myCondition
+	{
+		AchievementCondition_RepeatCount "Repeat 5" < uid=42BB0A2F5B3BD067000022548C448FB7 >
+		{
+			myConditions
+			{
+				AchievementCondition_Challenge Discover_Fauna06 < uid=42BB0A2F5B3BD06700002255BA80CE05 >
+				{
+					myChallenges
+					{
+						ChallengeType Discover_Fauna06 Discover_Fauna06
+					}
+					myAnyCount 1
+				}
+			}
+			myRepeatCount 3
+		}
+	}
+	myRewards
+	{
+		ProgressionRewardChallenge FullyScan_Fauna06 < uid=42BB0A2F5B3BD06700002256DADE3E3D >
+		{
+			myChallengeType FullyScan_Fauna06
+		}
+	}
+	myStatisticType Stat_ScanFauna06
+	myIsAwardedInTrialMode TRUE
+}
+
+Achievement "[Player] Scan_Fauna07" < uid=42BB0A2F5B3BD0670000225706E6ACA4 >
+{
+	myCondition
+	{
+		AchievementCondition_RepeatCount "Repeat 5" < uid=42BB0A2F5B3BD06700002258AE77A2F8 >
+		{
+			myConditions
+			{
+				AchievementCondition_Challenge Discover_Fauna07 < uid=42BB0A2F5B3BD06700002259123BA1D5 >
+				{
+					myChallenges
+					{
+						ChallengeType Discover_Fauna07 Discover_Fauna07
+					}
+					myAnyCount 1
+				}
+			}
+			myRepeatCount 3
+		}
+	}
+	myRewards
+	{
+		ProgressionRewardChallenge FullyScan_Fauna07 < uid=42BB0A2F5B3BD0670000225A393F5A79 >
+		{
+			myChallengeType FullyScan_Fauna07
+		}
+	}
+	myStatisticType Stat_ScanFauna07
+	myIsAwardedInTrialMode TRUE
+}
+
+Achievement "[Player] Scan_Fauna08" < uid=42BB0A2F5B3BD0670000225B0A8F5276 >
+{
+	myCondition
+	{
+		AchievementCondition_RepeatCount "Repeat 5" < uid=42BB0A2F5B3BD0670000225C19FC51BD >
+		{
+			myConditions
+			{
+				AchievementCondition_Challenge Discover_Fauna08 < uid=42BB0A2F5B3BD0670000225DD6066E5E >
+				{
+					myChallenges
+					{
+						ChallengeType Discover_Fauna08 Discover_Fauna08
+					}
+					myAnyCount 1
+				}
+			}
+			myRepeatCount 3
+		}
+	}
+	myRewards
+	{
+		ProgressionRewardChallenge FullyScan_Fauna08 < uid=42BB0A2F5B3BD0670000225E15290A75 >
+		{
+			myChallengeType FullyScan_Fauna08
+		}
+	}
+	myStatisticType Stat_ScanFauna08
+	myIsAwardedInTrialMode TRUE
+}
+
+Achievement "[Player] Scan_Fauna09" < uid=42BB0A2F5B3BD0670000225F6545F644 >
+{
+	myCondition
+	{
+		AchievementCondition_RepeatCount "Repeat 5" < uid=42BB0A2F5B3BD067000022609ECF32E8 >
+		{
+			myConditions
+			{
+				AchievementCondition_Challenge Discover_Fauna09 < uid=42BB0A2F5B3BD067000022617B5ECBF1 >
+				{
+					myChallenges
+					{
+						ChallengeType Discover_Fauna09 Discover_Fauna09
+					}
+					myAnyCount 1
+				}
+			}
+			myRepeatCount 3
+		}
+	}
+	myRewards
+	{
+		ProgressionRewardChallenge FullyScan_Fauna09 < uid=42BB0A2F5B3BD0670000226226791C4D >
+		{
+			myChallengeType FullyScan_Fauna09
+		}
+	}
+	myStatisticType Stat_ScanFauna09
+	myIsAwardedInTrialMode TRUE
+}
+
+Achievement "[Player] Scan_Fauna10" < uid=42BB0A2F5B3BD067000022636CC43910 >
+{
+	myCondition
+	{
+		AchievementCondition_RepeatCount "Repeat 5" < uid=42BB0A2F5B3BD067000022648B7B1E12 >
+		{
+			myConditions
+			{
+				AchievementCondition_Challenge Discover_Fauna10 < uid=42BB0A2F5B3BD0670000226506F74DCF >
+				{
+					myChallenges
+					{
+						ChallengeType Discover_Fauna10 Discover_Fauna10
+					}
+					myAnyCount 1
+				}
+			}
+			myRepeatCount 3
+		}
+	}
+	myRewards
+	{
+		ProgressionRewardChallenge FullyScan_Fauna10 < uid=42BB0A2F5B3BD06700002266E882A228 >
+		{
+			myChallengeType FullyScan_Fauna10
+		}
+	}
+	myStatisticType Stat_ScanFauna10
+	myIsAwardedInTrialMode TRUE
+}
+
+Achievement "[Player] Scan_Fauna11" < uid=42BB0A2F5B3BD06700002267A5C30A91 >
+{
+	myCondition
+	{
+		AchievementCondition_RepeatCount "Repeat 5" < uid=42BB0A2F5B3BD06700002268F61B1BB5 >
+		{
+			myConditions
+			{
+				AchievementCondition_Challenge Discover_Fauna11 < uid=42BB0A2F5B3BD067000022694A3EA98C >
+				{
+					myChallenges
+					{
+						ChallengeType Discover_Fauna11 Discover_Fauna11
+					}
+					myAnyCount 1
+				}
+			}
+			myRepeatCount 3
+		}
+	}
+	myRewards
+	{
+		ProgressionRewardChallenge FullyScan_Fauna11 < uid=42BB0A2F5B3BD0670000226AB750D101 >
+		{
+			myChallengeType FullyScan_Fauna11
+		}
+	}
+	myStatisticType Stat_ScanFauna11
+	myIsAwardedInTrialMode TRUE
+}
+
+Achievement "[Player] Scan_Fauna12" < uid=42BB0A2F5B3BD0670000226B0A7AD2F8 >
+{
+	myCondition
+	{
+		AchievementCondition_RepeatCount "Repeat 5" < uid=42BB0A2F5B3BD0670000226C2492A6B1 >
+		{
+			myConditions
+			{
+				AchievementCondition_Challenge Discover_Fauna12 < uid=42BB0A2F5B3BD0670000226D9B5F1966 >
+				{
+					myChallenges
+					{
+						ChallengeType Discover_Fauna12 Discover_Fauna12
+					}
+					myAnyCount 1
+				}
+			}
+			myRepeatCount 3
+		}
+	}
+	myRewards
+	{
+		ProgressionRewardChallenge FullyScan_Fauna12 < uid=42BB0A2F5B3BD0670000226EAAB60BD5 >
+		{
+			myChallengeType FullyScan_Fauna12
+		}
+	}
+	myStatisticType Stat_ScanFauna12
+	myIsAwardedInTrialMode TRUE
+}
+
+Achievement "[Player] Scan_Fauna13" < uid=42BB0A2F5B3BD0670000226F7687E169 >
+{
+	myCondition
+	{
+		AchievementCondition_RepeatCount "Repeat 5" < uid=42BB0A2F5B3BD06700002270C7916626 >
+		{
+			myConditions
+			{
+				AchievementCondition_Challenge Discover_Fauna13 < uid=42BB0A2F5B3BD06700002271A466C39B >
+				{
+					myChallenges
+					{
+						ChallengeType Discover_Fauna13 Discover_Fauna13
+					}
+					myAnyCount 1
+				}
+			}
+			myRepeatCount 3
+		}
+	}
+	myRewards
+	{
+		ProgressionRewardChallenge FullyScan_Fauna13 < uid=42BB0A2F5B3BD06700002272BE949C61 >
+		{
+			myChallengeType FullyScan_Fauna13
+		}
+	}
+	myStatisticType Stat_ScanFauna13
+	myIsAwardedInTrialMode TRUE
+}
+
+Achievement "[Player] Scan_Fauna14" < uid=42BB0A2F5B3BD06700002273F751AE73 >
+{
+	myCondition
+	{
+		AchievementCondition_RepeatCount "Repeat 5" < uid=42BB0A2F5B3BD06700002274BBBD46E9 >
+		{
+			myConditions
+			{
+				AchievementCondition_Challenge Discover_Fauna14 < uid=42BB0A2F5B3BD067000022752955301E >
+				{
+					myChallenges
+					{
+						ChallengeType Discover_Fauna14 Discover_Fauna14
+					}
+					myAnyCount 1
+				}
+			}
+			myRepeatCount 3
+		}
+	}
+	myRewards
+	{
+		ProgressionRewardChallenge FullyScan_Fauna14 < uid=42BB0A2F5B3BD067000022763338D6C1 >
+		{
+			myChallengeType FullyScan_Fauna14
+		}
+	}
+	myStatisticType Stat_ScanFauna14
+	myIsAwardedInTrialMode TRUE
+}
+
+Achievement "[Player] Scan_Fauna15" < uid=42BB0A2F5B3BD067000022774960C4E3 >
+{
+	myCondition
+	{
+		AchievementCondition_RepeatCount "Repeat 5" < uid=42BB0A2F5B3BD0670000227818BB4928 >
+		{
+			myConditions
+			{
+				AchievementCondition_Challenge Discover_Fauna15 < uid=42BB0A2F5B3BD0670000227998EE5FE1 >
+				{
+					myChallenges
+					{
+						ChallengeType Discover_Fauna15 Discover_Fauna15
+					}
+					myAnyCount 1
+				}
+			}
+			myRepeatCount 3
+		}
+	}
+	myRewards
+	{
+		ProgressionRewardChallenge FullyScan_Fauna15 < uid=42BB0A2F5B3BD0670000227A6D951CE3 >
+		{
+			myChallengeType FullyScan_Fauna15
+		}
+	}
+	myStatisticType Stat_ScanFauna15
+	myIsAwardedInTrialMode TRUE
+}
+
+Achievement "[Player] Scan_Fauna16" < uid=42BB0A2F5B3BD0670000227B229D8A6E >
+{
+	myCondition
+	{
+		AchievementCondition_RepeatCount "Repeat 5" < uid=42BB0A2F5B3BD0670000227CE0AD751C >
+		{
+			myConditions
+			{
+				AchievementCondition_Challenge Discover_Fauna16 < uid=42BB0A2F5B3BD0670000227D0A562FBF >
+				{
+					myChallenges
+					{
+						ChallengeType Discover_Fauna16 Discover_Fauna16
+					}
+					myAnyCount 1
+				}
+			}
+			myRepeatCount 3
+		}
+	}
+	myRewards
+	{
+		ProgressionRewardChallenge FullyScan_Fauna16 < uid=42BB0A2F5B3BD0670000227ECFE15812 >
+		{
+			myChallengeType FullyScan_Fauna16
+		}
+	}
+	myStatisticType Stat_ScanFauna16
+	myIsAwardedInTrialMode TRUE
+}
+
+Achievement "[Player] Scan_Fauna17" < uid=42BB0A2F5B3BD0670000227F01E1757A >
+{
+	myCondition
+	{
+		AchievementCondition_RepeatCount "Repeat 5" < uid=42BB0A2F5B3BD067000022808A6FE5CF >
+		{
+			myConditions
+			{
+				AchievementCondition_Challenge Discover_Fauna17 < uid=42BB0A2F5B3BD0670000228131FF08EA >
+				{
+					myChallenges
+					{
+						ChallengeType Discover_Fauna17 Discover_Fauna17
+					}
+					myAnyCount 1
+				}
+			}
+			myRepeatCount 3
+		}
+	}
+	myRewards
+	{
+		ProgressionRewardChallenge FullyScan_Fauna17 < uid=42BB0A2F5B3BD06700002282F41BE70F >
+		{
+			myChallengeType FullyScan_Fauna17
+		}
+	}
+	myStatisticType Stat_ScanFauna17
+	myIsAwardedInTrialMode TRUE
+}
+
+Achievement "[Player] Scan_Fauna18" < uid=42BB0A2F5B3BD06700002283FE5B1653 >
+{
+	myCondition
+	{
+		AchievementCondition_RepeatCount "Repeat 5" < uid=42BB0A2F5B3BD067000022840BEFD5CA >
+		{
+			myConditions
+			{
+				AchievementCondition_Challenge Discover_Fauna18 < uid=42BB0A2F5B3BD06700002285C29E3405 >
+				{
+					myChallenges
+					{
+						ChallengeType Discover_Fauna18 Discover_Fauna18
+					}
+					myAnyCount 1
+				}
+			}
+			myRepeatCount 3
+		}
+	}
+	myRewards
+	{
+		ProgressionRewardChallenge FullyScan_Fauna18 < uid=42BB0A2F5B3BD06700002286E99690C6 >
+		{
+			myChallengeType FullyScan_Fauna18
+		}
+	}
+	myStatisticType Stat_ScanFauna18
+	myIsAwardedInTrialMode TRUE
+}
+
+Achievement "[Player] Scan_Fauna19" < uid=42BB0A2F5B3BD06700002287CF59EA29 >
+{
+	myCondition
+	{
+		AchievementCondition_RepeatCount "Repeat 5" < uid=42BB0A2F5B3BD06700002288BA6D378D >
+		{
+			myConditions
+			{
+				AchievementCondition_Challenge Discover_Fauna19 < uid=42BB0A2F5B3BD06700002289896002D9 >
+				{
+					myChallenges
+					{
+						ChallengeType Discover_Fauna19 Discover_Fauna19
+					}
+					myAnyCount 1
+				}
+			}
+			myRepeatCount 3
+		}
+	}
+	myRewards
+	{
+		ProgressionRewardChallenge FullyScan_Fauna19 < uid=42BB0A2F5B3BD0670000228AD42DA393 >
+		{
+			myChallengeType FullyScan_Fauna19
+		}
+	}
+	myStatisticType Stat_ScanFauna19
+	myIsAwardedInTrialMode TRUE
+}
+
+Achievement "[Player] Scan_Fauna20" < uid=42BB0A2F5B3BD0670000228BD425139D >
+{
+	myCondition
+	{
+		AchievementCondition_RepeatCount "Repeat 5" < uid=42BB0A2F5B3BD0670000228C072787CB >
+		{
+			myConditions
+			{
+				AchievementCondition_Challenge Discover_Fauna20 < uid=42BB0A2F5B3BD0670000228D8ED83B3C >
+				{
+					myChallenges
+					{
+						ChallengeType Discover_Fauna20 Discover_Fauna20
+					}
+					myAnyCount 1
+				}
+			}
+			myRepeatCount 3
+		}
+	}
+	myRewards
+	{
+		ProgressionRewardChallenge FullyScan_Fauna20 < uid=42BB0A2F5B3BD0670000228E3750204F >
+		{
+			myChallengeType FullyScan_Fauna20
+		}
+	}
+	myStatisticType Stat_ScanFauna20
+	myIsAwardedInTrialMode TRUE
+}
+
+Achievement "[Player] Scan_Fauna21" < uid=42BB0A2F5B3BD0670000228FCB1564C3 >
+{
+	myCondition
+	{
+		AchievementCondition_RepeatCount "Repeat 5" < uid=42BB0A2F5B3BD06700002290F037BBB5 >
+		{
+			myConditions
+			{
+				AchievementCondition_Challenge Discover_Fauna21 < uid=42BB0A2F5B3BD06700002291BF797F54 >
+				{
+					myChallenges
+					{
+						ChallengeType Discover_Fauna21 Discover_Fauna21
+					}
+					myAnyCount 1
+				}
+			}
+			myRepeatCount 3
+		}
+	}
+	myRewards
+	{
+		ProgressionRewardChallenge FullyScan_Fauna21 < uid=42BB0A2F5B3BD06700002292099D62AC >
+		{
+			myChallengeType FullyScan_Fauna21
+		}
+	}
+	myStatisticType Stat_ScanFauna21
+	myIsAwardedInTrialMode TRUE
+}
+
+Achievement "[Player] Skill Point on Full System Alliance" < uid=C308E4DB5B57631B00002202B225EA15 >
+{
+	myCondition
+	{
+		AchievementCondition_RepeatCount Container < uid=600A30F35BD882010000003E79B8E0B9 >
+		{
+			myConditions
+			{
+				AchievementCondition_SystemAlliance "Full System Alliance" < uid=600A30F35BD882010000003F95008E4E >
+				{
+					myAllianceThreshold 100
+				}
+				AchievementCondition_GameActionState "In Act 6" < uid=600A30F35BD88201000000409BCF9369 >
+				{
+					myGameActionStates
+					{
+						GameActionState "In Act 6" IsInAct6
+					}
+				}
+			}
+			myIsSynchronous TRUE
+		}
+	}
+	myRewards
+	{
+		ProgressionRewardSkillPointToAllPilots "Reward Skill Point to All Pilots" < uid=C308E4DB5B57631B000022042E96893C >
+		{
+		}
+	}
+}
+
+Achievement "[Player] Skill Point on Kill Dreadnought" < uid=42BB0A2F5B80180400021DD908FB1B3F >
+{
+	myCondition
+	{
+		AchievementCondition_RepeatCount Container < uid=42BB0A2F5B805450000021FDDABC4F01 >
+		{
+			myConditions
+			{
+				AchievementCondition_Challenge KillDreadnought < uid=42BB0A2F5B805463000021FEEED55AC2 >
+				{
+					myChallenges
+					{
+						ChallengeType Death_Dreadnought Death_Dreadnought
+					}
+				}
+				AchievementCondition_GameActionState NotInAct3 < uid=42BB0A2F5B805463000021FF81A8C574 >
+				{
+					myGameActionStates
+					{
+						GameActionState IsInAct3 IsInAct3
+					}
+					myNotCondition TRUE
+				}
+				AchievementCondition_GameActionState NotInAct5 < uid=E22BA6D75BABD7EC0000242E198D8D9E >
+				{
+					myGameActionStates
+					{
+						GameActionState IsInAct5 IsInAct5
+					}
+					myNotCondition TRUE
+				}
+			}
+			myRepeatCount 1
+			myIsSynchronous TRUE
+		}
+	}
+	myRewards
+	{
+		ProgressionRewardSkillPointToAllPilots "Reward Skill Point to All Pilots" < uid=42BB0A2F5B80180400021DDA844970C5 >
+		{
+			myRewardEverytime TRUE
+		}
+	}
+	myLocalizedDescription "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A1EFD120000205F7552819C, lineVersion = 0, maxLength = 26, text = \"Defeat a Dreadnought\""
+	myLocalizedAwardedDescription "contextComment = \"\", description = \"\", enabled = true, guid = #C308E4DB5A1EFD120000206015F9514E, lineVersion = 0, maxLength = 26, text = \"Defeat a Dreadnought\""
+	myIsRepeatable TRUE
+}
+
+Achievement "[Player] Multiple Rewards on Outlaw Dreadnought" < uid=C308E4DB5C48E97E00000028DED6D0DE >
+{
+	myCondition
+	{
+		AchievementCondition_Challenge "Kill Outlaw Dreadnought" < uid=C308E4DB5C48E97E00000029CBCAAA3E >
+		{
+			myChallenges_TU5
+			{
+				ChallengeType Death_OutlawDreadnought Death_OutlawDreadnaught
+			}
+		}
+	}
+	myRewards
+	{
+		ProgressionRewardSkillPointToAllPilots "Skill Point 1" < uid=C308E4DB5C49F9610000003FD29CA8A2 >
+		{
+			myRewardEverytime TRUE
+		}
+		ProgressionRewardSkillPointToAllPilots "Skill Point 2" < uid=C308E4DB5C49F961000000407AE22510 >
+		{
+			myRewardEverytime TRUE
+		}
+		ProgressionRewardSkillPointToAllPilots "Skill Point 3" < uid=C308E4DB5C49F9610000004151495421 >
+		{
+			myRewardEverytime TRUE
+		}
+	}
+	myIsRepeatable TRUE
+}
+
+Achievement "[Player] Paint Job reward on Outlaw Dreadnought in act 6" < uid=939A35415C58B2DD000329387AA5B7C2 >
+{
+	myCondition
+	{
+		AchievementCondition_RepeatCount Container < uid=939A35415C58B2DD000329399EFFF60C >
+		{
+			myConditions
+			{
+				AchievementCondition_Challenge "Kill Outlaw Dreadnought" < uid=939A35415C58B2DD0003293A2593928A >
+				{
+					myChallenges_TU5
+					{
+						ChallengeType Death_OutlawDreadnought Death_OutlawDreadnaught
+					}
+				}
+				AchievementCondition_GameActionState "In Act 6" < uid=939A35415C58B2DD0003293B669DA994 >
+				{
+					myGameActionStates
+					{
+						GameActionState "In Act 6" IsInAct6
+					}
+				}
+			}
+			myIsSynchronous TRUE
+		}
+	}
+	myRewards
+	{
+		ProgressionRewardEnhancement "Paint Job Dev 01" < uid=939A35415C58B2DD0003293C31D11922 >
+		{
+			myEnhancement < uid=939A35415C58B2DD0003293D50FFC682 > = Developer_Legendary_Paintjob_1
+		}
+	}
+	myIsRepeatable TRUE
+}
+
+Achievement "[Player] Paint Job reward on Dreadnought in act 6" < uid=939A35415C58B2DD0003293EE94109D5 >
+{
+	myCondition
+	{
+		AchievementCondition_RepeatCount Container < uid=939A35415C58B2DD0003293F621BCC60 >
+		{
+			myConditions
+			{
+				AchievementCondition_Challenge "Kill Dreadnought" < uid=939A35415C58B2DD00032940DBBAD108 >
+				{
+					myChallenges_TU5
+					{
+						ChallengeType Death_Dreadnought Death_Dreadnought
+					}
+				}
+				AchievementCondition_GameActionState "In Act 6" < uid=939A35415C58B2DD0003294175DFD72B >
+				{
+					myGameActionStates
+					{
+						GameActionState "In Act 6" IsInAct6
+					}
+				}
+			}
+			myIsSynchronous TRUE
+		}
+	}
+	myRewards
+	{
+		ProgressionRewardEnhancement "Paint Job Dev 01" < uid=939A35415C58B2DD00032942943177E4 >
+		{
+			myRewardEverytime TRUE
+			myEnhancement < uid=939A35415C58B2DD0003294328F5D1CE > = Developer_Legendary_Paintjob_1
+		}
+	}
+	myIsRepeatable TRUE
+}
+
+Achievement "[Player] Paint Job reward reaching act 6" < uid=939A35415C58B9590000003E7B5C3DEF >
+{
+	myCondition
+	{
+		AchievementCondition_Challenge "Complete Act 5" < uid=939A35415C58BB7000017CBBBE531EFA >
+		{
+			myChallenges
+			{
+				ChallengeType Progression_CompleteGame Progression_CompleteGame
+			}
+			myOperator All
+		}
+	}
+	myRewards
+	{
+		ProgressionRewardEnhancement "Paint Job" < uid=939A35415C58B9590000003F45BB1BDA >
+		{
+			myRewardEverytime TRUE
+			myEnhancement < uid=939A35415C58B959000000403E822D9E > = Legion_Legendary_Paintjob_1
+		}
+	}
+	myIsRepeatable FALSE
+}
+

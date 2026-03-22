@@ -1,0 +1,22 @@
+include ./outlaw_defender.mnpc
+include onward/skillscripts/harvester_drake_dreadnought_threat_heartbeat.mskillscriptjuice
+
+NPC outlaw_defender_dreadnought < uid=DDDD6F5D5C38CA5F00018B7783170747 > : outlaw_defender
+{
+	myPersistentScripts
+	{
+		SkillScript "Threat Heartbeat" < uid=C92F4D3F595FAB07022C7FB5FD09DB8F > = harvester_drake_dreadnought_threat_heartbeat
+		SkillScript "VFX Listener" < uid=DDDD6F5D5C38CA9C00018B8669A50668 > = npc_outlaw_vfx_listener
+	}
+	myBaseThreatProfile
+	{
+		myDeAggroRange 5000.0
+		myPlayerBaseThreat 100.0
+		myHarvesterBaseThreat 0.0
+		myCloseRange 100.0
+		myMediumRange 300.0
+		myLongRange 500.0
+		myExtremeRange 800.0
+	}
+}
+

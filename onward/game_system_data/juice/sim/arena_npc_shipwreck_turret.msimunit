@@ -1,0 +1,25 @@
+include ./arena_npc_base.msimunit
+
+SimUnit arena_npc_shipwreck_turret < uid=C92F4D3F5C17C5A7007B0AF3866C109B > : arena_npc_base
+{
+	mySubCategoryVariant 50
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo NPC < uid=C92F4D3F5C17C5A7007B0AF4B724A5E4 >
+		{
+			myCountMin 1
+			myCountMax 1
+			myIgnoreNavMesh TRUE
+			myIgnoreTerrain TRUE
+			myElementSpawnInfo
+			{
+				SimUnitElementSpawnInfo NPC
+				{
+					myEntityFile "onward/game system data/juice/ai/npc/shipwreck_turret_arena.mnpc"
+				}
+			}
+			myEnsurePlayerClearance TRUE
+		}
+	}
+}
+

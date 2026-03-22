@@ -1,0 +1,78 @@
+include "onward/game system data/fruit/attributes/attributes.fruit"
+
+Attributes Attributes
+{
+	Attribute "Min Range"
+	{
+		myType Ability_MinRange
+		myValue 0.0
+	}
+	Attribute "Max Range"
+	{
+		myType Ability_MaxRange
+		myValue 200.0
+	}
+	Attribute "Attack Cone (Degrees)"
+	{
+		myType NPC_AttackCone1
+		myValue 30.0
+	}
+	Attribute "Cooldown Between Volleys"
+	{
+		myType Ability_Cooldown
+		myValue 2.75
+		myComment "Be careful with this.  This cooldown needs to encapsulate the time needed to play the lower weapon and reload animations"
+	}
+	Attribute "Gatling Damage"
+	{
+		myType DMG_Kinetic
+		myValue 300.0
+	}
+	Attribute "Shot Count"
+	{
+		myType NPC_UserData1
+		myValue 3.0
+	}
+	Attribute "Gating Projectile Speed"
+	{
+		myType Projectile_Speed
+		myValue 110.0
+	}
+	Attribute "Spread (Horizontal, Degrees)"
+	{
+		myType NPC_Spread_Horiz1
+		myValue 3.0
+	}
+	Attribute "Spread (Vertical, Degrees)"
+	{
+		myType NPC_Spread_Vert1
+	}
+	Attribute "Rear Spread (Horizontal, Degrees)"
+	{
+		myType NPC_Spread_Horiz2
+		myValue 5.25
+		myComment "Horiz. spread when behind the target.  Spread is inverted in order to prefer missing."
+	}
+	Attribute "Rear Spred (Vertical, Degrees)"
+	{
+		myType NPC_Spread_Vert2
+		myComment "Vert. spread when behind the target.  Spread is inverted in order to prefer missing."
+	}
+	Attribute "Target Leading Velocity Multiplier"
+	{
+		myType NPC_UserData2
+		myValue 1.0
+	}
+	Attribute "Max Volley Duration"
+	{
+		myType Ability_DurationMax
+		myValue 1.0
+		myComment "Duration of fire, not including cooldown, which is lower, reload, and delay between voleys"
+	}
+	Attribute "Rate Of Fire"
+	{
+		myType Fire_Rate
+		myValue 0.1
+	}
+}
+

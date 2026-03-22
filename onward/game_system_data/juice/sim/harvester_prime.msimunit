@@ -1,0 +1,78 @@
+include "onward/game system data/fruit/sim/simunit.fruit"
+
+SimUnit harvester_prime < uid=4A8282B95727873C000000B33B0AD7EC >
+{
+	myUIName "contextComment = \"[PLACEHOLDER - do not translate].\nThe name of a major boss in the game, the harvester prime.\", description = \"ui-name-harvester-prime\", enabled = true, guid = #A08A88CF59B9702A00018C7A45C0453C, lineVersion = 0, maxLength = 8, text = \"Prime\""
+	myBehavior onward/simworld/behavior/harvester_prime.msimunitbtgraph
+	myControlGraph onward/simworld/control/harvester_prime.msimunitcontrolgraph
+	myFaction Harvester
+	myCategory Prime
+	myMaxHealth 1000.0
+	myRadius 50.0
+	myFindSettingsCategory Large
+	mySpeed 5.0
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo Prime < uid=93869D53596793CA004BF104F3D15ECD >
+		{
+			myCountMin 1
+			myCountMax 1
+			myEntitySize 35.0
+			myIgnoreNavMesh TRUE
+			myEntityFile ""
+			myElementSpawnInfo
+			{
+				SimUnitElementSpawnInfo "Level 1"
+				{
+					myEntityFile "onward/game system data/juice/ai/npc/harvester_prime_level_01.mnpc"
+					myLevelMin -1
+					myLevelMax 1
+				}
+				SimUnitElementSpawnInfo "Level 2"
+				{
+					myEntityFile "onward/game system data/juice/ai/npc/harvester_prime_level_02.mnpc"
+					myLevelMin 2
+					myLevelMax 2
+				}
+				SimUnitElementSpawnInfo "Level 3"
+				{
+					myEntityFile "onward/game system data/juice/ai/npc/harvester_prime_level_03.mnpc"
+					myLevelMin 3
+					myLevelMax 3
+				}
+				SimUnitElementSpawnInfo "Level 4"
+				{
+					myEntityFile "onward/game system data/juice/ai/npc/harvester_prime_level_04.mnpc"
+					myLevelMin 4
+				}
+			}
+		}
+		SimUnitEntitySpawnInfo "Leg Weakpoints" < uid=4A8282B959C95357000001AC026EA5FC >
+		{
+			myCountMin 4
+			myCountMax 4
+			myIgnoreHealth TRUE
+			myIgnoreNavMesh TRUE
+			myIgnoreTerrain TRUE
+			mySpawnOutsideZone FALSE
+			myElementSpawnInfo
+			{
+				SimUnitElementSpawnInfo Weakpoint
+				{
+					myEntityFile "onward/entity templates/harvester_prime_leg_weakpoint.mentitytemplate"
+				}
+			}
+			myAttachParentSpawnInfoUID 93869D53596793CA004BF104F3D15ECD
+			myAttachBoneCategory Weakpoints
+		}
+	}
+	myConstructionDuration 2.0
+	mySkillLevelCoefficients
+	{
+		myPlanetActMultiplier 1
+		myUnitLevelMultiplier 1
+		myBaseLevel 1
+	}
+	myMissionTargetTexture onward/baked/textures/UI/icons/outpost_targets/outpost_target_sim_unit/ui-icon-outpost-target-prime.dds
+}
+

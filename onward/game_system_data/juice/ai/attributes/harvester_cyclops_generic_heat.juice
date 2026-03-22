@@ -1,0 +1,95 @@
+include ./base_npc.juice
+
+Attributes "Inherited Resistances" = "Base Resistances"
+
+Attributes "Inherited Shatter Values" = "Base Shatter Values"
+
+Attributes General
+{
+	Attribute "Flying Target Height Threshold"
+	{
+		myType Range
+		myValue 15.0
+		myComment "Height off the ground at which a target is considered \"flying\" for combat purposes"
+	}
+	Attribute "Range to Target to Trigger Dash After Stumble"
+	{
+		myType Range2
+		myValue 20.0
+		myComment "If at least this close to combat target, will dash away after being stumbled"
+	}
+}
+
+Attributes "Ability 2 - Dash"
+{
+	Attribute "Impact Damage"
+	{
+		myType NPC_Damage2
+		myValue 500.0
+	}
+	Attribute Cooldown
+	{
+		myType NPC_Cooldown2
+		myValue 3.0
+	}
+	Attribute "Movement Speed"
+	{
+		myType NPC_UserData2
+		myValue 60.0
+	}
+	Attribute Duration
+	{
+		myType NPC_UserData3
+		myValue 0.45
+	}
+	Attribute "Trigger Chance from Damage Reaction"
+	{
+		myType NPC_TriggerChance2
+		myValue 0.4
+	}
+	Attribute "Enter Combat Trigger Range"
+	{
+		myType NPC_MaxRange2
+		myValue 25.0
+		myComment "Range at which the Cyclops will dash away from other Harvesters upon entering combat."
+	}
+}
+
+Attributes "Ability 3 - Leap"
+{
+	Attribute Cooldown
+	{
+		myType NPC_Cooldown3
+		myValue 3.0
+	}
+	Attribute Damage
+	{
+		myType NPC_Damage3
+		myValue 500.0
+	}
+	Attribute "Stagger Time"
+	{
+		myType NPC_UserData4
+		myValue 3.0
+	}
+	Attribute "Stagger Event Emit Range"
+	{
+		myType NPC_MaxRange3
+		myValue 150.0
+	}
+}
+
+Attributes "Ability 4 - Knock Back"
+{
+	Attribute Damage
+	{
+		myType NPC_Damage4
+		myValue 100.0
+	}
+	Attribute Range
+	{
+		myType NPC_MaxRange4
+		myValue 15.0
+	}
+}
+

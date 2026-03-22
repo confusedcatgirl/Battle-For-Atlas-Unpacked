@@ -1,0 +1,41 @@
+enum BodyPartType
+{
+	None
+	Head
+	Body
+	Arms
+	Legs
+	Shield
+	WeakPoint
+	Prime_LowerCore
+	Prime_UpperCore
+	Prime_FrontCore
+	Grax_Crystal_Shield
+	Crush_Giant_InnerThroat
+	Battlemech_LeftKnee
+	Battlemech_RightKnee
+	Battlemech_Spine
+	Hovertank_FrontArmor
+	Hovertank_FrontWeakpoint
+	Hovertank_BackArmor
+	Hovertank_BackWeakpoint
+	Hovertank_LeftArmor
+	Hovertank_LeftWeakpoint
+	Hovertank_RightArmor
+	Hovertank_RightWeakpoint
+	Hovertank_TopLeftWeakpoint
+	Hovertank_TopRightWeakpoint
+}
+
+class BodyPart < uid=auto >
+{
+	locstring myUIName "UNSCRIPTED"
+	color myDebugColor 0x4488ff88
+	float myDamageModifier 1.0
+	float myStatusEffectModifier 1.0
+	float myImpactModifier 1.0
+	int myImpactCategoryModifier 0
+	BodyPartType myBodyPartType None
+	bool myDeflectProjectiles FALSE
+	bool myIsCriticalDamage FALSE
+}

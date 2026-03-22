@@ -1,0 +1,49 @@
+include "onward/game system data/fruit/sim/simunit.fruit"
+include "onward/game system data/fruit/entity/faction.fruit"
+
+list OnDeathCategoryFilterList
+{
+	SimUnitCategory
+}
+list OnDeathSubCategoryFilterList
+{
+	SimUnitSubCategory
+}
+list OnDeathFactionFilterList
+{
+	FactionType
+}
+
+class OnDeathDiscoveryUnitFilter
+{
+	OnDeathCategoryFilterList myCategoryList < tooltip="You must include at least one category" >
+	OnDeathSubCategoryFilterList mySubCategoryList < tooltip="WARNING if you leave this blank you will allow ALL subCategories!" >
+	OnDeathFactionFilterList myFactionList < tooltip="WARNING if you leave this blank you will allow ALL factions!" >
+}
+
+class OnDeathDiscoveryBase
+{
+	float myKnowledgeToGrant
+}
+
+class OnDeathDiscoveryUnitSearch : OnDeathDiscoveryBase
+{
+	OnDeathDiscoveryUnitFilter myUnitFilter
+	float mySearchRadius < tooltip="Use negative number for planet-wide search" >
+	int myMaxUnitsToDiscover < tooltip="Max units that will be discovered in radius.  Use negative number for unlimited." >
+}
+
+class OnDeathDiscoveryParent : OnDeathDiscoveryBase
+{
+}
+
+list OnDeathDiscoveryList
+{
+	OnDeathDiscoveryBase
+}
+
+class OnDeathDiscoverySet
+{
+	OnDeathDiscoveryUnitFilter myOnDeathFilter < tooltip="When these units die..." >
+	OnDeathDiscoveryList myDiscoveryTargets < tooltip="... grant knowledge to these units" >
+}

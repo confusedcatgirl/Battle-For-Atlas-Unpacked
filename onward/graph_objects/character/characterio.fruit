@@ -1,0 +1,109 @@
+class Input
+{
+    mat44 MuzzlePosition_Primary
+    mat44 MuzzlePosition_Secondary
+    mat44 MuzzlePosition_Tertiary
+    mat44 TargetablePosition
+    int TargetablePriority < default=0 >
+    vec3f TargetableBoundsMin
+    vec3f TargetableBoundsMax
+	bool TargetableCentreBoundsOnTargetPosition < default=FALSE >
+    bool TargetableRequireValidBodyPart < default=FALSE >
+    vec3f EyesPosition
+    bool ShouldCollideWithDialogueCamera < default=TRUE >
+    bool ShouldCollideWithCamera < default=TRUE >
+}
+
+class Output
+{
+    int ElectrumLocationSelector0 < default=0 >
+    int ElectrumLocationSelector1 < default=1 >
+    int ElectrumLocationSelector2 < default=2 >
+    int ElectrumVariantSelector0 < default=0 >
+    int ElectrumVariantSelector1 < default=1 >
+    int ElectrumVariantSelector2 < default=2 >
+    bool ElectrumVisibleSelector0 < default=TRUE >
+    bool ElectrumVisibleSelector1 < default=TRUE >
+    bool ElectrumVisibleSelector2 < default=TRUE >
+
+    float HealthPercentage < default=1.0 >
+    int InteractPulse
+    bool Fragment < default=FALSE >
+    int AuraCount < default=0 >
+    bool HasBeenHit < default=FALSE >
+    vec4f NearbyExplosion < default=0;0;0;0 >
+    float Temperature < default=0 >
+    float Levitation < default=0 >
+    bool Shatter < default=FALSE >
+    float Speed < default=0 >
+    float Acceleration < default=0 >
+    vec3f Velocity < default=0;0;0 >
+    float YawRate < default=0 >
+    float RollRate < default=0 >
+    float PitchRate < default=0 >
+    bool ShieldHitPulse < default=FALSE >
+    bool HullHitPulse < default=FALSE >
+    bool IsShieldRegen < default=FALSE >
+    bool IsShieldBreak < default=FALSE >
+    bool IsShieldActive < default=FALSE >
+    bool IsPlayerShield < default=FALSE >
+    bool IsHeatShield < default=FALSE >
+    bool IsColdShield < default=FALSE >
+    bool IsCrushShield < default=FALSE >
+    int ShieldType < default=0 >
+    mat44 ShieldTransform
+    vec3f ShieldScale < default=1;1;1 >
+    vec3f ShieldOffset < default=0;0;0 >
+    color ShieldColor < default=0xFFFFFF00 >
+    vec3f ShieldHitLoc0 < default=0;0;0 >
+    vec3f ShieldHitLoc1 < default=0;0;0 >
+    vec3f ShieldHitLoc2 < default=0;0;0 >
+    bool ShieldHitPulse0 < default=FALSE >
+    bool ShieldHitPulse1 < default=FALSE >
+    bool ShieldHitPulse2 < default=FALSE >
+    bool HullHitPulse0 < default=FALSE >
+    bool HullHitPulse1 < default=FALSE >
+    bool HullHitPulse2 < default=FALSE >
+    vec3f HullHitLoc0 < default=0;0;0 >
+    vec3f HullHitLoc1 < default=0;0;0 >
+    vec3f HullHitLoc2 < default=0;0;0 >
+    int ShieldHitCount < default=0 >
+    string AnimationName
+    bool PartAttachedPulse < default=FALSE >
+    bool PartRemovedPulse < default=FALSE >
+    bool MuzzleFlashPulse < default=FALSE >
+    mat44 BlackHoleBeamTransform
+    vec3f BlackHoleBeamPosition < default=0;0;0 >
+    bool BlackHoleStormActive < default=FALSE >
+    float BlackHoleStormIntensity < default=0 >
+    float DecalOpacity < default=1 min=0 max=1 >
+    int DecalIndex < default=0 >
+    int NPCType < default=0 >
+    bool ShieldPulse < default=FALSE >
+    bool ShieldRecharge < default=FALSE >
+    float ShieldPercent < default=0.0 >
+    float HitStartTime < default=0 >
+    vec3f HitPosition < default=0;0;0 >
+    vec3f LastBulletHitDir < default=1;0;0 >
+    vec3f LookAtPosition < default=0;0;0 >
+    bool OverShieldActive < default=FALSE >
+    color OverShieldColor < default=0xFFFFFF00 >
+    bool ThrustersActivated < default=FALSE >
+    bool Burrowed < default=FALSE >
+    int AffinityType < default=0 >
+    bool IsDormant < default=FALSE >
+    mat44 VisualImpactTransform
+    float ThrusterScale < default=1.0 >
+    bool IsSpotlightOn < default=FALSE >
+    bool IsHacked < default=FALSE >
+    bool IsFrozen < default=FALSE >
+	
+    float Scale_Category1 < default=1 >
+    float Scale_Category2 < default=1 >
+    float Scale_Category3 < default=1 >
+	
+    float ScanProgress	< default=0 >
+    vec3f ScanPosition	< default=0;0;0 >
+    bool IsBeingScanned	< default=FALSE >
+    bool IsInScanningRefocus < default=FALSE >
+}

@@ -1,0 +1,28 @@
+include "onward/game system data/fruit/sim/simunit.fruit"
+
+SimUnit RSE_warden_anvil_space < uid=CC9485AB5C3D012F000FB77B2109CF26 >
+{
+	myUIName "contextComment = \"Comment: The Celestial Anvil that the player interacts with at the end of the expedition questline\", description = \"simunit-celestial-anvil\", enabled = true, guid = #CC9485AB5C3D012F000FB77A2266C70A, lineVersion = 0, maxLength = 22, text = \"[Celestial Anvil]\""
+	myControlGraph onward/simworld/control/rse_warden_anvil_space.msimunitcontrolgraph
+	myFaction Expedition
+	myCategory StoryTarget
+	mySubCategory Data
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo Anvil < uid=CC9485AB5C3D012F000FB77C23A5A1F6 >
+		{
+			myCountMin 0
+			myCountMax 1
+			myIgnoreHealth FALSE
+			myIgnoreNavMesh TRUE
+			myIgnoreTerrain TRUE
+			mySpawnOutsideZone TRUE
+			myIsSpaceLandmark TRUE
+			myEntityFile "onward/entity templates/RSE_warden_anvil_space.mentitytemplate"
+		}
+	}
+	mySaveable TRUE
+	myNapTime 1.0
+	myIsSpaceLandmark TRUE
+}
+

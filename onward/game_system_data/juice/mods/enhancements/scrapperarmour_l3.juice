@@ -1,0 +1,20 @@
+include ./templates/template_l3.juice
+include "onward/game system data/juice/mods/mod_scrapper_armour_l3.mplayermod"
+include ./impactaffectors/impact_affectors.juice
+
+Enhancement scrapperarmour_l3 < uid=C91BB551597F9C70001647CE08A33AB7 > : "Level 3"
+{
+	myLocalizedName "contextComment = \"[Placeholder - do not translate]\nName for level 3 version of a Ship Armor that favours aggressive/scrappy fighting by boosting ramming damage and improving kinetic/physical damage resistance & HP regeneration\", description = \"\", enabled = true, guid = #C91BB551597F9C70001647CD524CBDD1, lineVersion = 1, maxLength = 30, text = \"Scrapper Armor III\""
+	myLocalizedDescription "contextComment = \"[Placeholder - do not translate]\nDescription for level 3 version of a Ship Armor that favours aggressive/scrappy fighting by boosting ramming damage and improving kinetic/physical damage resistance & HP regeneration\", description = \"enhancement-description-scrapper-armour-3\", enabled = true, guid = #AD937CAF564640CE84D7488EF170A7D9, lineVersion = 1, maxLength = 69, text = \"+30% Kinetic Resist\n+20 Defense\n+100 Damage on Impact\""
+	myIconSprite "mySpriteId = -798553130, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-mods-ship-armour.spritesheet\""
+	myIsHullEnhancement TRUE
+	myMod < uid=C91BB551597F9C70001647CF7F07A3C9 > = mod_scrapper_armour_l3
+	myBuff < uid=C91BB551597F9C70001647D0E2710E3D > = NULLREFERENCE
+	myEnhancementType Armour
+	myEnhancementTrackType ScrapperArmour
+	myImpactAffectors
+	{
+		ImpactAffector_Damage "Damage on Impact 100" = "Damage on Impact 100"
+	}
+}
+

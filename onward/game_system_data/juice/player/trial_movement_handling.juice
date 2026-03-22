@@ -1,0 +1,66 @@
+include ./../../fruit/player/player.fruit
+
+MovementConfigCategory 100
+{
+	value 100.0
+	config
+	{
+		StrafeSettings GroundStrafeThrustLateral
+		{
+			topSpeed 0.0
+			lateralTopSpeed 0.0
+            secondsToTopSpeed 0.0
+		}
+		StrafeSettings GroundStrafeIdle
+		{
+			secondsToTopSpeed 0.0
+		}
+		CameraInputSettings GroundCameraInputThrust
+		{
+			myDampingUp 0.0
+		}
+		ShipStaminaSettings Stamina
+		{
+			myPoints 800.0
+			myRechargeRate 50.0
+			myAvailabilityThresholdAfterDepletion 50.0
+		}
+        BoostSettings GroundBoost
+        {
+	        mySteeringMaxInput 0.0
+        }
+	}
+}
+
+MovementConfigCategory 300
+{
+	value 300.0
+	config
+	{
+		StrafeSettings GroundStrafeThrustLateral
+		{
+			topSpeed 20.0
+			lateralTopSpeed 20.0
+            secondsToTopSpeed -1.5
+		}
+		StrafeSettings GroundStrafeIdle
+		{
+			secondsToTopSpeed -2.5
+		}
+		CameraInputSettings GroundCameraInputThrust
+		{
+			myDampingUp 4.0
+		}
+		ShipStaminaSettings Stamina
+		{
+			myPoints 1600.0
+			myRechargeRate 50.0
+			myAvailabilityThresholdAfterDepletion 50.0
+		}
+        BoostSettings GroundBoost
+        {
+	        mySteeringMaxInput 0.2
+        }
+	}
+}
+

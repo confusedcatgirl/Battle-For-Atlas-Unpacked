@@ -1,0 +1,119 @@
+include "onward/game system data/juice/rulesystem/rulesbank.juice"
+
+RulesBank grappler_gameplay_rulesbank < uid=2290993C5C4F5D3400000038BE86A8A4 >
+{
+	myRules
+	{
+		Rule "Grappler Attached (Elite Drake)" < uid=2290993C5C4F7AC000000070AEC98426 >
+		{
+			myRuleConcept ON_PLUCK_START
+			myCriteriaList
+			{
+				uid "Instigator Faction Is Player" F2C5C6925767FAEB0000000520B9FAB2
+				uid "Target Faction Is Harvester" F2C5C692573A4E0F000000329BC51360
+				uid "Target SubCategory is Drake" 2B55C72B59E6464B00000038D3D0E27D
+			}
+			myPayloads
+			{
+				uid "Grappler Attached VO (PILOTS)" 2290993C5C4F61570000003A8798A2D4
+			}
+		}
+		Rule "Grappler Attached (Outlaw)" < uid=2290993C5C4F796D0000006B2215BA66 >
+		{
+			myRuleConcept ON_PLUCK_START
+			myCriteriaList
+			{
+				uid "Instigator Faction Is Player" F2C5C6925767FAEB0000000520B9FAB2
+				uid "Target Faction Is Outlaw" D1E9B2CB5755C3ED0000008AC7F39169
+			}
+			myPayloads
+			{
+				uid "Grappler Attached VO (PILOTS)" 2290993C5C4F61570000003A8798A2D4
+			}
+		}
+		Rule "Grappler Fail (Elite Drake)" < uid=2290993C5C4F7C8F00000071A75A1FE4 >
+		{
+			myRuleConcept ON_PLUCK_BREAK
+			myCriteriaList
+			{
+				uid "Instigator Faction Is Player" F2C5C6925767FAEB0000000520B9FAB2
+				uid "Target Faction Is Harvester" F2C5C692573A4E0F000000329BC51360
+				uid "Target SubCategory is Drake" 2B55C72B59E6464B00000038D3D0E27D
+			}
+			myPayloads
+			{
+				uid "Grappler Fail VO (PILOTS)" 2290993C5C4F61570000003B49199A90
+			}
+		}
+		Rule "Grappler Fail (Outlaw)" < uid=2290993C5C4F796D0000006C57947E7B >
+		{
+			myRuleConcept ON_PLUCK_BREAK
+			myCriteriaList
+			{
+				uid "Instigator Faction Is Player" F2C5C6925767FAEB0000000520B9FAB2
+				uid "Target Faction Is Outlaw" D1E9B2CB5755C3ED0000008AC7F39169
+			}
+			myPayloads
+			{
+				uid "Grappler Fail VO (PILOTS)" 2290993C5C4F61570000003B49199A90
+			}
+		}
+		Rule "Grappler - Caltrops Deployed Assist" < uid=2290993C5C4F796D0000006DDAFA6C0F >
+		{
+			myRuleConcept ON_BARK_FINISHED
+			myCriteriaList
+			{
+				uid "BarkTag was Caltrops" 2290993C5C7D46F8000000381405E7F2
+			}
+			myPayloads
+			{
+				uid "Grappler - Caltrops Deployed Assist VO" 2290993C5C4F61570000003CC251D89F
+			}
+		}
+		Rule "Grappler - Compatible Unit Shield Disabled" < uid=2290993C5C4F796D0000006ED51318FE >
+		{
+			myRuleConcept ON_AGENT_SHIELD_BREAK
+			myCriteriaList
+			{
+				uid "Player In Space" 2B55C72B59E0028900000036453C2E7A
+				uid "Target Faction Is Outlaw" D1E9B2CB5755C3ED0000008AC7F39169
+				uid "Target Category Is NPC" D1E9B2CB5755BF560000008833543BBA
+				uid "Za Target SubCategory is Bounty" 2290993C5C3E58820000003DFF5808BF
+			}
+			myPayloads
+			{
+				uid "Grappler - Compatible Unit Shield Disabled VO" 2290993C5C4F61570000003D4D9F53B5
+			}
+		}
+		Rule "Grappler - Shield Ram Ready (Elite Drake)" < uid=2290993C5C4F796D0000006F5A5A4EB0 >
+		{
+			myRuleConcept ON_PLUCK_ADVANCEDSTAGE
+			myCriteriaList
+			{
+				uid "Za Target Pluck Stage is ShieldRam" 600A30F35C40EDD80000003C604FED7C
+				uid "Instigator Faction Is Player" F2C5C6925767FAEB0000000520B9FAB2
+				uid "Target Faction Is Harvester" F2C5C692573A4E0F000000329BC51360
+				uid "Target SubCategory is Drake" 2B55C72B59E6464B00000038D3D0E27D
+			}
+			myPayloads
+			{
+				uid "Grappler - Shield Ram Ready VO" 2290993C5C4F61570000003E0F53D6D0
+			}
+		}
+		Rule "Grappler - Shield Ram Ready (Outlaw)" < uid=2290993C5C4F7DBA00000072EAC33719 >
+		{
+			myRuleConcept ON_PLUCK_ADVANCEDSTAGE
+			myCriteriaList
+			{
+				uid "Za Target Pluck Stage is ShieldRam" 600A30F35C40EDD80000003C604FED7C
+				uid "Instigator Faction Is Player" F2C5C6925767FAEB0000000520B9FAB2
+				uid "Target Faction Is Outlaw" D1E9B2CB5755C3ED0000008AC7F39169
+			}
+			myPayloads
+			{
+				uid "Grappler - Shield Ram Ready VO" 2290993C5C4F61570000003E0F53D6D0
+			}
+		}
+	}
+}
+

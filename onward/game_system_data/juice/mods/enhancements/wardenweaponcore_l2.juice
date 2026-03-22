@@ -1,0 +1,26 @@
+include ./templates/template_l2.juice
+include ./damageaffectors/damage_affectors.juice
+include "onward/game system data/juice/mods/mod_warden_weaponcore_l2.mplayermod"
+
+Enhancement wardenweaponcore_l2 < uid=C91BB55159823AF900192FE4C02BDA7F > : "Level 2"
+{
+	myLocalizedName "contextComment = 'Placeholder - do not translate]\nName for level 2 version of premium/ancient \"Warden\" weapon core that lets players take more advantage of Elemental effects', description = \"\", enabled = true, guid = #C91BB55159823AF900192FE3E1DFE122, lineVersion = 2, maxLength = 18, text = \"Warden Ammo II\""
+	myLocalizedDescription "contextComment = '[Placeholder - do not translate]\nDescription for level 2 version of premium/ancient \"Warden\" weapon core that lets players take more advantage of Elemental effects', description = \"enhancement-description-warden-weapon-core-2\", enabled = true, guid = #9E6AFEDA59D80E0100000189FA37FB8A, lineVersion = 2, maxLength = 127, text = \"+20% Damage\n+25% Damage to targets under Status Effect\n+25% Damage with affinity target is weak to\""
+	myIconSprite "mySpriteId = 1858197931, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-mods-weapon-core.spritesheet\""
+	myMod < uid=939A35415AB53ECB00014DE4A1E30F9D > = mod_warden_weaponcore_l2
+	myEnhancementType WeaponCore
+	myEnhancementTrackType WardenWeaponCore
+	myDamageAffectors
+	{
+		DamageAffector_StatusEffect "Extra Damage to SE target"
+		{
+			myDamageMultiplier = Warden_WeaponCore_l2_StatusEffectDmg
+			myAnyStatusEffect TRUE
+		}
+		DamageAffector_Weakness "Extra Damage to Weakness"
+		{
+			myDamageMultiplier = Warden_WeaponCore_l2_WeaknessDamage
+		}
+	}
+}
+

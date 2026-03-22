@@ -1,0 +1,27 @@
+include ./templates/template_l3.juice
+include "onward/game system data/juice/mods/mod_gunner_weaponcore_l3.mplayermod"
+include ./damageaffectors/damage_affectors.juice
+
+Enhancement gunnerweaponcore_l3 < uid=C91BB5515980EC470000003C22168A32 > : "Level 3"
+{
+	myLocalizedName "contextComment = \"[Placeholder - do not translate]\nName for level 3 version of Gunner Weapon Core, which makes it easier to rain a sustained hail of projectiles.\", description = \"\", enabled = true, guid = #C91BB5515980EC470000003BF3C018A2, lineVersion = 2, maxLength = 20, text = \"Tanker Ammo III\""
+	myLocalizedDescription "contextComment = \"[Placeholder - do not translate]\nDescription for level 3 version of Gunner Weapon Core, which reduces cost to fire weapon and recharges weapon energy when damaging targets, and sometimes makes projectiles bounce to hit additional targets.\", description = \"enhancement-description-gunner-weapon-core-3\", enabled = true, guid = #9E6AFEDA59D2609A00A86112AC9B514E, lineVersion = 2, maxLength = 96, text = \"+20% Damage\n+10% Damage to targets within 50m\nHeals for 20% of damage done\""
+	myIconSprite "mySpriteId = -1798864911, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-mods-weapon-core.spritesheet\""
+	myMod < uid=C91BB5515980EC470000003DFA201E80 > = mod_gunner_weaponcore_l3
+	myBuff < uid=C91BB5515980EC470000003EDA56C460 > = NULLREFERENCE
+	myEnhancementType WeaponCore
+	myEnhancementTrackType GunnerWeaponCore
+	myDamageAffectors
+	{
+		DamageAffector_DamageToHealth "Damage Heals"
+		{
+			myDamageToHealthRatio = Gunner_WeaponCore_l3_DamageHP
+		}
+		DamageAffector_CloseRange "Close Range Damage"
+		{
+			myDamageMultiplier = Gunner_WeaponCore_l3_CloseDmg
+			myWithinMeters 50.0
+		}
+	}
+}
+

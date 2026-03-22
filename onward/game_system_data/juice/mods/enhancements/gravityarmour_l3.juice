@@ -1,0 +1,15 @@
+include ./templates/template_l3.juice
+include "onward/game system data/juice/mods/mod_gravity_armour_l3.mplayermod"
+
+Enhancement gravityarmour_l3 < uid=C91BB551597F86240066E19DBF87A31D > : "Level 3"
+{
+	myLocalizedName "contextComment = \"[Placeholder - do not translate]\nName for level 3 version of a Ship Armor that protects against Gravity/crush damage and gives the player bonuses in hot status effects (gravity field / black hole)\", description = \"\", enabled = true, guid = #C91BB551597F86240066E19C75F9FEBD, lineVersion = 1, maxLength = 30, text = \"Gravity Armor III\""
+	myLocalizedDescription "contextComment = \"[Placeholder - do not translate]\nDescription for level 3 version of a Ship Armor that protects against Gravity/crush damage and gives the player bonuses in hot status effects (gravity field / black hole)\", description = \"enhancement-description-gravity-armour-3\", enabled = true, guid = #0019C50433B64CBEB085416DC96EE5DF, lineVersion = 1, maxLength = 108, text = \"+30 Defense\n+60% Resistance to Gravity damage\nAdds weight to Ship & Resist Crashing\""
+	myIconSprite "mySpriteId = 694401933, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-mods-ship-armour.spritesheet\""
+	myIsHullEnhancement TRUE
+	myMod < uid=C91BB551597F86240066E19E2173B98F > = mod_gravity_armour_l3
+	myBuff < uid=C91BB551597F86240066E19F35400840 > = NULLREFERENCE
+	myEnhancementType Armour
+	myEnhancementTrackType GravityArmour
+}
+

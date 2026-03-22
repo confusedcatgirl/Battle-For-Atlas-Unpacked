@@ -1,0 +1,18 @@
+include ./templates/template_l4.juice
+include "onward/game system data/juice/mods/mod_expedition_armour_l4.mplayermod"
+include "onward/game system data/juice/buffs/buff_expedition_armour_l1.mbuff"
+include "onward/game system data/juice/buffs/buff_expedition_armour_l5.mbuff"
+
+Enhancement expeditionarmour_l4 < uid=C91BB5515980BB4B000F46CF3BEA0807 > : "Level 4"
+{
+	myLocalizedName "contextComment = \"[Placeholder - do not translate]\nName for level 4 version of a Ship Armor made by the Expedition that provides the ship with invisibility. Can only be equipped on Expedition Ships.\", description = \"\", enabled = true, guid = #C91BB5515980BB4B000F46CEB37A18C0, lineVersion = 1, maxLength = 30, text = \"Expedition Armor IV\""
+	myLocalizedDescription "contextComment = \"[Placeholder - do not translate]\nDescription for level 4 version of a Ship Armor made by the Expedition that provides the ship with invisibility. Can only be equipped on Expedition Ships.\", description = \"enhancement-description-expedition-armour-4\", enabled = true, guid = #37ABAF3054E24B938C65920C257BFC77, lineVersion = 2, maxLength = 212, text = \"+20 Defense | +40% Elemental Resist\nShip is invisible when Shield Breaks\nInvisible when Out of Combat near enemies\nShip becomes Lighter\nEquip on an Expedition Ship\""
+	myIconSprite "mySpriteId = 1113227651, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-mods-ship-armour.spritesheet\""
+	myIsHullEnhancement TRUE
+	myFactionType Expedition
+	myMod < uid=C91BB5515980BE1E000000620587F3A7 > = mod_expedition_armour_l4
+	myBuff < uid=C91BB551598B49EC00E0D276E719C59E > = buff_expedition_armour_l5
+	myEnhancementType Armour
+	myEnhancementTrackType ExpeditionArmour
+}
+

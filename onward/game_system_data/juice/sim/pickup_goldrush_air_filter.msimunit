@@ -1,0 +1,23 @@
+include ./pickup_goldrush_equipment.msimunit
+
+SimUnit pickup_goldrush_air_filter < uid=D1E9B2CB58779F700000031C316D8DDD > : pickup_goldrush_equipment
+{
+	myUIName "contextComment = \"[Placeholder - do not translate] HUD name shown hovering over a piece of old salvaged machinery the player can pick up and deliver to an outpost.\", description = \"ui-target-pickup-goldrush-air-filter\", enabled = true, guid = #9E6AFEDA591F55D1000000565FD9C20A, lineVersion = 0, maxLength = 20, text = \"Air Filter\""
+	mySubCategory GoldrushEquipment
+	mySubCategoryVariant 5
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo InteractablePickup < uid=2B55C72B59847A7A00000085D2E77F21 >
+		{
+			myCountMin 1
+			myCountMax 1
+			myIgnoreNavMesh TRUE
+			myIgnoreTerrain TRUE
+			myEntityFile "onward/entity templates/pickup_goldrush_air_filter.mentitytemplate"
+		}
+	}
+	myIsValidPickupTarget FALSE
+	myIconSprite "mySpriteId = -506872487, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-inventory-metals-and-goldrush.spritesheet\""
+	myMissionTargetTexture onward/baked/textures/UI/icons/outpost_targets/outpost_target_sim_unit/ui-icon-outpost-target-goldrush-ore-processor.dds
+}
+

@@ -1,0 +1,27 @@
+include ./templates/template_l5.juice
+include "onward/game system data/juice/mods/mod_prospector_armour_l5.mplayermod"
+include ./impactaffectors/impact_affectors.juice
+include "onward/game system data/juice/buffs/buff_prospector_armour_l5.mbuff"
+include ./damageaffectors/damage_affectors.juice
+
+Enhancement prospectorarmour_l5 < uid=C91BB5515980BF90000000B88D05F14C > : "Level 5"
+{
+	myLocalizedName "contextComment = \"[Placeholder - do not translate]\nName for level 5 version of a Ship Armor made by the Prospectors that gives broad-spectrum resistance and ground-pound like abilities when fighting on the ground. Can only be equipped on Prospector ships.\", description = \"\", enabled = true, guid = #C91BB5515980BF90000000B7B79DA658, lineVersion = 1, maxLength = 30, text = \"Prospector Armor V\""
+	myLocalizedDescription "contextComment = \"[Placeholder - do not translate]\nDescription for level 5 version of a Ship Armor made by the Prospectors that gives broad-spectrum resistance and ground-pound like abilities when fighting on the ground. Can only be equipped on Prospector ships.\", description = \"enhancement-description-prospector-armour-5\", enabled = true, guid = #7B32496D8DF04D4A8D6C85EDB1215D38, lineVersion = 2, maxLength = 164, text = \"+100 Defense\n+25% Damage Resist\nParry Stuns for Longer | Stun on Impact\nKnock units back on Crash\nParry causes stronger Impact\""
+	myIconSprite "mySpriteId = 1758106709, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-mods-ship-armour.spritesheet\""
+	myIsHullEnhancement TRUE
+	myFactionType Prospector
+	myMod < uid=C91BB5515980BF90000000B9256D6A6E > = mod_prospector_armour_l5
+	myBuff < uid=C308E4DB59DD181B000001BBA3FD63AF > = buff_prospector_armour_l5
+	myEnhancementType Armour
+	myEnhancementTrackType ProspectorArmour
+	myDamageAffectors
+	{
+		DamageAffector_RamResistance "Ram Resistance" = "Ram Resistance"
+	}
+	myImpactAffectors
+	{
+		ImpactAffector_Stun "Stun on Impact" = "Stun on Impact"
+	}
+}
+

@@ -1,0 +1,137 @@
+include ./act05_storybeats.juice
+
+StoryBeatSequence "SEQUENCE 1 - Opening" < uid=9FD9E8185A8DF90C00001B9A83E2F03B >
+{
+	myStoryBeats
+	{
+		StoryBeatData "OBJECTIVE - Chapter 1 - Header" < uid=9FD9E8185AA9350200001C2AF1ADE5AF > = Act5.Objective.Chapter1.Header
+		StoryBeatData "OBJECTIVE - Chapter 1 - Sub 1" < uid=9FD9E8185AA9350200001C2B8BE7F6FB > = Act5.Objective.Chapter1.Sub1
+		StoryBeatData "Set Respawn Checkpoint" < uid=9FD9E81859D523CF000000358912B1FF > = Act5_SEQ1_SetRespawnCheckpoint
+		StoryBeatData "Setup A" < uid=2B55C72B5910D1540000005C25B4B0E0 > = Act5_SEQ1_SetupA
+		StoryBeatData Setup < uid=9FD9E81859B00843000001F90A65DAF7 > = Act5_SEQ1_Setup
+		StoryBeatData "Spawn Atlas B" < uid=9FD9E81859663A31000001F74CD3366B > = Act5_SEQ1_SpawnAtlasB
+		StoryBeatData "Fade In" < uid=9FD9E81859E0F7EE000000376B33EE02 > = Act5_SEQ1_FadeIn
+		StoryBeatData "Spawn Dreadnought" < uid=9FD9E8185967E1140000023E60171032 > = Act5_SEQ1_SpawnBlockadeDreadnought
+		StoryBeatData "Clear Target" < uid=9FD9E8185A8DF94B00001BA52BEF723A >
+		{
+			myIsCheckpoint FALSE
+		}
+		StoryBeatData "Set Objective" < uid=9FD9E818596691630000028C975B5D95 > = Act5_SEQ1_SetObjective
+		StoryBeatData "Sea of Dreadnoughts" < uid=9FD9E8185A7CAFDD000019B643B62F86 > = Act5_SEQ1_SeaOfDreadnoughts
+		StoryBeatData "Wait for Proximity" < uid=9FD9E8185A7DEBEB00001B9876952917 > = Act5_SEQ1_WaitForProximity
+		StoryBeatData "Proximity Dialogue" < uid=9FD9E8185AC6DA2A00001F14EAD4A593 > = Act5_SEQ1_ProximityDialogue
+		StoryBeatData "Spawn Drakes" < uid=9FD9E8185A7DEBEB00001B996B720DA4 > = Act5_SEQ1_SpawnDrakeSwarm
+	}
+}
+
+StoryBeatSequence "SEQUENCE 2 - Drake Battle" < uid=9FD9E8185A8DF90C00001B9B3F59D142 >
+{
+	myStoryBeats
+	{
+		StoryBeatData "Wait for Enter Combat" < uid=2B55C72B5910D1F90000005EBC8BEB1B > = Act5_SEQ2_WaitForCombat
+		StoryBeatData "OBJECTIVE - Chapter 1 - Sub 2" < uid=9FD9E8185AA9356400001C31FBE51189 > = Act5.Objective.Chapter1.Sub2
+		StoryBeatData "Drake Swarm 1" < uid=2B55C72B5910D1F90000005F359860C6 > = Act5_SEQ2_DrakeSwarm1
+		StoryBeatData "Drake Swarm 2" < uid=9FD9E818598345AE000001ACB3DD80B8 > = Act5_SEQ2_DrakeSwarm2
+		StoryBeatData "Dialog Power Surge" < uid=2B55C72B5910D3A30000004BD7BFF08B > = Act5_SEQ2_PowerSurge
+		StoryBeatData "OBJECTIVE - Chapter 2 - Header" < uid=9FD9E8185AA935AE00001C3784738623 > = Act5.Objective.Chapter2.Header
+		StoryBeatData "OBJECTIVE - Chapter 2 - Sub 1" < uid=9FD9E8185AA935F600001C3BE1A617C1 > = Act5.Objective.Chapter2.Sub1
+		StoryBeatData "Wait For Blockade Approach" < uid=9FD9E8185967AC95000001FE3737B7C9 > = Act5_SEQ2_WaitForBlockadeApproach
+		StoryBeatData "Engage Blockade Ship" < uid=9FD9E8185967BA960000020503AB2C51 > = Act5_SEQ2_EngageBlockadeShip
+		StoryBeatData "Blockade Ship" < uid=9FD9E8185967BA9600000206B87BFCBF > = Act5_SEQ2_SetObjectiveBlockadeShip
+		StoryBeatData "Dialogue After Entered" < uid=9FD9E81859CAE16F00000EABE02820E3 > = Act5_SEQ2_EnterBlockadeDreadnought
+		StoryBeatData "OBJECTIVE - Chapter 2 - Sub 2" < uid=9FD9E8185AA9363600001C3CE040AE11 > = Act5.Objective.Chapter2.Sub2
+		StoryBeatData "Dreadnought Bark 1" < uid=9FD9E8185AC3FC6700001CD144569C49 > = Act5_SEQ2_DreadnoughtBark1
+		StoryBeatData "Dreadnought Bark 2" < uid=9FD9E8185AC3FC6700001CD2528FFDFE > = Act5_SEQ2_DreadnoughtBark2
+		StoryBeatData "Wait for Engine Room" < uid=9FD9E8185A835C6800001B9D2BAB5482 > = Act5_SEQ2_WaitForEngineRoom
+		StoryBeatData "Wait for Blockade Death" < uid=9FD9E81859CAE32700000EAC596AE916 > = Act5_SEQ2_WaitForBlockadeDeath
+		StoryBeatData "OBJECTIVE - Chapter 2 - Sub 3" < uid=9FD9E8185AA9375100001C499015EDE8 > = Act5.Objective.Chapter2.Sub3
+		StoryBeatData "Exit Blockade Dreadnought" < uid=9FD9E818596E16CB0000010AADA925CF > = Act5_SEQ2_ExitBlockadeDreadnought
+		StoryBeatData "Dreadnought Exit Dialogue" < uid=9FD9E8185AABE10B00001C21FD1D6420 > = Act5_SEQ2_DreadnoughtExitDialogue
+		StoryBeatData "Dreadnought Exited" < uid=9FD9E8185AABE10B00001C22468B2FA0 > = Act5_SEQ2_DreadnoughtExited
+		StoryBeatData Fade < uid=9FD9E8185A836D8000001B9FE4869AC3 > = Act5_SEQ2_Fade
+		StoryBeatData "Dreadnought Exit Event" < uid=9FD9E8185B6DE505000022139CAFFCB6 > = Act5_SEQ2_DreadnoughtExitedEvent
+		StoryBeatData Cinematic < uid=9FD9E8185A836D8000001BA0F2010013 > = Act5_SEQ2_Cinematic
+		StoryBeatData "Clear Target" < uid=9FD9E8185A8F3B4700001D171819A1B5 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_SetTarget "Clear Target"
+				{
+				}
+			}
+		}
+	}
+}
+
+StoryBeatSequence "SEQUENCE 3 - Warden Station Grax" < uid=9FD9E8185A8DF90C00001B9CC1D11C5D >
+{
+	myStoryBeats
+	{
+		StoryBeatData "OBJECTIVE - Chapter 3 - Header" < uid=9FD9E8185AA9379E00001C4F4D738819 > = Act5.Objective.Chapter3.Header
+		StoryBeatData "Fade In" < uid=9FD9E8185A83773A00001BA699B571F9 > = Act5_SEQ3_FadeIn
+		StoryBeatData "Wait For Cylcops Ready" < uid=9FD9E8185AA173F200001B86AAA9BCC1 > = Act5_SEQ3_WaitForCylcopsReady
+		StoryBeatData "Station Landed Dialogue" < uid=9FD9E8185A98935400001BB32BB8DD6A > = Act5_SEQ3_StationLandedDialogue
+		StoryBeatData "OBJECTIVE - Chapter 3 - Sub 1" < uid=9FD9E8185AA937E600001C53DE0ABC55 > = Act5.Objective.Chapter3.Sub1
+		StoryBeatData "Start Grax Encounter" < uid=4A8282B95A8DC8A900677531526129ED > = Act5_SEQ3_StartGraxEncounter
+		StoryBeatData "Wait for Wave 2" < uid=9FD9E8185AC4014E00001CD166E47423 > = Act5_SEQ3_WaitForWave2
+		StoryBeatData "Wait For Cylcops Encounter Complete" < uid=9FD9E8185AA95EE100001C843914B691 > = Act5_SEQ3_WaitForEncounterComplete
+		StoryBeatData "Grax Dialogue Before Cyclops" < uid=9FD9E8185AB96A9500001C1F91E5DAA7 > = Act5_SEQ3_GraxDialogueBeforeBink
+		StoryBeatData "OBJECTIVE - Chapter 3 - Sub 2" < uid=9FD9E8185AA9380C00001C54E71755FE > = Act5.Objective.Chapter3.Sub2
+		StoryBeatData "Spawn Grax Cyclops" < uid=4A8282B95A8DC9B60067753215544C22 > = Act5_SEQ3_SpawnGraxCyclops
+		StoryBeatData "Start Grax Into Bink" < uid=4A8282B95A8DC9B600677533882E2962 > = Act5_SEQ3_GraxIntroBink
+		StoryBeatData "Start Grax Intro Camera" < uid=9FD9E8185A8F1CA000001B9EF0F95349 > = Act5_SEQ3_StartGraxIntroCamera
+		StoryBeatData "End Camera" < uid=9FD9E8185A8F1CA000001B9F7CC93D13 > = Act5_SEQ3_EndCamera
+		StoryBeatData "Engage Cyclops" < uid=2B55C72B5910D1F900000061C1C854BE > = Act5_SEQ3_EngageCylcops
+		StoryBeatData "Set Respawn Checkpoint" < uid=9FD9E81859D52A2C000000365B455AB0 > = Act5_SEQ3_SetGraxRespawnPoint
+		StoryBeatData "Defeat Cyclops" < uid=2B55C72B5910D2CE0000006222F8ACAF > = Act5_SEQ3_DefeatCyclops
+		StoryBeatData "Cyclops Defeated" < uid=2B55C72B5910D2CE00000063D4906666 > = Act5_SEQ3_CylcopsDefeated
+		StoryBeatData "Cyclops Defeated Cam" < uid=9FD9E8185A98749000001BA872809B2F > = Act5_SEQ3_CyclopsDefeatedDialogueCam
+		StoryBeatData "Fade Before Bink" < uid=9FD9E8185ACE591C00001EDE02588E2C > = Act5_SEQ3_AfterCylcopsCamFade
+		StoryBeatData "After Cylcops Bink" < uid=9FD9E8185A9874DF00001BA9D7E5F525 > = Act5_SEQ3_AfterCylcopsBink
+	}
+}
+
+StoryBeatSequence "SEQUENCE 4 - Grax Drake & Escape" < uid=9FD9E8185A8DF90C00001B9D1913E140 >
+{
+	myStoryBeats
+	{
+		StoryBeatData "OBJECTIVE - Chapter 4 - Header" < uid=9FD9E8185AA938A800001C615163BA01 > = Act5.Objective.Chapter4.Header
+		StoryBeatData "OBJECTIVE - Chapter 4 - Sub 1" < uid=9FD9E8185AA938A800001C62EF7F72B8 > = Act5.Objective.Chapter4.Sub1
+		StoryBeatData "Teleport for Escape" < uid=9FD9E8185AA969CA00001C977C8724EE > = Act5_SEQ3_TeleportPlayerForExit
+		StoryBeatData Escape < uid=2B55C72B5910D2CE000000643E78B31C > = Act5_SEQ4_Escape
+		StoryBeatData "Grax Escape Dialogue" < uid=9FD9E81859DE3408000000B8C85A0914 > = Act5_SEQ4_GraxEscapeDialogue
+		StoryBeatData "Spawn and Set Grax Objective" < uid=2B55C72B5910D2CE00000065BD967DC9 > = Act5_SEQ4_SpawnGraxDrake
+		StoryBeatData "Grax Drake Camera" < uid=9FD9E818596907C400000112462A3DFF > = Act5_SEQ4_GraxDrakeIntro
+		StoryBeatData "End Drake Intro" < uid=9FD9E8185969085700000114D7456D62 > = Act5_SEQ4_EndGraxDrakeIntro
+		StoryBeatData "OBJECTIVE - Chapter 5 - Header" < uid=9FD9E8185AA938E500001C63C882DC14 > = Act5.Objective.Chapter5.Header
+		StoryBeatData "OBJECTIVE - Chapter 5 - Sub 1" < uid=9FD9E8185AA9397300001C64A69BEE19 > = Act5.Objective.Chapter5.Sub1
+		StoryBeatData "Wait for Grax Drake Death" < uid=9FD9E8185AA96CC500001C988676E75F > = Act5_SEQ4_WaitForGraxDeath
+		StoryBeatData "Dialogue - Grax Death" < uid=9FD9E818596913550000011840A60B55 > = Act5_SEQ4_GraxDeathDialogue
+		StoryBeatData "OBJECTIVE - Chapter 6 - Header" < uid=9FD9E8185AA93C3C00001C6ABF86CE22 > = Act5.Objective.Chapter6.Header
+		StoryBeatData "OBJECTIVE - Chapter 6 - Sub 1" < uid=9FD9E8185AA93C3C00001C6BAA499CC9 > = Act5.Objective.Chapter6.Sub1
+		StoryBeatData "Return To Atlas" < uid=2B55C72B5910D2CE000000665AEC2300 > = Act5_SEQ4_SetObjective
+		StoryBeatData "Fade To White" < uid=9FD9E818596D02DC000002A912D585B6 > = Act5_SEQ4_FadeToWhite
+		StoryBeatData "End Portal" < uid=9FD9E8185B64B502000022563F186EE9 > = Act5_SEQ4_Portal
+	}
+}
+
+StoryBeatSequence "SEQUENCE - Credits" < uid=9FD9E8185A8DF90C00001B9E8DE4A971 >
+{
+	myStoryBeats
+	{
+	}
+}
+
+StoryBeatSequence "Act Five Sequence" < uid=9FD9E8185A8DF90C00001B9F7CC6AA4E >
+{
+	myStoryBeats
+	{
+		StoryBeatSequence "SEQUENCE 1 - Go Through Portal" < uid=9FD9E8185A8DF90C00001BA035BC627F > = "SEQUENCE 1 - Opening"
+		StoryBeatSequence "SEQUENCE 2 - Drake Battle" < uid=9FD9E8185A8DF90C00001BA1B3239C69 > = "SEQUENCE 2 - Drake Battle"
+		StoryBeatSequence "SEQUENCE 3 - Warden Station Grax" < uid=9FD9E8185A8DF90C00001BA21B24045D > = "SEQUENCE 3 - Warden Station Grax"
+		StoryBeatSequence "SEQUENCE 4 - Grax Drake + Escape" < uid=9FD9E8185A8DF90C00001BA352F949AD > = "SEQUENCE 4 - Grax Drake & Escape"
+		StoryBeatSequence "SEQUENCE - Credits and Epilogue" < uid=9FD9E8185A8DF90C00001BA484807617 > = "SEQUENCE - Credits"
+	}
+}
+

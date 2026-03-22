@@ -1,0 +1,32 @@
+include ./template_pilot.mplayermod
+include "onward/game system data/juice/progression/pilot_tuning_master.juice"
+
+float "Onward Leader Level 2 XP Inc" = Onward_Leader_l2_XPGain
+
+PlayerMod mod_perk_onward_leader_l2 < uid=C91BB55159AEDFFD006B6DDE027C6ECC > : template_pilot
+{
+	myAttributeMods
+	{
+		AttributeMod Navigation
+		{
+			myType Player_NavigationXPBonus
+			myPercentageValue = "Onward Leader Level 2 XP Inc"
+		}
+		AttributeMod Assistance
+		{
+			myType Player_AssistanceXPBonus
+			myPercentageValue = "Onward Leader Level 2 XP Inc"
+		}
+		AttributeMod Combat
+		{
+			myType Player_CombatXPBonus
+			myPercentageValue = "Onward Leader Level 2 XP Inc"
+		}
+		AttributeMod Exploration
+		{
+			myType Player_ExplorationXPBonus
+			myPercentageValue = "Onward Leader Level 2 XP Inc"
+		}
+	}
+}
+

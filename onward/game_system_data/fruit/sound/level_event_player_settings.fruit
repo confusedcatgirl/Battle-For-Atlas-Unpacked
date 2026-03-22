@@ -1,0 +1,28 @@
+include "modules/core/audio/audio.fruit"
+
+class LoadUnloadEventPair < uid=auto >
+{
+	AudioEvent myEventOnLevelLoad
+	AudioEvent myEventOnLevelUnload
+}
+
+list LoadUnloadEventPairs
+{
+	LoadUnloadEventPair
+}
+
+class LevelEvents < uid=auto >
+{
+	uid myLevel < bhv=asset assettype=level >
+	LoadUnloadEventPairs myLoadUnloadEventPairs
+}
+
+list LevelEventsList
+{
+	LevelEvents
+}
+
+class LevelEventPlayerSettings
+{
+	LevelEventsList myLevelEventsList
+}

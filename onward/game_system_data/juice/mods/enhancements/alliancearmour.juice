@@ -1,0 +1,20 @@
+include ./templates/template_l5.juice
+include "onward/game system data/juice/mods/mod_alliance_armour.mplayermod"
+include ./damageaffectors/damage_affectors.juice
+
+Enhancement alliancearmour < uid=C91BB5515980C23C0000008F567714D1 > : "Level 5"
+{
+	myLocalizedName "contextComment = \"[Placeholder - do not translate]\nName for a unique Ship Armor the player receives for building a large alliance across Atlas\", description = \"\", enabled = true, guid = #C91BB5515980C23C0000008ED2390F1B, lineVersion = 1, maxLength = 30, text = \"Alliance Armor\""
+	myLocalizedDescription "contextComment = \"[Placeholder - do not translate]\nDescription for a unique Ship Armor the player receives for building a large alliance across Atlas\", description = \"enhancement-description-alliance-armour\", enabled = true, guid = #9E6AFEDA59DD25EE0000008BA1B024C7, lineVersion = 2, maxLength = 192, text = \"+100 Defense\n50% More Durable while Shield is Broken\nTake less damage near allies\nAllies take less damage near you\nParry stun lasts 3 seconds longer\""
+	myIconSprite "mySpriteId = -578771865, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-mods-ship-armour.spritesheet\""
+	myIsHullEnhancement TRUE
+	myMod < uid=C91BB5515980C23C00000090E66EA01C > = mod_alliance_armour
+	myEnhancementType Armour
+	myEnhancementTrackType AllianceArmour
+	myDamageAffectors
+	{
+		DamageAffector_DamageResistanceAroundAllies PlayerResistanceNearAllies = AllianceArmorDamageResistancePlayer
+		DamageAffector_FriendlyDamageResistance AlliesResistanceNearPlayer = AllianceArmorDamageResistanceAllies
+	}
+}
+

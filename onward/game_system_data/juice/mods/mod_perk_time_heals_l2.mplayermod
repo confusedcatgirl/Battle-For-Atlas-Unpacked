@@ -1,0 +1,18 @@
+include ./template_pilot.mplayermod
+include "onward/game system data/juice/progression/pilot_tuning_master.juice"
+
+PlayerMod mod_perk_time_heals_l2 < uid=C91BB55159A86F1700000B4411D659F2 > : template_pilot
+{
+	myAttributeMods
+	{
+		AttributeMod "Time Heals"
+		{
+			myType Player_Judge_TimeHeals
+			myMultValue 1.0
+			myAddValue = Time_Heals_l2_Health
+			myPercentageValue 0.0
+		}
+	}
+	myIsAgentMod TRUE
+}
+

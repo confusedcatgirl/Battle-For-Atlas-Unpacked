@@ -1,0 +1,44 @@
+include ./base_npc.mnpc
+include onward/skillscripts/npc_controller_context_mini_enemy_06_dead.mskillscriptjuice
+include onward/skillscripts/mini_enemy_balloon_bomb_logic.mskillscriptjuice
+
+NPC mini_enemy_06 < uid=4A8282B95BA14AF2000026B40D9241C3 > : base_npc
+{
+	myUIName_NonLocalized "Balloon Bomb"
+	myGraphObjectFile "onward/graph objects/character/mini_enemy_06.mgraphobject"
+	myBehavior "onward/game system data/juice/ai/behavior/mini_enemy_06.mbehavior"
+	myHealthConfig < uid=4A8282B95BA14C7E00002704A6BF3AB8 > = "mini_enemy_06 Health"
+	myDeathSettings
+	{
+		myDeathCullTime 0.1
+	}
+	mySunderReaction < uid=4A8282B95BA14AF2000026B6A7251A26 > = NULLREFERENCE
+	myFireReaction < uid=4A8282B95BA14AF2000026B7B3570AA3 > = NULLREFERENCE
+	myChillReaction < uid=4A8282B95BA14AF2000026B82C54D953 > = NULLREFERENCE
+	myFreezeReaction < uid=4A8282B95BA14AF2000026B9C061DDB1 > = NULLREFERENCE
+	myStasisReaction < uid=4A8282B95BA14AF2000026BA4F1A1BB1 > = NULLREFERENCE
+	myStasisOverloadReaction < uid=4A8282B95BA14AF2000026BB441302E3 > = NULLREFERENCE
+	myGravityReaction < uid=4A8282B95BA14AF2000026BCCE07D573 > = NULLREFERENCE
+	myEntangleReaction < uid=4A8282B95BA14AF2000026BD00451557 > = NULLREFERENCE
+	myControllerContextDefinitions
+	{
+		ControllerContextDefinition Dead
+		{
+			myContextType Dead
+			mySkillScript < uid=4A8282B95BA14AF2000026BE9F1D417D > = npc_controller_context_mini_enemy_06_dead
+		}
+	}
+	myPersistentScripts
+	{
+		SkillScript "Balloon Logic" < uid=4A8282B95BA14AF2000026BF43C54C67 > = mini_enemy_balloon_bomb_logic
+	}
+	myPhysicsCapsuleHeight 0.1
+	myDefaultMotionPattern < uid=4A8282B95BA14D280000270AB7FDB1DC > = "Mini Enemy 06 Default"
+	myNPCFaction Harvester
+	myNPCType Mini_Enemy_06
+	myAnimSystemType Harvester_Probe
+	mySteeringParameters "onward/game system data/juice/ai/steering/mini_enemy_06.juice"
+	myAIVisionConeTypeName MiniEnemy06VisionCone
+	myDefaultNavigationType Skimmer
+}
+

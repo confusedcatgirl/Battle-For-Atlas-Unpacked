@@ -1,0 +1,137 @@
+include ./outlaw_defender_ground.mnpc
+include onward/skillscripts/npc_ability_outlaw_flameblast.mskillscriptjuice
+include onward/skillscripts/npc_ability_outlaw_hover_tank_cannon.mskillscriptjuice
+include onward/skillscripts/npc_ability_outlaw_defender_ground_leader_block.mskillscriptjuice
+include onward/skillscripts/npc_ability_outlaw_ground_heavy_gatling.mskillscriptjuice
+include onward/skillscripts/npc_ability_outlaw_defender_heavy_missile_volley.mskillscriptjuice
+include onward/skillscripts/npc_ability_cyclops_generic_grenade.mskillscriptjuice
+include onward/skillscripts/npc_ability_hover_tank_mine.mskillscriptjuice
+include onward/skillscripts/npc_ability_outlaw_defender_gatling.mskillscriptjuice
+include onward/skillscripts/npc_ability_outlaw_defender_hover_tank_knockback.mskillscriptjuice
+include onward/skillscripts/npc_ability_outlaw_hover_tank_flak.mskillscriptjuice
+include onward/skillscripts/outlaw_defender_ground_hover_tank_bodypart_listener.mskillscriptjuice
+include onward/skillscripts/npc_ability_outlaw_hover_tank_gatling.mskillscriptjuice
+include onward/skillscripts/outlaw_hover_tank_controller_context_dead.mskillscriptjuice
+include onward/skillscripts/outlaw_defender_hover_tank_damage_listener.mskillscriptjuice
+include onward/skillscripts/npc_outlaw_tank_nav_wash.mskillscriptjuice
+include onward/skillscripts/npc_controller_context_outlaw_ground_hover_tank_dash.mskillscriptjuice
+include onward/skillscripts/outlaw_defender_ground_hover_tank_directional_listener.mskillscriptjuice
+
+NPC outlaw_defender_ground_hover_tank < uid=DFE837425BD7526C0003AFB14A858729 > : outlaw_defender_ground
+{
+	myUIName "contextComment = \"Name of the 'Outlaw Sloop Tank'.\", description = \"uiname-outlaw-defender-ground-tank\", enabled = true, guid = #A08A88CF5C6DB0930000003ADD24F7F1, lineVersion = 0, maxLength = 22, text = \"Outlaw Sloop Tank\""
+	myUIName_NonLocalized "Outlaw Defender Hover Tank"
+	myGraphObjectFile "onward/graph objects/character/outlaw_defender_ground_hover_tank.mgraphobject"
+	myBehavior "onward/game system data/juice/ai/behavior/outlaw_defender_ground_hover_tank.mbehavior"
+	myHealthConfig < uid=67883D265AF315B600035EEB259E0C4F > = outlaw_hover_tank_Health
+	myDeathSettings
+	{
+		myDeathCullTime 3.0
+		myEventDeathCullTime 3.0
+		myWaitForEvent TRUE
+	}
+	myAbilityDefinitions
+	{
+		NPCAbilityDefinition Gatling
+		{
+			myGameAction NPC_Ability1
+			mySkillScript < uid=DFE837425BE4B8B200022D3A3D7138C2 > = npc_ability_outlaw_hover_tank_gatling
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_outlaw_ground_hover_tank_gatling.juice"
+			myEnabled TRUE
+		}
+		NPCAbilityDefinition "Mines Phase 1"
+		{
+			myGameAction NPC_Ability5
+			mySkillScript < uid=DDDD6F5D5AF1F4380007BE316AE5004E > = npc_ability_hover_tank_mine
+			myInputType Tap_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_outlaw_hover_tank_mine.juice"
+			myEnabled TRUE
+		}
+		NPCAbilityDefinition "Mines Phase 2"
+		{
+			myGameAction NPC_Ability4
+			mySkillScript < uid=DFE837425BEDA4390000363575FB5431 > = npc_ability_hover_tank_mine
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_outlaw_hover_tank_mine_phase2.juice"
+		}
+		NPCAbilityDefinition "Cannon Phase 1"
+		{
+			myGameAction NPC_Ability2
+			mySkillScript < uid=4A8282B95B43A54C000024189FE1B8E5 > = npc_ability_outlaw_hover_tank_cannon
+			myInputType Tap_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_outlaw_hover_tank_cannon.juice"
+			myEnabled TRUE
+		}
+		NPCAbilityDefinition "Cannon Phase 2"
+		{
+			myGameAction NPC_Ability7
+			mySkillScript < uid=DFE837425BEDA4BF00003638E9CB4B40 > = npc_ability_outlaw_hover_tank_cannon
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_outlaw_hover_tank_cannon_phase2.juice"
+		}
+		NPCAbilityDefinition Knockback
+		{
+			myGameAction NPC_Ability3
+			mySkillScript < uid=DDDD6F5D5AF1F45C0007BE33890826E6 > = npc_ability_outlaw_defender_hover_tank_knockback
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_outlaw_hover_tank_knockback.juice"
+		}
+		NPCAbilityDefinition "Flak Cannon"
+		{
+			myGameAction NPC_Ability6
+			mySkillScript < uid=33EAD34B5BEC4B2B000000A82E293084 > = npc_ability_outlaw_hover_tank_flak
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_outlaw_hover_tank_flak.juice"
+		}
+	}
+	myControllerContextDefinitions
+	{
+		ControllerContextDefinition Downed
+		{
+			myContextType Downed
+			mySkillScript < uid=B8F234255C09AB250002D990E13070FE > = npc_controller_context_expedition_downed
+		}
+		ControllerContextDefinition Dead
+		{
+			myContextType Dead
+			mySkillScript < uid=B8F234255C09AB250002D9916C240724 > = outlaw_hover_tank_controller_context_dead
+		}
+		ControllerContextDefinition Dash
+		{
+			myContextType Dash
+			mySkillScript < uid=B8F234255C09AB250002D99272D2C023 > = npc_controller_context_outlaw_ground_hover_tank_dash
+		}
+	}
+	myPersistentScripts
+	{
+		SkillScript "Nav Wash" < uid=DDDD6F5D5C018A8E000003AE6D70EB81 > = npc_outlaw_tank_nav_wash
+		SkillScript "Child Repair Listener" < uid=DDDD6F5D5C018A8E000003AF8EDC439A > = npc_child_repair_listener
+		SkillScript "Pip Listener" < uid=DDDD6F5D5C018A8E000003B096D98F88 > = npc_faction_unit_talk_listener
+		SkillScript "VFX Listener" < uid=DDDD6F5D5C018A8E000003B1D9B7FD1F > = npc_base_faction_unit_vfx_listener
+		SkillScript "Body Part Listener" < uid=DDDD6F5D5C018A8F000003B23371294B > = outlaw_defender_ground_hover_tank_bodypart_listener
+		SkillScript "Damage Listener" < uid=DFE837425C3796F4000003C0B54D99B7 > = outlaw_defender_hover_tank_damage_listener
+		SkillScript "Directional Listener" < uid=DFF203395C59D06900004630C60FCFD1 > = outlaw_defender_ground_hover_tank_directional_listener
+	}
+	myResistanceSettings "onward/game system data/juice/ai/resistance/outlaw_battlemech_resistance.juice"
+	myAttributeSettings "onward/game system data/juice/ai/attributes/outlaw_defender_hover_tank.juice"
+	myCrowdControlAttributeSettings "onward/game system data/juice/ai/attributes/crowd control tiers/npc_cc_tier6.juice"
+	myDropTableOnDeath Kill_Outlaw_Tank
+	myMass 30000.0
+	myRotationalInertiaThreshold 2.0
+	myLinearInertiaThreshold 2200.0
+	myMaxLinearForce 450000.0
+	myPhysicsCapsuleRadius 3.384
+	myPhysicsCapsuleStart 0.0;1.16;-10.81
+	myPhysicsCapsuleEnd 0.0;1.16;6.01
+	myHasSkinnedCollision TRUE
+	myImpactCategorySettings "onward/game system data/juice/combat/impactcategorysettings_hover_tank.juice"
+	myPatternProfile < uid=DFE837425BD8A99C0003834B5DDD0AD8 > = "Outlaw Ground Hover Tank"
+	myDefaultMotionPattern < uid=67883D265AF344B200139D773B0ED7B2 > = "Outlaw Defender Hover Tank Default"
+	myAvoidanceRadius 12.0
+	myNPCType Outlaw_HoverTank
+	myAnimSystemType Outlaw_Hovertank
+	myThreatLevel 15.0
+	myHitReactionRules "onward/game system data/juice/ai/reactions/reaction_rules_npc_outlaw_hover_tank.juice"
+	myOnDeathChallenge Death_OutlawTank
+	myOnDiscoveredChallenge Discover_OutlawTank
+}
+

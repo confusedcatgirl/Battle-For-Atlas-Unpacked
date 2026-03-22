@@ -1,0 +1,26 @@
+include "onward/game system data/fruit/input/gameinput.fruit"
+include "onward/game system data/fruit/attributes/attributes.fruit"
+
+list ManeuverGameActionList
+{
+	GameAction
+}
+
+class ManeuverData
+{
+	string myMovementSetting
+	file myScript "" < bhv=asset assettype="Skill Script" >
+	ManeuverGameActionList myGameActions
+	bool myIsHover FALSE
+	bool myIsFlight FALSE
+	bool myIsSpace FALSE
+	float myCooldownDuration 0.0
+	bool myIsJump FALSE
+	float myStaminaCost 250.0
+    AttributeType myStaminaCostType
+}
+
+list ManeuverDataList
+{
+	ManeuverData
+}

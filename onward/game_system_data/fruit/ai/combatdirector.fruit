@@ -1,0 +1,46 @@
+include "onward/game system data/fruit/ai/weapon.fruit"
+include "onward/game system data/fruit/ai/npc.fruit"
+
+list InteractionDefList
+{
+	InteractionDef
+}
+
+list WeaponDefList
+{
+	WeaponDef
+}
+
+list FactionTypeList
+{
+	FactionType
+}
+
+class FactionMatrixEntry
+{
+	FactionType myFaction
+	bool myRelatedFactionsAreAdditive true < tooltip="If true, no relationship exists between the factions without it being defined in the related factions list.  If false, the relationship implicitly exists between the faction and all other factions, and any faction entry in the list will remove that implicit relationship." >
+	FactionTypeList myRelatedFactions
+}
+
+list FactionMatrix
+{	
+	FactionMatrixEntry
+}
+
+class CombatDirector < uid=auto >
+{
+	float myRoundDuration 1.0
+	float myAttackerBudget 17.0
+	float myThreatBudget 28.0
+	float myPlayerAttackerBudget 17.0
+	float myPlayerThreatBudget 28.0
+	float myFriendlyFireReduction 0.25
+	float myNeutralFireReduction 0.75
+	float myMaxRangeToParent 1000
+	
+	InteractionDefList myInteractionDefinitions
+
+	FactionMatrix myAlliedFactions
+	FactionMatrix myHostileFactions
+}

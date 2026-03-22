@@ -1,0 +1,31 @@
+include "onward/game system data/fruit/sim/simunit.fruit"
+
+SimUnit extractor_2_defender_heat_01 < uid=8A9CA286582C80400000CE33FCA88DD5 >
+{
+	myBehavior onward/simworld/behavior/harvester_extractor_defender_squad.msimunitbtgraph
+	myFaction Harvester
+	myCategory NPC
+	mySubCategory DefenderSquad
+	myAffinityType Fire
+	myRadius 20.0
+	mySpeed 500.0
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo "Heat Cyclops" < uid=8A9CA286598B7B56000000538B5FF3C6 >
+		{
+			myCountMin 1
+			myCountMax 1
+			myEntitySize 4.0
+			myEntityFile "onward/game system data/juice/ai/npc/harvester_cyclops_heat.mnpc"
+		}
+		SimUnitEntitySpawnInfo Cyclops < uid=8A9CA286598B7B5600000054F237A68F >
+		{
+			myCountMin 0
+			myCountMax 0
+			myEntitySize 4.0
+			myEntityFile "onward/game system data/juice/ai/npc/harvester_cyclops_generic.mnpc"
+		}
+	}
+	myDeathXPPayload UnitKilled_RaidingParty
+}
+

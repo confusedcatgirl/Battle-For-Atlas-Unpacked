@@ -1,0 +1,20 @@
+class FrontRear
+{
+	float myDistanceFromPlayer 		10.f	< tooltip="The distance from the center of the player spaceship from where the Front of the rubber banding begin" >
+	float myAreaOfInfluenceSize  	5.0 	< tooltip="Is the size within the AI get the bonus/malus of this section of the rubber banding" >
+	
+	float mySpeedMultiplier  		1.0 	< tooltip="The multiplier applied to the speed of the AI ship" >
+}
+
+class Deadzone
+{
+	float mySpeedMultiplier  		1.0 	< tooltip="The multiplier applied to the speed of the AI ship" >
+}
+
+class RubberBanding < uid=auto >
+{
+	FrontRear 	myFront						< tooltip="Front rubber banding section" >
+	Deadzone 	myDeadzone					< tooltip="Deadzone rubber banding section, the size is extrapolated from the front and rear" >
+	FrontRear 	myRear						< tooltip="Rear rubber banding section" >
+}
+

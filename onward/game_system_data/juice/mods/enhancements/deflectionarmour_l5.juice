@@ -1,0 +1,16 @@
+include ./templates/template_l5.juice
+include "onward/game system data/juice/mods/mod_deflection_armour_l5.mplayermod"
+include "onward/game system data/juice/buffs/buff_deflection_armour_l5.mbuff"
+
+Enhancement deflectionarmour_l5 < uid=C91BB551597F9B350016473E5FC22BC5 > : "Level 5"
+{
+	myLocalizedName "contextComment = \"[Placeholder - do not translate]\nName for level 5 version of a Ship Armor that bounces projectiles away\", description = \"\", enabled = true, guid = #C91BB551597F9B350016473D38E38184, lineVersion = 1, maxLength = 30, text = \"Deflection Armor V\""
+	myLocalizedDescription "contextComment = \"[Placeholder - do not translate]\nDescription for level 5 version of a Ship Armor that bounces projectiles away\", description = \"enhancement-description-deflection-armour-5\", enabled = true, guid = #D4D3637489CF489A9643C2A0F83DF5DD, lineVersion = 1, maxLength = 179, text = \"+60 Defense\n+25% chance to deflect projectiles\nParry Deals 500 damage\nIncoming impacts are reduced\nDeflect Projectiles after Shield Breaks\""
+	myIconSprite "mySpriteId = -1553803353, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-mods-ship-armour.spritesheet\""
+	myIsHullEnhancement TRUE
+	myMod < uid=C91BB551597F9B350016473F3C9F2185 > = mod_deflection_armour_l5
+	myBuff < uid=C91BB551597F9B3500164740AAE0EDA4 > = buff_deflection_armour_l5
+	myEnhancementType Armour
+	myEnhancementTrackType DeflectionArmour
+}
+

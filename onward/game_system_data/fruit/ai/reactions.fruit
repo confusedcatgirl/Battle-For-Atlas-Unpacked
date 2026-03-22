@@ -1,0 +1,67 @@
+include "onward/skillscripts/skillscript.fruit"
+include "onward/game system data/fruit/physics/impact.fruit"
+
+class NPCDamageReaction
+{
+  float myDamageThreshold 0 < tooltip = "Amount of damage (absolute or FRACTION (0.0,1.0) of max) that needs to be taken in order to trigger a reaction" >
+  bool myDamageThresholdIsPercent false < tooltip = "Whether or not Damage Threshold should be absolute or FRACTION of max" >
+  float myDamageTimeSeconds 1 < tooltip = "Length of time in which damage threshold must be met for reaction to trigger" >
+  float myCooldownSeconds 1.0 < tooltip = "Time in seconds before this reaction is allowed to trigger again" >
+  bool myConsumeDamagePacketsOnTrigger false < tooltip = "Consume collected damage packets when triggering" >
+  SkillScript* mySkillScript < tooltip = "Skill Script to trigger" >
+}
+
+list NPCDamageReactionList
+{
+	NPCDamageReaction
+}
+
+class NPCDamageReactionSettings
+{
+  NPCDamageReactionList myDamageReactions
+  float myReactionCooldownSeconds 1.0 < tooltip = "Cooldown between triggering multiple reactions" >
+}
+
+class NPCImpulseReaction
+{
+  float myImpulseThreshold 0 < tooltip = "Impulse threshold required to trigger reaction" >
+  float myCooldownSeconds 1.0 < tooltip = "Time in seconds before this reaction is allowed to trigger again" >
+  SkillScript* mySkillScript < tooltip = "Skill Script to trigger" >
+}
+
+list NPCImpulseReactionList
+{
+	NPCImpulseReaction
+}
+
+class NPCImpulseReactionSettings
+{
+  bool myUseDefaultSlideReaction true < tooltip = "Use default sliding reaction instead of any defined thresholds" >
+  NPCImpulseReactionList myReactions
+}
+
+enum HitReactionType
+{
+	None
+	Flinch
+	Stumble
+	Ragdoll
+}
+
+class ImpactReactionRule
+{
+	ImpactCategory myImpactCategory
+	HitReactionType myHitReactionType None < tooltip = "Type of hit reaction for this impact category" >
+	float myCooldown 1.0 < tooltip = "Minimum time allowed between consecutive triggers of this rule." >
+	float myInputBlendRatio 0.0 < tooltip = "How much the desired input can control my velocity driving (0-1)" >
+}
+
+list ImpactReactionRuleList
+{
+	ImpactReactionRule
+}
+
+class HitReactionSettings
+{
+	ImpactReactionRuleList myRules
+}

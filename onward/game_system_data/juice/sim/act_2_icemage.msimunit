@@ -1,0 +1,20 @@
+include ./extractor_2_defender_cold_01.msimunit
+
+SimUnit act_2_icemage < uid=2B55C72B58DD48140000004D57742D69 > : extractor_2_defender_cold_01
+{
+	myBehavior onward/simworld/behavior/generic_simunit_idle.msimunitbtgraph
+	mySpeed 0.0
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo "Cold Cyclops" < uid=C92F4D3F596FB1AF00323ACFE87A9C76 >
+		{
+			myCountMin 1
+			myCountMax 1
+			myEntitySize 4.0
+			myEntityFile "onward/game system data/juice/ai/npc/harvester_cyclops_cold.mnpc"
+		}
+	}
+	myUnkillableType Invulnerable
+	myUnkillableUntilEvent IceMage
+}
+

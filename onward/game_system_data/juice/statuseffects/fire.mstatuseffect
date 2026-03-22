@@ -1,0 +1,26 @@
+include ./statuseffects_includes.juice
+
+StatusEffect Fire < uid=F2C5C6925798FC0C000000333BF42A56 >
+{
+	myType Fire
+	myAdditives
+	{
+	}
+	myResetTypes
+	{
+		StatusEffectType Chill Chill
+		StatusEffectType Freeze Freeze
+		StatusEffectType Gravity Gravity
+		StatusEffectType Lift Stasis
+		StatusEffectType Overload StasisOverload
+	}
+	myWorldReaction < uid=383282CB57C97946000003BDD3510BC5 >
+	{
+		myDescription "Base World Fire Reaction"
+		myStatusEffectType Fire
+		myDuration 10.0
+		mySkillScript onward/skillscripts/world_reaction_onfire.mskillscriptjuice
+	}
+	myWorldReactionTemplate "onward/entity templates/manifestation_fire.mentitytemplate"
+}
+

@@ -1,0 +1,38 @@
+include ./base_npc.juice
+
+Attributes "Inherited Resistances" = "Base Resistances"
+
+Attributes "Inherited Shatter Values" = "Base Shatter Values"
+
+Attributes General
+{
+	Attribute "Affinity Change Invuln Time"
+	{
+		myType NPC_UserData1
+		myValue 8.0
+		myComment "Time that Legion Alpha is invulnerable when changing affinities (Tuned against player regen time)"
+	}
+	Attribute "Stun Time When Shield Broken"
+	{
+		myType NPC_UserData2
+		myValue 20.0
+		myComment "Max duration of stun during Phase 3"
+	}
+	Attribute "Phase 3 Stun Health % Threshold"
+	{
+		myType NPC_UserData3
+		myValue 0.4
+		myComment "% of max health that can be taken before the shield is restored"
+	}
+}
+
+Attributes Combat
+{
+	Attribute "Dash / Charge Cooldown"
+	{
+		myType NPC_Cooldown1
+		myValue 10.0
+		myHasMin TRUE
+	}
+}
+

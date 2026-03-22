@@ -1,0 +1,57 @@
+include ./base_npc.juice
+
+Attributes "Inherited Resistances" = "Base Resistances"
+
+Attributes "Inherited Shatter Values" = "Base Shatter Values"
+
+Attributes "Behavior - Combat"
+{
+	Attribute "Ram Duration"
+	{
+		myType NPC_UserData1
+		myValue 0.65
+		myComment "Ram Duration"
+	}
+	Attribute "Ram Distance"
+	{
+		myType NPC_UserData2
+		myValue 55.0
+		myComment "Ram Distance"
+	}
+	Attribute "Ram Status Effect Amount (Chill)"
+	{
+		myType StatusEffect_Chill
+		myValue 0.0
+		myComment "Cold Affinity Only"
+	}
+	Attribute "Ram Status Effect Amount (Gravity)"
+	{
+		myType StatusEffect_Gravity
+		myValue 0.0
+		myComment "Crush Affinity Only"
+	}
+	Attribute "Ram Damage"
+	{
+		myType NPC_Damage1
+		myValue 500.0
+		myComment "Ram Damage"
+	}
+	Attribute "Attach Chance"
+	{
+		myType NPC_TriggerChance1
+		myValue 0.5
+		myComment "Percent chance Imp will try to attach"
+	}
+	Attribute "Attach Attempt Cooldown"
+	{
+		myType NPC_Cooldown1
+		myValue 5.0
+	}
+	Attribute "Attach Damage"
+	{
+		myType NPC_Damage2
+		myValue 500.0
+		myComment "Attached damage per swing"
+	}
+}
+

@@ -1,0 +1,24 @@
+include "onward/game system data/fruit/sim/simunit.fruit"
+
+SimUnit puzzle_door_stasis < uid=D1E9B2CB587E6C00000000EE27E63661 >
+{
+	myUIName "contextComment = \"[Placeholder - do not translate] HUD target name shown when pointing the reticle at a locked door that will open only when shot with a stasis (lift) weapon. These doors are usually part of old ruined buildings.\", description = \"ui-target-puzzle-door-stasis\", enabled = true, guid = #9E6AFEDA5908CE0900169013A86E258B, lineVersion = 0, maxLength = 20, text = \"Stasis Door\""
+	myFaction Unaligned
+	myCategory Puzzle
+	mySubCategory Door
+	myAffinityType Stasis
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo InteractablePickup < uid=A08A88CF59C5456800012C9772848789 >
+		{
+			myCountMin 1
+			myCountMax 1
+			myIgnoreHealth TRUE
+			myIgnoreNavMesh TRUE
+			myIgnoreTerrain TRUE
+			myEntityFile "onward/entity templates/ld_puzzle_door_stasis.mentitytemplate"
+		}
+	}
+	mySaveable FALSE
+}
+

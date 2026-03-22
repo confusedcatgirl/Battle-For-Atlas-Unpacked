@@ -1,0 +1,210 @@
+include "onward/game system data/fruit/progression/points.fruit"
+include "onward/game system data/fruit/progression/reward.fruit"
+include "onward/game system data/fruit/progression/challenge_types.fruit"
+include "onward/game system data/fruit/progression/statistic_types.fruit"
+include "onward/game system data/fruit/input/gameinput.fruit"
+
+class ChallengeAwardCondition
+{
+	ChallengeType myChallengeType
+	ChallengeTypes myChallengeTypes
+	ChallengeAwardConditionType myConditionType
+	int                         myRepeatThreshold
+	float                       myScoreThreshold
+}
+
+list ChallengeAwardConditionList
+{
+	ChallengeAwardCondition
+}
+
+class ChallengeAward < uid=auto >
+{
+	ChallengeAwardType          myType
+	ChallengeAwardConditionList myConditions
+	bool                        myCanRepeat false
+	bool						myOnUniqueInstance false
+	int                         myRequiredInstanceCount 0
+	varmap						myLocalizedName					< bhv = "localization" >
+	varmap						myLocalizedDescription			< bhv = "localization" >
+	string 						myIconSprite 					< bhv="sprite" >
+	string 						myPortrait
+	ProgressionRewardList		myRewards
+	
+	int							myTrophyId
+	int							myXBAchievementId
+	int							myUplayId
+}
+
+class LinkedUPlayAction
+{
+	string						myUPlayIdActionId
+	string						myUPlayLocalizationId
+	varmap						myNameSource				< bhv = "localization" >
+	varmap						myDescriptionSource			< bhv = "localization" >
+	bool						myShowUPlayActionUnlock
+	bool						myIsBadgeUnlock
+}
+
+list LinkedUPlayActionList
+{
+	LinkedUPlayAction
+}
+
+class UPlayProfileCardStat
+{
+	string						myTGOName
+	varmap						myNameSource				< bhv = "localization" >
+}
+
+list UPlayProfileCardStatList
+{
+	UPlayProfileCardStat
+}
+
+class UPlayReward
+{
+	string						myTGOName
+	varmap						myNameSource				< bhv = "localization" >
+	varmap						myDescriptionSource			< bhv = "localization" >
+	varmap						myInstructionSource			< bhv = "localization" >
+	varmap						myConditionSource			< bhv = "localization" >
+	ProgressionRewardList				myRewards
+}
+
+list UPlayUIDList
+{
+	string
+}
+
+list UUPlayRewardList
+{
+	UPlayReward
+}
+
+class UPlayChallenge
+{
+	UPlayUIDList						myTGOChallengeIds
+	UPlayUIDList						myTGOSpaceIds
+
+	varmap								myNameSource				< bhv = "localization" >
+	varmap								myDescriptionSource				< bhv = "localization" >
+}
+
+class UPlayChallengePrize : UPlayChallenge
+{
+}
+
+class AchievementCondition < uid=auto >
+{
+}
+
+list AchievementConditionList
+{
+	AchievementCondition
+}
+
+enum AchievementCondition_Challenge_Operator
+{
+	All
+	Any
+}
+
+enum AchievementCondition_SkillPoint_Earner
+{
+	AnyHull
+	AnyPod
+	Pilot
+}
+
+class AchievementCondition_Challenge : AchievementCondition
+{
+	ChallengeTypes							myChallenges < tooltip="Challenge conditions from before TU3" >
+	ChallengeTypes							myChallenges_TU3 < tooltip="Extra challenge conditions from TU3 onwards. Putting them in here guarantees that they'll be treated properly when savegame data is migrated" >
+	ChallengeTypes							myChallenges_TU5 < tooltip="Extra challenge conditions from TU5 onwards. Putting them in here guarantees that they'll be treated properly when savegame data is migrated" >
+
+	AchievementCondition_Challenge_Operator	myOperator		Any
+	int								myAnyCount 1
+	bool								myRequiresMigration FALSE
+}
+
+class AchievementCondition_UniqueChallenge : AchievementCondition
+{
+	ChallengeTypes							myChallenges
+	int										myCount	1
+}
+
+class AchievementCondition_SkillPoint : AchievementCondition
+{
+	AchievementCondition_SkillPoint_Earner	myEarner
+	int					myAmount 1
+	bool				myUseSpentPoints FALSE
+}
+
+class AchievementCondition_InitiativePoint : AchievementCondition
+{
+	int					myAmount 1
+}
+
+class AchievementCondition_RepeatCount  : AchievementCondition
+{
+	AchievementConditionList				myConditions
+	int										myRepeatCount 1
+	bool									myIsSynchronous FALSE
+}
+
+class AchievementCondition_GameActionState : AchievementCondition
+{
+	GameActionStateList						myGameActionStates
+	bool									myNotCondition
+	bool									myAllPlayers
+	bool									myAnyPlayer
+}
+
+class AchievementCondition_Statistic : AchievementCondition
+{
+	StatisticType							myStatisticType			None
+	int								myValue				1
+}
+
+class AchievementCondition_Alliance : AchievementCondition
+{
+	string							myPlanetName
+	int							myAllianceThreshold
+}
+
+class AchievementCondition_SystemAlliance : AchievementCondition
+{
+	int							myAllianceThreshold
+}
+
+class Achievement < uid=auto >
+{
+	AchievementConditionList				myCondition
+	ProgressionRewardList					myRewards
+	LinkedUPlayActionList					myLinkedUPlayActions
+	
+	varmap									myLocalizedName					< bhv = "localization" >
+	varmap									myLocalizedDescription			< bhv = "localization" >
+	varmap									myLocalizedAwardedDescription	< bhv = "localization" >
+
+	bool									myIsRepeatable			FALSE
+	bool									myIsPlayerInstanced		FALSE
+	int										myTrophyId				-1
+	int										myXBLAchievementId		-1
+	int										myUplayId				-1
+	int										myUPlayIncrementalAchievementId -1
+	StatisticType							myStatisticType			None
+	bool									myIsAwardedInTrialMode FALSE
+}
+
+class AchievementStatistic : Achievement
+{
+}
+
+class GameStatistic < uid=auto >
+{
+	StatisticType							myStatisticType
+	StatisticValueType						myStatisticValueType
+	int										myPlatformId
+}

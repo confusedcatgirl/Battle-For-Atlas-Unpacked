@@ -1,0 +1,59 @@
+include "onward/game system data/fruit/sim/simunit.fruit"
+
+SimUnit creep_shed < uid=93869D53581B94F000AC6BE56C2BCECC >
+{
+	myUIName "contextComment = \"[PLACEHOLDER - do not translate] HUD name shown when near an Imp Hive structure. (Formerly called a shed or nest). These occupy an outpost buiding site and spawn small imp enemies until the player destroys them.\", description = \"ui-name-simunit-impshed\", enabled = true, guid = #A08A88CF58FA0BF90001560D18A9D41F, lineVersion = 0, maxLength = 22, text = \"Imp Hive\""
+	myControlGraph onward/simworld/control/creep_shed.msimunitcontrolgraph
+	myFaction Harvester
+	myCategory Outpost
+	mySubCategory CreepShed
+	myRadius 24.0
+	myFindSettingsCategory Large
+	mySpeed 0.0
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo shed < uid=93869D53596E586C001053097BA4F3E1 >
+		{
+			myCountMin 1
+			myCountMax 1
+			myEntitySize 24.0
+			myIgnoreNavMesh TRUE
+			mySpawnOutsideZone TRUE
+			myEntityFile ""
+			myElementSpawnInfo
+			{
+				SimUnitElementSpawnInfo Shed
+				{
+					myEntityFile "onward/entity templates/warden_imp_shed.mentitytemplate"
+				}
+			}
+		}
+		SimUnitEntitySpawnInfo weakpoint < uid=93869D53596E586C0010530ACB4F1F44 >
+		{
+			myCountMin 2
+			myCountMax 2
+			myIgnoreHealth TRUE
+			myIgnoreNavMesh TRUE
+			myElementSpawnInfo
+			{
+				SimUnitElementSpawnInfo weakpoint
+				{
+					myEntityFile "onward/entity templates/imp_shed_weakpoint.mentitytemplate"
+				}
+			}
+			myAttachParentSpawnInfoUID 93869D53596E586C001053097BA4F3E1
+			myAttachBoneCategory Weakpoints
+		}
+	}
+	mySpawnOutsideZone TRUE
+	myConstructionDuration 5.0
+	mySimUnitToSpawnWhenRemoved ./harvester_creep_shed_destroyed.msimunit
+	myPreserveSpawnInfo TRUE
+	mySkillLevelCoefficients
+	{
+		myPlanetActMultiplier 1
+		myWarEffortLevelMultiplier 1
+	}
+	myMissionTargetTexture onward/baked/textures/UI/icons/outpost_targets/outpost_targets_legion/ui-icon-outpost-target-legion-imp-hive.dds
+}
+

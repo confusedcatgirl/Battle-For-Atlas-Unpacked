@@ -1,0 +1,20 @@
+include ./pickup_base.msimunit
+
+SimUnit pickup_infused_electrum_bomb_crush < uid=D1E9B2CB58D42404000002FDB30EA346 > : pickup_base
+{
+	myUIName "contextComment = \"[Placeholder - do not translate] Name shown when targeting a crush infused electrum bomb. It can be picked up and used to destroy extractors.\", description = \"pickup-infused-electrum-bomb-crush\", enabled = true, guid = #4A79E0E459D4FEC100000046AEF41070, lineVersion = 0, maxLength = 20, text = \"Crush Nova Bomb\""
+	mySubCategory InfusedElectrumBomb
+	myAffinityType Crush
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo InteractablePickup < uid=4A79E0E459D4FF91000000471B6494B5 >
+		{
+			myCountMin 1
+			myCountMax 1
+			myEntityFile "onward/entity templates/pickup_infused_electrum_bomb_crush.mentitytemplate"
+		}
+	}
+	myIsValidPickupTarget FALSE
+	myRealizeOnLeader FALSE
+}
+

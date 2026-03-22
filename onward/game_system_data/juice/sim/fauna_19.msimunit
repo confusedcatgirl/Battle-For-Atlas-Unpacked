@@ -1,0 +1,29 @@
+include ./fauna_base.msimunit
+
+SimUnit fauna_19 < uid=D1E9B2CB583348DD000000D7B0AA32CE > : fauna_base
+{
+	myUIName "contextComment = \"The UI name for Fauna 19\", description = \"uiname-fauna-19\", enabled = true, guid = #1ABBD50B58B48B470005876E2E43E13D, lineVersion = 0, maxLength = 16, text = \"Lithogoyle\""
+	myBehavior onward/simworld/behavior/fauna_major.msimunitbtgraph
+	mySubCategory Fauna_01
+	mySubCategoryVariant 19
+	myRadius 20.0
+	mySpeed 7.0
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo "Level 0"
+		{
+			myCountMin 1
+			myCountMax 1
+			myEntitySize 6.0
+			myElementSpawnInfo
+			{
+				SimUnitElementSpawnInfo Herd
+				{
+					myEntityFile "onward/game system data/juice/ai/npc/fauna_19.mnpc"
+				}
+			}
+		}
+	}
+	mySpawnAttachedSimUnit ./pickup_fauna_sample_fauna_19.msimunit
+}
+

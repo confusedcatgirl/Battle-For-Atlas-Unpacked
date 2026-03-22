@@ -1,0 +1,2595 @@
+include "onward/game system data/fruit/ai/motion/motionpattern.fruit"
+
+MotionPattern "Generic Immobile" < uid=4A8282B956CCB5DB0000005F118EA1D9 >
+{
+	myAnimSystemTypes
+	{
+		AnimSystemType None None
+	}
+	myIdealSpeed 0.0
+	myAngularAcceleration 0.0
+	myMaxAngularSpeed 0.0
+	myDrivenMotionSettings
+	{
+		myAccelRate 0.0
+		myDecelRate 0.0
+		myMaxNavSpeed 0.0
+	}
+	myNewtonianMotionSettings
+	{
+	}
+	myIsAnimationDriven FALSE
+}
+
+MotionPattern "Fauna Generic Default" < uid=4A8282B956D5E07D000000692E57369F >
+{
+	myAnimSystemTypes
+	{
+		AnimSystemType Fauna_06 Fauna_06
+	}
+	myIdealSpeed 10.0
+	myAngularAcceleration 4.0
+	myMaxAngularSpeed 1.5
+	myMaxStrafeAngle 0.1
+	myMaxSlowdownToTurn 0.75
+}
+
+MotionPattern "Fauna Generic Flee" < uid=4A8282B957740C1301C775E293F4297D > : "Fauna Generic Default"
+{
+	myIdealSpeed 30.0
+	myMaxSlowdownToTurn 0.5
+	myMaintainSpeed TRUE
+}
+
+MotionPattern "Fauna 01 Default" < uid=4A8282B957BC6EB700346B79BEF236C8 > : "Fauna Generic Default"
+{
+	myAnimSystemTypes
+	{
+		AnimSystemType "Fauna 01" Fauna_01
+	}
+	myIdealSpeed 5.07
+	myAngularAcceleration 2.0
+	myMaxAngularSpeed 0.5
+}
+
+MotionPattern "Fauna 01 Run" < uid=4A8282B957BC6F4900346B7A5605070E > : "Fauna Generic Flee"
+{
+	myAnimSystemTypes
+	{
+		AnimSystemType "Fauna 01" Fauna_01
+	}
+	myIdealSpeed 13.22
+	myAngularAcceleration 4.0
+	myMaxAngularSpeed 1.0
+}
+
+MotionPattern "Fauna 01 Polluted" < uid=4A8282B957BC6F4900346B7B241BF726 > : "Fauna 01 Default"
+{
+	myStyle Polluted
+	myIdealSpeed 2.59
+}
+
+MotionPattern "Fauna 01 Polluted Flee" < uid=93869D535919CE260325DE473D4C743C > : "Fauna 01 Polluted"
+{
+	myIdealSpeed 4.32
+	myMaintainSpeed TRUE
+}
+
+MotionPattern "Fauna 02 Default" < uid=4A8282B957BC6FB300346B7C029D2F77 > : "Fauna Generic Default"
+{
+	myAnimSystemTypes
+	{
+		AnimSystemType "Fauna 02" Fauna_02
+	}
+	myIdealSpeed 8.96
+}
+
+MotionPattern "Fauna 02 Run" < uid=4A8282B957BC6FB300346B7D2DF61D9A > : "Fauna Generic Flee"
+{
+	myAnimSystemTypes
+	{
+		AnimSystemType "Fauna 02" Fauna_02
+	}
+	myIdealSpeed 48.18
+	myAngularAcceleration 4.0
+	myMaxAngularSpeed 3.0
+	myMaxStrafeAngle 0.3
+	myMaintainSpeed TRUE
+}
+
+MotionPattern "Fauna 02 Polluted" < uid=4A8282B957BC6FB300346B7E53B5525D > : "Fauna 02 Default"
+{
+	myStyle Polluted
+	myIdealSpeed 4.25
+}
+
+MotionPattern "Fauna 02 Polluted Flee" < uid=93869D535919CE260325DE48D06DCDF9 > : "Fauna 02 Polluted"
+{
+	myIdealSpeed 10.01
+	myMaintainSpeed TRUE
+}
+
+MotionPattern "Fauna 03 Default" < uid=4A8282B957BB22980000010009592546 > : "Fauna Generic Default"
+{
+	myAnimSystemTypes
+	{
+		AnimSystemType "Fauna 03" Fauna_03
+	}
+	myStyle Default
+	myIdealSpeed 7.27
+}
+
+MotionPattern "Fauna 03 Run" < uid=4A8282B957BB229800000101B4EF897F > : "Fauna Generic Flee"
+{
+	myAnimSystemTypes
+	{
+		AnimSystemType "Fauna 03" Fauna_03
+	}
+	myIdealSpeed 46.669998
+	myAngularAcceleration 3.0
+	myMaxAngularSpeed 3.0
+	myMaintainSpeed TRUE
+}
+
+MotionPattern "Fauna 03 Polluted" < uid=4A8282B957BB2298000001023A0DD194 > : "Fauna 03 Default"
+{
+	myStyle Polluted
+	myIdealSpeed 4.83
+}
+
+MotionPattern "Fauna 03 Polluted Flee" < uid=93869D535919CE260325DE496BAD208C > : "Fauna 03 Polluted"
+{
+	myIdealSpeed 12.96
+	myMaintainSpeed TRUE
+}
+
+MotionPattern "Fauna 04 Default" < uid=4A8282B957BC70B600346BB7248431FE > : "Fauna Generic Default"
+{
+	myAnimSystemTypes
+	{
+		AnimSystemType "Fauna 04" Fauna_04
+	}
+	myIdealSpeed 3.55
+	myMaxAngularSpeed 0.5
+}
+
+MotionPattern "Fauna 04 Polluted" < uid=4A8282B957BC70B600346BB9F6BD950E > : "Fauna 04 Default"
+{
+	myStyle Polluted
+	myIdealSpeed 2.77
+}
+
+MotionPattern "Fauna 04 Run" < uid=4A8282B957BC70B600346BB813A5A69F > : "Fauna Generic Flee"
+{
+	myAnimSystemTypes
+	{
+		AnimSystemType "Fauna 04" Fauna_04
+	}
+	myIdealSpeed 18.27
+	myMaxAngularSpeed 1.0
+	myMaintainSpeed TRUE
+}
+
+MotionPattern "Fauna 04 Polluted Flee" < uid=93869D535919CE260325DE4AB62AC00A > : "Fauna 04 Polluted"
+{
+	myIdealSpeed 11.18
+	myMaintainSpeed TRUE
+}
+
+MotionPattern "Fauna 05 Default" < uid=4A8282B957F2951B005B6DED57D21A31 > : "Fauna Generic Default"
+{
+	myAnimSystemTypes
+	{
+		AnimSystemType "Fauna 05" Fauna_05
+	}
+	myIdealSpeed 2.01
+}
+
+MotionPattern "Fauna 05 Run" < uid=4A8282B957F2951B005B6DEEB3D7DC9B > : "Fauna Generic Flee"
+{
+	myAnimSystemTypes
+	{
+		AnimSystemType "Fauna 05" Fauna_05
+	}
+	myIdealSpeed 11.28
+	myAngularAcceleration 4.0
+	myMaxAngularSpeed 1.5
+	myMaxStrafeAngle 0.1
+	myMaintainSpeed TRUE
+}
+
+MotionPattern "Fauna 05 Polluted" < uid=4A8282B957F2951B005B6DEFAA65B164 > : "Fauna 05 Default"
+{
+	myStyle Polluted
+	myIdealSpeed 0.77
+}
+
+MotionPattern "Fauna 05 Polluted Flee" < uid=93869D535919CE260325DE4BE899AF67 > : "Fauna 05 Polluted"
+{
+	myIdealSpeed 5.39
+	myMaintainSpeed TRUE
+}
+
+MotionPattern "Fauna 06 Default" < uid=4A8282B957F5369A00BB141C7CA195C2 > : "Fauna Generic Default"
+{
+	myAnimSystemTypes
+	{
+		AnimSystemType "Fauna 06" Fauna_06
+	}
+	myIdealSpeed 4.18
+	myAngularAcceleration 2.0
+	myMaxAngularSpeed 3.14
+}
+
+MotionPattern "Fauna 06 Run" < uid=4A8282B957F5369A00BB141DC9D825F3 > : "Fauna Generic Flee"
+{
+	myAnimSystemTypes
+	{
+		AnimSystemType "Fauna 06" Fauna_06
+	}
+	myIdealSpeed 32.950001
+	myAngularAcceleration 2.0
+	myMaxAngularSpeed 4.0
+	myMaintainSpeed TRUE
+}
+
+MotionPattern "Fauna 06 Polluted" < uid=4A8282B957F5369A00BB141ED81D6D7F > : "Fauna 06 Default"
+{
+	myStyle Polluted
+	myIdealSpeed 2.42
+}
+
+MotionPattern "Fauna 06 Polluted Flee" < uid=93869D535919CE260325DE4C5625B588 > : "Fauna 06 Polluted"
+{
+	myIdealSpeed 5.93
+}
+
+MotionPattern "Fauna 07 Default" < uid=4A8282B957BC70B600346BBA73E1643E > : "Fauna Generic Default"
+{
+	myAnimSystemTypes
+	{
+		AnimSystemType "Fauna 07" Fauna_07
+	}
+	myIdealSpeed 2.44
+}
+
+MotionPattern "Fauna 07 Run" < uid=4A8282B957BC70B600346BBB76EFA07D > : "Fauna Generic Flee"
+{
+	myAnimSystemTypes
+	{
+		AnimSystemType "Fauna 07" Fauna_07
+	}
+	myIdealSpeed 12.17
+	myMaintainSpeed TRUE
+}
+
+MotionPattern "Fauna 07 Polluted" < uid=4A8282B957BC70B600346BBC48406161 > : "Fauna 07 Default"
+{
+	myStyle Polluted
+	myIdealSpeed 1.4
+}
+
+MotionPattern "Fauna 07 Polluted Flee" < uid=93869D535919CE260325DE4D548E5680 > : "Fauna 07 Polluted"
+{
+	myIdealSpeed 4.32
+}
+
+MotionPattern "Fauna 08 Default" < uid=4A8282B957BC70B600346BBD524F9882 > : "Fauna Generic Default"
+{
+	myAnimSystemTypes
+	{
+		AnimSystemType "Fauna 08" Fauna_08
+	}
+	myIdealSpeed 2.42
+}
+
+MotionPattern "Fauna 08 Run" < uid=4A8282B957BC70B600346BBE2AF7C661 > : "Fauna Generic Flee"
+{
+	myAnimSystemTypes
+	{
+		AnimSystemType "Fauna 08" Fauna_08
+	}
+	myIdealSpeed 9.78
+	myAngularAcceleration 2.0
+	myMaxAngularSpeed 1.0
+	myMaintainSpeed TRUE
+}
+
+MotionPattern "Fauna 08 Polluted" < uid=4A8282B957BC70B600346BBF2110670A > : "Fauna 08 Default"
+{
+	myStyle Polluted
+	myIdealSpeed 1.06
+}
+
+MotionPattern "Fauna 08 Polluted Flee" < uid=93869D535919CE260325DE4EB444E68B > : "Fauna 08 Polluted"
+{
+	myIdealSpeed 3.33
+}
+
+MotionPattern "Fauna 09 Default" < uid=93869D5358BEEA7001029465083ED9C3 > : "Fauna Generic Default"
+{
+	myAnimSystemTypes
+	{
+		AnimSystemType "Fauna 09" Fauna_09
+	}
+	myIdealSpeed 4.15
+	myMaxAngularSpeed 1.0
+}
+
+MotionPattern "Fauna 09 Run" < uid=93869D5358BEEA7001029466177D3947 > : "Fauna Generic Flee"
+{
+	myAnimSystemTypes
+	{
+		AnimSystemType "Fauna 09" Fauna_09
+	}
+	myIdealSpeed 21.360001
+	myAngularAcceleration 2.0
+	myMaxAngularSpeed 2.0
+	myMaintainSpeed TRUE
+}
+
+MotionPattern "Fauna 09 Polluted" < uid=93869D5358BEEA700102946729553769 > : "Fauna 09 Default"
+{
+	myStyle Polluted
+	myIdealSpeed 3.3
+}
+
+MotionPattern "Fauna 09 Polluted Flee" < uid=93869D535919CE260325DE4F918385F3 > : "Fauna 09 Polluted"
+{
+	myIdealSpeed 13.07
+	myMaintainSpeed TRUE
+}
+
+MotionPattern "Fauna 10 Default" < uid=93869D53594C34AF000001E04553BBD8 > : "Fauna Generic Default"
+{
+	myAnimSystemTypes
+	{
+		AnimSystemType "Fauna 10" Fauna_10
+	}
+	myIdealSpeed 5.11
+}
+
+MotionPattern "Fauna 10 Run" < uid=93869D53594C34AF000001DF7FABB4F7 > : "Fauna Generic Flee"
+{
+	myAnimSystemTypes
+	{
+		AnimSystemType "Fauna 10" Fauna_10
+	}
+	myIdealSpeed 40.549999
+	myAngularAcceleration 3.0
+	myMaxAngularSpeed 4.0
+	myMaintainSpeed TRUE
+}
+
+MotionPattern "Fauna 10 Polluted" < uid=93869D53594C34AF000001DED72AC027 > : "Fauna 10 Default"
+{
+	myStyle Polluted
+	myIdealSpeed 2.99
+}
+
+MotionPattern "Fauna 10 Polluted Flee" < uid=93869D53594C34AF000001DD97300ECA > : "Fauna 10 Polluted"
+{
+	myIdealSpeed 7.3
+	myMaintainSpeed TRUE
+}
+
+MotionPattern "Fauna 11 Default" < uid=93869D53599DD17D00671541E05B765B > : "Fauna Generic Default"
+{
+	myAnimSystemTypes
+	{
+		AnimSystemType "Fauna 11" Fauna_11
+	}
+	myIdealSpeed 2.4
+	myMaxAngularSpeed 1.0
+}
+
+MotionPattern "Fauna 11 Flee" < uid=93869D53599DD1DB007403CEB060DD9B > : "Fauna 11 Default"
+{
+	myAnimSystemTypes
+	{
+		AnimSystemType "Fauna 11" Fauna_11
+	}
+	myIdealSpeed 15.38
+	myMaxAngularSpeed 1.0
+	myMaintainSpeed TRUE
+}
+
+MotionPattern "Fauna 11 Polluted" < uid=93869D53599DD1DB007403CF47266C49 > : "Fauna 11 Default"
+{
+	myStyle Polluted
+	myIdealSpeed 1.49
+}
+
+MotionPattern "Fauna 11 Polluted Flee" < uid=93869D53599DD1DB007403D0C8D639E3 > : "Fauna 11 Polluted"
+{
+	myIdealSpeed 4.5
+	myMaintainSpeed TRUE
+}
+
+MotionPattern "Fauna 12 Default" < uid=93869D53595D1DAC000001F44BFD86AF > : "Fauna Generic Default"
+{
+	myAnimSystemTypes
+	{
+		AnimSystemType "Fauna 12" Fauna_12
+	}
+	myIdealSpeed 3.28
+	myAngularAcceleration 3.0
+	myMaxAngularSpeed 1.2
+	myMaxStrafeAngle 0.1
+}
+
+MotionPattern "Fauna 12 Flee" < uid=93869D53595D1DAC000001F5E238B60B > : "Fauna 12 Default"
+{
+	myAnimSystemTypes
+	{
+		AnimSystemType "Fauna 12" Fauna_12
+	}
+	myIdealSpeed 11.22
+	myAngularAcceleration 2.0
+	myMaxAngularSpeed 1.2
+	myMaintainSpeed TRUE
+}
+
+MotionPattern "Fauna 12 Polluted" < uid=93869D53595D1DAC000001F679BBBCDC > : "Fauna 12 Default"
+{
+	myStyle Polluted
+	myIdealSpeed 1.77
+}
+
+MotionPattern "Fauna 12 Polluted Flee" < uid=93869D53595D1DAC000001F792B76CFE > : "Fauna 12 Default"
+{
+	myStyle Polluted
+	myIdealSpeed 5.32
+	myMaintainSpeed TRUE
+}
+
+MotionPattern "Fauna 13 Default" < uid=93869D53598CAFC3000001A65E742C63 > : "Fauna Generic Default"
+{
+	myAnimSystemTypes
+	{
+		AnimSystemType Fauna_06 Fauna_13
+	}
+	myIdealSpeed 1.79
+}
+
+MotionPattern "Fauna 13 Flee" < uid=93869D53598CAFC3000001A82F74CD76 > : "Fauna 13 Default"
+{
+	myAnimSystemTypes
+	{
+		AnimSystemType Fauna_06 Fauna_13
+	}
+	myIdealSpeed 10.13
+	myMaintainSpeed TRUE
+}
+
+MotionPattern "Fauna 13 Polluted" < uid=93869D53598CAFC3000001A786614125 > : "Fauna 13 Default"
+{
+	myStyle Polluted
+	myIdealSpeed 0.69
+}
+
+MotionPattern "Fauna 13 Polluted Flee" < uid=93869D53598CAFC3000001A9E051AF32 > : "Fauna 13 Polluted"
+{
+	myIdealSpeed 4.13
+	myMaintainSpeed TRUE
+}
+
+MotionPattern "Fauna 14 Default" < uid=93869D5358EF808F0000024154B3231A > : "Fauna Generic Default"
+{
+	myAnimSystemTypes
+	{
+		AnimSystemType "Fauna 14" Fauna_14
+	}
+	myIdealSpeed 7.59
+}
+
+MotionPattern "Fauna 14 Run" < uid=93869D5358EF808F000002425243A3B3 > : "Fauna Generic Flee"
+{
+	myAnimSystemTypes
+	{
+		AnimSystemType "Fauna 14" Fauna_14
+	}
+	myIdealSpeed 45.009998
+	myAngularAcceleration 3.0
+	myMaxAngularSpeed 3.0
+	myMaxStrafeAngle 0.2
+	myMaintainSpeed TRUE
+}
+
+MotionPattern "Fauna 14 Polluted" < uid=93869D5358EF808F00000243E8831E00 > : "Fauna 14 Default"
+{
+	myStyle Polluted
+	myIdealSpeed 4.25
+}
+
+MotionPattern "Fauna 14 Polluted Flee" < uid=93869D535919C1D701F6FBE472AF7248 > : "Fauna 14 Polluted"
+{
+	myIdealSpeed 11.56
+}
+
+MotionPattern "Fauna 15 Default" < uid=93869D53594C3302000001D5F02D46F4 > : "Fauna Generic Default"
+{
+	myAnimSystemTypes
+	{
+		AnimSystemType "Fauna 15" Fauna_15
+	}
+	myIdealSpeed 3.7
+}
+
+MotionPattern "Fauna 15 Run" < uid=93869D53594C3302000001D6F567D408 > : "Fauna Generic Flee"
+{
+	myAnimSystemTypes
+	{
+		AnimSystemType "Fauna 15" Fauna_15
+	}
+	myIdealSpeed 9.92
+	myAngularAcceleration 4.0
+	myMaxAngularSpeed 1.0
+}
+
+MotionPattern "Fauna 15 Polluted" < uid=93869D53594C3302000001D7EA91B6B8 > : "Fauna 15 Default"
+{
+	myStyle Polluted
+	myIdealSpeed 1.95
+}
+
+MotionPattern "Fauna 15 Polluted Flee" < uid=93869D53594C3302000001D801E10A90 > : "Fauna 15 Polluted"
+{
+	myIdealSpeed 4.85
+}
+
+MotionPattern "Fauna 16 Default" < uid=93869D5359DD02D3006BC04B1D070590 > : "Fauna Generic Default"
+{
+	myAnimSystemTypes
+	{
+		AnimSystemType Fauna_16 Fauna_16
+	}
+	myIdealSpeed 2.44
+}
+
+MotionPattern "Fauna 16 Flee" < uid=93869D5359DD02D3006BC04CDC3165BE > : "Fauna 16 Default"
+{
+	myAnimSystemTypes
+	{
+		AnimSystemType Fauna_16 Fauna_16
+	}
+	myIdealSpeed 11.2
+	myAngularAcceleration 3.0
+	myMaxAngularSpeed 1.0
+}
+
+MotionPattern "Fauna 16 Polluted" < uid=93869D5359DD02D3006BC04D8EB26CBE > : "Fauna 16 Default"
+{
+	myStyle Polluted
+	myIdealSpeed 1.42
+}
+
+MotionPattern "Fauna 16 Polluted Flee" < uid=93869D5359DD02D3006BC04E28A137D7 > : "Fauna 16 Polluted"
+{
+	myIdealSpeed 6.47
+}
+
+MotionPattern "Fauna 17 Default" < uid=93869D5359C55A40000001EBE9EFDFE8 > : "Fauna Generic Default"
+{
+	myAnimSystemTypes
+	{
+		AnimSystemType "Fauna 17" Fauna_17
+	}
+	myIdealSpeed 4.93
+}
+
+MotionPattern "Fauna 17 Flee" < uid=93869D5359C55A40000001EC0C278F6D > : "Fauna 17 Default"
+{
+	myAnimSystemTypes
+	{
+		AnimSystemType "Fauna 17" Fauna_17
+	}
+	myIdealSpeed 15.91
+}
+
+MotionPattern "Fauna 17 Polluted" < uid=93869D5359C55A40000001ED0A073282 > : "Fauna 17 Default"
+{
+	myStyle Polluted
+	myIdealSpeed 2.55
+}
+
+MotionPattern "Fauna 17 Polluted Flee" < uid=93869D5359C55A40000001EE6833CFDE > : "Fauna 17 Polluted"
+{
+	myIdealSpeed 10.0
+}
+
+MotionPattern "Fauna 18 Default" < uid=93869D535964C41A00000843F52BD152 > : "Fauna Generic Default"
+{
+	myAnimSystemTypes
+	{
+		AnimSystemType "Fauna 18" Fauna_18
+	}
+	myIdealSpeed 6.2
+}
+
+MotionPattern "Fauna 18 Flee" < uid=93869D535964C41A0000084468C2FFCD > : "Fauna 18 Default"
+{
+	myAnimSystemTypes
+	{
+		AnimSystemType "Fauna 18" Fauna_18
+	}
+	myIdealSpeed 40.110001
+	myAngularAcceleration 3.0
+	myMaxAngularSpeed 4.0
+	myMaintainSpeed TRUE
+}
+
+MotionPattern "Fauna 18 Polluted" < uid=93869D535964C41A00000845904ABF59 > : "Fauna 18 Default"
+{
+	myStyle Polluted
+	myIdealSpeed 4.31
+}
+
+MotionPattern "Fauna 18 Polluted Flee" < uid=93869D535964C41A0000084662FD02D6 > : "Fauna 18 Default"
+{
+	myStyle Polluted
+	myIdealSpeed 10.48
+}
+
+MotionPattern "Fauna 19 Default" < uid=93869D5358E2768B0000022FCB9CC633 > : "Fauna Generic Default"
+{
+	myAnimSystemTypes
+	{
+		AnimSystemType "Fauna 19" Fauna_19
+	}
+	myIdealSpeed 12.65
+}
+
+MotionPattern "Fauna 19 Run" < uid=93869D5358E2768B00000230ABED5977 > : "Fauna Generic Flee"
+{
+	myAnimSystemTypes
+	{
+		AnimSystemType "Fauna 19" Fauna_19
+	}
+	myIdealSpeed 41.540001
+	myAngularAcceleration 3.0
+	myMaxAngularSpeed 4.0
+	myMaintainSpeed TRUE
+}
+
+MotionPattern "Fauna 19 Polluted" < uid=93869D5358E2768B00000231DE99BEA4 > : "Fauna 19 Default"
+{
+	myStyle Polluted
+	myIdealSpeed 8.34
+}
+
+MotionPattern "Fauna 19 Polluted Flee" < uid=93869D535919CE260325DE50EA71EBBE > : "Fauna 19 Polluted"
+{
+	myIdealSpeed 12.65
+}
+
+MotionPattern "Fauna 20 Default" < uid=93869D5359B009CF000001F549EDAD46 > : "Fauna Generic Default"
+{
+	myAnimSystemTypes
+	{
+		AnimSystemType "Fauna 20" Fauna_20
+	}
+	myIdealSpeed 4.82
+}
+
+MotionPattern "Fauna 20 Flee" < uid=93869D5359B009CF000001F68656E89E > : "Fauna 20 Default"
+{
+	myAnimSystemTypes
+	{
+		AnimSystemType "Fauna 20" Fauna_20
+	}
+	myIdealSpeed 38.02
+	myAngularAcceleration 2.0
+	myMaxAngularSpeed 4.0
+}
+
+MotionPattern "Fauna 20 Polluted" < uid=93869D5359B009CF000001F70088B90B > : "Fauna 20 Default"
+{
+	myStyle Polluted
+	myIdealSpeed 2.71
+}
+
+MotionPattern "Fauna 20 Polluted Flee" < uid=93869D5359B009CF000001F89D22DA5E > : "Fauna 20 Polluted"
+{
+	myIdealSpeed 6.84
+}
+
+MotionPattern "Fauna 21 Default" < uid=93869D5359CE9A14000001C199BB4ABF > : "Fauna Generic Default"
+{
+	myAnimSystemTypes
+	{
+		AnimSystemType "Fauna 21" Fauna_21
+	}
+	myIdealSpeed 4.9
+}
+
+MotionPattern "Fauna 21 Flee" < uid=93869D5359CE9A14000001C2338B5F06 > : "Fauna 21 Default"
+{
+	myAnimSystemTypes
+	{
+		AnimSystemType "Fauna 21" Fauna_21
+	}
+	myIdealSpeed 14.93
+	myAngularAcceleration 3.0
+	myMaxAngularSpeed 4.0
+}
+
+MotionPattern "Fauna 21 Polluted" < uid=93869D5359CE9A14000001C3822525AF > : "Fauna 21 Default"
+{
+	myStyle Polluted
+	myIdealSpeed 2.54
+}
+
+MotionPattern "Fauna 21 Polluted Flee" < uid=93869D5359CE9A14000001C433E61FA6 > : "Fauna 21 Polluted"
+{
+	myIdealSpeed 10.0
+}
+
+MotionPattern "Harvester Cyclops Default" < uid=4A8282B956A672D600000059B4481069 >
+{
+	myAnimSystemTypes
+	{
+		AnimSystemType Cyclops Harvester_Cyclops
+		AnimSystemType "Cyclops Infused" Harvester_Cyclops_Infused
+		AnimSystemType "Cyclops Shielded" Harvester_Cyclops_Shielded
+	}
+	myIdealSpeed 4.66
+	myAngularAcceleration 2.0
+	myMaxAngularSpeed 3.14
+}
+
+MotionPattern "Harvester Cyclops Combat Walk" < uid=C92F4D3F578656B7016C78E368558489 > : "Harvester Cyclops Default"
+{
+	myStyle InCombat
+	myIdealSpeed 6.4
+	myAngularAcceleration 3.0
+	myMaxAngularSpeed 4.71
+}
+
+MotionPattern "Harvester Cyclops Flocking" < uid=C92F4D3F56CF2B2C016D9D582B6529AF > : "Harvester Cyclops Default"
+{
+	myAnimSystemTypes
+	{
+		AnimSystemType Cyclops Harvester_Cyclops
+		AnimSystemType "Cyclops Infused" Harvester_Cyclops_Infused
+		AnimSystemType "Cyclops Shielded" Harvester_Cyclops_Shielded
+		AnimSystemType "Cold Cyclops" Harvester_Cyclops_Cold
+		AnimSystemType "Heat Cyclops" Harvester_Cyclops_Heat
+		AnimSystemType "Crush Cyclops" Harvester_Cyclops_Crush
+	}
+}
+
+MotionPattern "Harvester Cyclops SuperJump" < uid=4A8282B956A7C85F000000321F48B8A8 >
+{
+	myAnimSystemTypes
+	{
+		AnimSystemType Cyclops Harvester_Cyclops
+		AnimSystemType "Cyclops Infused" Harvester_Cyclops_Infused
+		AnimSystemType "Cyclops Shielded" Harvester_Cyclops_Shielded
+		AnimSystemType "Cyclops Cold" Harvester_Cyclops_Cold
+		AnimSystemType "Cyclops Heat" Harvester_Cyclops_Heat
+		AnimSystemType "Cyclops Crush" Harvester_Cyclops_Crush
+	}
+	myStyle InCombat
+	myIdealSpeed 150.0
+	myMaxAngularSpeed 3.14
+	myDrivenMotionSettings
+	{
+		myAccelRate 200.0
+		myDecelRate 300.0
+		myMinNavSpeed 120.0
+		myMaxNavSpeed 250.0
+	}
+	myIsAnimationDriven FALSE
+}
+
+MotionPattern "Harvester Cyclops SuperJump Affine" < uid=C92F4D3F56CB37AF000D9707C4F4A7E2 > : "Harvester Cyclops SuperJump"
+{
+	myIdealSpeed 180.0
+	myDrivenMotionSettings
+	{
+		myAccelRate 10.0
+		myDecelRate 10.0
+		myMaxNavSpeed 300.0
+	}
+}
+
+MotionPattern "Harvester Cyclops Heat Default" < uid=4A8282B95908D2A4000001F9CB42881F > : "Harvester Cyclops Default"
+{
+	myAnimSystemTypes
+	{
+		AnimSystemType "Cyclops Heat" Harvester_Cyclops_Heat
+	}
+	myIdealSpeed 8.36
+}
+
+MotionPattern "Harvester Cyclops Heat Combat" < uid=4A8282B95908D2A4000001FA8F02F648 > : "Harvester Cyclops Heat Default"
+{
+	myStyle InCombat
+	myIdealSpeed 12.46
+}
+
+MotionPattern "Harvester Cyclops Heat Affine" < uid=4A8282B95908D2A4000001FBA01E1D70 > : "Harvester Cyclops Heat Default"
+{
+}
+
+MotionPattern "Harvester Cyclops Heat Affine Combat" < uid=4A8282B95908D385000001FC0D62D72C > : "Harvester Cyclops Heat Combat"
+{
+}
+
+MotionPattern "Harvester Cyclops Heat Jetpack" < uid=4A8282B9597773AF0195AABD83C08A48 >
+{
+	myAnimSystemTypes
+	{
+		AnimSystemType Harvester_Cyclops_Heat Harvester_Cyclops_Heat
+	}
+	myStyle InCombat
+	myIdealSpeed 300.0
+	myAngularAcceleration 10.0
+	myMaxAngularSpeed 10.0
+	myDrivenMotionSettings
+	{
+		myAccelRate 60.0
+		myDecelRate 60.0
+		myMaxNavSpeed 400.0
+	}
+	myIsAnimationDriven FALSE
+}
+
+MotionPattern "Harvester Cyclops Cold Default" < uid=4A8282B95908D385000001FDD2BFA4EF > : "Harvester Cyclops Default"
+{
+	myAnimSystemTypes
+	{
+		AnimSystemType "Cyclops Cold" Harvester_Cyclops_Cold
+	}
+	myIdealSpeed 8.01
+}
+
+MotionPattern "Harvester Cyclops Cold Combat" < uid=4A8282B95908D385000001FE4A97B846 > : "Harvester Cyclops Cold Default"
+{
+	myStyle InCombat
+	myIdealSpeed 8.95
+}
+
+MotionPattern "Harvester Cyclops Cold Affine" < uid=4A8282B95908D385000001FF1A32D9F9 > : "Harvester Cyclops Cold Default"
+{
+}
+
+MotionPattern "Harvester Cyclops Cold Affine Combat" < uid=4A8282B95908D3850000020001F2B624 > : "Harvester Cyclops Cold Combat"
+{
+}
+
+MotionPattern "Harvester Cyclops Crush Default" < uid=4A8282B95908D385000002012E45F229 > : "Harvester Cyclops Default"
+{
+	myAnimSystemTypes
+	{
+		AnimSystemType "Cyclops Crush" Harvester_Cyclops_Crush
+	}
+	myIdealSpeed 7.34
+}
+
+MotionPattern "Harvester Cyclops Crush Combat" < uid=4A8282B95908D38500000202D9E72A2F > : "Harvester Cyclops Crush Default"
+{
+	myStyle InCombat
+	myIdealSpeed 7.34
+}
+
+MotionPattern "Harvester Cyclops Crush Affine" < uid=4A8282B95908D385000002035596DDFB > : "Harvester Cyclops Crush Default"
+{
+}
+
+MotionPattern "Harvester Cyclops Crush Affine Combat" < uid=4A8282B95908D38500000204C14102FB > : "Harvester Cyclops Crush Combat"
+{
+}
+
+MotionPattern "Harvester Crush Cyclops SuperJump" < uid=8A9CA286582B7BB70011A2C880DE4C70 >
+{
+	myAnimSystemTypes
+	{
+		AnimSystemType "Crush Cyclops" Harvester_Cyclops_Crush
+	}
+	myStyle InCombat
+	myIdealSpeed 150.0
+	myMaxAngularSpeed 3.14
+	myDrivenMotionSettings
+	{
+		myAccelRate 200.0
+		myDecelRate 300.0
+		myMinNavSpeed 120.0
+		myMaxNavSpeed 250.0
+	}
+	myIsAnimationDriven FALSE
+}
+
+MotionPattern "Harvester Crush Cyclops SuperJump Affine" < uid=8A9CA286582B956E000005E4195BBEF3 >
+{
+	myStyle InCombat
+	myIdealSpeed 180.0
+}
+
+MotionPattern "Harvester Cyclops Grax Default" < uid=4A8282B959C1903A0003A148DEF5CC2D >
+{
+	myAnimSystemTypes
+	{
+		AnimSystemType Harvester_Grax Harvester_Grax
+	}
+	myIdealSpeed 5.93
+}
+
+MotionPattern "Harvester Cyclops Grax Flight" < uid=4A8282B95974EBEB0000003360007708 >
+{
+	myAnimSystemTypes
+	{
+		AnimSystemType Harvester_Grax Harvester_Grax
+	}
+	myStyle InCombat
+	myIdealSpeed 100.0
+	myAngularAcceleration 10.0
+	myMaxAngularSpeed 10.0
+	myDrivenMotionSettings
+	{
+		myAccelRate 100.0
+		myDecelRate 100.0
+		myMaxNavSpeed 200.0
+	}
+	myIsAnimationDriven FALSE
+}
+
+MotionPattern "Harvester Imp Default" < uid=4A8282B956B22C6E000000327D5F1019 >
+{
+	myAnimSystemTypes
+	{
+		AnimSystemType Imp Harvester_Imp
+	}
+	myIdealSpeed 10.37
+	myAngularAcceleration 3.0
+	myMaxAngularSpeed 4.71239
+	myDrivenMotionSettings
+	{
+		myMinNavSpeed 1.0
+		myMaxNavSpeed 15.0
+	}
+	myIsAnimationDriven TRUE
+}
+
+MotionPattern "Harvester Imp Flocking" < uid=C92F4D3F56CF2AFF016D9D554A18D51C > : "Harvester Imp Default"
+{
+	myAnimSystemTypes
+	{
+		AnimSystemType Imp Harvester_Imp
+		AnimSystemType "Imp Heat" Harvester_Imp_Heat
+		AnimSystemType "Imp Cold" Harvester_Imp_Cold
+		AnimSystemType "Imp Crush" Harvester_Imp_Crush
+	}
+	myDrivenMotionSettings
+	{
+		myMaxNavSpeed 9.85
+	}
+}
+
+MotionPattern "Harvester Imp Chase" < uid=4A8282B956B22C6E00000033335A89F8 > : "Harvester Imp Default"
+{
+	myStyle InCombat
+	myIdealSpeed 49.720001
+	myMaxAngularSpeed 12.56
+	myDrivenMotionSettings
+	{
+		myMinNavSpeed 1.0
+		myMaxNavSpeed 50.0
+	}
+}
+
+MotionPattern "Harvester Imp Heat Default" < uid=4A8282B9590A19520000090DA4EDE4AD > : "Harvester Imp Default"
+{
+	myAnimSystemTypes
+	{
+		AnimSystemType "Harvester Imp Heat" Harvester_Imp_Heat
+	}
+	myIdealSpeed 10.21
+}
+
+MotionPattern "Harvester Imp Heat Chase" < uid=4A8282B9590A19520000090EF6B7B2AF > : "Harvester Imp Heat Default"
+{
+	myStyle InCombat
+	myIdealSpeed 40.0
+	myMaxAngularSpeed 12.56
+}
+
+MotionPattern "Harvester Imp Heat Affine" < uid=4A8282B9590A19520000090F6CE5F59A > : "Harvester Imp Heat Chase"
+{
+	myIdealSpeed 50.0
+}
+
+MotionPattern "Harvester Imp Cold Default" < uid=4A8282B9590A19520000090AA51EE2D5 > : "Harvester Imp Default"
+{
+	myAnimSystemTypes
+	{
+		AnimSystemType "Harvester Imp Cold" Harvester_Imp_Cold
+	}
+	myIdealSpeed 10.71
+}
+
+MotionPattern "Harvester Imp Cold Chase" < uid=4A8282B9590A19520000090B82C30172 > : "Harvester Imp Cold Default"
+{
+	myStyle InCombat
+	myIdealSpeed 43.0
+	myMaxAngularSpeed 12.56
+}
+
+MotionPattern "Harvester Imp Cold Affine" < uid=4A8282B9590A19520000090CF36BA120 > : "Harvester Imp Cold Chase"
+{
+	myIdealSpeed 53.0
+}
+
+MotionPattern "Harvester Imp Crush Default" < uid=4A8282B9590A195200000910C2293B87 > : "Harvester Imp Default"
+{
+	myAnimSystemTypes
+	{
+		AnimSystemType "Harvester Imp Crush" Harvester_Imp_Crush
+	}
+	myIdealSpeed 3.62
+}
+
+MotionPattern "Harvester Imp Crush Chase" < uid=4A8282B9590A195200000911092A67E3 > : "Harvester Imp Crush Default"
+{
+	myStyle InCombat
+	myIdealSpeed 40.0
+	myMaxAngularSpeed 12.56
+}
+
+MotionPattern "Harvester Imp Crush Affine" < uid=4A8282B9590A19520000091242438EA3 > : "Harvester Imp Crush Chase"
+{
+	myIdealSpeed 50.0
+}
+
+MotionPattern "Harvester Prime Default" < uid=C92F4D3F56F9616C00000081329A2ED2 >
+{
+	myAnimSystemTypes
+	{
+		AnimSystemType Prime Harvester_Prime
+	}
+	myIdealSpeed 8.46
+	myAngularAcceleration 0.2
+	myMaxAngularSpeed 1.0
+	myDrivenMotionSettings
+	{
+		myAccelRate 0.2
+		myDecelRate 0.2
+		myMaxNavSpeed 5.0
+	}
+	myIsAnimationDriven TRUE
+}
+
+MotionPattern "Harvester Prime Combat" < uid=4A8282B9590A52CE003D6EC08E8CE09A > : "Harvester Prime Default"
+{
+	myStyle InCombat
+	myIdealSpeed 80.0
+	myMaxAngularSpeed 6.28
+}
+
+MotionPattern "Harvester Elite Probe Default" < uid=921EDC155B2B736500056FF4ACF9279B >
+{
+	myAnimSystemTypes
+	{
+		AnimSystemType Probe Harvester_Probe
+	}
+	myIdealSpeed 35.0
+	myAngularAcceleration 3.0
+	myMaxAngularSpeed 3.14159
+	myDrivenMotionSettings
+	{
+		myAccelRate 10.0
+		myDecelRate 80.0
+		myMaxNavSpeed 40.0
+	}
+	mySkimmerMotionSettings
+	{
+		myRepulsorHeight 10.0
+		myRepulsorSpringStiffness 5.0
+	}
+	myIsAnimationDriven FALSE
+}
+
+MotionPattern "Harvester Elite Probe Flight" < uid=921EDC155B2B830D000B7522C2460638 >
+{
+	myIdealSpeed 80.0
+	myAngularAcceleration 3.0
+	myMaxAngularSpeed 3.14159
+	myDrivenMotionSettings
+	{
+		myAccelRate 5.0
+		myDecelRate 10.0
+		myMaxNavSpeed 90.0
+	}
+	mySkimmerMotionSettings
+	{
+		myRepulsorHeight 18.0
+		myRepulsorSpringStiffness 2.0
+	}
+	myIsAnimationDriven FALSE
+}
+
+MotionPattern "Harvester Probe Default" < uid=C92F4D3F5710FCD100C97DF4FEAFF068 >
+{
+	myAnimSystemTypes
+	{
+		AnimSystemType Probe Harvester_Probe
+	}
+	myIdealSpeed 19.699999
+	myAngularAcceleration 3.0
+	myMaxAngularSpeed 3.14159
+	myDrivenMotionSettings
+	{
+		myAccelRate 10.0
+		myDecelRate 10.0
+		myMaxNavSpeed 40.0
+	}
+	mySkimmerMotionSettings
+	{
+		myRepulsorHeight 9.0
+		myRepulsorSpringStiffness 5.0
+	}
+	myIsAnimationDriven FALSE
+}
+
+MotionPattern "Harvester Probe Chase" < uid=4A8282B95AF202D70240CF56A15EA099 > : "Harvester Probe Default"
+{
+	myIdealSpeed 40.0
+}
+
+MotionPattern "Harvester Probe Flocking" < uid=4A8282B959DE8D5C0074F00474E6E829 > : "Harvester Probe Default"
+{
+	myIdealSpeed 4.66
+}
+
+MotionPattern "Harvester Probe Heal" < uid=4A8282B958CC3B7C003393FBEC62CEBB > : "Harvester Probe Default"
+{
+	mySkimmerMotionSettings
+	{
+		myRepulsorHeight 10.0
+		myRepulsorSpringStiffness 5.0
+	}
+}
+
+MotionPattern "Harvester Probe Flight" < uid=C92F4D3F576466A600467298C8C62AE5 > : "Harvester Probe Default"
+{
+	myIdealSpeed 60.0
+	myDrivenMotionSettings
+	{
+		myAccelRate 5.0
+		myDecelRate 10.0
+		myMaxNavSpeed 70.0
+	}
+	mySkimmerMotionSettings
+	{
+		myRepulsorHeight 18.0
+		myRepulsorSpringStiffness 2.0
+	}
+}
+
+MotionPattern "Harvester Wyvern Default" < uid=4A8282B956A91E390000003360FD2D21 >
+{
+	myAnimSystemTypes
+	{
+		AnimSystemType Wyvern Harvester_Wyvern
+	}
+	myIdealSpeed 20.0
+	myAngularAcceleration 2.0
+	myMaxAngularSpeed 2.5
+	myDrivenMotionSettings
+	{
+		myAccelRate 15.0
+		myDecelRate 15.0
+		myMaxNavSpeed 25.0
+	}
+	myIsAnimationDriven FALSE
+}
+
+MotionPattern "Harvester Wyvern Evade" < uid=4A8282B956A91F6B00000038D906E6A3 > : "Harvester Wyvern Default"
+{
+	myIdealSpeed 50.0
+	myAngularAcceleration 5.0
+	myMaxAngularSpeed 5.0
+	myDrivenMotionSettings
+	{
+		myAccelRate 5.0
+		myDecelRate 5.0
+		myMaxNavSpeed 50.0
+	}
+}
+
+MotionPattern "Harvester Wyvern Flight" < uid=4A8282B956A92002000000395D883046 > : "Harvester Wyvern Default"
+{
+	myIdealSpeed 80.0
+	myAngularAcceleration 0.5
+	myMaxAngularSpeed 5.0
+	myDrivenMotionSettings
+	{
+		myAccelRate 2.0
+		myDecelRate 0.2
+		myMinNavSpeed 30.0
+		myMaxNavSpeed 85.0
+	}
+}
+
+MotionPattern "Harvester Wyvern MissileBarrage" < uid=4A8282B956A9205A0000003A1337AC34 > : "Harvester Wyvern Default"
+{
+	myIdealSpeed 7.0
+	myAngularAcceleration 0.5
+	myMaxAngularSpeed 0.75
+	myDrivenMotionSettings
+	{
+		myAccelRate 0.5
+		myDecelRate 1.5
+		myMaxNavSpeed 8.0
+	}
+}
+
+MotionPattern "Harvester Wyvern Air Drop" < uid=4A8282B956A920900000003B3915DC19 > : "Harvester Wyvern Default"
+{
+	myIdealSpeed 140.0
+	myAngularAcceleration 3.0
+	myMaxAngularSpeed 3.0
+	myDrivenMotionSettings
+	{
+		myAccelRate 1.0
+		myDecelRate 5.0
+		myMinNavSpeed 10.0
+		myMaxNavSpeed 150.0
+	}
+}
+
+MotionPattern "Harvester Wyvern FlightTakeOff" < uid=4A8282B956A921060000003CD7C81666 > : "Harvester Wyvern Default"
+{
+	myIdealSpeed 75.0
+	myAngularAcceleration 0.5
+	myMaxAngularSpeed 3.0
+	myDrivenMotionSettings
+	{
+		myAccelRate 1.0
+		myDecelRate 20.0
+		myMinNavSpeed 30.0
+		myMaxNavSpeed 80.0
+	}
+}
+
+MotionPattern "Harvester Wyvern Flight Catch Up" < uid=4A8282B956A921890000003DCBDE06D9 > : "Harvester Wyvern Default"
+{
+	myIdealSpeed 160.0
+	myAngularAcceleration 0.5
+	myMaxAngularSpeed 3.0
+	myDrivenMotionSettings
+	{
+		myAccelRate 1.0
+		myDecelRate 0.5
+		myMinNavSpeed 100.0
+		myMaxNavSpeed 180.0
+	}
+}
+
+MotionPattern "Harvester Wyvern FlightChase" < uid=4A8282B956A921890000003E6526459A > : "Harvester Wyvern Default"
+{
+	myIdealSpeed 90.0
+	myAngularAcceleration 0.5
+	myMaxAngularSpeed 3.0
+	myDrivenMotionSettings
+	{
+		myAccelRate 2.0
+		myMinNavSpeed 30.0
+		myMaxNavSpeed 95.0
+	}
+	myKeepPaceWithTarget TRUE
+}
+
+MotionPattern "Civ Raider Flight" < uid=4A8282B956A92734000000A81090F62F >
+{
+	myAnimSystemTypes
+	{
+		AnimSystemType Raider Civ_Raider
+		AnimSystemType Ally_Chase Ally_Chase
+		AnimSystemType Ally_Hunter Ally_Hunter
+		AnimSystemType Ally_Judge Ally_Judge
+		AnimSystemType Ally_Mason Ally_Mason
+		AnimSystemType Ally_Shaide Ally_Shaide
+		AnimSystemType Ally_Fern Ally_Fern
+		AnimSystemType Ally_Galla Ally_Galla
+		AnimSystemType Ally_Rancor Ally_Rancor
+	}
+	myIdealSpeed 250.0
+	myAngularAcceleration 0.5
+	myMaxAngularSpeed 2.0
+	myDrivenMotionSettings
+	{
+		myAccelRate 1200.0
+		myDecelRate 100.0
+		myMinNavSpeed 0.0
+		myMaxNavSpeed 200.0
+	}
+	myNewtonianMotionSettings
+	{
+		myPYRTensor 4.0;2.5;0.9
+	}
+	myIsAnimationDriven FALSE
+}
+
+MotionPattern "Civ Raider FlightChase" < uid=4A8282B956A92796000000A995E7EFDF > : "Civ Raider Flight"
+{
+	myIdealSpeed 300.0
+	myAngularAcceleration 2.0
+	myMaxAngularSpeed 2.0
+	myDrivenMotionSettings
+	{
+		myAccelRate 100.0
+		myDecelRate 75.0
+		myMinNavSpeed 50.0
+		myMaxNavSpeed 350.0
+	}
+	myKeepPaceWithTarget TRUE
+}
+
+MotionPattern "Civ Raider Flight Catch Up" < uid=4A8282B956A927F0000000AAA4E7267E > : "Civ Raider Flight"
+{
+	myIdealSpeed 160.0
+	myAngularAcceleration 0.5
+	myMaxAngularSpeed 3.0
+	myDrivenMotionSettings
+	{
+		myAccelRate 90.0
+		myDecelRate 90.0
+		myMinNavSpeed 100.0
+		myMaxNavSpeed 180.0
+	}
+}
+
+MotionPattern "Civ Raider Chase" < uid=4A8282B956A932FF0000007FF5FF2CCE > : "Civ Raider Flight"
+{
+	myIdealSpeed 20.0
+	myAngularAcceleration 2.0
+	myMaxAngularSpeed 2.5
+	myDrivenMotionSettings
+	{
+		myAccelRate 12.5
+		myDecelRate 37.5
+		myMinNavSpeed 0.0
+		myMaxNavSpeed 25.0
+	}
+}
+
+MotionPattern "Civ Expedition Default" < uid=4A8282B956A92DDF000000768F3B5E86 >
+{
+	myAnimSystemTypes
+	{
+		AnimSystemType Expedition Civ_Expedition
+	}
+	myIdealSpeed 25.0
+	myAngularAcceleration 1.5
+	myMaxAngularSpeed 2.0
+	myDrivenMotionSettings
+	{
+		myAccelRate 10.0
+		myDecelRate 10.0
+		myMaxNavSpeed 30.0
+	}
+	myIsAnimationDriven FALSE
+}
+
+MotionPattern "Civ Expedition Flight" < uid=C92F4D3F57EC114F006ADDE301EBA7A1 > : "Civ Expedition Default"
+{
+	myIdealSpeed 70.0
+	myDrivenMotionSettings
+	{
+		myAccelRate 45.0
+		myDecelRate 18.0
+		myMaxNavSpeed 70.0
+	}
+}
+
+MotionPattern "Expedition Worker Default" < uid=C92F4D3F58E6B271004B40AC3CC1DFCB >
+{
+	myAnimSystemTypes
+	{
+		AnimSystemType "Expedition Worker" Expedition_Worker
+	}
+	myIdealSpeed 25.0
+	myAngularAcceleration 1.5
+	myMaxAngularSpeed 2.0
+	myDrivenMotionSettings
+	{
+		myAccelRate 10.0
+		myDecelRate 30.0
+		myMaxNavSpeed 30.0
+	}
+	myIsAnimationDriven FALSE
+}
+
+MotionPattern "Expedition Worker Follow" < uid=C92F4D3F5BE08E1F00892D08305ABFA0 > : "Expedition Worker Default"
+{
+}
+
+MotionPattern "Expedition Worker Follow Catch-Up" < uid=C92F4D3F5BE0B149006B1C50C519F3F7 > : "Expedition Worker Follow"
+{
+	myIdealSpeed 90.0
+	myDrivenMotionSettings
+	{
+		myAccelRate 30.0
+		myDecelRate 45.0
+		myMaxNavSpeed 90.0
+	}
+}
+
+MotionPattern "Expedition Worker Flight" < uid=C92F4D3F58E6B271004B40AD843C2E55 > : "Expedition Worker Default"
+{
+	myIdealSpeed 70.0
+	myDrivenMotionSettings
+	{
+		myAccelRate 45.0
+		myDecelRate 18.0
+		myMaxNavSpeed 70.0
+	}
+}
+
+MotionPattern "Expedition Worker Damaged" < uid=C92F4D3F59A45AA00049BE62371837C5 > : "Expedition Worker Default"
+{
+	myIdealSpeed 12.5
+	myDrivenMotionSettings
+	{
+		myAccelRate 10.0
+		myDecelRate 10.0
+		myMaxNavSpeed 15.0
+	}
+}
+
+MotionPattern "Expedition Defender Default" < uid=C92F4D3F58E6B271004B40AE630B51EA >
+{
+	myAnimSystemTypes
+	{
+		AnimSystemType "Expedition Defender" Expedition_Defender
+	}
+	myIdealSpeed 25.0
+	myAngularAcceleration 1.5
+	myMaxAngularSpeed 2.0
+	myDrivenMotionSettings
+	{
+		myAccelRate 10.0
+		myDecelRate 30.0
+		myMaxNavSpeed 30.0
+	}
+	myIsAnimationDriven FALSE
+}
+
+MotionPattern "Expedition Defender Follow" < uid=C92F4D3F5BE0B47A00BD5D9812C9EAED > : "Expedition Defender Default"
+{
+}
+
+MotionPattern "Expedition Defender Follow Catch-Up" < uid=C92F4D3F5BE0B47A00BD5D99C612B550 > : "Expedition Defender Follow"
+{
+	myIdealSpeed 90.0
+	myDrivenMotionSettings
+	{
+		myAccelRate 30.0
+		myDecelRate 45.0
+		myMaxNavSpeed 89.900002
+	}
+}
+
+MotionPattern "Expedition Defender Flight" < uid=C92F4D3F58E6B271004B40AF4CDF3808 > : "Expedition Defender Default"
+{
+	myIdealSpeed 60.0
+	myDrivenMotionSettings
+	{
+		myAccelRate 45.0
+		myDecelRate 18.0
+		myMaxNavSpeed 75.0
+	}
+}
+
+MotionPattern "Expedition Defender Damaged" < uid=C92F4D3F59A45AA00049BE630E0C94EA > : "Expedition Defender Default"
+{
+	myIdealSpeed 12.5
+	myDrivenMotionSettings
+	{
+		myAccelRate 10.0
+		myDecelRate 10.0
+		myMaxNavSpeed 15.0
+	}
+}
+
+MotionPattern "Prospector Worker Default" < uid=C92F4D3F58E6B271004B40B07ED289DF >
+{
+	myAnimSystemTypes
+	{
+		AnimSystemType "Prospector Worker" Prospector_Worker
+	}
+	myIdealSpeed 25.0
+	myAngularAcceleration 1.5
+	myMaxAngularSpeed 2.0
+	myDrivenMotionSettings
+	{
+		myAccelRate 10.0
+		myDecelRate 30.0
+		myMaxNavSpeed 30.0
+	}
+	myIsAnimationDriven FALSE
+}
+
+MotionPattern "Prospector Worker Follow" < uid=C92F4D3F5BE0B47A00BD5D9A995BC0C7 > : "Prospector Worker Default"
+{
+}
+
+MotionPattern "Prospector Worker Follow Catch-Up" < uid=C92F4D3F5BE0B47A00BD5D9BA8B0C180 > : "Prospector Worker Follow"
+{
+	myIdealSpeed 90.0
+	myDrivenMotionSettings
+	{
+		myAccelRate 30.0
+		myDecelRate 45.0
+		myMaxNavSpeed 90.0
+	}
+}
+
+MotionPattern "Prospector Worker Flight" < uid=C92F4D3F58E6B271004B40B11BF94ED6 > : "Prospector Worker Default"
+{
+	myIdealSpeed 70.0
+	myDrivenMotionSettings
+	{
+		myAccelRate 45.0
+		myDecelRate 18.0
+		myMaxNavSpeed 70.0
+	}
+}
+
+MotionPattern "Prospector Worker Damaged" < uid=C92F4D3F59A45AA00049BE6472364583 > : "Prospector Worker Default"
+{
+	myIdealSpeed 12.5
+	myDrivenMotionSettings
+	{
+		myAccelRate 10.0
+		myDecelRate 10.0
+		myMaxNavSpeed 15.0
+	}
+}
+
+MotionPattern "Prospector Defender Default" < uid=C92F4D3F58E6B271004B40B22244C842 >
+{
+	myAnimSystemTypes
+	{
+		AnimSystemType "Prospector Defender" Prospector_Defender
+	}
+	myIdealSpeed 25.0
+	myAngularAcceleration 1.5
+	myMaxAngularSpeed 2.0
+	myDrivenMotionSettings
+	{
+		myAccelRate 10.0
+		myDecelRate 30.0
+		myMaxNavSpeed 30.0
+	}
+	myIsAnimationDriven FALSE
+}
+
+MotionPattern "Prospector Defender Follow" < uid=C92F4D3F5BE0B47A00BD5D9CF573C8F9 > : "Prospector Defender Default"
+{
+}
+
+MotionPattern "Prospector Defender Follow Catch-Up" < uid=C92F4D3F5BE0B47A00BD5D9DA6985B32 > : "Prospector Defender Follow"
+{
+	myIdealSpeed 90.0
+	myDrivenMotionSettings
+	{
+		myAccelRate 30.0
+		myDecelRate 45.0
+		myMaxNavSpeed 90.0
+	}
+}
+
+MotionPattern "Prospector Defender Flight" < uid=C92F4D3F58E6B271004B40B397EEAB7A > : "Prospector Defender Default"
+{
+	myIdealSpeed 70.0
+	myDrivenMotionSettings
+	{
+		myAccelRate 45.0
+		myDecelRate 18.0
+		myMaxNavSpeed 70.0
+	}
+}
+
+MotionPattern "Prospector Defender Damaged" < uid=C92F4D3F59A45AA00049BE657109D3A7 > : "Prospector Defender Default"
+{
+	myIdealSpeed 12.5
+	myDrivenMotionSettings
+	{
+		myAccelRate 10.0
+		myDecelRate 10.0
+		myMaxNavSpeed 15.0
+	}
+}
+
+MotionPattern "Harvester Drake Default" < uid=6D25F4C658D96CEC00AA5D33EACB1545 >
+{
+	myAnimSystemTypes
+	{
+		AnimSystemType Raider Civ_Raider
+	}
+	myIdealSpeed 100.0
+	myAngularAcceleration 0.75
+	myMaxAngularSpeed 1.2
+	myDrivenMotionSettings
+	{
+		myAccelRate 300.0
+		myDecelRate 100.0
+		myMinNavSpeed 20.0
+		myMaxNavSpeed 100.0
+	}
+	myIsAnimationDriven FALSE
+}
+
+MotionPattern "Harvester Drake Pursuit" < uid=6D25F4C658D9728C0039EDF581F7A52E > : "Harvester Drake Default"
+{
+}
+
+MotionPattern "Harvester Drake Head On" < uid=6D25F4C658D9728C0039EDF6C97B9295 > : "Harvester Drake Default"
+{
+	myIdealSpeed 100.0
+	myDrivenMotionSettings
+	{
+		myAccelRate 250.0
+		myDecelRate 100.0
+		myMinNavSpeed 0.0
+		myMaxNavSpeed 50.0
+	}
+	myNewtonianMotionSettings
+	{
+		myPYRTensor 1.0;0.7;0.3
+	}
+}
+
+MotionPattern "Harvester Drake Intercept" < uid=6D25F4C658D9760B00ACB1D7A621D8F4 > : "Harvester Drake Default"
+{
+}
+
+MotionPattern "Harvester Drake Maneuver" < uid=6D25F4C658E516820350489DC4346FBF > : "Harvester Drake Default"
+{
+	myAngularAcceleration 2.0
+	myMaxAngularSpeed 2.0
+	myNewtonianMotionSettings
+	{
+		myUsePathUpOrientation TRUE
+		myFixedHeading TRUE
+	}
+}
+
+MotionPattern "Harvester Drake Bait" < uid=6D25F4C6590CDD3B0461B6381B12819F > : "Harvester Drake Default"
+{
+	myIdealSpeed 120.0
+	myDrivenMotionSettings
+	{
+		myAccelRate 300.0
+		myDecelRate 200.0
+		myMinNavSpeed 90.0
+		myMaxNavSpeed 100.0
+	}
+	myNewtonianMotionSettings
+	{
+		myUsePathUpOrientation FALSE
+	}
+}
+
+MotionPattern "Harvester Drake No Roll" < uid=6D25F4C6591F58970000D62A755AEDBE > : "Harvester Drake Default"
+{
+	myNewtonianMotionSettings
+	{
+	}
+}
+
+MotionPattern "Harvester Drake Elite Default" < uid=6D25F4C6593846680130814AB642B5AE > : "Harvester Drake Default"
+{
+	myAnimSystemTypes
+	{
+		AnimSystemType Drake Harvester_Drake
+	}
+	myIdealSpeed 120.0
+	myDrivenMotionSettings
+	{
+		myAccelRate 250.0
+		myDecelRate 100.0
+		myMinNavSpeed 20.0
+		myMaxNavSpeed 120.0
+	}
+}
+
+MotionPattern "Harvester Drake Elite Pursuit" < uid=6D25F4C6593846680130814BC2F893D5 > : "Harvester Drake Pursuit"
+{
+	myAnimSystemTypes
+	{
+		AnimSystemType Drake Harvester_Drake
+	}
+	myIdealSpeed 60.0
+}
+
+MotionPattern "Harvester Drake Elite Head On" < uid=6D25F4C6593846680130814CF79F28B6 > : "Harvester Drake Head On"
+{
+	myAnimSystemTypes
+	{
+		AnimSystemType Drake Harvester_Drake
+	}
+	myIdealSpeed 60.0
+	myDrivenMotionSettings
+	{
+		myAccelRate 100.0
+		myDecelRate 100.0
+		myMinNavSpeed 0.0
+		myMaxNavSpeed 60.0
+	}
+	myNewtonianMotionSettings
+	{
+		myPYRTensor 1.0;0.7;0.3
+	}
+}
+
+MotionPattern "Harvester Drake Elite Intercept" < uid=6D25F4C6593846680130814DAE2D9E53 > : "Harvester Drake Intercept"
+{
+	myAnimSystemTypes
+	{
+		AnimSystemType Drake Harvester_Drake
+	}
+	myIdealSpeed 130.0
+}
+
+MotionPattern "Harvester Drake Elite Maneuver" < uid=6D25F4C6593846680130814E0D61A1FD > : "Harvester Drake Maneuver"
+{
+	myAnimSystemTypes
+	{
+		AnimSystemType Drake Harvester_Drake
+	}
+}
+
+MotionPattern "Harvester Drake Elite Bait" < uid=6D25F4C6593846680130814F0B01FDBF > : "Harvester Drake Bait"
+{
+	myAnimSystemTypes
+	{
+		AnimSystemType Drake Harvester_Drake
+	}
+}
+
+MotionPattern "Harvester Drake Elite No Roll" < uid=6D25F4C6593846680130815005D5BEF1 > : "Harvester Drake No Roll"
+{
+	myAnimSystemTypes
+	{
+		AnimSystemType Drake Harvester_Drake
+	}
+}
+
+MotionPattern "Outlaw Defender Default" < uid=6D25F4C65953F1F60001F6F917F15A9E >
+{
+	myAnimSystemTypes
+	{
+		AnimSystemType "Outlaw Defender" Outlaw_Defender
+	}
+	myIdealSpeed 70.0
+	myAngularAcceleration 0.5
+	myMaxAngularSpeed 1.0
+	myDrivenMotionSettings
+	{
+		myAccelRate 250.0
+		myDecelRate 100.0
+		myMinNavSpeed 20.0
+		myMaxNavSpeed 70.0
+	}
+	myNewtonianMotionSettings
+	{
+		myPYRTensor 1.3;0.5;0.7
+	}
+	myIsAnimationDriven FALSE
+}
+
+MotionPattern "Outlaw Defender Pursuit" < uid=6D25F4C65953F1F60001F6FA3A8A7B3F > : "Outlaw Defender Default"
+{
+}
+
+MotionPattern "Outlaw Defender Head On" < uid=6D25F4C65953F1F60001F6FBBC4DC9BB > : "Outlaw Defender Default"
+{
+	myIdealSpeed 50.0
+	myDrivenMotionSettings
+	{
+		myAccelRate 100.0
+		myDecelRate 100.0
+		myMaxNavSpeed 60.0
+	}
+	myNewtonianMotionSettings
+	{
+		myPYRTensor 1.3;0.75;0.2
+	}
+}
+
+MotionPattern "Outlaw Defender Intercept" < uid=6D25F4C65953F27F00022FB7F4A3B352 > : "Outlaw Defender Default"
+{
+}
+
+MotionPattern "Outlaw Defender Maneuver" < uid=6D25F4C65953F3680002A310691B22F2 > : "Outlaw Defender Default"
+{
+	myIdealSpeed 80.0
+	myAngularAcceleration 2.0
+	myMaxAngularSpeed 2.0
+	myDrivenMotionSettings
+	{
+		myAccelRate 100.0
+		myDecelRate 100.0
+		myMinNavSpeed 60.0
+		myMaxNavSpeed 100.0
+	}
+	myNewtonianMotionSettings
+	{
+		myUsePathUpOrientation TRUE
+		myFixedHeading TRUE
+	}
+}
+
+MotionPattern "Outlaw Defender Bait" < uid=6D25F4C65953F3FB0002EE280021FF6D > : "Outlaw Defender Default"
+{
+	myIdealSpeed 90.0
+	myDrivenMotionSettings
+	{
+		myAccelRate 250.0
+		myDecelRate 100.0
+		myMinNavSpeed 20.0
+		myMaxNavSpeed 90.0
+	}
+}
+
+MotionPattern "Outlaw Defender  No Roll" < uid=6D25F4C65953F3FB0002EE29D2F3EEC3 > : "Outlaw Defender Default"
+{
+	myNewtonianMotionSettings
+	{
+	}
+}
+
+MotionPattern "Generic Immelmann" < uid=6D25F4C65963C6D4009671EA0053DE68 >
+{
+	myAnimSystemTypes
+	{
+		AnimSystemType "Civ Raider" Civ_Raider
+		AnimSystemType Drake Harvester_Drake
+		AnimSystemType "Outlaw Defender" Outlaw_Defender
+		AnimSystemType "Outlaw Elite" Outlaw_Defender_Elite
+		AnimSystemType "Outlaw Leader" Outlaw_Defender_Leader
+	}
+	myIdealSpeed 100.0
+	myAngularAcceleration 2.0
+	myMaxAngularSpeed 2.0
+	myDrivenMotionSettings
+	{
+		myAccelRate 250.0
+		myDecelRate 30.0
+		myMinNavSpeed 20.0
+		myMaxNavSpeed 100.0
+	}
+	myNewtonianMotionSettings
+	{
+		myPYRTensor 1.0;1.0;1.0
+		myUsePathUpOrientation TRUE
+	}
+	myIsAnimationDriven FALSE
+}
+
+MotionPattern "Outlaw Defender Leader Default" < uid=6D25F4C6596FB9D90000019F1011C6DA > : "Outlaw Defender Default"
+{
+	myAnimSystemTypes
+	{
+		AnimSystemType "Outlaw Defender" Outlaw_Defender_Leader
+	}
+	myIdealSpeed 100.0
+	myAngularAcceleration 1.0
+	myMaxAngularSpeed 1.5
+	myDrivenMotionSettings
+	{
+		myAccelRate 300.0
+		myDecelRate 100.0
+		myMinNavSpeed 20.0
+		myMaxNavSpeed 100.0
+	}
+}
+
+MotionPattern "Outlaw Defender Leader Pursuit" < uid=6D25F4C6596FB9D9000001A0DF9754D9 > : "Outlaw Defender Leader Default"
+{
+}
+
+MotionPattern "Outlaw Defender Leader Head On" < uid=6D25F4C6596FB9D9000001A1AB648227 > : "Outlaw Defender Head On"
+{
+	myAnimSystemTypes
+	{
+		AnimSystemType "Outlaw Defender" Outlaw_Defender_Leader
+	}
+	myIdealSpeed 60.0
+	myDrivenMotionSettings
+	{
+		myAccelRate 100.0
+		myDecelRate 100.0
+		myMaxNavSpeed 60.0
+	}
+}
+
+MotionPattern "Outlaw Defender Leader Intercept" < uid=6D25F4C6596FB9D9000001A265DA3F99 > : "Outlaw Defender Leader Default"
+{
+}
+
+MotionPattern "Outlaw Defender Leader Maneuver" < uid=6D25F4C6596FB9D9000001A3FB6302EE > : "Outlaw Defender Maneuver"
+{
+	myAnimSystemTypes
+	{
+		AnimSystemType "Outlaw Defender" Outlaw_Defender_Leader
+	}
+}
+
+MotionPattern "Outlaw Defender Leader Bait" < uid=6D25F4C6596FB9D9000001A49E37B0C7 > : "Outlaw Defender Bait"
+{
+	myAnimSystemTypes
+	{
+		AnimSystemType "Outlaw Defender" Outlaw_Defender_Leader
+	}
+	myIdealSpeed 90.0
+	myDrivenMotionSettings
+	{
+		myAccelRate 300.0
+		myDecelRate 100.0
+		myMaxNavSpeed 90.0
+	}
+	myNewtonianMotionSettings
+	{
+		myPYRTensor 2.0;0.5;0.7
+		myUsePathUpOrientation FALSE
+	}
+}
+
+MotionPattern "Outlaw Defender Leader No Roll" < uid=6D25F4C6596FB9D9000001A511CD6C9C > : "Outlaw Defender Leader Default"
+{
+	myNewtonianMotionSettings
+	{
+	}
+}
+
+MotionPattern "Harvester Cyclops Grax Slow Flight" < uid=4A8282B959C2D45C000E91E04437ADB3 > : "Harvester Cyclops Grax Flight"
+{
+	myIdealSpeed 10.0
+}
+
+MotionPattern "Outlaw Mine Homing" < uid=6D25F4C659BAD0400004683DDDC3A2A9 >
+{
+	myAnimSystemTypes
+	{
+		AnimSystemType Raider Civ_Raider
+	}
+	myIdealSpeed 30.0
+	myAngularAcceleration 10.0
+	myMaxAngularSpeed 10.0
+	myDrivenMotionSettings
+	{
+		myAccelRate 10.0
+		myDecelRate 5.0
+		myMinNavSpeed 5.0
+		myMaxNavSpeed 30.0
+	}
+	myNewtonianMotionSettings
+	{
+		myUsePathUpOrientation TRUE
+		myFixedHeading TRUE
+	}
+	myIsAnimationDriven FALSE
+}
+
+MotionPattern "Outlaw Ground Default" < uid=93869D535A60CF7A00001CD972C28494 >
+{
+	myAnimSystemTypes
+	{
+		AnimSystemType "Outlaw Defender" Outlaw_Defender
+		AnimSystemType "Outlaw Elite" Outlaw_Defender_Elite
+		AnimSystemType "Outlaw Leader" Outlaw_Defender_Leader
+	}
+	myIdealSpeed 30.0
+	myAngularAcceleration 1.8
+	myMaxAngularSpeed 3.0
+	myDrivenMotionSettings
+	{
+		myAccelRate 10.0
+		myDecelRate 70.0
+		myMaxNavSpeed 35.0
+	}
+	mySkimmerMotionSettings
+	{
+		myRepulsorHeight 3.0
+		myRepulsorSpringStiffness 5.0
+	}
+	myIsAnimationDriven FALSE
+}
+
+MotionPattern "Outlaw Ground Combat" < uid=4A8282B95B36804B00002409F6A9BB5C > : "Outlaw Ground Default"
+{
+	myIdealSpeed 30.0
+}
+
+MotionPattern "Outlaw Ground Damaged" < uid=93869D535A60CF7A00001CDAF26705BD > : "Outlaw Ground Default"
+{
+	myIdealSpeed 12.5
+	myDrivenMotionSettings
+	{
+		myAccelRate 10.0
+		myDecelRate 10.0
+		myMaxNavSpeed 15.0
+	}
+}
+
+MotionPattern "Outlaw Ground Flocking" < uid=C92F4D3F5B06F1CA00001FBAFEF39DBF > : "Outlaw Ground Default"
+{
+}
+
+MotionPattern "Outlaw Ground Elite Default" < uid=67883D265AF3444500139680CE13B3D1 > : "Outlaw Ground Default"
+{
+	myIdealSpeed 40.0
+	myDrivenMotionSettings
+	{
+		myAccelRate 10.0
+		myDecelRate 10.0
+		myMaxNavSpeed 45.0
+	}
+	mySkimmerMotionSettings
+	{
+		myRepulsorHeight 4.5
+		myRepulsorSpringStiffness 5.0
+	}
+}
+
+MotionPattern "Outlaw Ground Leader Default" < uid=67883D265AF3444500139681D14AF36B > : "Outlaw Ground Default"
+{
+	myIdealSpeed 25.0
+	mySkimmerMotionSettings
+	{
+		myRepulsorHeight 3.5
+	}
+}
+
+MotionPattern "Outlaw Ground Leader Relocate" < uid=DDDD6F5D5B327740000022A7755D9654 > : "Outlaw Ground Leader Default"
+{
+	myIdealSpeed 80.0
+}
+
+MotionPattern "Outlaw Defender Hover Tank Default" < uid=DFE837425BD8A8BE000383442BE356DD > : "Outlaw Ground Default"
+{
+	myAnimSystemTypes
+	{
+		AnimSystemType "Outlaw Hovertank" Outlaw_Hovertank
+	}
+	mySkimmerMotionSettings
+	{
+		myRepulsorHeight 6.0
+	}
+}
+
+MotionPattern "Wingmate Space Default" < uid=6D25F4C65A7B67370040158AF181A15F >
+{
+	myAnimSystemTypes
+	{
+		AnimSystemType Ally_Wingmate Civ_Raider
+		AnimSystemType Ally_Chase Ally_Chase
+		AnimSystemType Ally_Hunter Ally_Hunter
+		AnimSystemType Ally_Judge Ally_Judge
+		AnimSystemType Ally_Mason Ally_Mason
+		AnimSystemType Ally_Shaide Ally_Shaide
+		AnimSystemType Ally_Fern Ally_Fern
+		AnimSystemType Ally_Galla Ally_Galla
+		AnimSystemType Ally_Rancor Ally_Rancor
+	}
+	myIdealSpeed 90.0
+	myAngularAcceleration 0.5
+	myMaxAngularSpeed 1.0
+	myDrivenMotionSettings
+	{
+		myAccelRate 250.0
+		myDecelRate 50.0
+		myMinNavSpeed 20.0
+		myMaxNavSpeed 100.0
+	}
+	myNewtonianMotionSettings
+	{
+		myPYRTensor 1.3;0.5;0.7
+	}
+	myIsAnimationDriven FALSE
+}
+
+MotionPattern "Wingmate Space Formation" < uid=6D25F4C65AE72C7900029D6EDADFDE0D > : "Wingmate Space Default"
+{
+	myIdealSpeed 110.0
+	myDrivenMotionSettings
+	{
+		myAccelRate 1100.0
+		myDecelRate 200.0
+		myMinNavSpeed 0.0
+		myMaxNavSpeed 120.0
+	}
+	myNewtonianMotionSettings
+	{
+		myPYRTensor 4.0;3.0;0.9
+		myMatchSimParentSpeed FALSE
+		mySpeedMatchingScalar 1.5
+	}
+}
+
+MotionPattern "Wingmate Space Pursuit" < uid=6D25F4C65A7B6DAB01251DF7CA6B1C44 > : "Wingmate Space Default"
+{
+}
+
+MotionPattern "Wingmate Space Head On" < uid=6D25F4C65A7B6DAB01251DF87BBE1644 > : "Wingmate Space Default"
+{
+	myIdealSpeed 50.0
+}
+
+MotionPattern "Wingmate Space Intercept" < uid=6D25F4C65A7B6DAB01251DF9A5E0338C > : "Wingmate Space Default"
+{
+}
+
+MotionPattern "Wingmate Space Maneuver" < uid=6D25F4C65A7B6DAB01251DFACF30C7B1 > : "Wingmate Space Default"
+{
+	myNewtonianMotionSettings
+	{
+		myUsePathUpOrientation TRUE
+		myFixedHeading TRUE
+	}
+}
+
+MotionPattern "Wingmate Space Bait" < uid=6D25F4C65A7B6DAB01251DFB5D2B6B2F > : "Wingmate Space Default"
+{
+	myNewtonianMotionSettings
+	{
+		myUsePathUpOrientation TRUE
+		myFixedHeading FALSE
+	}
+}
+
+MotionPattern "Wingmate Space No Roll" < uid=6D25F4C65A7B6DAB01251DFCD6AC5AF8 > : "Wingmate Space Default"
+{
+	myNewtonianMotionSettings
+	{
+	}
+}
+
+MotionPattern "Outlaw Defender Elite Default" < uid=6D25F4C65A8DF1FA00017D41817243BE > : "Outlaw Defender Default"
+{
+	myAnimSystemTypes
+	{
+		AnimSystemType "Outlaw Defender Elite" Outlaw_Defender_Elite
+	}
+	myDrivenMotionSettings
+	{
+		myAccelRate 60.0
+		myDecelRate 30.0
+		myMinNavSpeed 20.0
+		myMaxNavSpeed 200.0
+	}
+}
+
+MotionPattern "Outlaw Defender Elite Pursuit" < uid=6D25F4C65A8DF1FA00017D4261E1E4ED > : "Outlaw Defender Elite Default"
+{
+}
+
+MotionPattern "Outlaw Defender Elite Head On" < uid=6D25F4C65A8DF1FA00017D43E79405A8 > : "Outlaw Defender Elite Default"
+{
+}
+
+MotionPattern "Outlaw Defender Elite Intercept" < uid=6D25F4C65A8DF1FA00017D447F0A3C6F > : "Outlaw Defender Elite Default"
+{
+}
+
+MotionPattern "Outlaw Defender Elite Maneuver" < uid=6D25F4C65A8DF1FA00017D456C76EF83 > : "Outlaw Defender Maneuver"
+{
+}
+
+MotionPattern "Outlaw Defender Elite Bait" < uid=6D25F4C65A8DF1FA00017D4602DEA86C > : "Outlaw Defender Elite Default"
+{
+	myNewtonianMotionSettings
+	{
+		myUsePathUpOrientation TRUE
+	}
+}
+
+MotionPattern "Outlaw Defender Elite No Roll" < uid=6D25F4C65A8DF1FA00017D47452054DA > : "Outlaw Defender Elite Default"
+{
+}
+
+MotionPattern "Outlaw Defender Hover Tank Combat" < uid=DFE837425BD8A8BE000383454C132C74 > : "Outlaw Ground Combat"
+{
+	myAnimSystemTypes
+	{
+		AnimSystemType "Outlaw Hovertank" Outlaw_Hovertank
+	}
+	myIdealSpeed 5.0
+	myAngularAcceleration 3.0
+	myMaxAngularSpeed 0.1
+	mySkimmerMotionSettings
+	{
+		myRepulsorHeight 6.0
+	}
+}
+
+MotionPattern "Grax Transporter Default" < uid=6D25F4C65B04719B00047C69C0E6A380 > : "Harvester Drake Default"
+{
+	myAnimSystemTypes
+	{
+		AnimSystemType "Grax Transporter" Grax_Transporter
+	}
+	myAngularAcceleration 0.15
+	myDrivenMotionSettings
+	{
+		myAccelRate 250.0
+		myDecelRate 100.0
+		myMinNavSpeed 20.0
+		myMaxNavSpeed 100.0
+	}
+	myNewtonianMotionSettings
+	{
+		myPYRTensor 2.0;0.7;0.5
+		myResponsiveness 0.3
+	}
+}
+
+MotionPattern "Grax Transporter Pursuit" < uid=6D25F4C65B04719B00047C6AD9455FDB > : "Harvester Drake Pursuit"
+{
+	myAnimSystemTypes
+	{
+		AnimSystemType "Grax Transporter" Grax_Transporter
+	}
+	myAngularAcceleration 0.15
+}
+
+MotionPattern "Grax Transporter Head On" < uid=6D25F4C65B04719B00047C6B494E61D7 > : "Harvester Drake Head On"
+{
+	myAnimSystemTypes
+	{
+		AnimSystemType "Grax Transporter" Grax_Transporter
+	}
+	myIdealSpeed 200.0
+	myAngularAcceleration 0.15
+	myMaxAngularSpeed 0.0
+	myDrivenMotionSettings
+	{
+		myAccelRate 200.0
+		myDecelRate 200.0
+		myMaxNavSpeed 200.0
+	}
+	myNewtonianMotionSettings
+	{
+		myPYRTensor 1.0;1.0;0.4
+		myResponsiveness 0.2
+	}
+}
+
+MotionPattern "Grax Transporter Intercept" < uid=6D25F4C65B04719B00047C6C0C23F66D > : "Harvester Drake Intercept"
+{
+	myAnimSystemTypes
+	{
+		AnimSystemType "Grax Transporter" Grax_Transporter
+	}
+	myAngularAcceleration 0.15
+	myNewtonianMotionSettings
+	{
+		myPYRTensor 1.0;0.8;0.4
+	}
+}
+
+MotionPattern "Grax Transporter Maneuver" < uid=6D25F4C65B04719B00047C6DF92CAECA > : "Harvester Drake Maneuver"
+{
+	myAnimSystemTypes
+	{
+		AnimSystemType "Grax Transporter" Grax_Transporter
+	}
+}
+
+MotionPattern "Grax Transporter Bait" < uid=6D25F4C65B04719B00047C6E0A648DB3 > : "Harvester Drake Bait"
+{
+	myAnimSystemTypes
+	{
+		AnimSystemType "Grax Transporter" Grax_Transporter
+	}
+	myIdealSpeed 150.0
+	myAngularAcceleration 0.15
+	myNewtonianMotionSettings
+	{
+		myPYRTensor 1.5;1.0;0.5
+		myUsePathUpOrientation FALSE
+		myResponsiveness 0.5
+	}
+}
+
+MotionPattern "Grax Transporter No Roll" < uid=6D25F4C65B04719B00047C6F301E15F1 > : "Harvester Drake No Roll"
+{
+	myAnimSystemTypes
+	{
+		AnimSystemType "Grax Transporter" Grax_Transporter
+	}
+	myAngularAcceleration 0.15
+}
+
+MotionPattern "Outlaw Battlemech Default" < uid=9211CC215B4882040001453BE6F32D0B >
+{
+	myAnimSystemTypes
+	{
+		AnimSystemType "Outlaw Battlemech" Outlaw_Battlemech
+	}
+	myIdealSpeed 8.01
+	myAngularAcceleration 2.0
+	myMaxAngularSpeed 3.14
+}
+
+MotionPattern "Outlaw Battlemech Combat" < uid=9211CC215B48828D0001453C169AF7C4 > : "Outlaw Battlemech Default"
+{
+	myStyle InCombat
+	myIdealSpeed 8.849999
+}
+
+MotionPattern "Mini Enemy 01 Default" < uid=C92F4D3F5BA2592B0037E59A773D9457 >
+{
+	myAnimSystemTypes
+	{
+		AnimSystemType Mini_Enemy_01 Mini_Enemy_01
+	}
+	myIdealSpeed 20.0
+	myAngularAcceleration 3.0
+	myMaxAngularSpeed 3.14159
+	myDrivenMotionSettings
+	{
+		myAccelRate 10.0
+		myDecelRate 10.0
+		myMaxNavSpeed 30.0
+	}
+	mySkimmerMotionSettings
+	{
+		myRepulsorHeight 10.0
+		myRepulsorSpringStiffness 5.0
+	}
+	myIsAnimationDriven FALSE
+}
+
+MotionPattern "Mini Enemy 02 Default" < uid=C92F4D3F5BA3BE9A000024BA46655AFA >
+{
+	myAnimSystemTypes
+	{
+		AnimSystemType Mini_Enemy_01 Mini_Enemy_02
+	}
+	myIdealSpeed 20.0
+	myAngularAcceleration 3.0
+	myMaxAngularSpeed 3.14159
+	myDrivenMotionSettings
+	{
+		myAccelRate 10.0
+		myDecelRate 10.0
+		myMaxNavSpeed 30.0
+	}
+	mySkimmerMotionSettings
+	{
+		myRepulsorHeight 2.5
+		myRepulsorSpringStiffness 8.0
+	}
+	myIsAnimationDriven FALSE
+}
+
+MotionPattern "Mini Enemy 03 Default" < uid=4A8282B95BA2B1D000AC624879BAF7F9 >
+{
+	myAnimSystemTypes
+	{
+		AnimSystemType Probe Harvester_Probe
+	}
+	myIdealSpeed 20.0
+	myAngularAcceleration 3.0
+	myDrivenMotionSettings
+	{
+		myAccelRate 10.0
+		myDecelRate 10.0
+		myMaxNavSpeed 40.0
+	}
+	mySkimmerMotionSettings
+	{
+		myRepulsorHeight 8.0
+		myRepulsorSpringStiffness 5.0
+	}
+	myIsAnimationDriven FALSE
+}
+
+MotionPattern "Mini Enemy 06 Default" < uid=4A8282B95B9965D70104BA4C0F59BE0E >
+{
+	myAnimSystemTypes
+	{
+		AnimSystemType Probe Harvester_Probe
+	}
+	myIdealSpeed 20.0
+	myAngularAcceleration 3.0
+	myDrivenMotionSettings
+	{
+		myAccelRate 10.0
+		myDecelRate 10.0
+		myMaxNavSpeed 40.0
+	}
+	mySkimmerMotionSettings
+	{
+		myRepulsorHeight 8.0
+		myRepulsorSpringStiffness 5.0
+	}
+	myIsAnimationDriven FALSE
+}
+
+MotionPattern "Mini Enemy 09 Default" < uid=C92F4D3F5BA2A78F00002498AC765335 >
+{
+	myAnimSystemTypes
+	{
+		AnimSystemType Mini_Enemy_09 Mini_Enemy_09
+	}
+	myIdealSpeed 20.0
+	myAngularAcceleration 3.0
+	myMaxAngularSpeed 3.14159
+	myDrivenMotionSettings
+	{
+		myAccelRate 10.0
+		myDecelRate 10.0
+		myMaxNavSpeed 30.0
+	}
+	mySkimmerMotionSettings
+	{
+		myRepulsorHeight 10.0
+		myRepulsorSpringStiffness 5.0
+	}
+	myIsAnimationDriven FALSE
+}
+
+MotionPattern "Mini Enemy 09 Flee" < uid=C92F4D3F5BA29FC80089511738258BE5 > : "Mini Enemy 09 Default"
+{
+	myIdealSpeed 72.0
+	myDrivenMotionSettings
+	{
+		myAccelRate 10.0
+		myDecelRate 80.0
+		myMaxNavSpeed 80.0
+	}
+	mySkimmerMotionSettings
+	{
+		myRepulsorHeight 10.0
+		myRepulsorSpringStiffness 2.0
+	}
+}
+
+MotionPattern "Mini Enemy 10 Default" < uid=4A8282B95BA3EA900000271618C79BA5 >
+{
+	myAnimSystemTypes
+	{
+		AnimSystemType Probe Harvester_Probe
+	}
+	myIdealSpeed 20.0
+	myAngularAcceleration 3.0
+	myDrivenMotionSettings
+	{
+		myAccelRate 10.0
+		myDecelRate 10.0
+		myMaxNavSpeed 40.0
+	}
+	mySkimmerMotionSettings
+	{
+		myRepulsorHeight 8.0
+		myRepulsorSpringStiffness 5.0
+	}
+	myIsAnimationDriven FALSE
+}
+
+MotionPattern "Harvester Sentinel Combat" < uid=93869D535BA9509000CFC4A49BCCEFE6 > : "Outlaw Ground Combat"
+{
+	myAnimSystemTypes
+	{
+		AnimSystemType "Outlaw Defender" Outlaw_Defender
+		AnimSystemType "Outlaw Elite" Outlaw_Defender_Elite
+		AnimSystemType "Outlaw Leader" Outlaw_Defender_Leader
+		AnimSystemType Probe Harvester_Probe
+	}
+	mySkimmerMotionSettings
+	{
+		myRepulsorHeight 8.0
+		myRepulsorSpringStiffness 5.0
+	}
+}
+
+MotionPattern "Outlaw Battlemech SuperJump" < uid=DDDD6F5D5BEB279B000000A806643A6A >
+{
+	myAnimSystemTypes
+	{
+		AnimSystemType "Outlaw Battlemech" Outlaw_Battlemech
+	}
+	myStyle InCombat
+	myIdealSpeed 150.0
+	myMaxAngularSpeed 3.14
+	myDrivenMotionSettings
+	{
+		myAccelRate 200.0
+		myDecelRate 300.0
+		myMinNavSpeed 120.0
+		myMaxNavSpeed 250.0
+	}
+	myIsAnimationDriven FALSE
+}
+
+MotionPattern "Outlaw Battlemech Flocking" < uid=DDDD6F5D5BEB27AB000000A93F361C2C > : "Outlaw Battlemech Default"
+{
+}
+
+MotionPattern "Harvester Drake Race 1" < uid=5BF54C035C0E31A00000039A9C2283BD > : "Harvester Drake Intercept"
+{
+}
+
+MotionPattern "Harvester Drake Race 2" < uid=5BF54C035C0E31A00000039B04697E77 > : "Harvester Drake Intercept"
+{
+}
+
+MotionPattern "Harvester Drake Race 3" < uid=5BF54C035C0E31A00000039CAA545460 > : "Harvester Drake Intercept"
+{
+}
+
+MotionPattern "Ally Chase Formation" < uid=6D25F4C65BFDCA040000E628CCCE3779 > : "Wingmate Space Formation"
+{
+	myAnimSystemTypes
+	{
+		AnimSystemType Ally_Chase Ally_Chase
+	}
+	myNewtonianMotionSettings
+	{
+		myPYRTensor 4.0;3.0;0.9
+		myResponsiveness 1.0
+		myMatchSimParentSpeed FALSE
+		mySpeedMatchingScalar 1.5
+	}
+}
+
+MotionPattern "Ally Judge Formation" < uid=6D25F4C65BFF1D7A0001C8A3E4E26F02 > : "Wingmate Space Formation"
+{
+	myNewtonianMotionSettings
+	{
+		myPYRTensor 4.0;4.0;0.9
+		myResponsiveness 0.1
+		myMatchSimParentSpeed FALSE
+		mySpeedMatchingScalar 1.5
+	}
+}
+
+MotionPattern "Ally Hunter Formation" < uid=6D25F4C65C003C66005997EEE8625C5C > : "Wingmate Space Formation"
+{
+}
+
+MotionPattern "Ally Mason Formation" < uid=6D25F4C65C003DAA0086C06D88292777 > : "Wingmate Space Formation"
+{
+}
+
+MotionPattern "Ally Shaide Formation" < uid=6D25F4C65C003DAA0086C06E9109F685 > : "Wingmate Space Formation"
+{
+}
+
+MotionPattern "Ally Fern Formation" < uid=6D25F4C65C003DAA0086C06F9D2A4AAF > : "Wingmate Space Formation"
+{
+}
+
+MotionPattern "Ally Galla Formation" < uid=6D25F4C65C003DAA0086C07055EDBE37 > : "Wingmate Space Formation"
+{
+}
+
+MotionPattern "Ally Rancor Formation" < uid=6D25F4C65C003DAA0086C071943E3962 > : "Wingmate Space Formation"
+{
+}
+
+MotionPattern "Outlaw Defender Formation" < uid=6D25F4C65C194BD70001C714E1E3760E > : "Wingmate Space Formation"
+{
+	myAnimSystemTypes
+	{
+		AnimSystemType Ally_Wingmate Civ_Raider
+		AnimSystemType Ally_Chase Ally_Chase
+		AnimSystemType Ally_Hunter Ally_Hunter
+		AnimSystemType Ally_Judge Ally_Judge
+		AnimSystemType Ally_Mason Ally_Mason
+		AnimSystemType Ally_Shaide Ally_Shaide
+		AnimSystemType Ally_Fern Ally_Fern
+		AnimSystemType Ally_Galla Ally_Galla
+		AnimSystemType Ally_Rancor Ally_Rancor
+		AnimSystemType Outlaw_Defender Outlaw_Defender
+		AnimSystemType Outlaw_Defender_Leader Outlaw_Defender_Leader
+	}
+}
+

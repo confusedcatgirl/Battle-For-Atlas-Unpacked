@@ -1,0 +1,31 @@
+include ./base_ally_ship.mnpc
+include onward/skillscripts/npc_ability_pod_hailstorm.mskillscriptjuice
+include onward/skillscripts/ally_repel.mskillscriptjuice
+
+NPC ally_judge < uid=6D25F4C658B06B2D000002A0FA1EC8E1 > : base_ally_ship
+{
+	myUIName_NonLocalized Judge
+	myGraphObjectFile "onward/graph objects/character/ship_judge_ally.mgraphobject"
+	myAbilityDefinitions
+	{
+		NPCAbilityDefinition Hailstorm
+		{
+			myGameAction NPC_Ability1
+			mySkillScript < uid=C92F4D3F59C1842000EC953EB6C6A132 > = npc_ability_pod_hailstorm
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_ally_ship_hailstorm.juice"
+		}
+	}
+	myPersistentScripts
+	{
+		SkillScript Repel < uid=6D25F4C65B1E971700043E8AAE51765A > = ally_repel
+	}
+	myPhysicsCapsuleRadius 3.0
+	myPhysicsCapsuleStart 0.0;0.0;0.0
+	myPhysicsCapsuleEnd 0.0;0.0;1.5
+	myPatternProfile < uid=6D25F4C65BFF1F3A000187F287A886B1 > = "Ally Judge"
+	myDefaultMotionPattern < uid=6D25F4C65BFF1F5D000189C0B3CAEE31 > = "Wingmate Space Default"
+	myNPCType Judge
+	myAnimSystemType Ally_Judge
+}
+

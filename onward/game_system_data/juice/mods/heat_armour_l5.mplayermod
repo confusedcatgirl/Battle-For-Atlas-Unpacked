@@ -1,0 +1,27 @@
+include ./template_hull.mplayermod
+include ./tuning/mod_tuning_master.juice
+
+PlayerMod HeatArmour_L5 < uid=A08A88CF583315DA0000005017121263 > : template_hull
+{
+	myAttributeMods
+	{
+		AttributeMod "Heat DMG Resist"
+		{
+			myType DMG_Resist_Heat
+			myMultValue = Heat_Armor_l5_HeatResist
+		}
+		AttributeMod Defense
+		{
+			myType PartStat_Defense
+			myAddValue = Heat_Armor_l5_Defense
+		}
+		AttributeMod Hover
+		{
+			myType Player_StaminaCost_HopSustained
+			myAddValue 0.0
+			myPercentageValue = Heat_Armor_l5_HoverCost
+		}
+	}
+	myIsAgentMod TRUE
+}
+

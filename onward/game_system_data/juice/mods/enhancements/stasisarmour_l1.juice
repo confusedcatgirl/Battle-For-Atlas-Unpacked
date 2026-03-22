@@ -1,0 +1,19 @@
+include ./templates/template_l1.juice
+include "onward/game system data/juice/mods/mod_stasis_armour_l1.mplayermod"
+include ./impactaffectors/impact_affectors.juice
+
+Enhancement stasisarmour_l1 < uid=C91BB551597F8BD3007476A50938482C > : "Level 1"
+{
+	myLocalizedName "contextComment = \"[Placeholder - do not translate]\nName for level 1 version of a Ship Armor that lets to player unleash Stasis/anti-gravity effects even if they have no Stasis weapons equipped\", description = \"\", enabled = true, guid = #C91BB551597F8BD3007476A4387709E3, lineVersion = 1, maxLength = 30, text = \"Stasis Armor I\""
+	myLocalizedDescription "contextComment = \"[Placeholder - do not translate]\nDescription for level 1 version of a Ship Armor that lets to player unleash Stasis/anti-gravity effects even if they have no Stasis weapons equipped\", description = \"enhancement-description-stasis-armour-1\", enabled = true, guid = #00A1C4F18D5048CFAB31461574D7A29F, lineVersion = 1, maxLength = 75, text = \"+10 Defense\nChance to Lift on impact | -20% Gravity Resist\""
+	myIconSprite "mySpriteId = 1582233031, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-mods-ship-armour.spritesheet\""
+	myIsHullEnhancement TRUE
+	myMod < uid=C91BB551597F8BD3007476A67F0ECC35 > = mod_stasis_armour_l1
+	myEnhancementType Armour
+	myEnhancementTrackType StasisArmour
+	myImpactAffectors
+	{
+		ImpactAffector_StatusEffect "Stasis on Impact" = "Stasis on Impact"
+	}
+}
+

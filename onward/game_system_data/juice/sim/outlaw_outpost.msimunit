@@ -1,0 +1,23 @@
+include "onward/game system data/fruit/sim/simunit.fruit"
+
+SimUnit outlaw_outpost < uid=C92F4D3F575EF815000000AE13D78917 >
+{
+	myUIName "contextComment = \"The generic name for outlaw outposts, as seen in the database/as a fallback for the naming generator.\", description = \"uiname_outlawoutpost\", enabled = true, guid = #A08A88CF5AA1B0CE00001B3EBBF76FD7, lineVersion = 0, maxLength = 18, text = \"Outlaw Outpost\""
+	myBehavior onward/simworld/behavior/outlaw_outpost.msimunitbtgraph
+	myControlGraph onward/simworld/control/outlaw_outpost.msimunitcontrolgraph
+	myFaction Outlaw
+	myCategory Outpost
+	myRadius 270.0
+	mySpeed 0.0
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo SpawnInfo < uid=A08A88CF5AA1B0E900001B4162569993 >
+		{
+			myCountMin 1
+			myCountMax 1
+			myEntitySize 270.0
+			myEntityFile "onward/entity templates/outlaw_outpost_proxy.mentitytemplate"
+		}
+	}
+}
+

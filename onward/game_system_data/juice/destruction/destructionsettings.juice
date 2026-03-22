@@ -1,0 +1,246 @@
+include modules/core/physics/destructionsettings.fruit
+
+BrickSettings myBrickSettings
+{
+	BrickSetting Default
+	{
+		myName Default
+		myCrackProbability 0.0
+	}
+	BrickSetting SJTestTiles
+	{
+		myName SJTestTiles
+		myCrackProbability 0.8
+		myDepth 0.02
+		myEdgeSize 0.01
+		myPartialCrackProbability 0.9
+		myDamagedPartialCrackProbabiltySubtract 0.4
+		myPartialCrackStraightEdgeProbability 0.5
+		myPartialCrackHoleSizeMod 2.0
+	}
+	BrickSetting Tiles
+	{
+		myName Tiles
+		myCrackProbability 0.8
+		myDepth 0.02
+		myEdgeSize 0.01
+		myPartialCrackProbability 0.9
+	}
+	BrickSetting TilesShallow
+	{
+		myName "Tiles Shallow"
+		myCrackProbability 0.8
+		myDepth 0.005
+		myEdgeSize 0.01
+		myPartialCrackProbability 0.9
+	}
+	BrickSetting Bricks
+	{
+		myName Bricks
+		myCrackProbability 0.2
+		myDepth 0.045
+		myDepthRandomness 0.6
+		myNegativeDepthMod 0.2
+		myEdgeSize 0.03
+		myExtraEdgeCutSize 0.002
+		myPartialCrackProbability 0.4
+		myDamagedPartialCrackProbabiltySubtract 0.7
+		myPartialCrackStraightEdgeProbability 0.1
+		myPartialCrackHoleSizeMod 3.0
+	}
+	BrickSetting k_bricks
+	{
+		myName k_bricks
+		myCrackProbability 0.5
+		myDepth 0.035
+		myDepthRandomness 0.3
+		myNegativeDepthMod 0.2
+		myEdgeSize 0.04
+		myExtraEdgeCutSize 0.002
+		myPartialCrackProbability 0.4
+		myDamagedPartialCrackProbabiltySubtract 0.9
+		myPartialCrackStraightEdgeProbability 0.7
+		myPartialCrackHoleSizeMod 3.2
+	}
+}
+
+WoodSettings myWoodSettings
+{
+	WoodSetting Default
+	{
+		myName Default
+		myEnableSpecialWood FALSE
+	}
+	WoodSetting SJTestWood
+	{
+		myName SJTestWood
+		myEnableSpecialWood TRUE
+	}
+	WoodSetting SJBoxTestWood
+	{
+		myName SJBoxTestWood
+		myEnableSpecialWood TRUE
+		myAlignBoardToTexU TRUE
+	}
+	WoodSetting PlanksU
+	{
+		myName Planks
+		myEnableSpecialWood TRUE
+		myAlignBoardToTexU TRUE
+	}
+	WoodSetting PlanksV
+	{
+		myName "Planks V-Aligned"
+		myEnableSpecialWood TRUE
+		myAlignBoardToTexU FALSE
+	}
+	WoodSetting BrittlePlanks
+	{
+		myName "BrittlePlanks"
+		myEnableSpecialWood TRUE
+		myAlignBoardToTexU TRUE
+		myBoardHealth 150
+		myHoleBendPieceProbability 0
+	}
+	WoodSetting PlanksUNoBend
+	{
+		myName "Planks No Bend"
+		myEnableSpecialWood TRUE
+		myAlignBoardToTexU TRUE
+		myFixtureBendMod -0.0
+		myFixtureMaxBend 0.19
+	}
+	WoodSetting Plywood
+	{
+		myName Plywood
+		myMaterial WoodPlank
+		myEnableSpecialWood TRUE
+		mySplinterLengthMod 0.99
+		myHoleBendPieceProbability 0.99
+		myHoleBendPieceLengthMod 0.5
+		myHoleBendPieceAngleMod 0.99
+		myBoardHealth 999999999999999999999.0
+		myFixtureHealth 999999999999999999999.0
+		myFixtureBendMod -0.0
+		myFixtureMaxBend 0.19
+		myBoardWidth 0.16
+		myAlignBoardToTexU TRUE
+	}
+}
+
+MetalSettings myMetalSettings
+{
+	MetalSetting Default
+	{
+		myName Default
+		mySplinterProbability 0.0
+	}
+	MetalSetting SJTestMetal
+	{
+		myName SJTestMetal
+		mySplinterProbability 1.0
+		mySplinterSizeMod 1.0
+	}
+}
+
+AggregateHoleSettings myAggregateHoleSettings
+{
+	AggregateHoleSetting Default
+	{
+		myName Default
+		myMaterial "Concrete Asphalt Rock"
+		myCheckProbability 0.4
+	}
+	AggregateHoleSetting SJTest
+	{
+		myName SJTest
+		myMaterial ""
+		myCheckProbability 0.3
+		myMaxStartDepth 0.08
+		myCuttingDepth 0.08
+		myCuttingDepthRandomness 0.3
+		myMinNumHoles 6.0
+		myMinNumHolesRandomness 0.4
+		myHoleSearchRadius 0.2
+		myHoleSearchRadiusRandomness 0.3
+	}
+	AggregateHoleSetting TileInterior
+	{
+		myName "Tile interior"
+		myMaterial ""
+		myCheckProbability 0.3
+		myMaxStartDepth 0.08
+		myCuttingDepth 0.08
+		myCuttingDepthRandomness 0.3
+		myMinNumHoles 6.0
+		myMinNumHolesRandomness 0.4
+		myHoleSearchRadius 0.2
+		myHoleSearchRadiusRandomness 0.3
+	}
+	AggregateHoleSetting Fragile
+	{
+		myName Fagile
+		myMaterial ""
+		myCheckProbability 0.95
+		myMaxStartDepth 0.07
+		myCuttingDepth 0.15
+		myCuttingDepthRandomness 0.3
+		myMinNumHoles 1.5
+		myMinNumHolesRandomness 0.3
+		myHoleSearchRadius 0.28
+		myHoleSearchRadiusRandomness 0.2
+	}
+	AggregateHoleSetting Concrete
+	{
+		myName Concrete
+		myMaterial ""
+		myCheckProbability 0.9
+		myMaxStartDepth 0.06
+		myCuttingDepth 0.12
+		myCuttingDepthRandomness 0.3
+		myMinNumHoles 2.2
+		myMinNumHolesRandomness 0.4
+		myHoleSearchRadius 0.25
+		myHoleSearchRadiusRandomness 0.2
+	}
+	AggregateHoleSetting ConcreteShallow
+	{
+		myName ConcreteShallow
+		myMaterial ""
+		myCheckProbability 0.9
+		myMaxStartDepth 0.015
+		myCuttingDepth 0.04
+		myCuttingDepthRandomness 0.3
+		myMinNumHoles 2.2
+		myMinNumHolesRandomness 0.4
+		myHoleSearchRadius 0.25
+		myHoleSearchRadiusRandomness 0.2
+	}
+	AggregateHoleSetting Off
+	{
+		myName Off
+		myMaterial ""
+		myCheckProbability 0.0
+	}
+	AggregateHoleSetting Rock
+	{
+		myName Rock
+		myCheckProbability 0.95
+		myMaxStartDepth 0.07
+		myCuttingDepth 0.15
+		myMinNumHoles 1.5
+		myMinNumHolesRandomness 0.3
+		myHoleSearchRadius 2.0
+		myHoleSearchRadiusRandomness 0.2
+		myMinRoundness 0.1
+	}
+}
+
+ShaderTranslations myShaderTranslations
+{
+}
+
+HoleFillExcludedShaders myHoleFillExcludedShaders
+{
+}
+

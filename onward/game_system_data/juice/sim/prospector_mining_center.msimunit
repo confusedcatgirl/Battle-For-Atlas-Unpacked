@@ -1,0 +1,67 @@
+include "onward/game system data/fruit/sim/simunit.fruit"
+
+SimUnit prospector_mining_center < uid=C92F4D3F5807BA720044ED7D4DBCDE72 >
+{
+	myUIName "contextComment = \"The UI name for the Prospector Mining Center\", description = \"uiname-prospector-mining-center\", enabled = true, guid = #1ABBD50B58B479A10002DBAD6A1CDD2E, lineVersion = 1, maxLength = 13, text = \"Refinery\""
+	myBehavior onward/simworld/behavior/faction_outpost.msimunitbtgraph
+	myControlGraph onward/simworld/control/prospector_mining_center.msimunitcontrolgraph
+	myFaction Prospector
+	myCategory Outpost
+	mySubCategory MiningCenter
+	myMaxHealth 200.0
+	myRadius 24.0
+	myFindSettingsCategory Large
+	mySpeed 0.0
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo Outpost < uid=C92F4D3F5996F2220000017BB7FC851C >
+		{
+			myCountMin 1
+			myCountMax 1
+			myEntitySize 24.0
+			myIgnoreNavMesh TRUE
+			mySpawnOutsideZone TRUE
+			myEntityFile "onward/entity templates/prospector_mining_center.mentitytemplate"
+		}
+		SimUnitEntitySpawnInfo Turrets < uid=C92F4D3F59C2A260006C89BEB0CED281 >
+		{
+			myCountMin 5
+			myCountMax 5
+			myIgnoreHealth TRUE
+			myIgnoreNavMesh TRUE
+			myIgnoreTerrain TRUE
+			mySpawnOutsideZone FALSE
+			myElementSpawnInfo
+			{
+				SimUnitElementSpawnInfo prospector_turret_02
+				{
+					myEntityFile "onward/game system data/juice/ai/npc/prospector_turret_02.mnpc"
+				}
+			}
+			myAttachParentSpawnInfoUID C92F4D3F5996F2220000017BB7FC851C
+			myAttachBoneCategory Muzzle
+		}
+	}
+	mySpawnOutsideZone TRUE
+	myConstructionDuration 7.0
+	myNapTime 0.5
+	myUnlockedChallengeType Discover_ProspectorMiningCenter
+	mySimUnitToSpawnWhenRemoved ./prospector_mining_center_destroyed.msimunit
+	myPreserveSpawnInfo TRUE
+	myInterestSettings
+	{
+		myIsEnabled TRUE
+	}
+	mySkillLevelCoefficients
+	{
+		myWarEffortAllianceLevelMultiplier 1
+		myUnitLevelMultiplier 5
+		myAlliedUnitOffset 0
+		myBaseLevel -5
+		myAllianceOutpostMultiplier 5
+	}
+	myMissionTargetTexture onward/baked/textures/UI/icons/outpost_targets/outpost_target_sim_unit/ui-icon-outpost-target-mining-center.dds
+	myNeedsSaveOnAdd TRUE
+	myNeedsSaveOnRemove TRUE
+}
+

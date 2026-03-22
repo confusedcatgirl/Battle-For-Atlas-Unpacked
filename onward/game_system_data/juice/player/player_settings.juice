@@ -1,0 +1,597 @@
+include ./../../fruit/player/player.fruit
+include ./player_attributes.juice
+include "onward/game system data/juice/mods/enhancements/shield_parry.juice"
+
+PlayerSettings Player
+{
+	myCameraInputCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.239914 -1.0769, }, outTangents = { 0.0302267 0.0665584, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+	myFlightEngineIgnitionDuration 0.5
+	myFlightEngineRestartDuration 0.0
+	myHighSpeedSmoothingRateAsc 3.0
+	myHighSpeedSmoothingRateDesc 0.5
+	myHighSpeedSmoothingRateReset 1.0
+	myHighSpeedMinSpeed 45.0
+	myHighSpeedMaxSpeed 120.0
+	myHighSpeedCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, -0.506244 -0.00767546, }, outTangents = { 0.175552 0.501097, 0 0, }, properties = { 275, 1299, }, values = { 0 0, 1 1, }, }, numKeys = 2, }"
+	myAtmosphereTransitionViewFriction 0.1
+	myAtmosphereTransitionDisableAutoRoll FALSE
+	myHyperDriveStartDuration 0.5
+	myHyperDriveDisableDistance 200.0
+	myHyperDriveDisableAngle 90.0
+	myHyperDriveEnergyDrainPerSecond 0.0
+	myHyperDriveExitDuration 1.0
+	myCameraOffsetDamping 2.0
+	myGravityWeightModifier 0.3
+	myMotionIsLeftStick TRUE
+	myEnergyRegenDelay 1.0
+	myMinEnergy 800.0
+	myMaxEnergy 3000.0
+	myMinDefense 4000.0
+	myMaxDefense 10000.0
+	myDefenseToHealthMult 10.0
+	myManeuverCooldownDuration 0.5
+	myLandingHeightMin 0.8
+	myLandingHeightMax 12.0
+	myLandingVelocityImpulse 0.0;10.0;50.0
+	myLandingImpactImmunityDuration 3.0
+	myLandingDisableManeuversDuration 0.2
+	myAirTrickHeightGoingUp 7.0
+	myAirTrickHeightGoingDown 9.1
+	myHopHeightMax 5.9
+	myDriftMinDurationForBoost 1.5
+	myStaminaSettings
+	{
+		myPoints 1000.0
+		myRechargeRate 100.0
+		myRechargeCooldown 0.5
+		myAvailabilityThresholdAfterDepletion 0.1
+	}
+	myBoostSettings
+	{
+		myMinDuration 1.0
+	}
+	myDamageImpactSettings
+	{
+		myMinValue 10.0
+		myMaxValue 60.0
+		myAngularStrengthMin -5.0
+		myAngularStrengthMax -20.0
+		myImpactMaxYaw 50.0
+		myImpactMaxPitch 20.0
+		myImpactMaxRoll 50.0
+		myPostImpactReductionTime 1.0
+		myPostImpactReductionMin 0.2
+		myUseFixedMass TRUE
+		myFixedMass 2000.0
+	}
+	mySpaceDamageImpactSettings
+	{
+		myMinValue 10.0
+		myMaxValue 60.0
+		myLinearStrengthMin 0.5
+		myLinearStrengthMax 2.0
+		myAngularStrengthMin -5.0
+		myAngularStrengthMax -20.0
+		myImpactMaxDistance 3.0
+		myImpactMaxYaw 25.0
+		myImpactMaxPitch 10.0
+		myImpactMaxRoll 25.0
+		myUseFixedMass TRUE
+		myFixedMass 2000.0
+	}
+	myCollisionImpactSettings
+	{
+		myMinValue 10.0
+		myMaxValue 60.0
+		myImpactAngularLerpOut 3.0
+		myAngularStrengthMin 5.0
+		myAngularStrengthMax 20.0
+		myImpactMaxYaw 120.0
+		myImpactMaxPitch 35.0
+		myImpactMaxRoll 120.0
+	}
+	myScriptImpactSettings
+	{
+		myMinValue 0.0
+		myMaxValue 100.0
+		myLinearStrengthMax 2.0
+		myAngularStrengthMin -0.5
+		myAngularStrengthMax -2.0
+		myUseFixedMass TRUE
+	}
+	myEntityDetectionScale 100.0;100.0;175.0
+	myEntityDetectionScaleInSpace 250.0;250.0;1500.0
+	myEntityDetectionOffset 0.0;0.0;175.0
+	myEntityDetectionOffsetInSpace 0.0;0.0;1500.0
+	myStatusEffectReactions
+	{
+		StatusEffectReaction Sunder < uid=C91BB55157AE417A05AD81391D31A522 >
+		{
+			myDuration 2.0
+			myUninterruptibleDurationOnActivation 0.0
+			mySkillScript onward/skillscripts/player_reaction_sundered.mskillscriptjuice
+			myCombos
+			{
+				StatusEffectCombo "Quench from Chill"
+				{
+					myType Chill
+					mySkillScript onward/skillscripts/player_reaction_quench.mskillscriptjuice
+				}
+				StatusEffectCombo "Quench from Freeze"
+				{
+					myType Freeze
+					mySkillScript onward/skillscripts/player_reaction_quench.mskillscriptjuice
+				}
+			}
+		}
+		StatusEffectReaction Fire < uid=C91BB55157AE417A05AD813AA67D1704 >
+		{
+			myStatusEffectType Fire
+			myActivationValue 200.0
+			myDuration 7.0
+			myUninterruptibleDurationOnActivation 0.0
+			mySkillScript onward/skillscripts/player_reaction_onfire.mskillscriptjuice
+			myCombos
+			{
+				StatusEffectCombo "Quench from Chill"
+				{
+					myType Chill
+					mySkillScript onward/skillscripts/player_reaction_quench.mskillscriptjuice
+				}
+				StatusEffectCombo "Quench from Freeze"
+				{
+					myType Freeze
+					mySkillScript onward/skillscripts/player_reaction_quench.mskillscriptjuice
+				}
+			}
+		}
+		StatusEffectReaction Chill < uid=C91BB55157AE417A05AD813BDE131DDD >
+		{
+			myStatusEffectType Chill
+			myActivationValue 200.0
+			myUninterruptibleDurationOnActivation 0.0
+			mySkillScript onward/skillscripts/player_reaction_chilled.mskillscriptjuice
+			myCombos
+			{
+				StatusEffectCombo "ThermalShock from Fire"
+				{
+					myType Fire
+					mySkillScript onward/skillscripts/player_reaction_thermalshock.mskillscriptjuice
+				}
+				StatusEffectCombo "ThermalShock from Sunder"
+				{
+					mySkillScript onward/skillscripts/player_reaction_thermalshock.mskillscriptjuice
+				}
+			}
+		}
+		StatusEffectReaction Freeze < uid=C91BB55157AE417A05AD813C9DCB6E19 >
+		{
+			myStatusEffectType Freeze
+			myActivationValue 200.0
+			myUninterruptibleDurationOnActivation 0.0
+			mySkillScript onward/skillscripts/player_reaction_frozen.mskillscriptjuice
+			myCombos
+			{
+				StatusEffectCombo "ThermalShock from Fire"
+				{
+					myType Fire
+					mySkillScript onward/skillscripts/player_reaction_thermalshock.mskillscriptjuice
+				}
+				StatusEffectCombo "ThermalShock from Sunder"
+				{
+					mySkillScript onward/skillscripts/player_reaction_thermalshock.mskillscriptjuice
+				}
+			}
+		}
+		StatusEffectReaction Gravity < uid=383282CB57F3C6E800031419982D3A46 >
+		{
+			myStatusEffectType Gravity
+			myDuration 3.0
+			myRange 15.0
+			myUninterruptibleDurationOnActivation 0.0
+			mySkillScript onward/skillscripts/player_reaction_gravityfield.mskillscriptjuice
+			myCombos
+			{
+				StatusEffectCombo Stasis
+				{
+					myType Stasis
+					mySkillScript onward/skillscripts/player_combo_gravity_stasis.mskillscriptjuice
+				}
+			}
+		}
+		StatusEffectReaction Stasis < uid=E22BA6D757F3CEF600000234ADBD8743 >
+		{
+			myStatusEffectType Stasis
+			myDuration 10.0
+			myUninterruptibleDurationOnActivation 0.0
+			mySkillScript onward/skillscripts/player_reaction_stasis.mskillscriptjuice
+			myCombos
+			{
+				StatusEffectCombo Gravity
+				{
+					myType Gravity
+					mySkillScript onward/skillscripts/player_combo_stasis_gravity.mskillscriptjuice
+				}
+			}
+		}
+		StatusEffectReaction Corrosion < uid=C91BB551587D4514004237AB0ED6EF74 >
+		{
+			myStatusEffectType Corrosion
+			myDuration 0.1
+			myUninterruptibleDurationOnActivation 0.0
+			mySkillScript onward/skillscripts/player_reaction_corrosion.mskillscriptjuice
+		}
+		StatusEffectReaction StasisOverload < uid=C308E4DB5A04C0CB000051679DF7F586 >
+		{
+			myStatusEffectType StasisOverload
+			myDuration 10.0
+			myUninterruptibleDurationOnActivation 0.0
+			mySkillScript onward/skillscripts/player_reaction_stasis.mskillscriptjuice
+		}
+	}
+	myInteractionTargetFinderParams
+	{
+		myInteractionTargetFinderMaxAngle 25.0
+	}
+	myWeaponTargetFinderParamsSpace
+	{
+		myWeaponTargetFinderMaxDistance 350.0
+	}
+	myAimAssistTargetFinderParamsSpace
+	{
+		myAimAssistTargetFinderMaxDistance 1500.0
+		myAimAssistTargetFinderBillboardInnerWidthMultiplier 4.0
+		myAimAssistTargetFinderBillboardInnerHeightMultiplier 4.0
+		myAimAssistTargetFinderBillboardOuterWidthMultiplier 8.0
+		myAimAssistTargetFinderBillboardOuterHeightMultiplier 6.0
+		myAimAssistTargetFinderDeadMinDistance 30.0
+		myAimAssistTargetFinderDeadMaxDistance 100.0
+		myPrioritizeCurrentTargetWhenMovingCamera TRUE
+	}
+	myAimAssistTargetFinderParamsSpaceInterior
+	{
+		myAimAssistTargetFinderMaxDistance 500.0
+		myAimAssistTargetFinderBillboardInnerWidthMultiplier 4.0
+		myAimAssistTargetFinderBillboardInnerHeightMultiplier 4.0
+		myAimAssistTargetFinderBillboardOuterWidthMultiplier 8.0
+		myAimAssistTargetFinderBillboardOuterHeightMultiplier 6.0
+		myAimAssistTargetFinderDeadMinDistance 2.0
+		myAimAssistTargetFinderDeadMaxDistance 10.0
+		myPrioritizeCurrentTargetWhenMovingCamera TRUE
+	}
+	myDeathTimeScaleCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 0, -0.618063 -0.0121164, 0 -1.00864, }, outTangents = { 0.00188917 -0.923285, 0.618063 0.0121164, -0 0, }, properties = { 275, 2323, 1299, }, values = { 0 1, 0.25 0.1, 0.5 1, }, }, numKeys = 3, }"
+	myDeathAngularSpeed 20.0
+	myDeathLinearSpeed 50.0
+	myRagdollTimeScaleInCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { 0 0, -0.22516 -0.0023385, }, outTangents = { 0.000784814 -0.833507, 0 0, }, properties = { 275, 1299, }, values = { 0 1, 0.25 0.2, }, }, numKeys = 2, }"
+	myRagdollTimeScaleOutCurve "{ defaultLeftSlope = 0, defaultRightSlope = 0, defaultValue = 0, interpolator = 0, isRefinedSampling = true, keys2 = { inTangents = { -0 -0, 0 0, }, outTangents = { 0.916094 0.354305, 0 0, }, properties = { 275, 2323, }, values = { 0 0.2, 0.5 0.994597, }, }, numKeys = 2, }"
+	myImpactHystersisTime 0.0
+	myPickupAttractionRange 150.0
+	myPickupAttractionRangeSpace 1000.0
+	myRecoveryHeightForFlight 10.0
+	myUseNewPhysics TRUE
+	myAttributes = "Player Attributes"
+	myMinimapPlanetCombatRadius 400.0
+	myRepairableConfig "onward/game system data/juice/interact/repairable.juice"
+	myFollowModeRange 100.0
+	myCoopLeashSettings
+	{
+		myMaxDistanceStrong 400.0
+		myMaxDistanceWeak 800.0
+		myMaxDistanceSpaceMultiplier 5.0
+	}
+	myScanningViewFrictionMultiplier 0.5
+	myShieldParryTemplate "onward/entity templates/shield_parry.mentitytemplate"
+	myShieldParryEnhancement < uid=C308E4DB5AA03EB700001B26519BB9DF > = shield_parry
+	myRealizationEventSetup
+	{
+		RealizationEventObserverConfig FootstepLarge
+		{
+			myEventType FootstepLarge
+			myMaxDistance 200.0
+		}
+		RealizationEventObserverConfig Landing
+		{
+			myEventType Landing
+			myMaxDistance 50.0
+		}
+		RealizationEventObserverConfig Stomp
+		{
+			myEventType Stomp
+			myMaxDistance 100.0
+		}
+		RealizationEventObserverConfig SpaceExplosionMedium
+		{
+			myEventType SpaceExplosionMedium
+			myMaxDistance 200.0
+		}
+		RealizationEventObserverConfig PrimeStomp
+		{
+			myEventType PrimeStomp
+			myMaxDistance 400.0
+		}
+		RealizationEventObserverConfig PrimeFootstep
+		{
+			myEventType PrimeFootstep
+			myMaxDistance 400.0
+		}
+		RealizationEventObserverConfig PrimeDeath
+		{
+			myEventType PrimeDeath
+			myMaxDistance 500.0
+		}
+		RealizationEventObserverConfig PrimeSpout
+		{
+			myEventType PrimeSpout
+			myMaxDistance 200.0
+		}
+		RealizationEventObserverConfig Combo
+		{
+			myEventType StatusEffectCombo
+			myMaxDistance 300.0
+		}
+		RealizationEventObserverConfig LargeExplosion
+		{
+			myEventType LargeExplosion
+			myMaxDistance 300.0
+		}
+		RealizationEventObserverConfig ArenaExplosion
+		{
+			myEventType ArenaExplosion
+			myMaxDistance 500.0
+		}
+		RealizationEventObserverConfig PickupMod
+		{
+			myEventType PickupMod
+			myMaxDistance 10.0
+		}
+		RealizationEventObserverConfig PickupHealth
+		{
+			myEventType PickupHealth
+			myMaxDistance 10.0
+		}
+		RealizationEventObserverConfig PickupElectrum
+		{
+			myEventType PickupElectrum
+			myMaxDistance 10.0
+		}
+		RealizationEventObserverConfig PickupDimensionalRift
+		{
+			myEventType PickupDimensionalRift
+			myMaxDistance 10.0
+		}
+		RealizationEventObserverConfig HyperSpaceNetFail
+		{
+			myEventType HyperSpaceFail
+			myMaxDistance 500.0
+		}
+		RealizationEventObserverConfig RaceStartCinematic
+		{
+			myEventType RaceStartCinematic
+			myMaxDistance 200.0
+		}
+		RealizationEventObserverConfig RaceStartCountdown
+		{
+			myEventType RaceStartCountdown
+			myMaxDistance 200.0
+		}
+		RealizationEventObserverConfig RaceStartRace
+		{
+			myEventType RaceStartRace
+			myMaxDistance 200.0
+		}
+		RealizationEventObserverConfig RaceImpact
+		{
+			myEventType RaceImpact
+			myMaxDistance 40.0
+		}
+	}
+	myPlayerFeatureDefaultValues
+	{
+		PlayerFeatureDefaultValue HyperDrive
+		{
+			myFeature HyperDrive
+			myDefaultValue TRUE
+		}
+		PlayerFeatureDefaultValue JetEngine
+		{
+			myFeature JetEngine
+			myDefaultValue TRUE
+		}
+		PlayerFeatureDefaultValue InfiniteHover
+		{
+			myFeature InfiniteHover
+			myDefaultValue FALSE
+		}
+		PlayerFeatureDefaultValue ImprovedGrip
+		{
+			myFeature ImprovedGrip
+			myDefaultValue FALSE
+		}
+		PlayerFeatureDefaultValue Weapon
+		{
+			myFeature Weapon
+			myDefaultValue TRUE
+		}
+		PlayerFeatureDefaultValue FastTravel
+		{
+			myFeature FastTravel
+			myDefaultValue TRUE
+		}
+		PlayerFeatureDefaultValue Boost
+		{
+			myFeature Boost
+			myDefaultValue TRUE
+		}
+		PlayerFeatureDefaultValue Dash
+		{
+			myFeature Dash
+			myDefaultValue TRUE
+		}
+		PlayerFeatureDefaultValue AutoLevelSpace
+		{
+			myFeature AutoLevelSpace
+			myDefaultValue TRUE
+		}
+		PlayerFeatureDefaultValue DamageFromSun
+		{
+			myFeature DamageFromSun
+			myDefaultValue TRUE
+		}
+		PlayerFeatureDefaultValue Skimmer
+		{
+			myFeature Skimmer
+			myDefaultValue TRUE
+		}
+		PlayerFeatureDefaultValue Scan
+		{
+			myFeature Scan
+			myDefaultValue TRUE
+		}
+		PlayerFeatureDefaultValue Pluck
+		{
+			myFeature Pluck
+			myDefaultValue TRUE
+		}
+		PlayerFeatureDefaultValue Flight
+		{
+			myFeature Flight
+			myDefaultValue TRUE
+		}
+		PlayerFeatureDefaultValue AirTricks
+		{
+			myFeature AirTricks
+			myDefaultValue TRUE
+		}
+		PlayerFeatureDefaultValue GroundObstacleAvoidance
+		{
+			myFeature GroundObstacleAvoidance
+			myDefaultValue TRUE
+		}
+		PlayerFeatureDefaultValue DreadnoughtInterior
+		{
+			myFeature DreadnoughtInterior
+			myDefaultValue FALSE
+		}
+		PlayerFeatureDefaultValue ShipWreckInterior
+		{
+			myFeature ShipWreckInterior
+			myDefaultValue FALSE
+		}
+		PlayerFeatureDefaultValue PlanetInterior
+		{
+			myFeature PlanetInterior
+			myDefaultValue FALSE
+		}
+		PlayerFeatureDefaultValue PlanetInteriorJumping
+		{
+			myFeature PlanetInteriorJumping
+			myDefaultValue FALSE
+		}
+		PlayerFeatureDefaultValue SmallShipWreckInterior
+		{
+			myFeature SmallShipWreckInterior
+		}
+		PlayerFeatureDefaultValue MovementControls
+		{
+			myFeature MovementControls
+			myDefaultValue TRUE
+		}
+		PlayerFeatureDefaultValue ArcheologyScan
+		{
+			myFeature ArcheologyScan
+			myDefaultValue FALSE
+		}
+		PlayerFeatureDefaultValue BoostWhilePlucking
+		{
+			myFeature BoostWhilePlucking
+			myDefaultValue FALSE
+		}
+		PlayerFeatureDefaultValue ShootWhilePlucking
+		{
+			myFeature ShootWhilePlucking
+			myDefaultValue FALSE
+		}
+		PlayerFeatureDefaultValue MovementStrafing
+		{
+			myFeature MovementStrafing
+			myDefaultValue TRUE
+		}
+		PlayerFeatureDefaultValue PilotAbility
+		{
+			myFeature PilotAbility
+			myDefaultValue TRUE
+		}
+		PlayerFeatureDefaultValue ForceShieldRam
+		{
+			myFeature ForceShieldRam
+			myDefaultValue FALSE
+		}
+		PlayerFeatureDefaultValue Maneuvers
+		{
+			myFeature Maneuvers
+			myDefaultValue TRUE
+		}
+		PlayerFeatureDefaultValue ImpAttachment
+		{
+			myFeature ImpAttachment
+			myDefaultValue TRUE
+		}
+	}
+	myEnergyPercentageRegen TRUE
+	myUpwardTowableThrowForceDotThreshold 0.98
+	myUpwardTowableThrowForce 0.025
+	myTowableThrowLinearSpeed 175.0
+	myTowableThrowAngularSpeed 3.0
+	myTowableThrowLinearSpeedSpace 250.0
+	myTowableThrowAngularSpeedSpace 0.5
+	myTowableThrowDropTime 0.1
+	myDNAKillNPCChallengeTypes
+	{
+		ChallengeType Harvester_Cyclops_Gold Death_CyclopsGolden
+		ChallengeType Harvester_Cyclops_Cold Death_CyclopsCold
+		ChallengeType Harvester_Cyclops_Heat Death_CyclopsHeat
+		ChallengeType Harvester_Cyclops_Crush Death_CyclopsCrush
+		ChallengeType Harvester_Drake_Elite Death_DrakeElite
+		ChallengeType Outlaw_Defender_Ground_Elite Death_OutlawElite
+		ChallengeType Outlaw_Defender_Ground_Leader Death_OutlawGroundLeader
+		ChallengeType Outlaw_Defender_Leader Death_OutlawSpaceLeader
+		ChallengeType Harvester_Probe Death_Probe
+		ChallengeType Harvester_Sentinel Death_Sentinel
+		ChallengeType Mini_Enemy_09 Death_ElectrumSpirit
+	}
+	myDNAKillTierNPCChallengeTypes
+	{
+		ChallengeType Harvester_Prime Death_Prime
+		ChallengeType Harvester_Extractor Death_Extractor
+	}
+	myDNAProfileChallengeTypes
+	{
+		ChallengeType FaunaScanned Discover_Fauna01
+		ChallengeType FaunaScanned Discover_Fauna02
+		ChallengeType FaunaScanned Discover_Fauna03
+		ChallengeType FaunaScanned Discover_Fauna04
+		ChallengeType FaunaScanned Discover_Fauna05
+		ChallengeType FaunaScanned Discover_Fauna06
+		ChallengeType FaunaScanned Discover_Fauna07
+		ChallengeType FaunaScanned Discover_Fauna08
+		ChallengeType FaunaScanned Discover_Fauna09
+		ChallengeType FaunaScanned Discover_Fauna10
+		ChallengeType FaunaScanned Discover_Fauna11
+		ChallengeType FaunaScanned Discover_Fauna12
+		ChallengeType FaunaScanned Discover_Fauna13
+		ChallengeType FaunaScanned Discover_Fauna14
+		ChallengeType FaunaScanned Discover_Fauna15
+		ChallengeType FaunaScanned Discover_Fauna16
+		ChallengeType FaunaScanned Discover_Fauna17
+		ChallengeType FaunaScanned Discover_Fauna18
+		ChallengeType FaunaScanned Discover_Fauna19
+		ChallengeType FaunaScanned Discover_Fauna20
+		ChallengeType FaunaScanned Discover_Fauna21
+		ChallengeType DreadnoughtsDestroyed Death_Dreadnought
+		ChallengeType SandWorms Pluck_Planet01_Worm
+		ChallengeType WaterWorms Pluck_Planet15_Worm
+		ChallengeType ElectrumAsteroids Destroy_ElectrumAsteroid
+		ChallengeType OutlawGroundTurrets Death_OutlawGroundTurret
+	}
+}
+

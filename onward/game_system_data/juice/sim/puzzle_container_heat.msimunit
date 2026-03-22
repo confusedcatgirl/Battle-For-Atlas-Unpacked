@@ -1,0 +1,21 @@
+include ./puzzle_container_base.msimunit
+
+SimUnit puzzle_container_heat < uid=D1E9B2CB587E6F95000003115ED74A71 > : puzzle_container_base
+{
+	myUIName "contextComment = \"[Placeholder - do not translate] HUD target name shown when pointing the reticle at a chest that will open only when shot with a heat weapon. The chest contains goodies like mods\", description = \"ui-target-puzzle-container-heat\", enabled = true, guid = #9E6AFEDA5908CA7E0000004E2643FEC7, lineVersion = 0, maxLength = 20, text = \"Heat Chest\""
+	mySubCategoryVariant 1
+	myAffinityType Ice
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo InteractablePickup < uid=CC9485AB5A9856B800001BE41A1FA0C0 >
+		{
+			myCountMin 1
+			myCountMax 1
+			myIgnoreNavMesh TRUE
+			myIgnoreTerrain TRUE
+			myEntityFile "onward/entity templates/ld_puzzle_container_heat.mentitytemplate"
+		}
+	}
+	myMissionTargetTexture onward/baked/textures/UI/icons/outpost_targets/outpost_target_sim_unit/ui-icon-outpost-target-tag-chest-cold.dds
+}
+

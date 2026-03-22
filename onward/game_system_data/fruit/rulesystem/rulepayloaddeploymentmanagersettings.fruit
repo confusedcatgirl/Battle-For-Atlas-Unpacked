@@ -1,0 +1,57 @@
+include "onward/game system data/fruit/rulesystem/ruleconcept.fruit"
+
+// Contains all the settings for rulepayload deployment
+
+class RulePayloadDeployerConfig
+{
+	bool myIsEnabled		< default = true tooltip = "Is this Deployer enabled?" >
+}
+
+class RuleConceptQueueTime
+{
+	RuleConceptType myConcept
+	int myMaxAgeInQueue			< default = 10000 tooltip = "If a bark from this concept gets queued, how long it stays in the queue before it gets dropped (in ms)" >
+}
+
+list RuleConceptQueueTimeList
+{
+	RuleConceptQueueTime
+}
+
+class CommonCooldownTagTime
+{
+	string myCommonCooldownTag
+	int myTimeBetweenBarks			< default = 8000 tooltip = "If a bark with this commonCooldownTag gets played, how long before another bark with the same tag can play (in ms)" >
+}
+
+list CommonCooldownTagTimeList
+{
+	CommonCooldownTagTime
+}
+
+class BarkWhiteListItem
+{
+	RuleConceptType myConcept
+}
+
+list BarkWhiteList
+{
+	BarkWhiteListItem
+}
+
+class RulePayloadDeployerBarkConfig
+{
+	bool myIsEnabled		< default = true tooltip = "Is this Deployer enabled?" >
+	int myTimeBetweenDeploys < default = 2000 tooltip = "Time in ms between each check of the pending Payloads for deployment" >
+	int myMaxBarkPayloadAgeInQueue < default = 10000 tooltip = "If a bark gets queued, how long it stays in the queue before it gets dropped (in ms)" >
+	RuleConceptQueueTimeList myConceptQueueTimes
+	CommonCooldownTagTimeList myCommonCooldownTagTimes
+	BarkWhiteList myOutpostWhiteList				< tooltip = "All barks originating from concepts in this list will be allowed while in an Outpost Menu" >
+	BarkWhiteList myArenaWhiteList					< tooltip = "All barks originating from concepts in this list will be allowed while in the Arena" >
+}
+
+class RulePayloadDeploymentManagerConfig
+{
+	RulePayloadDeployerConfig 		myPayloadDeployerDefaultConfig		< tooltip = "Settings for all deployers without their own settings file" >
+	RulePayloadDeployerBarkConfig 	myPayloadDeployerBarkConfig			< tooltip = "Settings for the BarkPayload Deployer" >
+}

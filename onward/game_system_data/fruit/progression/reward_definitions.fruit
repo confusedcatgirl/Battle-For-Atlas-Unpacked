@@ -1,0 +1,70 @@
+include "onward/game system data/fruit/progression/reward.fruit"
+include "onward/game system data/fruit/progression/challenge_types.fruit"
+include "onward/game system data/fruit/mods/mod.fruit"
+include "onward/game system data/fruit/sim/simunitcategories.fruit"
+include "onward/game system data/fruit/story/storyevent.fruit"
+include "onward/game system data/fruit/streaks/streaks.fruit"
+
+class ProgressionRewardKnowledge : ProgressionReward
+{
+	SimUnitCategory		myCategory
+	SimUnitSubCategory	mySubCategory
+	float			myKnowledge
+}
+
+class ProgressionRewardGameToStoryEvent : ProgressionReward
+{
+	GameToStoryEvent		myGameToStoryEvent
+}
+
+class ProgressionRewardWarEffortMod : ProgressionReward
+{
+	Mod* myMod
+}
+
+class ProgressionRewardSkillPointToAllPilots : ProgressionReward
+{
+	ChallengeTypes myPilotsToSkip
+	ChallengeTypes myPilotsToSkipIfInStarterPack
+}
+
+class ProgressionRewardSkillPointForEachAttachedPilot : ProgressionReward
+{
+	ChallengeType myChallengeType
+}
+
+class ProgressionRewardSkillPointForAttachedPilot : ProgressionReward
+{
+	ChallengeType myChallengeType
+	int myAmount 1
+}
+
+class ProgressionRewardStreakProgress : ProgressionReward
+{
+	int myAmount
+	StreakChangeType myType
+}
+
+class ProgressionRewardExperiencePoints : ProgressionReward
+{
+	ExperiencePointType myExperiencePointType
+	int myAmount
+}
+
+class ProgressionRewardChallenge : ProgressionReward
+{
+	ChallengeType myChallengeType
+}
+
+class ProgressionRewardPoints : ProgressionReward
+{
+	ProgressionPointType	myType
+	int						myAmount
+	LootAwardReason			myReason
+}
+
+class ProgressionRewardEnhancement : ProgressionReward
+{
+	Enhancement*			myEnhancement
+	LootAwardReason			myReason
+}

@@ -1,0 +1,20 @@
+include ./pickup_base.msimunit
+
+SimUnit pickup_infused_electrum_bomb_heat < uid=D1E9B2CB58D423B0000002F009C853BA > : pickup_base
+{
+	myUIName "contextComment = \"[Placeholder - do not translate] Name shown when targeting a fire infused electrum bomb. It can be picked up and used to destroy extractors.\", description = \"pickup-infused-electrum-bomb-fire\", enabled = true, guid = #4A79E0E459D4FF9A0000004D2EC3FD6A, lineVersion = 0, maxLength = 18, text = \"Fire Nova Bomb\""
+	mySubCategory InfusedElectrumBomb
+	myAffinityType Fire
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo InteractablePickup < uid=4A79E0E459D4FFA90000004E22228F8E >
+		{
+			myCountMin 1
+			myCountMax 1
+			myEntityFile "onward/entity templates/pickup_infused_electrum_bomb_heat.mentitytemplate"
+		}
+	}
+	myIsValidPickupTarget FALSE
+	myRealizeOnLeader FALSE
+}
+

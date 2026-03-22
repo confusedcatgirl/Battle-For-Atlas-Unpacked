@@ -1,0 +1,93 @@
+include ./base_npc_space.mnpc
+include onward/skillscripts/npc_world_entry_outlaw_defender_generic.mskillscriptjuice
+include onward/skillscripts/npc_outlaw_vfx_listener.mskillscriptjuice
+
+NPC outlaw_defender < uid=4A8282B956DDFA100000005667BC30B5 > : base_npc_space
+{
+	myUIName "contextComment = \"[Placeholder - do not translate] Name for basic Outlaw raider unit (space criminals)\", description = \"uiname-outlaw-defender-base\", enabled = true, guid = #9E6AFEDA58C20AD10000AF0369744762, lineVersion = 0, maxLength = 10, text = \"Outlaw\""
+	myUIName_NonLocalized "Outlaw Defender"
+	myGraphObjectFile "onward/graph objects/character/outlaw_01.mgraphobject"
+	myBehavior "onward/game system data/juice/ai/behavior/outlaw_defender_space.mbehavior"
+	myHealthConfig < uid=4A8282B959F8EA0700001E073199F679 > = "outlaw_defender Health"
+	myAbilityDefinitions
+	{
+		NPCAbilityDefinition Gatling
+		{
+			myGameAction NPC_Ability1
+			mySkillScript < uid=6D25F4C65A74B06500175C0DB4EF9825 > = npc_ability_outlaw_defender_gatling
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_outlaw_defender_gatling.juice"
+			myEnabled TRUE
+		}
+		NPCAbilityDefinition "Homing Missiles"
+		{
+			myGameAction NPC_Ability2
+			mySkillScript < uid=6D25F4C65A74B06500175C0EE730661C > = npc_ability_homing_missile
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_homing_missiles.juice"
+			myEnabled FALSE
+		}
+		NPCAbilityDefinition Laser
+		{
+			myGameAction NPC_Ability3
+			mySkillScript < uid=6D25F4C65A74B06500175C0FA2CAA14F > = npc_ability_laser
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_laser.juice"
+			myEnabled FALSE
+		}
+		NPCAbilityDefinition "HyperDrive Jammer"
+		{
+			myGameAction NPC_Ability10
+			mySkillScript < uid=6D25F4C65A74B06500175C10562545C2 > = npc_ability_hyperdrive_jammer
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_hyperdrive_jammer.juice"
+			myEnabled TRUE
+		}
+		NPCAbilityDefinition "Heavy Gatling"
+		{
+			myGameAction NPC_Ability4
+			mySkillScript < uid=6D25F4C65A74B06500175C119EC3D193 > = npc_ability_outlaw_heavy_gatling
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_outlaw_heavy_gatling.juice"
+			myEnabled FALSE
+		}
+	}
+	myPersistentScripts
+	{
+		SkillScript "VFX Listener" < uid=C92F4D3F5AF5CCFA000022E89FCBED30 > = npc_outlaw_vfx_listener
+	}
+	myAttributeSettings "onward/game system data/juice/ai/attributes/outlaw_defender_base.juice"
+	myCrowdControlAttributeSettings "onward/game system data/juice/ai/attributes/crowd control tiers/npc_cc_tier12.juice"
+	myDropTableOnDeath Kill_Outlaw_Raider_Drop_Table
+	myDropTableOnDamage Outlaw_Incremental
+	myMass 600.0
+	myLinearInertiaThreshold 2200.0
+	myMaxLinearForce 450000.0
+	myDynamicFriction 0.0
+	myPhysicsCapsuleHeight 0.1
+	myPhysicsSupportHeight 0.0
+	myPhysicsCapsuleRadius 4.0
+	myIsCollisionEnabled TRUE
+	myPatternProfile < uid=4A8282B956DDFA1000000057B4B82A73 > = "Outlaw Defender"
+	myDefaultMotionPattern < uid=4A8282B956DDFA1000000058BDA74305 > = "Outlaw Defender Default"
+	myAvoidanceRadius 9.0
+	myNPCFaction Outlaw
+	myNPCType Outlaw_Defender
+	myAnimSystemType Outlaw_Defender
+	myThreatLevel 6.0
+	myAgentController DefaultAgentController
+	myAIVisionConeTypeName OutlawVisionCone
+	myIsScannable FALSE
+	myDamageReactionSettings "onward/game system data/juice/ai/reactions/damage_reactions_harvester_drake_base.juice"
+	myConstructionDuration 5.0
+	myOnDeathChallenge Death_OutlawWorker
+	myOnDiscoveredChallenge Discover_OutlawWorker
+	myPreWorldEntrySkillScript < uid=6D25F4C659EA4EFA0006232FC5573BB4 > = npc_world_entry_outlaw_defender_generic
+	myUseVisualImpactProcessor TRUE
+	myVisualImpactSettings
+	{
+		myUseFixedMass TRUE
+		myFixedMass 100.0
+	}
+}
+

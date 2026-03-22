@@ -1,0 +1,35 @@
+include "onward/game system data/fruit/sim/simunit.fruit"
+
+SimUnit pickup_electrum_infused_base_cold < uid=D1E9B2CB58C1AD270000276E2E32413B >
+{
+	myUIName "contextComment = '[Placeholder - do not translate] Name shown when targeting a \"corrupted Nova\" crystal formation of the cold type. It can be broken with cold weapons to produce a cold corrupted nova pickup the player can tow.', description = \"pickup-base-infused-cold\", enabled = true, guid = #9E6AFEDA58F4E3F5000000544F21EC72, lineVersion = 0, maxLength = 25, text = \"Cold Corrupted Nova\""
+	myControlGraph onward/simworld/control/ld_resource_slot.msimunitcontrolgraph
+	myFaction Unaligned
+	myCategory Resource
+	mySubCategory ElectrumInfusedBase
+	myAffinityType Ice
+	myRadius 3.0
+	mySpeed 0.0
+	mySpawnInfo
+	{
+		SimUnitEntitySpawnInfo Resource < uid=1E68E535594BD9510000005194102C04 >
+		{
+			myCountMin 1
+			myCountMax 1
+			myIgnoreHealth TRUE
+			myIgnoreNavMesh TRUE
+			myIgnoreTerrain TRUE
+			myEntityFile "onward/entity templates/pickup_electrum_infused_base_cold.mentitytemplate"
+		}
+	}
+	mySaveable FALSE
+	myNapWhenRealized TRUE
+	myNapIfHaveChildren TRUE
+	myNapIfHaveAttachment TRUE
+	mySkillLevelCoefficients
+	{
+		mySkillLevelAffectsDamage FALSE
+		myPlanetActMultiplier 1
+	}
+}
+

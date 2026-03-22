@@ -1,0 +1,48 @@
+include ./template_hull.mplayermod
+
+float Resist = Warden_Ship_Relic_2_ElementalDamage
+
+PlayerMod ShipWarden_Two < uid=A08A88CF583C79EA000002CBE8CD1973 > : template_hull
+{
+	myAttributeMods
+	{
+		AttributeMod Energy
+		{
+			myType PartStat_Energy
+			myAddValue = Warden_Ship_Relic_2_Energy
+		}
+		AttributeMod "Cold Resist"
+		{
+			myType DMG_Resist_Cold
+			myMultValue = Resist
+		}
+		AttributeMod "Heat Resist"
+		{
+			myType DMG_Resist_Heat
+			myMultValue = Resist
+		}
+		AttributeMod "Crush Resist"
+		{
+			myType DMG_Resist_Crush
+			myMultValue = Resist
+		}
+		AttributeMod "Stasis Resist"
+		{
+			myType DMG_Resist_Float
+			myMultValue = Resist
+		}
+		AttributeMod ComboEnergy
+		{
+			myType Player_EnergyOnCombo
+			myAddValue = Warden_Ship_Relic_2_ComboEnergy
+		}
+	}
+	myIsSelfMod FALSE
+	myIsAgentMod FALSE
+	myPartTypes
+	{
+		PartType Hull Hull
+		PartType Pilot Pilot
+	}
+}
+

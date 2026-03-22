@@ -1,0 +1,23 @@
+include ./templates/template_l3.juice
+include "onward/game system data/juice/mods/mod_commander_shipcore_l3.mplayermod"
+include ./damageaffectors/damage_affectors.juice
+
+Enhancement commandershipcore_l3 < uid=C91BB551597F51DD007FB6ED51785219 > : "Level 3"
+{
+	myLocalizedName "contextComment = \"[Placeholder - do not translate]\nName for level 3 version of a Ship Core that greatly speeds the pilot's ability recharge, and offers perks that benefit allies fighting together.\", description = \"\", enabled = true, guid = #C91BB551597F51DD007FB6ECEB6812EE, lineVersion = 1, maxLength = 30, text = \"Commander Core III\""
+	myLocalizedDescription "contextComment = \"[Placeholder - do not translate]\nDescription for level 3 version of a Ship Core that greatly speeds the pilot's ability recharge, and offers perks that benefit allies fighting together.\", description = \"enhancement-description-commander-ship-core-3\", enabled = true, guid = #DEEFAF5436EC4387B32AE5D5D22B5457, lineVersion = 1, maxLength = 120, text = \"+65% Pilot Ability charge Speed\n+400 weapon energy on Parry\n+15% Resistance to nearby Allies\"}"
+	myIconSprite "mySpriteId = 1661899485, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-mods-ship-core.spritesheet\""
+	myIsHullEnhancement TRUE
+	myMod < uid=C91BB551597F51DD007FB6EE63664E00 > = mod_commander_shipcore_l3
+	myEnhancementType ShipCore
+	myEnhancementTrackType CommanderShipCore
+	myDamageAffectors
+	{
+		DamageAffector_FriendlyDamageResistance "Resistance for Nearby Allies"
+		{
+			myDamageMultiplier = Commander_Core_l3_AllyResistance
+			myDistanceThreshold 500.0
+		}
+	}
+}
+

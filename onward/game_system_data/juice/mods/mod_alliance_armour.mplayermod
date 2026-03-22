@@ -1,0 +1,31 @@
+include ./template_hull.mplayermod
+include ./tuning/mod_tuning_master.juice
+
+PlayerMod mod_alliance_armour < uid=C91BB5515980C269000000A9A995EC40 > : template_hull
+{
+	myAttributeMods
+	{
+		AttributeMod Defense
+		{
+			myType PartStat_Defense
+			myAddValue = Alliance_Armor_l5_Defense
+		}
+		AttributeMod "Last Stand Min"
+		{
+			myType Health_MinHealth
+			myPercentageValue = Alliance_Armor_l5_LastStand
+		}
+		AttributeMod "Last Stand Max"
+		{
+			myType Health_MaxHealth
+			myPercentageValue = Alliance_Armor_l5_LastStand
+		}
+		AttributeMod ParryStun
+		{
+			myType Player_ParryStunDuration
+			myAddValue 3.0
+		}
+	}
+	myIsAgentMod TRUE
+}
+

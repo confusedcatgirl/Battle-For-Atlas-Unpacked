@@ -1,0 +1,394 @@
+include ./act03_storybeats.juice
+include ./act_simstate.juice
+
+StoryBeatSequence "SEQUENCE 1 - ACT 3 - Primes" < uid=1EE141815A8EEAF400001B600FDF4838 >
+{
+	myStoryBeats
+	{
+		StoryBeatData "OBJECTIVE - Chapter 1 - Header" < uid=9FD9E8185AA2EFA300001D172ABE2EB6 > = Act3.Objective.Chapter1.Header
+		StoryBeatData "Save Point" < uid=1EE141815AE329E700001D7785C8FD36 > : "Save Point"
+		{
+		}
+		StoryBeatSequence "Sim Setup" < uid=1EE141815A8EEAF400001B61DF4E68BE > = ACT3_SimState
+		StoryBeatData "Start + Cinematic" < uid=2B55C72B5909E0590000004C39BB741E > = Act3_SEQ1_Start
+		StoryBeatData "Save Point" < uid=9FD9E8185ACBA1B900001EDEC8052D9B > : "Save Point"
+		{
+		}
+		StoryBeatSequence "Starmap Sequence - 3 Primes" < uid=1EE141815A8EEAF400001B620B976918 > = Act3_SEQ1_PrimeSignalsSequence
+		StoryBeatData Padding < uid=9FD9E8185A3034E10000246FDB3E69C6 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_Wait Wait
+				{
+					mySecondsToWait 1.0
+				}
+			}
+		}
+		StoryBeatData "Dialogue Beat 1" < uid=9FD9E8185A8EF12B00001BAB6D72E996 > = Act3_SEQ1_DialogueBeat1
+		StoryBeatData "Dialogue Beat 2" < uid=9FD9E8185A8EF06C00001B9F064704AA > = Act3_SEQ1_DialogueBeat2
+		StoryBeatData "OBJECTIVE - Chapter 1 - Sub 1" < uid=9FD9E8185AA2EFA300001D18E19E9BAD > = Act3.Objective.Chapter1.Sub1
+		StoryBeatData "Save Point" < uid=1EE141815AE329E700001D785AB045BD > : "Save Point"
+		{
+		}
+		StoryBeatData "Go to Vylus" < uid=9FD9E8185A1C806400002051579D96DF > = Act3_SEQ1_SetObjectiveGoToVylus
+		StoryBeatData "Dialogue Beat 3" < uid=9FD9E8185A8EF13D00001BAC8F0C63F3 > = Act3_SEQ1_DialogueBeat3
+		StoryBeatData "Complete Story Event: Enable_MoonIntro_02" < uid=CC9485AB5C7018290000008CF0D6077A >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_CompleteStoryEvent "Complete Story Event: Enable_MoonIntro_02"
+				{
+					myObjectiveAutoRemoves FALSE
+					myStoryEvent TU5_Enable_MoonIntro_02
+				}
+			}
+		}
+		StoryBeatData "Dialogue Beat 4" < uid=9FD9E8185A8EF13D00001BADA3126502 > = Act3_SEQ1_DialogueBeat4
+		StoryBeatData "Halfway to Vylus" < uid=9FD9E8185A1C815100002053265DA9A3 > = Act3_SEQ1_HalfwayToVylus
+		StoryBeatData "Save Point" < uid=1EE141815AD635C500001D9ADA89E6FE > : "Save Point"
+		{
+		}
+		StoryBeatData "Arrive at Vylus" < uid=9FD9E8185A1C81510000205470D50100 > = Act3_SEQ1_VylusArrival
+		StoryBeatData "Padding 5 / Clear Waypoint" < uid=9FD9E8185A1DB3580000204E24DA43F7 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_Wait Wait
+				{
+					mySecondsToWait 5.0
+				}
+				StoryDataAction_SetTarget "Clear Target"
+				{
+				}
+			}
+		}
+		StoryBeatData "Arrive at Vylus Dialogue" < uid=9FD9E8185A1DB2EA0000204D4D7E9453 > = Act3_SEQ1_VylusArrivalDialogue
+		StoryBeatData "OBJECTIVE - Chapter 1 - Sub 2" < uid=9FD9E8185AA2F11700001D195F1DE127 > = Act3.Objective.Chapter1.Sub2
+		StoryBeatData "Find the Prime" < uid=9FD9E8185A1C806400002052D0EFD0D0 > = Act3_SEQ1_SetObjectiveFindthePrime
+		StoryBeatData "Halfway to Prime" < uid=9FD9E8185A1C817600002055CB454AAB > = Act3_SEQ1_HalfwayToPrime
+		StoryBeatData "Arrive at Prime" < uid=9FD9E8185A1C81760000205665826A43 > = Act3_SEQ1_ArriveAtPrime
+		StoryBeatData "Help Galla Dialogue" < uid=9FD9E8185A6605EF00001B52D192F1C5 > = Act3_SEQ1_HelpGalla
+		StoryBeatData "OBJECTIVE - Chapter 1 - Sub 3" < uid=9FD9E8185AA2F11700001D1A3FB3F762 > = Act3.Objective.Chapter1.Sub3
+		StoryBeatData "Save Point" < uid=1EE141815AE329E700001D79EA11BE86 > : "Save Point"
+		{
+		}
+		StoryBeatData "Wait for Approach Galla" < uid=9FD9E8185A32E53C000022AD2654CEDF > = Act3_SEQ1_WaitForClose
+		StoryBeatData "Start Camera" < uid=9FD9E8185A1C817600002057AE59C7E1 > = Act3_SEQ1_StartCamera
+		StoryBeatData "End Conversation" < uid=9FD9E8185A32E6C5000022B06F829885 > = Act3_SEQ1_EndConversation
+		StoryBeatData "OBJECTIVE - Chapter 2 - Header" < uid=9FD9E8185AA30D1200001BEC560BCC0F > = Act3.Objective.Chapter2.Header
+		StoryBeatData "OBJECTIVE - Chapter 2 - Sub 1" < uid=9FD9E8185AA68D1500001C2E9EB88BB6 > = Act3.Objective.Chapter2.Sub1
+		StoryBeatData "Save Point" < uid=1EE141815AE329E700001D7A19E474CC > : "Save Point"
+		{
+		}
+		StoryBeatData "Wait for Interact Galla" < uid=9FD9E8185A9709A800001B97DE45E8A7 > = Act3_SEQ1_WaitForGallaRepair
+		StoryBeatData "Padding 3" < uid=9FD9E8185AD767E600001DD365AAD932 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_Wait "Wait 2"
+				{
+					mySecondsToWait 2.0
+				}
+			}
+		}
+		StoryBeatData "Attack Crush Giant Dialogue" < uid=9FD9E8185AD76C7100001DD7D831F7AD > = Act3_SEQ1_AttackCrushGiantDialogue
+		StoryBeatData "OBJECTIVE - Chapter 2 - Sub 2" < uid=9FD9E8185AA691BE00001C4A5427D77D > = Act3.Objective.Chapter2.Sub2
+		StoryBeatData "Save Point" < uid=1EE141815AE329E700001D7BDB071B8B > : "Save Point"
+		{
+		}
+		StoryBeatData "Set Target Crush Giant" < uid=1EE141815A98455F00001C580D9591D4 > = Act3_SEQ1_SetTargetCrushGiant
+		StoryBeatData "Approach Crush Giant" < uid=9FD9E8185A302D0800002307A0F0FFC1 > = Act3_SEQ1_DestroyCrushGiant
+		StoryBeatData "Spawn Crush Giant" < uid=1EE141815A98475B00001C75367C5361 > = Act3_SEQ1_SpawnCrushGiant
+		StoryBeatData "Set Dialogue Camera" < uid=1EE141815A957C4200001B5EA43F82A8 > = Act3_SEQ1_SetDialogueCamera
+		StoryBeatData "Strategy Overlay Crush Giant" < uid=1EE141815A98475B00001C7606C171D3 > = Act3_SEQ1_StrategyOverlayCrushGiant
+		StoryBeatData "Strategy Overlay Close" < uid=1EE141815AE098BE00001D779BBA6E12 > = Act3_SEQ1_StrategyOverlayClose
+		StoryBeatData "Wait for Death" < uid=9FD9E8185A302D0800002308123BD6C5 > = Act3_SEQ1_WaitForDeath
+		StoryBeatData "Save Point" < uid=1EE141815AD75A0D00001E8E1D601438 > : "Save Point"
+		{
+		}
+		StoryBeatData "Crush Giant Defeated" < uid=1EE141815AD75A0D00001E8FAF90E811 > = Act3_SEQ1_CrushGiantDefeated
+	}
+}
+
+StoryBeatSequence "SEQUENCE 2 - ACT 3 - Build the Alliance" < uid=1EE141815A8EEAF400001B636501D9F5 >
+{
+	myStoryBeats
+	{
+		StoryBeatData "OBJECTIVE - Chapter 2 - Sub 3" < uid=9FD9E8185AA68EEE00001C34C5BC66C5 > = Act3.Objective.Chapter2.Sub3
+		StoryBeatData "Save Point" < uid=9FD9E8185AB2748300001C05CC1B01F7 > : "Save Point"
+		{
+		}
+		StoryBeatData "Target Gallas Outpost" < uid=1EE141815A95C03800001B5AC8636A85 > = Act3_SEQ1_TargetGallasOutpost
+		StoryBeatData "Go to Galla's Outpost" < uid=9FD9E8185A1F2745000020695C9ED7B7 > = Act3_SEQ2_GoToGallasOutpost
+		StoryBeatData "Galla Outpost Convo" < uid=9FD9E8185A2808630000220179CBCA85 > = Act3_SEQ2_GallaOutpostConversation
+		StoryBeatData "Galla End Outpost Convo" < uid=9FD9E8185A28086C00002202740E55D4 > = Act3_SEQ2_GallaEndOutpostConversation
+		StoryBeatData Padding < uid=A08A88CF5B6324F000031F9FD666FCFD >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_Wait "Wait 2"
+				{
+					mySecondsToWait 2.0
+				}
+			}
+		}
+		StoryBeatData "Build Outpost Pop Up" < uid=2B55C72B5B562301000022147124AEA7 > = Act3_SEQ2_BuildOutpostPopUp
+		StoryBeatData "OBJECTIVE - Chapter 3 - HEADER" < uid=9FD9E8185AA6923200001C4B2E2A6E54 > = Act3.Objective.Chapter3.Header
+		StoryBeatData "Save Point" < uid=1EE141815AE329E700001D7C034230FB > : "Save Point"
+		{
+		}
+		StoryBeatData Padding < uid=9FD9E8185A318A66000022EE88FEE9FF >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_Wait Wait
+				{
+					mySecondsToWait 3.0
+				}
+			}
+		}
+		StoryBeatData "OBJECTIVE - Chapter 3 - Sub 1" < uid=9FD9E8185AA6925D00001C4C3BCFAAD5 > = Act3.Objective.Chapter3.Sub1
+		StoryBeatData "Save Point" < uid=1EE141815AE329E700001D7D64C05B9B > : "Save Point"
+		{
+		}
+		StoryBeatData "Build an Observatory" < uid=9FD9E8185A1F277E0000206AEBDCC374 > = Act3_SEQ2_BuildAnObservatory
+		StoryBeatData "Save Point" < uid=9FD9E8185ADF4DC100001DB7D7BD03FD > : "Save Point"
+		{
+		}
+		StoryBeatData "Observatory Built" < uid=9FD9E8185A1C84430000205997AD0259 > = Act3_SEQ2_ObservatoryBuilt
+		StoryBeatData "Post Galla Conversation Dialogue" < uid=9FD9E8185A2846690000217A172E3D76 > = Act3_SEQ2_PostConverstationDialogue
+		StoryBeatData "OBJECTIVE - Chapter 3 - Sub 2" < uid=9FD9E8185AA692FF00001C54F23B5939 > = Act3.Objective.Chapter3.Sub2
+		StoryBeatData "Save Point" < uid=1EE141815AE329E700001D7E5EB801DB > : "Save Point"
+		{
+		}
+		StoryBeatData "Padding 5" < uid=9FD9E8185A3ACBFE00001D721525B373 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_Wait Wait
+				{
+					mySecondsToWait 5.0
+				}
+			}
+		}
+		StoryBeatData "Build a Refinery" < uid=9FD9E8185A28465200002179994528AA > = Act3_SEQ2_BuildARefinery
+		StoryBeatData "Save Point" < uid=9FD9E8185ADF4DD400001DB8952D9281 > : "Save Point"
+		{
+		}
+		StoryBeatData "Refinery Built" < uid=9FD9E8185A284797000021849CC44B09 > = Act3_SEQ2_RefineryBuilt
+		StoryBeatData "Save Point" < uid=1EE141815AE32B5B00001D7FBD8092C4 > : "Save Point"
+		{
+		}
+		StoryBeatData "Padding 10" < uid=1EE141815AE0E08300001D83E8ED4E63 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_WallClockWait "Wait 10"
+				{
+					mySecondsToWait 10.0
+				}
+			}
+		}
+		StoryBeatData "Continue to Build Alliance" < uid=9FD9E8185A284CD000002186132B7DFA > = Act3_SEQ2_ContinueToBuildAlliance
+		StoryBeatData "Save Point" < uid=9FD9E8185ADF4DF100001DB907FDF02A > : "Save Point"
+		{
+		}
+		StoryBeatData "Alliance Achieved" < uid=9FD9E8185A3012A9000023038081584D > = Act3_SEQ2_AllianceAchieved
+		StoryBeatData "OBJECTIVE - Chapter 4 - Header" < uid=9FD9E8185AA69C2400001C70B5158E03 > = Act3.Objective.Chapter4.Header
+		StoryBeatData "OBJECTIVE - Chapter 4 - Sub 1" < uid=9FD9E8185AA6A02400001C7EEDC20992 > = Act3.Objective.Chapter4.Sub1
+		StoryBeatData "Save Point" < uid=1EE141815AE32B5B00001D80AF57A867 > : "Save Point"
+		{
+		}
+		StoryBeatData "Spawn Prime" < uid=9FD9E8185AD8B71800001DC0F9F08596 > = Act3_SEQ2_SpawnPrimeVylus
+		StoryBeatData "Save Point" < uid=9FD9E8185ADA425A00001EA7A1DD96AF > : "Save Point"
+		{
+		}
+		StoryBeatData "Dialogue After Prime" < uid=9FD9E8185B8EB9890000223CBAF6B9DE > = Act3_SEQ2_DialogueAfterPrime
+		StoryBeatData "Return to Galla After Alliance" < uid=9FD9E8185A284E9400002191B2C46D6C > = Act3_SEQ2_ReturnToGallaAfterAlliance
+		StoryBeatData "Distance to Galla - SEQ33" < uid=1EE141815AE0C6B900001D7981DAE77E > = Act3_SEQ2_WaitForDistanceToGalla
+		StoryBeatData "Wait for Return to Galla" < uid=9FD9E8185A2F0B5500002304716ACC8A > = Act3_SEQ2_WaitForReturnForGalla
+		StoryBeatData "Start Galla Convo" < uid=9FD9E8185A2F0BF700002306F1F34F4A > = Act3_SEQ2_GallaConverationPostAlliance
+		StoryBeatData "End Galla Conversation" < uid=9FD9E8185A2F0BF7000023072E950F64 > = Act3_SEQ2_GallaEndConversationPostAlliance
+	}
+}
+
+StoryBeatSequence "SEQUENCE 3 - ACT 3 - Bolster the Alliance" < uid=1EE141815A8EEAF400001B64906AC3E5 >
+{
+	myStoryBeats
+	{
+		StoryBeatData "OBJECTIVE - Chapter 4 - Sub 2" < uid=9FD9E8185AA6A0AD00001C8640DA6797 > = Act3.Objective.Chapter4.Sub2
+		StoryBeatData "Save Point" < uid=1EE141815AE32B5B00001D81C92D2295 > : "Save Point"
+		{
+		}
+		StoryBeatData "Build Armory" < uid=9FD9E8185A1C88160000205DE8F61BAB > = Act3_SEQ3_BuildAnArmory
+		StoryBeatData "Save Point" < uid=9FD9E8185ADF4DA800001DB66C7557E5 > : "Save Point"
+		{
+		}
+		StoryBeatData "Wait for Armory Built" < uid=1EE141815A95D18700001B51720F9D05 > = Act3_SEQ3_DialogueSQ40
+		StoryBeatData "Save Point" < uid=9FD9E8185B312E9F0000206824D587A4 > : "Save Point"
+		{
+		}
+		StoryBeatData "After Build Armory" < uid=9FD9E8185A285329000021A63726480E > = Act3_SEQ3_AfterArmory
+		StoryBeatData "Return to Equinox" < uid=9FD9E8185A286EB7000020503166CAFE > = Act3_SEQ3_ReturnToEquinox
+		StoryBeatData "OBJECTIVE - Chapter 4 - Sub 3" < uid=9FD9E8185AA6A13800001C8EA14F357E > = Act3.Objective.Chapter4.Sub3
+		StoryBeatData "Save Point" < uid=1EE141815AE32B5B00001D82570554B2 > : "Save Point"
+		{
+		}
+		StoryBeatData "Wait for Arrival at Equinox" < uid=9FD9E8185A2870D80000201B69581609 > = Act3_SEQ3_WaitForArrivalAtEquinox
+		StoryBeatData "Complete Story Event: Disable_MoonIntro_03" < uid=CC9485AB5C7018EF0000008D1F2520F3 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_CompleteStoryEvent "Complete Story Event: Disable_MoonIntro_03"
+				{
+					myObjectiveAutoRemoves FALSE
+					myStoryEvent TU5_Disable_MoonIntro_03
+				}
+			}
+		}
+		StoryBeatData "Arrival Dialogue" < uid=9FD9E8185A5FD21C00001B5416A0A9BC > = Act3_SEQ3_ArrivalDialogue
+		StoryBeatData "Fade Out" < uid=2B55C72B5B19D6C600001D802E5855FA >
+		{
+			Enabled TRUE
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_AddFadeRequest "Fade Out"
+				{
+					myFadeRequestType Fade_Out
+					myFadeColor 0xffffffff
+					myFadeTime 0.25
+				}
+				StoryDataAction_Wait Wait
+				{
+					mySecondsToWait 0.25
+				}
+			}
+		}
+		StoryBeatData "Sorren Bink" < uid=9FD9E8185A96D08C00001C3752CBC62D > = Act3_SEQ3_SorrenArrivalBink
+		StoryBeatData "Camera With Sorren" < uid=9FD9E8185A32F4D4000022B5E5D2EE08 > = Act3_SEQ3_StartSorrenCam
+		StoryBeatData FadeOut < uid=2B55C72B5B19D79C00001D808C12689D >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_AddFadeRequest FadeOut
+				{
+					myFadeRequestType Fade_Out
+					myFadeTime 0.5
+				}
+				StoryDataAction_Wait Wait
+				{
+					mySecondsToWait 0.5
+				}
+			}
+		}
+		StoryBeatData "St Grand Bink" < uid=9FD9E8185A9825DB00001BA66927817D > = Act3_SEQ3_StGrandBink
+		StoryBeatData "Fade In" < uid=1EE141815AE9DF7F00001D7200AE6673 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_AddFadeRequest "Fade In"
+				{
+					myFadeTime 1.0
+				}
+				StoryDataAction_Wait "Wait 1"
+				{
+					mySecondsToWait 1.0
+				}
+			}
+		}
+	}
+}
+
+StoryBeatSequence "SEQUENCE 4 - ACT 3 - Dreadnaught Reveal" < uid=1EE141815A8EEAF400001B653CCD42CE >
+{
+	myStoryBeats
+	{
+		StoryBeatData "OBJECTIVE - Chapter 5 - Header" < uid=9FD9E8185AA6A19D00001C94DD4A0381 > = Act3.Objective.Chapter5.Header
+		StoryBeatData "Save Point" < uid=1EE141815AE32B5B00001D83EEAAFA24 > : "Save Point"
+		{
+		}
+		StoryBeatData "Spawn Dreadnought" < uid=9FD9E81859C03A7D0000004A2CAF7B69 > = Act3_SEQ4_SpawnDreadnought
+		StoryBeatData "Dreadnaught Dialogue" < uid=1EE141815A95BADF00001B5172CD3C1D > = Act3_SEQ4_DreadnaughtDialogue
+		StoryBeatData "Dialogue Post Objective" < uid=2B55C72B5B1A8F0900001EF414F91B78 > = Act3_SEQ4_DreadnoughtPostObjective
+		StoryBeatData "Hierarchy Pop Up" < uid=2B55C72B5B562D8500002216F21A7369 > = Act3_SEQ4_HierarchyPopUp
+		StoryBeatData "OBJECTIVE - Chapter 5 - Sub 1" < uid=9FD9E8185AA6A1EF00001C9880C20ECA > = Act3.Objective.Chapter5.Sub1
+		StoryBeatData "Save Point" < uid=1EE141815AE32BEF00001D84FCAC6306 > : "Save Point"
+		{
+		}
+		StoryBeatData "Complete Story Event: Enable_MoonIntro_03" < uid=CC9485AB5C7018EF0000008E9491CEF9 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_CompleteStoryEvent "Complete Story Event: Enable_MoonIntro_03"
+				{
+					myObjectiveAutoRemoves FALSE
+					myStoryEvent TU5_Enable_MoonIntro_03
+				}
+			}
+		}
+		StoryBeatData "Engage the Deadnought" < uid=9FD9E818595BFC06000013777E2DD7C4 > = Act3_SEQ4_EngageTheDreadnought
+		StoryBeatData "Approach Dreadnought" < uid=1EE141815AB3B26100001BCD96BC8BC1 > = Act3_SEQ4_ApproachDreadnought
+		StoryBeatData "Dialogue SQ70" < uid=1EE141815A95A77200001B50063F0335 > = Act3_SEQ4_StopDialogueCamera
+	}
+}
+
+StoryBeatSequence "SEQUENCE 5 - ACT 3 - Dreadnaught Battle" < uid=1EE141815A8EEAF400001B67E7079DF6 >
+{
+	myStoryBeats
+	{
+		StoryBeatData "Wait for Tutorial Volume" < uid=9FD9E8185AC65C7200001CF2E8497436 > = Act3_SEQ5_WaitForTutorialVolume
+		StoryBeatData "Wait For Dreadnought Entry Volume" < uid=1EE141815AB3B34E00001BCC1834D900 > = Act3_SEQ5_WaitForDreadnoughtEntry
+		StoryBeatData "Dreadnought Dialogue" < uid=1EE141815AB3B37A00001BCD583B55E5 > = Act3_SEQ5_DialogueUponEnteringDreadnought
+		StoryBeatData "Destroy Core" < uid=9FD9E81859C289A40000002D316DB2D6 > = Act3_SEQ5_DestroyDreadnought
+		StoryBeatData "OBJECTIVE - Chapter 5 - Sub 2" < uid=9FD9E8185AA6A2C800001CA7087CAC8B > = Act3.Objective.Chapter5.Sub2
+		StoryBeatData "Save Point" < uid=1EE141815AE32BEF00001D855C35CF8C > : "Save Point"
+		{
+		}
+		StoryBeatData "Complete Story Event: Disable_MoonIntro_04" < uid=CC9485AB5C701A220000008F9499188E >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_CompleteStoryEvent "Complete Story Event: Disable_MoonIntro_04"
+				{
+					myObjectiveAutoRemoves FALSE
+					myStoryEvent TU5_Disable_MoonIntro_04
+				}
+			}
+		}
+		StoryBeatData "Destroyed Dreadnought" < uid=2453D286591636F100000523DE63F0C4 > = Act3_SEQ5_DreadnoughtDestroyed
+		StoryBeatData Fade < uid=9FD9E818595FD0EA0005A6B8659951A6 > = Act3_SEQ5_Fade
+		StoryBeatData "Save Point" < uid=9FD9E8185ACBA1E900001EDF6D573222 > : "Save Point"
+		{
+		}
+		StoryBeatData "Dreadnought Cinematic" < uid=9FD9E818595D3EEA000001B7567A3388 > = Act3_SEQ5_DreadnoughtCinematic
+		StoryBeatData "Teleport Player to Act4 Start" < uid=9FD9E8185979040200000A282411D077 > = Act3_SEQ5_TeleportPlayer
+	}
+}
+
+StoryBeatSequence "Act Three Sequence" < uid=1EE141815A8EEAF400001B6821B41F18 >
+{
+	myStoryBeats
+	{
+		StoryBeatSequence "SEQUENCE - ACT 3 - Opening" < uid=1EE141815A8EEAF400001B697739F2D2 > = "SEQUENCE 1 - ACT 3 - Primes"
+		StoryBeatSequence "SEQUENCE - ACT 3 - Building Outposts" < uid=1EE141815A8EEAF400001B6AEA99C2D0 > = "SEQUENCE 2 - ACT 3 - Build the Alliance"
+		StoryBeatSequence "SEQUENCE - ACT 3 - Bolster Alliance" < uid=1EE141815A8EEAF400001B6B31AA1A58 > = "SEQUENCE 3 - ACT 3 - Bolster the Alliance"
+		StoryBeatSequence "SEQUENCE - ACT 3 - Dreadnaught Reveal" < uid=1EE141815A8EEAF400001B6CB0678FAA > = "SEQUENCE 4 - ACT 3 - Dreadnaught Reveal"
+		StoryBeatSequence "SEQUENCE - ACT 3 - Dreadnaught Battle" < uid=1EE141815A8EEAF400001B6D08705416 > = "SEQUENCE 5 - ACT 3 - Dreadnaught Battle"
+	}
+}
+

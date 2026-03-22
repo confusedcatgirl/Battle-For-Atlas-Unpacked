@@ -1,0 +1,84 @@
+include ./invisible_npc_base.mnpc
+include onward/skillscripts/npc_ability_prospector_watchtower_turret_gatling.mskillscriptjuice
+include onward/skillscripts/npc_ability_prospector_watchtower_turret_missile_barrage.mskillscriptjuice
+include onward/skillscripts/npc_ability_prospector_watchtower_turret_heat_missile_barrage.mskillscriptjuice
+include onward/skillscripts/npc_ability_prospector_watchtower_turret_cold_missile_barrage.mskillscriptjuice
+include onward/skillscripts/npc_ability_prospector_watchtower_turret_crush_missile_barrage.mskillscriptjuice
+include onward/skillscripts/npc_ability_tower_watchtower_emp.mskillscriptjuice
+
+NPC tower_watchtower_logic < uid=C92F4D3F5981F400000002164A4D4EA5 > : invisible_npc_base
+{
+	myBehavior "onward/game system data/juice/ai/behavior/tower_watchtower_logic.mbehavior"
+	myIsInitiallyAggressive TRUE
+	myAbilityDefinitions
+	{
+		NPCAbilityDefinition Gatling
+		{
+			myGameAction NPC_Ability1
+			mySkillScript < uid=C92F4D3F5849B2D600F05F64DCDCDC24 > = npc_ability_prospector_watchtower_turret_gatling
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_prospector_watchtower_turret_gatling.juice"
+		}
+		NPCAbilityDefinition "Heat Gatling"
+		{
+			myGameAction NPC_Ability2
+			mySkillScript < uid=C92F4D3F5849B2D600F05F64DCDCDC24 > = npc_ability_prospector_watchtower_turret_gatling
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_prospector_watchtower_turret_heat_gatling.juice"
+		}
+		NPCAbilityDefinition "Cold Gatling"
+		{
+			myGameAction NPC_Ability3
+			mySkillScript < uid=C92F4D3F5849B2D600F05F64DCDCDC24 > = npc_ability_prospector_watchtower_turret_gatling
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_prospector_watchtower_turret_cold_gatling.juice"
+		}
+		NPCAbilityDefinition "Crush Gatling"
+		{
+			myGameAction NPC_Ability4
+			mySkillScript < uid=C92F4D3F5849B2D600F05F64DCDCDC24 > = npc_ability_prospector_watchtower_turret_gatling
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_prospector_watchtower_turret_crush_gatling.juice"
+		}
+		NPCAbilityDefinition "Missile Barrage"
+		{
+			myGameAction NPC_Ability5
+			mySkillScript < uid=C92F4D3F59832CD300000227AE399A0B > = npc_ability_prospector_watchtower_turret_missile_barrage
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_prospector_watchtower_turret_missile_barrage.juice"
+		}
+		NPCAbilityDefinition "Heat Missile Barrage"
+		{
+			myGameAction NPC_Ability6
+			mySkillScript < uid=C92F4D3F59832CD300000227AE399A0B > = npc_ability_prospector_watchtower_turret_heat_missile_barrage
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_prospector_watchtower_turret_heat_missile_barrage.juice"
+		}
+		NPCAbilityDefinition "Cold Missile Barrage"
+		{
+			myGameAction NPC_Ability7
+			mySkillScript < uid=C92F4D3F59832CD300000227AE399A0B > = npc_ability_prospector_watchtower_turret_cold_missile_barrage
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_prospector_watchtower_turret_cold_missile_barrage.juice"
+		}
+		NPCAbilityDefinition "Crush Missile Barrage"
+		{
+			myGameAction NPC_Ability8
+			mySkillScript < uid=C92F4D3F59832CD300000227AE399A0B > = npc_ability_prospector_watchtower_turret_crush_missile_barrage
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_prospector_watchtower_turret_crush_missile_barrage.juice"
+		}
+		NPCAbilityDefinition EMP
+		{
+			myGameAction NPC_Ability9
+			mySkillScript < uid=C92F4D3F5A5FC62E0089C5290F21A1BC > = npc_ability_tower_watchtower_emp
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_tower_watchtower_emp.juice"
+		}
+	}
+	myAttributeSettings "onward/game system data/juice/ai/attributes/tower_watchtower_logic.juice"
+	myAwarenessDistance 300.0
+	myNPCFaction Prospector
+	myAIVisionConeTypeName WatchtowerVisionCone
+}
+

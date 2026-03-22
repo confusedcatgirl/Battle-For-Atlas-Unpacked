@@ -1,0 +1,64 @@
+include ./invisible_npc_base.mnpc
+include onward/skillscripts/npc_ability_mini_enemy_01_nova_beam.mskillscriptjuice
+
+NPC mini_enemy_01 < uid=C92F4D3F5BA16FE200002516FB680C0E > : invisible_npc_base
+{
+	myUIName "contextComment = \"The name of the 'Obelisk' enemy type.\", description = \"ui-name-npc-obelisk\", enabled = true, guid = #A08A88CF5BB6809300016604FDEBB32D, lineVersion = 0, maxLength = 11, text = \"Obelisk\""
+	myUIName_NonLocalized "Mini Enemy 01"
+	myBehavior "onward/game system data/juice/ai/behavior/mini_enemy_01.mbehavior"
+	myIsInitiallyAggressive TRUE
+	myHealthConfig < uid=C92F4D3F5BA16FE200002517B9D11A25 > = "mini_enemy_01 Health"
+	myIsInvulnerable TRUE
+	myDeathSettings
+	{
+		myDeathCullTime 0.0
+		myEventDeathCullTime 0.0
+	}
+	mySunderReaction < uid=C92F4D3F5BA2586B0037E5802C7DF499 > = NULLREFERENCE
+	myFireReaction < uid=C92F4D3F5BA2586B0037E581DF77A947 > = NULLREFERENCE
+	myChillReaction < uid=C92F4D3F5BA2586B0037E582F9B6DE8F > = NULLREFERENCE
+	myFreezeReaction < uid=C92F4D3F5BA2586B0037E58313374CB0 > = NULLREFERENCE
+	myStasisReaction < uid=C92F4D3F5BA2586B0037E584D02DAB73 > = NULLREFERENCE
+	myStasisOverloadReaction < uid=C92F4D3F5BA2586B0037E585B2721DA0 > = NULLREFERENCE
+	myGravityReaction < uid=C92F4D3F5BA2586B0037E586FD7FEFC7 > = NULLREFERENCE
+	myEntangleReaction < uid=C92F4D3F5BA2586B0037E58754846E14 > = NULLREFERENCE
+	myAbilityDefinitions
+	{
+		NPCAbilityDefinition "Nova Beam"
+		{
+			myGameAction NPC_Ability1
+			mySkillScript < uid=C92F4D3F5BA26C610008BB79CE2DC167 > = npc_ability_mini_enemy_01_nova_beam
+			myInputType Hold_New
+			myAttributesFile "onward/game system data/juice/ai/attributes/npc_ability_mini_enemy_01_nova_beam.juice"
+		}
+	}
+	myAttributeSettings "onward/game system data/juice/ai/attributes/mini_enemy_01.juice"
+	myCrowdControlAttributeSettings "onward/game system data/juice/ai/attributes/crowd control tiers/npc_cc_tier6.juice"
+	myAwarenessDistance 300.0
+	myPatternProfile < uid=C92F4D3F5BA16FE20000251F84A4668D > = "Mini Enemy 01"
+	myDefaultMotionPattern < uid=C92F4D3F5BA16FE20000252095948C90 > = "Mini Enemy 01 Default"
+	myAvoidanceRadius 6.4
+	myNPCFaction Harvester
+	myNPCType Mini_Enemy_01
+	myAnimSystemType Mini_Enemy_01
+	myThreatLevel 7.0
+	myBaseThreatProfile
+	{
+		myCloseRange 50.0
+		myMediumRange 100.0
+		myLongRange 150.0
+		myExtremeRange 300.0
+	}
+	myVisibleToAwareness TRUE
+	mySteeringParameters "onward/game system data/juice/ai/steering/mini_enemy_01.juice"
+	myAgentController DefaultAgentController
+	myAIVisionConeTypeName ExtractorCorruptionVisionCone
+	myHitReactionRules "onward/game system data/juice/ai/reactions/reaction_rules_npc_immobile.juice"
+	myConstructionDuration 2.0
+	myDefaultNavigationType Ground
+	myOnDiscoveredChallenge Discover_Obelisk
+	myUseVisualImpactProcessor TRUE
+	myAttachSimProxyToBoneCategory TRUE
+	mySimProxyAttachmentBoneCategory Weakpoints
+}
+

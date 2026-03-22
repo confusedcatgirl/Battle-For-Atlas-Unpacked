@@ -1,0 +1,92 @@
+include ./base_npc.mnpc
+include onward/skillscripts/npc_world_entry_harvester_cyclops_generic.mskillscriptjuice
+include onward/skillscripts/npc_controller_context_harvester_cyclops_generic_dead.mskillscriptjuice
+include onward/skillscripts/harvester_cyclops_vfx_listener.mskillscriptjuice
+
+NPC harvester_cyclops_base < uid=4A8282B95628043800000633EFA7AA4A > : base_npc
+{
+	myUIName_NonLocalized Cyclops
+	myGraphObjectFile "onward/graph objects/character/harvester_01.mgraphobject"
+	myBehavior "onward/game system data/juice/ai/behavior/harvester_cyclops_generic.mbehavior"
+	myGibSettings
+	{
+		myLifetime 15.0
+		myInitialSpeed 30.0
+		myGibTemplates
+		{
+			file "New file (0)" "onward/entity templates/harvester_cyclops_forearm_GIBS.mentitytemplate"
+			file "New file (2)" "onward/entity templates/harvester_cyclops_hand_GIBS.mentitytemplate"
+			file "New file (3)" "onward/entity templates/harvester_cyclops_head_GIBS.mentitytemplate"
+			file "New file (0)" "onward/entity templates/harvester_cyclops_leftleg_GIBS.mentitytemplate"
+			file "New file (1)" "onward/entity templates/harvester_cyclops_shin_right_GIBS.mentitytemplate"
+			file "New file (2)" "onward/entity templates/harvester_cyclops_thigh_right_GIBS.mentitytemplate"
+			file "New file (3)" "onward/entity templates/harvester_cyclops_torso_GIBS.mentitytemplate"
+			file "New file (7)" "onward/entity templates/harvester_01_gun_gibs.mentitytemplate"
+			file "New file (8)" "onward/entity templates/harvester_01_headplate_gibs.mentitytemplate"
+		}
+	}
+	myHealthConfig < uid=4A8282B959F8E6D200001DAF1383573A > = "harvester_cyclops_base Health"
+	myDeathSettings
+	{
+		myDeathCullTime 0.2
+	}
+	myControllerContextDefinitions
+	{
+		ControllerContextDefinition Dead
+		{
+			myContextType Dead
+			mySkillScript < uid=4A8282B95AB3FD3D00277D57FB9E5958 > = npc_controller_context_harvester_cyclops_generic_dead
+		}
+	}
+	myPersistentScripts
+	{
+		SkillScript "VFX Listener" < uid=C92F4D3F5AC7C41100015B2470D196D6 > = harvester_cyclops_vfx_listener
+	}
+	myAttributeSettings "onward/game system data/juice/ai/attributes/harvester_cyclops.juice"
+	myCrowdControlAttributeSettings "onward/game system data/juice/ai/attributes/crowd control tiers/npc_cc_tier12.juice"
+	myDropTableOnDeath Kill_Cyclops_Drop_Table
+	myDropTableOnDamage Cyclops_Base_Incremental
+	myDamageDropInterval 0.25
+	myAwarenessDistance 300.0
+	myMass 4000.0
+	myLinearInertiaThreshold 100.0
+	myMaxLinearForce 5000.0
+	myMaxFrictionTorque 2.0
+	myPhysicsCapsuleHeight 5.0
+	myPhysicsSupportHeight -5.125
+	myPhysicsCapsuleRadius 3.0
+	myGroundOrientationFraction 0.5
+	myPhysicsSnapToGround TRUE
+	myHitReactionConstants "onward/game system data/juice/combat/hitreactionsconstants_harvester_cyclops.juice"
+	myImpactCategorySettings "onward/game system data/juice/combat/impactcategorysettings_harvester_cyclops.juice"
+	myPatternProfile < uid=4A8282B956B23083000000523D3831D4 > = "Harvester Cyclops"
+	myDefaultMotionPattern < uid=4A8282B956B2308300000053844BA34C > = "Harvester Cyclops Default"
+	myAvoidanceRadius 3.0
+	myNPCFaction Harvester
+	myNPCType Harvester_Cyclops
+	myAnimSystemType Harvester_Cyclops
+	myLeggedness Biped
+	myThreatLevel 5.0
+	myWeapon
+	{
+		myWeaponType Gatling
+		myDamageType Generic
+	}
+	myIsFlocking TRUE
+	mySquadAssociationType None
+	mySteeringParameters "onward/game system data/juice/ai/steering/defender_cyclops.juice"
+	myAgentController DefaultAgentController
+	myAIVisionConeTypeName CyclopsVisionCone
+	myLeftFootstepEffectFile "onward/graph objects/effect/effect_cyclops_footstep.mgraphobject"
+	myRightFootstepEffectFile "onward/graph objects/effect/effect_cyclops_footstep.mgraphobject"
+	myFrontLeftFootstepEffectFile "onward/graph objects/effect/effect_cyclops_footstep.mgraphobject"
+	myFrontRightFootstepEffectFile "onward/graph objects/effect/effect_cyclops_footstep.mgraphobject"
+	myDefaultFootstepEvent 453207700794BDAE48E921B672B3A79D
+	myHitReactionRules "onward/game system data/juice/ai/reactions/reaction_rules_npc_medium.juice"
+	myConstructionDuration 1.0
+	myUseNavMeshContextLayer TRUE
+	myOnDeathChallenge Death_CyclopsGeneric
+	myOnDiscoveredChallenge Discover_CyclopsGeneric
+	myPreWorldEntrySkillScript < uid=C92F4D3F59037B43000002339B5F4625 > = npc_world_entry_harvester_cyclops_generic
+}
+

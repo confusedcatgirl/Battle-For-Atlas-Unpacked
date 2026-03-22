@@ -1,0 +1,24 @@
+include ./templates/template_l2.juice
+include "onward/game system data/juice/mods/mod_defender_shipcore_l2.mplayermod"
+include "onward/game system data/juice/buffs/buff_commander_shipcore_group_repair.mbuff"
+
+Enhancement defendershipcore_l2 < uid=C91BB551597F4CAE007FB578018404D8 > : "Level 2"
+{
+	myLocalizedName "contextComment = \"[Placeholder - do not translate]\nName for level 2 version of a Ship Core that (ultimately) boosts the ship's weapon energy, reduces weapon recoil, makes it easier to target enemies, and provides damage reduction to nearby foes.\", description = \"\", enabled = true, guid = #C91BB551597F4CAE007FB5770ECA9934, lineVersion = 2, maxLength = 16, text = \"Tank Core II\"}"
+	myLocalizedDescription "contextComment = \"[Placeholder - do not translate]\nDescription for level 2 version of a Ship Core that (ultimately) boosts the ship's weapon energy, reduces weapon recoil, makes it easier to target enemies, and provides damage reduction to nearby foes.\", description = \"enhancement-description-defender-ship-core-2\", enabled = true, guid = #62BC30D7FA984A04968831CF2D9382D5, lineVersion = 1, maxLength = 144, text = \"+35% Pilot Ability charge speed\n+100 health on successful Parry\n+10% Resistance to nearby allies\n+ Group Repair\"}"
+	myIconSprite "mySpriteId = -1271352873, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-mods-ship-core.spritesheet\""
+	myIsHullEnhancement TRUE
+	myMod < uid=C91BB551597F4CAE007FB579F8C7C522 > = mod_defender_shipcore_l2
+	myBuff < uid=939A35415AB2D2A100001CB70D41CBB9 > = buff_commander_shipcore_group_repair
+	myEnhancementType ShipCore
+	myEnhancementTrackType DefenderShipCore
+	myDamageAffectors
+	{
+		DamageAffector_FriendlyDamageResistance "Allies Resistance"
+		{
+			myDamageMultiplier = Defender_Core_l2_AllyResist
+			myDistanceThreshold 500.0
+		}
+	}
+}
+

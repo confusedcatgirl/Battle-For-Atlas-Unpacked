@@ -1,0 +1,655 @@
+include ./act02_storybeats.juice
+include ./act_simstate.juice
+
+StoryBeatSequence "SEQUENCE 1 - OPENING" < uid=1EE141815A90429500001B4D97AAA7B6 >
+{
+	myStoryBeats
+	{
+		StoryBeatData "OBJECTIVE - Chapter 1 - Header" < uid=9FD9E8185AB1218E00001C066F0E9CD2 > = Act2.Objective.Chapter1.Header
+		StoryBeatSequence "Sim Setup" < uid=9FD9E8185AB1238400001C073228D932 > = ACT2_SimState
+		StoryBeatData "Save Point" < uid=9FD9E8185ACBA11600001EDCA422A266 > : "Save Point"
+		{
+		}
+		StoryBeatData Padding < uid=9FD9E8185B070E5800001DC564D079FB > = Act2_SEQ1_FadeBeforeCinematic
+		StoryBeatData Cinematic < uid=9FD9E81859FC758300001CA9222A90C5 > = Act2_SEQ1_Cinematic2B
+	}
+}
+
+StoryBeatSequence "SEQUENCE 2 - FIRST STEPS" < uid=1EE141815A90429500001B4E5EF6A15F >
+{
+	myStoryBeats
+	{
+		StoryBeatData "Teleport to Equinox" < uid=9FD9E81859FC759400001CAA55E71E6E > = Act2_SEQ2_TeleportToEquinox
+		StoryBeatData "Start Padding" < uid=9FD9E81859FC759400001CAB3A55DF46 > = Act2_SEQ2_StartPadding
+		StoryBeatData "OBJECTIVE - Chapter 1 - Sub 1" < uid=9FD9E8185AA80FDA00001C347CCA6B2D > = Act2.Objective.Chapter1.Sub1
+		StoryBeatData "Save Point" < uid=9FD9E8185ACBA16800001EDD9DFC0B9C > : "Save Point"
+		{
+		}
+		StoryBeatData "Dialogue - Debrief" < uid=9FD9E81859FC759400001CAC6D69CCAE > = Act2_SEQ2_Debrief
+		StoryBeatData "Pilot Skills Tutorial" < uid=1EE141815AB9094B00001BDC759D4059 > = Act2_SEQ2_PilotSkillsTutorial
+		StoryBeatData Padding < uid=1EE141815AB90E8F00001BDF039C8CAE >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_WallClockWait Wait
+				{
+					mySecondsToWait 0.5
+				}
+			}
+		}
+		StoryBeatData "Skills Dialogue" < uid=1EE141815AB90B4300001BDEFB6556D3 > = Act2_SEQ2_SkillsDialogue
+		StoryBeatData Padding < uid=1EE141815AE88C2800001D7C8D1A6C5A >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_WallClockWait Wait
+				{
+					mySecondsToWait 0.5
+				}
+			}
+		}
+		StoryBeatData "Pilot Skills Dialogue" < uid=1EE141815AE88C2800001D7D4174D2B5 > = Act2_SEQ2_PilotSkillsDialogue
+		StoryBeatData "Talk with Shaid" < uid=9FD9E8185A00A66C00001CCB762EB124 > = Act2_SEQ2_DialogueWithShaid
+		StoryBeatData "OBJECTIVE - Chapter 1 - Sub 2" < uid=9FD9E8185AA810EE00001C44D1AC3A08 > = Act2.Objective.Chapter1.Sub2
+		StoryBeatData "Go to Haven" < uid=2B55C72B5A95BCC400001B550159EEB8 > = Act2_SEQ2_Haven
+		StoryBeatData "Save Point" < uid=1EE141815AE23F1F00001D81BE899CEA > : "Save Point"
+		{
+		}
+		StoryBeatData "Wait For Space" < uid=9FD9E8185AF090CC00001DB320175069 > = Act2_SEQ2_WaitForSpace
+		StoryBeatData HyperDrive < uid=9FD9E81859FC759400001CAD1BB3D57E > = Act2_SEQ2_HyperDrive
+		StoryBeatData "Enable Encounters For Free Roam" < uid=9FD9E8185B843BDE0000223C0526B40C > = Act2_SEQ2_EnableEncountersForFreeRoam
+		StoryBeatData "Drakes Detected" < uid=9FD9E8185AC3A14F00001D14FBD32E20 > = Act2_SEQ2_DrakesDetected
+		StoryBeatData "Spawn Rancor & Drakes" < uid=9FD9E8185A00AD5B00001CD05F5401B7 > = Act2_SEQ2_SpawnDrakesAndRancor
+		StoryBeatData "Set Respawn on Rancor" < uid=1EE141815AEC73B500001D74D89E976A > = Act2_SEQ2_RespawnCheckpointRancor
+		StoryBeatData "Save Point" < uid=1EE141815AEC73B500001D7537832AAC > : "Save Point"
+		{
+		}
+		StoryBeatData Padding < uid=9FD9E8185A00D84B00001EA6E7BED042 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_Wait Wait
+				{
+					mySecondsToWait 1.0
+				}
+			}
+		}
+		StoryBeatSequence "Rancor Cinematic" < uid=2B55C72B5A96C19100001B5427B8D19A > = Act2_SEQ2_RancorCinematicIntro
+		StoryBeatData "OBJECTIVE - Chapter 2 - Header" < uid=9FD9E8185AA8116D00001C4BA24D79CD > = Act2.Objective.Chapter2.Header
+		StoryBeatData "OBJECTIVE - Chapter 2 - Sub 1" < uid=9FD9E8185AA8118D00001C4CE4857A14 > = Act2.Objective.Chapter2.Sub1
+		StoryBeatData "Target Drake Squad" < uid=9FD9E8185A00AD5B00001CD101B2C7E0 > = Act2_SEQ2_TargetDrakeSquad
+		StoryBeatData "Outlaws vs Drakes" < uid=9FD9E8185A00C38700001CE3774C74AC > = Act2_SEQ2_DialogueOutlawsDrakes
+		StoryBeatData "Open Gameplay Bounds" < uid=1EE141815AD4B6A700001DA579F4DD92 > = Act2_SEQ2_OpenGameplayBounds
+		StoryBeatData "Save Point" < uid=1EE141815AD4B49700001DA277F7FA35 > : "Save Point"
+		{
+		}
+		StoryBeatData "Clear / Reset Respawn Checkpoint" < uid=9FD9E8185A04D01300001F0EFF62373B >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_SetTarget "Clear Target"
+				{
+				}
+				StoryDataAction_Wait Padding
+				{
+					mySecondsToWait 3.0
+				}
+				StoryDataAction_ResetRespawnCheckpoint "Reset Respawn Checkpoint"
+				{
+				}
+			}
+		}
+		StoryBeatData "Talk to Rancor" < uid=9FD9E8185A00B0D700001CD54B5DDF67 > = Act2_SEQ2_TalkToRancor
+		StoryBeatData "Padding 2" < uid=9FD9E8185A16E4380000205160FFE9E2 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_Wait "Wait 2"
+				{
+					mySecondsToWait 2.0
+				}
+			}
+		}
+	}
+}
+
+StoryBeatSequence "SEQUENCE 2.5 -  HELP ELI" < uid=1EE141815A90429500001B4F01314FC7 >
+{
+	myStoryBeats
+	{
+		StoryBeatData "OBJECTIVE - Chapter 3 - Header" < uid=9FD9E8185AA812E500001C50B37C3766 > = Act2.Objective.Chapter3.Header
+		StoryBeatData "OBJECTIVE - Chapter 3 - Sub 1" < uid=9FD9E8185AA8132500001C54C4231F2E > = Act2.Objective.Chapter3.Sub1
+		StoryBeatData "Save Point" < uid=1EE141815AE23F1F00001D82B3DC466A > : "Save Point"
+		{
+		}
+		StoryBeatData "Encounters Enabled Fallback" < uid=9FD9E8185ACFAB7E00001EA94661A618 > = Act2_SEQ2.5_EncountersEnabled
+		StoryBeatData "Wait for Haven Arrival" < uid=9FD9E8185A021F5100001EB1C705E9B8 > = Act2_SEQ3_WaitForHavenArrival
+		StoryBeatData "Arrived at Haven" < uid=9FD9E8185A02206C00001EB43C00A183 > = Act2_SEQ2.5_ArriveAtHaven
+		StoryBeatData Padding < uid=9FD9E8185A0F47B500002132B6C4E4A1 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_Wait Wait
+				{
+					mySecondsToWait 2.0
+				}
+			}
+		}
+		StoryBeatData "OBJECTIVE - Chapter 3 - Sub 2" < uid=9FD9E8185AA813C900001C58FB996B87 > = Act2.Objective.Chapter3.Sub2
+		StoryBeatData "Save Point" < uid=1EE141815AE23F1F00001D83CF6DA7A0 > : "Save Point"
+		{
+		}
+		StoryBeatData "Refinery Objective" < uid=9FD9E8185A147BC800001E160FCEF0BE > = Act2_SEQ2.5_RefineryObjective
+		StoryBeatData "Find Shaid's Contact" < uid=9FD9E8185A02252C00001EBA64C58EFB > = Act2_SEQ2.5_FindShaidsContact
+		StoryBeatData "Distance Fallback" < uid=9FD9E8185AD7944400001DD34272CBD6 > = Act2_SEQ2.5_DistanceFallback
+		StoryBeatData "Spotted the Refinery" < uid=9FD9E8185A0225F700001EBCF0FD45BC > = Act2_SEQ2.5_SpottedTheRefinery
+		StoryBeatData "OBJECTIVE - Chapter 3 - Sub 3" < uid=9FD9E8185AA8142700001C5C84DD327C > = Act2.Objective.Chapter3.Sub3
+		StoryBeatData "Save Point" < uid=1EE141815AE23F1F00001D847B61E91D > : "Save Point"
+		{
+		}
+		StoryBeatData "Hail the Refinery" < uid=9FD9E8185A0226E700001EC048606F94 > = Act2_SEQ2.5_HailTheRefinery
+		StoryBeatData "Refinery Dialogue" < uid=9FD9E8185A022A2200001EC6B14B9CF4 > = Act2_SEQ2.5_RefineryDialogue
+		StoryBeatData "OBJECTIVE - Chapter 4 - Header" < uid=9FD9E8185AA8147B00001C6034AB0768 > = Act2.Objective.Chapter4.Header
+		StoryBeatData "OBJECTIVE - Chapter 4 - Sub 1" < uid=9FD9E8185AA8193B00001D0793429B9E > = Act2.Objective.Chapter4.Sub1
+		StoryBeatData "Save Point" < uid=1EE141815AE23F1F00001D8589FD4457 > : "Save Point"
+		{
+		}
+		StoryBeatData "Wait for Set" < uid=9FD9E8185AA8237C00001D1CAEC6C6DB > = Act2_SEQ2.5_WaitForSet
+		StoryBeatData "OBJECTIVE - Chapter 4 - Sub 2" < uid=9FD9E8185AA8205500001D083A8F00A6 > = Act2.Objective.Chapter4.Sub2
+		StoryBeatData "Offer Help" < uid=9FD9E8185A022AC700001EC844A669FA > = Act2_SEQ2.5_OfferHelp
+		StoryBeatData "Padding 13.5/Clear Target" < uid=9FD9E8185A022B2800001EC95DEA333E >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_SetTarget "Clear Target"
+				{
+				}
+				StoryDataAction_Wait "Wait 13.5"
+				{
+					mySecondsToWait 13.5
+				}
+			}
+		}
+		StoryBeatData "Ally with Outpost" < uid=9FD9E8185A03762B00001EFBA1587E45 > = Act2_SEQ2.5_AllyWithOutpost
+		StoryBeatData "OBJECTIVE - Chapter 5 - Header" < uid=9FD9E8185AA820C100001D0F4F0902C6 > = Act2.Objective.Chapter5.Header
+		StoryBeatData "OBJECTIVE - Chapter 5 - Sub 1" < uid=9FD9E8185AA8227000001D1646496B38 > = Act2.Objective.Chapter5.Sub1
+		StoryBeatData "Save Point" < uid=1EE141815AE23F1F00001D877AB1401B > : "Save Point"
+		{
+		}
+		StoryBeatData "Post Ally Conversation" < uid=9FD9E8185A037CCC00001EFED39D8470 > = Act2_SEQ2.5_PostAllyConversation
+		StoryBeatData "OBJECTIVE - Chapter 5 - Sub 2" < uid=9FD9E8185AA8229700001D174C241926 > = Act2.Objective.Chapter5.Sub2
+		StoryBeatData "Save Point" < uid=1EE141815AE23F1F00001D880EEC6751 > : "Save Point"
+		{
+		}
+		StoryBeatData "Wait for Mission Accepted" < uid=2B55C72B5A70C9BE00001AF09874C48E > = Act2_SEQ2.5_WaitForDrakeAccepted
+		StoryBeatData "OBJECTIVE - Chapter 5 - Sub 3" < uid=9FD9E8185AA824D600001D2534296FDA > = Act2.Objective.Chapter5.Sub3
+		StoryBeatData "Wait For Pilot Ability Event" < uid=9FD9E8185AC111FE00001CA160C15CFE > = Act2_SEQ2.5_WaitForPilotTutorial
+		StoryBeatData "Hack the Drake Mission" < uid=9FD9E8185A0387E600001F08879DCDA1 > = Act2_SEQ2.5_HackTheDrakeMission
+		StoryBeatData "Save Point" < uid=1EE141815AD4E4FC00001DA3F30C04EC > : "Save Point"
+		{
+		}
+		StoryBeatData "Drake SOS" < uid=9FD9E8185A03887100001F0BF9669AD9 > = Act2_SEQ2.5_DrakeSOS
+	}
+}
+
+StoryBeatSequence "SEQUENCE 3 - WARDEN SPIRE" < uid=1EE141815A90429500001B5049B2B55F >
+{
+	myStoryBeats
+	{
+		StoryBeatData "OBJECTIVE - Chapter 6 - Header" < uid=9FD9E8185AA8257300001D29AD335523 > = Act2.Objective.Chapter6.Header
+		StoryBeatData Padding < uid=9FD9E8185A04BC3800001F0224F93FD3 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_Wait "Wait 5"
+				{
+					mySecondsToWait 5.0
+				}
+			}
+		}
+		StoryBeatData "OBJECTIVE - Chapter 6 - Sub 1" < uid=9FD9E8185AA825BC00001D2D34333CBB > = Act2.Objective.Chapter6.Sub1
+		StoryBeatData "Save Point" < uid=1EE141815AE242A800001D896D504527 > : "Save Point"
+		{
+		}
+		StoryBeatData "Warden Spire Objective" < uid=9FD9E8185A04BE4600001EFD82B67907 > = Act2_SEQ3_WardenSpireObjective
+		StoryBeatData "Warden Proximity" < uid=9FD9E81859FCAC0100001CCD5B5FF037 > = Act2_SEQ3_WardenProximity
+		StoryBeatData "Proximity Dialogue" < uid=9FD9E81859FCAC0100001CCEA610FB26 > = "Act2_SEQ3_ ProximityDialogue"
+		StoryBeatData "Found Warden Totem" < uid=9FD9E81859FCAC0100001CCF6C1A0D56 > = Act2_SEQ3_FoundWardenTotem
+		StoryBeatData "Arrive at Puzzle" < uid=9FD9E81859FCC92C00001C9DF3299AED > = Act2_SEQ3_ArriveAtPuzzleDialogue
+		StoryBeatData "OBJECTIVE - Chapter 6 - Sub 2" < uid=9FD9E8185AA8260D00001D336D048AAF > = Act2.Objective.Chapter6.Sub2
+		StoryBeatData "Fire at Puzzle" < uid=9FD9E8185AA8298100001D513F9E20BE > = Act2_SEQ3_FireAtPuzzle
+		StoryBeatData "OBJECTIVE - Chapter 6 - Sub 3 - SAVE" < uid=9FD9E8185AA82A0E00001D5355E3BF86 > = Act2.Objective.Chapter6.Sub3
+		StoryBeatData "Wait for Open Puzzle" < uid=9FD9E8185A0B361A00001F35D23DD100 > = Act2_SEQ3_WaitForOpenPuzzle
+		StoryBeatData "Save Point" < uid=9FD9E8185B0DB2AB00001E10CA6E6F85 > : "Save Point"
+		{
+		}
+		StoryBeatData "Unlock All Warden Puzzles" < uid=9FD9E81859FCC92C00001CA13A80662C > = Act2_SEQ3_UnlockAllWardenPuzzles
+		StoryBeatData "Save Point" < uid=1EE141815AD614EF00001D9A9145CA0D > : "Save Point"
+		{
+		}
+		StoryBeatData "Clear Target" < uid=9FD9E8185A04C24800001F0230EC27DD >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_SetTarget "Clear Target"
+				{
+				}
+			}
+		}
+		StoryBeatData "Mod Dialogue" < uid=9FD9E8185A04C2FD00001F08114E258C > = Act2_SEQ3_ModDialogue
+		StoryBeatData "OBJECTIVE - Chapter 6A - Header" < uid=9FD9E8185AB0285400001C2E283DC2B0 > = Act2.Objective.Chapter6A.Header
+		StoryBeatData "OBJECTIVE - Chapter 6A - Sub 1" < uid=9FD9E8185AB028A200001C2F09930ACA > = Act2.Objective.Chapter6A.Sub1
+		StoryBeatData "Open Computer" < uid=9FD9E8185AB028A200001C308739579B > = Act2_SEQ3_OpenComputer
+		StoryBeatData "Player State Check" < uid=1EE141815AD0BE0200001DA54DAAAD0D > = Act2_SEQ3_PlayerStateCheck
+		StoryBeatData Padding < uid=1EE141815ACBD1E700001DA4D2D63DAF >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_WallClockWait "Wait 1"
+				{
+					mySecondsToWait 1.0
+				}
+			}
+		}
+		StoryBeatData "Mod Screen Dialogue" < uid=9FD9E8185AB02CA300001C3887DA3895 > = Act2_SEQ3_ModDialogueOverMenu
+		StoryBeatData Padding < uid=9FD9E8185A15BDD900001FF92AE190A7 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_Wait Wait
+				{
+					mySecondsToWait 5.0
+				}
+			}
+		}
+		StoryBeatData "Return to the Refinery" < uid=9FD9E81859FCC92C00001CA5E6A7BF63 > = Act2_SEQ3_SetObjectiveReturn
+		StoryBeatData "OBJECTIVE - Chapter 7 - Header - SAVE" < uid=9FD9E8185AA82D8C00001C31A31D33B4 > = Act2.Objective.Chapter7.Header
+		StoryBeatData "OBJECTIVE - Chapter 7 - Sub 1 - SAVE" < uid=9FD9E8185AA82DC400001C3262DCA060 > = Act2.Objective.Chapter7.Sub1
+		StoryBeatData "Save Point" < uid=1EE141815AE242A800001D8AA8B66795 > : "Save Point"
+		{
+		}
+	}
+}
+
+StoryBeatSequence "SEQUENCE 4 - GOLD RUSH" < uid=1EE141815A90429500001B518BE73CC8 >
+{
+	myStoryBeats
+	{
+		StoryBeatData "Wait for Distance to Mining Center" < uid=9FD9E8185B85AB280000223CD95AF15F > = Act2_SEQ4_DistanceToMiningCenter
+		StoryBeatData "Unlock Pilot Stories" < uid=9FD9E8185B85AB280000223D4030E314 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_CompleteStoryEvent "Complete Story Event - Unlock Pilot Stories"
+				{
+					myStoryEvent Act02_UnlockPilotStories
+				}
+				StoryDataAction_CompleteStoryEvent "Complete Story Event - Old Side Story Unlock"
+				{
+					myStoryEvent SideStory001_UnlockSideStory
+				}
+			}
+		}
+		StoryBeatData "Interact with the Outpost" < uid=9FD9E81859FC78CF00001CBCC0501776 > = Act2_SEQ4_ActionInteractOutpost
+		StoryBeatData "Outpost Conversation" < uid=9FD9E81859FC78CF00001CBDFEAC610D > = Act2_SEQ4_MiningCenterConversation
+		StoryBeatData "OBJECTIVE - Chapter 7 - Sub 2" < uid=9FD9E8185AA82EA900001C3B08798BEA > = Act2.Objective.Chapter7.Sub2
+		StoryBeatData "Save Point" < uid=1EE141815AE242A800001D8B58F75B00 > : "Save Point"
+		{
+		}
+		StoryBeatData "Wait for Target Distance" < uid=9FD9E8185A55457900001BA5FA25C90A > = Act2_SEQ4_WaitForTargetDistance
+		StoryBeatData "Wait For Target Approach" < uid=1EE141815AC680EC00001CC68D243584 > = Act2_SEQ4_WaitForTargetApproach
+		StoryBeatData "Spawn Fire Giant" < uid=9FD9E8185A54F03C00001B67232FF9F1 > = Act2_SEQ4_SpawnFireGiant
+		StoryBeatData "Save Point" < uid=9FD9E8185B3B89680000241624542EFA > : "Save Point"
+		{
+		}
+		StoryBeatData "Attack Fire Giant" < uid=9FD9E8185A53F15B00001C09E49130EA > = Act2_SEQ4_AttackFireGiant
+		StoryBeatData "Set Dialogue Camera" < uid=1EE141815A956AC800001B52AB6936B5 > = Act2_SEQ4_SetDialogueCamera
+		StoryBeatData "Strategy Overlay" < uid=1EE141815A956AC800001B53EA8CF790 > = Act2_SEQ4_StrategyOverlay
+		StoryBeatData "Close Strategy Overlay" < uid=1EE141815AE09D4700001D7A46F6A173 > = Act2_SEQ4_CloseStrategyOverlay
+		StoryBeatData "OBJECTIVE - Chapter 7 - Sub 3" < uid=9FD9E8185AA82FA500001C3CC9F0701D > = Act2.Objective.Chapter7.Sub3
+		StoryBeatData "Save Point" < uid=1EE141815AE242A800001D8C354C69A0 > : "Save Point"
+		{
+		}
+		StoryBeatData "Destroy Fire Giant" < uid=9FD9E8185A5523EA00001B8341E378E8 > = Act2_SEQ4_FireGiant
+		StoryBeatData "Save Point" < uid=9FD9E8185B2BE8BF0000209DBEE644D4 > : "Save Point"
+		{
+		}
+		StoryBeatData "Padding 3" < uid=9FD9E8185A5529BB00001B834942EC3F >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_Wait "Wait 3"
+				{
+					mySecondsToWait 3.0
+				}
+			}
+		}
+		StoryBeatData "OBJECTIVE - Chapter 8 - Header" < uid=9FD9E8185AA82FFD00001C4207475B0B > = Act2.Objective.Chapter8.Header
+		StoryBeatData "Save Point" < uid=1EE141815AE242A800001D8DDADA6B53 > : "Save Point"
+		{
+		}
+		StoryBeatData "Gold Rush Intro" < uid=9FD9E8185A5523EA00001B8433ECEB8F > = Act2_SEQ4_GoldRushIntro
+		StoryBeatData "OBJECTIVE - Chapter 8 - Sub 1" < uid=9FD9E8185AA8304A00001C482B1B7880 > = Act2.Objective.Chapter8.Sub1
+		StoryBeatData "Save Point" < uid=1EE141815AE242A800001D8EC14B3552 > : "Save Point"
+		{
+		}
+		StoryBeatData "Wait for Door" < uid=9FD9E8185A5523EA00001B8595D6142C > = Act2_SEQ4_WaitForDoor
+		StoryBeatData "Clear Door Target" < uid=9FD9E8185A82121800001B9CB232EBF3 > = Act2_SEQ4_ClearDoorTarget
+		StoryBeatData "OBJECTIVE - Chapter 8 - Sub 2" < uid=9FD9E8185AA8307C00001C490EB6788F > = Act2.Objective.Chapter8.Sub2
+		StoryBeatData "Save Point" < uid=1EE141815AE242A800001D8F23865920 > : "Save Point"
+		{
+		}
+		StoryBeatData "Entered GoldRush" < uid=9FD9E81859FCD38B00001CA784110E05 > = Act2_SEQ4_EnterGoldRush
+		StoryBeatData "Wait for Pickup" < uid=9FD9E81859FCD38B00001CAAAF68D0BB > = Act2_SEQ4_WaitForPickup
+		StoryBeatData "OBJECTIVE - Chapter 8 - Sub 3" < uid=9FD9E8185AA830BB00001C51EB033B2D > = Act2.Objective.Chapter8.Sub3
+		StoryBeatData "Save Point" < uid=1EE141815AE242A800001D9075D13599 > : "Save Point"
+		{
+		}
+		StoryBeatData "Deliver - SAVE" < uid=9FD9E81859FCD38B00001CABA3058275 > = Act2_SEQ4_DeliverGoldRush
+		StoryBeatData "After Gold Rush Mission" < uid=9FD9E81859FCD38B00001CACA6FE7752 > = Act2_SEQ4_AfterGoldRushMission
+		StoryBeatData "Award Loot" < uid=9FD9E81859FCD38B00001CB0741744E8 > = Act2_SEQ4_AwardLoot
+		StoryBeatData "Complete Goldrush" < uid=9FD9E81859FCD38B00001CB1EA2F4374 > = Act2_SEQ4_CompleteGoldrush
+		StoryBeatData "Padding / Clear Target" < uid=9FD9E8185A0CA95600002164DA62CFD1 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_Wait "Wait 5"
+				{
+					mySecondsToWait 5.0
+				}
+				StoryDataAction_SetTarget "Clear Target"
+				{
+				}
+			}
+		}
+		StoryBeatData "We Need Electrum" < uid=9FD9E8185A0E1B0E0000215B6C31CE1B > = Act2_SEQ4_WeNeedMoreElectrum
+		StoryBeatData "Clear Target" < uid=9FD9E8185A0CA9DD0000216AAFC7C3F7 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_SetTarget "Clear Target"
+				{
+				}
+			}
+		}
+	}
+}
+
+StoryBeatSequence "SEQUENCE 5 - UPGRADE EQUINOX" < uid=1EE141815A90429500001B5260F088B2 >
+{
+	myStoryBeats
+	{
+		StoryBeatData "Padding for Objective" < uid=9FD9E81859FC8A6300001CBFB1EF4FBD > = Act2_SEQ6_PaddingForObjective
+		StoryBeatData "OBJECTIVE - Chapter 9 - Header" < uid=9FD9E8185AA8346100001C62E01ACBBD > = Act2.Objective.Chapter9.Header
+		StoryBeatData "OBJECTIVE - Chapter 9 - Sub 1" < uid=9FD9E8185AA8358900001C63C52E70D0 > = Act2.Objective.Chapter9.Sub1
+		StoryBeatData "Save Point" < uid=1EE141815AE242A800001D917C584883 > : "Save Point"
+		{
+		}
+		StoryBeatData "Wait for Electrum" < uid=9FD9E81859FC8A6300001CC0F1441551 > = Act2_SEQ6_WaitForElectrum
+		StoryBeatData "Final Electrum Gate" < uid=9FD9E8185ACE77E200001DF14FCD9E2A > = Act2_SEQ6_ElectrumGate
+		StoryBeatData "Electrum Gathered" < uid=9FD9E81859FC8A6300001CC16C7DA67D > = Act2_SEQ6_ElectrumGathered
+		StoryBeatData "OBJECTIVE - Chapter 9 - Sub 2" < uid=9FD9E8185AA835BA00001C64A65FF2E8 > = Act2.Objective.Chapter9.Sub2
+		StoryBeatData "Save Point" < uid=1EE141815AE242A800001D92E42103FF > : "Save Point"
+		{
+		}
+		StoryBeatData "Starmap Reminder" < uid=9FD9E81859FC8A6300001CC34B360473 > = Act2_SEQ6_StarmapReminder
+		StoryBeatData "Wait for Equinox Upgrade" < uid=9FD9E81859FC8A6300001CC49A097ED9 > = Act2_SEQ6_WaitForEquinoxUpgrade
+		StoryBeatData "Clear Target" < uid=9FD9E8185A1C32390000204FC7E1366F >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_SetTarget "Clear Target"
+				{
+				}
+			}
+		}
+		StoryBeatData Padding < uid=9FD9E8185A16FCA70000205CAE9B885E >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_Wait "Wait 5"
+				{
+					mySecondsToWait 5.0
+				}
+			}
+		}
+		StoryBeatData "After Upgrade" < uid=9FD9E8185A16F8E70000205630EFC647 > = Act2_SEQ6_AfterUpgrade
+		StoryBeatData "OBJECTIVE - Chapter 9 - Sub 3" < uid=9FD9E8185AA8366600001C7300B0D1B1 > = Act2.Objective.Chapter9.Sub3
+		StoryBeatData "Save Point" < uid=1EE141815AE242A800001D93F57F0902 > : "Save Point"
+		{
+		}
+		StoryBeatData "Return to Equinox" < uid=9FD9E8185A0A044000001F3D47E9AEE9 > = Act2_SEQ6_ReturnToEquinox
+		StoryBeatData "Complete Story Event: Disable_MoonIntro_01" < uid=CC9485AB5C70174F000000870CF758D8 >
+		{
+			Enabled TRUE
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_CompleteStoryEvent "Complete Story Event: Disable_MoonIntro_01"
+				{
+					myObjectiveAutoRemoves FALSE
+					myStoryEvent TU5_Disable_MoonIntro_01
+				}
+			}
+		}
+		StoryBeatData "Padding 4" < uid=9FD9E8185A0A04A800001F4236AC0BB7 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_Wait "Wait 4"
+				{
+					mySecondsToWait 4.0
+				}
+			}
+		}
+		StoryBeatData "Returned To Equinox" < uid=9FD9E8185AA8369300001C74847A2AAE > = Act2_SEQ6_ReturnedToEquinox
+		StoryBeatData "Save Point" < uid=9FD9E8185BABD5B70000242E09E8EDD9 > : "Save Point"
+		{
+		}
+	}
+}
+
+StoryBeatSequence "SEQUENCE 6 - SONATUS ALERT" < uid=1EE141815A90429500001B53EB34BC1C >
+{
+	myStoryBeats
+	{
+		StoryBeatData "Incoming Transmission" < uid=9FD9E8185A0A04E400001F43F2434E6C > = Act2_SEQ7_IncomingTransmission
+		StoryBeatSequence "Prime Cinematic" < uid=2B55C72B5A95B41B00001B567DA69C7B > = Act2_SEQ7_PrimeArrivesSequence
+		StoryBeatData "OBJECTIVE - Chapter 10 - Header" < uid=9FD9E8185AA8371F00001C7B8EE26CCF > = Act2.Objective.Chapter10.Header
+		StoryBeatData "Save Point" < uid=1EE141815AE242A800001D9409FE97C9 > : "Save Point"
+		{
+		}
+		StoryBeatData "Propaganda Debrief" < uid=9FD9E8185A612F3300001CBA8DCCB493 > = Act2_SEQ7_PropagandaDebrief
+		StoryBeatData "OBJECTIVE - Chapter 10 - Sub 1" < uid=9FD9E8185AA8376200001C7F7FE3CA07 > = Act2.Objective.Chapter10.Sub1
+		StoryBeatData "Save Point" < uid=1EE141815AE242A800001D95B75CDA25 > : "Save Point"
+		{
+		}
+		StoryBeatData "Sonatus Objective" < uid=9FD9E81859FC8A6300001CC6E25B0BB6 > = Act2_SEQ7_SonatusObjective
+		StoryBeatData "Wait for Distance to Sonatus" < uid=9FD9E81859FC8A6300001CC719B59E12 > = Act2_SEQ7_WaitForDistanceToSonatus
+		StoryBeatData "Atlas Information" < uid=9FD9E81859FC8A6300001CC8C89BD44B > = Act2_SEQ7_AtlasDialogue
+		StoryBeatData "Complete Story Event: Enable_MoonIntro_01" < uid=CC9485AB5C70174F00000088E5CB311F >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_CompleteStoryEvent "Complete Story Event: Enable_MoonIntro_01"
+				{
+					myObjectiveAutoRemoves FALSE
+					myStoryEvent TU5_Enable_MoonIntro_01
+				}
+			}
+		}
+		StoryBeatData "Wait for Sonatus Arrival" < uid=9FD9E81859FC8A6300001CCB6FD4A290 > = Act2_SEQ7_WaitForSonatusArrival
+		StoryBeatData "Sonatus Arrival Padding" < uid=9FD9E81859FC8A6300001CCC79FB1AAD > = Act2_SEQ7_SonatusArrivalPadding
+	}
+}
+
+StoryBeatSequence "SEQUENCE 8 - DESTROY THE PRIME" < uid=1EE141815A90429500001B5585438F22 >
+{
+	myStoryBeats
+	{
+		StoryBeatData "OBJECTIVE - Chapter 11 - Header" < uid=9FD9E8185AA837F800001C851E6D53B4 > = Act2.Objective.Chapter11.Header
+		StoryBeatData "OBJECTIVE - Chapter 11 - Sub 1" < uid=9FD9E8185AA8381B00001C869F1C26CB > = Act2.Objective.Chapter11.Sub1
+		StoryBeatData "Save Point" < uid=1EE141815AE242DB00001D965B8E09CA > : "Save Point"
+		{
+		}
+		StoryBeatData "Clear Targets" < uid=9FD9E81859A976830000003A05184773 > = Act2_SEQ8_ClearTargets
+		StoryBeatData "Backup Spawn Extractor A" < uid=9FD9E8185A33E7BE0000229AD84EF4CA > = Act2_SEQ8_BackupSpawnExtractorA
+		StoryBeatData "Extractor Objective A" < uid=9FD9E81859A82C7F0000008424DCCF63 > = Act2_SEQ8_SetObjectiveExtractor_A
+		StoryBeatData "En Route Secondary Distance Check" < uid=9FD9E8185A8DDDE100001D1FCC5E0B2F > = Act2_SEQ8_EnrouteSecondaryDistanceCheck
+		StoryBeatData "Extractor Dialogue & Wait for Arrival A" < uid=9FD9E81859A82C7F00000085743E2CF3 > = Act2_SEQ8_ExtractorDialogue_A
+		StoryBeatData "Approach Secondary Distance Check" < uid=9FD9E8185A8DDFAE00001D22BE1CF1A0 > = Act2_SEQ8_ApproachSecondaryDistanceCheck
+		StoryBeatData "Wait for Extractor Death A" < uid=9FD9E81859A830A90000008B69022270 > = Act2_SEQ8_ExtractorDestroyed_A
+		StoryBeatData "Ally Outpost" < uid=9FD9E8185A53A15C00001C061E342D43 > = Act2_SEQ8_ForceAllyOutpost
+		StoryBeatData "Save Point" < uid=1EE141815AD60EA300001D9BC5D4A07A > : "Save Point"
+		{
+		}
+		StoryBeatData "Padding 11" < uid=9FD9E81859B6E9AF000000869EDD01ED >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_Wait "Wait 11"
+				{
+					mySecondsToWait 11.0
+				}
+			}
+		}
+		StoryBeatData "Extractor Death A" < uid=9FD9E8185A1F3D4C00002073CD00ADDC > = Act2_SEQ8_ExtractorDeathDialogue_A
+		StoryBeatData "OBJECTIVE - Chapter 11 - Sub 2" < uid=9FD9E8185AA838A000001C8CAE51F5DF > = Act2.Objective.Chapter11.Sub2
+		StoryBeatData "Padding 3" < uid=600A30F35BFEA55A003515EA6B391CFD >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_Wait "Wait 3"
+				{
+					mySecondsToWait 3.0
+				}
+			}
+		}
+		StoryBeatData "Backup Spawn Extractor B" < uid=9FD9E8185A33E7BE0000229B298EEA52 > = Act2_SEQ8_BackupSpawnExtractorB
+		StoryBeatData "Distance to Extractor B" < uid=9FD9E8185A60C2E000001CE8E3846E3F > = Act2_SEQ8_DistanceToExtractorB
+		StoryBeatData "Extractor Objective B" < uid=9FD9E8185A1F20180000205E9B559ACF > = Act2_SEQ8_SetObjectiveExtractor_B
+		StoryBeatData "Save Point" < uid=1EE141815AD60EA300001D9CA4AC1B80 > : "Save Point"
+		{
+		}
+		StoryBeatData "Padding B" < uid=9FD9E8185A1F20370000206024458C40 > = Act2_SEQ8_PaddingAfterExtractorB
+		StoryBeatData "Extractor Destroyed B" < uid=9FD9E8185A1F20280000205FD3B67C40 > = Act2_SEQ8_ExtractorDestroyed_B
+		StoryBeatData "OBJECTIVE - Chapter 11 - Sub 3" < uid=9FD9E8185AA84D0E00001C34417B2308 > = Act2.Objective.Chapter11.Sub3
+		StoryBeatData "Backup Spawn Extractor C" < uid=9FD9E8185A33E7BE0000229C43014E49 > = Act2_SEQ8_BackupSpawnExtractorC
+		StoryBeatData "Distance to Extractor C" < uid=9FD9E8185A60C2E000001CE946A0AD3E > = Act2_SEQ8_DistanceToExtractorC
+		StoryBeatData "Extractor Arrival" < uid=1EE141815AC3C70600001CDA930646A5 > = Act2_SEQ8_ExtractorArrival
+		StoryBeatData "Extractor Objective C" < uid=9FD9E8185A1F204F000020617DDBD1EC > = Act2_SEQ8_SetObjectiveExtractor_C
+		StoryBeatData "Save Point" < uid=1EE141815AD60DD000001D9ABABF6A74 > : "Save Point"
+		{
+		}
+		StoryBeatData "Padding C" < uid=9FD9E8185A1F205F000020632A5B9E0B > = Act2_SEQ8_PaddingAfterExtractorC
+		StoryBeatData "Extractor Destroyed C" < uid=9FD9E8185A1F204F000020624A6FBF7A > = Act2_SEQ8_ExtractorDestroyed_C
+		StoryBeatData "Prime Setup" < uid=9FD9E8185A5CC39400001B354A14830A > = Act2_SEQ8_PrimeSetup
+		StoryBeatData "OBJECTIVE - Chapter 12 - Header" < uid=9FD9E8185AA83A5B00001C9D26DA381F > = Act2.Objective.Chapter12.Header
+		StoryBeatData "OBJECTIVE - Chapter 12 - Sub 1" < uid=9FD9E8185AA83AE000001CA588FC7360 > = Act2.Objective.Chapter12.Sub1
+		StoryBeatData "Spawn Prime" < uid=9FD9E81859A82BDD000000831398FC2F > = Act2_SEQ8_SpawnPrime
+		StoryBeatData "Save Point" < uid=9FD9E8185ADA410E00001EA6B3F66A6B > : "Save Point"
+		{
+		}
+		StoryBeatData "Prime Alert" < uid=2B55C72B5909DA2E0000009ED8E9928B > = Act2_SEQ8_PrimeAlert
+		StoryBeatData "En Route to Prime" < uid=9FD9E81859A97DE70000003C75B8443C > = Act2_SEQ8_DistanceToPrime
+		StoryBeatData "Prime Found" < uid=2B55C72B5909DA2E0000009FE2EACFC8 > = Act2_SEQ8_PrimeFound
+		StoryBeatData "Save Point" < uid=9FD9E8185ADA44A000001DBE2CBD59D2 > : "Save Point"
+		{
+		}
+		StoryBeatData "Set Target Sonatus Outpost" < uid=1EE141815A9EB32600001B5E3E8D1407 > = Act2_SEQ8_SetTargetSonatusOutpost
+		StoryBeatData "Destroyed Prime" < uid=2B55C72B5909DA2E000000A0E9043D8A > = Act2_SEQ8_DestroyedPrime
+		StoryBeatData "Save Point" < uid=9FD9E8185B100E2600001DC5A0C9A5E0 > : "Save Point"
+		{
+		}
+		StoryBeatData "OBJECTIVE - Chapter 12 - Sub 2" < uid=9FD9E8185AA83BE500001CB41DA57463 > = Act2.Objective.Chapter12.Sub2
+		StoryBeatData "Padding/Clear Target" < uid=9FD9E8185A53A1F700001C070E2FCFB2 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_SetTarget "Clear Target"
+				{
+				}
+				StoryDataAction_Wait "Wait 1"
+				{
+					mySecondsToWait 1.0
+				}
+			}
+		}
+		StoryBeatData "Core Delivery Intro" < uid=2B55C72B5909DA2E000000A180C4EA6D > = Act2_SEQ8_CoreDeliveryIntro
+		StoryBeatData "Delivery Mission - SAVE" < uid=9FD9E81859B2BA13000008CD4CF1E44C > = Act2_SEQ8_PrimeCoreDeliveryMission
+		StoryBeatData "Save Point" < uid=9FD9E8185AB196BA00001CF630A2A6CE > : "Save Point"
+		{
+		}
+		StoryBeatData "Dialogue - Delivered Core" < uid=2B55C72B5909DA2E000000A2142D4D34 > = Act2_SEQ8_DialogueDeliveredCore
+		StoryBeatData DeliveryComplete < uid=9FD9E81859AF036C000001BA148E2F93 > = Act2_SEQ8_DeliveryComplete
+		StoryBeatData "OBJECTIVE - Chapter 13 - Header" < uid=9FD9E8185AB562ED00001C1EE12C35E1 > = Act2.Objective.Chapter13.Header
+		StoryBeatData "OBJECTIVE - Chapter 13 - Sub 1" < uid=9FD9E8185AB562ED00001C1FC19622ED > = Act2.Objective.Chapter13.Sub1
+		StoryBeatData "Save Point" < uid=1EE141815AE242F900001D9756B42CA0 > : "Save Point"
+		{
+		}
+		StoryBeatData "Padding 3" < uid=9FD9E8185A53907800001C042A97B182 >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_Wait "Wait 3"
+				{
+					mySecondsToWait 3.0
+				}
+			}
+		}
+		StoryBeatData "Return to Equinox" < uid=9FD9E8185A538D4800001BF26ADD0BB3 > = Act2_SEQ8_ReturnToEquinox
+		StoryBeatData "Wait for Return to Equinox" < uid=9FD9E8185A538D4800001BF31674563D > = Act2_SEQ8_WaitForReturnToEquinox
+		StoryBeatData "Complete Story Event: Disable_MoonIntro_02" < uid=CC9485AB5C7017E10000008AFAAE323C >
+		{
+			myIsCheckpoint FALSE
+			myStoryDataActions
+			{
+				StoryDataAction_CompleteStoryEvent "Complete Story Event: Disable_MoonIntro_02"
+				{
+					myObjectiveAutoRemoves FALSE
+					myStoryEvent TU5_Disable_MoonIntro_02
+				}
+			}
+		}
+		StoryBeatData "Fade To Black" < uid=9FD9E81859A996980000003E3835BF23 > = Act2_SEQ8_FadeToBlack
+	}
+}
+
+StoryBeatSequence "Act Two Sequence" < uid=1EE141815A90429500001B5661123220 >
+{
+	myStoryBeats
+	{
+		StoryBeatSequence "SEQ 1 - Cinematic" < uid=1EE141815A90429500001B589F6B546F > = "SEQUENCE 1 - OPENING"
+		StoryBeatSequence "SEQ 2 - First Steps" < uid=1EE141815A90429500001B5906C8E23F > = "SEQUENCE 2 - FIRST STEPS"
+		StoryBeatSequence "SEQ 2.5 - Help Eli" < uid=1EE141815A90429500001B5AF6BB53F4 > = "SEQUENCE 2.5 -  HELP ELI"
+		StoryBeatSequence "SEQ 3 - Warden Spire" < uid=1EE141815A90429500001B5B9CEBD1C7 > = "SEQUENCE 3 - WARDEN SPIRE"
+		StoryBeatSequence "SEQ 4 - Gold Rush" < uid=1EE141815A90429500001B5C59E62619 > = "SEQUENCE 4 - GOLD RUSH"
+		StoryBeatSequence "SEQ 5 - Restore Equinox" < uid=1EE141815A90429500001B5D187EEE00 > = "SEQUENCE 5 - UPGRADE EQUINOX"
+		StoryBeatSequence "SEQ 6 - Sonatus Alert" < uid=1EE141815A90429500001B5E34763A08 > = "SEQUENCE 6 - SONATUS ALERT"
+		StoryBeatSequence "SEQ 6 - Destroy Prime" < uid=1EE141815A90429500001B5FF6D1B0A8 > = "SEQUENCE 8 - DESTROY THE PRIME"
+	}
+}
+

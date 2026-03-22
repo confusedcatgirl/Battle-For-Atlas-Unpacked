@@ -1,0 +1,21 @@
+include ./templates/template_l2.juice
+include "onward/game system data/juice/mods/mod_fire_weaponcore_l2.mplayermod"
+
+Enhancement fireweaponcore_l2 < uid=C91BB5515982254000088311DE5FFC07 > : "Level 2"
+{
+	myLocalizedName "contextComment = \"[Placeholder - do not translate]\nName for Level 2 version of Fire Weapon Core mod, which boosts effectiveness of Heat-type weapons\", description = \"\", enabled = true, guid = #C91BB5515982254000088310852E213D, lineVersion = 2, maxLength = 22, text = \"Scorching Ammo II\""
+	myLocalizedDescription "contextComment = \"[Placeholder - do not translate]\nDescription for level 2 version of Fire Weapon Core mod, which can only be equipped to Heat-type weapons and boosts damage output and rate of fire\", description = \"enhancement-dscription-fire-weapon-core-2\", enabled = true, guid = #9E6AFEDA59D257F600A860989E4D9029, lineVersion = 2, maxLength = 107, text = \"+13% Damage\n+25 Fire Rate\n+Heals for 10% of Damage done\nEquip on Heat type weapons\""
+	myIconSprite "mySpriteId = -1236023428, mySpritesheet = F\"onward/ui/spritesheets/ui-icon-mods-weapon-core.spritesheet\""
+	myPartFlavor Heat
+	myMod < uid=C91BB55159822540000883120019C001 > = mod_fire_weaponcore_l2
+	myEnhancementType WeaponCore
+	myEnhancementTrackType FireWeaponCore
+	myDamageAffectors
+	{
+		DamageAffector_DamageToHealth "Damage to Health"
+		{
+			myDamageToHealthRatio = Fire_WeaponCore_l2_DmgToHealth
+		}
+	}
+}
+
