@@ -1,0 +1,44 @@
+class Light
+{
+	vec3f myPosition 0.0;0.0;0.0
+
+	vec3f myColor 0.5;0.5;0.5
+	float myIntensity 1.0
+
+	float mySourceRadius 0.03
+
+	float myMinAttenuationFadeDist 0.0
+	float myMaxAttenuationFadeDist 0.0
+
+	float myMinNearAttenuationFadeDist 0.0
+	float myMaxNearAttenuationFadeDist 0.0
+
+	float mySpecFactor 1.0
+
+	// become a spot light
+	bool myUsesAngleFade false
+	float myAngleFadeStart 45.0
+	float myAngleFadeEnd 60.0
+}
+
+list LightList
+{
+	Light
+}
+
+class Environment
+{
+	file myEnvironmentMap "" < assettype="Texture" >
+	float myEnvironmentMapIntensity 1.0
+
+	float myAmbientIntensity -1.0
+
+	vec3f myAmbientPX 0.0;0.0;0.0
+	vec3f myAmbientNX 0.0;0.0;0.0
+	vec3f myAmbientPY 0.0;0.0;0.0
+	vec3f myAmbientNY 0.0;0.0;0.0
+	vec3f myAmbientPZ 0.0;0.0;0.0
+	vec3f myAmbientNZ 0.0;0.0;0.0
+
+	LightList myLights
+}
