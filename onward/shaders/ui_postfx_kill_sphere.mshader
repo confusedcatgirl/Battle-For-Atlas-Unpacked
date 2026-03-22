@@ -1,0 +1,31 @@
+<shaderType = "UI", >
+import "shaders/modules/graphics/drawer/drawer.h"
+import "shaders/nodes/shader/functions/depthbuffer.h"
+import "shaders/nodes/shader/functions/depth buffer to world space.h"
+blend {
+	writeMask = rgba,
+	src = 1,
+	src.a = 0,
+}
+pixel
+{
+	struct CustomData {
+		float3 myKillSphereCenter <default = 0 0 0, label = "Kill Sphere Center", pinId = 101>;
+		float myKillSphereRadius <default = 0, label = "Kill Sphere Radius", pinId = 102>;
+	};
+	main(out float4 colorOut : MR_Color0, float4 MR_FragCoord : MR_FragCoord, 
+		CustomData customData : Gfx_CustomData0)
+	{
+		float GetDepthbuffer_1 = GetDepthbuffer(MR_FragCoord);
+		float3 DepthToWorldSpace_6 = DepthToWorldSpace(GetDepthbuffer_1, float2(0, 0), MR_FragCoord);
+		float3 sub_11 = DepthToWorldSpace_6 - customData.myKillSphereCenter;
+		float length_12 = length(sub_11);
+		float step_13 = step(length_12, customData.myKillSphereRadius);
+		float3 combine_14 = float3(step_13, step_13, step_13);
+		float3 lerp_15 = lerp(float3(0, 0, 0), float3(0.2, 0, 0), combine_14);
+		float4 truncate_16 = float4(lerp_15.xyz, 1);
+		float4 finalColor = vec4(0);
+		finalColor = BlendColor(truncate_16, float(1));
+		colorOut = finalColor;
+	}
+}

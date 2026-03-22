@@ -1,0 +1,219 @@
+<shaderType = "Object", keywords = { "GFX_FORWARD_SHADER", }, >
+import "shaders/nodes/shader/functions/onward/planet/ow_getfogofwar.h"
+import "shaders/MRender/MR_ViewConstants.h"
+import "shaders/nodes/shader/functions/linearsrgb.h"
+import "shaders/nodes/shader/functions/onward/planet/ow_getcreepmaskslow.h"
+pixel
+{
+	MR_SamplerCube Height : MR_Texture0 {
+		texture = "onward/baked/textures/UI/starmap/planets/ui_mapHeight_planet03.dds",
+	} <pinId = 101>;
+	MR_SamplerCube Albedo : MR_Texture1 {
+		texture = "onward/baked/textures/UI/starmap/planets/ui_mapAlbedo_planet03_b.dds",
+	} <pinId = 102>;
+	MR_SamplerCube FogMask : MR_Texture2 {
+		texture = "onward/baked/textures/debug_white_cube.dds",
+	} <label = "Fog Mask", pinId = 107>;
+	MR_SamplerCube HarvestMask : MR_Texture3 {
+		texture = "onward/baked/textures/debug_white_cube.dds",
+	} <label = "Harvest Mask", pinId = 108>;
+	MR_Sampler2D GalaxyAlbedo : MR_Texture4 <label = "Galaxy Albedo", pinId = 114>;
+	MR_Sampler2D Sampler_150 : MR_Texture5 {
+		texture = "onward/baked/textures/UI/starmap/planets/ui_mapUnexploredPlanetGrid.dds",
+	};
+	MR_Sampler2D Sampler_153 : MR_Texture6 {
+		texture = "onward/baked/textures/UI/starmap/planets/ui_mapHarvestClouds.dds",
+	};
+	struct CustomData {
+		float myWaterLevel <default = 0.07, label = "Water Level", pinId = 103>;
+		float myLineDensity <default = 35.35, label = "Line Density", pinId = 104>;
+		float4 myLineColour <default = 0 0 0 0.8, label = "Line Colour", pinId = 105>;
+		float4 myWaterColour <default = 0.01 0.3 0.6 0.2, label = "Water Colour", pinId = 106>;
+		float3 myLocalStarDirection <default = 0 0 1, label = "Local Star Direction", pinId = 109>;
+		float4 myNightColour <default = 0 0.1 0.5 0.4, label = "Night Colour", pinId = 110>;
+		float myAnimationPhase <default = 0, label = "Animation Phase", pinId = 111>;
+		float mySpacetoPlanetBlend <default = 1, label = "Space to Planet Blend", pinId = 112>;
+		float4 myLighningVector <default = 0 0 0 0, label = "Lighning Vector", pinId = 113>;
+		float3 myGalaxykeycolor <default = 0.04 1.5 2, label = "Galaxy key color", pinId = 115>;
+		float3 myGalaxyambientcolor <default = 0.002 0.09 0.15, label = "Galaxy ambient color", pinId = 116>;
+	};
+	float derivative_length(float a)
+	{
+		return length(float2(ddx(a), ddy(a)));
+	}
+	float is_zero(float modulo, float min, float max)
+	{
+		return min + (max - min) * (modulo == 0.0f);
+	}
+	float trim_underwater(float a, float height)
+	{
+		return a * saturate((height + 0.5f) * 2.0f);
+	}
+	main(out float4 colorOut : MR_Color0, float2 Gfx_UV1 : Gfx_UV1, 
+		CustomData customData : Gfx_CustomData0, 
+		float3 Gfx_ModelSpacePos : Gfx_ModelSpacePos0, float2 Gfx_UV : Gfx_UV0, 
+		float3x4 Gfx_WorldToObjectMatrix : Gfx_WorldToObjectMatrix0)
+	{
+		float4 sample_264 = MR_Sample(GalaxyAlbedo, Gfx_UV1);
+		float dot_255 = dot(customData.myLocalStarDirection, Gfx_ModelSpacePos);
+		float saturate_266 = saturate(dot_255);
+		float3 smear_276 = float3(saturate_266, saturate_266, saturate_266);
+		float3 mul_282 = customData.myGalaxykeycolor * smear_276;
+		float3 add_290 = customData.myGalaxyambientcolor + mul_282;
+		float4 truncate_299 = float4(add_290.xyz, 1);
+		float4 mul_307 = sample_264 * truncate_299;
+		float2 OW_GetFogOfWar_273 = OW_GetFogOfWar(FogMask, HarvestMask, Gfx_ModelSpacePos, float2(0.8, 0.2));
+		float sub_288 = float(0.15) - OW_GetFogOfWar_273.x;
+		float mul_297 = sub_288 * float(3);
+		float saturate_306 = saturate(mul_297);
+		float2 smear_199 = float2(Gfx_UV.x, Gfx_UV.x);
+		float2 mul_240 = float2(0, 25) * smear_199;
+		float sub_200 = float(1) - Gfx_UV.y;
+		float2 smear_215 = float2(sub_200, sub_200);
+		float2 mul_241 = smear_215 * float2(-37.5, 12.5);
+		float2 add_242 = mul_240 + mul_241;
+		float4 sample_243 = MR_Sample(Sampler_150, add_242);
+		float mul_245 = sample_243.y * float(1);
+		float mul_338 = saturate_306 * mul_245;
+		float3 smear_345 = float3(mul_338, mul_338, mul_338);
+		float mul_274 = customData.myAnimationPhase * float(30);
+		float4 truncate_137 = float4(Gfx_ModelSpacePos.xyz, 1);
+		float add_278 = mul_274 + truncate_137.y;
+		float mod_284 = fmod(add_278, float(1));
+		float sub_292 = mod_284 - float(0.5);
+		float abs_301 = abs(sub_292);
+		float sub_308 = abs_301 - float(0.3);
+		float saturate_315 = saturate(sub_308);
+		float mul_322 = saturate_315 * float(8);
+		float mul_331 = mul_322 * mul_322;
+		float add_336 = mul_331 + float(1);
+		float3 smear_343 = float3(add_336, add_336, add_336);
+		float3 mul_351 = float3(0, 0.446877, 0.177849) * smear_343;
+		float3 mul_353 = smear_345 * mul_351;
+		float3 transform_171 = MR_Transform(Gfx_WorldToObjectMatrix, MR_ViewConstants.LODCameraPosition);
+		float3 sub_207 = Gfx_ModelSpacePos - transform_171;
+		float3 normalize_221 = normalize(sub_207);
+		float3 mul_222 = normalize_221 * float3(0.03, 0.03, 0.03);
+		float3 add_229 = Gfx_ModelSpacePos + mul_222;
+		float4 sample_294 = MR_Sample(Albedo, add_229);
+		float3 truncate_303 = float3(sample_294.xyz);
+		float3 linearOut_312;
+		float3 sRGBOut_312;
+		LinearSRGB(truncate_303, linearOut_312, sRGBOut_312);
+		float3 truncate_251 = float3(customData.myWaterColour.xyz);
+		float3 mul_223 = normalize_221 * float3(0.02, 0.02, 0.02);
+		float3 add_230 = Gfx_ModelSpacePos + mul_223;
+		float4 sample_295 = MR_Sample(Height, add_230);
+		float sub_313 = sample_295.x - customData.myWaterLevel;
+		float mul_319 = sub_313 * float(8);
+		float sub_326 = float(0.5) - mul_319;
+		float saturate_333 = saturate(sub_326);
+		float mul_340 = saturate_333 * customData.myWaterColour.w;
+		float3 smear_348 = float3(mul_340, mul_340, mul_340);
+		float3 lerp_357 = lerp(linearOut_312, truncate_251, smear_348);
+		float3 truncate_257 = float3(customData.myNightColour.xyz);
+		float3 mul_363 = lerp_357 * lerp_357;
+		float3 mul_367 = mul_363 * float3(0.3, 0.3, 0.3);
+		float3 add_369 = truncate_257 + mul_367;
+		float dot_256 = dot(Gfx_ModelSpacePos, customData.myLocalStarDirection);
+		float mul_267 = dot_256 * float(10);
+		float saturate_277 = saturate(mul_267);
+		float sub_283 = float(1) - saturate_277;
+		float mul_291 = sub_283 * customData.myNightColour.w;
+		float3 smear_300 = float3(mul_291, mul_291, mul_291);
+		float3 lerp_371 = lerp(lerp_357, add_369, smear_300);
+		float mul_337 = mul_331 * mul_331;
+		float mul_344 = mul_337 * float(0.1);
+		float add_352 = mul_344 + float(1);
+		float3 smear_359 = float3(add_352, add_352, add_352);
+		float3 truncate_249 = float3(customData.myLineColour.xyz);
+		float mul_265 = float(2) * customData.myLineColour.w;
+		float3 smear_275 = float3(mul_265, mul_265, mul_265);
+		float3 mul_373 = lerp_371 * smear_275;
+		float3 add_376 = truncate_249 + mul_373;
+		float3 mul_378 = smear_359 * add_376;
+		float mul_320 = customData.myLineDensity * sub_313;
+		float sub_329 = mul_320 - floor(mul_320);
+		float sub_335 = sub_329 - float(0.5);
+		float abs_342 = abs(sub_335);
+		float derivative_length_327 = derivative_length(mul_320);
+		float div_350 = abs_342 / derivative_length_327;
+		float mod_334 = fmod(floor(mul_320), float(4));
+		float is_zero_341 = is_zero(mod_334, float(0.5), float(1.5));
+		float mul_349 = is_zero_341 * float(1);
+		float sub_358 = div_350 - mul_349;
+		float add_364 = sub_358 + float(0.5);
+		float saturate_368 = saturate(add_364);
+		float sub_370 = float(1) - saturate_368;
+		float trim_underwater_372 = trim_underwater(sub_370, mul_320);
+		float3 smear_374 = float3(trim_underwater_372, trim_underwater_372, trim_underwater_372);
+		float3 lerp_380 = lerp(lerp_371, mul_378, smear_374);
+		float3 mul_382 = lerp_380 * float3(0.07, 0.07, 0.07);
+		float3 add_384 = mul_353 + mul_382;
+		float lerp_289 = lerp(float(0.4), float(1), OW_GetFogOfWar_273.y);
+		float3 smear_298 = float3(lerp_289, lerp_289, lerp_289);
+		float mul_269 = customData.myAnimationPhase * float(1.9);
+		float mul_270 = customData.myAnimationPhase * float(-2.1);
+		float mul_271 = customData.myAnimationPhase * float(2.3);
+		float3 combine_279 = float3(mul_269, mul_270, mul_271);
+		float3 add_285 = combine_279 + Gfx_ModelSpacePos;
+		float3 combine_201 = float3(float(3), float(3), float(3));
+		float3 mul_293 = add_285 * combine_201;
+		float2 combine_311 = float2(mul_293.y, mul_293.z);
+		float4 sample_318 = MR_Sample(Sampler_153, combine_311);
+		float3 mul_136 = Gfx_ModelSpacePos * Gfx_ModelSpacePos;
+		float dot_196 = dot(mul_136, float3(1, 1, 1));
+		float3 smear_214 = float3(dot_196, dot_196, dot_196);
+		float3 div_226 = mul_136 / smear_214;
+		float4 smear_237 = float4(div_226.x, div_226.x, div_226.x, div_226.x);
+		float4 mul_325 = sample_318 * smear_237;
+		float2 combine_310 = float2(mul_293.z, mul_293.x);
+		float4 sample_317 = MR_Sample(Sampler_153, combine_310);
+		float4 smear_238 = float4(div_226.y, div_226.y, div_226.y, div_226.y);
+		float4 mul_324 = sample_317 * smear_238;
+		float4 add_332 = mul_325 + mul_324;
+		float2 combine_309 = float2(mul_293.x, mul_293.y);
+		float4 sample_316 = MR_Sample(Sampler_153, combine_309);
+		float4 smear_239 = float4(div_226.z, div_226.z, div_226.z, div_226.z);
+		float4 mul_323 = sample_316 * smear_239;
+		float4 add_339 = add_332 + mul_323;
+		float3 truncate_260 = float3(customData.myLighningVector.xyz);
+		float dot_263 = dot(truncate_260, Gfx_ModelSpacePos);
+		float sub_268 = dot_263 - float(0.54);
+		float mul_272 = sub_268 * float(10);
+		float saturate_280 = saturate(mul_272);
+		float mul_286 = saturate_280 * saturate_280;
+		float mul_296 = mul_286 * mul_286;
+		float mul_305 = mul_296 * mul_296;
+		float mul_314 = customData.myLighningVector.w * mul_305;
+		float add_321 = float(1) + mul_314;
+		float4 smear_330 = float4(add_321, add_321, add_321, add_321);
+		float4 mul_346 = add_339 * smear_330;
+		float3 combine_202 = float3(float(0.2), float(0.2), float(0.2));
+		float4 truncate_216 = float4(combine_202.xyz, 1);
+		float4 sub_354 = mul_346 - truncate_216;
+		float3 truncate_360 = float3(sub_354.xyz);
+		float3 mul_365 = float3(1.14208, 0.077059, 0) * truncate_360;
+		float lerp_375 = lerp(float(1), add_352, trim_underwater_372);
+		float3 smear_377 = float3(lerp_375, lerp_375, lerp_375);
+		float3 mul_379 = mul_365 * smear_377;
+		float OW_GetCreepMaskSLOW_213 = OW_GetCreepMaskSLOW(Gfx_ModelSpacePos, float(0.7), float(1.2));
+		float mul_225 = OW_GetCreepMaskSLOW_213 * OW_GetCreepMaskSLOW_213;
+		float mul_232 = mul_225 * mul_225;
+		float lerp_355 = lerp(OW_GetCreepMaskSLOW_213, mul_232, add_339.y);
+		float sub_361 = float(1) - lerp_355;
+		float lerp_356 = lerp(float(0.8), float(1.2), add_339.y);
+		float mul_362 = sub_361 * lerp_356;
+		float3 smear_366 = float3(mul_362, mul_362, mul_362);
+		float3 lerp_381 = lerp(lerp_380, mul_379, smear_366);
+		float3 mul_383 = smear_298 * lerp_381;
+		float3 smear_287 = float3(OW_GetFogOfWar_273.x, OW_GetFogOfWar_273.x, OW_GetFogOfWar_273.x);
+		float3 lerp_385 = lerp(add_384, mul_383, smear_287);
+		float4 truncate_386 = float4(lerp_385.xyz, 1);
+		float4 smear_259 = float4(customData.mySpacetoPlanetBlend, customData.mySpacetoPlanetBlend, customData.mySpacetoPlanetBlend, customData.mySpacetoPlanetBlend);
+		float4 lerp_387 = lerp(mul_307, truncate_386, smear_259);
+		float3 truncate_388 = float3(lerp_387.xyz);
+		float4 result_389 = float4(truncate_388, 1);
+		colorOut = result_389;
+	}
+}

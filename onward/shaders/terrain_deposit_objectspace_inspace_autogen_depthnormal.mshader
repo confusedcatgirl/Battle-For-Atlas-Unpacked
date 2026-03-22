@@ -1,0 +1,106 @@
+<keywords = { "LIGHT_FROM_SPACE", "ISNT_MAIN_PLANET", "GFX_DEPTH_SHADER", }, >
+import "shaders/nodes/shader/functions/getplanetposition.h"
+import "shaders/nodes/shader/functions/onward/ow_getterrainlowresradius.h"
+pixel
+{
+	MR_Sampler2D BaseColor : MR_Texture0 {
+		texture = "onward/baked/textures/default_b.dds",
+	} <label = "Base Color", pinId = 102>;
+	MR_Sampler2D BaseNormal : MR_Texture1 {
+		texture = "onward/baked/textures/default_n.dds",
+	} <label = "Base Normal", pinId = 103>;
+	MR_Sampler2D DepositColor : MR_Texture3 {
+		texture = "onward/baked/textures/default_b.dds",
+	} <label = "Deposit Color", pinId = 111>;
+	struct CustomData {
+		float4 myDepositCreviceAlbedo <config = { type = "ColorBox", }, default = 1 1 1 0, label = "Deposit Crevice Albedo", pinId = 110>;
+		float myDepositRoughness <default = 0, label = "Deposit Roughness", pinId = 123>;
+		float myDepositCreviceRoughness <default = 0, label = "Deposit Crevice Roughness", pinId = 124>;
+		float myDepositTilingU <default = 1, label = "Deposit Tiling U", pinId = 118>;
+		float myDepositTilingV <default = 1, label = "Deposit Tiling V", pinId = 119>;
+		float myBlendOpacity <config = { max = 1, min = 0, type = "Slider", }, default = 3.3, label = "Blend Opacity", pinId = 108>;
+		float myBlendconstrast <config = { max = 20, min = 1, type = "Slider", }, default = 4.7, label = "Blend constrast", pinId = 109>;
+		float myBlendcoverage <config = { max = 1, min = 0, type = "Slider", }, default = 1, label = "Blend coverage", pinId = 116>;
+		float myTerrainLipHeight <config = { max = 200, min = 0, }, default = 1, label = "Terrain Lip Height", pinId = 126>;
+		float2 myDetailScale <default = 30 30, label = "Detail Scale", pinId = 128>;
+		float mystrength <default = 1, label = "strength", pinId = 129>;
+		float myadjustDistance <default = 1, label = "adjustDistance", pinId = 130>;
+		float myfalloffCurve <default = 2, label = "falloffCurve", pinId = 131>;
+	};
+	float3 YUNO_MR_Transform(float3x4 m, float3 n)
+	{
+		return MR_TransformNormal(m, n);
+	}
+	main(out float4 colorOut : MR_Color0, float2 Gfx_UV : Gfx_UV0, 
+		CustomData customData : Gfx_CustomData0, 
+		float3 Gfx_UnflattenedWorldPos : Gfx_UnflattenedWorldPos0, 
+		float3x4 Gfx_ObjectToWorldMatrix : Gfx_ObjectToWorldMatrix0, 
+		float4 Gfx_Color : Gfx_Color0, float Gfx_AlphaRef : Gfx_AlphaRef0, 
+		float3 Gfx_CameraSpacePos : Gfx_CameraSpacePos0)
+	{
+		float4 sample_190 = MR_Sample(BaseColor, Gfx_UV);
+		float3 combine_194 = float3(customData.myDepositCreviceAlbedo.x, customData.myDepositCreviceAlbedo.y, customData.myDepositCreviceAlbedo.z);
+		float add_195 = customData.myDepositCreviceAlbedo.w + float(0);
+		float saturate_198 = saturate(add_195);
+		float3 smear_204 = float3(saturate_198, saturate_198, saturate_198);
+		float3 lerp_213 = lerp(float3(0.33, 0.33, 0.33), combine_194, smear_204);
+		float2 combine_171 = float2(Gfx_UnflattenedWorldPos.z, Gfx_UnflattenedWorldPos.y);
+		float2 combine_188 = float2(customData.myDepositTilingU, customData.myDepositTilingV);
+		float2 mul_202 = combine_171 * combine_188;
+		float4 sample_209 = MR_Sample(DepositColor, mul_202);
+		float3 GetPlanetPosition_119 = GetPlanetPosition();
+		float3 sub_166 = Gfx_UnflattenedWorldPos - GetPlanetPosition_119;
+		float3 normalize_176 = normalize(sub_166);
+		float4 sample_192 = MR_Sample(BaseNormal, Gfx_UV);
+		float3 combine_199 = float3(sample_192.x, sample_192.y, sample_192.z);
+		float3 mul_205 = combine_199 * float3(2, 2, 2);
+		float3 sub_214 = mul_205 - float3(1, 1, 1);
+		float3 YUNO_MR_Transform_220 = YUNO_MR_Transform(Gfx_ObjectToWorldMatrix, sub_214);
+		float smoothStep_167 = smoothstep(float(0), float(0.2), Gfx_Color.x);
+		float3 smear_177 = float3(smoothStep_167, smoothStep_167, smoothStep_167);
+		float3 lerp_226 = lerp(normalize_176, YUNO_MR_Transform_220, smear_177);
+		float3 normalize_232 = normalize(lerp_226);
+		float3 abs_235 = abs(normalize_232);
+		float3 combine_172 = float3(float(16.1875), float(16.1875), float(16.1875));
+		float3 pow_242 = pow(abs(abs_235), combine_172);
+		float3 normalize_250 = normalize(pow_242);
+		float add_265 = normalize_250.x + normalize_250.y;
+		float add_266 = add_265 + normalize_250.z;
+		float3 combine_272 = float3(add_266, add_266, add_266);
+		float3 div_278 = normalize_250 / combine_272;
+		float mul_288 = sample_209.z * div_278.x;
+		float2 combine_169 = float2(Gfx_UnflattenedWorldPos.x, Gfx_UnflattenedWorldPos.z);
+		float2 mul_200 = combine_169 * combine_188;
+		float4 sample_207 = MR_Sample(DepositColor, mul_200);
+		float mul_289 = sample_207.z * div_278.y;
+		float add_298 = mul_288 + mul_289;
+		float2 combine_170 = float2(Gfx_UnflattenedWorldPos.x, Gfx_UnflattenedWorldPos.y);
+		float2 mul_201 = combine_170 * combine_188;
+		float4 sample_208 = MR_Sample(DepositColor, mul_201);
+		float mul_290 = sample_208.z * div_278.z;
+		float add_299 = add_298 + mul_290;
+		float3 smear_304 = float3(add_299, add_299, add_299);
+		float3 lerp_309 = lerp(lerp_213, float3(0.33, 0.33, 0.33), smear_304);
+		float4 truncate_315 = float4(lerp_309.xyz, 1);
+		float dot_238 = dot(normalize_176, normalize_232);
+		float saturate_247 = saturate(dot_238);
+		float add_255 = customData.myBlendcoverage + saturate_247;
+		float pow_263 = pow(abs(add_255), customData.myBlendconstrast);
+		float saturate_271 = saturate(pow_263);
+		float mul_277 = customData.myBlendOpacity * saturate_271;
+		float3 GetPlanetPosition_57 = GetPlanetPosition();
+		float3 sub_138 = Gfx_UnflattenedWorldPos - GetPlanetPosition_57;
+		float length_175 = length(sub_138);
+		float OW_GetTerrainLowResRadius_174 = OW_GetTerrainLowResRadius(sub_138);
+		float sub_180 = length_175 - OW_GetTerrainLowResRadius_174;
+		float smoothStep_211 = smoothstep(customData.myTerrainLipHeight, float(0), sub_180);
+		float lerp_280 = lerp(mul_277, float(1), smoothStep_211);
+		float saturate_284 = saturate(lerp_280);
+		float3 smear_294 = float3(saturate_284, saturate_284, saturate_284);
+		float4 combine_306 = float4(smear_294.x, smear_294.y, smear_294.z, float(0));
+		float4 lerp_319 = lerp(sample_190, truncate_315, combine_306);
+		if (lerp_319.w < Gfx_AlphaRef) discard;
+		float4 depthResult = float4(Gfx_CameraSpacePos.z, 0, 0, lerp_319.w);
+		colorOut = depthResult;
+	}
+}

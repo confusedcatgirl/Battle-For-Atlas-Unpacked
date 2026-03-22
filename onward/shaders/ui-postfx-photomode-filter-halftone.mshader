@@ -1,0 +1,128 @@
+<shaderType = "UI", >
+import "shaders/modules/graphics/drawer/drawer.h"
+import "shaders/modules/graphics/ssr_common.h"
+import "shaders/nodes/shader/functions/screen position.h"
+import "shaders/nodes/shader/functions/pixeltoframebufferuv.h"
+import "shaders/nodes/shader/functions/depthbuffer.h"
+import "shaders/nodes/shader/ui/ui blit effect.h"
+blend {
+	writeMask = rgba,
+	src = 1,
+	src.a = 0,
+}
+pixel
+{
+	import "shaders/MRender/MR_ViewConstants.h"
+	MR_Sampler2D Texture : MR_Texture0 <pinId = 108>;
+	struct CustomData {
+		float2 myscreenSize <default = 0 0, label = "screenSize", pinId = 101>;
+		float myModulo <default = 8, label = "Modulo", pinId = 106>;
+		float myWidth <default = 4, label = "Width", pinId = 107>;
+	};
+	float mod(float x, float y)
+	{
+		return (x - y * floor(x / y));
+	}
+	float4 hatchFunc(float lum, float modValue, float width)
+	{
+		float4 color = float4(1.0,1.0,1.0,1.0);
+		if (lum < 1.00) {
+				if (modValue <= width) {
+					color = float4(1.0, 1.0, 1.0, 1.0);
+				}
+			}
+
+		if (lum < 0.75) {
+			if (modValue <= width) {
+				color = float4(0.75, 0.75, 0.75, 1.0);
+			}
+		}
+
+		if (lum < 0.50) {
+			if (modValue <= width) {
+				color = float4(0.5, 0.5, 0.5, 1.0);
+			}
+		}
+
+		if (lum < 0.3) {
+			color = float4(0.3, 0.3, 0.3, 1.0);
+			if (modValue <= width) {
+				color += float4(0.5, 0.5, 0.5, 1.0);
+			}
+		}
+		if (lum < 0.01) {
+			color = float4(lum, lum, lum, 1.0);
+		}
+		return color;
+	}
+	float3 sobel(MR_Sampler2D inBuffer, float2 uv, float2 screenSize, float depth)
+	{
+		const int2 texAddrOffsets[8] = {
+		         int2(-1, -1), 
+		         int2( 0, -1),
+		         int2( 1, -1),
+		         int2(-1,  0),
+		         int2( 1,  0),
+		         int2(-1,  1),
+		         int2( 0,  1),
+		         int2( 1,  1),
+		 };
+
+		 float lum[8];
+		 int i;
+
+		 float3 LuminanceConv = { 0.2125f, 0.7154f, 0.0721f };
+
+		 uint width, height, levels;
+
+		 for (i=0; i < 8; i++)
+		 {
+		 	float2 uvOffset = (float)texAddrOffsets[i]/screenSize;
+		 	lum[i] = dot( MR_Sample(inBuffer, uv + uvOffset).rgb, LuminanceConv);
+		 }
+
+		 float x = lum[0] + 2 * lum[3] + lum[5] - lum[2] - 2 * lum[4] - lum[7];
+		 float y = lum[0] + 2 * lum[1] + lum[2] - lum[5] - 2 * lum[6] - lum[7];
+		 float edge = sqrt(x*x + y*y);
+
+		 return edge;
+	}
+	main(out float4 colorOut : MR_Color0, float2 Gfx_UV : Gfx_UV0, 
+		float4 MR_FragCoord : MR_FragCoord, CustomData customData : Gfx_CustomData0)
+	{
+		float4 sample_43 = MR_Sample(Texture, Gfx_UV);
+		float2 ScreenPosition_12 = ScreenPosition(MR_FragCoord);
+		float2 PixelToFramebufferUV_24 = PixelToFramebufferUV(ScreenPosition_12);
+		float4 sample_32 = MR_Sample(SSR_FramebufferLate, PixelToFramebufferUV_24);
+		float length_36 = length(sample_32.xyz);
+		float saturate_37 = saturate(length_36);
+		float4 smear_40 = float4(saturate_37, saturate_37, saturate_37, saturate_37);
+		float4 smear_38 = float4(saturate_37, saturate_37, saturate_37, saturate_37);
+		float pow_39 = pow(abs(saturate_37), float(4));
+		float2 ScreenPosition_13 = ScreenPosition(MR_FragCoord);
+		float2 PixelToFramebufferUV_25 = PixelToFramebufferUV(ScreenPosition_13);
+		float2 mul_44 = PixelToFramebufferUV_25 * customData.myscreenSize;
+		float add_48 = mul_44.x + mul_44.y;
+		float mod_49 = mod(add_48, customData.myModulo);
+		float4 hatchFunc_50 = hatchFunc(pow_39, mod_49, customData.myWidth);
+		float4 mul_51 = smear_38 * hatchFunc_50;
+		float GetDepthbuffer_16 = GetDepthbuffer(MR_FragCoord);
+		float step_33 = step(GetDepthbuffer_16, float(25000));
+		float4 smear_35 = float4(step_33, step_33, step_33, step_33);
+		float4 lerp_52 = lerp(smear_40, mul_51, smear_35);
+		float3 truncate_53 = float3(lerp_52.xyz);
+		float4 combine_54 = float4(truncate_53, float(1));
+		float3 truncate_55 = float3(combine_54.xyz);
+		float2 ScreenPosition_20 = ScreenPosition(MR_FragCoord);
+		float2 PixelToFramebufferUV_29 = PixelToFramebufferUV(ScreenPosition_20);
+		float GetDepthbuffer_18 = GetDepthbuffer(MR_FragCoord);
+		float3 sobel_45 = sobel(SSR_FramebufferOpaque, PixelToFramebufferUV_29, customData.myscreenSize, GetDepthbuffer_18);
+		float3 step_46 = step(sobel_45, float3(0.5, 0.5, 0.5));
+		float3 lerp_56 = lerp(float3(0, 0, 0), truncate_55, step_46);
+		float4 truncate_57 = float4(lerp_56.xyz, 1);
+		float4 GetBlitEffectColor_58 = GetBlitEffectColor(sample_43, truncate_57);
+		float4 finalColor = vec4(0);
+		finalColor = BlendColor(GetBlitEffectColor_58, float(0));
+		colorOut = finalColor;
+	}
+}

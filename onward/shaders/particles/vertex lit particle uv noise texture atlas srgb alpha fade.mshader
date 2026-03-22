@@ -1,0 +1,86 @@
+<lightVolume = true, shaderType = "Particle", use4x4Tesselation = true, vertexLighting = F"shaders/nodes/Shader/Particles/Apply Vertex Light.h", >
+import "shaders/nodes/shader/particles/sample texture atlas.h"
+import "shaders/nodes/shader/functions/ow particle intensity multiplier.h"
+import "shaders/nodes/shader/particles/apply vertex light.h"
+import "shaders/modules/graphics/environment.h"
+import "shaders/nodes/shader/particles/soft.h"
+blend {
+	src = 1,
+}
+pixel
+{
+	MR_Sampler2D Texture : MR_Texture0 <pinId = 101>;
+	MR_Sampler2D FadeTexture : MR_Texture1 <label = "Fade Texture", pinId = 109>;
+	MR_Sampler2D Noise : MR_Texture2 <pinId = 103>;
+	struct CustomData {
+		float myFade1ScrollSpeed <default = -0.2, label = "Fade 1 Scroll Speed", pinId = 105>;
+		float myFade2ScrollSpeed <default = 0.2, label = "Fade 2 Scroll Speed", pinId = 106>;
+		float myFade1Scale <default = 1, label = "Fade 1 Scale", pinId = 107>;
+		float myFade2Scale <default = 2, label = "Fade 2 Scale", pinId = 108>;
+	};
+	struct CustomInterpolators {
+		float2 myUV1 <default = 0 0, label = "UV 1", pinId = 201>;
+		float2 myUV2 <default = 0 0, label = "UV 2", pinId = 202>;
+		float myAlpha1 <default = 1, label = "Alpha 1", pinId = 203>;
+		float myAlpha2 <default = 0, label = "Alpha 2", pinId = 204>;
+		float2 myNoiseUV1 <default = 0 0, label = "Noise UV 1", pinId = 205>;
+		float2 myNoiseUV2 <default = 0 0, label = "Noise UV 2", pinId = 206>;
+		float myNoiseStrength1 <default = 1, label = "Noise Strength 1", pinId = 207>;
+		float myNoiseStrength2 <default = 1, label = "Noise Strength 2", pinId = 208>;
+		float myFadeMultiplier <default = 0.95, label = "Fade Multiplier", pinId = 209>;
+	};
+	void UVNoise(float4 s1, float4 s2, float str1, float str2, inout float2 uv1, inout float2 uv2)
+	{
+		float strmod = 0.01;
+		str1 *= strmod;
+		str2 *= strmod;
+		float2 offs = (s1.xy - 0.5) * str1 + (s2.xy - 0.5) * str2;
+		uv1 += offs;
+		uv2 += offs;
+	}
+	main(out float4 colorOut : MR_Color0, 
+		CustomInterpolators customInterpolators : Gfx_CustomInterpolators0, 
+		float4 Particle_Color : Particle_Color0, float4 Particle_Fog : Particle_Fog0, 
+		float2 Particle_InstanceUV : Particle_InstanceUV0, 
+		CustomData customData : Gfx_CustomData0, 
+		float4 Particle_ShaderParams : Particle_ShaderParams0, 
+		float4 MR_FragCoord : MR_FragCoord)
+	{
+		float4 result77 = vec4(0);
+		float4 sample_52 = MR_Sample(Noise, customInterpolators.myNoiseUV1);
+		float4 sample_53 = MR_Sample(Noise, customInterpolators.myNoiseUV2);
+		float2 uv1_58 = customInterpolators.myUV1;
+		float2 uv2_58 = customInterpolators.myUV2;
+		UVNoise(sample_52, sample_53, customInterpolators.myNoiseStrength1, customInterpolators.myNoiseStrength2, uv1_58, uv2_58);
+		float4 SampleTextureAtlas_62 = SampleTextureAtlas(Texture, uv1_58, uv2_58, customInterpolators.myAlpha1, customInterpolators.myAlpha2, true);
+		float4 mul_65 = SampleTextureAtlas_62 * Particle_Color;
+		float4 OWParticleIntensityMultiplier_68 = OWParticleIntensityMultiplier(mul_65);
+		float4 aLightOut_70;
+		ApplyVertexLight(aLightOut_70, OWParticleIntensityMultiplier_68, Particle_Fog);
+		float2 combine_50 = float2(customData.myFade1Scale, customData.myFade1Scale);
+		float2 mul_55 = Particle_InstanceUV * combine_50;
+		float mul_48 = Gfx_Environment.time * customData.myFade1ScrollSpeed;
+		float2 smear_56 = float2(mul_48, mul_48);
+		float2 add_61 = mul_55 + smear_56;
+		float4 sample_64 = MR_Sample(FadeTexture, add_61);
+		float2 combine_51 = float2(customData.myFade2Scale, customData.myFade2Scale);
+		float2 mul_54 = Particle_InstanceUV * combine_51;
+		float mul_49 = Gfx_Environment.time * customData.myFade2ScrollSpeed;
+		float2 smear_57 = float2(mul_49, mul_49);
+		float2 add_60 = mul_54 + smear_57;
+		float4 sample_63 = MR_Sample(FadeTexture, add_60);
+		float mul_69 = sample_64.x * sample_63.y;
+		float sub_71 = float(1) - mul_69;
+		float add_59 = customInterpolators.myFadeMultiplier + float(0);
+		float lerp_73 = lerp(sub_71, float(0), add_59);
+		float sub_74 = aLightOut_70.w - lerp_73;
+		float saturate_75 = saturate(sub_74);
+		float4 combine_76 = float4(aLightOut_70.x, aLightOut_70.y, aLightOut_70.z, saturate_75);
+		result77 += float4(combine_76.xyz, 1) * combine_76.w;
+		float4 colorOut_42;
+		float alphaOut_42;
+		SoftParticle(float4(0, 0, 0, 0), Particle_ShaderParams, MR_FragCoord, colorOut_42, alphaOut_42);
+		result77 *= alphaOut_42;
+		colorOut = result77;
+	}
+}

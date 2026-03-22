@@ -1,0 +1,77 @@
+<shaderType = "Object", keywords = { "GFX_FORWARD_SHADER", }, >
+import "shaders/modules/graphics/environment.h"
+blend {
+	src = 1,
+}
+pixel
+{
+	MR_Sampler2D Texture1 : MR_Texture0 {
+		wrap = repeat clamp repeat,
+	} <pinId = 101>;
+	MR_Sampler2D Texture2 : MR_Texture1 {
+		wrap = repeat clamp repeat,
+	} <pinId = 102>;
+	MR_Sampler2D Texture3 : MR_Texture2 {
+		wrap = repeat clamp repeat,
+	} <pinId = 103>;
+	MR_Sampler2D Noise : MR_Texture3 {
+		wrap = repeat clamp repeat,
+	} <pinId = 104>;
+	struct CustomData {
+		float myintensity <default = 0, label = "intensity", pinId = 105>;
+		float mys1 <default = 0, label = "s1", pinId = 106>;
+		float mys2 <default = 0, label = "s2", pinId = 107>;
+		float mys3 <default = 0, label = "s3", pinId = 108>;
+		float myd1 <default = 0, label = "d1", pinId = 109>;
+		float myd2 <default = 0, label = "d2", pinId = 110>;
+		float myd3 <default = 0, label = "d3", pinId = 111>;
+		float myns <default = 0, label = "ns", pinId = 112>;
+		float mye <default = 0, label = "e", pinId = 113>;
+	};
+	float4 samplePortal(MR_Sampler2D aSampler1, MR_Sampler2D aSampler2, MR_Sampler2D aSampler3, 
+		MR_Sampler2D noiseSampler, float t, in float3 aDirection, float intensity, 
+		float s1, float s2, float s3, float d1, float d2, float d3, float ns, float e)
+	{
+		float4 uv;
+		uv.x = atan2( aDirection.z, aDirection.x );
+		uv.x += MR_PI * 2.0 * step( uv.x, 0.0 );
+		uv.z = atan2( aDirection.z, abs( aDirection.x ) );
+		uv /= float4( MR_PI * 2.0, MR_PI, MR_PI * 2.0, MR_PI );
+		uv.yw = length(float3(aDirection.x, 0,aDirection.z));
+		float mask = step(uv.y, 1.0f);
+		uv.yw = 1.0f - saturate(uv.yw);
+		float4 n1 = MR_SampleGrad( noiseSampler, uv.xy + float2(t * ns, 0), ddx( uv.zw ), ddy( uv.zw ) );
+
+		uv.y = pow(uv.y, e);
+		float2 uv1 = uv.xy + float2(t * s1, 0) + (float2(n1.x, n1.x) * d1);
+		float2 uv2 = uv.xy + float2(t * s2, 0) + (float2(n1.y, n1.y) * d2);
+		float2 uv3 = uv.xy + float2(t * s3, 0) + (float2(n1.z, n1.z) * d3);
+		uv1.y = saturate(uv1.y);
+		uv2.y = saturate(uv2.y);
+		uv3.y = saturate(uv3.y);
+
+		float4 c1 = MR_SampleGrad( aSampler1, uv1, ddx( uv.zw ), ddy( uv.zw ) ) * 2.0f;
+		float4 c2 = MR_SampleGrad( aSampler2, uv2, ddx( uv.zw ), ddy( uv.zw ) ) * 1.5f;
+		float4 c3 = MR_SampleGrad( aSampler3, uv3, ddx( uv.zw ), ddy( uv.zw ) );
+
+		float3 color = (c1.xyz + c2.xyz + c3.xyz) * intensity * n1.w;
+		float alpha = c3.w * n1.w;
+		float4 result = float4(color.x, color.y, color.z, alpha) * mask;
+		return result;
+	}
+	main(out float4 colorOut : MR_Color0, float2 Gfx_UV : Gfx_UV0, 
+		CustomData customData : Gfx_CustomData0, float Gfx_AlphaRef : Gfx_AlphaRef0)
+	{
+		float2 mul_68 = Gfx_UV * float2(2, 2);
+		float2 add_69 = mul_68 + float2(-1, -1);
+		float dot_70 = dot(add_69, add_69);
+		float sub_72 = float(1) - dot_70;
+		float3 combine_73 = float3(add_69.x, sub_72, add_69.y);
+		float4 samplePortal_79 = samplePortal(Texture1, Texture2, Texture3, Noise, Gfx_Environment.time, combine_73, customData.myintensity, customData.mys1, customData.mys2, customData.mys3, customData.myd1, customData.myd2, customData.myd3, customData.myns, customData.mye);
+		float3 combine_81 = float3(samplePortal_79.x, samplePortal_79.y, samplePortal_79.z);
+		float saturate_82 = saturate(samplePortal_79.w);
+		if (saturate_82 < Gfx_AlphaRef) discard;
+		float4 result_83 = float4(combine_81, saturate_82);
+		colorOut = result_83;
+	}
+}

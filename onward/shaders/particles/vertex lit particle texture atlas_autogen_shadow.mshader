@@ -1,0 +1,39 @@
+<lightVolume = true, shaderType = "Particle", use4x4Tesselation = true, vertexLighting = F"shaders/nodes/Shader/Particles/Apply Vertex Light.h", >
+import "shaders/nodes/shader/particles/sample texture atlas.h"
+import "shaders/nodes/shader/functions/ow particle intensity multiplier.h"
+import "shaders/nodes/shader/particles/apply vertex light.h"
+import "shaders/nodes/shader/particles/soft.h"
+pixel
+{
+	MR_Sampler2D Texture : MR_Texture0 <pinId = 101>;
+	struct CustomInterpolators {
+		float2 myUV1 <default = 0 0, label = "UV 1", pinId = 201>;
+		float2 myUV2 <default = 0 0, label = "UV 2", pinId = 202>;
+		float myAlpha1 <default = 1, label = "Alpha 1", pinId = 203>;
+		float myAlpha2 <default = 0, label = "Alpha 2", pinId = 204>;
+		float myErosion <default = 0, label = "Erosion", pinId = 208>;
+		float mySmoothness <default = 1, label = "Smoothness", pinId = 209>;
+	};
+	main(out float4 colorOut : MR_Color0, 
+		CustomInterpolators customInterpolators : Gfx_CustomInterpolators0, 
+		float4 Particle_Color : Particle_Color0, float4 Particle_Fog : Particle_Fog0, 
+		float4 Particle_ShaderParams : Particle_ShaderParams0, 
+		float4 MR_FragCoord : MR_FragCoord)
+	{
+		float4 blendColor = vec4(0);
+		float4 SampleTextureAtlas_20 = SampleTextureAtlas(Texture, customInterpolators.myUV1, customInterpolators.myUV2, customInterpolators.myAlpha1, customInterpolators.myAlpha2, false);
+		float add_21 = customInterpolators.myErosion + customInterpolators.mySmoothness;
+		float smoothStep_23 = smoothstep(customInterpolators.myErosion, add_21, SampleTextureAtlas_20.w);
+		float4 combine_24 = float4(SampleTextureAtlas_20.x, SampleTextureAtlas_20.y, SampleTextureAtlas_20.z, smoothStep_23);
+		float4 mul_25 = combine_24 * Particle_Color;
+		float4 OWParticleIntensityMultiplier_26 = OWParticleIntensityMultiplier(mul_25);
+		float4 aLightOut_27;
+		ApplyVertexLight(aLightOut_27, OWParticleIntensityMultiplier_26, Particle_Fog);
+		blendColor += float4(aLightOut_27.xyz, 1) * aLightOut_27.w;
+		float4 colorOut_16;
+		float alphaOut_16;
+		SoftParticle(float4(0, 0, 0, 0), Particle_ShaderParams, MR_FragCoord, colorOut_16, alphaOut_16);
+		blendColor *= alphaOut_16;
+		colorOut = vec4(1 - blendColor.w);
+	}
+}

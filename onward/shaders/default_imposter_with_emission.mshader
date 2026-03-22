@@ -1,0 +1,79 @@
+<emission = true, shaderType = "Object", keywords = { "LIGHT_FROM_GROUND", "IS_MAIN_PLANET", "GFX_FORWARD_SHADER", }, >
+import "shaders/nodes/shader/functions/dither.h"
+import "shaders/nodes/shader/functions/unpack normal.h"
+import "shaders/nodes/shader/functions/onward/lighting/ow_fullgroundbaselighting.h"
+import "shaders/nodes/shader/functions/ow emissive intensity multiplier.h"
+import "shaders/nodes/shader/functions/onward/lighting/ow_groundfog.h"
+pixel
+{
+	MR_Sampler2D BaseColor : MR_Texture0 {
+		texture = "onward/baked/textures/default_b.dds",
+	} <label = "Base Color", pinId = 102>;
+	MR_Sampler2D Normal : MR_Texture1 {
+		texture = "onward/baked/textures/default_n.dds",
+	} <pinId = 103>;
+	MR_Sampler2D Material : MR_Texture2 {
+		texture = "onward/baked/textures/default_m.dds",
+	} <pinId = 104>;
+	struct CustomData {
+		float myEmissionIntensity <default = 0, label = "Emission Intensity", pinId = 113>;
+	};
+	float3 SelectColor(in float3 aColorA, in float3 aColorB, in bool aCond)
+	{
+		return aCond ? aColorA : aColorB;
+	}
+	main(out float4 colorOut : MR_Color0, float2 Gfx_UV : Gfx_UV0, 
+		float2 Gfx_UV1 : Gfx_UV1, float4 MR_FragCoord : MR_FragCoord, 
+		float3x3 Gfx_TangentToWorld : Gfx_TangentToWorld0, 
+		Gfx_LightingDataStruct Gfx_LightingData : Gfx_LightingData0, 
+		CustomData customData : Gfx_CustomData0, 
+		float3 Gfx_WorldSpacePos : Gfx_WorldSpacePos0, 
+		float Gfx_AlphaRef : Gfx_AlphaRef0)
+	{
+		float4 sample_119 = MR_Sample(BaseColor, Gfx_UV);
+		float2 combine_105 = float2(Gfx_UV1.y, Gfx_UV.y);
+		float4 sample_125 = MR_Sample(BaseColor, combine_105);
+		float smoothStep_106 = smoothstep(float(0.25), float(0.75), Gfx_UV1.x);
+		float Dither_107 = Dither(smoothStep_106, MR_FragCoord);
+		float4 smear_108 = float4(Dither_107, Dither_107, Dither_107, Dither_107);
+		float4 lerp_132 = lerp(sample_119, sample_125, smear_108);
+		float3 combine_138 = float3(lerp_132.x, lerp_132.y, lerp_132.z);
+		float4 sample_121 = MR_Sample(Normal, Gfx_UV);
+		float3 normal_123;
+		float ambientOcclusion_123;
+		UnpackNormalAndAO(sample_121, normal_123, ambientOcclusion_123);
+		float3 transform_128 = MR_Transform(Gfx_TangentToWorld, normal_123);
+		float4 sample_127 = MR_Sample(Normal, combine_105);
+		float3 normal_129;
+		float ambientOcclusion_129;
+		UnpackNormalAndAO(sample_127, normal_129, ambientOcclusion_129);
+		float3 transform_131 = MR_Transform(Gfx_TangentToWorld, normal_129);
+		float3 smear_110 = float3(Dither_107, Dither_107, Dither_107);
+		float3 lerp_134 = lerp(transform_128, transform_131, smear_110);
+		float3 normalize_137 = normalize(lerp_134);
+		float4 sample_120 = MR_Sample(Material, Gfx_UV);
+		float4 sample_126 = MR_Sample(Material, combine_105);
+		float4 smear_109 = float4(Dither_107, Dither_107, Dither_107, Dither_107);
+		float4 lerp_133 = lerp(sample_120, sample_126, smear_109);
+		float lerp_130 = lerp(ambientOcclusion_123, ambientOcclusion_129, Dither_107);
+		float3 aLightOut_140;
+		OW_FullBaseGroundLighting(aLightOut_140, combine_138, normalize_137, float(1), lerp_133.y, lerp_133.x, lerp_130, Gfx_LightingData);
+		float3 combine_118 = float3(customData.myEmissionIntensity, customData.myEmissionIntensity, customData.myEmissionIntensity);
+		float4 combine_124 = float4(combine_118.x, combine_118.y, combine_118.z, float(0));
+		float4 combine_142 = float4(lerp_133.z, lerp_133.z, lerp_133.z, lerp_133.z);
+		float4 mul_143 = lerp_132 * combine_142;
+		float4 mul_144 = combine_124 * mul_143;
+		float3 combine_146 = float3(mul_144.x, mul_144.y, mul_144.z);
+		float4 truncate_148 = float4(combine_146.xyz, 1);
+		float4 OWEmissiveIntensityMultiplier_150 = OWEmissiveIntensityMultiplier(truncate_148);
+		float3 truncate_152 = float3(OWEmissiveIntensityMultiplier_150.xyz);
+		float3 SelectColor_154 = SelectColor(truncate_152, combine_146, true);
+		float3 add_156 = aLightOut_140 + SelectColor_154;
+		float3 aColor_158 = add_156;
+		OW_GroundFog(aColor_158, Gfx_WorldSpacePos, MR_FragCoord);
+		float Dither_139 = Dither(lerp_132.w, MR_FragCoord);
+		if (Dither_139 < Gfx_AlphaRef) discard;
+		float4 result_160 = float4(aColor_158, Dither_139);
+		colorOut = result_160;
+	}
+}

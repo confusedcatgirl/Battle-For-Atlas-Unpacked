@@ -1,0 +1,93 @@
+<shaderType = "Object", keywords = { "LIGHT_FROM_GROUND", "IS_MAIN_PLANET", "GFX_FORWARD_SHADER", }, >
+import "shaders/nodes/shader/functions/getplanetposition.h"
+import "shaders/nodes/shader/functions/onward/ow_getterrainlowresalbedo.h"
+import "shaders/nodes/shader/functions/onward/lighting/ow_fullgroundbaselighting.h"
+import "shaders/nodes/shader/functions/onward/lighting/ow_groundfog.h"
+blend {}
+pixel
+{
+	MR_Sampler2D Texture : MR_Texture0 <pinId = 101>;
+	MR_Sampler2D GradientOverlay : MR_Texture1 {
+		wrap = clamp,
+	} <label = "Gradient Overlay", pinId = 110>;
+	struct CustomData {
+		float2 mySize <default = 1 1, label = "Size", pinId = 106>;
+		float mySelector <default = 0, label = "Selector", pinId = 107>;
+	};
+	void textureAtlas(float2 Size, float Selector, float2 InstanceUV, out float2 NewUV1, 
+		out float2 NewUV2, out float Blend1, out float Blend2, float aFlipU, 
+		float aFlipV, float aSwapUV, bool aLooping)
+	{
+		if (aFlipU > 0)
+		   InstanceUV.x = 1-InstanceUV.x;
+		 if (aFlipV > 0)
+		   InstanceUV.y = 1-InstanceUV.y;
+		 if (aSwapUV > 0)
+		 {
+		   float t = InstanceUV.x;
+		   InstanceUV.x = InstanceUV.y;
+		   InstanceUV.y = t;
+		 }
+		 float width = Size.x;
+		 float height = Size.y;
+		 float area = width * height;
+		 float findex;
+		 if (aLooping)
+		 {
+		   float sel = frac(Selector);
+		   findex = area * sel;
+		 }
+		 else
+		 {
+		   findex = ((Selector * (area+1)) - 1);
+		 }
+		 float index1 = floor(findex);
+		 float index2 = index1 + 1;
+		 float row1 = floor(index1 / width);
+		 float row2 = floor(index2 / width);
+		 float col1 = index1 - row1 * width;
+		 float col2 = index2 - row2 * width;
+		 float2 gridPos1 = float2(col1, row1);
+		 float2 gridPos2 = float2(col2, row2);
+		 NewUV1 = (gridPos1 + InstanceUV) / Size;
+		 NewUV2 = (gridPos2 + InstanceUV) / Size;
+		 Blend2 = findex - index1;
+		 Blend1 = 1.0 - Blend2;
+		 if (!aLooping)
+		 {
+		   if (index1 < 0 || index1 >= area) Blend1 = 0;
+		   if (index2 < 0 || index2 >= area) Blend2 = 0;
+		 }
+	}
+	main(out float4 colorOut : MR_Color0, CustomData customData : Gfx_CustomData0, 
+		float2 Gfx_UV : Gfx_UV0, 
+		float3 Gfx_UnflattenedWorldPos : Gfx_UnflattenedWorldPos0, 
+		float3 Gfx_WorldSpaceNormal : Gfx_WorldSpaceNormal0, 
+		Gfx_LightingDataStruct Gfx_LightingData : Gfx_LightingData0, 
+		float3 Gfx_WorldSpacePos : Gfx_WorldSpacePos0, 
+		float4 MR_FragCoord : MR_FragCoord, float Gfx_AlphaRef : Gfx_AlphaRef0)
+	{
+		float mul_81 = customData.mySize.x * customData.mySize.y;
+		float div_82 = customData.mySelector / mul_81;
+		float2 NewUV1_83;
+		float2 NewUV2_83;
+		float Blend1_83;
+		float Blend2_83;
+		textureAtlas(customData.mySize, div_82, Gfx_UV, NewUV1_83, NewUV2_83, Blend1_83, Blend2_83, float(0), float(0), float(0), true);
+		float4 sample_84 = MR_Sample(Texture, NewUV1_83);
+		float2 smear_86 = float2(sample_84.x, sample_84.x);
+		float4 sample_87 = MR_Sample(GradientOverlay, smear_86);
+		float3 GetPlanetPosition_58 = GetPlanetPosition();
+		float3 sub_74 = Gfx_UnflattenedWorldPos - GetPlanetPosition_58;
+		float3 normalize_75 = normalize(sub_74);
+		float3 OW_GetTerrainLowResAlbedo_76 = OW_GetTerrainLowResAlbedo(normalize_75);
+		float3 mul_89 = sample_87.xyz * OW_GetTerrainLowResAlbedo_76;
+		float3 aLightOut_91;
+		OW_FullBaseGroundLighting(aLightOut_91, mul_89, Gfx_WorldSpaceNormal, sample_84.w, float(1), float(0), float(1), Gfx_LightingData);
+		float3 aColor_93 = aLightOut_91;
+		OW_GroundFog(aColor_93, Gfx_WorldSpacePos, MR_FragCoord);
+		if (sample_84.w < Gfx_AlphaRef) discard;
+		float4 result_95 = float4(aColor_93, sample_84.w);
+		colorOut = result_95;
+	}
+}

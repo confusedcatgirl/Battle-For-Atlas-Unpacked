@@ -1,0 +1,31 @@
+<shaderType = "UI", >
+import "shaders/modules/graphics/drawer/drawer.h"
+import "shaders/modules/graphics/ssr_common.h"
+import "shaders/nodes/shader/ui/ui blit effect.h"
+blend {
+	writeMask = rgba,
+	src = 1,
+	src.a = 0,
+}
+pixel
+{
+	MR_Sampler2D Texture : MR_Texture0 <pinId = 105>;
+	struct CustomData {
+		float3 myOffset <default = 0 0 0, label = "Offset", pinId = 107>;
+	};
+	main(out float4 colorOut : MR_Color0, float2 Gfx_UV : Gfx_UV0, 
+		CustomData customData : Gfx_CustomData0)
+	{
+		float4 sample_18 = MR_Sample(Texture, Gfx_UV);
+		float3 combine_21 = float3(sample_18.x, sample_18.y, sample_18.z);
+		float3 add_22 = combine_21 + customData.myOffset;
+		float4 combine_24 = float4(add_22.x, add_22.y, add_22.z, sample_18.w);
+		float4 sample_14 = MR_Sample(SSR_FramebufferOpaque, Gfx_UV);
+		float4 truncate_17 = float4(customData.myOffset.xyz, 1);
+		float4 add_19 = sample_14 + truncate_17;
+		float4 GetBlitEffectColor_25 = GetBlitEffectColor(combine_24, add_19);
+		float4 finalColor = vec4(0);
+		finalColor = BlendColor(GetBlitEffectColor_25, float(0));
+		colorOut = finalColor;
+	}
+}

@@ -1,0 +1,40 @@
+<shaderType = "Particle">
+import "shaders/nodes/shader/particles/soft.h"
+blend {
+	src = 1,
+	dest = 1,
+}
+pixel
+{
+	MR_Sampler2D Add : MR_Texture0 <pinId = 101>;
+	MR_Sampler2D Gradient : MR_Texture1 {
+		wrap = clamp,
+	} <pinId = 102>;
+	struct CustomInterpolators {
+		float myIntensity <default = 1, label = "Intensity", pinId = 201>;
+		float myGradientV <default = 0.5, label = "Gradient V", pinId = 202>;
+	};
+	main(out float4 colorOut : MR_Color0, 
+		float2 Particle_InstanceUV : Particle_InstanceUV0, 
+		CustomInterpolators customInterpolators : Gfx_CustomInterpolators0, 
+		float4 Particle_Color : Particle_Color0, 
+		float4 Particle_ShaderParams : Particle_ShaderParams0, 
+		float4 MR_FragCoord : MR_FragCoord)
+	{
+		float4 result43 = vec4(0);
+		float4 sample_36 = MR_Sample(Add, Particle_InstanceUV);
+		float2 combine_40 = float2(sample_36.x, customInterpolators.myGradientV);
+		float4 sample_41 = MR_Sample(Gradient, combine_40);
+		float4 smear_29 = float4(customInterpolators.myIntensity, customInterpolators.myIntensity, customInterpolators.myIntensity, customInterpolators.myIntensity);
+		float4 mul_30 = Particle_Color * smear_29;
+		float saturate_32 = saturate(mul_30.w);
+		float4 combine_33 = float4(mul_30.x, mul_30.y, mul_30.z, saturate_32);
+		float4 mul_42 = sample_41 * combine_33;
+		result43 += float4(mul_42.xyz * mul_42.w, 0);
+		float4 colorOut_26;
+		float alphaOut_26;
+		SoftParticle(float4(0, 0, 0, 0), Particle_ShaderParams, MR_FragCoord, colorOut_26, alphaOut_26);
+		result43 *= alphaOut_26;
+		colorOut = result43;
+	}
+}

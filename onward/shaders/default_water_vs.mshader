@@ -1,0 +1,35 @@
+<shaderType = "Vertex">
+import "shaders/nodes/shader/functions/onward/planet/ow_watermodifiers.h"
+vertex
+{
+	void ModelSpaceModifier(inout float3 Gfx_ModelSpacePos : Gfx_ModelSpacePos, 
+		float3x4 Gfx_ObjectToWorldMatrix : Gfx_ObjectToWorldMatrix0)
+	{
+		float3x4 aWorldMatrixOut_3;
+		float3 aModelSpacePositionOut_3;
+		OW_WaterModifiers(Gfx_ObjectToWorldMatrix, Gfx_ModelSpacePos, aWorldMatrixOut_3, aModelSpacePositionOut_3);
+		Gfx_ModelSpacePos = aModelSpacePositionOut_3;
+	}
+	void ObjectToWorldModifier(inout float3x4 Gfx_GeneratedObjectToWorldMatrix : Gfx_GeneratedObjectToWorldMatrix, 
+		float3 Gfx_ModelSpacePos : Gfx_ModelSpacePos0, 
+		float3x4 Gfx_ObjectToWorldMatrix : Gfx_ObjectToWorldMatrix0)
+	{
+		float3x4 aWorldMatrixOut_3;
+		float3 aModelSpacePositionOut_3;
+		OW_WaterModifiers(Gfx_ObjectToWorldMatrix, Gfx_ModelSpacePos, aWorldMatrixOut_3, aModelSpacePositionOut_3);
+		Gfx_GeneratedObjectToWorldMatrix = aWorldMatrixOut_3;
+	}
+	void ModelSpaceNormalModifier(inout float3 Gfx_ModelSpaceNormal : Gfx_ModelSpaceNormal, 
+		float3 Gfx_ModelSpacePos : Gfx_ModelSpacePos0)
+	{
+		float3 normalize_4 = normalize(Gfx_ModelSpacePos);
+		Gfx_ModelSpaceNormal = normalize_4;
+	}
+	main(float3x4 Gfx_ObjectToWorldMatrix : Gfx_ObjectToWorldMatrix0, 
+		inout float3 Gfx_ModelSpacePos : Gfx_ModelSpacePos <modifier = "ModelSpaceModifier">, 
+		inout float3x4 Gfx_GeneratedObjectToWorldMatrix : Gfx_GeneratedObjectToWorldMatrix <modifier = "ObjectToWorldModifier">, 
+		inout float3 Gfx_ModelSpaceNormal : Gfx_ModelSpaceNormal <modifier = "ModelSpaceNormalModifier">)
+	{
+		// dummy comment so the shader writer does save this out
+	}
+}

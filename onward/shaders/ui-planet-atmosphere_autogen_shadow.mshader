@@ -1,0 +1,26 @@
+<keywords = { "GFX_SHADOW_SHADER", }, >
+import "shaders/MRender/MR_ViewConstants.h"
+pixel
+{
+	struct CustomData {
+		float myAtmospheresmoothstepmin <default = 0.2, label = "Atmosphere smoothstep min", pinId = 104>;
+		float myAtmospheresmoothstepmax <default = 0.5, label = "Atmosphere smoothstep max", pinId = 105>;
+		float myIntensity <default = 1, label = "Intensity", pinId = 106>;
+		float3 myLocalsundirection <default = 1 0 0, label = "Local sun direction", pinId = 107>;
+	};
+	main(out float4 colorOut : MR_Color0, CustomData customData : Gfx_CustomData0, 
+		float3x4 Gfx_WorldToObjectMatrix : Gfx_WorldToObjectMatrix0, 
+		float3 Gfx_ModelSpacePos : Gfx_ModelSpacePos0, 
+		float Gfx_AlphaRef : Gfx_AlphaRef0)
+	{
+		float3 transform_52 = MR_Transform(Gfx_WorldToObjectMatrix, MR_ViewConstants.LODCameraPosition);
+		float3 sub_58 = transform_52 - Gfx_ModelSpacePos;
+		float3 normalize_59 = normalize(sub_58);
+		float3 normalize_54 = normalize(Gfx_ModelSpacePos);
+		float dot_60 = dot(normalize_59, normalize_54);
+		float smoothStep_70 = smoothstep(customData.myAtmospheresmoothstepmin, customData.myAtmospheresmoothstepmax, dot_60);
+		if (smoothStep_70 < Gfx_AlphaRef) discard;
+		float4 shadowResult = float4(0.0, 0.0, 0.0, smoothStep_70);
+		colorOut = shadowResult;
+	}
+}

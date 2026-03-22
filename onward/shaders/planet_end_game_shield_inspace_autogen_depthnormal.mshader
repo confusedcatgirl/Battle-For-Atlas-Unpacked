@@ -1,0 +1,88 @@
+<keywords = { "GFX_DEPTH_SHADER", }, >
+import "shaders/modules/graphics/environment.h"
+import "shaders/MRender/MR_ViewConstants.h"
+pixel
+{
+	MR_Sampler2D BaseTexture : MR_Texture0 {
+		texture = "onward/baked/textures/shield_pattern_b.dds",
+	} <label = "Base Texture", pinId = 116>;
+	MR_Sampler2D Visibilitymap : MR_Texture1 <label = "Visibility map", pinId = 117>;
+	struct CustomData {
+		float2 myUVTiling <default = 1 1, label = "UV Tiling", pinId = 114>;
+		float4 myColor <config = { type = "ColorBox", }, default = 0 1 0.854993 0.87451, label = "Color", pinId = 107>;
+		float myEmission <default = 50, label = "Emission", pinId = 108>;
+		float myAnimationspeed <default = 0, label = "Animationspeed", pinId = 112>;
+		float myRelativedistance <default = 0.002, label = "Relative distance", pinId = 113>;
+		float myvisiblerange <default = 0.1, label = "visible range", pinId = 109>;
+		float myFalloff <config = { max = 0.99, min = 0, type = "Slider", }, default = 0.443886, label = "Falloff", pinId = 110>;
+		float myAlpha <config = { max = 1, min = 0, type = "Slider", }, default = 0, label = "Alpha", pinId = 111>;
+		float myFresnel <config = { max = 1, min = 0, type = "Slider", }, default = 0, label = "Fresnel", pinId = 119>;
+		float myMinimalAlphaBlend <config = { max = 2, min = 0, }, default = 0, label = "Minimal Alpha Blend", pinId = 120>;
+		float myFadeOutStart <default = 100000, label = "Fade Out Start", pinId = 121>;
+		float myFadeOutEnd <default = 300000, label = "Fade Out End", pinId = 122>;
+	};
+	main(out float4 colorOut : MR_Color0, float2 Gfx_UV : Gfx_UV0, 
+		CustomData customData : Gfx_CustomData0, 
+		float3 Gfx_WorldSpacePos : Gfx_WorldSpacePos0, float2 Gfx_UV1 : Gfx_UV1, 
+		float3 Gfx_WorldSpaceNormal : Gfx_WorldSpaceNormal0, 
+		float Gfx_AlphaRef : Gfx_AlphaRef0, 
+		float3 Gfx_CameraSpacePos : Gfx_CameraSpacePos0)
+	{
+		float2 mul_97 = Gfx_UV * customData.myUVTiling;
+		float4 sample_104 = MR_Sample(BaseTexture, mul_97);
+		float mul_113 = sample_104.y * sample_104.w;
+		float3 truncate_103 = float3(mul_97.xy, 0);
+		float mul_112 = truncate_103.y * float(1);
+		float mul_99 = Gfx_Environment.time * customData.myAnimationspeed;
+		float add_114 = mul_112 + mul_99;
+		float sin_115 = sin(add_114);
+		float add_118 = sin_115 + float(1);
+		float mul_120 = add_118 * float(0.5);
+		float4 gradient_122;
+		gradient_122 = float4(pow(abs(0), 1/2.2f), pow(abs(0), 1/2.2f), pow(abs(0), 1/2.2f), 1);
+		gradient_122.xyz = lerp(gradient_122.xyz, float4(pow(abs(0.164069), 1/2.2f), pow(abs(0.164059), 1/2.2f), pow(abs(0.164079), 1/2.2f), 1).xyz, saturate((mul_120 - 0) / 0.192857));
+		gradient_122.xyz = lerp(gradient_122.xyz, float4(pow(abs(0.0366355), 1/2.2f), pow(abs(0.0366255), 1/2.2f), pow(abs(0.0366455), 1/2.2f), 1).xyz, saturate((mul_120 - 0.192857) / 0.138095));
+		gradient_122.xyz = lerp(gradient_122.xyz, float4(pow(abs(1.00002), 1/2.2f), pow(abs(1.00001), 1/2.2f), pow(abs(1.00003), 1/2.2f), 1).xyz, saturate((mul_120 - 0.330952) / 0.128572));
+		gradient_122.xyz = lerp(gradient_122.xyz, float4(pow(abs(0.0043909), 1/2.2f), pow(abs(0.0043809), 1/2.2f), pow(abs(0.0044009), 1/2.2f), 1).xyz, saturate((mul_120 - 0.459524) / 0.142857));
+		gradient_122.xyz = lerp(gradient_122.xyz, float4(pow(abs(1.00002), 1/2.2f), pow(abs(1.00001), 1/2.2f), pow(abs(1.00003), 1/2.2f), 1).xyz, saturate((mul_120 - 0.602381) / 0.154762));
+		gradient_122.xyz = lerp(gradient_122.xyz, float4(pow(abs(0.0328819), 1/2.2f), pow(abs(0.0328719), 1/2.2f), pow(abs(0.0328919), 1/2.2f), 1).xyz, saturate((mul_120 - 0.757143) / 0.109524));
+		gradient_122.xyz = lerp(gradient_122.xyz, float4(pow(abs(1.00002), 1/2.2f), pow(abs(1.00001), 1/2.2f), pow(abs(1.00003), 1/2.2f), 1).xyz, saturate((mul_120 - 0.866667) / 0.133333));
+		gradient_122.xyz = pow(abs(gradient_122.xyz), vec3(2.2));
+		float mul_125 = gradient_122.x * float(0.3);
+		float add_127 = mul_113 + mul_125;
+		float add_129 = sample_104.x + add_127;
+		float4 combine_131 = float4(add_129, add_129, add_129, add_129);
+		float4 transform_84 = MR_Transform(MR_ViewConstants.cameraToWorld, float4(0, 0, 0, 1));
+		float3 truncate_86 = float3(transform_84.xyz);
+		float3 sub_88 = truncate_86 - Gfx_WorldSpacePos;
+		float length_90 = length(sub_88);
+		float mul_106 = customData.myRelativedistance * float(0.001);
+		float mul_117 = length_90 * mul_106;
+		float sub_107 = float(1) - customData.myFalloff;
+		float mul_111 = customData.myvisiblerange * sub_107;
+		float4 sample_102 = MR_Sample(Visibilitymap, Gfx_UV1);
+		float4 transform_85 = MR_Transform(MR_ViewConstants.cameraToWorld, float4(0, 0, 0, 1));
+		float3 truncate_87 = float3(transform_85.xyz);
+		float3 sub_89 = truncate_87 - Gfx_WorldSpacePos;
+		float3 normalize_91 = normalize(sub_89);
+		float3 normalize_76 = normalize(Gfx_WorldSpaceNormal);
+		float dot_92 = dot(normalize_91, normalize_76);
+		float saturate_93 = saturate(dot_92);
+		float sub_94 = float(1) - saturate_93;
+		float pow_95 = pow(abs(sub_94), float(5));
+		float remap_119 = float(1) + saturate((mul_117 - customData.myvisiblerange) / (mul_111 - customData.myvisiblerange)) * (float(0) - float(1));
+		float mul_121 = remap_119 * customData.myFresnel;
+		float mul_124 = pow_95 * mul_121;
+		float add_126 = sample_102.x + mul_124;
+		float clamp_128 = clamp(add_126, float(0), float(1));
+		float remap_130 = clamp_128 + saturate((mul_117 - customData.myvisiblerange) / (mul_111 - customData.myvisiblerange)) * (float(1) - clamp_128);
+		float smoothStep_116 = smoothstep(customData.myFadeOutEnd, customData.myFadeOutStart, length_90);
+		float mul_132 = remap_130 * smoothStep_116;
+		float mul_135 = combine_131.x * mul_132;
+		float mul_136 = mul_135 * customData.myAlpha;
+		float clamp_139 = clamp(mul_136, customData.myMinimalAlphaBlend, float(1));
+		if (clamp_139 < Gfx_AlphaRef) discard;
+		float4 depthResult = float4(Gfx_CameraSpacePos.z, 0, 0, clamp_139);
+		colorOut = depthResult;
+	}
+}

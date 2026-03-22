@@ -1,0 +1,21 @@
+<shaderType = "UI", >
+import "shaders/modules/graphics/drawer/drawer.h"
+blend {
+	writeMask = rgba,
+	src = 1,
+	src.a = 0,
+}
+pixel
+{
+	main(out float4 colorOut : MR_Color0, float2 Gfx_UV : Gfx_UV0)
+	{
+		float smoothStep_16 = smoothstep(float(0), float(0.4), Gfx_UV.x);
+		float smoothStep_17 = smoothstep(float(0.6), float(1), Gfx_UV.x);
+		float sub_19 = float(1) - smoothStep_17;
+		float mul_20 = smoothStep_16 * sub_19;
+		float4 combine_21 = float4(float3(0, 0, 0).x, float3(0, 0, 0).y, float3(0, 0, 0).z, mul_20);
+		float4 finalColor = vec4(0);
+		finalColor = BlendColor(combine_21, float(0));
+		colorOut = finalColor;
+	}
+}

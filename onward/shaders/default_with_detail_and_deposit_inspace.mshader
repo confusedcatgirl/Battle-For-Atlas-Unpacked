@@ -1,0 +1,128 @@
+<shaderType = "Object", keywords = { "LIGHT_FROM_SPACE", "ISNT_MAIN_PLANET", "GFX_FORWARD_SHADER", }, >
+import "shaders/nodes/shader/functions/unpack normal.h"
+import "shaders/MRender/MR_ViewConstants.h"
+import "shaders/nodes/shader/functions/onward/lighting/ow_fullspacebaselighting.h"
+import "shaders/nodes/shader/functions/onward/lighting/ow_spacefog.h"
+pixel
+{
+	MR_Sampler2D BaseColor : MR_Texture0 {
+		texture = "onward/baked/textures/default_b.dds",
+	} <label = "Base Color", pinId = 102>;
+	MR_Sampler2D Normal : MR_Texture1 {
+		texture = "onward/baked/textures/default_n.dds",
+	} <pinId = 103>;
+	MR_Sampler2D Material : MR_Texture2 {
+		texture = "onward/baked/textures/default_m.dds",
+	} <pinId = 104>;
+	MR_Sampler2D Detail : MR_Texture3 <pinId = 107>;
+	MR_Sampler2D DepositColor : MR_Texture4 {
+		texture = "onward/baked/textures/default_b.dds",
+	} <label = "Deposit Color", pinId = 112>;
+	MR_Sampler2D DepositNormal : MR_Texture5 {
+		texture = "onward/baked/textures/default_n.dds",
+	} <label = "Deposit Normal", pinId = 114>;
+	MR_Sampler2D DepositMaterial : MR_Texture6 {
+		texture = "onward/baked/textures/default_m.dds",
+	} <label = "Deposit Material", pinId = 115>;
+	struct CustomData {
+		float2 myDetailScale <default = 30 30, label = "DetailScale", pinId = 108>;
+		float myStrength <default = 1, label = "Strength", pinId = 109>;
+		float myadjustDistance <default = 1, label = "adjustDistance", pinId = 110>;
+		float myfalloffCurve <default = 2, label = "falloffCurve", pinId = 111>;
+		float3 myDepositColorTint <config = { type = "ColorBox", }, default = 1 1 1, label = "Deposit Color Tint", pinId = 113>;
+		float myDepositTilingU <default = 1, label = "Deposit Tiling U", pinId = 116>;
+		float myDepositTilingV <default = 1, label = "Deposit Tiling V", pinId = 117>;
+		float myBlendOpacity <config = { max = 1, min = 0, type = "Slider", }, default = 1, label = "Blend Opacity", pinId = 118>;
+		float myBlendContrast <config = { max = 20, min = 1, type = "Slider", }, default = 1, label = "Blend Contrast", pinId = 119>;
+		float myBlendCoverage <config = { max = 1, min = 0, type = "Slider", }, default = 0.048951, label = "Blend Coverage", pinId = 120>;
+		float myDepositRoughness <default = 1, label = "Deposit Roughness ", pinId = 123>;
+	};
+	float3 GetBump(float height, float adjustDistance, float falloffCurve, float strength, 
+		float2 cameraPos)
+	{
+		float2 cameraDD = float2(ddx_fine(cameraPos.x), ddy_fine(cameraPos.y));
+		 float distanceDD = length(cameraDD);
+		 
+		 float adjustStrength = adjustDistance/distanceDD;
+
+		 adjustStrength = pow(abs(adjustStrength),  falloffCurve);
+
+		 float3 result = float3(-ddx_fine(height), ddy_fine(height), 0) * adjustStrength * 0.001f * strength;
+		 result.z = 1.0f;
+		 return  normalize(result);
+	}
+	main(out float4 colorOut : MR_Color0, float2 Gfx_UV : Gfx_UV0, 
+		CustomData customData : Gfx_CustomData0, 
+		float3 Gfx_WorldSpaceNormal : Gfx_WorldSpaceNormal0, 
+		float3x3 Gfx_TangentToWorld : Gfx_TangentToWorld0, 
+		float4 Gfx_Color : Gfx_Color0, float3 Gfx_CameraSpacePos : Gfx_CameraSpacePos0, 
+		Gfx_LightingDataStruct Gfx_LightingData : Gfx_LightingData0, 
+		float3 Gfx_WorldSpacePos : Gfx_WorldSpacePos0, 
+		float4 MR_FragCoord : MR_FragCoord, float Gfx_AlphaRef : Gfx_AlphaRef0)
+	{
+		float4 sample_143 = MR_Sample(BaseColor, Gfx_UV);
+		float3 truncate_150 = float3(sample_143.xyz);
+		float2 combine_141 = float2(customData.myDepositTilingU, customData.myDepositTilingV);
+		float2 mul_142 = Gfx_UV * combine_141;
+		float4 sample_147 = MR_Sample(DepositColor, mul_142);
+		float3 truncate_153 = float3(sample_147.xyz);
+		float3 mul_159 = truncate_153 * customData.myDepositColorTint;
+		float dot_129 = dot(float3(0, 1, 0), Gfx_WorldSpaceNormal);
+		float saturate_131 = saturate(dot_129);
+		float add_162 = customData.myBlendCoverage + saturate_131;
+		float pow_166 = pow(add_162, customData.myBlendContrast);
+		float saturate_170 = saturate(pow_166);
+		float mul_173 = customData.myBlendOpacity * saturate_170;
+		float saturate_176 = saturate(mul_173);
+		float3 smear_181 = float3(saturate_176, saturate_176, saturate_176);
+		float3 lerp_187 = lerp(truncate_150, mul_159, smear_181);
+		float4 truncate_195 = float4(lerp_187.xyz, 1);
+		float3 combine_207 = float3(truncate_195.x, truncate_195.y, truncate_195.z);
+		float4 sample_145 = MR_Sample(Normal, Gfx_UV);
+		float3 normal_151;
+		float ambientOcclusion_151;
+		UnpackNormalAndAO(sample_145, normal_151, ambientOcclusion_151);
+		float3 transform_156 = MR_Transform(Gfx_TangentToWorld, normal_151);
+		float4 sample_148 = MR_Sample(DepositNormal, mul_142);
+		float3 normal_154;
+		float ambientOcclusion_154;
+		UnpackNormalAndAO(sample_148, normal_154, ambientOcclusion_154);
+		float3 transform_160 = MR_Transform(Gfx_TangentToWorld, normal_154);
+		float3 smear_179 = float3(saturate_176, saturate_176, saturate_176);
+		float3 lerp_185 = lerp(transform_156, transform_160, smear_179);
+		float4 combine_200 = float4(lerp_185.x, lerp_185.y, lerp_185.z, float(0));
+		float4 transform_206 = MR_Transform(MR_ViewConstants.worldToCamera, combine_200);
+		float dot_210 = dot(transform_206, float4(0, 0, 1, 0));
+		float saturate_215 = saturate(-dot_210);
+		float3 smear_217 = float3(saturate_215, saturate_215, saturate_215);
+		float2 mul_137 = customData.myDetailScale * Gfx_UV;
+		float4 sample_146 = MR_Sample(Detail, mul_137);
+		float4 mul_152 = Gfx_Color * sample_146;
+		float add_164 = mul_152.z + mul_152.w;
+		float add_168 = mul_152.y + add_164;
+		float add_172 = mul_152.x + add_168;
+		float2 truncate_114 = float2(Gfx_CameraSpacePos.xy);
+		float3 GetBump_175 = GetBump(add_172, customData.myadjustDistance, customData.myfalloffCurve, customData.myStrength, truncate_114);
+		float4 combine_184 = float4(GetBump_175.x, GetBump_175.y, float(0.01), float(0));
+		float4 transform_192 = MR_Transform(MR_ViewConstants.cameraToWorld, combine_184);
+		float3 combine_205 = float3(transform_192.x, transform_192.y, transform_192.z);
+		float3 mul_219 = smear_217 * combine_205;
+		float3 add_221 = lerp_185 + mul_219;
+		float3 normalize_223 = normalize(add_221);
+		float4 sample_144 = MR_Sample(Material, Gfx_UV);
+		float4 sample_149 = MR_Sample(DepositMaterial, mul_142);
+		float mul_161 = sample_149.y * customData.myDepositRoughness;
+		float clamp_165 = clamp(mul_161, float(0), float(1));
+		float4 combine_169 = float4(sample_149.x, clamp_165, sample_149.z, sample_149.w);
+		float4 smear_180 = float4(saturate_176, saturate_176, saturate_176, saturate_176);
+		float4 lerp_186 = lerp(sample_144, combine_169, smear_180);
+		float lerp_182 = lerp(ambientOcclusion_151, ambientOcclusion_154, saturate_176);
+		float3 aLightOut_225;
+		OW_FullBaseSpaceLighting(aLightOut_225, combine_207, normalize_223, float(1), lerp_186.y, lerp_186.x, lerp_182, Gfx_LightingData);
+		float3 aColor_227 = aLightOut_225;
+		OW_SpaceFog(aColor_227, Gfx_WorldSpacePos, MR_FragCoord);
+		if (truncate_195.w < Gfx_AlphaRef) discard;
+		float4 result_230 = float4(aColor_227, truncate_195.w);
+		colorOut = result_230;
+	}
+}

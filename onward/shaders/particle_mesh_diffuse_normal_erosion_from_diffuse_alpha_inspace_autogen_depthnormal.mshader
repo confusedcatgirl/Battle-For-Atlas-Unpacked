@@ -1,0 +1,46 @@
+<keywords = { "HAS_OPACITY", "LIGHT_FROM_SPACE", "ISNT_MAIN_PLANET", "GFX_DEPTH_SHADER", }, >
+import "shaders/modules/graphics/environment.h"
+pixel
+{
+	MR_Sampler2D BaseColor : MR_Texture0 {
+		texture = "onward/baked/textures/default_b.dds",
+	} <label = "Base Color", pinId = 102>;
+	struct CustomData {
+		float2 myBaseColorUVScale <default = 1 1, label = "Base Color UV Scale", pinId = 107>;
+		float2 myDiffuseUVSpeed <default = 0 0, label = "Diffuse UV Speed", pinId = 108>;
+		float myErosion <default = 0, label = "Erosion", pinId = 118>;
+		float myIntensity <default = 1, label = "Intensity ", pinId = 120>;
+		float myUseUnscaledGameTime <default = 0, label = "Use Unscaled Game Time", pinId = 122>;
+		float myUnscaledGameTime <default = 0, label = "Unscaled Game Time", pinId = 121>;
+	};
+	main(out float4 colorOut : MR_Color0, CustomData customData : Gfx_CustomData0, 
+		float2 Gfx_UV : Gfx_UV0, float4 Gfx_Color : Gfx_Color0, 
+		float Gfx_AlphaRef : Gfx_AlphaRef0, 
+		float3 Gfx_CameraSpacePos : Gfx_CameraSpacePos0)
+	{
+		float lerp_118 = lerp(Gfx_Environment.time, customData.myUnscaledGameTime, customData.myUseUnscaledGameTime);
+		float mul_120 = lerp_118 * customData.myDiffuseUVSpeed.x;
+		float2 sub_109 = Gfx_UV - float2(0.5, 0.5);
+		float mul_124 = lerp_118 * float(0);
+		float add_126 = float(0) + mul_124;
+		float sinAngle_128 = sin(add_126);
+		float cosAngle_128 = cos(add_126);
+		float2x2 rotMat_128 = { cosAngle_128, -sinAngle_128, sinAngle_128, cosAngle_128 };
+		float2 rot2d_128 = MR_Transform(rotMat_128, sub_109);
+		float2 add_130 = rot2d_128 + float2(0.5, 0.5);
+		float2 mul_132 = add_130 * customData.myBaseColorUVScale;
+		float2 add_134 = mul_132 + float2(0, 0);
+		float add_138 = mul_120 + add_134.x;
+		float mul_121 = lerp_118 * customData.myDiffuseUVSpeed.y;
+		float add_139 = mul_121 + add_134.y;
+		float2 combine_142 = float2(add_138, add_139);
+		float4 sample_144 = MR_Sample(BaseColor, combine_142);
+		float mul_149 = sample_144.w * Gfx_Color.y;
+		float sub_152 = mul_149 - customData.myErosion;
+		float smoothStep_155 = smoothstep(float(0), float(1), sub_152);
+		float clamp_158 = clamp(smoothStep_155, float(0), float(1));
+		if (clamp_158 < Gfx_AlphaRef) discard;
+		float4 depthResult = float4(Gfx_CameraSpacePos.z, 0, 0, clamp_158);
+		colorOut = depthResult;
+	}
+}

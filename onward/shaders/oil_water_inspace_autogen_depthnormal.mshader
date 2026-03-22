@@ -1,0 +1,123 @@
+<keywords = { "HAS_OPACITY", "LIGHT_FROM_SPACE", "ISNT_MAIN_PLANET", "GFX_DEPTH_SHADER", }, >
+import "shaders/nodes/shader/functions/onward/planet/ow_waterconstants.h"
+import "shaders/nodes/shader/functions/onward/ow_getterrainlowresradius.h"
+import "shaders/modules/graphics/environment.h"
+import "shaders/nodes/shader/functions/unpack normal.h"
+import "shaders/nodes/shader/functions/onward/planet/ow_waterdithering.h"
+pixel
+{
+	MR_Sampler2D NormalWithFoam : MR_Texture0 {
+		texture = "onward/baked/textures/water_with_foam_n.dds",
+	} <pinId = 108>;
+	struct CustomData {
+		float3 myColor <config = { type = "ColorBox", }, default = 0 0 0, label = "Color", pinId = 107>;
+		float2 myNormalTililng <default = 1 1, label = "Normal Tililng", pinId = 111>;
+		float2 myNoisetiling <default = 1 1, label = "Noise tiling", pinId = 110>;
+		float3 mySpeed <default = 3 1 0.5, label = "Speed", pinId = 112>;
+		float myHeightBias <default = 0, label = "Height Bias", pinId = 113>;
+		float myDepth <default = 2, label = "Depth", pinId = 114>;
+		float myFoamDepth <default = 2, label = "Foam Depth", pinId = 115>;
+		float3 myFoamColor <config = { type = "ColorBox", }, default = 0 0 0, label = "Foam Color", pinId = 116>;
+	};
+	main(out float4 colorOut : MR_Color0, CustomData customData : Gfx_CustomData0, 
+		float3 Gfx_ModelSpacePos : Gfx_ModelSpacePos0, 
+		float3 Gfx_ModelSpaceNormal : Gfx_ModelSpaceNormal0, 
+		float3 Gfx_WorldSpacePos : Gfx_WorldSpacePos0, 
+		float4 MR_FragCoord : MR_FragCoord, float Gfx_AlphaRef : Gfx_AlphaRef0, 
+		float3 Gfx_CameraSpacePos : Gfx_CameraSpacePos0)
+	{
+		float aRadius_96;
+		OW_GetWaterConstants(aRadius_96);
+		float add_214 = customData.myHeightBias + aRadius_96;
+		float3 normalize_131 = normalize(Gfx_ModelSpacePos);
+		float OW_GetTerrainLowResRadius_182 = OW_GetTerrainLowResRadius(normalize_131);
+		float sub_219 = add_214 - OW_GetTerrainLowResRadius_182;
+		float smoothStep_227 = smoothstep(float(0), float(0.05), sub_219);
+		float smoothStep_228 = smoothstep(float(0), float(0.05), sub_219);
+		float smoothStep_226 = smoothstep(customData.myFoamDepth, float(0), sub_219);
+		float mul_236 = smoothStep_228 * smoothStep_226;
+		float lerp_243 = lerp(float(3), float(0), mul_236);
+		float2 combine_180 = float2(Gfx_ModelSpacePos.z, Gfx_ModelSpacePos.y);
+		float2 mul_218 = combine_180 * customData.myNormalTililng;
+		float mul_181 = Gfx_Environment.time * float(0.002);
+		float3 smear_194 = float3(mul_181, mul_181, mul_181);
+		float3 mul_223 = customData.mySpeed * smear_194;
+		float2 combine_237 = float2(mul_223.x, float(0));
+		float2 add_244 = mul_218 + combine_237;
+		float4 sample_251 = MR_Sample(NormalWithFoam, add_244);
+		float3 normal_260;
+		float ambientOcclusion_260;
+		UnpackNormalAndAO(sample_251, normal_260, ambientOcclusion_260);
+		float2 combine_247 = float2(-mul_223.x, -mul_223.y);
+		float2 add_254 = mul_218 + combine_247;
+		float4 sample_263 = MR_Sample(NormalWithFoam, add_254);
+		float3 normal_272;
+		float ambientOcclusion_272;
+		UnpackNormalAndAO(sample_263, normal_272, ambientOcclusion_272);
+		float add_278 = ambientOcclusion_260 + ambientOcclusion_272;
+		float2 combine_241 = float2(-mul_223.z, mul_223.z);
+		float2 add_248 = mul_218 + combine_241;
+		float4 sample_257 = MR_Sample(NormalWithFoam, add_248);
+		float3 normal_266;
+		float ambientOcclusion_266;
+		UnpackNormalAndAO(sample_257, normal_266, ambientOcclusion_266);
+		float add_285 = add_278 + ambientOcclusion_266;
+		float3 abs_125 = abs(Gfx_ModelSpaceNormal);
+		float3 combine_176 = float3(float(23.4554), float(23.4554), float(23.4554));
+		float3 pow_177 = pow(abs(abs_125), combine_176);
+		float3 normalize_193 = normalize(pow_177);
+		float add_198 = normalize_193.x + normalize_193.y;
+		float add_199 = add_198 + normalize_193.z;
+		float3 combine_200 = float3(add_199, add_199, add_199);
+		float3 div_201 = normalize_193 / combine_200;
+		float mul_292 = add_285 * div_201.x;
+		float2 combine_178 = float2(Gfx_ModelSpacePos.x, Gfx_ModelSpacePos.z);
+		float2 mul_216 = combine_178 * customData.myNormalTililng;
+		float2 add_245 = mul_216 + combine_237;
+		float4 sample_252 = MR_Sample(NormalWithFoam, add_245);
+		float3 normal_261;
+		float ambientOcclusion_261;
+		UnpackNormalAndAO(sample_252, normal_261, ambientOcclusion_261);
+		float2 add_255 = mul_216 + combine_247;
+		float4 sample_264 = MR_Sample(NormalWithFoam, add_255);
+		float3 normal_273;
+		float ambientOcclusion_273;
+		UnpackNormalAndAO(sample_264, normal_273, ambientOcclusion_273);
+		float add_280 = ambientOcclusion_261 + ambientOcclusion_273;
+		float2 add_249 = mul_216 + combine_241;
+		float4 sample_258 = MR_Sample(NormalWithFoam, add_249);
+		float3 normal_267;
+		float ambientOcclusion_267;
+		UnpackNormalAndAO(sample_258, normal_267, ambientOcclusion_267);
+		float add_287 = add_280 + ambientOcclusion_267;
+		float mul_294 = add_287 * div_201.y;
+		float add_299 = mul_292 + mul_294;
+		float2 combine_179 = float2(Gfx_ModelSpacePos.x, Gfx_ModelSpacePos.y);
+		float2 mul_217 = combine_179 * customData.myNormalTililng;
+		float2 add_246 = mul_217 + combine_237;
+		float4 sample_253 = MR_Sample(NormalWithFoam, add_246);
+		float3 normal_262;
+		float ambientOcclusion_262;
+		UnpackNormalAndAO(sample_253, normal_262, ambientOcclusion_262);
+		float2 add_256 = mul_217 + combine_247;
+		float4 sample_265 = MR_Sample(NormalWithFoam, add_256);
+		float3 normal_274;
+		float ambientOcclusion_274;
+		UnpackNormalAndAO(sample_265, normal_274, ambientOcclusion_274);
+		float add_282 = ambientOcclusion_262 + ambientOcclusion_274;
+		float2 add_250 = mul_217 + combine_241;
+		float4 sample_259 = MR_Sample(NormalWithFoam, add_250);
+		float3 normal_268;
+		float ambientOcclusion_268;
+		UnpackNormalAndAO(sample_259, normal_268, ambientOcclusion_268);
+		float add_289 = add_282 + ambientOcclusion_268;
+		float mul_296 = add_289 * div_201.z;
+		float add_302 = add_299 + mul_296;
+		float smoothStep_307 = smoothstep(lerp_243, float(3.01), add_302);
+		float add_313 = smoothStep_227 + smoothStep_307;
+		float OW_WaterDithering_321 = OW_WaterDithering(add_313, Gfx_WorldSpacePos, MR_FragCoord);
+		if (OW_WaterDithering_321 < Gfx_AlphaRef) discard;
+		float4 depthResult = float4(Gfx_CameraSpacePos.z, 0, 0, OW_WaterDithering_321);
+		colorOut = depthResult;
+	}
+}

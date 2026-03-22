@@ -1,0 +1,43 @@
+<shaderType = "Vertex">
+vertex
+{
+	struct CustomData {
+		float myTime <config = { max = 1, min = 0, tooltip = "Effect time from 0 - 1", type = "Slider", }, default = 0, label = "Time", pinId = 101>;
+		float3 myImpactPosition <default = 0 0 0, label = "Impact Position", pinId = 102>;
+	};
+	void ModelSpaceModifier(inout float3 Gfx_ModelSpacePos : Gfx_ModelSpacePos, 
+		float3 Gfx_ModelSpaceNormal : Gfx_ModelSpaceNormal0, 
+		CustomData customData : Gfx_CustomData0)
+	{
+		float sub_30 = float(1) - customData.myTime;
+		float pow_31 = pow(sub_30, float(1));
+		float3 smear_34 = float3(pow_31, pow_31, pow_31);
+		float3 mul_36 = smear_34 * Gfx_ModelSpaceNormal;
+		float3 mul_38 = mul_36 * float3(0.1, 0.1, 0.1);
+		float3 mul_26 = Gfx_ModelSpaceNormal * float3(0.3, 0.3, 0.3);
+		float pow_33 = pow(customData.myTime, float(0.2));
+		float mul_35 = pow_33 * float(2);
+		float sub_37 = mul_35 - float(1);
+		float add_42 = sub_37 + float(0);
+		float add_39 = sub_37 + float(0.1);
+		float3 sub_28 = customData.myImpactPosition - Gfx_ModelSpacePos;
+		float length_29 = length(sub_28);
+		float mul_32 = length_29 * float(0.1);
+		float smoothStep_43 = smoothstep(add_42, add_39, mul_32);
+		float add_41 = sub_37 + float(1);
+		float add_40 = sub_37 + float(0.2);
+		float smoothStep_44 = smoothstep(add_41, add_40, mul_32);
+		float mul_45 = smoothStep_43 * smoothStep_44;
+		float3 smear_46 = float3(mul_45, mul_45, mul_45);
+		float3 mul_47 = mul_26 * smear_46;
+		float3 add_48 = Gfx_ModelSpacePos + mul_47;
+		float3 add_49 = mul_38 + add_48;
+		Gfx_ModelSpacePos = add_49;
+	}
+	main(CustomData customData : Gfx_CustomData0, 
+		float3 Gfx_ModelSpaceNormal : Gfx_ModelSpaceNormal0, 
+		inout float3 Gfx_ModelSpacePos : Gfx_ModelSpacePos <modifier = "ModelSpaceModifier">)
+	{
+		// dummy comment so the shader writer does save this out
+	}
+}

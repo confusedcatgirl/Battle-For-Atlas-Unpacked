@@ -1,0 +1,129 @@
+import "shaders/modules/graphics/deferred_data.h"
+import "shaders/modules/graphics/normal_encode.h"
+import "shaders/nodes/shader/functions/unpack normal.h"
+pixel
+{
+	MR_Sampler2D BaseColor : MR_Texture0 {
+		texture = "onward/baked/textures/default_b.dds",
+	} <label = "Base Color", pinId = 102>;
+	MR_Sampler2D Normal : MR_Texture1 {
+		texture = "onward/baked/textures/default_n.dds",
+	} <pinId = 103>;
+	MR_Sampler2D Material : MR_Texture2 {
+		texture = "onward/baked/textures/default_m.dds",
+	} <pinId = 104>;
+	MR_Sampler2D Sampler_147 : MR_Texture3 {
+		texture = "onward/baked/textures/frost_ice_b.dds",
+	};
+	MR_Sampler2D Sampler_130 : MR_Texture4 {
+		texture = "onward/baked/textures/frost_ice_m.dds",
+	};
+	MR_Sampler2D Sampler_140 : MR_Texture5 {
+		texture = "onward/baked/textures/molten_m.dds",
+	};
+	MR_Sampler2D Sampler_141 : MR_Texture8 {
+		texture = "onward/baked/textures/molten_b.dds",
+	};
+	MR_Sampler2D Sampler_138 : MR_Texture6 {
+		texture = "onward/baked/textures/frost_ice_n.dds",
+	};
+	MR_Sampler2D Sampler_139 : MR_Texture7 {
+		texture = "onward/baked/textures/molten_n.dds",
+	};
+	struct CustomData {
+		float myEmissionIntensity <default = 0, label = "Emission Intensity", pinId = 106>;
+		float myTemperature <default = 0, label = "Temperature", pinId = 107>;
+	};
+	main(bool MR_IsFrontFace : MR_IsFrontFace, 
+		out Gfx_DeferredData deferredOut : Gfx_Deferred <emission = true,>, 
+		float2 Gfx_UV : Gfx_UV0, CustomData customData : Gfx_CustomData0, 
+		float Gfx_AlphaRef : Gfx_AlphaRef0, 
+		float3x3 Gfx_TangentToWorld : Gfx_TangentToWorld0)
+	{
+		float4 sample_176 = MR_Sample(BaseColor, Gfx_UV);
+		float3 combine_196 = float3(sample_176.x, sample_176.y, sample_176.z);
+		float2 mul_154 = float2(3, 3) * Gfx_UV;
+		float4 sample_160 = MR_Sample(Sampler_147, mul_154);
+		float3 combine_169 = float3(sample_160.x, sample_160.y, sample_160.z);
+		float abs_174 = abs(customData.myTemperature);
+		float add_180 = float(0.3) + abs_174;
+		float max_191 = max(add_180, float(0.01));
+		float min_192 = min(max_191, float(1));
+		float sub_179 = abs_174 - float(0.3);
+		float max_189 = max(sub_179, float(0));
+		float min_190 = min(max_189, float(0.9));
+		float4 sample_158 = MR_Sample(Sampler_130, mul_154);
+		float smoothStep_206 = smoothstep(min_192, min_190, sample_158.x);
+		float3 combine_215 = float3(smoothStep_206, smoothStep_206, smoothStep_206);
+		float3 lerp_217 = lerp(combine_196, combine_169, combine_215);
+		float3 truncate_183 = float3(sample_176.xyz);
+		float2 mul_150 = float2(5, 5) * Gfx_UV;
+		float4 sample_152 = MR_Sample(Sampler_140, mul_150);
+		float sub_162 = float(1) - sample_152.x;
+		float smoothStep_205 = smoothstep(min_192, min_190, sub_162);
+		float3 combine_211 = float3(smoothStep_205, smoothStep_205, smoothStep_205);
+		float3 lerp_223 = lerp(combine_196, truncate_183, combine_211);
+		float step_188 = step(float(0), customData.myTemperature);
+		float3 combine_199 = float3(step_188, step_188, step_188);
+		float3 lerp_227 = lerp(lerp_217, lerp_223, combine_199);
+		deferredOut.color = lerp_227;
+		float abs_175 = abs(customData.myTemperature);
+		float saturate_182 = saturate(abs_175);
+		float sub_193 = float(1) - saturate_182;
+		float mul_200 = customData.myEmissionIntensity * sub_193;
+		float4 smear_203 = float4(mul_200, mul_200, mul_200, mul_200);
+		float4 sample_177 = MR_Sample(Material, Gfx_UV);
+		float4 smear_197 = float4(sample_177.z, sample_177.z, sample_177.z, sample_177.z);
+		float4 mul_202 = sample_176 * smear_197;
+		float4 mul_204 = smear_203 * mul_202;
+		float3 combine_219 = float3(mul_204.x, mul_204.y, mul_204.z);
+		float3 lerp_226 = lerp(combine_219, float3(0, 0, 0), combine_215);
+		float3 combine_161 = float3(sample_152.x, sample_152.x, sample_152.x);
+		float3 mul_168 = float3(1, 0, 0) * combine_161;
+		float4 sample_153 = MR_Sample(Sampler_141, mul_150);
+		float3 combine_163 = float3(sample_153.x, sample_153.y, sample_153.z);
+		float3 mul_167 = combine_161 * combine_163;
+		float smoothStep_181 = smoothstep(float(0), float(1), abs_174);
+		float3 smear_194 = float3(smoothStep_181, smoothStep_181, smoothStep_181);
+		float3 lerp_209 = lerp(mul_168, mul_167, smear_194);
+		float3 smear_195 = float3(smoothStep_181, smoothStep_181, smoothStep_181);
+		float3 mul_201 = smear_195 * float3(50, 50, 50);
+		float3 mul_220 = lerp_209 * mul_201;
+		float3 lerp_222 = lerp(combine_219, mul_220, combine_211);
+		float3 lerp_229 = lerp(lerp_226, lerp_222, combine_199);
+		deferredOut.emission = lerp_229;
+		float lerp_207 = lerp(sample_177.y, sample_160.x, smoothStep_206);
+		float lerp_212 = lerp(sample_177.y, float(1), smoothStep_205);
+		float lerp_218 = lerp(lerp_207, lerp_212, step_188);
+		deferredOut.roughness = lerp_218;
+		float lerp_216 = lerp(sample_177.x, float(0), smoothStep_206);
+		float lerp_213 = lerp(sample_177.x, float(0), smoothStep_205);
+		float lerp_224 = lerp(lerp_216, lerp_213, step_188);
+		deferredOut.metalness = lerp_224;
+		float4 sample_178 = MR_Sample(Normal, Gfx_UV);
+		float3 normal_187;
+		float ambientOcclusion_187;
+		UnpackNormalAndAO(sample_178, normal_187, ambientOcclusion_187);
+		deferredOut.ao = ambientOcclusion_187;
+		if (sample_176.w < Gfx_AlphaRef) discard;
+		float4 sample_159 = MR_Sample(Sampler_138, mul_154);
+		float3 normal_165;
+		float ambientOcclusion_165;
+		UnpackNormalAndAO(sample_159, normal_165, ambientOcclusion_165);
+		float3 smear_214 = float3(smoothStep_206, smoothStep_206, smoothStep_206);
+		float3 lerp_225 = lerp(normal_187, normal_165, smear_214);
+		float4 sample_151 = MR_Sample(Sampler_139, mul_150);
+		float3 normal_155;
+		float ambientOcclusion_155;
+		UnpackNormalAndAO(sample_151, normal_155, ambientOcclusion_155);
+		float3 smear_210 = float3(smoothStep_205, smoothStep_205, smoothStep_205);
+		float3 lerp_221 = lerp(normal_187, normal_155, smear_210);
+		float3 smear_198 = float3(step_188, step_188, step_188);
+		float3 lerp_228 = lerp(lerp_225, lerp_221, smear_198);
+		float3 transform_230 = MR_Transform(Gfx_TangentToWorld, lerp_228);
+		float3 flippedNormal = transform_230;
+		if (!MR_IsFrontFace)
+		    flippedNormal = -flippedNormal;
+		deferredOut.worldNormal = flippedNormal;
+	}
+}

@@ -1,0 +1,54 @@
+<shaderType = "Particle", >
+import "shaders/nodes/shader/functions/ow particle intensity multiplier.h"
+import "shaders/nodes/shader/particles/soft.h"
+blend {
+	src = 1,
+	dest = 1,
+}
+pixel
+{
+	MR_Sampler2D Gradient : MR_Texture0 {
+		wrap = clamp,
+	} <pinId = 102>;
+	MR_Sampler2D Gradient2 : MR_Texture1 {
+		wrap = clamp,
+	} <label = "Gradient 2", pinId = 104>;
+	struct CustomInterpolators {
+		float myIntensity <default = 1, label = "Intensity", pinId = 201>;
+		float myGradientV <default = 0.5, label = "Gradient V", pinId = 202>;
+		float2 myGradient2InstanceUV <default = 0 0, label = "Gradient 2 InstanceUV", pinId = 203>;
+		float myGradient2V <default = 0.5, label = "Gradient 2 V", pinId = 204>;
+	};
+	float2 GetRadialUV(float2 aInstanceUV, float v)
+	{
+		float2 t = aInstanceUV * 2 - vec2(1);
+		 float d = saturate(length(t));
+		 return float2(d, v);
+	}
+	main(out float4 colorOut : MR_Color0, 
+		CustomInterpolators customInterpolators : Gfx_CustomInterpolators0, 
+		float2 Particle_InstanceUV : Particle_InstanceUV0, 
+		float4 Particle_Color : Particle_Color0, 
+		float4 Particle_ShaderParams : Particle_ShaderParams0, 
+		float4 MR_FragCoord : MR_FragCoord)
+	{
+		float4 result40 = vec4(0);
+		float2 GetRadialUV_30 = GetRadialUV(customInterpolators.myGradient2InstanceUV, customInterpolators.myGradient2V);
+		float4 sample_32 = MR_Sample(Gradient2, GetRadialUV_30);
+		float2 GetRadialUV_26 = GetRadialUV(Particle_InstanceUV, customInterpolators.myGradientV);
+		float4 sample_31 = MR_Sample(Gradient, GetRadialUV_26);
+		float4 mul_34 = sample_32 * sample_31;
+		float4 smear_29 = float4(customInterpolators.myIntensity, customInterpolators.myIntensity, customInterpolators.myIntensity, customInterpolators.myIntensity);
+		float4 mul_33 = Particle_Color * smear_29;
+		float saturate_36 = saturate(mul_33.w);
+		float4 combine_37 = float4(mul_33.x, mul_33.y, mul_33.z, saturate_36);
+		float4 mul_38 = mul_34 * combine_37;
+		float4 OWParticleIntensityMultiplier_39 = OWParticleIntensityMultiplier(mul_38);
+		result40 += float4(OWParticleIntensityMultiplier_39.xyz * OWParticleIntensityMultiplier_39.w, 0);
+		float4 colorOut_23;
+		float alphaOut_23;
+		SoftParticle(float4(0, 0, 0, 0), Particle_ShaderParams, MR_FragCoord, colorOut_23, alphaOut_23);
+		result40 *= alphaOut_23;
+		colorOut = result40;
+	}
+}

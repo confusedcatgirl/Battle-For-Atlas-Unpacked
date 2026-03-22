@@ -1,0 +1,40 @@
+<shaderType = "Vertex">
+import "shaders/nodes/shader/functions/getplanetposition.h"
+import "shaders/nodes/shader/functions/onward/ow_getterrainlowresradius.h"
+import "shaders/nodes/shader/functions/onward/planet/ow_waterconstants.h"
+vertex
+{
+	float GetYScale(float3x4 modelToWorld)
+	{
+		return length(MR_GetYAxis(modelToWorld).xyz);
+	}
+	void WorldSpaceModifier(inout float3 Gfx_WorldSpacePos : Gfx_WorldSpacePos, 
+		float3 Gfx_ModelSpacePos : Gfx_ModelSpacePos0, 
+		float3x4 Gfx_ObjectToWorldMatrix : Gfx_ObjectToWorldMatrix0)
+	{
+		float3 GetPlanetPosition_0 = GetPlanetPosition();
+		float3 transform_12 = MR_Transform(Gfx_ObjectToWorldMatrix, Gfx_ModelSpacePos);
+		float3 add_14 = GetPlanetPosition_0 + float3(1e-05, 0, 0);
+		float3 sub_15 = transform_12 - add_14;
+		float3 normalize_17 = normalize(sub_15);
+		float OW_GetTerrainLowResRadius_19 = OW_GetTerrainLowResRadius(normalize_17);
+		float aRadius_5;
+		OW_GetWaterConstants(aRadius_5);
+		float max_20 = max(OW_GetTerrainLowResRadius_19, aRadius_5);
+		float3 combine_21 = float3(max_20, max_20, max_20);
+		float3 mul_22 = normalize_17 * combine_21;
+		float GetYScale_11 = GetYScale(Gfx_ObjectToWorldMatrix);
+		float mul_13 = Gfx_ModelSpacePos.y * GetYScale_11;
+		float3 smear_16 = float3(mul_13, mul_13, mul_13);
+		float3 mul_18 = normalize_17 * smear_16;
+		float3 add_23 = mul_22 + mul_18;
+		float3 add_24 = GetPlanetPosition_0 + add_23;
+		Gfx_WorldSpacePos = add_24;
+	}
+	main(float3x4 Gfx_ObjectToWorldMatrix : Gfx_ObjectToWorldMatrix0, 
+		float3 Gfx_ModelSpacePos : Gfx_ModelSpacePos0, 
+		inout float3 Gfx_WorldSpacePos : Gfx_WorldSpacePos <modifier = "WorldSpaceModifier">)
+	{
+		// dummy comment so the shader writer does save this out
+	}
+}

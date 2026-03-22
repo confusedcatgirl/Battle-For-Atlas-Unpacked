@@ -1,0 +1,48 @@
+<shaderType = "UI", >
+import "shaders/modules/graphics/drawer/drawer.h"
+import "shaders/modules/graphics/ssr_common.h"
+import "shaders/nodes/shader/ui/ui blit effect fullscreen uv.h"
+import "shaders/nodes/shader/ui/ui blit effect.h"
+blend {
+	writeMask = rgba,
+	src = 1,
+	src.a = 0,
+}
+pixel
+{
+	MR_Sampler2D Texture : MR_Texture0 <pinId = 105>;
+	struct CustomData {
+		float mySaturation <default = 1, label = "Saturation", pinId = 112>;
+		float myRadius <default = 1, label = "Radius", pinId = 113>;
+	};
+	main(out float4 colorOut : MR_Color0, float2 Gfx_UV : Gfx_UV0, 
+		CustomData customData : Gfx_CustomData0, 
+		float4 Gfx_ClipPosition : Gfx_ClipPosition0)
+	{
+		float4 sample_50 = MR_Sample(Texture, Gfx_UV);
+		float4 sample_23 = MR_Sample(SSR_FramebufferOpaque, Gfx_UV);
+		float3 truncate_33 = float3(sample_23.xyz);
+		float3 combine_38 = float3(truncate_33.x, truncate_33.y, truncate_33.z);
+		float dot_41 = dot(combine_38, float3(0.3, 0.59, 0.11));
+		float3 combine_43 = float3(dot_41, dot_41, dot_41);
+		float3 smear_48 = float3(customData.mySaturation, customData.mySaturation, customData.mySaturation);
+		float3 lerp_51 = lerp(combine_38, combine_43, smear_48);
+		float3 smear_49 = float3(customData.myRadius, customData.myRadius, customData.myRadius);
+		float3 mul_52 = lerp_51 * smear_49;
+		float2 UIGetBlitEffectFullscreenUV_21 = UIGetBlitEffectFullscreenUV(Gfx_ClipPosition);
+		float2 mul_32 = UIGetBlitEffectFullscreenUV_21 * float2(2, 2);
+		float2 sub_34 = mul_32 - float2(1, 1);
+		float2 remap_35 = float(-0.8) + saturate((sub_34 - float(-1)) / (float(1) - float(-1))) * (float(0.8) - float(-0.8));
+		float mul_39 = remap_35.x * remap_35.x;
+		float mul_40 = remap_35.y * remap_35.y;
+		float add_42 = mul_39 + mul_40;
+		float saturate_44 = saturate(add_42);
+		float3 smear_45 = float3(saturate_44, saturate_44, saturate_44);
+		float3 lerp_53 = lerp(combine_38, mul_52, smear_45);
+		float4 combine_55 = float4(lerp_53.x, lerp_53.y, lerp_53.z, float(1));
+		float4 GetBlitEffectColor_56 = GetBlitEffectColor(sample_50, combine_55);
+		float4 finalColor = vec4(0);
+		finalColor = BlendColor(GetBlitEffectColor_56, float(0));
+		colorOut = finalColor;
+	}
+}

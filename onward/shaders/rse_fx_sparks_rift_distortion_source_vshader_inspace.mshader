@@ -1,0 +1,37 @@
+<shaderType = "Vertex">
+import "shaders/modules/graphics/environment.h"
+import "shaders/nodes/shader/functions/noisehelpers.h"
+vertex
+{
+	struct CustomData {
+		float myDisplacement <config = { max = 100, min = 0, type = "Slider", }, default = 0, label = "Displacement", pinId = 102>;
+		float myNoiseFreq <default = 0.5, label = "NoiseFreq", pinId = 104>;
+	};
+	void ModelSpaceModifier(inout float3 Gfx_ModelSpacePos : Gfx_ModelSpacePos, 
+		float4 Gfx_Color : Gfx_Color0, CustomData customData : Gfx_CustomData0, 
+		float3 Gfx_WorldSpaceNormal : Gfx_WorldSpaceNormal0)
+	{
+		float3 smear_13 = float3(float(0.6), float(0.6), float(0.6));
+		float3 mul_14 = Gfx_WorldSpaceNormal * smear_13;
+		float lerp_19 = lerp(float(0), customData.myDisplacement, Gfx_Color.z);
+		float3 smear_21 = float3(lerp_19, lerp_19, lerp_19);
+		float3 mul_23 = mul_14 * smear_21;
+		float3 smear_16 = float3(customData.myNoiseFreq, customData.myNoiseFreq, customData.myNoiseFreq);
+		float3 mul_17 = Gfx_ModelSpacePos * smear_16;
+		float4 combine_18 = float4(mul_17, float(1));
+		float Noise_20 = Noise(combine_18);
+		float mul_22 = Noise_20 * float(6.28);
+		float add_24 = Gfx_Environment.time + mul_22;
+		float sin_25 = sin(add_24);
+		float3 smear_26 = float3(sin_25, sin_25, sin_25);
+		float3 mul_27 = mul_23 * smear_26;
+		float3 add_28 = mul_27 + Gfx_ModelSpacePos;
+		Gfx_ModelSpacePos = add_28;
+	}
+	main(float3 Gfx_WorldSpaceNormal : Gfx_WorldSpaceNormal0, 
+		CustomData customData : Gfx_CustomData0, float4 Gfx_Color : Gfx_Color0, 
+		inout float3 Gfx_ModelSpacePos : Gfx_ModelSpacePos <modifier = "ModelSpaceModifier">)
+	{
+		// dummy comment so the shader writer does save this out
+	}
+}

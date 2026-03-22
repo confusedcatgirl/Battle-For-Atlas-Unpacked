@@ -1,0 +1,90 @@
+<emission = true, shaderType = "Object", keywords = { "GFX_FORWARD_SHADER", }, >
+pixel
+{
+	MR_Sampler2D BaseColor : MR_Texture0 {
+		texture = "onward/baked/textures/default_b.dds",
+	} <label = "Base Color", pinId = 102>;
+	MR_Sampler2D BaseNormal : MR_Texture1 {
+		texture = "onward/baked/textures/default_n.dds",
+	} <label = "Base Normal", pinId = 103>;
+	MR_Sampler2D BaseMaterial : MR_Texture2 {
+		texture = "onward/baked/textures/default_m.dds",
+	} <label = "Base Material", pinId = 104>;
+	MR_Sampler2D DepositColor : MR_Texture3 {
+		texture = "onward/baked/textures/default_b.dds",
+	} <label = "Deposit Color", pinId = 111>;
+	MR_Sampler2D Detail : MR_Texture4 {
+		texture = "onward/baked/textures/rock_detail_m.dds",
+	} <pinId = 127>;
+	MR_Sampler2D PulseTexture : MR_Texture5 <label = "Pulse Texture", pinId = 139>;
+	struct CustomData {
+		float4 myDepositCreviceAlbedo <config = { type = "ColorBox", }, default = 1 1 1 0, label = "Deposit Crevice Albedo", pinId = 110>;
+		float myDepositRoughness <default = 0, label = "Deposit Roughness", pinId = 123>;
+		float myDepositCreviceRoughness <default = 0, label = "Deposit Crevice Roughness", pinId = 124>;
+		float myDepositTilingU <default = 1, label = "Deposit Tiling U", pinId = 118>;
+		float myDepositTilingV <default = 1, label = "Deposit Tiling V", pinId = 119>;
+		float myBlendOpacity <config = { max = 1, min = 0, type = "Slider", }, default = 0, label = "Blend Opacity", pinId = 108>;
+		float myBlendconstrast <config = { max = 20, min = 1, type = "Slider", }, default = 4.3, label = "Blend constrast", pinId = 109>;
+		float myBlendcoverage <config = { max = 1, min = 0, type = "Slider", }, default = 0.3, label = "Blend coverage", pinId = 116>;
+		float myTerrainLipHeight <config = { max = 200, min = 0, }, default = 1, label = "Terrain Lip Height", pinId = 126>;
+		float2 myDetailScale <default = 30 30, label = "Detail Scale", pinId = 128>;
+		float mystrength <default = 1, label = "strength", pinId = 129>;
+		float myadjustDistance <default = 1, label = "adjustDistance", pinId = 130>;
+		float myfalloffCurve <default = 2, label = "falloffCurve", pinId = 131>;
+		float3 myPulseDirection <default = -1 -1 1, label = "Pulse Direction", pinId = 132>;
+		float myEmissionIntensity <default = 500, label = "Emission Intensity", pinId = 133>;
+		float myPulseTiling <default = 1, label = "Pulse Tiling", pinId = 134>;
+		float myPulseSpeed <default = 1, label = "Pulse Speed", pinId = 135>;
+		float myFaceNormal <config = { max = 1, min = 0, }, default = 0, label = "Face Normal", pinId = 136>;
+		float myPulseWidth <config = { max = 1, min = 0, type = "Slider", }, default = 0.571831, label = "Pulse Width", pinId = 137>;
+		float mySmooth <config = { max = 1, min = 0, }, default = 0, label = "Smooth", pinId = 138>;
+	};
+	main(out float4 colorOut : MR_Color0, float2 Gfx_UV : Gfx_UV0, 
+		float3 Gfx_UnflattenedWorldPos : Gfx_UnflattenedWorldPos0, 
+		CustomData customData : Gfx_CustomData0, 
+		float3 Gfx_WorldSpaceNormal : Gfx_WorldSpaceNormal0, 
+		float Gfx_AlphaRef : Gfx_AlphaRef0)
+	{
+		float4 sample_231 = MR_Sample(BaseColor, Gfx_UV);
+		float3 truncate_241 = float3(sample_231.xyz);
+		float2 combine_188 = float2(Gfx_UnflattenedWorldPos.z, Gfx_UnflattenedWorldPos.y);
+		float2 combine_222 = float2(customData.myDepositTilingU, customData.myDepositTilingV);
+		float2 mul_251 = combine_188 * combine_222;
+		float4 sample_260 = MR_Sample(DepositColor, mul_251);
+		float3 abs_153 = abs(Gfx_WorldSpaceNormal);
+		float3 combine_192 = float3(float(16.1875), float(16.1875), float(16.1875));
+		float3 pow_193 = pow(abs(abs_153), combine_192);
+		float3 normalize_199 = normalize(pow_193);
+		float add_205 = normalize_199.x + normalize_199.y;
+		float add_206 = add_205 + normalize_199.z;
+		float3 combine_207 = float3(add_206, add_206, add_206);
+		float3 div_208 = normalize_199 / combine_207;
+		float mul_307 = sample_260.z * div_208.x;
+		float2 combine_186 = float2(Gfx_UnflattenedWorldPos.x, Gfx_UnflattenedWorldPos.z);
+		float2 mul_249 = combine_186 * combine_222;
+		float4 sample_258 = MR_Sample(DepositColor, mul_249);
+		float mul_308 = sample_258.z * div_208.y;
+		float add_321 = mul_307 + mul_308;
+		float2 combine_187 = float2(Gfx_UnflattenedWorldPos.x, Gfx_UnflattenedWorldPos.y);
+		float2 mul_250 = combine_187 * combine_222;
+		float4 sample_259 = MR_Sample(DepositColor, mul_250);
+		float mul_309 = sample_259.z * div_208.z;
+		float add_322 = add_321 + mul_309;
+		float3 smear_330 = float3(add_322, add_322, add_322);
+		float3 truncate_220 = float3(customData.myDepositCreviceAlbedo.xyz);
+		float3 mul_342 = smear_330 * truncate_220;
+		float dot_194 = dot(float3(0, 1, 0), Gfx_WorldSpaceNormal);
+		float saturate_200 = saturate(dot_194);
+		float add_261 = customData.myBlendcoverage + saturate_200;
+		float pow_270 = pow(abs(add_261), customData.myBlendconstrast);
+		float saturate_279 = saturate(pow_270);
+		float mul_288 = customData.myBlendOpacity * saturate_279;
+		float saturate_297 = saturate(mul_288);
+		float3 smear_310 = float3(saturate_297, saturate_297, saturate_297);
+		float3 lerp_353 = lerp(truncate_241, mul_342, smear_310);
+		float4 truncate_360 = float4(lerp_353.xyz, 1);
+		if (truncate_360.w < Gfx_AlphaRef) discard;
+		float4 result_390 = float4(float3(1, 0, 1), truncate_360.w);
+		colorOut = result_390;
+	}
+}

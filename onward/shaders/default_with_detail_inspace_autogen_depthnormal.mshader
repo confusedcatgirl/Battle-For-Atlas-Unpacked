@@ -1,0 +1,21 @@
+pixel
+{
+	MR_Sampler2D BaseColor : MR_Texture0 {
+		texture = "onward/baked/textures/default_b.dds",
+	} <label = "Base Color", pinId = 102>;
+	struct CustomData {
+		float2 myDetailScale <default = 30 30, label = "DetailScale", pinId = 108>;
+		float myStrength <default = 1, label = "Strength", pinId = 109>;
+		float myadjustDistance <default = 1, label = "adjustDistance", pinId = 110>;
+		float myfalloffCurve <default = 2, label = "falloffCurve", pinId = 111>;
+	};
+	main(CustomData customData : Gfx_CustomData, out float4 colorOut : MR_Color0, 
+		float2 Gfx_UV : Gfx_UV0, float Gfx_AlphaRef : Gfx_AlphaRef0, 
+		float3 Gfx_CameraSpacePos : Gfx_CameraSpacePos0)
+	{
+		float4 sample_93 = MR_Sample(BaseColor, Gfx_UV);
+		if (sample_93.w < Gfx_AlphaRef) discard;
+		float4 depthResult = float4(Gfx_CameraSpacePos.z, 0, 0, sample_93.w);
+		colorOut = depthResult;
+	}
+}

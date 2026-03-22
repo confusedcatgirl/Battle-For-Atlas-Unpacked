@@ -1,0 +1,21 @@
+<shaderType = "Object", keywords = { "GFX_FORWARD_SHADER", }, >
+blend {
+	src = 1,
+	dest = 1,
+}
+pixel
+{
+	struct CustomData {
+		float3 myEmission <default = 0 0 0, label = "Emission", pinId = 108>;
+		float myEmissionIntensity <default = 1, label = "Emission Intensity", pinId = 106>;
+	};
+	main(out float4 colorOut : MR_Color0, CustomData customData : Gfx_CustomData0, 
+		float Gfx_AlphaRef : Gfx_AlphaRef0)
+	{
+		float3 smear_28 = float3(customData.myEmissionIntensity, customData.myEmissionIntensity, customData.myEmissionIntensity);
+		float3 mul_29 = customData.myEmission * smear_28;
+		if (float(1) < Gfx_AlphaRef) discard;
+		float4 result_31 = float4(mul_29, float(1));
+		colorOut = result_31;
+	}
+}

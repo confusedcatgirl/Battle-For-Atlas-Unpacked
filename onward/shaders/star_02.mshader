@@ -1,0 +1,24 @@
+<isEmitting = true, isUnlit = true, shaderType = "Terrain", >
+import "shaders/nodes/shader/functions/onward/ow_getsunbodycolor.h"
+import "shaders/nodes/shader/functions/onward/ow_sun_depthtest.h"
+pixel
+{
+	import "shaders/modules/graphics/onworld/planet_hack.h"
+	float3 PlanetGIEmissionModifier(in float3 aPosition, in float3 aEmission)
+	{
+		return OW_Planet_GIEmissionModifier(aPosition, aEmission);
+	}
+	main(in float4 MR_FragCoord : MR_FragCoord)
+	{
+		float3 worldPosition = In_WorldPosition;
+		float3 OW_GetSunBodyColor_4 = OW_GetSunBodyColor();
+		float3 OW_Sun_DepthTest_5 = OW_Sun_DepthTest(OW_GetSunBodyColor_4, worldPosition, MR_FragCoord);
+		float3 PlanetGIEmissionModifier_6 = PlanetGIEmissionModifier(worldPosition, OW_Sun_DepthTest_5);
+		float3 resultEmissive = PlanetGIEmissionModifier_6;
+		float3 resultDiffuse = float3(0, 0, 0);
+		float3 sphereNormal = In_SphereNormal;
+		float3 resultNormal = sphereNormal;
+		float resultRoughness = float(1);
+		float resultAmbientOcclusion = float(1);
+	}
+}

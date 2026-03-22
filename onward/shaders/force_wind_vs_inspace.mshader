@@ -1,0 +1,106 @@
+<shaderType = "Vertex">
+import "shaders/modules/graphics/environment.h"
+vertex
+{
+	struct CustomData {
+		float3 myWindDirection <default = 1 0 0, label = "Wind Direction", pinId = 108>;
+		float myWindSpeed <default = 1, label = "Wind Speed", pinId = 101>;
+		float myMainBendFalloff <default = 0.01, label = "Main Bend Falloff", pinId = 102>;
+		float myMainBendSpeed <default = 1, label = "Main Bend Speed", pinId = 103>;
+		float myMainBendStrength <default = 1, label = "Main Bend Strength", pinId = 104>;
+		float myBranchBendSpeed <default = 1, label = "Branch Bend Speed", pinId = 105>;
+		float myBranchBendStrength <default = 1, label = "Branch Bend Strength", pinId = 109>;
+		float3 myBranchBendSinPhase <default = 1 1 1, label = "Branch Bend Sin Phase", pinId = 111>;
+		float myEdgeBendSpeed <default = 1, label = "Edge Bend Speed", pinId = 106>;
+		float myEdgeBendStrength <default = 1, label = "Edge Bend Strength", pinId = 107>;
+		float3 myEdgeBendSinPhase <default = 1 1 1, label = "Edge Bend Sin Phase", pinId = 110>;
+		float myForceMax <default = 4, label = "Force Max", pinId = 113>;
+		float myForceStiffness <default = 0.5, label = "Force Stiffness", pinId = 114>;
+		float myForceStartHeight <default = 2, label = "Force Start Height", pinId = 116>;
+	};
+	float3 TriangleWave(float3 x)
+	{
+		return abs( frac( x + 0.5 ) * 2.0 - 1.0 );
+	}
+	float3 SmoothCurve(float3 x)
+	{
+		return x * x *( 3.0 - 2.0 * x );
+	}
+	void ModelSpaceModifier(inout float3 Gfx_ModelSpacePos : Gfx_ModelSpacePos, 
+		float3 Gfx_ModelSpaceNormal : Gfx_ModelSpaceNormal0, 
+		float4 Gfx_Color : Gfx_Color0, CustomData customData : Gfx_CustomData0)
+	{
+		float length_41 = length(Gfx_ModelSpacePos);
+		float mul_105 = length_41 * customData.myMainBendFalloff;
+		float add_113 = mul_105 + float(1);
+		float mul_117 = add_113 * add_113;
+		float mul_120 = mul_117 * mul_117;
+		float sub_121 = mul_120 - mul_117;
+		float3 combine_124 = float3(sub_121, sub_121, sub_121);
+		float mul_93 = Gfx_Environment.time * customData.myWindSpeed;
+		float3 combine_100 = float3(mul_93, mul_93, mul_93);
+		float3 mul_109 = combine_100 * customData.myWindDirection;
+		float3 smear_94 = float3(customData.myMainBendSpeed, customData.myMainBendSpeed, customData.myMainBendSpeed);
+		float3 mul_101 = smear_94 * float3(1, 1, 1);
+		float3 mul_110 = mul_109 * mul_101;
+		float3 TriangleWave_115 = TriangleWave(mul_110);
+		float3 SmoothCurve_119 = SmoothCurve(TriangleWave_115);
+		float3 saturate_123 = saturate(SmoothCurve_119);
+		float3 mul_125 = combine_124 * saturate_123;
+		float3 smear_95 = float3(customData.myMainBendStrength, customData.myMainBendStrength, customData.myMainBendStrength);
+		float3 smear_61 = float3(Gfx_Color.w, Gfx_Color.w, Gfx_Color.w);
+		float3 mul_112 = smear_95 * smear_61;
+		float3 mul_127 = mul_125 * mul_112;
+		float3 add_129 = Gfx_ModelSpacePos + mul_127;
+		float3 clamp_107 = clamp(customData.myBranchBendSinPhase, float3(0.001, 0.001, 0.001), float3(65536, 65536, 65536));
+		float3 div_132 = add_129 / clamp_107;
+		float mul_96 = Gfx_Environment.time * customData.myBranchBendSpeed;
+		float3 smear_102 = float3(mul_96, mul_96, mul_96);
+		float3 add_134 = div_132 + smear_102;
+		float3 smear_59 = float3(Gfx_Color.y, Gfx_Color.y, Gfx_Color.y);
+		float3 add_136 = add_134 + smear_59;
+		float3 TriangleWave_138 = TriangleWave(add_136);
+		float3 SmoothCurve_140 = SmoothCurve(TriangleWave_138);
+		float3 saturate_142 = saturate(SmoothCurve_140);
+		float3 mul_144 = saturate_142 * float3(0, 1, 0);
+		float3 smear_97 = float3(customData.myBranchBendStrength, customData.myBranchBendStrength, customData.myBranchBendStrength);
+		float3 smear_60 = float3(Gfx_Color.z, Gfx_Color.z, Gfx_Color.z);
+		float3 mul_111 = smear_97 * smear_60;
+		float3 mul_116 = mul_111 * float3(1, 1, 1);
+		float3 mul_146 = mul_144 * mul_116;
+		float3 add_148 = add_129 + mul_146;
+		float3 clamp_106 = clamp(customData.myEdgeBendSinPhase, float3(0.001, 0.001, 0.001), float3(65536, 65536, 65536));
+		float3 div_150 = add_148 / clamp_106;
+		float mul_98 = Gfx_Environment.time * customData.myEdgeBendSpeed;
+		float3 smear_103 = float3(mul_98, mul_98, mul_98);
+		float3 add_152 = div_150 + smear_103;
+		float3 smear_58 = float3(Gfx_Color.y, Gfx_Color.y, Gfx_Color.y);
+		float3 add_153 = add_152 + smear_58;
+		float3 mul_154 = add_153 * customData.myWindDirection;
+		float3 TriangleWave_155 = TriangleWave(mul_154);
+		float3 SmoothCurve_156 = SmoothCurve(TriangleWave_155);
+		float3 smear_99 = float3(customData.myEdgeBendStrength, customData.myEdgeBendStrength, customData.myEdgeBendStrength);
+		float3 mul_104 = smear_99 * float3(1, 0, 1);
+		float3 mul_157 = SmoothCurve_156 * mul_104;
+		float3 smear_63 = float3(Gfx_Color.x, Gfx_Color.x, Gfx_Color.x);
+		float add_62 = Gfx_Color.x + Gfx_Color.y;
+		float3 smear_66 = float3(add_62, add_62, add_62);
+		float3 mul_67 = smear_63 * smear_66;
+		float3 mul_72 = mul_67 * Gfx_ModelSpaceNormal;
+		float3 mul_77 = mul_72 * float3(0.25, 0.25, 0.25);
+		float3 mul_158 = mul_157 * mul_77;
+		float3 add_159 = add_148 + mul_158;
+		Gfx_ModelSpacePos = add_159;
+	}
+	void WorldSpaceModifier(inout float3 Gfx_WorldSpacePos : Gfx_WorldSpacePos)
+	{
+		Gfx_WorldSpacePos = Gfx_WorldSpacePos;
+	}
+	main(CustomData customData : Gfx_CustomData0, float4 Gfx_Color : Gfx_Color0, 
+		float3 Gfx_ModelSpaceNormal : Gfx_ModelSpaceNormal0, 
+		inout float3 Gfx_ModelSpacePos : Gfx_ModelSpacePos <modifier = "ModelSpaceModifier">, 
+		inout float3 Gfx_WorldSpacePos : Gfx_WorldSpacePos <modifier = "WorldSpaceModifier">)
+	{
+		// dummy comment so the shader writer does save this out
+	}
+}

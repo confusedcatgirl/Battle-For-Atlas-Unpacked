@@ -1,0 +1,79 @@
+<lightVolume = true, shaderType = "Particle", use4x4Tesselation = true, vertexLighting = F"shaders/nodes/Shader/Particles/Apply Vertex Light.h", >
+import "shaders/nodes/shader/functions/unpack normal.h"
+import "shaders/modules/graphics/environment.h"
+import "shaders/nodes/shader/functions/ow particle intensity multiplier.h"
+import "shaders/nodes/shader/particles/apply vertex light.h"
+import "shaders/nodes/shader/particles/soft.h"
+blend {
+	src = 1,
+}
+pixel
+{
+	MR_Sampler2D Normal : MR_Texture0 {
+		wrap = clamp,
+	} <pinId = 102>;
+	MR_Sampler2D FXTexture : MR_Texture1 <label = "FX Texture", pinId = 108>;
+	struct CustomData {
+		float myIntensity <default = 1, label = "Intensity", pinId = 107>;
+		float myFXPower <default = 1, label = "FX Power", pinId = 110>;
+		float2 myFXSpeed <default = 1 1, label = "FX Speed", pinId = 111>;
+		float2 myFXTiling <default = 1 1, label = "FX Tiling", pinId = 113>;
+	};
+	struct CustomInterpolators {
+		float myAngle <default = 0, label = "Angle", pinId = 201>;
+		float myIntensity <default = 1, label = "Intensity", pinId = 202>;
+	};
+	main(out float4 colorOut : MR_Color0, float4 Particle_Color : Particle_Color0, 
+		CustomInterpolators customInterpolators : Gfx_CustomInterpolators0, 
+		CustomData customData : Gfx_CustomData0, 
+		float2 Particle_InstanceUV : Particle_InstanceUV0, 
+		float4 Particle_Fog : Particle_Fog0, 
+		float4 Particle_ShaderParams : Particle_ShaderParams0, 
+		float4 MR_FragCoord : MR_FragCoord)
+	{
+		float4 result81 = vec4(0);
+		float3 combine_43 = float3(Particle_Color.x, Particle_Color.y, Particle_Color.z);
+		float3 smear_51 = float3(customInterpolators.myIntensity, customInterpolators.myIntensity, customInterpolators.myIntensity);
+		float3 mul_54 = combine_43 * smear_51;
+		float3 smear_47 = float3(customData.myIntensity, customData.myIntensity, customData.myIntensity);
+		float3 mul_57 = mul_54 * smear_47;
+		float4 sample_50 = MR_Sample(Normal, Particle_InstanceUV);
+		float3 normal_52;
+		float ambientOcclusion_52;
+		UnpackNormalAndAO(sample_50, normal_52, ambientOcclusion_52);
+		float mul_55 = customInterpolators.myAngle * float(-1);
+		float cos_58 = cos(mul_55);
+		float mul_61 = float(0) * cos_58;
+		float sin_59 = sin(mul_55);
+		float mul_63 = float(-1) * sin_59;
+		float sub_66 = mul_61 - mul_63;
+		float mul_64 = float(0) * sin_59;
+		float mul_62 = float(-1) * cos_58;
+		float add_67 = mul_64 + mul_62;
+		float3 combine_69 = float3(sub_66, add_67, float(0));
+		float dot_71 = dot(normal_52, combine_69);
+		float mul_73 = dot_71 * float(0.6);
+		float add_74 = mul_73 + float(0.4);
+		float saturate_75 = saturate(add_74);
+		float3 smear_76 = float3(saturate_75, saturate_75, saturate_75);
+		float3 mul_77 = mul_57 * smear_76;
+		float mul_53 = Particle_Color.w * ambientOcclusion_52;
+		float2 mul_49 = Particle_InstanceUV * customData.myFXTiling;
+		float2 smear_37 = float2(Gfx_Environment.time, Gfx_Environment.time);
+		float2 mul_56 = customData.myFXSpeed * smear_37;
+		float2 add_60 = mul_49 + mul_56;
+		float4 sample_65 = MR_Sample(FXTexture, add_60);
+		float pow_70 = pow(abs(sample_65.y), customData.myFXPower);
+		float mul_72 = mul_53 * pow_70;
+		float4 combine_78 = float4(mul_77, mul_72);
+		float4 OWParticleIntensityMultiplier_79 = OWParticleIntensityMultiplier(combine_78);
+		float4 aLightOut_80;
+		ApplyVertexLight(aLightOut_80, OWParticleIntensityMultiplier_79, Particle_Fog);
+		result81 += float4(aLightOut_80.xyz, 1) * aLightOut_80.w;
+		float4 colorOut_38;
+		float alphaOut_38;
+		SoftParticle(float4(0, 0, 0, 0), Particle_ShaderParams, MR_FragCoord, colorOut_38, alphaOut_38);
+		result81 *= alphaOut_38;
+		colorOut = result81;
+	}
+}

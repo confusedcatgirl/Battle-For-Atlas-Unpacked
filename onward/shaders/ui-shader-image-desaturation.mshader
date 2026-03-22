@@ -1,0 +1,31 @@
+<shaderType = "UI", >
+import "shaders/modules/graphics/drawer/drawer.h"
+blend {
+	writeMask = rgba,
+	src = 1,
+	src.a = 0,
+}
+pixel
+{
+	MR_Sampler2D Texture : MR_Texture0 <pinId = 101>;
+	struct CustomData {
+		float myGreyFactor <default = 0, label = "Grey Factor", pinId = 102>;
+	};
+	main(out float4 colorOut : MR_Color0, int UI_RenderType : UI_RenderType1, 
+		float2 Gfx_UV : Gfx_UV0, float4 Gfx_Color : Gfx_Color0, 
+		CustomData customData : Gfx_CustomData0)
+	{
+		float4 sample_23 = GetColorInfo(Texture, Gfx_UV, In.UI_RenderType);
+		float4 mul_24 = sample_23 * Gfx_Color;
+		float3 combine_26 = float3(mul_24.x, mul_24.y, mul_24.z);
+		float3 combine_19 = float3(float(0.3), float(0.59), float(0.1));
+		float dot_27 = dot(combine_26, combine_19);
+		float3 combine_28 = float3(dot_27, dot_27, dot_27);
+		float3 smear_22 = float3(customData.myGreyFactor, customData.myGreyFactor, customData.myGreyFactor);
+		float3 lerp_29 = lerp(combine_26, combine_28, smear_22);
+		float4 combine_31 = float4(lerp_29.x, lerp_29.y, lerp_29.z, mul_24.w);
+		float4 finalColor = vec4(0);
+		finalColor = BlendColor(combine_31, float(0));
+		colorOut = finalColor;
+	}
+}

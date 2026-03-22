@@ -1,0 +1,63 @@
+<shaderType = "Particle", >
+import "shaders/nodes/shader/functions/screen position.h"
+import "shaders/nodes/shader/functions/pixeltoframebufferuv.h"
+import "shaders/nodes/shader/functions/ow particle intensity multiplier.h"
+import "shaders/nodes/shader/particles/soft.h"
+blend {
+	src = 1,
+	dest = 1,
+}
+pixel
+{
+	MR_Sampler2D Texture : MR_Texture0 {
+		wrap = repeat clamp,
+	} <pinId = 101>;
+	struct CustomInterpolators {
+		float myLod <default = 0, label = "Lod", pinId = 201>;
+		float myIntensity <default = 0, label = "Intensity", pinId = 202>;
+		float myVLerp <default = 1, label = "V Lerp", pinId = 203>;
+	};
+	float2 GetRadialUV(float2 aInstanceUV)
+	{
+		float Pi = 3.1415926535897932384626433832795;
+		 float2 t = aInstanceUV * 2 - vec2(1);
+		 float d = saturate(length(t));
+		 float v = (atan2(t.x , t.y) - Pi * 0.5) / (2 * Pi) + 0.75;
+		 return float2(v, 1 - d);
+	}
+	main(out float4 colorOut : MR_Color0, float4 Particle_Color : Particle_Color0, 
+		CustomInterpolators customInterpolators : Gfx_CustomInterpolators0, 
+		float2 Particle_InstanceUV : Particle_InstanceUV0, 
+		float4 MR_FragCoord : MR_FragCoord, 
+		float4 Particle_ShaderParams : Particle_ShaderParams0)
+	{
+		float4 result63 = vec4(0);
+		float2 combine_50 = float2(float(1), customInterpolators.myVLerp);
+		float2 GetRadialUV_25 = GetRadialUV(Particle_InstanceUV);
+		float2 lerp_51 = lerp(float2(0, 0), combine_50, GetRadialUV_25);
+		float2 ScreenPosition_15 = ScreenPosition(MR_FragCoord);
+		float2 PixelToFramebufferUV_29 = PixelToFramebufferUV(ScreenPosition_15);
+		float2 lerp_40 = lerp(float2(-1, -1), float2(1, 1), PixelToFramebufferUV_29);
+		float length_43 = length(lerp_40);
+		float pow_44 = pow(length_43, float(2));
+		float lerp_45 = lerp(float(0.1), float(4), pow_44);
+		float2 combine_46 = float2(float(1), lerp_45);
+		float2 pow_57 = pow(lerp_51, combine_46);
+		float pow_55 = pow(lerp_51.y, float(3));
+		float mul_56 = pow_55 * float(5);
+		float add_58 = mul_56 + customInterpolators.myLod;
+		float4 sample_59 = MR_SampleLod(Texture, pow_57, add_58);
+		float4 mul_60 = Particle_Color * sample_59;
+		float pow_41 = pow(GetRadialUV_25.y, float(2));
+		float mul_52 = pow_41 * customInterpolators.myIntensity;
+		float4 smear_54 = float4(mul_52, mul_52, mul_52, mul_52);
+		float4 mul_61 = mul_60 * smear_54;
+		float4 OWParticleIntensityMultiplier_62 = OWParticleIntensityMultiplier(mul_61);
+		result63 += float4(OWParticleIntensityMultiplier_62.xyz * OWParticleIntensityMultiplier_62.w, 0);
+		float4 colorOut_42;
+		float alphaOut_42;
+		SoftParticle(float4(0, 0, 0, 0), Particle_ShaderParams, MR_FragCoord, colorOut_42, alphaOut_42);
+		result63 *= alphaOut_42;
+		colorOut = result63;
+	}
+}

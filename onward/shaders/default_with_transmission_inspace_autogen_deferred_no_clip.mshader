@@ -1,0 +1,38 @@
+<keywords = { "HAS_OPACITY", "LIGHT_FROM_SPACE", "ISNT_MAIN_PLANET", }, >
+import "shaders/modules/graphics/deferred_data.h"
+import "shaders/modules/graphics/normal_encode.h"
+import "shaders/nodes/shader/functions/unpack normal.h"
+pixel
+{
+	MR_Sampler2D BaseColor : MR_Texture0 {
+		texture = "onward/baked/textures/default_b.dds",
+	} <label = "Base Color", pinId = 102>;
+	MR_Sampler2D Normal : MR_Texture1 {
+		texture = "onward/baked/textures/default_n.dds",
+	} <pinId = 103>;
+	MR_Sampler2D Material : MR_Texture2 {
+		texture = "onward/baked/textures/default_m.dds",
+	} <pinId = 104>;
+	main(bool MR_IsFrontFace : MR_IsFrontFace, 
+		out Gfx_DeferredData deferredOut : Gfx_Deferred, float2 Gfx_UV : Gfx_UV0, 
+		float3x3 Gfx_TangentToWorld : Gfx_TangentToWorld0)
+	{
+		float4 sample_70 = MR_Sample(BaseColor, Gfx_UV);
+		float3 combine_76 = float3(sample_70.x, sample_70.y, sample_70.z);
+		deferredOut.color = combine_76;
+		float4 sample_71 = MR_Sample(Material, Gfx_UV);
+		deferredOut.roughness = sample_71.y;
+		deferredOut.metalness = sample_71.x;
+		float4 sample_72 = MR_Sample(Normal, Gfx_UV);
+		float3 normal_75;
+		float ambientOcclusion_75;
+		UnpackNormalAndAO(sample_72, normal_75, ambientOcclusion_75);
+		deferredOut.ao = ambientOcclusion_75;
+		deferredOut.opacity = sample_71.z;
+		float3 transform_77 = MR_Transform(Gfx_TangentToWorld, normal_75);
+		float3 flippedNormal = transform_77;
+		if (!MR_IsFrontFace)
+		    flippedNormal = -flippedNormal;
+		deferredOut.worldNormal = flippedNormal;
+	}
+}

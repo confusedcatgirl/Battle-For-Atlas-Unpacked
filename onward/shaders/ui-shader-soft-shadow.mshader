@@ -1,0 +1,46 @@
+<shaderType = "UI", >
+import "shaders/modules/graphics/drawer/drawer.h"
+blend {
+	writeMask = rgba,
+	src = 1,
+	src.a = 0,
+}
+pixel
+{
+	main(out float4 colorOut : MR_Color0, float2 Gfx_UV2 : Gfx_UV2, 
+		float2 Gfx_UV : Gfx_UV0)
+	{
+		float sub_63 = float(1) - Gfx_UV2.y;
+		float mul_64 = sub_63 * float(2);
+		float clamp_65 = clamp(mul_64, float(0), float(1));
+		float sub_56 = float(1) - Gfx_UV.x;
+		float add_59 = sub_56 + float(0);
+		float mul_69 = add_59 * float(100);
+		float mul_74 = add_59 * mul_69;
+		float clamp_78 = clamp(mul_74, float(0), float(1));
+		float sub_58 = float(1) - Gfx_UV.y;
+		float add_60 = sub_58 + float(0);
+		float mul_70 = add_60 * float(100);
+		float mul_75 = add_60 * mul_70;
+		float clamp_79 = clamp(mul_75, float(0), float(1));
+		float mul_80 = clamp_78 * clamp_79;
+		float mul_55 = Gfx_UV.x * float(200);
+		float mul_67 = Gfx_UV.x * mul_55;
+		float clamp_72 = clamp(mul_67, float(0), float(1));
+		float mul_57 = Gfx_UV.y * float(200);
+		float mul_68 = Gfx_UV.y * mul_57;
+		float clamp_73 = clamp(mul_68, float(0), float(1));
+		float mul_77 = clamp_72 * clamp_73;
+		float mul_81 = mul_80 * mul_77;
+		float mul_82 = clamp_65 * mul_81;
+		float add_62 = Gfx_UV2.y + float(0.0175);
+		float mul_66 = add_62 * float(1800);
+		float mul_71 = add_62 * mul_66;
+		float clamp_76 = clamp(mul_71, float(0), float(1));
+		float mul_83 = mul_82 * clamp_76;
+		float4 combine_84 = float4(float3(0, 0, 0).x, float3(0, 0, 0).y, float3(0, 0, 0).z, mul_83);
+		float4 finalColor = vec4(0);
+		finalColor = BlendColor(combine_84, float(0));
+		colorOut = finalColor;
+	}
+}

@@ -1,0 +1,17 @@
+<keywords = { "LIGHT_FROM_GROUND", "IS_MAIN_PLANET", "GFX_DEPTH_SHADER", }, >
+pixel
+{
+	struct CustomData {
+		float4 myColour <config = { type = "ColorBox", }, default = 1 1 1 1, label = "Colour", pinId = 107>;
+		float myEmissionIntensity <default = 1, label = "Emission Intensity", pinId = 108>;
+		float4 myEmissiveColor <config = { type = "ColorBox", }, default = 0 0 0 0, label = "Emissive Color", pinId = 109>;
+	};
+	main(CustomData customData : Gfx_CustomData, out float4 colorOut : MR_Color0, 
+		float Gfx_AlphaRef : Gfx_AlphaRef0, 
+		float3 Gfx_CameraSpacePos : Gfx_CameraSpacePos0)
+	{
+		if (float(1) < Gfx_AlphaRef) discard;
+		float4 depthResult = float4(Gfx_CameraSpacePos.z, 0, 0, float(1));
+		colorOut = depthResult;
+	}
+}

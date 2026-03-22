@@ -1,0 +1,19 @@
+<shaderType = "Vertex">
+vertex
+{
+	struct CustomData {
+		float myoffset <default = -0.01, label = "offset", pinId = 104>;
+	};
+	void ClipSpaceModifier(inout float4 Gfx_ClipPosition : Gfx_ClipPosition, 
+		CustomData customData : Gfx_CustomData0)
+	{
+		float4 combine_8 = float4(float(0), float(0), customData.myoffset, float(0));
+		float4 add_9 = Gfx_ClipPosition + combine_8;
+		Gfx_ClipPosition = add_9;
+	}
+	main(CustomData customData : Gfx_CustomData0, 
+		inout float4 Gfx_ClipPosition : Gfx_ClipPosition <modifier = "ClipSpaceModifier">)
+	{
+		// dummy comment so the shader writer does save this out
+	}
+}

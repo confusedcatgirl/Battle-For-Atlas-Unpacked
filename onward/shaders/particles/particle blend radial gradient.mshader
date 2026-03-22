@@ -1,0 +1,46 @@
+<shaderType = "Particle", >
+import "shaders/nodes/shader/functions/onward planet particle multiplier.h"
+import "shaders/nodes/shader/particles/soft.h"
+blend {
+	src = 1,
+}
+pixel
+{
+	MR_Sampler2D Gradient : MR_Texture0 {
+		wrap = clamp,
+	} <pinId = 102>;
+	struct CustomInterpolators {
+		float myIntensity <default = 1, label = "Intensity", pinId = 201>;
+		float myGradientV <default = 0.5, label = "Gradient V", pinId = 202>;
+	};
+	float2 GetRadialUV(float2 aInstanceUV, float v)
+	{
+		float2 t = aInstanceUV * 2 - vec2(1);
+		 float d = saturate(length(t));
+		 return float2(d, v);
+	}
+	main(out float4 colorOut : MR_Color0, 
+		float2 Particle_InstanceUV : Particle_InstanceUV0, 
+		CustomInterpolators customInterpolators : Gfx_CustomInterpolators0, 
+		float4 Particle_Color : Particle_Color0, 
+		float3 Particle_Position : Particle_Position0, 
+		float4 Particle_ShaderParams : Particle_ShaderParams0, 
+		float4 MR_FragCoord : MR_FragCoord)
+	{
+		float4 result28 = vec4(0);
+		float2 GetRadialUV_18 = GetRadialUV(Particle_InstanceUV, customInterpolators.myGradientV);
+		float4 sample_21 = MR_Sample(Gradient, GetRadialUV_18);
+		float4 smear_20 = float4(customInterpolators.myIntensity, customInterpolators.myIntensity, customInterpolators.myIntensity, customInterpolators.myIntensity);
+		float4 mul_22 = Particle_Color * smear_20;
+		float saturate_24 = saturate(mul_22.w);
+		float4 combine_25 = float4(mul_22.x, mul_22.y, mul_22.z, saturate_24);
+		float4 mul_26 = sample_21 * combine_25;
+		float4 OnwardPlanetParticleMultiplier_27 = OnwardPlanetParticleMultiplier(mul_26, Particle_Position);
+		result28 += float4(OnwardPlanetParticleMultiplier_27.xyz, 1) * OnwardPlanetParticleMultiplier_27.w;
+		float4 colorOut_15;
+		float alphaOut_15;
+		SoftParticle(float4(0, 0, 0, 0), Particle_ShaderParams, MR_FragCoord, colorOut_15, alphaOut_15);
+		result28 *= alphaOut_15;
+		colorOut = result28;
+	}
+}

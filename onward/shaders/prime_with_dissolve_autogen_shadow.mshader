@@ -1,0 +1,50 @@
+<keywords = { "LIGHT_FROM_GROUND", "IS_MAIN_PLANET", "GFX_SHADOW_SHADER", }, >
+pixel
+{
+	MR_Sampler2D BaseColor : MR_Texture0 {
+		texture = "onward/baked/textures/default_b.dds",
+	} <label = "Base Color", pinId = 102>;
+	MR_Sampler2D Sampler_83 : MR_Texture3 {
+		texture = "onward/baked/textures/tiling_noise_cloud.dds",
+	};
+	struct CustomData {
+		float4 myEmissive <config = { type = "ColorBox", }, default = 1 1 1 1, label = "Emissive", pinId = 117>;
+		float myEmissionIntensity <default = 0, label = "Emission Intensity", pinId = 106>;
+		float myDissolve <config = { max = 1, min = 0, type = "Slider", }, default = 0, label = "Dissolve", pinId = 108>;
+		float3 myDissolveUV <default = 0.1 0.1 0.1, label = "Dissolve UV", pinId = 133>;
+	};
+	main(out float4 colorOut : MR_Color0, CustomData customData : Gfx_CustomData0, 
+		float3 Gfx_ModelSpacePos : Gfx_ModelSpacePos0, 
+		float3 Gfx_ModelSpaceNormal : Gfx_ModelSpaceNormal0, float2 Gfx_UV : Gfx_UV0, 
+		float Gfx_AlphaRef : Gfx_AlphaRef0)
+	{
+		float sub_120 = float(1) - customData.myDissolve;
+		float mul_127 = sub_120 * float(0.5);
+		float3 mul_112 = Gfx_ModelSpacePos * customData.myDissolveUV;
+		float2 combine_122 = float2(mul_112.x, mul_112.y);
+		float4 sample_129 = MR_Sample(Sampler_83, combine_122);
+		float2 combine_121 = float2(mul_112.x, mul_112.z);
+		float4 sample_128 = MR_Sample(Sampler_83, combine_121);
+		float dot_99 = dot(float3(0, 1, 0), Gfx_ModelSpaceNormal);
+		float abs_101 = abs(dot_99);
+		float smoothStep_103 = smoothstep(float(0.4), float(0.6), abs_101);
+		float4 smear_105 = float4(smoothStep_103, smoothStep_103, smoothStep_103, smoothStep_103);
+		float4 lerp_136 = lerp(sample_129, sample_128, smear_105);
+		float2 combine_123 = float2(mul_112.y, mul_112.z);
+		float4 sample_130 = MR_Sample(Sampler_83, combine_123);
+		float dot_100 = dot(float3(1, 0, 0), Gfx_ModelSpaceNormal);
+		float abs_102 = abs(dot_100);
+		float smoothStep_104 = smoothstep(float(0.4), float(0.6), abs_102);
+		float4 smear_106 = float4(smoothStep_104, smoothStep_104, smoothStep_104, smoothStep_104);
+		float4 lerp_137 = lerp(lerp_136, sample_130, smear_106);
+		float4 mul_139 = lerp_137 * float4(0.5, 0.5, 0.5, 0.5);
+		float truncate_141 = float(mul_139.x);
+		float add_144 = mul_127 + truncate_141;
+		float step_147 = step(float(0.5), add_144);
+		float4 sample_113 = MR_Sample(BaseColor, Gfx_UV);
+		float mul_150 = step_147 * sample_113.w;
+		if (mul_150 < Gfx_AlphaRef) discard;
+		float4 shadowResult = float4(0.0, 0.0, 0.0, mul_150);
+		colorOut = shadowResult;
+	}
+}

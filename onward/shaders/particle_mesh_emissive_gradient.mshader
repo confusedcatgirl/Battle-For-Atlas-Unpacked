@@ -1,0 +1,39 @@
+<emission = true, shaderType = "Object", keywords = { "LIGHT_FROM_GROUND", "IS_MAIN_PLANET", "GFX_FORWARD_SHADER", }, >
+import "shaders/nodes/shader/functions/onward/lighting/ow_fullgroundbaselighting.h"
+import "shaders/nodes/shader/functions/ow emissive intensity multiplier.h"
+import "shaders/nodes/shader/functions/onward/lighting/ow_groundfog.h"
+pixel
+{
+	MR_Sampler2D EmissiveGradient : MR_Texture0 {
+		texture = "onward/baked/textures/default_b.dds",
+	} <label = "Emissive Gradient", pinId = 102>;
+	struct CustomData {
+		float myEmissiveIntensity <default = 1, label = "Emissive Intensity", pinId = 108>;
+		float3 myColor <config = { type = "ColorBox", }, default = 1 1 1, label = "Color", pinId = 112>;
+		float myRoughness <default = 1, label = "Roughness", pinId = 113>;
+		float myMetalness <default = 0, label = "Metalness", pinId = 114>;
+		float myAmbientOcclusion <default = 1, label = "Ambient Occlusion", pinId = 115>;
+	};
+	main(out float4 colorOut : MR_Color0, CustomData customData : Gfx_CustomData0, 
+		float3 Gfx_FlattenedWorldNormal : Gfx_FlattenedWorldNormal0, 
+		Gfx_LightingDataStruct Gfx_LightingData : Gfx_LightingData0, 
+		float2 Gfx_UV : Gfx_UV0, float3 Gfx_WorldSpacePos : Gfx_WorldSpacePos0, 
+		float4 MR_FragCoord : MR_FragCoord)
+	{
+		float3 mul_49 = customData.myColor * customData.myColor;
+		float3 aLightOut_52;
+		OW_FullBaseGroundLighting(aLightOut_52, mul_49, Gfx_FlattenedWorldNormal, float(1), customData.myRoughness, customData.myMetalness, customData.myAmbientOcclusion, Gfx_LightingData);
+		float4 sample_50 = MR_Sample(EmissiveGradient, Gfx_UV);
+		float4 smear_48 = float4(customData.myEmissiveIntensity, customData.myEmissiveIntensity, customData.myEmissiveIntensity, customData.myEmissiveIntensity);
+		float4 mul_51 = sample_50 * smear_48;
+		float3 truncate_54 = float3(mul_51.xyz);
+		float4 truncate_56 = float4(truncate_54.xyz, 1);
+		float4 OWEmissiveIntensityMultiplier_58 = OWEmissiveIntensityMultiplier(truncate_56);
+		float3 truncate_60 = float3(OWEmissiveIntensityMultiplier_58.xyz);
+		float3 add_64 = aLightOut_52 + truncate_60;
+		float3 aColor_66 = add_64;
+		OW_GroundFog(aColor_66, Gfx_WorldSpacePos, MR_FragCoord);
+		float4 result_68 = float4(aColor_66, 1);
+		colorOut = result_68;
+	}
+}

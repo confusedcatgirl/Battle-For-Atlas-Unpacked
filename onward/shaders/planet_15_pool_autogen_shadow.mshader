@@ -1,0 +1,110 @@
+<keywords = { "HAS_OPACITY", "LIGHT_FROM_GROUND", "IS_MAIN_PLANET", "GFX_SHADOW_SHADER", }, >
+import "shaders/modules/graphics/environment.h"
+import "shaders/nodes/shader/functions/unpack normal.h"
+pixel
+{
+	MR_Sampler2D NormalWithFoam : MR_Texture0 {
+		texture = "onward/baked/textures/water_with_foam_n.dds",
+	} <pinId = 108>;
+	struct CustomData {
+		float3 myColor <config = { type = "ColorBox", }, default = 0 0 0, label = "Color", pinId = 107>;
+		float2 myNormalTililng <default = 1 1, label = "Normal Tililng", pinId = 111>;
+		float3 mySpeed <default = 3 1 0.5, label = "Speed", pinId = 112>;
+		float2 myNoisetiling <default = 0 0, label = "Noise tiling", pinId = 118>;
+		float myFoamRoughness <default = 1, label = "Foam Roughness", pinId = 119>;
+		float myFoamAmmount <config = { max = 1, min = 0, type = "Slider", }, default = 0, label = "Foam Ammount", pinId = 120>;
+	};
+	main(out float4 colorOut : MR_Color0, CustomData customData : Gfx_CustomData0, 
+		float3 Gfx_ModelSpacePos : Gfx_ModelSpacePos0, 
+		float3 Gfx_ModelSpaceNormal : Gfx_ModelSpaceNormal0, 
+		float Gfx_AlphaRef : Gfx_AlphaRef0)
+	{
+		float add_205 = customData.myFoamAmmount + float(1);
+		float smoothStep_212 = smoothstep(float(0), float(0.05), add_205);
+		float smoothStep_213 = smoothstep(float(0), float(0.1), add_205);
+		float smoothStep_211 = smoothstep(float(2), float(0), add_205);
+		float mul_221 = smoothStep_213 * smoothStep_211;
+		float lerp_227 = lerp(float(3), float(0), mul_221);
+		float2 combine_171 = float2(Gfx_ModelSpacePos.z, Gfx_ModelSpacePos.y);
+		float2 mul_208 = combine_171 * customData.myNormalTililng;
+		float mul_172 = Gfx_Environment.time * float(0.002);
+		float3 smear_185 = float3(mul_172, mul_172, mul_172);
+		float3 mul_217 = customData.mySpeed * smear_185;
+		float2 combine_228 = float2(mul_217.x, float(0));
+		float2 add_233 = mul_208 + combine_228;
+		float4 sample_240 = MR_Sample(NormalWithFoam, add_233);
+		float3 normal_249;
+		float ambientOcclusion_249;
+		UnpackNormalAndAO(sample_240, normal_249, ambientOcclusion_249);
+		float2 combine_236 = float2(-mul_217.x, -mul_217.y);
+		float2 add_243 = mul_208 + combine_236;
+		float4 sample_252 = MR_Sample(NormalWithFoam, add_243);
+		float3 normal_261;
+		float ambientOcclusion_261;
+		UnpackNormalAndAO(sample_252, normal_261, ambientOcclusion_261);
+		float add_267 = ambientOcclusion_249 + ambientOcclusion_261;
+		float2 combine_232 = float2(-mul_217.z, mul_217.z);
+		float2 add_237 = mul_208 + combine_232;
+		float4 sample_246 = MR_Sample(NormalWithFoam, add_237);
+		float3 normal_255;
+		float ambientOcclusion_255;
+		UnpackNormalAndAO(sample_246, normal_255, ambientOcclusion_255);
+		float add_274 = add_267 + ambientOcclusion_255;
+		float3 abs_115 = abs(Gfx_ModelSpaceNormal);
+		float3 combine_167 = float3(float(23.4554), float(23.4554), float(23.4554));
+		float3 pow_168 = pow(abs(abs_115), combine_167);
+		float3 normalize_184 = normalize(pow_168);
+		float add_189 = normalize_184.x + normalize_184.y;
+		float add_190 = add_189 + normalize_184.z;
+		float3 combine_191 = float3(add_190, add_190, add_190);
+		float3 div_192 = normalize_184 / combine_191;
+		float mul_281 = add_274 * div_192.x;
+		float2 combine_169 = float2(Gfx_ModelSpacePos.x, Gfx_ModelSpacePos.z);
+		float2 mul_206 = combine_169 * customData.myNormalTililng;
+		float2 add_234 = mul_206 + combine_228;
+		float4 sample_241 = MR_Sample(NormalWithFoam, add_234);
+		float3 normal_250;
+		float ambientOcclusion_250;
+		UnpackNormalAndAO(sample_241, normal_250, ambientOcclusion_250);
+		float2 add_244 = mul_206 + combine_236;
+		float4 sample_253 = MR_Sample(NormalWithFoam, add_244);
+		float3 normal_262;
+		float ambientOcclusion_262;
+		UnpackNormalAndAO(sample_253, normal_262, ambientOcclusion_262);
+		float add_269 = ambientOcclusion_250 + ambientOcclusion_262;
+		float2 add_238 = mul_206 + combine_232;
+		float4 sample_247 = MR_Sample(NormalWithFoam, add_238);
+		float3 normal_256;
+		float ambientOcclusion_256;
+		UnpackNormalAndAO(sample_247, normal_256, ambientOcclusion_256);
+		float add_276 = add_269 + ambientOcclusion_256;
+		float mul_283 = add_276 * div_192.y;
+		float add_287 = mul_281 + mul_283;
+		float2 combine_170 = float2(Gfx_ModelSpacePos.x, Gfx_ModelSpacePos.y);
+		float2 mul_207 = combine_170 * customData.myNormalTililng;
+		float2 add_235 = mul_207 + combine_228;
+		float4 sample_242 = MR_Sample(NormalWithFoam, add_235);
+		float3 normal_251;
+		float ambientOcclusion_251;
+		UnpackNormalAndAO(sample_242, normal_251, ambientOcclusion_251);
+		float2 add_245 = mul_207 + combine_236;
+		float4 sample_254 = MR_Sample(NormalWithFoam, add_245);
+		float3 normal_263;
+		float ambientOcclusion_263;
+		UnpackNormalAndAO(sample_254, normal_263, ambientOcclusion_263);
+		float add_271 = ambientOcclusion_251 + ambientOcclusion_263;
+		float2 add_239 = mul_207 + combine_232;
+		float4 sample_248 = MR_Sample(NormalWithFoam, add_239);
+		float3 normal_257;
+		float ambientOcclusion_257;
+		UnpackNormalAndAO(sample_248, normal_257, ambientOcclusion_257);
+		float add_278 = add_271 + ambientOcclusion_257;
+		float mul_285 = add_278 * div_192.z;
+		float add_290 = add_287 + mul_285;
+		float smoothStep_294 = smoothstep(lerp_227, float(3.01), add_290);
+		float add_300 = smoothStep_212 + smoothStep_294;
+		if (add_300 < Gfx_AlphaRef) discard;
+		float4 shadowResult = float4(0.0, 0.0, 0.0, add_300);
+		colorOut = shadowResult;
+	}
+}

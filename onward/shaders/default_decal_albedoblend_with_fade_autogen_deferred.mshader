@@ -1,0 +1,30 @@
+<decal = true, >
+import "shaders/nodes/shader/object/mark as decal.h"
+import "shaders/MRender/MR_ViewConstants.h"
+blend {}
+pixel
+{
+	MR_Sampler2D BaseColor : MR_Texture0 {
+		texture = "onward/baked/textures/default_b.dds",
+	} <label = "Base Color", pinId = 102>;
+	struct CustomData {
+		float myAlpha <config = { max = 1, min = 0, }, default = 1, label = "Alpha", pinId = 101>;
+		float myStartFade <default = 500, label = "StartFade", pinId = 107>;
+		float myEndFade <default = 300, label = "EndFade", pinId = 108>;
+	};
+	main(out float4 colorOut : MR_Color0, float2 Gfx_UV : Gfx_UV0, 
+		CustomData customData : Gfx_CustomData0, 
+		float3 Gfx_WorldSpacePos : Gfx_WorldSpacePos0)
+	{
+		float4 sample_44 = MR_Sample(BaseColor, Gfx_UV);
+		float4 DecalPassthrough_45 = DecalPassthrough(sample_44);
+		float3 truncate_48 = float3(DecalPassthrough_45.xyz);
+		float3 sub_40 = Gfx_WorldSpacePos - MR_ViewConstants.LODCameraPosition;
+		float length_41 = length(sub_40);
+		float smoothStep_49 = smoothstep(customData.myStartFade, customData.myEndFade, length_41);
+		float mul_50 = sample_44.w * smoothStep_49;
+		float mul_51 = customData.myAlpha * mul_50;
+		float4 deferredResult = float4(truncate_48, mul_51);
+		colorOut = deferredResult;
+	}
+}

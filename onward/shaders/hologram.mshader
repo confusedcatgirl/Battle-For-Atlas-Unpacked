@@ -1,0 +1,142 @@
+<shaderType = "Object", keywords = { "GFX_FORWARD_SHADER", }, >
+import "shaders/modules/graphics/environment.h"
+import "shaders/MRender/MR_ViewConstants.h"
+import "shaders/nodes/shader/functions/ow emissive intensity multiplier.h"
+import "shaders/nodes/shader/functions/getplanetposition.h"
+import "shaders/nodes/shader/functions/getplanetradiusmax.h"
+blend {
+	src = 1,
+	dest = 1,
+}
+pixel
+{
+	import "shaders/MRender/MR_ViewConstants.h"
+	MR_Sampler2D BaseColor : MR_Texture0 <label = "Base Color", pinId = 101>;
+	MR_Sampler2D Sampler_234 : MR_Texture1 {
+		texture = "gradient/1x16 1 1 0 5a775358",
+	};
+	MR_Sampler2D Sampler_133 : MR_Texture2 {
+		texture = "onward/baked/textures/postfx_second_chance_grid_b.dds",
+	};
+	MR_Sampler2D Sampler_233 : MR_Texture3 {
+		texture = "gradient/1x16 1 1 0 a3597d63",
+	};
+	MR_Sampler2D Sampler_129 : MR_Texture4 {
+		texture = "onward/baked/textures/FX/fx_cross_pattern_b.dds",
+	};
+	struct CustomData {
+		float myUseTextureColor <default = 0, label = "UseTextureColor", pinId = 102>;
+		float3 myGlowIntensity <default = 1 1 1, label = "GlowIntensity", pinId = 103>;
+	};
+	float4 toClip(float4 pos)
+	{
+		float4 newPos = MR_Transform(MR_ViewConstants.worldToClip, pos);
+		return newPos;
+	}
+	float FresnelSchlickFN(float aSpec, float3 aV1, float3 aV2, float aPow)
+	{
+		return aSpec + (1.0 - aSpec) * (pow(saturate(1.0 - (dot(aV1, aV2))), aPow));
+	}
+	main(out float4 colorOut : MR_Color0, CustomData customData : Gfx_CustomData0, 
+		float4 Gfx_Color : Gfx_Color0, float2 Gfx_UV : Gfx_UV0, 
+		float3 Gfx_ModelSpacePos : Gfx_ModelSpacePos0, 
+		float3 Gfx_WorldSpaceNormal : Gfx_WorldSpaceNormal0, 
+		float4 Gfx_ClipPosition : Gfx_ClipPosition0, 
+		float3x4 Gfx_ObjectToWorldMatrix : Gfx_ObjectToWorldMatrix0, 
+		float3 Gfx_WorldSpacePos : Gfx_WorldSpacePos0)
+	{
+		float3 combine_161 = float3(Gfx_Color.x, Gfx_Color.y, Gfx_Color.z);
+		float4 sample_229 = MR_Sample(BaseColor, Gfx_UV);
+		float3 combine_235 = float3(sample_229.x, sample_229.y, sample_229.z);
+		float3 combine_228 = float3(customData.myUseTextureColor, customData.myUseTextureColor, customData.myUseTextureColor);
+		float3 lerp_237 = lerp(combine_161, combine_235, combine_228);
+		float mul_236 = sample_229.w * Gfx_Color.w;
+		float3 combine_238 = float3(mul_236, mul_236, mul_236);
+		float3 mul_239 = lerp_237 * combine_238;
+		float3 mul_240 = customData.myGlowIntensity * mul_239;
+		float div_162 = Gfx_ModelSpacePos.y / float(10);
+		float2 combine_170 = float2(float(0), div_162);
+		float mul_168 = Gfx_Environment.time * float(-0.35);
+		float2 combine_169 = float2(float(0), mul_168);
+		float2 add_179 = combine_170 + combine_169;
+		float2 mul_186 = add_179 * float2(1, 1);
+		float2 truncate_152 = float2(Gfx_WorldSpaceNormal.xy);
+		float2 mul_167 = truncate_152 * float2(0, 0.2);
+		float2 add_192 = mul_186 + mul_167;
+		float4 sample_241 = MR_Sample(Sampler_234, add_192);
+		float4 mul_243 = float4(250, 250, 250, 1) * sample_241;
+		float4 mul_244 = mul_243 * sample_241;
+		float2 combine_164 = float2(Gfx_ClipPosition.x, Gfx_ClipPosition.y);
+		float2 smear_165 = float2(Gfx_ClipPosition.w, Gfx_ClipPosition.w);
+		float2 div_177 = combine_164 / smear_165;
+		float3 transform_174 = MR_Transform(Gfx_ObjectToWorldMatrix, float3(0, 0, 0));
+		float4 combine_181 = float4(transform_174, float(1));
+		float4 toClip_188 = toClip(combine_181);
+		float2 combine_198 = float2(toClip_188.x, toClip_188.y);
+		float2 smear_199 = float2(toClip_188.w, toClip_188.w);
+		float2 div_204 = combine_198 / smear_199;
+		float sub_206 = div_177.x - div_204.x;
+		float sub_207 = div_204.y - div_177.y;
+		float2 combine_208 = float2(sub_206, sub_207);
+		float2 mul_209 = combine_208 * float2(25, 25);
+		float4 sample_211 = MR_Sample(Sampler_133, mul_209);
+		float4 smear_215 = float4(sample_211.x, sample_211.x, sample_211.x, sample_211.x);
+		float4 mul_247 = mul_244 * smear_215;
+		float3 sub_136 = MR_ViewConstants.LODCameraPosition - Gfx_WorldSpacePos;
+		float3 normalize_166 = normalize(sub_136);
+		float FresnelSchlickFN_178 = FresnelSchlickFN(float(0.001), Gfx_WorldSpaceNormal, normalize_166, float(3));
+		float3 smear_185 = float3(FresnelSchlickFN_178, FresnelSchlickFN_178, FresnelSchlickFN_178);
+		float3 mul_191 = smear_185 * float3(3, 3, 3);
+		float3 mul_197 = mul_191 * float3(1, 1, 1);
+		float4 truncate_203 = float4(mul_197.xyz, 1);
+		float4 mul_248 = mul_247 * truncate_203;
+		float div_163 = Gfx_ModelSpacePos.y / float(10);
+		float2 combine_173 = float2(float(0), div_163);
+		float mul_171 = Gfx_Environment.time * float(-0.35);
+		float2 combine_172 = float2(float(0), mul_171);
+		float2 add_180 = combine_173 + combine_172;
+		float2 mul_187 = add_180 * float2(1, 0.2);
+		float2 add_193 = mul_187 + mul_167;
+		float4 sample_242 = MR_Sample(Sampler_233, add_193);
+		float4 truncate_201 = float4(mul_197.xyz, 1);
+		float4 mul_245 = sample_242 * truncate_201;
+		float4 mul_246 = mul_245 * float4(5, 5, 5, 1);
+		float truncate_202 = float(mul_197.x);
+		float mul_216 = truncate_202 * sample_211.x;
+		float4 smear_218 = float4(mul_216, mul_216, mul_216, mul_216);
+		float4 mul_220 = smear_218 * float4(1, 1, 1, 1);
+		float4 mul_222 = mul_220 * float4(2, 2, 2, 1);
+		float4 add_249 = mul_246 + mul_222;
+		float2 mul_210 = combine_208 * float2(6, 6);
+		float4 sample_212 = MR_Sample(Sampler_129, mul_210);
+		float3 truncate_214 = float3(sample_212.xyz);
+		float4 smear_219 = float4(truncate_214.x, truncate_214.x, truncate_214.x, truncate_214.x);
+		float4 mul_221 = smear_219 * float4(0.05, 0.05, 0.05, 1);
+		float4 mul_223 = mul_221 * float4(300, 300, 300, 1);
+		float3 sub_182 = Gfx_ModelSpacePos - transform_174;
+		float length_189 = length(sub_182);
+		float smoothStep_195 = smoothstep(float(100), float(0), length_189);
+		float4 smear_200 = float4(smoothStep_195, smoothStep_195, smoothStep_195, smoothStep_195);
+		float4 mul_224 = mul_223 * smear_200;
+		float4 truncate_175 = float4(float3(1, 1, 1).xyz, 1);
+		float4 mul_225 = mul_224 * truncate_175;
+		float4 mul_250 = mul_248 * mul_225;
+		float4 add_251 = add_249 + mul_250;
+		float4 add_252 = mul_248 + add_251;
+		float3 combine_254 = float3(add_252.x, add_252.y, add_252.z);
+		float3 mul_255 = mul_240 * combine_254;
+		float4 truncate_256 = float4(mul_255.xyz, 1);
+		float4 OWEmissiveIntensityMultiplier_257 = OWEmissiveIntensityMultiplier(truncate_256);
+		float3 GetPlanetPosition_119 = GetPlanetPosition();
+		float3 sub_158 = MR_ViewConstants.LODCameraPosition - GetPlanetPosition_119;
+		float length_176 = length(sub_158);
+		float GetPlanetRadiusMax_122 = GetPlanetRadiusMax();
+		float sub_183 = length_176 - GetPlanetRadiusMax_122;
+		float smoothStep_190 = smoothstep(float(300), float(100), sub_183);
+		float4 smear_196 = float4(smoothStep_190, smoothStep_190, smoothStep_190, smoothStep_190);
+		float4 mul_259 = OWEmissiveIntensityMultiplier_257 * smear_196;
+		float3 truncate_260 = float3(mul_259.xyz);
+		float4 result_262 = float4(truncate_260, 1);
+		colorOut = result_262;
+	}
+}

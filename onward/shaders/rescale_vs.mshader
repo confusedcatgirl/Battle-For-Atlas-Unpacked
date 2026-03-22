@@ -1,0 +1,41 @@
+<shaderType = "Vertex">
+import "shaders/MRender/MR_ViewConstants.h"
+import "shaders/nodes/shader/functions/onward/ow_getloddistancebias.h"
+import "shaders/nodes/shader/functions/onward/ow_getshadownearfade.h"
+vertex
+{
+	struct CustomData {
+		float myStartRange <default = 0, label = "Start Range", pinId = 101>;
+		float myEndRange <default = 500, label = "End Range", pinId = 102>;
+		float myMinScale <default = 1, label = "Min Scale", pinId = 103>;
+		float myMaxScale <default = 10, label = "Max Scale", pinId = 104>;
+		float myScalePower <default = 1, label = "Scale Power", pinId = 105>;
+	};
+	void ModelSpaceModifier(inout float3 Gfx_ModelSpacePos : Gfx_ModelSpacePos, 
+		float3x4 Gfx_ObjectToWorldMatrix : Gfx_ObjectToWorldMatrix0, 
+		CustomData customData : Gfx_CustomData0)
+	{
+		float3 transform_6 = MR_Transform(Gfx_ObjectToWorldMatrix, float3(0, 0, 0));
+		float3 sub_8 = MR_ViewConstants.LODCameraPosition - transform_6;
+		float length_9 = length(sub_8);
+		float OW_GetLODDistanceBias_4 = OW_GetLODDistanceBias();
+		float add_10 = length_9 + OW_GetLODDistanceBias_4;
+		float sub_13 = add_10 - customData.myStartRange;
+		float sub_12 = customData.myEndRange - customData.myStartRange;
+		float div_14 = sub_13 / sub_12;
+		float saturate_15 = saturate(div_14);
+		float pow_16 = pow(abs(saturate_15), customData.myScalePower);
+		float lerp_17 = lerp(customData.myMinScale, customData.myMaxScale, pow_16);
+		float OW_GetShadowNearFade_7 = OW_GetShadowNearFade(transform_6);
+		float mul_18 = lerp_17 * OW_GetShadowNearFade_7;
+		float3 smear_19 = float3(mul_18, mul_18, mul_18);
+		float3 mul_20 = smear_19 * Gfx_ModelSpacePos;
+		Gfx_ModelSpacePos = mul_20;
+	}
+	main(CustomData customData : Gfx_CustomData0, 
+		float3x4 Gfx_ObjectToWorldMatrix : Gfx_ObjectToWorldMatrix0, 
+		inout float3 Gfx_ModelSpacePos : Gfx_ModelSpacePos <modifier = "ModelSpaceModifier">)
+	{
+		// dummy comment so the shader writer does save this out
+	}
+}

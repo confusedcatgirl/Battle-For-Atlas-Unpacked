@@ -1,0 +1,91 @@
+<shaderType = "Object", keywords = { "GFX_FORWARD_SHADER", }, >
+import "shaders/modules/graphics/environment.h"
+import "shaders/nodes/shader/functions/onward/lighting/ow_getspacefog.h"
+import "shaders/nodes/shader/functions/onward/lighting/ow_applyfogextinction.h"
+blend {
+	src = 1,
+	dest = 1,
+}
+pixel
+{
+	MR_Sampler2D Add : MR_Texture0 {
+		wrap = clamp,
+	} <pinId = 101>;
+	MR_Sampler2D ErosionSource0AddTexture1SecondTexture : MR_Texture1 {
+		texture = "onward/baked/textures/debug_white.dds",
+	} <label = "Erosion Source 0 Add Texture 1 Second Texture", pinId = 110>;
+	struct CustomData {
+		float3 myColor <config = { type = "ColorBox", }, default = 1 1 1, label = "Color", pinId = 102>;
+		float myIntensity <default = 1, label = "Intensity", pinId = 104>;
+		float2 myScaleUV <default = 1 1, label = "Scale UV", pinId = 105>;
+		float2 myOffsetUV <default = 0 0, label = "Offset UV", pinId = 106>;
+		float2 myUVspeed <default = 0 0, label = "UV speed", pinId = 107>;
+		float myUVRotation <default = 0, label = "UV Rotation", pinId = 108>;
+		float myRotationSpeed <default = 0, label = "Rotation Speed", pinId = 109>;
+		float2 myTexture2ScaleUV <default = 1 1, label = "Texture 2 Scale UV", pinId = 111>;
+		float2 myTexture2OffsetUV <default = 0 0, label = "Texture 2 Offset UV", pinId = 112>;
+		float2 myTexture2UVSpeed <default = 0 0, label = "Texture 2 UV Speed", pinId = 113>;
+		float myTexture2UVRotation <default = 0, label = "Texture 2 UV Rotation", pinId = 114>;
+		float myTexture2UVRotationSpeed <default = 0, label = "Texture 2 UV Rotation Speed", pinId = 115>;
+		float myErosion <default = 0, label = "Erosion", pinId = 103>;
+		float myErosionSelector <config = { max = 1, min = 0, }, default = 0, label = "Erosion Selector", pinId = 116>;
+		float myUseUnscaledGameTime <default = 0, label = "Use Unscaled Game Time", pinId = 117>;
+		float myUnscaledGameTime <default = 0, label = "Unscaled Game Time", pinId = 118>;
+	};
+	main(out float4 colorOut : MR_Color0, CustomData customData : Gfx_CustomData0, 
+		float2 Gfx_UV : Gfx_UV0, float3 Gfx_WorldSpacePos : Gfx_WorldSpacePos0, 
+		float4 MR_FragCoord : MR_FragCoord, float Gfx_AlphaRef : Gfx_AlphaRef0)
+	{
+		float lerp_79 = lerp(Gfx_Environment.time, customData.myUnscaledGameTime, customData.myUseUnscaledGameTime);
+		float mul_80 = lerp_79 * customData.myUVspeed.x;
+		float2 sub_68 = Gfx_UV - float2(0.5, 0.5);
+		float mul_85 = lerp_79 * customData.myRotationSpeed;
+		float add_87 = customData.myUVRotation + mul_85;
+		float sinAngle_88 = sin(add_87);
+		float cosAngle_88 = cos(add_87);
+		float2x2 rotMat_88 = { cosAngle_88, -sinAngle_88, sinAngle_88, cosAngle_88 };
+		float2 rot2d_88 = MR_Transform(rotMat_88, sub_68);
+		float2 add_90 = rot2d_88 + float2(0.5, 0.5);
+		float2 mul_92 = add_90 * customData.myScaleUV;
+		float2 add_94 = mul_92 + customData.myOffsetUV;
+		float add_98 = mul_80 + add_94.x;
+		float mul_81 = lerp_79 * customData.myUVspeed.y;
+		float add_99 = mul_81 + add_94.y;
+		float2 combine_102 = float2(add_98, add_99);
+		float4 sample_104 = MR_Sample(Add, combine_102);
+		float3 combine_108 = float3(sample_104.x, sample_104.y, sample_104.z);
+		float3 mul_110 = combine_108 * customData.myColor;
+		float3 smear_72 = float3(customData.myIntensity, customData.myIntensity, customData.myIntensity);
+		float3 mul_112 = mul_110 * smear_72;
+		float lerp_78 = lerp(Gfx_Environment.time, customData.myUnscaledGameTime, customData.myUseUnscaledGameTime);
+		float mul_82 = lerp_78 * customData.myTexture2UVSpeed.x;
+		float2 sub_69 = Gfx_UV - float2(0.5, 0.5);
+		float mul_84 = lerp_78 * customData.myTexture2UVRotationSpeed;
+		float add_86 = customData.myTexture2UVRotation + mul_84;
+		float sinAngle_89 = sin(add_86);
+		float cosAngle_89 = cos(add_86);
+		float2x2 rotMat_89 = { cosAngle_89, -sinAngle_89, sinAngle_89, cosAngle_89 };
+		float2 rot2d_89 = MR_Transform(rotMat_89, sub_69);
+		float2 add_91 = rot2d_89 + float2(0.5, 0.5);
+		float2 mul_93 = add_91 * customData.myTexture2ScaleUV;
+		float2 add_95 = mul_93 + customData.myTexture2OffsetUV;
+		float add_100 = mul_82 + add_95.x;
+		float mul_83 = lerp_78 * customData.myTexture2UVSpeed.y;
+		float add_101 = mul_83 + add_95.y;
+		float2 combine_103 = float2(add_100, add_101);
+		float4 sample_105 = MR_Sample(ErosionSource0AddTexture1SecondTexture, combine_103);
+		float3 combine_109 = float3(sample_105.x, sample_105.y, sample_105.z);
+		float3 smear_77 = float3(customData.myErosionSelector, customData.myErosionSelector, customData.myErosionSelector);
+		float3 lerp_111 = lerp(combine_108, combine_109, smear_77);
+		float3 smear_76 = float3(customData.myErosion, customData.myErosion, customData.myErosion);
+		float3 sub_113 = lerp_111 - smear_76;
+		float3 clamp_114 = clamp(sub_113, float3(0, 0, 0), float3(1, 1, 1));
+		float3 mul_115 = mul_112 * clamp_114;
+		float4 OW_GetSpaceFog_67 = OW_GetSpaceFog(Gfx_WorldSpacePos, MR_FragCoord);
+		float3 aColor_117 = mul_115;
+		OW_ApplyFogExtinction(aColor_117, OW_GetSpaceFog_67);
+		if (float(1) < Gfx_AlphaRef) discard;
+		float4 result_119 = float4(aColor_117, float(1));
+		colorOut = result_119;
+	}
+}

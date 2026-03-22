@@ -1,0 +1,25 @@
+<emission = true, shaderType = "Object", >
+pixel
+{
+	MR_Sampler2D BaseColor : MR_Texture0 {
+		texture = "onward/baked/textures/default_b.dds",
+		wrap = border,
+	} <label = "Base Color", pinId = 102>;
+	MR_Sampler2D Normal : MR_Texture1 {
+		texture = "onward/baked/textures/default_n.dds",
+	} <pinId = 103>;
+	MR_Sampler2D Material : MR_Texture2 {
+		texture = "onward/baked/textures/default_m.dds",
+	} <pinId = 104>;
+	main(out float4 colorOut : MR_Color0, float2 Gfx_UV : Gfx_UV0, 
+		float Gfx_AlphaRef : Gfx_AlphaRef0)
+	{
+		clip(Gfx_UV);
+		float2 sub_49 = float2(1, 1) - Gfx_UV;
+		clip(sub_49);
+		float4 sample_61 = MR_Sample(BaseColor, Gfx_UV);
+		if (sample_61.w < Gfx_AlphaRef) discard;
+		float4 result_67 = float4(float3(1, 0, 1), sample_61.w);
+		colorOut = result_67;
+	}
+}

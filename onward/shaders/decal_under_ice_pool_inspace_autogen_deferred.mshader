@@ -1,0 +1,26 @@
+<decal = true, >
+import "shaders/nodes/shader/object/mark as decal.h"
+blend {
+	src = 1,
+	dest = 1,
+	func = max,
+}
+pixel
+{
+	struct CustomData {
+		float4 myIn2 <default = 0 0.38 0.33 1, label = "In 2", pinId = 107>;
+	};
+	main(CustomData customData : Gfx_CustomData, out float4 colorOut : MR_Color0, 
+		float3 Gfx_WorldSpacePos : Gfx_WorldSpacePos0)
+	{
+		float remap_72 = float(0) + saturate((Gfx_WorldSpacePos.y - float(-60)) / (float(0) - float(-60))) * (float(1) - float(0));
+		float mul_75 = remap_72 * remap_72;
+		float mul_77 = mul_75 * float(0.5);
+		float4 combine_79 = float4(mul_77, mul_77, mul_77, float(1));
+		float4 mul_81 = combine_79 * float4(0, 0.38, 0.33, 1);
+		float4 DecalPassthrough_82 = DecalPassthrough(mul_81);
+		float3 truncate_83 = float3(DecalPassthrough_82.xyz);
+		float4 deferredResult = float4(truncate_83, float(1));
+		colorOut = deferredResult;
+	}
+}

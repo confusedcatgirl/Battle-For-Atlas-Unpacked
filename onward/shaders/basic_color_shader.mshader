@@ -1,0 +1,24 @@
+<shaderType = "Object", keywords = { "LIGHT_FROM_GROUND", "IS_MAIN_PLANET", }, >
+import "shaders/nodes/shader/functions/onward/lighting/ow_fullgroundbaselighting.h"
+import "shaders/nodes/shader/functions/onward/lighting/ow_groundfog.h"
+pixel
+{
+	struct CustomData {
+		float3 myColor <config = { type = "ColorBox", }, default = 0 0 0, label = "Color", pinId = 101>;
+	};
+	main(out float4 colorOut : MR_Color0, CustomData customData : Gfx_CustomData0, 
+		float3 Gfx_WorldSpaceNormal : Gfx_WorldSpaceNormal0, 
+		Gfx_LightingDataStruct Gfx_LightingData : Gfx_LightingData0, 
+		float3 Gfx_WorldSpacePos : Gfx_WorldSpacePos0, 
+		float4 MR_FragCoord : MR_FragCoord)
+	{
+		float3 mul_49 = customData.myColor * customData.myColor;
+		float3 normalize_40 = normalize(Gfx_WorldSpaceNormal);
+		float3 aLightOut_50;
+		OW_FullBaseGroundLighting(aLightOut_50, mul_49, normalize_40, float(1), float(1), float(0), float(1), Gfx_LightingData);
+		float3 aColor_53 = aLightOut_50;
+		OW_GroundFog(aColor_53, Gfx_WorldSpacePos, MR_FragCoord);
+		float4 result_55 = float4(aColor_53, 1);
+		colorOut = result_55;
+	}
+}

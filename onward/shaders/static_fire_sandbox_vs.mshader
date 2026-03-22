@@ -1,0 +1,106 @@
+<shaderType = "Vertex">
+import "shaders/modules/graphics/environment.h"
+import "shaders/MRender/MR_ViewConstants.h"
+vertex
+{
+	struct CustomData {
+		float mySpeed <default = 0, label = "Speed", pinId = 118>;
+		float myHeight <default = 0, label = "Height", pinId = 119>;
+		float mySway <default = 0, label = "Sway", pinId = 120>;
+		float mySwayDistance <default = 0, label = "Sway Distance", pinId = 121>;
+		float mySpeed2 <default = 0, label = "Speed2", pinId = 122>;
+	};
+	float2 GetYScale(float3x4 modelToWorld)
+	{
+		return float2(length(MR_GetXAxis(modelToWorld).xyz), length(MR_GetYAxis(modelToWorld).xyz));
+	}
+	float3x4 billboard52(float4x4 worldToCam, float3 pos)
+	{
+		float3 ct = MR_GetXAxis(worldToCam).xyz;
+		float3 cb = MR_GetYAxis(worldToCam).xyz;
+		float3 cn = MR_GetZAxis(worldToCam).xyz;
+		float3x4 m2 = MR_RowMatrix(float4(ct, pos.x), float4(cb ,pos.y), float4(cn ,pos.z));
+		return m2;
+	}
+	void ModelSpaceModifier(inout float3 Gfx_ModelSpacePos : Gfx_ModelSpacePos, 
+		float3x4 Gfx_ObjectToWorldMatrix : Gfx_ObjectToWorldMatrix0, 
+		float2 Gfx_UV2 : Gfx_UV2, float2 Gfx_UV1 : Gfx_UV1)
+	{
+		float3 combine_29 = float3(Gfx_UV1.x, Gfx_UV2.x, Gfx_UV1.y);
+		float3 sub_33 = Gfx_ModelSpacePos - combine_29;
+		float2 GetYScale_23 = GetYScale(Gfx_ObjectToWorldMatrix);
+		float3 combine_35 = float3(GetYScale_23.x, GetYScale_23.y, float(1));
+		float3 mul_36 = sub_33 * combine_35;
+		Gfx_ModelSpacePos = mul_36;
+	}
+	void WorldSpaceModifier(inout float3 Gfx_WorldSpacePos : Gfx_WorldSpacePos, 
+		float4 Gfx_Color : Gfx_Color0, float2 Gfx_UV2 : Gfx_UV2, 
+		float2 Gfx_UV1 : Gfx_UV1, CustomData customData : Gfx_CustomData0, 
+		float3x4 Gfx_ObjectToWorldMatrix : Gfx_ObjectToWorldMatrix0)
+	{
+		float3 combine_30 = float3(Gfx_UV1.x, Gfx_UV2.x, Gfx_UV1.y);
+		float3 transform_34 = MR_Transform(Gfx_ObjectToWorldMatrix, combine_30);
+		float mul_39 = transform_34.x * float(0.1235);
+		float mul_40 = float(0) * transform_34.y;
+		float add_41 = transform_34.z + mul_40;
+		float add_42 = mul_39 + add_41;
+		float add_43 = add_42 + Gfx_Environment.time;
+		float lerp_46 = lerp(customData.mySpeed, customData.mySpeed2, frac(add_42));
+		float mul_47 = add_43 * lerp_46;
+		float mul_50 = customData.mySway * frac(mul_47);
+		float cos_54 = cos(mul_50);
+		float mul_49 = customData.myHeight * frac(mul_47);
+		float mul_52 = mul_49 * Gfx_Color.x;
+		float sin_53 = sin(mul_50);
+		float3 combine_55 = float3(cos_54, mul_52, sin_53);
+		float mul_56 = customData.mySwayDistance * mul_52;
+		float3 combine_57 = float3(mul_56, float(1), mul_56);
+		float3 mul_58 = combine_55 * combine_57;
+		float3 transform_59 = MR_Transform(Gfx_ObjectToWorldMatrix, mul_58);
+		float3 transform_32 = MR_Transform(Gfx_ObjectToWorldMatrix, float3(0, 0, 0));
+		float3 sub_60 = transform_59 - transform_32;
+		float3 add_61 = Gfx_WorldSpacePos + sub_60;
+		Gfx_WorldSpacePos = add_61;
+	}
+	void ObjectToWorldModifier(inout float3x4 Gfx_GeneratedObjectToWorldMatrix : Gfx_GeneratedObjectToWorldMatrix, 
+		float2 Gfx_UV2 : Gfx_UV2, float2 Gfx_UV1 : Gfx_UV1, 
+		float3x4 Gfx_ObjectToWorldMatrix : Gfx_ObjectToWorldMatrix0)
+	{
+		float3 combine_30 = float3(Gfx_UV1.x, Gfx_UV2.x, Gfx_UV1.y);
+		float3 transform_34 = MR_Transform(Gfx_ObjectToWorldMatrix, combine_30);
+		float3x4 billboard52_37 = billboard52(MR_ViewConstants.worldToCamera, transform_34);
+		Gfx_GeneratedObjectToWorldMatrix = billboard52_37;
+	}
+	void UV0Modifier(inout float2 Gfx_UV0 : Gfx_UV0, float2 Gfx_UV : Gfx_UV0)
+	{
+		Gfx_UV0 = Gfx_UV;
+	}
+	void UV1Modifier(inout float2 Gfx_UV1 : Gfx_UV1, CustomData customData : Gfx_CustomData0, 
+		float2 Gfx_UV2 : Gfx_UV2, 
+		float3x4 Gfx_ObjectToWorldMatrix : Gfx_ObjectToWorldMatrix0)
+	{
+		float3 combine_30 = float3(Gfx_UV1.x, Gfx_UV2.x, Gfx_UV1.y);
+		float3 transform_34 = MR_Transform(Gfx_ObjectToWorldMatrix, combine_30);
+		float mul_39 = transform_34.x * float(0.1235);
+		float mul_40 = float(0) * transform_34.y;
+		float add_41 = transform_34.z + mul_40;
+		float add_42 = mul_39 + add_41;
+		float add_43 = add_42 + Gfx_Environment.time;
+		float lerp_46 = lerp(customData.mySpeed, customData.mySpeed2, frac(add_42));
+		float mul_47 = add_43 * lerp_46;
+		float2 combine_51 = float2(add_42, frac(mul_47));
+		Gfx_UV1 = combine_51;
+	}
+	main(float2 Gfx_UV2 : Gfx_UV2, 
+		float3x4 Gfx_ObjectToWorldMatrix : Gfx_ObjectToWorldMatrix0, 
+		CustomData customData : Gfx_CustomData0, float4 Gfx_Color : Gfx_Color0, 
+		float2 Gfx_UV : Gfx_UV0, 
+		inout float3 Gfx_ModelSpacePos : Gfx_ModelSpacePos <modifier = "ModelSpaceModifier">, 
+		inout float3 Gfx_WorldSpacePos : Gfx_WorldSpacePos <modifier = "WorldSpaceModifier">, 
+		inout float3x4 Gfx_GeneratedObjectToWorldMatrix : Gfx_GeneratedObjectToWorldMatrix <modifier = "ObjectToWorldModifier">, 
+		inout float2 Gfx_UV0 : Gfx_UV0 <modifier = "UV0Modifier">, 
+		inout float2 Gfx_UV1 : Gfx_UV1 <modifier = "UV1Modifier">)
+	{
+		// dummy comment so the shader writer does save this out
+	}
+}

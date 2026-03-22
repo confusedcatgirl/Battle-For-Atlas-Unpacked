@@ -1,0 +1,48 @@
+<shaderType = "UI", >
+import "shaders/modules/graphics/drawer/drawer.h"
+import "shaders/nodes/shader/functions/onward/planet/ow_getcreepfullmask.h"
+blend {
+	writeMask = rgba,
+	src = 1,
+	src.a = 0,
+}
+pixel
+{
+	MR_Sampler2D Texture : MR_Texture0 <pinId = 102>;
+	MR_SamplerCube HarvestedMask : MR_Texture1 <label = "Harvested Mask", pinId = 110>;
+	struct CustomData {
+		float3 myPlanetOffset <default = 0 0 0, label = "Planet Offset", pinId = 107>;
+		float3 myForwardExtent <default = 0 0 0, label = "Forward Extent", pinId = 108>;
+		float3 myRightExtent <default = 0 0 0, label = "Right Extent", pinId = 109>;
+		float myFadeRadius <default = 1, label = "Fade Radius", pinId = 105>;
+	};
+	main(out float4 colorOut : MR_Color0, int UI_RenderType : UI_RenderType1, 
+		float2 Gfx_UV : Gfx_UV0, float4 Gfx_Color : Gfx_Color0, 
+		CustomData customData : Gfx_CustomData0, float2 Gfx_UV1 : Gfx_UV1)
+	{
+		float4 sample_54 = GetColorInfo(Texture, Gfx_UV, In.UI_RenderType);
+		float4 mul_55 = sample_54 * Gfx_Color;
+		float4 combine_57 = float4(float(1), float(0), float(0), mul_55.w);
+		float2 remap_46 = float(-1) + saturate((Gfx_UV1 - float(0)) / (float(1) - float(0))) * (float(1) - float(-1));
+		float3 smear_49 = float3(remap_46.x, remap_46.x, remap_46.x);
+		float3 mul_60 = customData.myRightExtent * smear_49;
+		float3 smear_50 = float3(remap_46.y, remap_46.y, remap_46.y);
+		float3 mul_61 = customData.myForwardExtent * smear_50;
+		float3 add_63 = mul_60 + mul_61;
+		float3 add_64 = customData.myPlanetOffset + add_63;
+		float4 sample_65 = MR_Sample(HarvestedMask, add_64);
+		float OW_GetCreepFullMask_33 = OW_GetCreepFullMask();
+		float min_67 = min(sample_65.w, OW_GetCreepFullMask_33);
+		float4 smear_68 = float4(min_67, min_67, min_67, min_67);
+		float4 lerp_69 = lerp(combine_57, mul_55, smear_68);
+		float length_47 = length(remap_46);
+		float sub_58 = customData.myFadeRadius - length_47;
+		float saturate_59 = saturate(sub_58);
+		float4 combine_62 = float4(float(1), float(1), float(1), saturate_59);
+		float4 mul_70 = lerp_69 * combine_62;
+		float4 add_71 = mul_70 + float4(0, 0, 0, 0);
+		float4 finalColor = vec4(0);
+		finalColor = BlendColor(add_71, float(0));
+		colorOut = finalColor;
+	}
+}

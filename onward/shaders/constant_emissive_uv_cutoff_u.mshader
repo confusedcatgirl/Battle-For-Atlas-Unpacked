@@ -1,0 +1,30 @@
+<emission = true, shaderType = "Object", keywords = { "LIGHT_FROM_GROUND", "IS_MAIN_PLANET", "GFX_FORWARD_SHADER", }, >
+import "shaders/nodes/shader/functions/ow emissive intensity multiplier.h"
+import "shaders/nodes/shader/functions/onward/lighting/ow_groundfog.h"
+pixel
+{
+	struct CustomData {
+		float3 myEmissionColor <default = 1 1 1, label = "Emission Color", pinId = 108>;
+		float myIntensity <default = 1, label = "Intensity", pinId = 106>;
+		float myCutoff <default = 0, label = "Cutoff", pinId = 109>;
+		float myInvert <default = 0, label = "Invert", pinId = 110>;
+	};
+	main(out float4 colorOut : MR_Color0, CustomData customData : Gfx_CustomData0, 
+		float2 Gfx_UV : Gfx_UV0, float4 MR_FragCoord : MR_FragCoord)
+	{
+		float sub_55 = Gfx_UV.x - customData.myCutoff;
+		float saturate_57 = saturate(ceil(sub_55));
+		float sub_58 = float(1) - saturate_57;
+		float lerp_59 = lerp(saturate_57, sub_58, customData.myInvert);
+		float mul_60 = customData.myIntensity * lerp_59;
+		float3 smear_61 = float3(mul_60, mul_60, mul_60);
+		float3 mul_62 = customData.myEmissionColor * smear_61;
+		float4 truncate_63 = float4(mul_62.xyz, 1);
+		float4 OWEmissiveIntensityMultiplier_65 = OWEmissiveIntensityMultiplier(truncate_63);
+		float3 truncate_67 = float3(OWEmissiveIntensityMultiplier_65.xyz);
+		float3 aColor_71 = truncate_67;
+		OW_GroundFog(aColor_71, float3(0, 0, 0), MR_FragCoord);
+		float4 result_73 = float4(aColor_71, 1);
+		colorOut = result_73;
+	}
+}

@@ -1,0 +1,26 @@
+<shaderType = "Object", keywords = { "LIGHT_FROM_SPACE", "ISNT_MAIN_PLANET", "GFX_FORWARD_SHADER", }, >
+import "shaders/nodes/shader/functions/onward/lighting/ow_fullspacebaselighting.h"
+import "shaders/nodes/shader/functions/onward/lighting/ow_spacefog.h"
+pixel
+{
+	struct CustomData {
+		float3 myColor <config = { type = "ColorBox", }, default = 0 0 0, label = "Color", pinId = 101>;
+		float myAlpha <default = 1, label = "Alpha", pinId = 102>;
+	};
+	main(out float4 colorOut : MR_Color0, CustomData customData : Gfx_CustomData0, 
+		float3 Gfx_WorldSpaceNormal : Gfx_WorldSpaceNormal0, 
+		Gfx_LightingDataStruct Gfx_LightingData : Gfx_LightingData0, 
+		float4 MR_FragCoord : MR_FragCoord, float Gfx_AlphaRef : Gfx_AlphaRef0)
+	{
+		float3 mul_50 = customData.myColor * customData.myColor;
+		float3 normalize_40 = normalize(Gfx_WorldSpaceNormal);
+		float3 normalize_48 = normalize(normalize_40);
+		float3 aLightOut_54;
+		OW_FullBaseSpaceLighting(aLightOut_54, mul_50, normalize_48, float(1), float(0), float(0), float(1), Gfx_LightingData);
+		float3 aColor_55 = aLightOut_54;
+		OW_SpaceFog(aColor_55, float3(0, 0, 0), MR_FragCoord);
+		if (customData.myAlpha < Gfx_AlphaRef) discard;
+		float4 result_57 = float4(aColor_55, customData.myAlpha);
+		colorOut = result_57;
+	}
+}

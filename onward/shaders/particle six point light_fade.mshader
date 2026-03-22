@@ -1,0 +1,92 @@
+<quarterSize = true, shaderType = "Particle", sixPoint = true, >
+import "shaders/nodes/shader/particles/sample texture atlas.h"
+import "shaders/nodes/shader/functions/ow particle intensity multiplier.h"
+import "shaders/nodes/shader/particles/six point light.h"
+import "shaders/modules/graphics/environment.h"
+import "shaders/nodes/shader/particles/soft.h"
+blend {
+	src = 1,
+}
+pixel
+{
+	MR_Sampler2D Positive : MR_Texture0 <pinId = 101>;
+	MR_Sampler2D Negative : MR_Texture1 <pinId = 102>;
+	MR_Sampler2D FadeNinjaLerpTexture : MR_Texture2 <label = "Fade Ninja Lerp Texture", pinId = 109>;
+	struct CustomData {
+		float myContrast <config = { min = 0, }, default = 1, label = "Contrast", pinId = 103>;
+		float myBacklightStrength <config = { min = 0, }, default = 1, label = "Backlight Strength", pinId = 104>;
+		float myGamma <default = 1, label = "Gamma", pinId = 105>;
+		float myTextureScale <default = 0.5, label = "Texture Scale", pinId = 106>;
+		float mySphericalShadingScale <config = { max = 10, min = 1, }, default = 1, label = "Spherical Shading Scale", pinId = 107>;
+		float myNoise1ScrollSpeed <default = -0.2, label = "Noise 1 Scroll Speed", pinId = 110>;
+		float myNoise2ScrollSpeed <default = 0.2, label = "Noise 2 Scroll Speed", pinId = 111>;
+		float myNoise1Scale <default = 1, label = "Noise 1 Scale", pinId = 114>;
+		float myNoise2Scale <default = 2, label = "Noise 2 Scale", pinId = 115>;
+		float myReceiveShadows <config = { type = "CheckBox", }, default = 1, label = "Receive Shadows", pinId = 116>;
+	};
+	struct CustomInterpolators {
+		float2 myUV1 <default = 0.5 0.5, label = "UV 1", pinId = 203>;
+		float2 myUV2 <default = 0.5 0.5, label = "UV 2", pinId = 204>;
+		float myAlpha1 <default = 1, label = "Alpha 1", pinId = 201>;
+		float myAlpha2 <default = 0, label = "Alpha 2", pinId = 202>;
+		float myFadeNinjaLerpModifier <default = 0, label = "Fade Ninja Lerp Modifier", pinId = 205>;
+	};
+	void ScaleTextures(inout float4 a, inout float4 b, float scale)
+	{
+		a.xyz *= scale;
+		b.xyz *= scale;
+	}
+	bool FloatToBool(float x)
+	{
+		return x > 0;
+	}
+	main(out float4 colorOut : MR_Color0, 
+		CustomInterpolators customInterpolators : Gfx_CustomInterpolators0, 
+		CustomData customData : Gfx_CustomData0, 
+		float4 Particle_Color : Particle_Color0, 
+		float2 Particle_InstanceUV : Particle_InstanceUV0, 
+		float3 Particle_Position : Particle_Position0, 
+		float4 Particle_ShaderParams : Particle_ShaderParams0, 
+		float4 MR_FragCoord : MR_FragCoord)
+	{
+		float4 result95 = vec4(0);
+		float4 SampleTextureAtlas_72 = SampleTextureAtlas(Positive, customInterpolators.myUV1, customInterpolators.myUV2, customInterpolators.myAlpha1, customInterpolators.myAlpha2, true);
+		float4 SampleTextureAtlas_73 = SampleTextureAtlas(Negative, customInterpolators.myUV1, customInterpolators.myUV2, customInterpolators.myAlpha1, customInterpolators.myAlpha2, true);
+		float4 a_78 = SampleTextureAtlas_72;
+		float4 b_78 = SampleTextureAtlas_73;
+		ScaleTextures(a_78, b_78, customData.myTextureScale);
+		float saturate_56 = saturate(Particle_Color.w);
+		float4 combine_58 = float4(Particle_Color.x, Particle_Color.y, Particle_Color.z, saturate_56);
+		float4 OWParticleIntensityMultiplier_60 = OWParticleIntensityMultiplier(combine_58);
+		bool FloatToBool_71 = FloatToBool(customData.myReceiveShadows);
+		float lerp_61 = lerp(float(0.5), float(1), combine_58.w);
+		float mul_87 = customData.myContrast * lerp_61;
+		float4 aLightOut_89;
+		SixPointLight(aLightOut_89, a_78, b_78, OWParticleIntensityMultiplier_60, FloatToBool_71, true, customInterpolators.myUV1, mul_87, customData.myBacklightStrength, customData.myGamma, true, float4(0, 0, 0, 0), float(1), customData.mySphericalShadingScale, Particle_InstanceUV, Particle_Position, Particle_ShaderParams, MR_FragCoord);
+		float2 combine_69 = float2(customData.myNoise1Scale, customData.myNoise1Scale);
+		float2 mul_74 = Particle_InstanceUV * combine_69;
+		float mul_67 = Gfx_Environment.time * customData.myNoise1ScrollSpeed;
+		float2 smear_76 = float2(mul_67, mul_67);
+		float2 add_79 = mul_74 + smear_76;
+		float4 sample_82 = MR_Sample(FadeNinjaLerpTexture, add_79);
+		float2 combine_70 = float2(customData.myNoise2Scale, customData.myNoise2Scale);
+		float2 mul_75 = Particle_InstanceUV * combine_70;
+		float mul_68 = Gfx_Environment.time * customData.myNoise2ScrollSpeed;
+		float2 smear_77 = float2(mul_68, mul_68);
+		float2 add_80 = mul_75 + smear_77;
+		float4 sample_83 = MR_Sample(FadeNinjaLerpTexture, add_80);
+		float mul_86 = sample_82.x * sample_83.y;
+		float sub_88 = float(1) - mul_86;
+		float add_81 = customInterpolators.myFadeNinjaLerpModifier + float(0);
+		float lerp_90 = lerp(sub_88, float(0), add_81);
+		float sub_92 = aLightOut_89.w - lerp_90;
+		float saturate_93 = saturate(sub_92);
+		float4 combine_94 = float4(aLightOut_89.x, aLightOut_89.y, aLightOut_89.z, saturate_93);
+		result95 += float4(combine_94.xyz, 1) * combine_94.w;
+		float4 colorOut_57;
+		float alphaOut_57;
+		SoftParticle(float4(0, 0, 0, 0), Particle_ShaderParams, MR_FragCoord, colorOut_57, alphaOut_57);
+		result95 *= alphaOut_57;
+		colorOut = result95;
+	}
+}

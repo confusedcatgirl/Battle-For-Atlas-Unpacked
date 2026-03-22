@@ -1,0 +1,29 @@
+<keywords = { "LIGHT_FROM_GROUND", "IS_MAIN_PLANET", "GFX_DEPTH_SHADER", }, >
+pixel
+{
+	MR_Sampler2D BaseColor : MR_Texture0 {
+		texture = "onward/baked/textures/default_b.dds",
+	} <label = "Base Color", pinId = 102>;
+	struct CustomData {
+		float2 myTriplanarTiling <default = 1 1, label = "Triplanar Tiling", pinId = 107>;
+		float3 myRustColor <config = { type = "ColorBox", }, default = 0.0816267 0.0388317 0.00910695, label = "Rust Color", pinId = 109>;
+		float myBumpStrength <default = 1.5, label = "Bump Strength", pinId = 111>;
+		float myBumpajustDistance <default = 4, label = "Bump ajustDistance ", pinId = 112>;
+		float myBumpFalloff <default = 1, label = "Bump Falloff", pinId = 113>;
+		float myRustRoughness <default = 1, label = "Rust Roughness", pinId = 117>;
+		float myDepositsRoughness <default = 1, label = "Deposits Roughness", pinId = 116>;
+		float myRustMetalness <default = 0, label = "Rust Metalness", pinId = 118>;
+		float myDepositsMetalness <default = 0, label = "Deposits Metalness", pinId = 119>;
+		float myRustamount <default = 0.1, label = "Rust amount", pinId = 121>;
+		float myDepositsamount <default = 0.1, label = "Deposits amount", pinId = 122>;
+	};
+	main(CustomData customData : Gfx_CustomData, out float4 colorOut : MR_Color0, 
+		float2 Gfx_UV : Gfx_UV0, float Gfx_AlphaRef : Gfx_AlphaRef0, 
+		float3 Gfx_CameraSpacePos : Gfx_CameraSpacePos0)
+	{
+		float4 sample_194 = MR_Sample(BaseColor, Gfx_UV);
+		if (sample_194.w < Gfx_AlphaRef) discard;
+		float4 depthResult = float4(Gfx_CameraSpacePos.z, 0, 0, sample_194.w);
+		colorOut = depthResult;
+	}
+}

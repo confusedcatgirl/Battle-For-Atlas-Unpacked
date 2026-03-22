@@ -1,0 +1,99 @@
+<keywords = { "GFX_SHADOW_SHADER", }, >
+import "shaders/modules/graphics/environment.h"
+pixel
+{
+	MR_Sampler2D DiffuseMap : MR_Texture0 <label = "Diffuse Map ", pinId = 165>;
+	MR_Sampler2D MasksTexture : MR_Texture1 <label = "Masks Texture", pinId = 169>;
+	MR_Sampler2D UVNoise : MR_Texture2 <label = "UV Noise", pinId = 170>;
+	struct CustomData {
+		float4 myColor <default = 1 1 1 1, label = "Color", pinId = 173>;
+		float myIntensity <default = 1, label = "Intensity", pinId = 118>;
+		float2 myDiffuseMapRedUVSpeed <default = 0 0, label = "Diffuse Map Red UV Speed", pinId = 166>;
+		float2 myDiffuseMapGreenUVSpeed <default = 0 0, label = "Diffuse Map Green UV Speed", pinId = 168>;
+		float3 myMaskChannelControl <default = 0 0 0, label = "Mask Channel Control", pinId = 174>;
+		float2 myUVNoiseSpeed <default = 0 0, label = "UV Noise Speed ", pinId = 171>;
+		float myUVNoiseStrength <default = 0, label = "UV Noise Strength", pinId = 172>;
+		float2 myUVNoiseCoordScale <default = 1 1, label = "UV Noise Coord Scale", pinId = 175>;
+		float2 myDiffuseCoordScale <default = 1 1, label = "Diffuse Coord Scale", pinId = 176>;
+		float2 myMasksCoordScale <default = 1 1, label = "Masks Coord Scale", pinId = 177>;
+		float myMaskBlendModeAdd0Multiply1 <default = 0, label = "Mask Blend Mode Add 0 Multiply 1", pinId = 178>;
+		float myUseUnscaledGameTime <default = 0, label = "Use Unscaled Game Time", pinId = 179>;
+		float myUnscaledGameTime <default = 0, label = "Unscaled Game Time", pinId = 180>;
+	};
+	main(out float4 colorOut : MR_Color0, CustomData customData : Gfx_CustomData0, 
+		float2 Gfx_UV : Gfx_UV0, float4 Gfx_Color : Gfx_Color0, 
+		float Gfx_AlphaRef : Gfx_AlphaRef0)
+	{
+		float lerp_116 = lerp(Gfx_Environment.time, customData.myUnscaledGameTime, customData.myUseUnscaledGameTime);
+		float mul_119 = lerp_116 * customData.myDiffuseMapRedUVSpeed.x;
+		float2 sub_101 = Gfx_UV - float2(0.5, 0.5);
+		float mul_125 = lerp_116 * float(0);
+		float add_128 = float(0) + mul_125;
+		float sinAngle_131 = sin(add_128);
+		float cosAngle_131 = cos(add_128);
+		float2x2 rotMat_131 = { cosAngle_131, -sinAngle_131, sinAngle_131, cosAngle_131 };
+		float2 rot2d_131 = MR_Transform(rotMat_131, sub_101);
+		float2 add_134 = rot2d_131 + float2(0.5, 0.5);
+		float2 mul_137 = add_134 * customData.myDiffuseCoordScale;
+		float lerp_117 = lerp(Gfx_Environment.time, customData.myUnscaledGameTime, customData.myUseUnscaledGameTime);
+		float mul_123 = lerp_117 * customData.myUVNoiseSpeed.x;
+		float2 sub_103 = Gfx_UV - float2(0.5, 0.5);
+		float mul_126 = lerp_117 * float(0);
+		float add_130 = float(0) + mul_126;
+		float sinAngle_133 = sin(add_130);
+		float cosAngle_133 = cos(add_130);
+		float2x2 rotMat_133 = { cosAngle_133, -sinAngle_133, sinAngle_133, cosAngle_133 };
+		float2 rot2d_133 = MR_Transform(rotMat_133, sub_103);
+		float2 add_136 = rot2d_133 + float2(0.5, 0.5);
+		float2 mul_139 = add_136 * customData.myUVNoiseCoordScale;
+		float2 add_141 = mul_139 + float2(0, 0);
+		float add_146 = mul_123 + add_141.x;
+		float mul_124 = lerp_117 * customData.myUVNoiseSpeed.y;
+		float add_147 = mul_124 + add_141.y;
+		float2 combine_149 = float2(add_146, add_147);
+		float4 sample_151 = MR_Sample(UVNoise, combine_149);
+		float2 combine_160 = float2(sample_151.x, sample_151.y);
+		float2 smear_115 = float2(customData.myUVNoiseStrength, customData.myUVNoiseStrength);
+		float2 mul_165 = combine_160 * smear_115;
+		float2 add_167 = mul_137 + mul_165;
+		float add_170 = mul_119 + add_167.x;
+		float mul_120 = lerp_116 * customData.myDiffuseMapRedUVSpeed.y;
+		float add_171 = mul_120 + add_167.y;
+		float2 combine_172 = float2(add_170, add_171);
+		float4 sample_173 = MR_Sample(DiffuseMap, combine_172);
+		float lerp_118 = lerp(Gfx_Environment.time, customData.myUnscaledGameTime, customData.myUseUnscaledGameTime);
+		float mul_121 = lerp_118 * customData.myDiffuseMapGreenUVSpeed.x;
+		float2 sub_102 = Gfx_UV - float2(0.5, 0.5);
+		float mul_127 = lerp_118 * float(0);
+		float add_129 = float(0) + mul_127;
+		float sinAngle_132 = sin(add_129);
+		float cosAngle_132 = cos(add_129);
+		float2x2 rotMat_132 = { cosAngle_132, -sinAngle_132, sinAngle_132, cosAngle_132 };
+		float2 rot2d_132 = MR_Transform(rotMat_132, sub_102);
+		float2 add_135 = rot2d_132 + float2(0.5, 0.5);
+		float2 mul_138 = add_135 * customData.myMasksCoordScale;
+		float2 add_140 = mul_138 + float2(0, 0);
+		float add_144 = mul_121 + add_140.x;
+		float mul_122 = lerp_118 * customData.myDiffuseMapGreenUVSpeed.y;
+		float add_145 = mul_122 + add_140.y;
+		float2 combine_148 = float2(add_144, add_145);
+		float4 sample_150 = MR_Sample(MasksTexture, combine_148);
+		float mul_154 = sample_150.x * customData.myMaskChannelControl.x;
+		float mul_157 = customData.myMaskChannelControl.y * sample_150.y;
+		float add_161 = mul_154 + mul_157;
+		float mul_159 = customData.myMaskChannelControl.z * sample_150.z;
+		float add_164 = add_161 + mul_159;
+		float lerp_155 = lerp(float(1), sample_150.x, customData.myMaskChannelControl.x);
+		float lerp_156 = lerp(float(1), sample_150.y, customData.myMaskChannelControl.y);
+		float mul_162 = lerp_155 * lerp_156;
+		float lerp_158 = lerp(float(1), sample_150.z, customData.myMaskChannelControl.z);
+		float mul_163 = mul_162 * lerp_158;
+		float lerp_166 = lerp(add_164, mul_163, customData.myMaskBlendModeAdd0Multiply1);
+		float mul_168 = Gfx_Color.x * lerp_166;
+		float mul_176 = sample_173.w * mul_168;
+		float mul_178 = customData.myColor.w * mul_176;
+		if (mul_178 < Gfx_AlphaRef) discard;
+		float4 shadowResult = float4(0.0, 0.0, 0.0, mul_178);
+		colorOut = shadowResult;
+	}
+}

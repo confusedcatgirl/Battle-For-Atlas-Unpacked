@@ -1,0 +1,61 @@
+<keywords = { "LIGHT_FROM_SPACE", "ISNT_MAIN_PLANET", "GFX_DEPTH_SHADER", }, >
+pixel
+{
+	MR_Sampler2D Sampler_199 : MR_Texture7 {
+		texture = "onward/baked/textures/plasma_m.dds",
+	};
+	struct CustomData {
+		float4 myEmissive <config = { type = "ColorBox", }, default = 1 1 1 1, label = "Emissive", pinId = 117>;
+		float myEmissionIntensity <default = 0, label = "Emission Intensity", pinId = 106>;
+		float myDissolve <config = { max = 1, min = 0, type = "Slider", }, default = 0, label = "Dissolve", pinId = 108>;
+		float myFreeze <default = 0, label = "Freeze", pinId = 124>;
+		float mySunder <default = 0, label = "Sunder", pinId = 125>;
+		float myGravityAndStasis <default = 0, label = "Gravity And Stasis ", pinId = 126>;
+		float myChill <default = 0, label = "Chill", pinId = 130>;
+		float myPackedStatusUVScale <default = 0.5, label = "Packed Status UV Scale", pinId = 131>;
+		float myAtmosphereTransition <default = 0, label = "Atmosphere Transition", pinId = 135>;
+		float3 myCenter <default = 0 0 0, label = "Center", pinId = 136>;
+		float myLength <config = { min = 0.01, }, default = 1, label = "Length", pinId = 137>;
+		float4 myMaterial1 <default = 0 0 0 0, label = "Material1", pinId = 139>;
+		float4 myMaterial2 <default = 0 0 0 0, label = "Material2", pinId = 140>;
+		float4 myMaterial3 <default = 0 0 0 0, label = "Material3", pinId = 141>;
+		float4 myMaterial4 <default = 0 0 0 0, label = "Material4", pinId = 142>;
+		float4 myRoughness <default = 0 0 0 0, label = "Roughness", pinId = 143>;
+		float myDecalEnabled <default = 0, label = "DecalEnabled", pinId = 144>;
+		float myIsWing <config = { max = 1, min = 0, type = "CheckBox", }, default = 0, label = "IsWing", pinId = 145>;
+		float3 myScaleOffset <default = 1 0 0, label = "ScaleOffset", pinId = 146>;
+	};
+	main(out float4 colorOut : MR_Color0, CustomData customData : Gfx_CustomData0, 
+		float3 Gfx_ModelSpacePos : Gfx_ModelSpacePos0, 
+		float3 Gfx_ModelSpaceNormal : Gfx_ModelSpaceNormal0, 
+		float Gfx_AlphaRef : Gfx_AlphaRef0, 
+		float3 Gfx_CameraSpacePos : Gfx_CameraSpacePos0)
+	{
+		float mul_383 = customData.myDissolve * float(0.5);
+		float3 mul_201 = Gfx_ModelSpacePos * float3(0.5, 0.5, 0.5);
+		float2 combine_316 = float2(mul_201.x, mul_201.y);
+		float4 sample_324 = MR_Sample(Sampler_199, combine_316);
+		float2 combine_315 = float2(mul_201.x, mul_201.z);
+		float4 sample_323 = MR_Sample(Sampler_199, combine_315);
+		float dot_296 = dot(float3(0, 1, 0), Gfx_ModelSpaceNormal);
+		float abs_318 = abs(dot_296);
+		float smoothStep_326 = smoothstep(float(0.4), float(0.6), abs_318);
+		float4 smear_331 = float4(smoothStep_326, smoothStep_326, smoothStep_326, smoothStep_326);
+		float4 lerp_336 = lerp(sample_324, sample_323, smear_331);
+		float2 combine_317 = float2(mul_201.y, mul_201.z);
+		float4 sample_325 = MR_Sample(Sampler_199, combine_317);
+		float dot_297 = dot(float3(1, 0, 0), Gfx_ModelSpaceNormal);
+		float abs_319 = abs(dot_297);
+		float smoothStep_327 = smoothstep(float(0.4), float(0.6), abs_319);
+		float4 smear_332 = float4(smoothStep_327, smoothStep_327, smoothStep_327, smoothStep_327);
+		float4 lerp_337 = lerp(lerp_336, sample_325, smear_332);
+		float4 mul_338 = lerp_337 * float4(0.49, 0.49, 0.49, 0.49);
+		float truncate_339 = float(mul_338.x);
+		float add_451 = mul_383 + truncate_339;
+		float step_457 = step(float(0.5), add_451);
+		float mul_466 = step_457 * float(1);
+		if (mul_466 < Gfx_AlphaRef) discard;
+		float4 depthResult = float4(Gfx_CameraSpacePos.z, 0, 0, mul_466);
+		colorOut = depthResult;
+	}
+}

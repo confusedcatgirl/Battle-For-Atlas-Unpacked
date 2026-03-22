@@ -1,0 +1,49 @@
+<keywords = { "GFX_SHADOW_SHADER", }, >
+import "shaders/MRender/MR_ViewConstants.h"
+pixel
+{
+	MR_Sampler2D Texture : MR_Texture0 <pinId = 101>;
+	struct CustomData {
+		float myIntensity <default = 1, label = "Intensity", pinId = 103>;
+		float myangle <default = 0, label = "angle", pinId = 104>;
+		float myTime <default = 0, label = "Time", pinId = 105>;
+		float myTimeScale <default = 0, label = "Time Scale", pinId = 106>;
+		float4 myFlowVector <default = 0 0 0 0, label = "Flow Vector", pinId = 107>;
+	};
+	main(out float4 colorOut : MR_Color0, CustomData customData : Gfx_CustomData0, 
+		float2 Gfx_UV : Gfx_UV0, float3 Gfx_WorldSpacePos : Gfx_WorldSpacePos0, 
+		float3 Gfx_WorldSpaceNormal : Gfx_WorldSpaceNormal0, 
+		float Gfx_AlphaRef : Gfx_AlphaRef0)
+	{
+		float4 mul_71 = customData.myFlowVector * float4(2, 2, 1, 1);
+		float4 add_72 = mul_71 + float4(-1, -1, 0, 0);
+		float mul_81 = add_72.y * float(-1);
+		float2 combine_85 = float2(add_72.x, mul_81);
+		float mul_68 = customData.myTime * customData.myTimeScale;
+		float lerp_73 = lerp(float(-0.333), float(0.333), frac(mul_68));
+		float2 smear_78 = float2(lerp_73, lerp_73);
+		float2 mul_87 = combine_85 * smear_78;
+		float2 add_89 = mul_87 + Gfx_UV;
+		float4 sample_91 = MR_Sample(Texture, add_89);
+		float add_70 = mul_68 + float(0.5);
+		float lerp_80 = lerp(float(-0.333), float(0.333), frac(add_70));
+		float2 smear_83 = float2(lerp_80, lerp_80);
+		float2 mul_86 = combine_85 * smear_83;
+		float2 add_88 = mul_86 + Gfx_UV;
+		float4 sample_90 = MR_Sample(Texture, add_88);
+		float sub_74 = frac(mul_68) - float(0.5);
+		float mul_75 = sub_74 * float(2);
+		float abs_79 = abs(mul_75);
+		float4 smear_82 = float4(abs_79, abs_79, abs_79, abs_79);
+		float4 lerp_92 = lerp(sample_91, sample_90, smear_82);
+		float3 sub_50 = MR_ViewConstants.LODCameraPosition - Gfx_WorldSpacePos;
+		float3 normalize_62 = normalize(sub_50);
+		float dot_63 = dot(normalize_62, Gfx_WorldSpaceNormal);
+		float abs_64 = abs(dot_63);
+		float smoothStep_84 = smoothstep(float(0), customData.myangle, abs_64);
+		float mul_95 = lerp_92.w * smoothStep_84;
+		if (mul_95 < Gfx_AlphaRef) discard;
+		float4 shadowResult = float4(0.0, 0.0, 0.0, mul_95);
+		colorOut = shadowResult;
+	}
+}

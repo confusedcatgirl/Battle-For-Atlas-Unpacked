@@ -1,0 +1,108 @@
+<shaderType = "Object", keywords = { "LIGHT_FROM_GROUND", "IS_MAIN_PLANET", "GFX_FORWARD_SHADER", }, >
+import "shaders/nodes/shader/functions/unpack normal.h"
+import "shaders/MRender/MR_ViewConstants.h"
+import "shaders/nodes/shader/functions/onward/lighting/ow_fullgroundbaselighting.h"
+import "shaders/nodes/shader/functions/onward/lighting/ow_groundfog.h"
+pixel
+{
+	MR_Sampler2D BaseColor : MR_Texture0 {
+		texture = "onward/baked/textures/default_b.dds",
+	} <label = "Base Color", pinId = 102>;
+	MR_Sampler2D Normal : MR_Texture1 {
+		texture = "onward/baked/textures/default_n.dds",
+	} <pinId = 103>;
+	MR_Sampler2D Material : MR_Texture2 {
+		texture = "onward/baked/textures/default_m.dds",
+	} <pinId = 104>;
+	MR_Sampler2D TriplanarNormal : MR_Texture3 {
+		texture = "onward/baked/textures/default_n.dds",
+	} <label = "Triplanar Normal", pinId = 107>;
+	struct CustomData {
+		float2 myTriplanartiling <default = 0.1 0.1, label = "Triplanar tiling", pinId = 116>;
+		float myTriplanarContrast <default = 1, label = "Triplanar Contrast", pinId = 119>;
+		float myFadeDetailDistance <default = 100, label = "Fade Detail Distance", pinId = 120>;
+		float myFadePower <default = 1, label = "Fade Power", pinId = 122>;
+	};
+	main(out float4 colorOut : MR_Color0, float2 Gfx_UV : Gfx_UV0, 
+		float3x3 Gfx_TangentToWorld : Gfx_TangentToWorld0, 
+		float3 Gfx_WorldSpacePos : Gfx_WorldSpacePos0, 
+		CustomData customData : Gfx_CustomData0, 
+		Gfx_LightingDataStruct Gfx_LightingData : Gfx_LightingData0, 
+		float4 MR_FragCoord : MR_FragCoord, float Gfx_AlphaRef : Gfx_AlphaRef0)
+	{
+		float4 sample_108 = MR_Sample(BaseColor, Gfx_UV);
+		float3 combine_114 = float3(sample_108.x, sample_108.y, sample_108.z);
+		float4 sample_110 = MR_Sample(Normal, Gfx_UV);
+		float3 normal_113;
+		float ambientOcclusion_113;
+		UnpackNormalAndAO(sample_110, normal_113, ambientOcclusion_113);
+		float3 transform_115 = MR_Transform(Gfx_TangentToWorld, normal_113);
+		float4 combine_127 = float4(transform_115.x, transform_115.y, transform_115.z, float(0));
+		float4x4 matrix_133 = MR_ColumnMatrix(float4(0, 0, 1, 0), float4(0, -1, 0, 0), combine_127, float4(0, 0, 0, 0));
+		float2 combine_100 = float2(Gfx_WorldSpacePos.z, Gfx_WorldSpacePos.y);
+		float2 mul_118 = combine_100 * customData.myTriplanartiling;
+		float4 sample_124 = MR_Sample(TriplanarNormal, mul_118);
+		float3 normal_130;
+		float ambientOcclusion_130;
+		UnpackNormalAndAO(sample_124, normal_130, ambientOcclusion_130);
+		float4 transform_138 = MR_Transform(matrix_133, normal_130);
+		float4 normalize_143 = normalize(transform_138);
+		float4 combine_152 = float4(normalize_143.x, normalize_143.y, normalize_143.z, ambientOcclusion_130);
+		float3 abs_120 = abs(transform_115);
+		float3 combine_107 = float3(customData.myTriplanarContrast, customData.myTriplanarContrast, customData.myTriplanarContrast);
+		float3 pow_126 = pow(abs_120, combine_107);
+		float3 normalize_132 = normalize(pow_126);
+		float add_144 = normalize_132.x + normalize_132.y;
+		float add_145 = add_144 + normalize_132.z;
+		float3 combine_149 = float3(add_145, add_145, add_145);
+		float3 div_153 = normalize_132 / combine_149;
+		float4 combine_155 = float4(div_153.x, div_153.x, div_153.x, div_153.x);
+		float4 mul_158 = combine_152 * combine_155;
+		float4x4 matrix_134 = MR_ColumnMatrix(float4(1, 0, 0, 0), float4(0, 0, -1, 0), combine_127, float4(0, 0, 0, 0));
+		float2 combine_98 = float2(Gfx_WorldSpacePos.x, Gfx_WorldSpacePos.z);
+		float2 mul_116 = combine_98 * customData.myTriplanartiling;
+		float4 sample_122 = MR_Sample(TriplanarNormal, mul_116);
+		float3 normal_128;
+		float ambientOcclusion_128;
+		UnpackNormalAndAO(sample_122, normal_128, ambientOcclusion_128);
+		float4 transform_136 = MR_Transform(matrix_134, normal_128);
+		float4 normalize_141 = normalize(transform_136);
+		float4 combine_150 = float4(normalize_141.x, normalize_141.y, normalize_141.z, ambientOcclusion_128);
+		float4 combine_156 = float4(div_153.y, div_153.y, div_153.y, div_153.y);
+		float4 mul_159 = combine_150 * combine_156;
+		float4 add_161 = mul_158 + mul_159;
+		float4x4 matrix_135 = MR_ColumnMatrix(float4(1, 0, 0, 0), float4(0, -1, 0, 0), combine_127, float4(0, 0, 0, 0));
+		float2 combine_99 = float2(Gfx_WorldSpacePos.x, Gfx_WorldSpacePos.y);
+		float2 mul_117 = combine_99 * customData.myTriplanartiling;
+		float4 sample_123 = MR_Sample(TriplanarNormal, mul_117);
+		float3 normal_129;
+		float ambientOcclusion_129;
+		UnpackNormalAndAO(sample_123, normal_129, ambientOcclusion_129);
+		float4 transform_137 = MR_Transform(matrix_135, normal_129);
+		float4 normalize_142 = normalize(transform_137);
+		float4 combine_151 = float4(normalize_142.x, normalize_142.y, normalize_142.z, ambientOcclusion_129);
+		float4 combine_157 = float4(div_153.z, div_153.z, div_153.z, div_153.z);
+		float4 mul_160 = combine_151 * combine_157;
+		float4 add_162 = add_161 + mul_160;
+		float3 combine_164 = float3(add_162.x, add_162.y, add_162.z);
+		float3 normalize_166 = normalize(combine_164);
+		float3 sub_97 = MR_ViewConstants.LODCameraPosition - Gfx_WorldSpacePos;
+		float length_101 = length(sub_97);
+		float div_119 = length_101 / customData.myFadeDetailDistance;
+		float saturate_125 = saturate(div_119);
+		float pow_131 = pow(saturate_125, customData.myFadePower);
+		float3 combine_139 = float3(pow_131, pow_131, pow_131);
+		float3 lerp_168 = lerp(normalize_166, transform_115, combine_139);
+		float3 normalize_169 = normalize(lerp_168);
+		float4 sample_109 = MR_Sample(Material, Gfx_UV);
+		float mul_165 = ambientOcclusion_113 * add_162.w;
+		float lerp_167 = lerp(mul_165, ambientOcclusion_113, pow_131);
+		float3 aLightOut_170;
+		OW_FullBaseGroundLighting(aLightOut_170, combine_114, normalize_169, float(1), sample_109.y, sample_109.x, lerp_167, Gfx_LightingData);
+		float3 aColor_172 = aLightOut_170;
+		OW_GroundFog(aColor_172, Gfx_WorldSpacePos, MR_FragCoord);
+		if (sample_108.w < Gfx_AlphaRef) discard;
+		float4 result_175 = float4(aColor_172, sample_108.w);
+		colorOut = result_175;
+	}
+}

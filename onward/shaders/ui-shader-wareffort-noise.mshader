@@ -1,0 +1,63 @@
+<shaderType = "UI", >
+import "shaders/modules/graphics/drawer/drawer.h"
+blend {
+	writeMask = rgba,
+	src = 1,
+	src.a = 0,
+}
+pixel
+{
+	MR_Sampler2D Main : MR_Texture0 <pinId = 101>;
+	MR_Sampler2D Distort : MR_Texture1 <pinId = 102>;
+	struct CustomData {
+		float myTiling <default = 1, label = "Tiling", pinId = 105>;
+		float myTime <default = 0, label = "Time", pinId = 103>;
+		float mySpeed <default = 1, label = "Speed", pinId = 104>;
+		float myStrength <default = 1, label = "Strength", pinId = 106>;
+		float myIntensity <default = 1, label = "Intensity", pinId = 107>;
+		float myTransition <default = 1, label = "Transition", pinId = 109>;
+	};
+	main(out float4 colorOut : MR_Color0, float4 Gfx_Color : Gfx_Color0, 
+		float2 Gfx_UV : Gfx_UV0, CustomData customData : Gfx_CustomData0)
+	{
+		float mul_61 = customData.myTime * customData.mySpeed;
+		float2 smear_65 = float2(mul_61, mul_61);
+		float2 smear_60 = float2(customData.myTiling, customData.myTiling);
+		float2 mul_64 = Gfx_UV * smear_60;
+		float2 add_66 = smear_65 + mul_64;
+		float2 mul_67 = add_66 * float2(-0.5, 0.5);
+		float4 sample_69 = MR_Sample(Distort, mul_67);
+		float4 mul_71 = sample_69 * float4(2, 2, 2, 2);
+		float4 sub_73 = mul_71 - float4(1, 1, 1, 1);
+		float2 mul_68 = add_66 * float2(0.5, -0.5);
+		float4 sample_70 = MR_Sample(Distort, mul_68);
+		float4 mul_72 = sample_70 * float4(2, 2, 2, 2);
+		float4 sub_74 = mul_72 - float4(1, 1, 1, 1);
+		float4 add_75 = sub_73 + sub_74;
+		float2 combine_77 = float2(add_75.x, add_75.y);
+		float2 smear_62 = float2(customData.myStrength, customData.myStrength);
+		float2 mul_78 = combine_77 * smear_62;
+		float2 add_79 = Gfx_UV + mul_78;
+		float4 sample_80 = MR_Sample(Main, add_79);
+		float4 mul_81 = sample_80 * sample_80;
+		float4 combine_83 = float4(float(1), float(1), float(1), mul_81.x);
+		float4 mul_85 = Gfx_Color * combine_83;
+		float sub_84 = mul_81.y - customData.myTransition;
+		float saturate_86 = saturate(sub_84);
+		float4 smear_87 = float4(saturate_86, saturate_86, saturate_86, saturate_86);
+		float4 mul_88 = Gfx_Color * smear_87;
+		float4 max_89 = max(mul_85, mul_88);
+		float4 smear_63 = float4(customData.myIntensity, customData.myIntensity, customData.myIntensity, customData.myIntensity);
+		float4 mul_90 = max_89 * smear_63;
+		float2 add_52 = Gfx_UV + float2(0, 0);
+		float2 sub_53 = add_52 - float2(0.5, 0.5);
+		float length_54 = length(sub_53);
+		float smoothStep_55 = smoothstep(float(0.2), float(0.5), length_54);
+		float sub_56 = float(1) - smoothStep_55;
+		float mul_92 = mul_90.w * sub_56;
+		float4 combine_93 = float4(mul_90.xyz, mul_92);
+		float4 finalColor = vec4(0);
+		finalColor = BlendColor(combine_93, float(0));
+		colorOut = finalColor;
+	}
+}

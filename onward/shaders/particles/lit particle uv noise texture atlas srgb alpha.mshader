@@ -1,0 +1,67 @@
+<lightVolume = true, quarterSize = true, shaderType = "Particle", >
+import "shaders/nodes/shader/particles/sample texture atlas.h"
+import "shaders/nodes/shader/functions/ow particle intensity multiplier.h"
+import "shaders/nodes/shader/particles/directionless light.h"
+import "shaders/nodes/shader/particles/soft.h"
+blend {
+	src = 1,
+}
+pixel
+{
+	MR_Sampler2D Texture : MR_Texture0 <pinId = 101>;
+	MR_Sampler2D Noise : MR_Texture1 <pinId = 103>;
+	struct CustomData {
+		float mySphericalShadingScale <config = { max = 10, min = 1, }, default = 1, label = "Spherical Shading Scale", pinId = 102>;
+		float myReceiveShadows <config = { type = "CheckBox", }, default = 1, label = "Receive Shadows", pinId = 104>;
+	};
+	struct CustomInterpolators {
+		float2 myUV1 <default = 0 0, label = "UV 1", pinId = 201>;
+		float2 myUV2 <default = 0 0, label = "UV 2", pinId = 202>;
+		float myAlpha1 <default = 1, label = "Alpha 1", pinId = 203>;
+		float myAlpha2 <default = 0, label = "Alpha 2", pinId = 204>;
+		float2 myNoiseUV1 <default = 0 0, label = "Noise UV 1", pinId = 205>;
+		float2 myNoiseUV2 <default = 0 0, label = "Noise UV 2", pinId = 206>;
+		float myNoiseStrength1 <default = 1, label = "Noise Strength 1", pinId = 207>;
+		float myNoiseStrength2 <default = 1, label = "Noise Strength 2", pinId = 208>;
+	};
+	void UVNoise(float4 s1, float4 s2, float str1, float str2, inout float2 uv1, inout float2 uv2)
+	{
+		float strmod = 0.01;
+		str1 *= strmod;
+		str2 *= strmod;
+		float2 offs = (s1.xy - 0.5) * str1 + (s2.xy - 0.5) * str2;
+		uv1 += offs;
+		uv2 += offs;
+	}
+	bool FloatToBool(float x)
+	{
+		return x > 0;
+	}
+	main(out float4 colorOut : MR_Color0, 
+		CustomInterpolators customInterpolators : Gfx_CustomInterpolators0, 
+		float4 Particle_Color : Particle_Color0, 
+		CustomData customData : Gfx_CustomData0, 
+		float3 Particle_Position : Particle_Position0, 
+		float4 Particle_ShaderParams : Particle_ShaderParams0, 
+		float4 MR_FragCoord : MR_FragCoord)
+	{
+		float4 result39 = vec4(0);
+		float4 sample_32 = MR_Sample(Noise, customInterpolators.myNoiseUV1);
+		float4 sample_33 = MR_Sample(Noise, customInterpolators.myNoiseUV2);
+		float2 uv1_34 = customInterpolators.myUV1;
+		float2 uv2_34 = customInterpolators.myUV2;
+		UVNoise(sample_32, sample_33, customInterpolators.myNoiseStrength1, customInterpolators.myNoiseStrength2, uv1_34, uv2_34);
+		float4 SampleTextureAtlas_35 = SampleTextureAtlas(Texture, uv1_34, uv2_34, customInterpolators.myAlpha1, customInterpolators.myAlpha2, true);
+		float4 mul_36 = SampleTextureAtlas_35 * Particle_Color;
+		float4 OWParticleIntensityMultiplier_37 = OWParticleIntensityMultiplier(mul_36);
+		bool FloatToBool_31 = FloatToBool(customData.myReceiveShadows);
+		float4 aLightOut_38;
+		DirectionlessLight(aLightOut_38, OWParticleIntensityMultiplier_37, FloatToBool_31, true, customData.mySphericalShadingScale, Particle_Position, Particle_ShaderParams, MR_FragCoord);
+		result39 += float4(aLightOut_38.xyz, 1) * aLightOut_38.w;
+		float4 colorOut_26;
+		float alphaOut_26;
+		SoftParticle(float4(0, 0, 0, 0), Particle_ShaderParams, MR_FragCoord, colorOut_26, alphaOut_26);
+		result39 *= alphaOut_26;
+		colorOut = result39;
+	}
+}

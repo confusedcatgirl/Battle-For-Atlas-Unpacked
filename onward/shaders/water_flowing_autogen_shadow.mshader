@@ -1,0 +1,15 @@
+pixel
+{
+	struct CustomData {
+		float myTiling <default = 1, label = "Tiling", pinId = 108>;
+		float myTimeScale <default = 0.1, label = "Time Scale", pinId = 109>;
+	};
+	main(CustomData customData : Gfx_CustomData, out float4 colorOut : MR_Color0, 
+		float Gfx_AlphaRef : Gfx_AlphaRef0)
+	{
+		float4 combine_80 = float4(float(0), float(0), float(0), float(1));
+		if (combine_80.w < Gfx_AlphaRef) discard;
+		float4 shadowResult = float4(0.0, 0.0, 0.0, combine_80.w);
+		colorOut = shadowResult;
+	}
+}

@@ -1,0 +1,14 @@
+<shaderType = "Object", keywords = { "GFX_FORWARD_SHADER", }, >
+pixel
+{
+	struct CustomData {
+		float3 myColor <default = 0 0 0, label = "Color", pinId = 101>;
+		float myRoughness <default = 0, label = "Roughness", pinId = 102>;
+		float myMetalness <default = 0, label = "Metalness", pinId = 103>;
+	};
+	main(CustomData customData : Gfx_CustomData, out float4 colorOut : MR_Color0)
+	{
+		float4 result_37 = float4(float3(0, 0, 0), 1);
+		colorOut = result_37;
+	}
+}

@@ -1,0 +1,85 @@
+<shaderType = "Object", keywords = { "LIGHT_FROM_SPACE", "ISNT_MAIN_PLANET", "GFX_FORWARD_SHADER", }, >
+import "shaders/MRender/MR_ViewConstants.h"
+import "shaders/modules/graphics/environment.h"
+import "shaders/nodes/shader/functions/ow emissive intensity multiplier.h"
+import "shaders/nodes/shader/functions/onward/lighting/ow_getspacefog.h"
+import "shaders/nodes/shader/functions/onward/lighting/ow_applyfogextinction.h"
+blend {
+	src = 1,
+	dest = 1,
+}
+pixel
+{
+	MR_Sampler2D NoiseTexture : MR_Texture0 <pinId = 108>;
+	MR_Sampler2D MainTexture : MR_Texture1 <pinId = 113>;
+	struct CustomData {
+		float3 myColor <config = { type = "ColorBox", }, default = 1 1 1, label = "Color", pinId = 101>;
+		float myEmissiveMultiplier <default = 1, label = "Emissive Multiplier", pinId = 103>;
+		float myFalloffPower <default = 0, label = "Falloff Power", pinId = 107>;
+		float myFalloffStart <default = 0, label = "Falloff Start", pinId = 104>;
+		float myFalloffStop <default = 1, label = "Falloff Stop", pinId = 105>;
+		float myNoiseIntensity <default = 1, label = "NoiseIntensity", pinId = 110>;
+		float myNoiseSpeed <default = 1, label = "NoiseSpeed", pinId = 111>;
+		float myNoisePower <default = 1, label = "NoisePower", pinId = 112>;
+		float2 myNoiseTiling <default = 1 1, label = "NoiseTiling", pinId = 116>;
+		float myShieldTextureIntensity <default = 1, label = "ShieldTextureIntensity", pinId = 115>;
+	};
+	main(out float4 colorOut : MR_Color0, CustomData customData : Gfx_CustomData0, 
+		float3 Gfx_WorldSpacePos : Gfx_WorldSpacePos0, 
+		float3 Gfx_WorldSpaceNormal : Gfx_WorldSpaceNormal0, float2 Gfx_UV : Gfx_UV0, 
+		float4 MR_FragCoord : MR_FragCoord)
+	{
+		float3 smear_82 = float3(customData.myEmissiveMultiplier, customData.myEmissiveMultiplier, customData.myEmissiveMultiplier);
+		float3 mul_93 = customData.myColor * smear_82;
+		float4 transform_72 = MR_Transform(MR_ViewConstants.cameraToWorld, float4(0, 0, 0, 1));
+		float4 truncate_68 = float4(Gfx_WorldSpacePos.xyz, 1);
+		float4 sub_73 = transform_72 - truncate_68;
+		float4 normalize_74 = normalize(sub_73);
+		float3 truncate_75 = float3(normalize_74.xyz);
+		float3 normalize_69 = normalize(Gfx_WorldSpaceNormal);
+		float dot_76 = dot(truncate_75, normalize_69);
+		float sub_77 = float(1.1) - dot_76;
+		float abs_78 = abs(sub_77);
+		float pow_108 = pow(abs(abs_78), customData.myFalloffPower);
+		float max_109 = max(pow_108, float(0));
+		float remap_110 = customData.myFalloffStart + saturate((max_109 - float(0)) / (float(1) - float(0))) * (customData.myFalloffStop - customData.myFalloffStart);
+		float3 smear_111 = float3(remap_110, remap_110, remap_110);
+		float3 mul_112 = mul_93 * smear_111;
+		float4 truncate_113 = float4(mul_112.xyz, 1);
+		float2 mul_89 = Gfx_UV * customData.myNoiseTiling;
+		float mul_87 = Gfx_Environment.time * customData.myNoiseSpeed;
+		float2 combine_95 = float2(mul_87, mul_87);
+		float2 add_97 = mul_89 + combine_95;
+		float4 sample_101 = MR_Sample(NoiseTexture, add_97);
+		float2 sub_98 = float2(1, 1) - mul_89;
+		float mul_96 = mul_87 * float(1);
+		float2 combine_100 = float2(mul_96, mul_96);
+		float2 add_102 = sub_98 + combine_100;
+		float4 sample_103 = MR_Sample(NoiseTexture, add_102);
+		float4 add_104 = sample_101 + sample_103;
+		float4 smear_88 = float4(customData.myNoisePower, customData.myNoisePower, customData.myNoisePower, customData.myNoisePower);
+		float4 pow_105 = pow(abs(add_104), smear_88);
+		float4 truncate_80 = float4(customData.myColor.xyz, 1);
+		float4 mul_106 = pow_105 * truncate_80;
+		float4 smear_86 = float4(customData.myNoiseIntensity, customData.myNoiseIntensity, customData.myNoiseIntensity, customData.myNoiseIntensity);
+		float4 mul_107 = mul_106 * smear_86;
+		float4 add_114 = truncate_113 + mul_107;
+		float4 sample_91 = MR_Sample(MainTexture, Gfx_UV);
+		float4 truncate_81 = float4(customData.myColor.xyz, 1);
+		float4 mul_92 = sample_91 * truncate_81;
+		float4 smear_83 = float4(customData.myEmissiveMultiplier, customData.myEmissiveMultiplier, customData.myEmissiveMultiplier, customData.myEmissiveMultiplier);
+		float4 mul_94 = mul_92 * smear_83;
+		float4 smear_90 = float4(customData.myShieldTextureIntensity, customData.myShieldTextureIntensity, customData.myShieldTextureIntensity, customData.myShieldTextureIntensity);
+		float4 mul_99 = mul_94 * smear_90;
+		float4 add_115 = add_114 + mul_99;
+		float3 truncate_116 = float3(add_115.xyz);
+		float4 truncate_118 = float4(truncate_116.xyz, 1);
+		float4 OWEmissiveIntensityMultiplier_120 = OWEmissiveIntensityMultiplier(truncate_118);
+		float3 truncate_122 = float3(OWEmissiveIntensityMultiplier_120.xyz);
+		float4 OW_GetSpaceFog_60 = OW_GetSpaceFog(Gfx_WorldSpacePos, MR_FragCoord);
+		float3 aColor_124 = truncate_122;
+		OW_ApplyFogExtinction(aColor_124, OW_GetSpaceFog_60);
+		float4 result_126 = float4(aColor_124, 1);
+		colorOut = result_126;
+	}
+}

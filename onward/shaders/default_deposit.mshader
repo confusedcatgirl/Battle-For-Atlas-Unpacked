@@ -1,0 +1,87 @@
+<shaderType = "Object", keywords = { "LIGHT_FROM_GROUND", "IS_MAIN_PLANET", "GFX_FORWARD_SHADER", }, >
+import "shaders/nodes/shader/functions/getplanetposition.h"
+import "shaders/nodes/shader/functions/unpack normal.h"
+import "shaders/nodes/shader/functions/onward/lighting/ow_fullgroundbaselighting.h"
+import "shaders/nodes/shader/functions/onward/lighting/ow_groundfog.h"
+pixel
+{
+	MR_Sampler2D BaseColor : MR_Texture0 {
+		texture = "onward/baked/textures/default_b.dds",
+	} <label = "Base Color", pinId = 102>;
+	MR_Sampler2D BaseNormal : MR_Texture1 {
+		texture = "onward/baked/textures/default_n.dds",
+	} <label = "Base Normal", pinId = 103>;
+	MR_Sampler2D BaseMaterial : MR_Texture2 {
+		texture = "onward/baked/textures/default_m.dds",
+	} <label = "Base Material", pinId = 104>;
+	MR_Sampler2D DepositColor : MR_Texture3 {
+		texture = "onward/baked/textures/default_b.dds",
+	} <label = "Deposit Color", pinId = 111>;
+	MR_Sampler2D DepositNormal : MR_Texture4 {
+		texture = "onward/baked/textures/default_n.dds",
+	} <label = "Deposit Normal", pinId = 113>;
+	MR_Sampler2D DepositMaterial : MR_Texture5 {
+		texture = "onward/baked/textures/default_m.dds",
+	} <label = "Deposit Material", pinId = 112>;
+	struct CustomData {
+		float3 myDepositColorTint <config = { type = "ColorBox", }, default = 1 1 1, label = "Deposit Color Tint", pinId = 110>;
+		float myDepositTilingU <default = 1, label = "Deposit Tiling U", pinId = 118>;
+		float myDepositTilingV <default = 1, label = "Deposit Tiling V", pinId = 119>;
+		float myBlendOpacity <config = { max = 1, min = 0, type = "Slider", }, default = 3.3, label = "Blend Opacity", pinId = 108>;
+		float myBlendconstrast <config = { max = 20, min = 1, type = "Slider", }, default = 4.7, label = "Blend constrast", pinId = 109>;
+		float myBlendcoverage <config = { max = 1, min = 0, type = "Slider", }, default = 1, label = "Blend coverage", pinId = 116>;
+	};
+	main(out float4 colorOut : MR_Color0, float2 Gfx_UV : Gfx_UV0, 
+		CustomData customData : Gfx_CustomData0, 
+		float3 Gfx_WorldSpacePos : Gfx_WorldSpacePos0, 
+		float3x3 Gfx_TangentToWorld : Gfx_TangentToWorld0, 
+		Gfx_LightingDataStruct Gfx_LightingData : Gfx_LightingData0, 
+		float4 MR_FragCoord : MR_FragCoord, float Gfx_AlphaRef : Gfx_AlphaRef0)
+	{
+		float4 sample_110 = MR_Sample(BaseColor, Gfx_UV);
+		float3 truncate_116 = float3(sample_110.xyz);
+		float2 combine_108 = float2(customData.myDepositTilingU, customData.myDepositTilingV);
+		float2 mul_109 = Gfx_UV * combine_108;
+		float4 sample_113 = MR_Sample(DepositColor, mul_109);
+		float3 truncate_118 = float3(sample_113.xyz);
+		float3 mul_122 = truncate_118 * customData.myDepositColorTint;
+		float3 GetPlanetPosition_60 = GetPlanetPosition();
+		float3 sub_91 = Gfx_WorldSpacePos - GetPlanetPosition_60;
+		float3 normalize_99 = normalize(sub_91);
+		float4 sample_112 = MR_Sample(BaseNormal, Gfx_UV);
+		float3 normal_117;
+		float ambientOcclusion_117;
+		UnpackNormalAndAO(sample_112, normal_117, ambientOcclusion_117);
+		float3 transform_120 = MR_Transform(Gfx_TangentToWorld, normal_117);
+		float dot_121 = dot(normalize_99, transform_120);
+		float saturate_125 = saturate(dot_121);
+		float add_127 = customData.myBlendcoverage + saturate_125;
+		float pow_129 = pow(add_127, customData.myBlendconstrast);
+		float saturate_131 = saturate(pow_129);
+		float mul_133 = customData.myBlendOpacity * saturate_131;
+		float saturate_138 = saturate(mul_133);
+		float3 smear_144 = float3(saturate_138, saturate_138, saturate_138);
+		float3 lerp_150 = lerp(truncate_116, mul_122, smear_144);
+		float4 truncate_153 = float4(lerp_150.xyz, 1);
+		float3 combine_157 = float3(truncate_153.x, truncate_153.y, truncate_153.z);
+		float4 sample_114 = MR_Sample(DepositNormal, mul_109);
+		float3 normal_119;
+		float ambientOcclusion_119;
+		UnpackNormalAndAO(sample_114, normal_119, ambientOcclusion_119);
+		float3 transform_123 = MR_Transform(Gfx_TangentToWorld, normal_119);
+		float3 smear_142 = float3(saturate_138, saturate_138, saturate_138);
+		float3 lerp_148 = lerp(transform_120, transform_123, smear_142);
+		float4 sample_111 = MR_Sample(BaseMaterial, Gfx_UV);
+		float4 sample_115 = MR_Sample(DepositMaterial, mul_109);
+		float4 smear_143 = float4(saturate_138, saturate_138, saturate_138, saturate_138);
+		float4 lerp_149 = lerp(sample_111, sample_115, smear_143);
+		float lerp_145 = lerp(ambientOcclusion_117, ambientOcclusion_119, saturate_138);
+		float3 aLightOut_159;
+		OW_FullBaseGroundLighting(aLightOut_159, combine_157, lerp_148, float(1), lerp_149.y, lerp_149.x, lerp_145, Gfx_LightingData);
+		float3 aColor_160 = aLightOut_159;
+		OW_GroundFog(aColor_160, Gfx_WorldSpacePos, MR_FragCoord);
+		if (truncate_153.w < Gfx_AlphaRef) discard;
+		float4 result_162 = float4(aColor_160, truncate_153.w);
+		colorOut = result_162;
+	}
+}

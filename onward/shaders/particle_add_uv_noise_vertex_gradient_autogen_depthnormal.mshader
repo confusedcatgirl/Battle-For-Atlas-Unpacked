@@ -1,0 +1,33 @@
+<keywords = { "GFX_DEPTH_SHADER", }, >
+pixel
+{
+	struct CustomData {
+		float4 myColor <default = 1 1 1 1, label = "Color", pinId = 173>;
+		float myIntensity <default = 1, label = "Intensity", pinId = 118>;
+		float2 myDiffuseMapRedUVSpeed <default = 0 0, label = "Diffuse Map Red UV Speed", pinId = 166>;
+		float2 myMaskMapUVSpeed <default = 0 0, label = "Mask Map UV Speed", pinId = 186>;
+		float3 myMaskChannelControl <default = 0 0 0, label = "Mask Channel Control", pinId = 174>;
+		float2 myUVNoiseSpeed <default = 0 0, label = "UV Noise Speed ", pinId = 171>;
+		float2 myUVNoiseStrength <default = 0 0, label = "UV Noise Strength", pinId = 172>;
+		float2 myUVNoiseCoordScale <default = 1 1, label = "UV Noise Coord Scale", pinId = 175>;
+		float2 myDiffuseCoordScale <default = 1 1, label = "Diffuse Coord Scale", pinId = 176>;
+		float2 myDiffuseUVOffset <default = 0 0, label = "Diffuse UV Offset", pinId = 185>;
+		float2 myMasksCoordScale <default = 1 1, label = "Masks Coord Scale", pinId = 177>;
+		float myMaskBlendModeAdd0Multiply1 <default = 0, label = "Mask Blend Mode Add 0 Multiply 1", pinId = 178>;
+		float myFresnelBottomRangeClamp <default = 0, label = "Fresnel Bottom Range Clamp", pinId = 180>;
+		float myOutterFresnel <default = 0, label = "Outter Fresnel", pinId = 181>;
+		float myInvertFresnel <default = 0, label = "Invert Fresnel", pinId = 182>;
+		float myFresnelPower <default = 0, label = "Fresnel Power", pinId = 183>;
+		float myErosion <default = 0, label = "Erosion", pinId = 184>;
+		float myUseUnscaledGameTime <default = 0, label = "Use Unscaled Game Time", pinId = 187>;
+		float myUnscaledGameTime <default = 0, label = "Unscaled Game Time", pinId = 188>;
+	};
+	main(CustomData customData : Gfx_CustomData, out float4 colorOut : MR_Color0, 
+		float Gfx_AlphaRef : Gfx_AlphaRef0, 
+		float3 Gfx_CameraSpacePos : Gfx_CameraSpacePos0)
+	{
+		if (float(1) < Gfx_AlphaRef) discard;
+		float4 depthResult = float4(Gfx_CameraSpacePos.z, 0, 0, float(1));
+		colorOut = depthResult;
+	}
+}

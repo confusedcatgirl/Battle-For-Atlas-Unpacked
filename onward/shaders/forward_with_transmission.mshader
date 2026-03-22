@@ -1,0 +1,62 @@
+<shaderType = "Object", keywords = { "NO_SSAO_COMBINE", "DO_AMBIENT_OPACITY", }, >
+import "shaders/nodes/shader/functions/depthbuffer, offset.h"
+import "shaders/nodes/shader/functions/depth buffer to world space.h"
+import "shaders/nodes/shader/functions/unpack normal.h"
+import "shaders/nodes/shader/functions/onward/lighting/ow_fullgroundbaselighting.h"
+import "shaders/nodes/shader/functions/onward/lighting/ow_groundfog.h"
+import "shaders/nodes/shader/functions/framebuffer color early, offset.h"
+blend {
+	src = 1,
+}
+pixel
+{
+	MR_Sampler2D BaseColor : MR_Texture0 {
+		texture = "onward/baked/textures/default_b.dds",
+	} <label = "Base Color", pinId = 102>;
+	MR_Sampler2D Normal : MR_Texture1 {
+		texture = "onward/baked/textures/default_n.dds",
+	} <pinId = 103>;
+	MR_Sampler2D Material : MR_Texture2 {
+		texture = "onward/baked/textures/default_m.dds",
+	} <pinId = 104>;
+	struct CustomData {
+		float myTransmissionDepthScale <default = 0.1, label = "Transmission Depth Scale", pinId = 106>;
+	};
+	main(out float4 colorOut : MR_Color0, CustomData customData : Gfx_CustomData0, 
+		float3 Gfx_WorldSpacePos : Gfx_WorldSpacePos0, 
+		float4 MR_FragCoord : MR_FragCoord, float2 Gfx_UV : Gfx_UV0, 
+		float3x3 Gfx_TangentToWorld : Gfx_TangentToWorld0, 
+		Gfx_LightingDataStruct Gfx_LightingData : Gfx_LightingData0, 
+		float Gfx_AlphaRef : Gfx_AlphaRef0)
+	{
+		float GetDepthbuffer_58 = GetDepthbuffer(float2(0, 0), MR_FragCoord);
+		float3 DepthToWorldSpace_60 = DepthToWorldSpace(GetDepthbuffer_58, float2(0, 0), MR_FragCoord);
+		float3 sub_61 = Gfx_WorldSpacePos - DepthToWorldSpace_60;
+		float length_62 = length(sub_61);
+		float mul_76 = customData.myTransmissionDepthScale * length_62;
+		float pow_77 = pow(mul_76, float(0.5));
+		float saturate_78 = saturate(pow_77);
+		float3 smear_79 = float3(saturate_78, saturate_78, saturate_78);
+		float4 sample_67 = MR_Sample(BaseColor, Gfx_UV);
+		float3 combine_73 = float3(sample_67.x, sample_67.y, sample_67.z);
+		float3 mul_81 = smear_79 * combine_73;
+		float4 sample_68 = MR_Sample(Material, Gfx_UV);
+		float3 smear_74 = float3(sample_68.z, sample_68.z, sample_68.z);
+		float3 lerp_82 = lerp(mul_81, combine_73, smear_74);
+		float4 sample_69 = MR_Sample(Normal, Gfx_UV);
+		float3 normal_72;
+		float ambientOcclusion_72;
+		UnpackNormalAndAO(sample_69, normal_72, ambientOcclusion_72);
+		float3 transform_75 = MR_Transform(Gfx_TangentToWorld, normal_72);
+		float lerp_80 = lerp(float(1), sample_68.z, saturate_78);
+		float3 aLightOut_83;
+		OW_FullBaseGroundLighting(aLightOut_83, lerp_82, transform_75, lerp_80, sample_68.y, sample_68.x, ambientOcclusion_72, Gfx_LightingData);
+		float3 aColor_84 = aLightOut_83;
+		OW_GroundFog(aColor_84, Gfx_WorldSpacePos, MR_FragCoord);
+		float3 GetFramebuffer1ColorOffset_59 = GetFramebuffer1ColorOffset(float2(0, 0), MR_FragCoord);
+		float3 lerp_85 = lerp(aColor_84, GetFramebuffer1ColorOffset_59, float3(1e-05, 1e-05, 1e-05));
+		if (sample_67.w < Gfx_AlphaRef) discard;
+		float4 result_86 = float4(lerp_85, sample_67.w);
+		colorOut = result_86;
+	}
+}

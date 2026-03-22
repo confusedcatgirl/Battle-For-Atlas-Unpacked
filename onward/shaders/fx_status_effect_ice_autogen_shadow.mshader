@@ -1,0 +1,16 @@
+pixel
+{
+	struct CustomData {
+		float3 myColour <default = 0 0 0, label = "Colour", pinId = 107>;
+		float myEmissive <default = 0, label = "Emissive", pinId = 108>;
+		float3 myUVScale <default = 1 1 1, label = "UV Scale", pinId = 111>;
+		float3 myVector <default = 0 0 0, label = "Vector", pinId = 112>;
+	};
+	main(CustomData customData : Gfx_CustomData, out float4 colorOut : MR_Color0, 
+		float Gfx_AlphaRef : Gfx_AlphaRef0)
+	{
+		if (float(1) < Gfx_AlphaRef) discard;
+		float4 shadowResult = float4(0.0, 0.0, 0.0, float(1));
+		colorOut = shadowResult;
+	}
+}

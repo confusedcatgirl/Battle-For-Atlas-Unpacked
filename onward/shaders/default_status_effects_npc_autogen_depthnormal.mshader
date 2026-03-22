@@ -1,0 +1,53 @@
+<keywords = { "LIGHT_FROM_GROUND", "IS_MAIN_PLANET", "GFX_DEPTH_SHADER", }, >
+pixel
+{
+	MR_Sampler2D Sampler_154 : MR_Texture6 {
+		texture = "onward/baked/textures/plasma_m.dds",
+	};
+	struct CustomData {
+		float4 myEmissive <config = { type = "ColorBox", }, default = 1 1 1 1, label = "Emissive", pinId = 117>;
+		float myEmissionIntensity <default = 0, label = "Emission Intensity", pinId = 106>;
+		float myDissolve <config = { max = 1, min = 0, type = "Slider", }, default = 0, label = "Dissolve", pinId = 108>;
+		float myFreeze <default = 0, label = "Freeze", pinId = 124>;
+		float mySunder <default = 0, label = "Sunder", pinId = 125>;
+		float myGravityAndStasis <default = 0, label = "Gravity And Stasis ", pinId = 126>;
+		float myChill <default = 0, label = "Chill", pinId = 130>;
+		float myPackedStatusUVScale <default = 0.5, label = "Packed Status UV Scale", pinId = 131>;
+		float myAtmosphereTransition <default = 0, label = "Atmosphere Transition", pinId = 135>;
+		float3 myCenter <default = 0 0 0, label = "Center", pinId = 136>;
+		float myLength <config = { min = 0.01, }, default = 1, label = "Length", pinId = 137>;
+	};
+	main(out float4 colorOut : MR_Color0, CustomData customData : Gfx_CustomData0, 
+		float3 Gfx_ModelSpacePos : Gfx_ModelSpacePos0, 
+		float3 Gfx_ModelSpaceNormal : Gfx_ModelSpaceNormal0, 
+		float Gfx_AlphaRef : Gfx_AlphaRef0, 
+		float3 Gfx_CameraSpacePos : Gfx_CameraSpacePos0)
+	{
+		float mul_269 = customData.myDissolve * float(0.5);
+		float3 mul_156 = Gfx_ModelSpacePos * float3(0.5, 0.5, 0.5);
+		float2 combine_221 = float2(mul_156.x, mul_156.y);
+		float4 sample_229 = MR_Sample(Sampler_154, combine_221);
+		float2 combine_220 = float2(mul_156.x, mul_156.z);
+		float4 sample_228 = MR_Sample(Sampler_154, combine_220);
+		float dot_210 = dot(float3(0, 1, 0), Gfx_ModelSpaceNormal);
+		float abs_223 = abs(dot_210);
+		float smoothStep_231 = smoothstep(float(0.4), float(0.6), abs_223);
+		float4 smear_236 = float4(smoothStep_231, smoothStep_231, smoothStep_231, smoothStep_231);
+		float4 lerp_241 = lerp(sample_229, sample_228, smear_236);
+		float2 combine_222 = float2(mul_156.y, mul_156.z);
+		float4 sample_230 = MR_Sample(Sampler_154, combine_222);
+		float dot_211 = dot(float3(1, 0, 0), Gfx_ModelSpaceNormal);
+		float abs_224 = abs(dot_211);
+		float smoothStep_232 = smoothstep(float(0.4), float(0.6), abs_224);
+		float4 smear_237 = float4(smoothStep_232, smoothStep_232, smoothStep_232, smoothStep_232);
+		float4 lerp_242 = lerp(lerp_241, sample_230, smear_237);
+		float4 mul_243 = lerp_242 * float4(0.49, 0.49, 0.49, 0.49);
+		float truncate_244 = float(mul_243.x);
+		float add_327 = mul_269 + truncate_244;
+		float step_332 = step(float(0.5), add_327);
+		float mul_341 = step_332 * float(1);
+		if (mul_341 < Gfx_AlphaRef) discard;
+		float4 depthResult = float4(Gfx_CameraSpacePos.z, 0, 0, mul_341);
+		colorOut = depthResult;
+	}
+}

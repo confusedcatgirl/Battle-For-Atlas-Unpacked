@@ -1,0 +1,67 @@
+<shaderType = "Vertex">
+import "shaders/nodes/shader/functions/getplanetposition.h"
+import "shaders/nodes/shader/functions/onward/ow_getterrainlowresradius.h"
+import "shaders/MRender/MR_ViewConstants.h"
+vertex
+{
+	struct CustomData {
+		float myForceMax <default = 4, label = "Force Max", pinId = 103>;
+		float myForceStiffness <default = 0.5, label = "Force Stiffness", pinId = 104>;
+		float myForceStartHeight <default = 2, label = "Force Start Height", pinId = 107>;
+		float myVerticleNoiseSpeed <default = 0.4, label = "Verticle Noise Speed", pinId = 105>;
+		float myVerticalNoiseStrength <default = 0.05, label = "Vertical Noise Strength", pinId = 106>;
+		float myStartScale <default = 350, label = "StartScale", pinId = 108>;
+		float myStartScale2 <default = 350, label = "StartScale2", pinId = 111>;
+		float myEndScale <default = 100, label = "EndScale", pinId = 109>;
+		float myEndScale2 <default = 100, label = "EndScale2", pinId = 110>;
+		float3 myScaleAxis <default = 1 1 1, label = "ScaleAxis", pinId = 112>;
+	};
+	void WorldSpaceModifier(inout float3 Gfx_WorldSpacePos : Gfx_WorldSpacePos, 
+		float4 Gfx_Color : Gfx_Color0, CustomData customData : Gfx_CustomData0, 
+		float2 Gfx_UV1 : Gfx_UV1, 
+		float3x4 Gfx_ObjectToWorldMatrix : Gfx_ObjectToWorldMatrix0)
+	{
+		float3 combine_50 = float3(Gfx_UV1.x, float(0), Gfx_UV1.y);
+		float3 transform_55 = MR_Transform(Gfx_ObjectToWorldMatrix, combine_50);
+		float3 combine_51 = float3(float(1), float(1), float(1));
+		float lerp_102 = lerp(customData.myStartScale, customData.myStartScale2, Gfx_Color.x);
+		float lerp_101 = lerp(customData.myEndScale, customData.myEndScale2, Gfx_Color.x);
+		float3 GetPlanetPosition_0 = GetPlanetPosition();
+		float3 combine_48 = float3(Gfx_UV1.x, float(0), Gfx_UV1.y);
+		float3 transform_52 = MR_Transform(Gfx_ObjectToWorldMatrix, combine_48);
+		float3 add_49 = GetPlanetPosition_0 + float3(1e-05, 0, 0);
+		float3 sub_54 = transform_52 - add_49;
+		float3 normalize_57 = normalize(sub_54);
+		float OW_GetTerrainLowResRadius_59 = OW_GetTerrainLowResRadius(normalize_57);
+		float3 combine_60 = float3(OW_GetTerrainLowResRadius_59, OW_GetTerrainLowResRadius_59, OW_GetTerrainLowResRadius_59);
+		float3 mul_62 = normalize_57 * combine_60;
+		float3 add_65 = GetPlanetPosition_0 + mul_62;
+		float3 sub_68 = add_65 - MR_ViewConstants.LODCameraPosition;
+		float length_74 = length(sub_68);
+		float smoothStep_110 = smoothstep(lerp_102, lerp_101, length_74);
+		float3 combine_111 = float3(smoothStep_110, smoothStep_110, smoothStep_110);
+		float3 lerp_112 = lerp(combine_51, combine_111, customData.myScaleAxis);
+		float3 sub_58 = Gfx_WorldSpacePos - transform_55;
+		float3 mul_114 = lerp_112 * sub_58;
+		float3 add_117 = transform_55 + mul_114;
+		float add_93 = customData.myForceMax + customData.myForceStiffness;
+		float add_94 = customData.myForceStartHeight + customData.myVerticleNoiseSpeed;
+		float add_98 = add_93 + add_94;
+		float add_96 = customData.myVerticalNoiseStrength + customData.myStartScale;
+		float add_97 = customData.myStartScale2 + customData.myEndScale;
+		float add_99 = add_96 + add_97;
+		float add_103 = add_98 + add_99;
+		float add_105 = add_103 + customData.myEndScale2;
+		float mul_107 = add_105 * float(0.0001);
+		float3 smear_109 = float3(mul_107, mul_107, mul_107);
+		float3 add_120 = add_117 + smear_109;
+		Gfx_WorldSpacePos = add_120;
+	}
+	main(float3x4 Gfx_ObjectToWorldMatrix : Gfx_ObjectToWorldMatrix0, 
+		float2 Gfx_UV1 : Gfx_UV1, CustomData customData : Gfx_CustomData0, 
+		float4 Gfx_Color : Gfx_Color0, 
+		inout float3 Gfx_WorldSpacePos : Gfx_WorldSpacePos <modifier = "WorldSpaceModifier">)
+	{
+		// dummy comment so the shader writer does save this out
+	}
+}

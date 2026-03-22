@@ -1,0 +1,57 @@
+<shaderType = "Vertex">
+import "shaders/nodes/shader/functions/getplanetposition.h"
+import "shaders/nodes/shader/functions/onward/ow_getterrainlowresradius.h"
+import "shaders/nodes/shader/functions/onward/planet/ow_waterconstants.h"
+vertex
+{
+	struct CustomData {
+		float myHeight <default = 0.1, label = "Height", pinId = 102>;
+	};
+	float GetYScale(float3x4 modelToWorld)
+	{
+		return length(MR_GetYAxis(modelToWorld).xyz);
+	}
+	void WorldSpaceModifier(inout float3 Gfx_WorldSpacePos : Gfx_WorldSpacePos, 
+		float3 Gfx_ModelSpacePos : Gfx_ModelSpacePos0, 
+		float3x4 Gfx_ObjectToWorldMatrix : Gfx_ObjectToWorldMatrix0)
+	{
+		float3 GetPlanetPosition_0 = GetPlanetPosition();
+		float3 transform_19 = MR_Transform(Gfx_ObjectToWorldMatrix, Gfx_ModelSpacePos);
+		float3 add_27 = GetPlanetPosition_0 + float3(1e-05, 0, 0);
+		float3 sub_29 = transform_19 - add_27;
+		float3 normalize_32 = normalize(sub_29);
+		float OW_GetTerrainLowResRadius_34 = OW_GetTerrainLowResRadius(normalize_32);
+		float aRadius_5;
+		OW_GetWaterConstants(aRadius_5);
+		float max_35 = max(OW_GetTerrainLowResRadius_34, aRadius_5);
+		float3 combine_36 = float3(max_35, max_35, max_35);
+		float3 mul_37 = normalize_32 * combine_36;
+		float GetYScale_17 = GetYScale(Gfx_ObjectToWorldMatrix);
+		float mul_26 = Gfx_ModelSpacePos.y * GetYScale_17;
+		float3 smear_31 = float3(mul_26, mul_26, mul_26);
+		float3 mul_33 = normalize_32 * smear_31;
+		float3 add_38 = mul_37 + mul_33;
+		float3 add_39 = GetPlanetPosition_0 + add_38;
+		Gfx_WorldSpacePos = add_39;
+	}
+	void ClipSpaceModifier(inout float4 Gfx_ClipPosition : Gfx_ClipPosition, 
+		CustomData customData : Gfx_CustomData0, 
+		float3 Gfx_ModelSpacePos : Gfx_ModelSpacePos0)
+	{
+		float length_18 = length(Gfx_ModelSpacePos);
+		float smoothStep_28 = smoothstep(float(0), float(50), length_18);
+		float sub_30 = float(1) - smoothStep_28;
+		float mul_41 = sub_30 * customData.myHeight;
+		float4 combine_42 = float4(float(0), float(0), mul_41, float(0));
+		float4 add_43 = Gfx_ClipPosition + combine_42;
+		Gfx_ClipPosition = add_43;
+	}
+	main(float3x4 Gfx_ObjectToWorldMatrix : Gfx_ObjectToWorldMatrix0, 
+		float3 Gfx_ModelSpacePos : Gfx_ModelSpacePos0, 
+		CustomData customData : Gfx_CustomData0, 
+		inout float3 Gfx_WorldSpacePos : Gfx_WorldSpacePos <modifier = "WorldSpaceModifier">, 
+		inout float4 Gfx_ClipPosition : Gfx_ClipPosition <modifier = "ClipSpaceModifier">)
+	{
+		// dummy comment so the shader writer does save this out
+	}
+}

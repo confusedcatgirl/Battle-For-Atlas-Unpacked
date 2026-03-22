@@ -1,0 +1,31 @@
+<decal = true, decalblendcolor = true, deferreddecal = true, shaderType = "Object", keywords = { "GFX_FORWARD_SHADER", }, >
+blend {}
+pixel
+{
+	MR_Sampler2D BaseTexture : MR_Texture0 {
+		texture = "onward/baked/textures/default_b.dds",
+	} <label = "Base Texture", pinId = 102>;
+	MR_Sampler2D AdditiveTexture : MR_Texture1 {
+		texture = "onward/baked/textures/debug_black.dds",
+	} <label = "Additive Texture", pinId = 107>;
+	struct CustomData {
+		float4 myAdditiveColor <config = { type = "ColorBox", }, default = 0 0 0 0, label = "Additive Color", pinId = 109>;
+		float myAdditiveIntensity <default = 0, label = "Additive Intensity", pinId = 108>;
+		float myAlpha <config = { max = 1, min = 0, }, default = 1, label = "Alpha", pinId = 101>;
+	};
+	main(out float4 colorOut : MR_Color0, CustomData customData : Gfx_CustomData0, 
+		float2 Gfx_UV : Gfx_UV0, float Gfx_AlphaRef : Gfx_AlphaRef0)
+	{
+		float4 sample_54 = MR_Sample(BaseTexture, Gfx_UV);
+		float4 sample_55 = MR_Sample(AdditiveTexture, Gfx_UV);
+		float4 smear_53 = float4(customData.myAdditiveIntensity, customData.myAdditiveIntensity, customData.myAdditiveIntensity, customData.myAdditiveIntensity);
+		float4 mul_56 = sample_55 * smear_53;
+		float4 mul_57 = customData.myAdditiveColor * mul_56;
+		float4 mul_58 = mul_57 * float4(1, 1, 1, 0);
+		float4 add_59 = sample_54 + mul_58;
+		float mul_64 = customData.myAlpha * add_59.w;
+		if (mul_64 < Gfx_AlphaRef) discard;
+		float4 result_65 = float4(float3(0, 0, 0), mul_64);
+		colorOut = result_65;
+	}
+}

@@ -1,0 +1,43 @@
+<decal = true, decalblendcolor = true, deferreddecal = true, shaderType = "Object", keywords = { "GFX_FORWARD_SHADER", }, >
+import "shaders/MRender/MR_ViewConstants.h"
+import "shaders/nodes/shader/functions/getplanetposition.h"
+import "shaders/nodes/shader/functions/onward/planet/ow_waterconstants.h"
+import "shaders/nodes/shader/object/mark as decal.h"
+blend {
+	src = 1,
+	dest = 1,
+	func = max,
+}
+pixel
+{
+	struct CustomData {
+		float4 myIn2 <default = 0 0.38 0.33 1, label = "In 2", pinId = 107>;
+	};
+	main(out float4 colorOut : MR_Color0, 
+		float3 Gfx_UnflattenedWorldPos : Gfx_UnflattenedWorldPos0, 
+		CustomData customData : Gfx_CustomData0, float Gfx_AlphaRef : Gfx_AlphaRef0)
+	{
+		float3 sub_51 = Gfx_UnflattenedWorldPos - MR_ViewConstants.LODCameraPosition;
+		float length_71 = length(sub_51);
+		float remap_73 = float(1) + saturate((length_71 - float(300)) / (float(500) - float(300))) * (float(0) - float(1));
+		float3 GetPlanetPosition_22 = GetPlanetPosition();
+		float3 sub_47 = Gfx_UnflattenedWorldPos - GetPlanetPosition_22;
+		float length_68 = length(sub_47);
+		float aRadius_24;
+		OW_GetWaterConstants(aRadius_24);
+		float sub_69 = aRadius_24 - float(20);
+		float aRadius_23;
+		OW_GetWaterConstants(aRadius_23);
+		float remap_70 = float(0) + saturate((length_68 - sub_69) / (aRadius_23 - sub_69)) * (float(1) - float(0));
+		float mul_74 = remap_70 * remap_70;
+		float mul_76 = remap_73 * mul_74;
+		float mul_78 = mul_76 * float(0.5);
+		float4 combine_80 = float4(mul_78, mul_78, mul_78, float(1));
+		float4 mul_85 = combine_80 * customData.myIn2;
+		float4 DecalPassthrough_86 = DecalPassthrough(mul_85);
+		float3 truncate_89 = float3(DecalPassthrough_86.xyz);
+		if (float(1) < Gfx_AlphaRef) discard;
+		float4 result_90 = float4(truncate_89, float(1));
+		colorOut = result_90;
+	}
+}

@@ -1,0 +1,34 @@
+<shaderType = "UI", >
+import "shaders/modules/graphics/drawer/drawer.h"
+import "shaders/nodes/shader/functions/screen position.h"
+blend {
+	writeMask = rgba,
+	src = 1,
+	src.a = 0,
+}
+pixel
+{
+	MR_Sampler2D Texture : MR_Texture0 {
+		texture = "onward/baked/textures/FX/_fx_debug_checkert.dds",
+	} <pinId = 102>;
+	struct CustomData {
+		float myRadius <default = 100, label = "Radius", pinId = 105>;
+		float2 myMaskCenter <default = 0 0, label = "Mask Center", pinId = 108>;
+	};
+	main(out float4 colorOut : MR_Color0, int UI_RenderType : UI_RenderType1, 
+		float4 Gfx_Color : Gfx_Color0, float4 MR_FragCoord : MR_FragCoord, 
+		CustomData customData : Gfx_CustomData0)
+	{
+		float4 sample_24 = GetColorInfo(Texture, float2(0, 0), In.UI_RenderType);
+		float4 mul_26 = sample_24 * Gfx_Color;
+		float2 ScreenPosition_11 = ScreenPosition(MR_FragCoord);
+		float2 sub_23 = ScreenPosition_11 - customData.myMaskCenter;
+		float length_25 = length(sub_23);
+		float step_27 = step(length_25, customData.myRadius);
+		float4 combine_28 = float4(float(1), float(1), float(1), step_27);
+		float4 mul_29 = mul_26 * combine_28;
+		float4 finalColor = vec4(0);
+		finalColor = BlendColor(mul_29, float(0));
+		colorOut = finalColor;
+	}
+}

@@ -1,0 +1,38 @@
+<shaderType = "UI", >
+import "shaders/modules/graphics/drawer/drawer.h"
+import "shaders/nodes/shader/ui/ui blit effect fullscreen uv.h"
+blend {
+	writeMask = rgba,
+	src = 1,
+	src.a = 0,
+}
+pixel
+{
+	MR_Sampler2D Texture : MR_Texture0 <pinId = 107>;
+	struct CustomData {
+		float myTopPosition <default = 0, label = "Top Position", pinId = 101>;
+		float myTopFalloff <default = 0, label = "Top Falloff", pinId = 102>;
+		float myBottomPosition <default = 0, label = "Bottom Position", pinId = 105>;
+		float myBottomFalloff <default = 0, label = "Bottom Falloff", pinId = 106>;
+	};
+	main(out float4 colorOut : MR_Color0, int UI_RenderType : UI_RenderType1, 
+		float2 Gfx_UV : Gfx_UV0, float4 Gfx_Color : Gfx_Color0, 
+		CustomData customData : Gfx_CustomData0, 
+		float4 Gfx_ClipPosition : Gfx_ClipPosition0)
+	{
+		float4 sample_22 = GetColorInfo(Texture, Gfx_UV, In.UI_RenderType);
+		float4 mul_23 = sample_22 * Gfx_Color;
+		float add_20 = customData.myTopPosition + customData.myTopFalloff;
+		float2 UIGetBlitEffectFullscreenUV_13 = UIGetBlitEffectFullscreenUV(Gfx_ClipPosition);
+		float smoothStep_24 = smoothstep(customData.myTopPosition, add_20, UIGetBlitEffectFullscreenUV_13.y);
+		float mul_26 = mul_23.w * smoothStep_24;
+		float add_21 = customData.myBottomPosition + customData.myBottomFalloff;
+		float sub_17 = float(1) - UIGetBlitEffectFullscreenUV_13.y;
+		float smoothStep_27 = smoothstep(customData.myBottomPosition, add_21, sub_17);
+		float mul_28 = mul_26 * smoothStep_27;
+		float4 combine_29 = float4(mul_23.xyz, mul_28);
+		float4 finalColor = vec4(0);
+		finalColor = BlendColor(combine_29, float(0));
+		colorOut = finalColor;
+	}
+}

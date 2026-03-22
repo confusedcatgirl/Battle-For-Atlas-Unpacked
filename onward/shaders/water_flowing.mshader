@@ -1,0 +1,22 @@
+<emission = true, shaderType = "Object", >
+pixel
+{
+	MR_Sampler2D FlowMap : MR_Texture0 {
+		texture = "onward/baked/textures/default_n.dds",
+	} <label = "Flow Map", pinId = 103>;
+	MR_Sampler2D Sampler_77 : MR_Texture1 {
+		texture = "onward/baked/textures/water_n.dds",
+	};
+	struct CustomData {
+		float myTiling <default = 1, label = "Tiling", pinId = 108>;
+		float myTimeScale <default = 0.1, label = "Time Scale", pinId = 109>;
+	};
+	main(CustomData customData : Gfx_CustomData, out float4 colorOut : MR_Color0, 
+		float Gfx_AlphaRef : Gfx_AlphaRef0)
+	{
+		float4 combine_127 = float4(float(0), float(0), float(0), float(1));
+		if (combine_127.w < Gfx_AlphaRef) discard;
+		float4 result_224 = float4(float3(1, 0, 1), combine_127.w);
+		colorOut = result_224;
+	}
+}

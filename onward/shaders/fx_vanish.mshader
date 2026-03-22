@@ -1,0 +1,95 @@
+<shaderType = "Object", keywords = { "LIGHT_FROM_GROUND", "IS_MAIN_PLANET", "GFX_FORWARD_SHADER", }, >
+import "shaders/modules/graphics/environment.h"
+import "shaders/nodes/shader/functions/unpack normal.h"
+import "shaders/MRender/MR_ViewConstants.h"
+import "shaders/nodes/shader/functions/ow emissive intensity multiplier.h"
+blend {
+	src = 1,
+	dest = 1,
+}
+pixel
+{
+	MR_Sampler2D GradientTexture1 : MR_Texture0 {
+		wrap = clamp,
+	} <label = "Gradient Texture 1", pinId = 101>;
+	MR_Sampler2D GradientTexture2 : MR_Texture1 {
+		wrap = clamp,
+	} <label = "Gradient Texture 2", pinId = 102>;
+	MR_Sampler2D Sampler_95 : MR_Texture2 {
+		texture = "onward/baked/textures/tiling_noise_cloud.dds",
+	};
+	MR_Sampler2D Sampler_99 : MR_Texture3 {
+		texture = "onward/baked/textures/FX/fx_sun_sphere.dds",
+	};
+	main(out float4 colorOut : MR_Color0, float3 Gfx_ModelSpacePos : Gfx_ModelSpacePos0, 
+		float2 Gfx_UV : Gfx_UV0, float3 Gfx_ModelSpaceNormal : Gfx_ModelSpaceNormal0, 
+		float3 Gfx_WorldSpacePos : Gfx_WorldSpacePos0, 
+		float3 Gfx_WorldSpaceNormal : Gfx_WorldSpaceNormal0, 
+		float Gfx_AlphaRef : Gfx_AlphaRef0)
+	{
+		float3 mul_122 = Gfx_ModelSpacePos * float3(0.25, 0.25, 0.25);
+		float mul_130 = mul_122.y * float(0.1);
+		float add_136 = mul_130 + Gfx_Environment.time;
+		float4 sample_100 = MR_Sample(Sampler_99, Gfx_UV);
+		float3 normal_119;
+		float ambientOcclusion_119;
+		UnpackNormalAndAO(sample_100, normal_119, ambientOcclusion_119);
+		float add_140 = add_136 + ambientOcclusion_119;
+		float2 combine_144 = float2(mul_122.x, add_140);
+		float4 sample_149 = MR_Sample(Sampler_95, combine_144);
+		float mul_131 = mul_122.z * float(0.1);
+		float add_137 = mul_131 + Gfx_Environment.time;
+		float add_141 = add_137 + ambientOcclusion_119;
+		float2 combine_145 = float2(mul_122.x, add_141);
+		float4 sample_150 = MR_Sample(Sampler_95, combine_145);
+		float dot_120 = dot(float3(0, 1, 0), Gfx_ModelSpaceNormal);
+		float abs_124 = abs(dot_120);
+		float smoothStep_128 = smoothstep(float(0.4), float(0.6), abs_124);
+		float4 smear_134 = float4(smoothStep_128, smoothStep_128, smoothStep_128, smoothStep_128);
+		float4 lerp_154 = lerp(sample_149, sample_150, smear_134);
+		float mul_132 = mul_122.z * float(0.1);
+		float add_138 = mul_132 + Gfx_Environment.time;
+		float add_142 = add_138 + ambientOcclusion_119;
+		float2 combine_146 = float2(mul_122.y, add_142);
+		float4 sample_151 = MR_Sample(Sampler_95, combine_146);
+		float dot_121 = dot(float3(1, 0, 0), Gfx_ModelSpaceNormal);
+		float abs_125 = abs(dot_121);
+		float smoothStep_129 = smoothstep(float(0.4), float(0.6), abs_125);
+		float4 smear_135 = float4(smoothStep_129, smoothStep_129, smoothStep_129, smoothStep_129);
+		float4 lerp_155 = lerp(lerp_154, sample_151, smear_135);
+		float3 truncate_158 = float3(lerp_155.xyz);
+		float2 combine_163 = float2(truncate_158.x, float(0));
+		float4 sample_171 = MR_Sample(GradientTexture1, combine_163);
+		float3 truncate_172 = float3(sample_171.xyz);
+		float4 transform_123 = MR_Transform(MR_ViewConstants.cameraToWorld, float4(0, 0, 0, 1));
+		float3 truncate_127 = float3(transform_123.xyz);
+		float3 sub_133 = truncate_127 - Gfx_WorldSpacePos;
+		float3 normalize_139 = normalize(sub_133);
+		float3 normalize_108 = normalize(Gfx_WorldSpaceNormal);
+		float dot_143 = dot(normalize_139, normalize_108);
+		float abs_147 = abs(dot_143);
+		float saturate_152 = saturate(abs_147);
+		float sub_148 = float(1) - dot_143;
+		float abs_153 = abs(sub_148);
+		float lerp_156 = lerp(saturate_152, abs_153, float(1));
+		float pow_159 = pow(abs(lerp_156), float(2));
+		float abs_162 = abs(pow_159);
+		float3 smear_164 = float3(abs_162, abs_162, abs_162);
+		float3 mul_174 = truncate_172 * smear_164;
+		float3 mul_176 = mul_174 * float3(20, 20, 20);
+		float3 truncate_173 = float3(sample_171.xyz);
+		float abs_157 = abs(abs_153);
+		float2 combine_160 = float2(abs_157, float(0.5));
+		float4 sample_169 = MR_Sample(GradientTexture2, combine_160);
+		float3 truncate_170 = float3(sample_169.xyz);
+		float3 mul_175 = truncate_173 * truncate_170;
+		float3 add_177 = mul_176 + mul_175;
+		float3 mul_178 = add_177 * float3(2, 2, 2);
+		float4 truncate_179 = float4(mul_178.xyz, 1);
+		float4 OWEmissiveIntensityMultiplier_180 = OWEmissiveIntensityMultiplier(truncate_179);
+		float3 truncate_182 = float3(OWEmissiveIntensityMultiplier_180.xyz);
+		if (truncate_158.x < Gfx_AlphaRef) discard;
+		float4 result_184 = float4(truncate_182, truncate_158.x);
+		colorOut = result_184;
+	}
+}

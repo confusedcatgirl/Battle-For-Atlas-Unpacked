@@ -1,0 +1,54 @@
+<shaderType = "UI", >
+import "shaders/modules/graphics/drawer/drawer.h"
+blend {
+	writeMask = rgba,
+	src = 1,
+	src.a = 0,
+}
+pixel
+{
+	struct CustomData {
+		float3 myColor <default = 0 0 0, label = "Color", pinId = 105>;
+		float myOpacity <default = 1, label = "Opacity", pinId = 106>;
+		float myOuterRadius <default = 0.5, label = "Outer Radius", pinId = 103>;
+		float myInnerRadius <default = 0.4, label = "Inner Radius", pinId = 104>;
+		float myEdgeSoftness <default = 0.1, label = "Edge Softness", pinId = 102>;
+		float myAspectRatio <default = 1, label = "Aspect Ratio", pinId = 110>;
+	};
+	float2 GetRadialUV4(float2 aInstanceUV, float v)
+	{
+		float d = sqrt(pow(aInstanceUV.x - .5, 2.) + pow(aInstanceUV.y - .5, 2.));
+		 return float2(d, v);
+	}
+	main(out float4 colorOut : MR_Color0, CustomData customData : Gfx_CustomData0, 
+		float2 Gfx_UV2 : Gfx_UV2)
+	{
+		float mul_32 = customData.myOuterRadius * float(0.5);
+		float2 combine_36 = float2(mul_32, mul_32);
+		float mul_30 = customData.myEdgeSoftness * float(0.1);
+		float sub_34 = mul_32 - mul_30;
+		float2 combine_38 = float2(sub_34, sub_34);
+		float2 GetRadialUV4_14 = GetRadialUV4(Gfx_UV2, float(0));
+		float2 smoothStep_40 = smoothstep(combine_36, combine_38, GetRadialUV4_14);
+		float mul_33 = customData.myInnerRadius * float(0.5);
+		float2 combine_37 = float2(mul_33, mul_33);
+		float mul_31 = customData.myEdgeSoftness * float(0.1);
+		float sub_35 = mul_33 - mul_31;
+		float2 combine_39 = float2(sub_35, sub_35);
+		float2 GetRadialUV4_17 = GetRadialUV4(Gfx_UV2, float(0));
+		float2 smoothStep_41 = smoothstep(combine_37, combine_39, GetRadialUV4_17);
+		float2 sub_42 = smoothStep_40 - smoothStep_41;
+		float2 saturate_43 = saturate(sub_42);
+		float2 mul_24 = GetRadialUV4_14 * float2(0.8, 0.8);
+		float2 sin_25 = sin(mul_24);
+		float2 smoothStep_26 = smoothstep(float2(0.1, 0.1), float2(1, 1), sin_25);
+		float2 mul_44 = saturate_43 * smoothStep_26;
+		float2 smear_29 = float2(customData.myOpacity, customData.myOpacity);
+		float2 mul_45 = mul_44 * smear_29;
+		float truncate_46 = float(mul_45.x);
+		float4 combine_47 = float4(customData.myColor.x, customData.myColor.y, customData.myColor.z, truncate_46);
+		float4 finalColor = vec4(0);
+		finalColor = BlendColor(combine_47, float(0));
+		colorOut = finalColor;
+	}
+}

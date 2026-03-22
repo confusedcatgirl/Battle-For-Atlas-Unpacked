@@ -1,0 +1,30 @@
+<shaderType = "UI", >
+import "shaders/modules/graphics/drawer/drawer.h"
+blend {
+	writeMask = rgba,
+	src = 1,
+	src.a = 0,
+}
+pixel
+{
+	MR_Sampler2D Texture : MR_Texture0 <pinId = 101>;
+	struct CustomData {
+		float myFadePoint <default = 0, label = "Fade Point", pinId = 102>;
+	};
+	main(out float4 colorOut : MR_Color0, int UI_RenderType : UI_RenderType1, 
+		float2 Gfx_UV : Gfx_UV0, float4 Gfx_Color : Gfx_Color0, 
+		CustomData customData : Gfx_CustomData0)
+	{
+		float4 sample_33 = GetColorInfo(Texture, Gfx_UV, In.UI_RenderType);
+		float4 mul_34 = sample_33 * Gfx_Color;
+		float step_36 = step(Gfx_UV.y, customData.myFadePoint);
+		float remap_35 = float(1) + saturate((Gfx_UV.y - customData.myFadePoint) / (float(1) - customData.myFadePoint)) * (float(0) - float(1));
+		float add_37 = step_36 + remap_35;
+		float clamp_38 = clamp(add_37, float(0), float(1));
+		float4 combine_39 = float4(float(1), float(1), float(1), clamp_38);
+		float4 mul_40 = mul_34 * combine_39;
+		float4 finalColor = vec4(0);
+		finalColor = BlendColor(mul_40, float(0));
+		colorOut = finalColor;
+	}
+}

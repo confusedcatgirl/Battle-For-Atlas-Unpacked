@@ -1,0 +1,48 @@
+<shaderType = "UI", >
+import "shaders/modules/graphics/drawer/drawer.h"
+import "shaders/nodes/shader/functions/depthbuffer.h"
+import "shaders/nodes/shader/functions/depth buffer to world space.h"
+import "shaders/nodes/shader/functions/onward/lighting/ow_groundfog.h"
+blend {
+	writeMask = rgba,
+	src = 1,
+	src.a = 0,
+}
+pixel
+{
+	struct CustomData {
+		float3 myCenter <default = 0 0 0, label = "Center", pinId = 101>;
+		float myRadius <default = 0, label = "Radius", pinId = 102>;
+		float3 myColor <config = { type = "ColorBox", }, default = 1 0 0, label = "Color", pinId = 103>;
+		float3 myInnerCircleColor <config = { type = "ColorBox", }, default = 0 0 0, label = "Inner Circle Color", pinId = 104>;
+		float myIntensity <default = 10, label = "Intensity", pinId = 106>;
+	};
+	main(out float4 colorOut : MR_Color0, CustomData customData : Gfx_CustomData0, 
+		float4 MR_FragCoord : MR_FragCoord, 
+		float3 Gfx_WorldSpacePos : Gfx_WorldSpacePos0)
+	{
+		float GetDepthbuffer_1 = GetDepthbuffer(MR_FragCoord);
+		float3 DepthToWorldSpace_8 = DepthToWorldSpace(GetDepthbuffer_1, float2(0, 0), MR_FragCoord);
+		float3 sub_14 = DepthToWorldSpace_8 - customData.myCenter;
+		float length_17 = length(sub_14);
+		float sub_15 = customData.myRadius - float(2);
+		float step_18 = step(length_17, sub_15);
+		float sub_22 = float(1) - step_18;
+		float step_20 = step(length_17, customData.myRadius);
+		float mul_23 = sub_22 * step_20;
+		float3 smear_25 = float3(mul_23, mul_23, mul_23);
+		float3 mul_26 = customData.myColor * smear_25;
+		float3 smear_21 = float3(step_18, step_18, step_18);
+		float3 mul_24 = customData.myInnerCircleColor * smear_21;
+		float3 add_27 = mul_26 + mul_24;
+		float mul_16 = customData.myIntensity * float(1);
+		float3 smear_19 = float3(mul_16, mul_16, mul_16);
+		float3 mul_28 = add_27 * smear_19;
+		float3 aColor_29 = mul_28;
+		OW_GroundFog(aColor_29, Gfx_WorldSpacePos, MR_FragCoord);
+		float4 truncate_30 = float4(aColor_29.xyz, 1);
+		float4 finalColor = vec4(0);
+		finalColor = BlendColor(truncate_30, float(1));
+		colorOut = finalColor;
+	}
+}

@@ -1,0 +1,30 @@
+<keywords = { "GFX_DEFERRED_SHADER", }, >
+import "shaders/modules/graphics/deferred_data.h"
+import "shaders/modules/graphics/normal_encode.h"
+pixel
+{
+	struct CustomData {
+		float3 myColor <config = { type = "ColorBox", }, default = 1 1 1, label = "Color", pinId = 102>;
+		float myIntensity <default = 15, label = "Intensity", pinId = 103>;
+		float myFlipFresnel <default = 0, label = "Flip Fresnel", pinId = 106>;
+		float myFresenlPower <default = 3, label = "Fresenl Power", pinId = 107>;
+		float myFresnelMin <default = 0, label = "Fresnel Min", pinId = 108>;
+		float myFresnelMax <default = 1, label = "Fresnel Max", pinId = 109>;
+	};
+	main(bool MR_IsFrontFace : MR_IsFrontFace, 
+		out Gfx_DeferredData deferredOut : Gfx_Deferred, 
+		CustomData customData : Gfx_CustomData0, 
+		float3 Gfx_WorldSpaceNormal : Gfx_WorldSpaceNormal0)
+	{
+		float3 smear_59 = float3(customData.myIntensity, customData.myIntensity, customData.myIntensity);
+		float3 mul_60 = customData.myColor * smear_59;
+		deferredOut.color = mul_60;
+		deferredOut.roughness = float(0);
+		deferredOut.metalness = float(0);
+		deferredOut.ao = float(1);
+		float3 flippedNormal = Gfx_WorldSpaceNormal;
+		if (!MR_IsFrontFace)
+		    flippedNormal = -flippedNormal;
+		deferredOut.worldNormal = flippedNormal;
+	}
+}

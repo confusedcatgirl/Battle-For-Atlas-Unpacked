@@ -1,0 +1,42 @@
+<shaderType = "Particle">
+import "shaders/nodes/shader/particles/soft.h"
+blend {
+	src = 1,
+}
+pixel
+{
+	import "shaders/nodes/Shader/Functions/Lighting/SS Refraction.h"
+	MR_Sampler2D Displacement : MR_Texture0 <pinId = 101>;
+	float4 ParticleRefract(float4 fc : MR_FragCoord, float2 offset, float a, float2 originalOffset)
+	{
+		float2 uv = MR_PixelToFramebufferUV(fc.xy);
+		float originalA = length(originalOffset) * 2.0;
+		float4 c = SSR_GetUVRefraction(SSR_FramebufferLate, uv, uv + offset * a, fc);
+		if (c.a < 0.01) discard;
+		return c * float4(1,1,1,saturate(originalA * 2.0));
+	}
+	main(out float4 colorOut : MR_Color0, 
+		float2 Particle_InstanceUV : Particle_InstanceUV0, 
+		float Particle_Float_ : Particle_Float_0, 
+		float4 Particle_Color : Particle_Color0, 
+		float4 Particle_ShaderParams : Particle_ShaderParams0, 
+		float4 MR_FragCoord : MR_FragCoord)
+	{
+		float4 result30 = vec4(0);
+		float4 sample_21 = MR_Sample(Displacement, Particle_InstanceUV);
+		float2 combine_25 = float2(sample_21.x, sample_21.y);
+		float2 sub_26 = combine_25 - float2(0.5, 0.5);
+		float mul_23 = sample_21.w * Particle_Float_;
+		float2 combine_24 = float2(mul_23, mul_23);
+		float2 mul_27 = sub_26 * combine_24;
+		float saturate_15 = saturate(Particle_Color.w);
+		float4 combine_16 = float4(Particle_Color.x, Particle_Color.y, Particle_Color.z, saturate_15);
+		float4 colorOut_17;
+		float alphaOut_17;
+		SoftParticle(combine_16, Particle_ShaderParams, MR_FragCoord, colorOut_17, alphaOut_17);
+		float4 ParticleRefract_28 = ParticleRefract(MR_FragCoord, mul_27, alphaOut_17, sub_26);
+		float4 mul_29 = ParticleRefract_28 * colorOut_17;
+		result30 += float4(mul_29.xyz, 1) * mul_29.w;
+		colorOut = result30;
+	}
+}

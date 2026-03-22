@@ -1,0 +1,19 @@
+pixel
+{
+	MR_Sampler2D BaseColor : MR_Texture0 {
+		texture = "onward/baked/textures/default_b.dds",
+		wrap = border,
+	} <label = "Base Color", pinId = 102>;
+	main(out float4 colorOut : MR_Color0, float2 Gfx_UV : Gfx_UV0, 
+		float Gfx_AlphaRef : Gfx_AlphaRef0, 
+		float3 Gfx_CameraSpacePos : Gfx_CameraSpacePos0)
+	{
+		clip(Gfx_UV);
+		float2 sub_49 = float2(1, 1) - Gfx_UV;
+		clip(sub_49);
+		float4 sample_61 = MR_Sample(BaseColor, Gfx_UV);
+		if (sample_61.w < Gfx_AlphaRef) discard;
+		float4 depthResult = float4(Gfx_CameraSpacePos.z, 0, 0, sample_61.w);
+		colorOut = depthResult;
+	}
+}

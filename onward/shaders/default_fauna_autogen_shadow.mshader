@@ -1,0 +1,25 @@
+<keywords = { "LIGHT_FROM_GROUND", "IS_MAIN_PLANET", "GFX_SHADOW_SHADER", }, >
+pixel
+{
+	MR_Sampler2D BaseColor : MR_Texture0 {
+		texture = "onward/baked/textures/default_b.dds",
+	} <label = "Base Color", pinId = 102>;
+	struct CustomData {
+		float myEmissiveIntensity <default = 0, label = "Emissive Intensity", pinId = 111>;
+		float3 myPivot <default = 0 0 0, label = "Pivot", pinId = 120>;
+		float myScan <default = 0, label = "Scan", pinId = 121>;
+		float3 myLocator <default = 0 0 0, label = "Locator", pinId = 122>;
+		float myRadius <default = 0, label = "Radius", pinId = 123>;
+		float4 myLinesScanColor <default = 0 0 0 0, label = "LinesScanColor", pinId = 125>;
+		float myScanProgress <default = 0, label = "ScanProgress", pinId = 126>;
+		float myHeight <default = 1, label = "Height", pinId = 128>;
+	};
+	main(CustomData customData : Gfx_CustomData, out float4 colorOut : MR_Color0, 
+		float2 Gfx_UV : Gfx_UV0, float Gfx_AlphaRef : Gfx_AlphaRef0)
+	{
+		float4 sample_179 = MR_Sample(BaseColor, Gfx_UV);
+		if (sample_179.w < Gfx_AlphaRef) discard;
+		float4 shadowResult = float4(0.0, 0.0, 0.0, sample_179.w);
+		colorOut = shadowResult;
+	}
+}

@@ -1,0 +1,42 @@
+<shaderType = "UI", >
+import "shaders/modules/graphics/drawer/drawer.h"
+blend {
+	writeMask = rgba,
+	src = 1,
+	src.a = 0,
+}
+pixel
+{
+	MR_Sampler2D Texture : MR_Texture0 <pinId = 101>;
+	MR_Sampler2D Mask : MR_Texture1 {
+		wrap = border,
+		border = 1.0 1.0 0.0 0.0,
+	} <pinId = 102>;
+	struct CustomData {
+		float2 myTextureUVOffset <default = 0 0, label = "Texture UV Offset", pinId = 105>;
+		float2 myTextureUVScale <default = 1 1, label = "Texture UV Scale", pinId = 107>;
+		float2 myMaskUVOffset <default = 0 0, label = "Mask UV Offset", pinId = 106>;
+		float2 myMaskUVScale <default = 1 1, label = "Mask UV Scale", pinId = 108>;
+		float4 myChannelMult <default = 0 0 0 1, label = "Channel Mult", pinId = 103>;
+		float4 myChannelAdd <default = 1 1 1 0, label = "Channel Add", pinId = 104>;
+	};
+	main(out float4 colorOut : MR_Color0, float4 Gfx_Color : Gfx_Color0, 
+		int UI_RenderType : UI_RenderType1, float2 Gfx_UV : Gfx_UV0, 
+		CustomData customData : Gfx_CustomData0)
+	{
+		float2 mul_24 = Gfx_UV * customData.myTextureUVScale;
+		float2 add_27 = mul_24 + customData.myTextureUVOffset;
+		float4 sample_29 = GetColorInfo(Texture, add_27, In.UI_RenderType);
+		float4 mul_31 = Gfx_Color * sample_29;
+		float2 mul_26 = Gfx_UV * customData.myMaskUVScale;
+		float2 add_28 = mul_26 + customData.myMaskUVOffset;
+		float4 sample_30 = MR_Sample(Mask, add_28);
+		float4 smear_33 = float4(sample_30.w, sample_30.w, sample_30.w, sample_30.w);
+		float4 mul_34 = customData.myChannelMult * smear_33;
+		float4 add_35 = mul_34 + customData.myChannelAdd;
+		float4 mul_36 = mul_31 * add_35;
+		float4 finalColor = vec4(0);
+		finalColor = BlendColor(mul_36, float(0));
+		colorOut = finalColor;
+	}
+}

@@ -1,0 +1,95 @@
+<shaderType = "Vertex">
+import "shaders/nodes/shader/functions/getplanetposition.h"
+import "shaders/modules/graphics/environment.h"
+import "shaders/nodes/shader/functions/onward/ow_getforcefield.h"
+import "shaders/MRender/MR_ViewConstants.h"
+vertex
+{
+	struct CustomData {
+		float myForceMax <default = 4, label = "Force Max", pinId = 101>;
+		float myForceStiffness <default = 0.5, label = "Force Stiffness", pinId = 103>;
+		float myVerticleNoiseSpeed <default = 4, label = "Verticle Noise Speed", pinId = 104>;
+		float myVerticalNoiseStrength <default = 0.05, label = "Vertical Noise Strength", pinId = 105>;
+	};
+	float3x3 axisAngleMatrix(float3 axis, float angle)
+	{
+		float c = cos(angle);
+		 float s = sin(angle);
+		 float t = 1 - c;
+		 float x = axis.x;
+		 float y = axis.y;
+		 float z = axis.z;
+		 return MR_RowMatrix(
+		     float3(t*x*x + c, t*x*y - z*s, t*x*z + y*s),
+		     float3(t*x*y + z*s, t*y*y + c, t*y*z - x*s),
+		     float3(t*x*z - y*s, t*y*z + x*s, t*z*z + c)
+		 );
+	}
+	void WorldSpaceModifier(inout float3 Gfx_WorldSpacePos : Gfx_WorldSpacePos, 
+		float4 Gfx_Color : Gfx_Color0, CustomData customData : Gfx_CustomData0, 
+		float2 Gfx_UV1 : Gfx_UV1, 
+		float3x4 Gfx_ObjectToWorldMatrix : Gfx_ObjectToWorldMatrix0)
+	{
+		float3 combine_27 = float3(Gfx_UV1.x, float(0), Gfx_UV1.y);
+		float3 add_30 = combine_27 + float3(0, 1, 0);
+		float3 transform_35 = MR_Transform(Gfx_ObjectToWorldMatrix, add_30);
+		float3 transform_29 = MR_Transform(Gfx_ObjectToWorldMatrix, combine_27);
+		float3 sub_41 = transform_35 - transform_29;
+		float3 add_45 = sub_41 + float3(0.001, 0, 0);
+		float3 normalize_49 = normalize(add_45);
+		float3 GetPlanetPosition_10 = GetPlanetPosition();
+		float3 sub_31 = transform_29 - GetPlanetPosition_10;
+		float3 normalize_37 = normalize(sub_31);
+		float3 mul_36 = sub_31 * float3(45.2313, 21.6451, 0.541);
+		float add_46 = mul_36.x + mul_36.y;
+		float add_47 = add_46 + mul_36.z;
+		float mul_52 = Gfx_Environment.time * customData.myVerticleNoiseSpeed;
+		float add_53 = add_47 + mul_52;
+		float sin_54 = sin(add_53);
+		float mul_55 = sin_54 * customData.myVerticalNoiseStrength;
+		float3 smear_56 = float3(mul_55, mul_55, mul_55);
+		float3 mul_57 = normalize_37 * smear_56;
+		float3 sub_33 = transform_29 - GetPlanetPosition_10;
+		float3 OW_GetForceField_39 = OW_GetForceField(sub_33);
+		float3 add_58 = mul_57 + OW_GetForceField_39;
+		float3 add_59 = add_58 + float3(0, 0, 0.001);
+		float3 normalize_61 = normalize(add_59);
+		float3 cross_63 = cross(normalize_49, normalize_61);
+		float3 normalize_66 = normalize(cross_63);
+		float dot_64 = dot(normalize_49, normalize_61);
+		float acos_67 = acos(dot_64);
+		float length_60 = length(add_58);
+		float div_62 = length_60 / customData.myForceMax;
+		float saturate_65 = saturate(div_62);
+		float mul_68 = saturate_65 * customData.myForceStiffness;
+		float mul_69 = acos_67 * mul_68;
+		float3x3 axisAngleMatrix_70 = axisAngleMatrix(normalize_66, mul_69);
+		float3 sub_32 = Gfx_WorldSpacePos - transform_29;
+		float3 transform_71 = MR_Transform(axisAngleMatrix_70, sub_32);
+		float3 sub_72 = transform_71 - sub_32;
+		float4 combine_26 = float4(Gfx_Color.x, Gfx_Color.x, Gfx_Color.x, Gfx_Color.x);
+		float3 truncate_28 = float3(combine_26.xyz);
+		float3 mul_73 = sub_72 * truncate_28;
+		float3 add_74 = mul_73 + Gfx_WorldSpacePos;
+		float3 sub_75 = add_74 - transform_29;
+		float3 normalize_76 = normalize(sub_75);
+		float length_38 = length(sub_32);
+		float3 smear_43 = float3(length_38, length_38, length_38);
+		float3 mul_77 = normalize_76 * smear_43;
+		float3 add_78 = mul_77 + transform_29;
+		float3 sub_34 = transform_29 - MR_ViewConstants.LODCameraPosition;
+		float length_40 = length(sub_34);
+		float smoothStep_44 = smoothstep(float(602), float(300), length_40);
+		float saturate_48 = saturate(smoothStep_44);
+		float3 smear_50 = float3(saturate_48, saturate_48, saturate_48);
+		float3 lerp_79 = lerp(Gfx_WorldSpacePos, add_78, smear_50);
+		Gfx_WorldSpacePos = lerp_79;
+	}
+	main(float3x4 Gfx_ObjectToWorldMatrix : Gfx_ObjectToWorldMatrix0, 
+		float2 Gfx_UV1 : Gfx_UV1, CustomData customData : Gfx_CustomData0, 
+		float4 Gfx_Color : Gfx_Color0, 
+		inout float3 Gfx_WorldSpacePos : Gfx_WorldSpacePos <modifier = "WorldSpaceModifier">)
+	{
+		// dummy comment so the shader writer does save this out
+	}
+}

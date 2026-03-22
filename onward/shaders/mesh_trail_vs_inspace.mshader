@@ -1,0 +1,23 @@
+<shaderType = "Vertex">
+vertex
+{
+	struct CustomData {
+		float myFalloff <default = 0.01, label = "Falloff", pinId = 101>;
+		float3 myWind <default = 1 1 1, label = "Wind", pinId = 103>;
+	};
+	void ModelSpaceModifier(inout float3 Gfx_ModelSpacePos : Gfx_ModelSpacePos, 
+		CustomData customData : Gfx_CustomData0, float4 Gfx_Color : Gfx_Color0)
+	{
+		float mul_5 = Gfx_Color.y * Gfx_Color.y;
+		float div_7 = mul_5 / customData.myFalloff;
+		float3 combine_8 = float3(div_7, div_7, float(0));
+		float3 mul_9 = combine_8 * customData.myWind;
+		float3 add_10 = Gfx_ModelSpacePos + mul_9;
+		Gfx_ModelSpacePos = add_10;
+	}
+	main(float4 Gfx_Color : Gfx_Color0, CustomData customData : Gfx_CustomData0, 
+		inout float3 Gfx_ModelSpacePos : Gfx_ModelSpacePos <modifier = "ModelSpaceModifier">)
+	{
+		// dummy comment so the shader writer does save this out
+	}
+}

@@ -1,0 +1,45 @@
+<shaderType = "Particle", >
+import "shaders/nodes/shader/particles/sample texture atlas.h"
+import "shaders/nodes/shader/functions/ow particle intensity multiplier.h"
+import "shaders/nodes/shader/particles/soft.h"
+blend {
+	src = 1,
+	dest = 1,
+}
+pixel
+{
+	MR_Sampler2D Add : MR_Texture0 {
+		wrap = border,
+	} <pinId = 101>;
+	struct CustomData {
+		float myGamma <default = 1, label = "Gamma", pinId = 102>;
+	};
+	struct CustomInterpolators {
+		float myIntensity <default = 1, label = "Intensity", pinId = 201>;
+	};
+	main(out float4 colorOut : MR_Color0, 
+		float2 Particle_InstanceUV : Particle_InstanceUV0, 
+		CustomData customData : Gfx_CustomData0, 
+		float4 Particle_Color : Particle_Color0, 
+		CustomInterpolators customInterpolators : Gfx_CustomInterpolators0, 
+		float4 Particle_ShaderParams : Particle_ShaderParams0, 
+		float4 MR_FragCoord : MR_FragCoord)
+	{
+		float4 result36 = vec4(0);
+		float4 SampleTextureAtlas2_28 = SampleTextureAtlas2(Add, Particle_InstanceUV, Particle_InstanceUV, float(1), float(0), float(0), true);
+		float4 smear_26 = float4(customData.myGamma, customData.myGamma, customData.myGamma, customData.myGamma);
+		float4 pow_29 = pow(abs(SampleTextureAtlas2_28), smear_26);
+		float4 smear_27 = float4(customInterpolators.myIntensity, customInterpolators.myIntensity, customInterpolators.myIntensity, customInterpolators.myIntensity);
+		float4 mul_30 = Particle_Color * smear_27;
+		float saturate_32 = saturate(mul_30.w);
+		float4 combine_33 = float4(mul_30.x, mul_30.y, mul_30.z, saturate_32);
+		float4 mul_34 = pow_29 * combine_33;
+		float4 OWParticleIntensityMultiplier_35 = OWParticleIntensityMultiplier(mul_34);
+		result36 += float4(OWParticleIntensityMultiplier_35.xyz * OWParticleIntensityMultiplier_35.w, 0);
+		float4 colorOut_22;
+		float alphaOut_22;
+		SoftParticle(float4(0, 0, 0, 1), Particle_ShaderParams, MR_FragCoord, colorOut_22, alphaOut_22);
+		result36 *= alphaOut_22;
+		colorOut = result36;
+	}
+}

@@ -1,0 +1,196 @@
+<keywords = { "HAS_OPACITY", "LIGHT_FROM_GROUND", "IS_MAIN_PLANET", "GFX_DEFERRED_SHADER", }, >
+import "shaders/modules/graphics/deferred_data.h"
+import "shaders/modules/graphics/normal_encode.h"
+import "shaders/nodes/shader/functions/onward/ow_getterrainlowresalbedo.h"
+import "shaders/modules/graphics/environment.h"
+import "shaders/nodes/shader/functions/unpack normal.h"
+import "shaders/MRender/MR_ViewConstants.h"
+pixel
+{
+	MR_Sampler2D NormalWithFoam : MR_Texture0 {
+		texture = "onward/baked/textures/water_with_foam_n.dds",
+	} <pinId = 108>;
+	MR_Sampler2D Noise : MR_Texture1 <pinId = 117>;
+	struct CustomData {
+		float3 myColor <config = { type = "ColorBox", }, default = 0 0 0, label = "Color", pinId = 107>;
+		float2 myNormalTililng <default = 1 1, label = "Normal Tililng", pinId = 111>;
+		float3 mySpeed <default = 3 1 0.5, label = "Speed", pinId = 112>;
+		float2 myNoisetiling <default = 0 0, label = "Noise tiling", pinId = 118>;
+		float myFoamRoughness <default = 1, label = "Foam Roughness", pinId = 119>;
+		float myFoamAmmount <config = { max = 1, min = 0, type = "Slider", }, default = 0, label = "Foam Ammount", pinId = 120>;
+	};
+	main(bool MR_IsFrontFace : MR_IsFrontFace, 
+		out Gfx_DeferredData deferredOut : Gfx_Deferred, 
+		float3 Gfx_ModelSpacePos : Gfx_ModelSpacePos0, 
+		CustomData customData : Gfx_CustomData0, 
+		float3 Gfx_ModelSpaceNormal : Gfx_ModelSpaceNormal0, 
+		float4 Gfx_Color : Gfx_Color0, float3 Gfx_WorldSpacePos : Gfx_WorldSpacePos0, 
+		float3 Gfx_WorldSpaceNormal : Gfx_WorldSpaceNormal0)
+	{
+		float3 normalize_121 = normalize(Gfx_ModelSpacePos);
+		float3 OW_GetTerrainLowResAlbedo_173 = OW_GetTerrainLowResAlbedo(normalize_121);
+		float add_205 = customData.myFoamAmmount + float(1);
+		float smoothStep_209 = smoothstep(float(0), float(1.6), add_205);
+		float3 smear_218 = float3(smoothStep_209, smoothStep_209, smoothStep_209);
+		float3 lerp_226 = lerp(OW_GetTerrainLowResAlbedo_173, customData.myColor, smear_218);
+		float smoothStep_213 = smoothstep(float(0), float(0.1), add_205);
+		float smoothStep_211 = smoothstep(float(2), float(0), add_205);
+		float mul_221 = smoothStep_213 * smoothStep_211;
+		float lerp_227 = lerp(float(3), float(0), mul_221);
+		float2 combine_171 = float2(Gfx_ModelSpacePos.z, Gfx_ModelSpacePos.y);
+		float2 mul_208 = combine_171 * customData.myNormalTililng;
+		float mul_172 = Gfx_Environment.time * float(0.002);
+		float3 smear_185 = float3(mul_172, mul_172, mul_172);
+		float3 mul_217 = customData.mySpeed * smear_185;
+		float2 combine_228 = float2(mul_217.x, float(0));
+		float2 add_233 = mul_208 + combine_228;
+		float4 sample_240 = MR_Sample(NormalWithFoam, add_233);
+		float3 normal_249;
+		float ambientOcclusion_249;
+		UnpackNormalAndAO(sample_240, normal_249, ambientOcclusion_249);
+		float2 combine_236 = float2(-mul_217.x, -mul_217.y);
+		float2 add_243 = mul_208 + combine_236;
+		float4 sample_252 = MR_Sample(NormalWithFoam, add_243);
+		float3 normal_261;
+		float ambientOcclusion_261;
+		UnpackNormalAndAO(sample_252, normal_261, ambientOcclusion_261);
+		float add_267 = ambientOcclusion_249 + ambientOcclusion_261;
+		float2 combine_232 = float2(-mul_217.z, mul_217.z);
+		float2 add_237 = mul_208 + combine_232;
+		float4 sample_246 = MR_Sample(NormalWithFoam, add_237);
+		float3 normal_255;
+		float ambientOcclusion_255;
+		UnpackNormalAndAO(sample_246, normal_255, ambientOcclusion_255);
+		float add_274 = add_267 + ambientOcclusion_255;
+		float3 abs_115 = abs(Gfx_ModelSpaceNormal);
+		float3 combine_167 = float3(float(23.4554), float(23.4554), float(23.4554));
+		float3 pow_168 = pow(abs(abs_115), combine_167);
+		float3 normalize_184 = normalize(pow_168);
+		float add_189 = normalize_184.x + normalize_184.y;
+		float add_190 = add_189 + normalize_184.z;
+		float3 combine_191 = float3(add_190, add_190, add_190);
+		float3 div_192 = normalize_184 / combine_191;
+		float mul_281 = add_274 * div_192.x;
+		float2 combine_169 = float2(Gfx_ModelSpacePos.x, Gfx_ModelSpacePos.z);
+		float2 mul_206 = combine_169 * customData.myNormalTililng;
+		float2 add_234 = mul_206 + combine_228;
+		float4 sample_241 = MR_Sample(NormalWithFoam, add_234);
+		float3 normal_250;
+		float ambientOcclusion_250;
+		UnpackNormalAndAO(sample_241, normal_250, ambientOcclusion_250);
+		float2 add_244 = mul_206 + combine_236;
+		float4 sample_253 = MR_Sample(NormalWithFoam, add_244);
+		float3 normal_262;
+		float ambientOcclusion_262;
+		UnpackNormalAndAO(sample_253, normal_262, ambientOcclusion_262);
+		float add_269 = ambientOcclusion_250 + ambientOcclusion_262;
+		float2 add_238 = mul_206 + combine_232;
+		float4 sample_247 = MR_Sample(NormalWithFoam, add_238);
+		float3 normal_256;
+		float ambientOcclusion_256;
+		UnpackNormalAndAO(sample_247, normal_256, ambientOcclusion_256);
+		float add_276 = add_269 + ambientOcclusion_256;
+		float mul_283 = add_276 * div_192.y;
+		float add_287 = mul_281 + mul_283;
+		float2 combine_170 = float2(Gfx_ModelSpacePos.x, Gfx_ModelSpacePos.y);
+		float2 mul_207 = combine_170 * customData.myNormalTililng;
+		float2 add_235 = mul_207 + combine_228;
+		float4 sample_242 = MR_Sample(NormalWithFoam, add_235);
+		float3 normal_251;
+		float ambientOcclusion_251;
+		UnpackNormalAndAO(sample_242, normal_251, ambientOcclusion_251);
+		float2 add_245 = mul_207 + combine_236;
+		float4 sample_254 = MR_Sample(NormalWithFoam, add_245);
+		float3 normal_263;
+		float ambientOcclusion_263;
+		UnpackNormalAndAO(sample_254, normal_263, ambientOcclusion_263);
+		float add_271 = ambientOcclusion_251 + ambientOcclusion_263;
+		float2 add_239 = mul_207 + combine_232;
+		float4 sample_248 = MR_Sample(NormalWithFoam, add_239);
+		float3 normal_257;
+		float ambientOcclusion_257;
+		UnpackNormalAndAO(sample_248, normal_257, ambientOcclusion_257);
+		float add_278 = add_271 + ambientOcclusion_257;
+		float mul_285 = add_278 * div_192.z;
+		float add_290 = add_287 + mul_285;
+		float smoothStep_294 = smoothstep(lerp_227, float(3.01), add_290);
+		float remap_183 = float(0) + saturate((Gfx_Color.x - float(0.3)) / (float(1) - float(0.3))) * (float(1) - float(0));
+		float mul_299 = smoothStep_294 * remap_183;
+		float smoothStep_295 = smoothstep(float(2), float(3), add_290);
+		float2 combine_182 = float2(Gfx_ModelSpacePos.z, Gfx_ModelSpacePos.y);
+		float2 mul_216 = combine_182 * customData.myNoisetiling;
+		float4 sample_224 = MR_Sample(Noise, mul_216);
+		float4 combine_199 = float4(div_192.x, div_192.x, div_192.x, div_192.x);
+		float4 mul_258 = sample_224 * combine_199;
+		float2 combine_180 = float2(Gfx_ModelSpacePos.x, Gfx_ModelSpacePos.z);
+		float2 mul_214 = combine_180 * customData.myNoisetiling;
+		float4 sample_222 = MR_Sample(Noise, mul_214);
+		float4 combine_200 = float4(div_192.y, div_192.y, div_192.y, div_192.y);
+		float4 mul_259 = sample_222 * combine_200;
+		float4 add_264 = mul_258 + mul_259;
+		float2 combine_181 = float2(Gfx_ModelSpacePos.x, Gfx_ModelSpacePos.y);
+		float2 mul_215 = combine_181 * customData.myNoisetiling;
+		float4 sample_223 = MR_Sample(Noise, mul_215);
+		float4 combine_201 = float4(div_192.z, div_192.z, div_192.z, div_192.z);
+		float4 mul_260 = sample_223 * combine_201;
+		float4 add_265 = add_264 + mul_260;
+		float smoothStep_279 = smoothstep(float(0), float(0.5), add_265.x);
+		float mul_301 = smoothStep_295 * smoothStep_279;
+		float add_305 = mul_299 + mul_301;
+		float saturate_309 = saturate(add_305);
+		float3 smear_313 = float3(saturate_309, saturate_309, saturate_309);
+		float3 lerp_316 = lerp(lerp_226, float3(0.61, 0.38, 0), smear_313);
+		deferredOut.color = lerp_316;
+		float3 sub_147 = MR_ViewConstants.LODCameraPosition - Gfx_WorldSpacePos;
+		float length_178 = length(sub_147);
+		float mul_179 = length_178 * float(0.01);
+		float saturate_186 = saturate(mul_179);
+		float lerp_188 = lerp(float(0.1), float(0.3), saturate_186);
+		float smoothStep_210 = smoothstep(float(0), float(0.05), add_205);
+		float lerp_220 = lerp(float(1), lerp_188, smoothStep_210);
+		float lerp_314 = lerp(lerp_220, customData.myFoamRoughness, saturate_309);
+		deferredOut.roughness = lerp_314;
+		deferredOut.metalness = float(0);
+		deferredOut.ao = float(1);
+		float lerp_219 = lerp(float(1), float(0.1), smoothStep_209);
+		float lerp_310 = lerp(lerp_219, float(1), add_305);
+		deferredOut.opacity = lerp_310;
+		float4 combine_174 = float4(Gfx_WorldSpaceNormal.x, Gfx_WorldSpaceNormal.y, Gfx_WorldSpaceNormal.z, float(0));
+		float4x4 matrix_175 = MR_ColumnMatrix(float4(0, 0, 1, 0), float4(0, -1, 0, 0), combine_174, float4(0, 0, 0, 0));
+		float3 add_266 = normal_249 + normal_261;
+		float3 add_273 = add_266 + normal_255;
+		float3 normalize_280 = normalize(add_273);
+		float4 transform_286 = MR_Transform(matrix_175, normalize_280);
+		float4 normalize_291 = normalize(transform_286);
+		float4 combine_302 = float4(normalize_291.x, normalize_291.y, normalize_291.z, float(0));
+		float4 combine_196 = float4(div_192.x, div_192.x, div_192.x, div_192.x);
+		float4 mul_306 = combine_302 * combine_196;
+		float4x4 matrix_176 = MR_ColumnMatrix(float4(1, 0, 0, 0), float4(0, 0, -1, 0), combine_174, float4(0, 0, 0, 0));
+		float3 add_268 = normal_250 + normal_262;
+		float3 add_275 = add_268 + normal_256;
+		float3 normalize_282 = normalize(add_275);
+		float4 transform_288 = MR_Transform(matrix_176, normalize_282);
+		float4 normalize_292 = normalize(transform_288);
+		float4 combine_303 = float4(normalize_292.x, normalize_292.y, normalize_292.z, float(0));
+		float4 combine_197 = float4(div_192.y, div_192.y, div_192.y, div_192.y);
+		float4 mul_307 = combine_303 * combine_197;
+		float4 add_311 = mul_306 + mul_307;
+		float4x4 matrix_177 = MR_ColumnMatrix(float4(1, 0, 0, 0), float4(0, -1, 0, 0), combine_174, float4(0, 0, 0, 0));
+		float3 add_270 = normal_251 + normal_263;
+		float3 add_277 = add_270 + normal_257;
+		float3 normalize_284 = normalize(add_277);
+		float4 transform_289 = MR_Transform(matrix_177, normalize_284);
+		float4 normalize_293 = normalize(transform_289);
+		float4 combine_304 = float4(normalize_293.x, normalize_293.y, normalize_293.z, float(0));
+		float4 combine_198 = float4(div_192.z, div_192.z, div_192.z, div_192.z);
+		float4 mul_308 = combine_304 * combine_198;
+		float4 add_312 = add_311 + mul_308;
+		float3 combine_317 = float3(add_312.x, add_312.y, add_312.z);
+		float3 normalize_318 = normalize(combine_317);
+		float3 normalize_319 = normalize(normalize_318);
+		float3 flippedNormal = normalize_319;
+		if (!MR_IsFrontFace)
+		    flippedNormal = -flippedNormal;
+		deferredOut.worldNormal = flippedNormal;
+	}
+}

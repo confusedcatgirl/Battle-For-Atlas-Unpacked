@@ -1,0 +1,21 @@
+<shaderType = "Object", keywords = { "GFX_FORWARD_SHADER", }, >
+blend {}
+pixel
+{
+	MR_Sampler2D Alpha : MR_Texture0 <pinId = 106>;
+	struct CustomData {
+		float myEmissive <default = 1, label = "Emissive", pinId = 104>;
+		float3 myColor <default = 1 1 1, label = "Color", pinId = 105>;
+		float myOffset <default = 0, label = "Offset", pinId = 107>;
+	};
+	main(out float4 colorOut : MR_Color0, CustomData customData : Gfx_CustomData0, 
+		float2 Gfx_UV : Gfx_UV0, float Gfx_AlphaRef : Gfx_AlphaRef0)
+	{
+		float3 smear_35 = float3(customData.myEmissive, customData.myEmissive, customData.myEmissive);
+		float3 mul_36 = smear_35 * customData.myColor;
+		float4 sample_38 = MR_Sample(Alpha, Gfx_UV);
+		if (sample_38.w < Gfx_AlphaRef) discard;
+		float4 result_41 = float4(mul_36, sample_38.w);
+		colorOut = result_41;
+	}
+}

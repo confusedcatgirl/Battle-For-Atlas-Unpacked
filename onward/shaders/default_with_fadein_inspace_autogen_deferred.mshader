@@ -1,0 +1,47 @@
+<keywords = { "LIGHT_FROM_SPACE", "ISNT_MAIN_PLANET", "GFX_DEFERRED_SHADER", }, >
+import "shaders/modules/graphics/deferred_data.h"
+import "shaders/modules/graphics/normal_encode.h"
+import "shaders/nodes/shader/functions/unpack normal.h"
+pixel
+{
+	MR_Sampler2D BaseColor : MR_Texture0 {
+		texture = "onward/baked/textures/default_b.dds",
+	} <label = "Base Color", pinId = 102>;
+	MR_Sampler2D Normal : MR_Texture1 {
+		texture = "onward/baked/textures/default_n.dds",
+	} <pinId = 103>;
+	MR_Sampler2D Material : MR_Texture2 {
+		texture = "onward/baked/textures/default_m.dds",
+	} <pinId = 104>;
+	struct CustomData {
+		float myStartFade <default = 500, label = "StartFade", pinId = 107>;
+		float myEndFade <default = 400, label = "EndFade", pinId = 108>;
+	};
+	main(bool MR_IsFrontFace : MR_IsFrontFace, 
+		out Gfx_DeferredData deferredOut : Gfx_Deferred, float2 Gfx_UV : Gfx_UV0, 
+		CustomData customData : Gfx_CustomData0, float Gfx_AlphaRef : Gfx_AlphaRef0, 
+		float3x3 Gfx_TangentToWorld : Gfx_TangentToWorld0)
+	{
+		float4 sample_84 = MR_Sample(BaseColor, Gfx_UV);
+		float3 combine_92 = float3(sample_84.x, sample_84.y, sample_84.z);
+		deferredOut.color = combine_92;
+		float add_83 = customData.myStartFade + customData.myEndFade;
+		float min_87 = min(add_83, float(0.001));
+		float4 sample_85 = MR_Sample(Material, Gfx_UV);
+		float add_91 = min_87 + sample_85.y;
+		deferredOut.roughness = add_91;
+		deferredOut.metalness = sample_85.x;
+		float4 sample_86 = MR_Sample(Normal, Gfx_UV);
+		float3 normal_90;
+		float ambientOcclusion_90;
+		UnpackNormalAndAO(sample_86, normal_90, ambientOcclusion_90);
+		deferredOut.ao = ambientOcclusion_90;
+		deferredOut.opacity = float(1);
+		if (sample_84.w < Gfx_AlphaRef) discard;
+		float3 transform_93 = MR_Transform(Gfx_TangentToWorld, normal_90);
+		float3 flippedNormal = transform_93;
+		if (!MR_IsFrontFace)
+		    flippedNormal = -flippedNormal;
+		deferredOut.worldNormal = flippedNormal;
+	}
+}

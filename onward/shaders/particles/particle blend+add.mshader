@@ -1,0 +1,42 @@
+<shaderType = "Particle", >
+import "shaders/nodes/shader/functions/ow particle intensity multiplier.h"
+import "shaders/nodes/shader/particles/soft.h"
+blend {
+	src = 1,
+}
+pixel
+{
+	MR_Sampler2D Blend : MR_Texture0 <pinId = 101>;
+	MR_Sampler2D Add : MR_Texture1 <pinId = 102>;
+	struct CustomInterpolators {
+		float myIntensity <default = 1, label = "Intensity", pinId = 201>;
+	};
+	main(out float4 colorOut : MR_Color0, 
+		float2 Particle_InstanceUV : Particle_InstanceUV0, 
+		float4 Particle_Color : Particle_Color0, 
+		float4 Particle_Color1 : Particle_Color1, 
+		CustomInterpolators customInterpolators : Gfx_CustomInterpolators0, 
+		float4 Particle_ShaderParams : Particle_ShaderParams0, 
+		float4 MR_FragCoord : MR_FragCoord)
+	{
+		float4 result43 = vec4(0);
+		float4 sample_34 = MR_Sample(Blend, Particle_InstanceUV);
+		float saturate_26 = saturate(Particle_Color.w);
+		float4 combine_28 = float4(Particle_Color.x, Particle_Color.y, Particle_Color.z, saturate_26);
+		float4 mul_37 = sample_34 * combine_28;
+		result43 += float4(mul_37.xyz, 1) * mul_37.w;
+		float4 sample_35 = MR_Sample(Add, Particle_InstanceUV);
+		float4 smear_33 = float4(customInterpolators.myIntensity, customInterpolators.myIntensity, customInterpolators.myIntensity, customInterpolators.myIntensity);
+		float4 mul_36 = Particle_Color1 * smear_33;
+		float saturate_39 = saturate(mul_36.w);
+		float4 combine_40 = float4(mul_36.x, mul_36.y, mul_36.z, saturate_39);
+		float4 mul_41 = sample_35 * combine_40;
+		float4 OWParticleIntensityMultiplier_42 = OWParticleIntensityMultiplier(mul_41);
+		result43 += float4(OWParticleIntensityMultiplier_42.xyz * OWParticleIntensityMultiplier_42.w, 0);
+		float4 colorOut_27;
+		float alphaOut_27;
+		SoftParticle(float4(0, 0, 0, 0), Particle_ShaderParams, MR_FragCoord, colorOut_27, alphaOut_27);
+		result43 *= alphaOut_27;
+		colorOut = result43;
+	}
+}

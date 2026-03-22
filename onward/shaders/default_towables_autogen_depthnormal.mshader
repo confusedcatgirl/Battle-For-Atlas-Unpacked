@@ -1,0 +1,34 @@
+<keywords = { "LIGHT_FROM_GROUND", "IS_MAIN_PLANET", "GFX_DEPTH_SHADER", }, >
+pixel
+{
+	MR_Sampler2D Sampler_131 : MR_Texture4 {
+		texture = "onward/baked/textures/grunge_noise_b.dds",
+	};
+	struct CustomData {
+		float myIntensity <default = 1, label = "Intensity", pinId = 108>;
+		float myTime <default = 0, label = "Time", pinId = 115>;
+		float myMinHeight <default = 0, label = "Min Height", pinId = 120>;
+		float myMaxHeight <default = 0, label = "Max Height", pinId = 121>;
+		float myTransitionRange <default = 1, label = "Transition Range", pinId = 122>;
+		float myEmissionRange <default = 1, label = "Emission Range", pinId = 123>;
+		float myTransitionIntensity <default = 1, label = "Transition Intensity", pinId = 124>;
+		float myTargetedTransitionTime <config = { max = 1, min = 0, type = "Slider", }, default = 0, label = "TargetedTransitionTime", pinId = 125>;
+	};
+	main(out float4 colorOut : MR_Color0, CustomData customData : Gfx_CustomData0, 
+		float3 Gfx_ModelSpacePos : Gfx_ModelSpacePos0, float2 Gfx_UV : Gfx_UV0, 
+		float Gfx_AlphaRef : Gfx_AlphaRef0, 
+		float3 Gfx_CameraSpacePos : Gfx_CameraSpacePos0)
+	{
+		float lerp_190 = lerp(customData.myMinHeight, customData.myMaxHeight, customData.myTime);
+		float sub_195 = lerp_190 - Gfx_ModelSpacePos.y;
+		float remap_199 = float(0) + saturate((sub_195 - float(1)) / (float(0) - float(1))) * (customData.myTransitionRange - float(0));
+		float2 combine_149 = float2(float(1), float(1));
+		float2 mul_153 = Gfx_UV * combine_149;
+		float4 sample_157 = MR_Sample(Sampler_131, mul_153);
+		float mul_205 = remap_199 * sample_157.x;
+		float add_207 = mul_205 + sub_195;
+		if (ceil(add_207) < Gfx_AlphaRef) discard;
+		float4 depthResult = float4(Gfx_CameraSpacePos.z, 0, 0, ceil(add_207));
+		colorOut = depthResult;
+	}
+}

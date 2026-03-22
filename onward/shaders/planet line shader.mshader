@@ -1,0 +1,49 @@
+<shaderType = "Vertex">
+vertex
+{
+	struct CustomData {
+		float3 myMult <default = 1 1 1, label = "Mult", pinId = 101>;
+		float3 myAdd <default = 0 0 0, label = "Add", pinId = 102>;
+		float mydistance <default = 1, label = "distance", pinId = 103>;
+		float myLineThickness <default = 1, label = "Line Thickness", pinId = 105>;
+		float my2D <default = 0, label = "2D", pinId = 106>;
+		float4 myVSTransform0 <default = 1 0 0 0, label = "VS Transform 0", pinId = 107>;
+		float4 myVSTransform1 <default = 0 1 0 0, label = "VS Transform 1", pinId = 108>;
+		float4 myVSTransform2 <default = 0 0 1 0, label = "VS Transform 2", pinId = 109>;
+		float4 myVSTransform3 <default = 0 0 0 1, label = "VS Transform 3", pinId = 110>;
+	};
+	float3 SphericalToCartesianCoords2(float2 cartesian, float distance)
+	{
+		float kPI = 3.14159265359;
+		float k2PI = 2.0f * kPI;
+		float phi = cartesian.y * kPI;
+		float theta = cartesian.x * k2PI;
+		float sinphi = sin(phi);
+		return float3(cos(theta) * sinphi, cos(phi), sin(theta) * sinphi) * distance;
+	}
+	void WorldSpaceModifier(inout float3 Gfx_WorldSpacePos : Gfx_WorldSpacePos, float2 Gfx_UV2 : Gfx_UV2, 
+		CustomData customData : Gfx_CustomData0)
+	{
+		float4x4 matrix_10 = MR_ColumnMatrix(customData.myVSTransform0, customData.myVSTransform1, customData.myVSTransform2, customData.myVSTransform3);
+		float3 mul_5 = Gfx_WorldSpacePos * customData.myMult;
+		float3 add_6 = mul_5 + customData.myAdd;
+		float2 combine_13 = float2(add_6.x, add_6.y);
+		float2 combine_8 = float2(customData.myLineThickness, customData.myLineThickness);
+		float2 mul_11 = Gfx_UV2 * combine_8;
+		float2 add_14 = combine_13 + mul_11;
+		float3 SphericalToCartesianCoords2_15 = SphericalToCartesianCoords2(add_14, customData.mydistance);
+		float4 transform_17 = MR_Transform(matrix_10, SphericalToCartesianCoords2_15);
+		float3 truncate_19 = float3(transform_17.xyz);
+		float3 combine_18 = float3(add_14.x, add_14.y, float(0));
+		float3 smear_7 = float3(customData.mydistance, customData.mydistance, customData.mydistance);
+		float3 mul_20 = combine_18 * smear_7;
+		float3 combine_9 = float3(customData.my2D, customData.my2D, customData.my2D);
+		float3 lerp_21 = lerp(truncate_19, mul_20, combine_9);
+		Gfx_WorldSpacePos = lerp_21;
+	}
+	main(CustomData customData : Gfx_CustomData0, float2 Gfx_UV2 : Gfx_UV2, 
+		inout float3 Gfx_WorldSpacePos : Gfx_WorldSpacePos <modifier = "WorldSpaceModifier">)
+	{
+		// dummy comment so the shader writer does save this out
+	}
+}

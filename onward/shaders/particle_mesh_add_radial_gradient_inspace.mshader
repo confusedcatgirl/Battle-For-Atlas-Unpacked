@@ -1,0 +1,35 @@
+<shaderType = "Object", >
+blend {
+	src = 1,
+	dest = 1,
+}
+pixel
+{
+	MR_Sampler2D Gradient : MR_Texture0 {
+		wrap = clamp,
+	} <pinId = 102>;
+	struct CustomData {
+		float4 myColour <config = { type = "ColorBox", }, default = 1 1 1 1, label = "Colour", pinId = 104>;
+		float myEmissiveMultiplier <default = 1, label = "Emissive Multiplier", pinId = 105>;
+	};
+	float2 GetRadialUV(float2 aInstanceUV, float v)
+	{
+		float2 t = aInstanceUV * 2 - vec2(1);
+		 float d = saturate(length(t));
+		 return float2(d, v);
+	}
+	main(out float4 colorOut : MR_Color0, float2 Gfx_UV : Gfx_UV0, 
+		CustomData customData : Gfx_CustomData0)
+	{
+		float2 GetRadialUV_35 = GetRadialUV(Gfx_UV, float(0));
+		float4 sample_40 = MR_Sample(Gradient, GetRadialUV_35);
+		float4 smear_39 = float4(customData.myEmissiveMultiplier, customData.myEmissiveMultiplier, customData.myEmissiveMultiplier, customData.myEmissiveMultiplier);
+		float4 mul_41 = smear_39 * customData.myColour;
+		float saturate_43 = saturate(mul_41.w);
+		float4 combine_44 = float4(mul_41.x, mul_41.y, mul_41.z, saturate_43);
+		float4 mul_45 = sample_40 * combine_44;
+		float3 truncate_46 = float3(mul_45.xyz);
+		float4 result_48 = float4(truncate_46, 1);
+		colorOut = result_48;
+	}
+}

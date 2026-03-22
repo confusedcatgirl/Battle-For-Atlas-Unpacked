@@ -1,0 +1,30 @@
+<keywords = { "GFX_DEPTH_SHADER", }, >
+pixel
+{
+	struct CustomData {
+		float3 myColor <config = { type = "ColorBox", }, default = 1 1 1, label = "Color", pinId = 102>;
+		float myIntensity <default = 1, label = "Intensity", pinId = 104>;
+		float2 myScaleUV <default = 1 1, label = "Scale UV", pinId = 105>;
+		float2 myOffsetUV <default = 0 0, label = "Offset UV", pinId = 106>;
+		float2 myUVspeed <default = 0 0, label = "UV speed", pinId = 107>;
+		float myUVRotation <default = 0, label = "UV Rotation", pinId = 108>;
+		float myRotationSpeed <default = 0, label = "Rotation Speed", pinId = 109>;
+		float2 myTexture2ScaleUV <default = 1 1, label = "Texture 2 Scale UV", pinId = 111>;
+		float2 myTexture2OffsetUV <default = 0 0, label = "Texture 2 Offset UV", pinId = 112>;
+		float2 myTexture2UVSpeed <default = 0 0, label = "Texture 2 UV Speed", pinId = 113>;
+		float myTexture2UVRotation <default = 0, label = "Texture 2 UV Rotation", pinId = 114>;
+		float myTexture2UVRotationSpeed <default = 0, label = "Texture 2 UV Rotation Speed", pinId = 115>;
+		float myErosion <default = 0, label = "Erosion", pinId = 103>;
+		float myErosionSelector <config = { max = 1, min = 0, }, default = 0, label = "Erosion Selector", pinId = 116>;
+		float myUseUnscaledGameTime <default = 0, label = "Use Unscaled Game Time", pinId = 117>;
+		float myUnscaledGameTime <default = 0, label = "Unscaled Game Time", pinId = 118>;
+	};
+	main(CustomData customData : Gfx_CustomData, out float4 colorOut : MR_Color0, 
+		float Gfx_AlphaRef : Gfx_AlphaRef0, 
+		float3 Gfx_CameraSpacePos : Gfx_CameraSpacePos0)
+	{
+		if (float(1) < Gfx_AlphaRef) discard;
+		float4 depthResult = float4(Gfx_CameraSpacePos.z, 0, 0, float(1));
+		colorOut = depthResult;
+	}
+}

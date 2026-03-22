@@ -1,0 +1,40 @@
+<keywords = { "OGFX_NO_DITHERING", "GFX_DEPTH_SHADER", }, >
+import "shaders/MRender/MR_ViewConstants.h"
+import "shaders/nodes/shader/functions/onward/ow_getloddistancebias.h"
+pixel
+{
+	MR_Sampler2D Noise : MR_Texture0 {
+		texture = "onward/baked/textures/effects/smokefade_swirls.dds",
+	} <pinId = 103>;
+	struct CustomData {
+		float myIntensity <default = 1, label = "Intensity", pinId = 102>;
+		float myMin <default = 0, label = "Min", pinId = 106>;
+		float myMax <default = 1, label = "Max", pinId = 107>;
+		float myAngleoffset <default = 0, label = "Angle offset", pinId = 113>;
+	};
+	main(out float4 colorOut : MR_Color0, CustomData customData : Gfx_CustomData0, 
+		float3 Gfx_WorldSpacePos : Gfx_WorldSpacePos0, 
+		float3 Gfx_WorldSpaceNormal : Gfx_WorldSpaceNormal0, float2 Gfx_UV : Gfx_UV0, 
+		float Gfx_AlphaRef : Gfx_AlphaRef0, 
+		float3 Gfx_CameraSpacePos : Gfx_CameraSpacePos0)
+	{
+		float3 sub_44 = MR_ViewConstants.LODCameraPosition - Gfx_WorldSpacePos;
+		float3 normalize_53 = normalize(sub_44);
+		float dot_58 = dot(normalize_53, Gfx_WorldSpaceNormal);
+		float abs_60 = abs(dot_58);
+		float smoothStep_70 = smoothstep(float(0), customData.myAngleoffset, abs_60);
+		float saturate_71 = saturate(smoothStep_70);
+		float2 add_55 = float2(0, 0) + Gfx_UV;
+		float4 sample_64 = MR_Sample(Noise, add_55);
+		float mul_72 = saturate_71 * sample_64.x;
+		float3 sub_45 = MR_ViewConstants.LODCameraPosition - Gfx_WorldSpacePos;
+		float length_54 = length(sub_45);
+		float OW_GetLODDistanceBias_41 = OW_GetLODDistanceBias();
+		float add_59 = length_54 + OW_GetLODDistanceBias_41;
+		float smoothStep_67 = smoothstep(customData.myMin, customData.myMax, add_59);
+		float mul_73 = mul_72 * smoothStep_67;
+		if (mul_73 < Gfx_AlphaRef) discard;
+		float4 depthResult = float4(Gfx_CameraSpacePos.z, 0, 0, mul_73);
+		colorOut = depthResult;
+	}
+}

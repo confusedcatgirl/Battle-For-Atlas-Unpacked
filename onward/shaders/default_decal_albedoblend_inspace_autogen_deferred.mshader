@@ -1,0 +1,22 @@
+<decal = true, >
+import "shaders/nodes/shader/object/mark as decal.h"
+blend {}
+pixel
+{
+	MR_Sampler2D BaseColor : MR_Texture0 {
+		texture = "onward/baked/textures/default_b.dds",
+	} <label = "Base Color", pinId = 102>;
+	struct CustomData {
+		float myAlpha <config = { max = 1, min = 0, }, default = 1, label = "Alpha", pinId = 101>;
+	};
+	main(out float4 colorOut : MR_Color0, float2 Gfx_UV : Gfx_UV0, 
+		CustomData customData : Gfx_CustomData0)
+	{
+		float4 sample_40 = MR_Sample(BaseColor, Gfx_UV);
+		float4 DecalPassthrough_41 = DecalPassthrough(sample_40);
+		float3 truncate_43 = float3(DecalPassthrough_41.xyz);
+		float mul_45 = customData.myAlpha * sample_40.w;
+		float4 deferredResult = float4(truncate_43, mul_45);
+		colorOut = deferredResult;
+	}
+}

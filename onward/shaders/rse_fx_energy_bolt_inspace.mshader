@@ -1,0 +1,17 @@
+<shaderType = "Object", keywords = { "GFX_FORWARD_SHADER", }, >
+pixel
+{
+	struct CustomData {
+		float3 myColor <config = { type = "ColorBox", }, default = 1 1 1, label = "Color", pinId = 101>;
+		float3 myEmissionColor <config = { type = "ColorBox", }, default = 1 1 1, label = "Emission Color", pinId = 102>;
+		float myEmissionIntensity <default = 0, label = "Emission Intensity", pinId = 103>;
+	};
+	main(out float4 colorOut : MR_Color0, CustomData customData : Gfx_CustomData0)
+	{
+		float3 smear_36 = float3(customData.myEmissionIntensity, customData.myEmissionIntensity, customData.myEmissionIntensity);
+		float3 mul_37 = customData.myEmissionColor * smear_36;
+		float3 add_38 = customData.myColor + mul_37;
+		float4 result_40 = float4(add_38, 1);
+		colorOut = result_40;
+	}
+}

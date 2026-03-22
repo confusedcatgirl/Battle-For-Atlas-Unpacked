@@ -1,0 +1,38 @@
+<shaderType = "Object", keywords = { "LIGHT_FROM_SPACE", "ISNT_MAIN_PLANET", }, >
+import "shaders/nodes/shader/functions/ow emissive intensity multiplier.h"
+import "shaders/nodes/shader/functions/onward/lighting/ow_getspacefog.h"
+import "shaders/nodes/shader/functions/onward/lighting/ow_applyfogextinction.h"
+blend {
+	src = 1,
+	dest = 1,
+}
+pixel
+{
+	MR_Sampler2D AlphaTexture : MR_Texture0 <label = "Alpha Texture", pinId = 104>;
+	struct CustomData {
+		float3 myColor <config = { type = "ColorBox", }, default = 1 1 1, label = "Color", pinId = 101>;
+		float myEmissiveMultiplier <default = 1, label = "Emissive Multiplier", pinId = 103>;
+		float2 myTilingUVW <default = 1 1, label = "Tiling UVW", pinId = 105>;
+		float2 myOffsetUVW <default = 0 0, label = "Offset UVW", pinId = 106>;
+	};
+	main(out float4 colorOut : MR_Color0, CustomData customData : Gfx_CustomData0, 
+		float2 Gfx_UV : Gfx_UV0, float3 Gfx_WorldSpacePos : Gfx_WorldSpacePos0, 
+		float4 MR_FragCoord : MR_FragCoord)
+	{
+		float2 mul_46 = customData.myTilingUVW * Gfx_UV;
+		float2 add_47 = customData.myOffsetUVW + mul_46;
+		float4 sample_48 = MR_Sample(AlphaTexture, add_47);
+		float3 combine_50 = float3(sample_48.x, sample_48.y, sample_48.z);
+		float3 mul_51 = customData.myColor * combine_50;
+		float3 smear_44 = float3(customData.myEmissiveMultiplier, customData.myEmissiveMultiplier, customData.myEmissiveMultiplier);
+		float3 mul_52 = mul_51 * smear_44;
+		float4 truncate_54 = float4(mul_52.xyz, 1);
+		float4 OWEmissiveIntensityMultiplier_56 = OWEmissiveIntensityMultiplier(truncate_54);
+		float3 truncate_58 = float3(OWEmissiveIntensityMultiplier_56.xyz);
+		float4 OW_GetSpaceFog_42 = OW_GetSpaceFog(Gfx_WorldSpacePos, MR_FragCoord);
+		float3 aColor_60 = truncate_58;
+		OW_ApplyFogExtinction(aColor_60, OW_GetSpaceFog_42);
+		float4 result_62 = float4(aColor_60, 1);
+		colorOut = result_62;
+	}
+}

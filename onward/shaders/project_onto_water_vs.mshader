@@ -1,0 +1,52 @@
+<shaderType = "Vertex">
+import "shaders/MRender/MR_ViewConstants.h"
+import "shaders/nodes/shader/functions/getplanetposition.h"
+import "shaders/nodes/shader/functions/onward/planet/ow_waterconstants.h"
+vertex
+{
+	import "shaders/modules/graphics/onworld/planet_flattening.h"
+	float3 do_flat(float3 position, float3 center)
+	{
+		float3 result = position - center;
+		OW_SFT_ApplyFlatteningLocal( result, OW_DEFAULT_CATEGORY);
+		return result + center;
+	}
+	void CameraSpaceModifier(inout float3 Gfx_CameraSpacePos : Gfx_CameraSpacePos, 
+		float3 Gfx_ModelSpacePos : Gfx_ModelSpacePos0, 
+		float3x4 Gfx_ObjectToWorldMatrix : Gfx_ObjectToWorldMatrix0)
+	{
+		float3 GetPlanetPosition_21 = GetPlanetPosition();
+		float3 sub_42 = MR_ViewConstants.LODCameraPosition - GetPlanetPosition_21;
+		float3 normalize_51 = normalize(sub_42);
+		float aRadius_22;
+		OW_GetWaterConstants(aRadius_22);
+		float3 smear_45 = float3(aRadius_22, aRadius_22, aRadius_22);
+		float3 mul_53 = normalize_51 * smear_45;
+		float3 add_57 = mul_53 + GetPlanetPosition_21;
+		float3 sub_61 = add_57 - MR_ViewConstants.LODCameraPosition;
+		float dot_65 = dot(sub_61, normalize_51);
+		float3 transform_43 = MR_Transform(Gfx_ObjectToWorldMatrix, Gfx_ModelSpacePos);
+		float3 do_flat_44 = do_flat(transform_43, GetPlanetPosition_21);
+		float3 sub_52 = do_flat_44 - MR_ViewConstants.LODCameraPosition;
+		float3 normalize_56 = normalize(sub_52);
+		float dot_60 = dot(normalize_56, normalize_51);
+		float min_64 = min(dot_60, float(-0.0001));
+		float div_69 = dot_65 / min_64;
+		float sub_71 = div_69 - float(0.001);
+		float max_73 = max(sub_71, float(0));
+		float3 smear_75 = float3(max_73, max_73, max_73);
+		float3 mul_77 = smear_75 * normalize_56;
+		float3 add_79 = mul_77 + MR_ViewConstants.LODCameraPosition;
+		float4 combine_82 = float4(add_79.x, add_79.y, add_79.z, float(1));
+		float4 transform_83 = MR_Transform(MR_ViewConstants.worldToCamera, combine_82);
+		float3 truncate_84 = float3(transform_83.xyz);
+		float3 combine_86 = float3(truncate_84.x, truncate_84.y, truncate_84.z);
+		Gfx_CameraSpacePos = combine_86;
+	}
+	main(float3x4 Gfx_ObjectToWorldMatrix : Gfx_ObjectToWorldMatrix0, 
+		float3 Gfx_ModelSpacePos : Gfx_ModelSpacePos0, 
+		inout float3 Gfx_CameraSpacePos : Gfx_CameraSpacePos <modifier = "CameraSpaceModifier">)
+	{
+		// dummy comment so the shader writer does save this out
+	}
+}

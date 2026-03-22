@@ -1,0 +1,27 @@
+<shaderType = "Particle", >
+import "shaders/nodes/shader/functions/onward planet particle multiplier.h"
+import "shaders/nodes/shader/particles/soft.h"
+pixel
+{
+	MR_Sampler2D Blend : MR_Texture0 <pinId = 101>;
+	main(out float4 colorOut : MR_Color0, 
+		float2 Particle_InstanceUV : Particle_InstanceUV0, 
+		float4 Particle_Color : Particle_Color0, 
+		float3 Particle_Position : Particle_Position0, 
+		float4 Particle_ShaderParams : Particle_ShaderParams0, 
+		float4 MR_FragCoord : MR_FragCoord)
+	{
+		float4 blendColor = vec4(0);
+		float4 sample_21 = MR_Sample(Blend, Particle_InstanceUV);
+		float saturate_16 = saturate(Particle_Color.w);
+		float4 combine_18 = float4(Particle_Color.x, Particle_Color.y, Particle_Color.z, saturate_16);
+		float4 mul_22 = sample_21 * combine_18;
+		float4 OnwardPlanetParticleMultiplier_23 = OnwardPlanetParticleMultiplier(mul_22, Particle_Position);
+		blendColor += float4(OnwardPlanetParticleMultiplier_23.xyz, 1) * OnwardPlanetParticleMultiplier_23.w;
+		float4 colorOut_17;
+		float alphaOut_17;
+		SoftParticle(float4(0, 0, 0, 0), Particle_ShaderParams, MR_FragCoord, colorOut_17, alphaOut_17);
+		blendColor *= alphaOut_17;
+		colorOut = vec4(1 - blendColor.w);
+	}
+}

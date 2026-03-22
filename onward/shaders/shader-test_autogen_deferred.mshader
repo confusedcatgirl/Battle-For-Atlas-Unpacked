@@ -1,0 +1,26 @@
+import "shaders/modules/graphics/deferred_data.h"
+import "shaders/modules/graphics/normal_encode.h"
+pixel
+{
+	MR_Sampler2D Color : MR_Texture0 <pinId = 101>;
+	struct CustomData {
+		float myRoughness <default = 0, label = "Roughness", pinId = 104>;
+		float myMetalness <default = 0, label = "Metalness", pinId = 105>;
+	};
+	main(bool MR_IsFrontFace : MR_IsFrontFace, 
+		out Gfx_DeferredData deferredOut : Gfx_Deferred, float2 Gfx_UV : Gfx_UV0, 
+		CustomData customData : Gfx_CustomData0, 
+		float3 Gfx_WorldSpaceNormal : Gfx_WorldSpaceNormal0)
+	{
+		float4 sample_28 = MR_Sample(Color, Gfx_UV);
+		float3 truncate_29 = float3(sample_28.xyz);
+		deferredOut.color = truncate_29;
+		deferredOut.roughness = customData.myRoughness;
+		deferredOut.metalness = customData.myMetalness;
+		deferredOut.ao = float(1);
+		float3 flippedNormal = Gfx_WorldSpaceNormal;
+		if (!MR_IsFrontFace)
+		    flippedNormal = -flippedNormal;
+		deferredOut.worldNormal = flippedNormal;
+	}
+}

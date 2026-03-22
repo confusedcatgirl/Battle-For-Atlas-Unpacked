@@ -1,0 +1,60 @@
+<shaderType = "Object", keywords = { "GFX_FORWARD_SHADER", }, >
+import "shaders/MRender/MR_ViewConstants.h"
+blend {}
+pixel
+{
+	MR_Sampler2D Texture : MR_Texture0 <pinId = 101>;
+	MR_Sampler2D flowtexture : MR_Texture1 <label = "flow texture", pinId = 108>;
+	struct CustomData {
+		float3 myColor <default = 1 1 1, label = "Color", pinId = 102>;
+		float myGradamount <default = 0, label = "Grad amount", pinId = 103>;
+		float myangle <default = 1, label = "angle", pinId = 106>;
+		float myTime <default = 0, label = "Time", pinId = 107>;
+		float myflowstrength <default = 0, label = "flow strength", pinId = 109>;
+		float myTimeScale <default = 0, label = "Time Scale", pinId = 110>;
+	};
+	main(out float4 colorOut : MR_Color0, CustomData customData : Gfx_CustomData0, 
+		float4 Gfx_Color : Gfx_Color0, float2 Gfx_UV : Gfx_UV0, 
+		float3 Gfx_WorldSpacePos : Gfx_WorldSpacePos0, 
+		float3 Gfx_WorldSpaceNormal : Gfx_WorldSpaceNormal0, 
+		float Gfx_AlphaRef : Gfx_AlphaRef0)
+	{
+		float3 truncate_60 = float3(Gfx_Color.xyz);
+		float3 mul_86 = customData.myColor * truncate_60;
+		float4 sample_82 = MR_Sample(flowtexture, Gfx_UV);
+		float4 smear_81 = float4(customData.myflowstrength, customData.myflowstrength, customData.myflowstrength, customData.myflowstrength);
+		float4 lerp_85 = lerp(float4(0.5, 0.5, 0.5, 0.5), sample_82, smear_81);
+		float4 mul_87 = lerp_85 * float4(2, 2, 1, 1);
+		float4 add_88 = mul_87 + float4(-1, -1, 0, 0);
+		float mul_97 = add_88.y * float(-1);
+		float2 combine_101 = float2(add_88.x, mul_97);
+		float mul_79 = customData.myTime * customData.myTimeScale;
+		float lerp_89 = lerp(float(-0.333), float(0.333), frac(mul_79));
+		float2 smear_94 = float2(lerp_89, lerp_89);
+		float2 mul_103 = combine_101 * smear_94;
+		float2 add_105 = mul_103 + Gfx_UV;
+		float4 sample_107 = MR_Sample(Texture, add_105);
+		float add_84 = mul_79 + float(0.5);
+		float lerp_96 = lerp(float(-0.333), float(0.333), frac(add_84));
+		float2 smear_99 = float2(lerp_96, lerp_96);
+		float2 mul_102 = combine_101 * smear_99;
+		float2 add_104 = mul_102 + Gfx_UV;
+		float4 sample_106 = MR_Sample(Texture, add_104);
+		float sub_90 = frac(mul_79) - float(0.5);
+		float mul_91 = sub_90 * float(2);
+		float abs_95 = abs(mul_91);
+		float4 smear_98 = float4(abs_95, abs_95, abs_95, abs_95);
+		float4 lerp_108 = lerp(sample_107, sample_106, smear_98);
+		float mul_111 = lerp_108.xyz.x * lerp_108.w;
+		float lerp_112 = lerp(lerp_108.w, mul_111, customData.myGradamount);
+		float3 sub_61 = MR_ViewConstants.LODCameraPosition - Gfx_WorldSpacePos;
+		float3 normalize_74 = normalize(sub_61);
+		float dot_75 = dot(normalize_74, Gfx_WorldSpaceNormal);
+		float abs_76 = abs(dot_75);
+		float smoothStep_100 = smoothstep(float(0), customData.myangle, abs_76);
+		float mul_114 = lerp_112 * smoothStep_100;
+		if (mul_114 < Gfx_AlphaRef) discard;
+		float4 result_116 = float4(mul_86, mul_114);
+		colorOut = result_116;
+	}
+}

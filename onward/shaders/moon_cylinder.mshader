@@ -1,0 +1,224 @@
+<shaderType = "Terrain", >
+import "shaders/nodes/shader/functions/getplanetposition.h"
+import "shaders/MRender/MR_ViewConstants.h"
+import "shaders/nodes/shader/functions/cartesiantosphericalcoords.h"
+import "shaders/nodes/shader/functions/getplanetradius.h"
+import "shaders/nodes/shader/functions/unpack normal.h"
+pixel
+{
+	import "shaders/modules/graphics/onworld/planet_crust_shading.h"
+	MR_Sampler2D Palette : MR_Texture0 {
+		wrap = clamp,
+	} <pinId = 129>;
+	MR_Sampler2D Texture : MR_Texture1 <pinId = 125>;
+	MR_Sampler2D Texture2 : MR_Texture2 <pinId = 126>;
+	MR_Sampler2D Texture3 : MR_Texture3 <pinId = 127>;
+	float3 GetDirivedNormal(float3 p, float3 n)
+	{
+		float3 posx_d = ddx_fine(p);
+		float3 posy_d = ddy_fine(p);
+		float3 normal_d = normalize(cross(posx_d, posy_d));
+		return normal_d;
+	}
+	void GetPlanetProperties(out float erosionBiome1, out float erosionBiome2, out float erosionBiome3, 
+		out float cutoffBiome1, out float cutoffBiome2, out float cutoffBiome3)
+	{
+		erosionBiome1 = MR_CrustShadingConstants.ErosionBiome1;
+		 erosionBiome2 = MR_CrustShadingConstants.ErosionBiome2;
+		erosionBiome3 = MR_CrustShadingConstants.ErosionBiome3;
+		 cutoffBiome1 = MR_CrustShadingConstants.CutoffBiome1;
+		 cutoffBiome2 = MR_CrustShadingConstants.CutoffBiome2;
+		cutoffBiome3 = MR_CrustShadingConstants.CutoffBiome3;
+	}
+	main()
+	{
+		float3 worldPosition = In_WorldPosition;
+		float3 GetPlanetPosition_14 = GetPlanetPosition();
+		float3 sub_100 = worldPosition - GetPlanetPosition_14;
+		float2 combine_195 = float2(sub_100.z, sub_100.y);
+		float2 mul_209 = combine_195 * float2(0.01, 0.01);
+		float4 sample_259 = MR_Sample(Texture3, mul_209);
+		float3 vertexNormal = In_VertexNormal;
+		float4 combine_192 = float4(worldPosition, float(1));
+		float4 transform_206 = MR_Transform(MR_ViewConstants.worldToCamera, combine_192);
+		float3 truncate_219 = float3(transform_206.xyz);
+		float3 GetDirivedNormal_224 = GetDirivedNormal(truncate_219, GetPlanetPosition_14);
+		float4 combine_228 = float4(GetDirivedNormal_224, float(0));
+		float4 transform_233 = MR_Transform(MR_ViewConstants.cameraToWorld, combine_228);
+		float dot_236 = dot(transform_233.xyz, vertexNormal);
+		float step_237 = step(dot_236, float(0.7));
+		float3 smear_238 = float3(step_237, step_237, step_237);
+		float3 lerp_239 = lerp(vertexNormal, transform_233.xyz, smear_238);
+		float3 abs_240 = abs(lerp_239);
+		float3 combine_188 = float3(float(16.1875), float(16.1875), float(16.1875));
+		float3 pow_241 = pow(abs(abs_240), combine_188);
+		float3 normalize_242 = normalize(pow_241);
+		float add_244 = normalize_242.x + normalize_242.y;
+		float add_245 = add_244 + normalize_242.z;
+		float3 combine_246 = float3(add_245, add_245, add_245);
+		float3 div_247 = normalize_242 / combine_246;
+		float mul_316 = sample_259.z * div_247.x;
+		float2 combine_193 = float2(sub_100.x, sub_100.z);
+		float2 mul_207 = combine_193 * float2(0.01, 0.01);
+		float4 sample_257 = MR_Sample(Texture3, mul_207);
+		float mul_317 = sample_257.z * div_247.y;
+		float add_322 = mul_316 + mul_317;
+		float2 combine_194 = float2(sub_100.x, sub_100.y);
+		float2 mul_208 = combine_194 * float2(0.01, 0.01);
+		float4 sample_258 = MR_Sample(Texture3, mul_208);
+		float mul_318 = sample_258.z * div_247.z;
+		float add_325 = add_322 + mul_318;
+		float4 splat = In_SplatTexture; 
+		float saturate_179 = saturate(splat.x);
+		float mul_186 = saturate_179 * float(0.0625);
+		float add_203 = mul_186 + float(0.75);
+		float add_215 = add_203 + float(0.03125);
+		float2 combine_330 = float2(add_325, add_215);
+		float4 sample_335 = MR_SampleLod(Palette, combine_330, float(0));
+		float saturate_178 = saturate(splat.x);
+		float mul_185 = saturate_178 * float(0.0625);
+		float add_202 = mul_185 + float(0.5);
+		float add_213 = add_202 + float(0.03125);
+		float2 combine_329 = float2(add_325, add_213);
+		float4 sample_334 = MR_SampleLod(Palette, combine_329, float(0));
+		float4 smear_177 = float4(splat.w, splat.w, splat.w, splat.w);
+		float4 lerp_339 = lerp(sample_335, sample_334, smear_177);
+		float saturate_180 = saturate(splat.x);
+		float mul_187 = saturate_180 * float(0.0625);
+		float add_204 = mul_187 + float(0.25);
+		float add_217 = add_204 + float(0.03125);
+		float2 combine_331 = float2(add_325, add_217);
+		float4 sample_336 = MR_SampleLod(Palette, combine_331, float(0));
+		float4 smear_176 = float4(splat.z, splat.z, splat.z, splat.z);
+		float4 lerp_340 = lerp(lerp_339, sample_336, smear_176);
+		float3 truncate_342 = float3(lerp_340.xyz);
+		float3 sphereNormal = In_SphereNormal;
+		float3 normalize_102 = normalize(sphereNormal);
+		float2 CartesianToSphericalCoords_172 = CartesianToSphericalCoords(normalize_102);
+		float GetPlanetRadius_43 = GetPlanetRadius();
+		float mul_181 = GetPlanetRadius_43 * float(6.28319);
+		float mul_182 = mul_181 * float(0.01);
+		float2 combine_199 = float2(mul_182, mul_182);
+		float mul_222 = combine_199.x * float(1);
+		float mul_223 = combine_199.y * float(0.5);
+		float2 combine_227 = float2(mul_222, mul_223);
+		float2 mul_232 = CartesianToSphericalCoords_172 * combine_227;
+		float4 sample_270 = MR_Sample(Texture, mul_232);
+		float dot_101 = dot(sphereNormal, vertexNormal);
+		float smoothStep_171 = smoothstep(float(0.7), float(0.9), dot_101);
+		float4 combine_175 = float4(splat.x, smoothStep_171, splat.z, splat.w);
+		float saturate_210 = saturate(combine_175.x);
+		float mul_220 = saturate_210 * float(0.0625);
+		float add_225 = mul_220 + float(0.5);
+		float add_229 = add_225 + float(0.03125);
+		float2 combine_281 = float2(sample_270.z, add_229);
+		float4 truncate_288 = float4(combine_281.xy, 0, 1);
+		float4 sample_269 = MR_Sample(Texture2, mul_232);
+		float add_230 = add_225 + float(0.15625);
+		float2 combine_279 = float2(sample_269.z, add_230);
+		float4 truncate_286 = float4(combine_279.xy, 0, 1);
+		float erosionBiome1_50;
+		float erosionBiome2_50;
+		float erosionBiome3_50;
+		float cutoffBiome1_50;
+		float cutoffBiome2_50;
+		float cutoffBiome3_50;
+		GetPlanetProperties(erosionBiome1_50, erosionBiome2_50, erosionBiome3_50, cutoffBiome1_50, cutoffBiome2_50, cutoffBiome3_50);
+		float mul_280 = float(0.5) * sample_269.z;
+		float sub_184 = float(1) - erosionBiome1_50;
+		float smoothStep_201 = smoothstep(sub_184, float(1), combine_175.x);
+		float smoothStep_211 = smoothstep(float(0), erosionBiome1_50, combine_175.x);
+		float sub_221 = float(1) - smoothStep_211;
+		float add_226 = smoothStep_201 + sub_221;
+		float saturate_231 = saturate(add_226);
+		float add_287 = mul_280 + saturate_231;
+		float mul_282 = float(0.5) * sample_270.z;
+		float sub_234 = float(1) - saturate_231;
+		float add_289 = mul_282 + sub_234;
+		float sub_293 = add_287 - add_289;
+		float smoothStep_294 = smoothstep(-cutoffBiome1_50, cutoffBiome1_50, sub_293);
+		float4 smear_296 = float4(smoothStep_294, smoothStep_294, smoothStep_294, smoothStep_294);
+		float4 lerp_298 = lerp(truncate_288, truncate_286, smear_296);
+		float3 combine_302 = float3(lerp_298.x, lerp_298.y, lerp_298.z);
+		float truncate_304 = float(combine_302.x);
+		float add_216 = add_203 + float(0.15625);
+		float2 combine_307 = float2(truncate_304, add_216);
+		float4 sample_311 = MR_SampleLod(Palette, combine_307, float(0));
+		float add_214 = add_202 + float(0.15625);
+		float2 combine_306 = float2(truncate_304, add_214);
+		float4 sample_310 = MR_SampleLod(Palette, combine_306, float(0));
+		float4 lerp_314 = lerp(sample_311, sample_310, smear_177);
+		float add_218 = add_204 + float(0.15625);
+		float2 combine_308 = float2(truncate_304, add_218);
+		float4 sample_312 = MR_SampleLod(Palette, combine_308, float(0));
+		float4 lerp_315 = lerp(lerp_314, sample_312, smear_176);
+		float3 truncate_320 = float3(lerp_315.xyz);
+		float3 smear_197 = float3(smoothStep_171, smoothStep_171, smoothStep_171);
+		float3 lerp_344 = lerp(truncate_342, truncate_320, smear_197);
+		float3 mul_346 = lerp_344 * float3(0.4, 0.4, 0.4);
+		float3 smear_174 = float3(splat.x, splat.x, splat.x);
+		float3 lerp_347 = lerp(lerp_344, mul_346, smear_174);
+		float3 resultDiffuse = lerp_347;
+		float4 combine_189 = float4(vertexNormal, float(0));
+		float4x4 matrix_205 = MR_ColumnMatrix(float4(0, 0, 1, 0), float4(0, -1, 0, 0), combine_189, float4(0, 0, 0, 0));
+		float4 combine_265 = float4(float(0), sample_259.y, sample_259.w, sample_259.x);
+		float3 normal_268;
+		float ambientOcclusion_268;
+		UnpackNormalAndAO(combine_265, normal_268, ambientOcclusion_268);
+		float4 transform_273 = MR_Transform(matrix_205, normal_268);
+		float4 normalize_278 = normalize(transform_273);
+		float4 combine_292 = float4(normalize_278.x, normalize_278.y, normalize_278.z, ambientOcclusion_268);
+		float4 combine_249 = float4(div_247.x, div_247.x, div_247.x, div_247.x);
+		float4 mul_321 = combine_292 * combine_249;
+		float4x4 matrix_190 = MR_ColumnMatrix(float4(1, 0, 0, 0), float4(0, 0, -1, 0), combine_189, float4(0, 0, 0, 0));
+		float4 combine_263 = float4(float(0), sample_257.y, sample_257.w, sample_257.x);
+		float3 normal_266;
+		float ambientOcclusion_266;
+		UnpackNormalAndAO(combine_263, normal_266, ambientOcclusion_266);
+		float4 transform_271 = MR_Transform(matrix_190, normal_266);
+		float4 normalize_276 = normalize(transform_271);
+		float4 combine_290 = float4(normalize_276.x, normalize_276.y, normalize_276.z, ambientOcclusion_266);
+		float4 combine_250 = float4(div_247.y, div_247.y, div_247.y, div_247.y);
+		float4 mul_323 = combine_290 * combine_250;
+		float4 add_327 = mul_321 + mul_323;
+		float4x4 matrix_191 = MR_ColumnMatrix(float4(1, 0, 0, 0), float4(0, -1, 0, 0), combine_189, float4(0, 0, 0, 0));
+		float4 combine_264 = float4(float(0), sample_258.y, sample_258.w, sample_258.x);
+		float3 normal_267;
+		float ambientOcclusion_267;
+		UnpackNormalAndAO(combine_264, normal_267, ambientOcclusion_267);
+		float4 transform_272 = MR_Transform(matrix_191, normal_267);
+		float4 normalize_277 = normalize(transform_272);
+		float4 combine_291 = float4(normalize_277.x, normalize_277.y, normalize_277.z, ambientOcclusion_267);
+		float4 combine_251 = float4(div_247.z, div_247.z, div_247.z, div_247.z);
+		float4 mul_324 = combine_291 * combine_251;
+		float4 add_328 = add_327 + mul_324;
+		float3 combine_337 = float3(add_328.x, add_328.y, add_328.z);
+		float3 normalize_341 = normalize(combine_337);
+		float3 sphereTangent = In_SphereTangent; 
+		float4 truncate_109 = float4(sphereTangent.xyz, 1);
+		float3 sphereBitangent = In_SphereBitangent; 
+		float4 truncate_110 = float4(sphereBitangent.xyz, 1);
+		float3 normalize_103 = normalize(vertexNormal);
+		float3 normalize_173 = normalize(normalize_103);
+		float4 combine_183 = float4(normalize_173, float(0));
+		float4x4 matrix_200 = MR_ColumnMatrix(truncate_109, truncate_110, combine_183, float4(0, 0, 0, 0));
+		float4 smear_295 = float4(smoothStep_294, smoothStep_294, smoothStep_294, smoothStep_294);
+		float4 lerp_297 = lerp(sample_270, sample_269, smear_295);
+		float4 combine_301 = float4(float(0), lerp_297.y, lerp_297.w, lerp_297.x);
+		float3 normal_303;
+		float ambientOcclusion_303;
+		UnpackNormalAndAO(combine_301, normal_303, ambientOcclusion_303);
+		float3 normalize_305 = normalize(normal_303);
+		float4 transform_309 = MR_Transform(matrix_200, normalize_305);
+		float4 normalize_313 = normalize(transform_309);
+		float3 combine_326 = float3(normalize_313.x, normalize_313.y, normalize_313.z);
+		float3 normalize_332 = normalize(combine_326);
+		float3 smear_196 = float3(smoothStep_171, smoothStep_171, smoothStep_171);
+		float3 lerp_343 = lerp(normalize_341, normalize_332, smear_196);
+		float3 normalize_345 = normalize(lerp_343);
+		float3 resultNormal = normalize_345;
+		float resultRoughness = lerp_298.w;
+		float lerp_338 = lerp(add_328.w, ambientOcclusion_303, smoothStep_171);
+		float resultAmbientOcclusion = lerp_338;
+	}
+}

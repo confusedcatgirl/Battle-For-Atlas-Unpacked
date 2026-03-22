@@ -1,0 +1,116 @@
+<keywords = { "OGFX_NO_CREEPS", "OGFX_NO_SPEC", "GFX_SHADOW_SHADER", }, >
+import "shaders/nodes/shader/functions/onward/planet/ow_getcreepfullmask.h"
+import "shaders/modules/graphics/environment.h"
+import "shaders/MRender/MR_ViewConstants.h"
+import "shaders/nodes/shader/functions/depthbuffer.h"
+import "shaders/nodes/shader/functions/depth buffer to world space.h"
+import "shaders/nodes/shader/functions/onward/lighting/ow_getgroundfog.h"
+import "shaders/nodes/shader/functions/onward/planet/ow_getplanetposition.h"
+import "shaders/nodes/shader/functions/onward/planet/ow_getcreepmaskwall.h"
+import "shaders/nodes/shader/functions/onward/ow_getterrainlowresradius.h"
+pixel
+{
+	MR_Sampler2D Posative : MR_Texture0 {
+		texture = "onward/baked/textures/Effects/rotatesmoke16x8_pos_d.dds",
+	} <pinId = 101>;
+	struct CustomData {
+		float2 myAnimationSize <default = 7 7, label = "AnimationSize", pinId = 106>;
+		float mySpeed <default = 0.3, label = "Speed", pinId = 107>;
+		float3 myTint <default = 0 0 0, label = "Tint", pinId = 108>;
+	};
+	void textureAtlas(float2 Size, float Selector, float2 uv, out float2 NewUV1, out float2 NewUV2, 
+		out float Blend1, out float Blend2, float aFlipU, float aFlipV, float aSwapUV, 
+		bool aLooping)
+	{
+		if (aFlipU > 0)
+		   uv.x = 1-uv.x;
+		 if (aFlipV > 0)
+		   uv.y = 1-uv.y;
+		 if (aSwapUV > 0)
+		 {
+		   float t = uv.x;
+		   uv.x = uv.y;
+		   uv.y = t;
+		 }
+		 float width = Size.x;
+		 float height = Size.y;
+		 float area = width * height;
+		 float findex;
+		 if (aLooping)
+		 {
+		   float sel = frac(Selector);
+		   findex = area * sel;
+		 }
+		 else
+		 {
+		   findex = ((Selector * (area+1)) - 1);
+		 }
+		 float index1 = floor(findex);
+		 float index2 = index1 + 1;
+		 float row1 = floor(index1 / width);
+		 float row2 = floor(index2 / width);
+		 float col1 = index1 - row1 * width;
+		 float col2 = index2 - row2 * width;
+		 float2 gridPos1 = float2(col1, row1);
+		 float2 gridPos2 = float2(col2, row2);
+		 NewUV1 = (gridPos1 + uv) / Size;
+		 NewUV2 = (gridPos2 + uv) / Size;
+		 Blend2 = findex - index1;
+		 Blend1 = 1.0 - Blend2;
+		 if (!aLooping)
+		 {
+		   if (index1 < 0 || index1 >= area) Blend1 = 0;
+		   if (index2 < 0 || index2 >= area) Blend2 = 0;
+		 }
+	}
+	main(out float4 colorOut : MR_Color0, CustomData customData : Gfx_CustomData0, 
+		float2 Gfx_UV1 : Gfx_UV1, float2 Gfx_UV : Gfx_UV0, 
+		float4 MR_FragCoord : MR_FragCoord, 
+		float3 Gfx_CameraSpacePos : Gfx_CameraSpacePos0, 
+		float3 Gfx_WorldSpacePos : Gfx_WorldSpacePos0, 
+		float3 Gfx_UnflattenedWorldPos : Gfx_UnflattenedWorldPos0, 
+		float Gfx_AlphaRef : Gfx_AlphaRef0)
+	{
+		float OW_GetCreepFullMask_57 = OW_GetCreepFullMask();
+		float mul_101 = Gfx_Environment.time * customData.mySpeed;
+		float add_103 = frac(Gfx_UV1.x) + mul_101;
+		float2 NewUV1_104;
+		float2 NewUV2_104;
+		float Blend1_104;
+		float Blend2_104;
+		textureAtlas(customData.myAnimationSize, add_103, Gfx_UV, NewUV1_104, NewUV2_104, Blend1_104, Blend2_104, float(0), float(0), float(0), true);
+		float4 sample_105 = MR_Sample(Posative, NewUV1_104);
+		float4 smear_107 = float4(Blend1_104, Blend1_104, Blend1_104, Blend1_104);
+		float4 mul_109 = sample_105 * smear_107;
+		float4 sample_106 = MR_Sample(Posative, NewUV2_104);
+		float4 smear_108 = float4(Blend2_104, Blend2_104, Blend2_104, Blend2_104);
+		float4 mul_110 = sample_106 * smear_108;
+		float4 add_111 = mul_109 + mul_110;
+		float GetDepthbuffer_35 = GetDepthbuffer(MR_FragCoord);
+		float3 DepthToWorldSpace_82 = DepthToWorldSpace(GetDepthbuffer_35, float2(0, 0), MR_FragCoord);
+		float4 transform_91 = MR_Transform(MR_ViewConstants.worldToCamera, DepthToWorldSpace_82);
+		float3 truncate_94 = float3(transform_91.xyz);
+		float3 sub_96 = truncate_94 - Gfx_CameraSpacePos;
+		float smoothStep_98 = smoothstep(float(0), float(50), sub_96.z);
+		float mul_114 = add_111.w * smoothStep_98;
+		float mul_116 = mul_114 * Gfx_UV1.y;
+		float4 OW_GetGroundFog_63 = OW_GetGroundFog(Gfx_WorldSpacePos, MR_FragCoord);
+		float smoothStep_84 = smoothstep(float(1.2), float(0.2), OW_GetGroundFog_63.w);
+		float mul_118 = mul_116 * smoothStep_84;
+		float3 OW_GetPlanetPosition_48 = OW_GetPlanetPosition();
+		float3 sub_73 = Gfx_UnflattenedWorldPos - OW_GetPlanetPosition_48;
+		float OW_GetCreepWall_86 = OW_GetCreepWall(sub_73, float(0));
+		float smoothStep_88 = smoothstep(float(0.5), float(1), OW_GetCreepWall_86);
+		float lerp_89 = lerp(float(600), float(275), smoothStep_88);
+		float lerp_90 = lerp(float(300), float(125), smoothStep_88);
+		float length_87 = length(sub_73);
+		float OW_GetTerrainLowResRadius_85 = OW_GetTerrainLowResRadius(sub_73);
+		float sub_92 = length_87 - OW_GetTerrainLowResRadius_85;
+		float smoothStep_93 = smoothstep(lerp_89, lerp_90, sub_92);
+		float mul_120 = mul_118 * smoothStep_93;
+		float mul_122 = OW_GetCreepFullMask_57 * mul_120;
+		if (mul_122 < Gfx_AlphaRef) discard;
+		float4 shadowResult = float4(0.0, 0.0, 0.0, mul_122);
+		colorOut = shadowResult;
+	}
+}

@@ -1,0 +1,64 @@
+<shaderType = "UI", >
+import "shaders/modules/graphics/drawer/drawer.h"
+import "shaders/nodes/shader/functions/framebuffer color.h"
+import "shaders/nodes/shader/functions/screen position.h"
+import "shaders/nodes/shader/functions/pixeltoframebufferuv.h"
+import "shaders/modules/graphics/environment.h"
+import "shaders/nodes/shader/ui/ui blit effect.h"
+blend {
+	writeMask = rgba,
+	src = 1,
+	src.a = 0,
+}
+pixel
+{
+	MR_Sampler2D Texture : MR_Texture0 <pinId = 103>;
+	struct CustomData {
+		float3 myTint <default = 1 1 1, label = "Tint", pinId = 101>;
+	};
+	float hash(float n)
+	{
+		return frac(sin(n)*43758.5453123);
+	}
+	main(out float4 colorOut : MR_Color0, float2 Gfx_UV : Gfx_UV0, 
+		CustomData customData : Gfx_CustomData0, float4 MR_FragCoord : MR_FragCoord)
+	{
+		float4 sample_64 = MR_Sample(Texture, Gfx_UV);
+		float4 truncate_62 = float4(customData.myTint.xyz, 1);
+		float3 GetFramebufferColor_11 = GetFramebufferColor(MR_FragCoord);
+		float dot_38 = dot(GetFramebufferColor_11, float3(0.27, 0.36, 0.37));
+		float saturate_42 = saturate(dot_38);
+		float gradientVariable47;
+		gradientVariable47 = 0.000000;
+		gradientVariable47 = lerp(gradientVariable47, 0.942224, saturate((saturate_42 - 0.000000) / 0.800000));
+		gradientVariable47 = lerp(gradientVariable47, 1.000000, saturate((saturate_42 - 0.800000) / 0.200000));
+		float3 smear_50 = float3(gradientVariable47, gradientVariable47, gradientVariable47);
+		float4 combine_53 = float4(smear_50, float(1));
+		float3 truncate_55 = float3(combine_53.xyz);
+		float4 combine_57 = float4(truncate_55, float(1));
+		float2 ScreenPosition_15 = ScreenPosition(MR_FragCoord);
+		float2 PixelToFramebufferUV_29 = PixelToFramebufferUV(ScreenPosition_15);
+		float2 mul_39 = PixelToFramebufferUV_29 * float2(256, 256);
+		float mul_33 = Gfx_Environment.realTime * float(5);
+		float hash_41 = hash(mul_33);
+		float add_46 = mul_39.y + hash_41;
+		float mul_52 = frac(add_46) * float(0.5);
+		float hash_44 = hash(PixelToFramebufferUV_29.x);
+		float add_45 = hash_44 + PixelToFramebufferUV_29.y;
+		float mul_36 = Gfx_Environment.realTime * float(5);
+		float mul_48 = add_45 * mul_36;
+		float hash_51 = hash(mul_48);
+		float add_54 = mul_52 + hash_51;
+		float saturate_56 = saturate(add_54);
+		float3 smear_58 = float3(saturate_56, saturate_56, saturate_56);
+		float4 combine_59 = float4(smear_58, float(1));
+		float4 mul_60 = combine_57 * combine_59;
+		float4 mul_65 = truncate_62 * mul_60;
+		float4 mul_66 = mul_65 * float4(2, 2, 2, 1);
+		float4 saturate_67 = saturate(mul_66);
+		float4 GetBlitEffectColor_68 = GetBlitEffectColor(sample_64, saturate_67);
+		float4 finalColor = vec4(0);
+		finalColor = BlendColor(GetBlitEffectColor_68, float(0));
+		colorOut = finalColor;
+	}
+}

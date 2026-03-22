@@ -1,0 +1,131 @@
+<keywords = { "GFX_DEFERRED_SHADER", }, >
+import "shaders/modules/graphics/deferred_data.h"
+import "shaders/modules/graphics/normal_encode.h"
+import "shaders/MRender/MR_ViewConstants.h"
+import "shaders/nodes/shader/functions/unpack normal.h"
+import "shaders/nodes/shader/functions/fresnel-schlick.h"
+pixel
+{
+	MR_Sampler2D BaseColor : MR_Texture0 {
+		texture = "onward/baked/textures/default_b.dds",
+	} <label = "Base Color", pinId = 102>;
+	MR_Sampler2D Normal : MR_Texture1 {
+		texture = "onward/baked/textures/default_n.dds",
+	} <pinId = 103>;
+	MR_Sampler2D Material : MR_Texture2 {
+		texture = "onward/baked/textures/default_m.dds",
+	} <pinId = 104>;
+	MR_Sampler2D Decal : MR_Texture3 {
+		wrap = clamp,
+	} <pinId = 112>;
+	struct CustomData {
+		float myEmissionIntensity <default = 0, label = "Emission Intensity", pinId = 106>;
+		float4 myColorModulation <default = 1 1 1 1, label = "Color Modulation", pinId = 110>;
+		float3 mySelectedColor <default = 0 0 0, label = "SelectedColor", pinId = 111>;
+		float4 myMaterial1 <default = 0 0 0 0, label = "Material1", pinId = 113>;
+		float4 myMaterial2 <default = 0 0 0 0, label = "Material2", pinId = 114>;
+		float4 myMaterial3 <default = 0 0 0 0, label = "Material3", pinId = 115>;
+		float4 myMaterial4 <default = 0 0 0 0, label = "Material4", pinId = 116>;
+		float4 myRoughness <default = 0 0 0 0, label = "Roughness", pinId = 117>;
+		float myDecalEnabled <default = 0, label = "DecalEnabled", pinId = 118>;
+		float myIsWing <config = { type = "CheckBox", }, default = 0, label = "IsWing", pinId = 119>;
+		float3 myScaleOffset <default = 0 0 0, label = "ScaleOffset", pinId = 122>;
+	};
+	main(bool MR_IsFrontFace : MR_IsFrontFace, 
+		out Gfx_DeferredData deferredOut : Gfx_Deferred <emission = true,>, 
+		float2 Gfx_UV : Gfx_UV0, CustomData customData : Gfx_CustomData0, 
+		float3 Gfx_ModelSpaceNormal : Gfx_ModelSpaceNormal0, 
+		float3 Gfx_ModelSpacePos : Gfx_ModelSpacePos0, 
+		float3 Gfx_WorldSpacePos : Gfx_WorldSpacePos0, 
+		float3x3 Gfx_TangentToWorld : Gfx_TangentToWorld0)
+	{
+		float4 sample_176 = MR_Sample(BaseColor, Gfx_UV);
+		float3 truncate_192 = float3(sample_176.xyz);
+		float add_184 = customData.myMaterial3.x + customData.myMaterial3.y;
+		float add_185 = add_184 + customData.myMaterial3.z;
+		float step_199 = step(float(0.01), add_185);
+		float3 normalize_135 = normalize(Gfx_ModelSpaceNormal);
+		float lerp_207 = lerp(normalize_135.y, normalize_135.x, customData.myIsWing);
+		float abs_213 = abs(lerp_207);
+		float sub_219 = abs_213 - float(0.75);
+		float saturate_223 = saturate(sub_219);
+		float mul_226 = saturate_223 * float(10);
+		float saturate_229 = saturate(mul_226);
+		float4 smear_230 = float4(saturate_229, saturate_229, saturate_229, saturate_229);
+		float clamp_156 = clamp(Gfx_ModelSpacePos.y, float(-2), float(2));
+		float remap_160 = float(0) + saturate((clamp_156 - float(-2)) / (float(2) - float(-2))) * (float(0.5) - float(0));
+		float clamp_157 = clamp(Gfx_ModelSpacePos.z, float(-3), float(5));
+		float remap_161 = float(0) + saturate((clamp_157 - float(-3)) / (float(5) - float(-3))) * (float(1) - float(0));
+		float3 combine_162 = float3(remap_160, remap_161, float(0));
+		float mul_186 = float(-2) * customData.myScaleOffset.x;
+		float mul_187 = float(2) * customData.myScaleOffset.x;
+		float remap_195 = float(0) + saturate((Gfx_ModelSpacePos.x - mul_186) / (mul_187 - mul_186)) * (float(0.5) - float(0));
+		float mul_188 = float(-3) * customData.myScaleOffset.x;
+		float add_190 = mul_188 + customData.myScaleOffset.y;
+		float mul_189 = float(5) * customData.myScaleOffset.x;
+		float add_191 = mul_189 + customData.myScaleOffset.y;
+		float remap_196 = float(1) + saturate((Gfx_ModelSpacePos.z - add_190) / (add_191 - add_190)) * (float(0) - float(1));
+		float3 combine_197 = float3(remap_195, remap_196, float(0));
+		float3 lerp_198 = lerp(combine_162, combine_197, float3(1, 1, 1));
+		float remap_154 = float(0.5) + saturate((Gfx_ModelSpacePos.y - float(0)) / (float(4) - float(0))) * (float(1) - float(0.5));
+		float remap_155 = float(0.5) + saturate((Gfx_ModelSpacePos.z - float(-2)) / (float(2) - float(-2))) * (float(1) - float(0.5));
+		float3 combine_158 = float3(remap_154, remap_155, float(0));
+		float3 smear_174 = float3(customData.myIsWing, customData.myIsWing, customData.myIsWing);
+		float3 lerp_206 = lerp(lerp_198, combine_158, smear_174);
+		float2 truncate_212 = float2(lerp_206.xy);
+		float4 sample_218 = MR_Sample(Decal, truncate_212);
+		float4 mul_231 = smear_230 * sample_218;
+		float mul_235 = step_199 * mul_231.z;
+		float4 smear_238 = float4(mul_235, mul_235, mul_235, mul_235);
+		float4 lerp_240 = lerp(customData.myMaterial4, customData.myMaterial3, smear_238);
+		float add_182 = customData.myMaterial2.x + customData.myMaterial2.y;
+		float add_183 = add_182 + customData.myMaterial2.z;
+		float step_200 = step(float(0.01), add_183);
+		float mul_234 = step_200 * mul_231.y;
+		float4 smear_237 = float4(mul_234, mul_234, mul_234, mul_234);
+		float4 lerp_242 = lerp(lerp_240, customData.myMaterial2, smear_237);
+		float add_180 = customData.myMaterial1.x + customData.myMaterial1.y;
+		float add_181 = add_180 + customData.myMaterial1.z;
+		float step_201 = step(float(0.01), add_181);
+		float mul_233 = step_201 * mul_231.x;
+		float4 smear_236 = float4(mul_233, mul_233, mul_233, mul_233);
+		float4 lerp_244 = lerp(lerp_242, customData.myMaterial1, smear_236);
+		float4 sample_177 = MR_Sample(Material, Gfx_UV);
+		float max_202 = max(sample_177.x, sample_177.z);
+		float sub_208 = float(1) - max_202;
+		float mul_214 = sub_208 * customData.myDecalEnabled;
+		float3 smear_220 = float3(mul_214, mul_214, mul_214);
+		float3 lerp_247 = lerp(truncate_192, lerp_244.xyz, smear_220);
+		deferredOut.color = lerp_247;
+		float4 smear_167 = float4(customData.myEmissionIntensity, customData.myEmissionIntensity, customData.myEmissionIntensity, customData.myEmissionIntensity);
+		float4 smear_203 = float4(sample_177.z, sample_177.z, sample_177.z, sample_177.z);
+		float4 mul_209 = sample_176 * smear_203;
+		float4 mul_215 = smear_167 * mul_209;
+		float3 sub_109 = MR_ViewConstants.LODCameraPosition - Gfx_WorldSpacePos;
+		float3 normalize_153 = normalize(sub_109);
+		float4 sample_178 = MR_Sample(Normal, Gfx_UV);
+		float3 normal_194;
+		float ambientOcclusion_194;
+		UnpackNormalAndAO(sample_178, normal_194, ambientOcclusion_194);
+		float3 transform_204 = MR_Transform(Gfx_TangentToWorld, normal_194);
+		float3 FresnelSchlick_205 = FresnelSchlick(float3(0.2, 0.2, 0.2), normalize_153, transform_204);
+		float3 mul_211 = customData.mySelectedColor * FresnelSchlick_205;
+		float3 mul_217 = mul_211 * float3(2, 2, 2);
+		float4 truncate_222 = float4(mul_217.xyz, 1);
+		float4 add_225 = mul_215 + truncate_222;
+		float3 truncate_228 = float3(add_225.xyz);
+		deferredOut.emission = truncate_228;
+		float lerp_248 = lerp(sample_177.x, lerp_244.w, mul_214);
+		deferredOut.roughness = lerp_248;
+		float lerp_239 = lerp(customData.myRoughness.w, customData.myRoughness.z, mul_235);
+		float lerp_241 = lerp(lerp_239, customData.myRoughness.y, mul_234);
+		float lerp_243 = lerp(lerp_241, customData.myRoughness.x, mul_233);
+		float lerp_245 = lerp(sample_177.y, lerp_243, mul_214);
+		deferredOut.metalness = lerp_245;
+		deferredOut.ao = ambientOcclusion_194;
+		float3 flippedNormal = transform_204;
+		if (!MR_IsFrontFace)
+		    flippedNormal = -flippedNormal;
+		deferredOut.worldNormal = flippedNormal;
+	}
+}

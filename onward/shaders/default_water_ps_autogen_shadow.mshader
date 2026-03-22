@@ -1,0 +1,18 @@
+<keywords = { "LIGHT_FROM_GROUND", "IS_MAIN_PLANET", "GFX_SHADOW_SHADER", }, >
+import "shaders/nodes/shader/functions/onward/planet/ow_waterdithering.h"
+pixel
+{
+	struct CustomData {
+		float3 myColor <config = { type = "ColorBox", }, default = 0 0 0, label = "Color", pinId = 101>;
+		float myAlpha <default = 1, label = "Alpha", pinId = 102>;
+	};
+	main(out float4 colorOut : MR_Color0, CustomData customData : Gfx_CustomData0, 
+		float3 Gfx_WorldSpacePos : Gfx_WorldSpacePos0, 
+		float4 MR_FragCoord : MR_FragCoord, float Gfx_AlphaRef : Gfx_AlphaRef0)
+	{
+		float OW_WaterDithering_51 = OW_WaterDithering(customData.myAlpha, Gfx_WorldSpacePos, MR_FragCoord);
+		if (OW_WaterDithering_51 < Gfx_AlphaRef) discard;
+		float4 shadowResult = float4(0.0, 0.0, 0.0, OW_WaterDithering_51);
+		colorOut = shadowResult;
+	}
+}

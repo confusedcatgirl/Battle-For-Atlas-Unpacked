@@ -1,0 +1,112 @@
+<keywords = { "LIGHT_FROM_GROUND", "IS_MAIN_PLANET", "GFX_SHADOW_SHADER", }, >
+pixel
+{
+	MR_Sampler2D BaseColor : MR_Texture0 {
+		texture = "onward/baked/textures/default_b.dds",
+	} <label = "Base Color", pinId = 102>;
+	MR_Sampler2D Gradient : MR_Texture3 {
+		texture = "onward/baked/textures/FX/fx_spot_light_cone_gradient.dds",
+		wrap = clamp,
+	} <pinId = 146>;
+	MR_Sampler2D Noisetexture : MR_Texture4 {
+		texture = "onward/baked/textures/flownoise_b.dds",
+	} <label = "Noise texture", pinId = 138>;
+	struct CustomData {
+		float2 myTriplanarTiling <default = 1 1, label = "Triplanar Tiling", pinId = 107>;
+		float3 myRustColor <config = { type = "ColorBox", }, default = 0.0816267 0.0388317 0.00910695, label = "Rust Color", pinId = 109>;
+		float myBumpStrength <default = 1.5, label = "Bump Strength", pinId = 111>;
+		float myBumpajustDistance <default = 4, label = "Bump ajustDistance ", pinId = 112>;
+		float myBumpFalloff <default = 1, label = "Bump Falloff", pinId = 113>;
+		float myDepositsRoughness <default = 1, label = "Deposits Roughness", pinId = 116>;
+		float myRustRoughness <default = 1, label = "Rust Roughness", pinId = 117>;
+		float myRustMetalness <default = 0, label = "Rust Metalness", pinId = 118>;
+		float myDepositsMetalness <default = 0, label = "Deposits Metalness", pinId = 119>;
+		float myRustamount <default = 0.1, label = "Rust amount", pinId = 121>;
+		float myDepositsamount <default = 0.1, label = "Deposits amount", pinId = 122>;
+		float myEmissionIntensity <default = 0.1, label = "Emission Intensity ", pinId = 126>;
+		float myEndposition <default = 50, label = "End position", pinId = 143>;
+		float myStartposition <default = 0, label = "Start position", pinId = 142>;
+		float myTime <default = 0.5, label = "Time", pinId = 139>;
+		float myTransitionrange <default = 0.5, label = "Transition range", pinId = 145>;
+		float myNoisetiling <default = 0.2, label = "Noise tiling", pinId = 140>;
+		float myTransitionemission <default = 0, label = "Transition emission", pinId = 147>;
+		float3 myTransitioncolor <config = { type = "ColorBox", }, default = 0 0 0, label = "Transition color", pinId = 150>;
+		float myTransitiontrail <default = 0.5, label = "Transition trail", pinId = 148>;
+		float myNoisecontrast <default = 0, label = "Noise contrast", pinId = 149>;
+		float2 myNoiseoffset <default = 0 0, label = "Noise offset ", pinId = 141>;
+		float myVertical <default = 0, label = "Vertical", pinId = 151>;
+		float myMaxAlphaOverride <default = 1, label = "Max Alpha Override", pinId = 152>;
+	};
+	main(out float4 colorOut : MR_Color0, float2 Gfx_UV : Gfx_UV0, 
+		CustomData customData : Gfx_CustomData0, 
+		float3 Gfx_ModelSpacePos : Gfx_ModelSpacePos0, 
+		float3 Gfx_WorldSpaceNormal : Gfx_WorldSpaceNormal0, 
+		float Gfx_AlphaRef : Gfx_AlphaRef0)
+	{
+		float4 sample_293 = MR_Sample(BaseColor, Gfx_UV);
+		float max_317 = max(sample_293.w, customData.myMaxAlphaOverride);
+		float2 combine_254 = float2(Gfx_ModelSpacePos.z, Gfx_ModelSpacePos.y);
+		float mul_299 = customData.myTime * customData.myNoiseoffset.x;
+		float add_313 = Gfx_UV.x + mul_299;
+		float mul_300 = customData.myTime * customData.myNoiseoffset.y;
+		float add_314 = Gfx_UV.y + mul_300;
+		float2 combine_326 = float2(add_313, add_314);
+		float2 combine_288 = float2(customData.myNoisetiling, customData.myNoisetiling);
+		float2 mul_337 = combine_326 * combine_288;
+		float2 mul_345 = combine_254 * mul_337;
+		float4 sample_354 = MR_Sample(Noisetexture, mul_345);
+		float3 abs_232 = abs(Gfx_WorldSpaceNormal);
+		float3 combine_255 = float3(float(16.1875), float(16.1875), float(16.1875));
+		float3 pow_256 = pow(abs(abs_232), combine_255);
+		float3 normalize_259 = normalize(pow_256);
+		float add_263 = normalize_259.x + normalize_259.y;
+		float add_264 = add_263 + normalize_259.z;
+		float3 combine_267 = float3(add_264, add_264, add_264);
+		float3 div_269 = normalize_259 / combine_267;
+		float4 combine_273 = float4(div_269.x, div_269.x, div_269.x, div_269.x);
+		float4 mul_365 = sample_354 * combine_273;
+		float2 combine_252 = float2(Gfx_ModelSpacePos.x, Gfx_ModelSpacePos.z);
+		float2 mul_344 = combine_252 * mul_337;
+		float4 sample_353 = MR_Sample(Noisetexture, mul_344);
+		float4 combine_274 = float4(div_269.y, div_269.y, div_269.y, div_269.y);
+		float4 mul_366 = sample_353 * combine_274;
+		float4 add_373 = mul_365 + mul_366;
+		float2 combine_253 = float2(Gfx_ModelSpacePos.x, Gfx_ModelSpacePos.y);
+		float2 mul_346 = combine_253 * mul_337;
+		float4 sample_355 = MR_Sample(Noisetexture, mul_346);
+		float4 combine_275 = float4(div_269.z, div_269.z, div_269.z, div_269.z);
+		float4 mul_367 = sample_355 * combine_275;
+		float4 add_374 = add_373 + mul_367;
+		float3 combine_251 = float3(float(0), Gfx_ModelSpacePos.y, float(0));
+		float3 combine_291 = float3(customData.myVertical, customData.myVertical, customData.myVertical);
+		float3 lerp_323 = lerp(Gfx_ModelSpacePos, combine_251, combine_291);
+		float3 combine_307 = float3(float(0), customData.myStartposition, float(0));
+		float3 sub_324 = lerp_323 - combine_307;
+		float length_334 = length(sub_324);
+		float add_343 = customData.myStartposition + length_334;
+		float sub_286 = customData.myEndposition - customData.myStartposition;
+		float abs_298 = abs(sub_286);
+		float div_352 = add_343 / abs_298;
+		float add_309 = customData.myTransitionrange + float(1);
+		float remap_325 = -customData.myTransitionrange + saturate((customData.myTime - float(0)) / (float(1) - float(0))) * (add_309 - -customData.myTransitionrange);
+		float div_308 = customData.myTransitionrange / float(2);
+		float sub_336 = remap_325 - div_308;
+		float add_335 = remap_325 + div_308;
+		float remap_358 = float(0) + saturate((div_352 - sub_336) / (add_335 - sub_336)) * (float(1) - float(0));
+		float2 combine_360 = float2(remap_358, float(0));
+		float4 sample_362 = MR_Sample(Gradient, combine_360);
+		float3 combine_372 = float3(sample_362.x, sample_362.y, sample_362.z);
+		float sub_381 = float(1) - combine_372.x;
+		float remap_382 = float(0) + saturate((add_374.x - float(0)) / (sub_381 - float(0))) * (float(1) - float(0));
+		float div_310 = customData.myNoisecontrast / float(2);
+		float sub_311 = float(1) - div_310;
+		float remap_385 = float(0) + saturate((remap_382 - div_310) / (sub_311 - div_310)) * (float(1) - float(0));
+		float sub_312 = float(1) - customData.myTransitiontrail;
+		float remap_380 = float(-0.5) + saturate((combine_372.x - float(0)) / (sub_312 - float(0))) * (float(0.5) - float(-0.5));
+		float add_391 = remap_385 + remap_380;
+		float lerp_398 = lerp(float(0), max_317, add_391);
+		if (lerp_398 < Gfx_AlphaRef) discard;
+		float4 shadowResult = float4(0.0, 0.0, 0.0, lerp_398);
+		colorOut = shadowResult;
+	}
+}

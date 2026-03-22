@@ -1,0 +1,93 @@
+<keywords = { "NO_SSAO_COMBINE", "GFX_DEPTH_SHADER", }, >
+import "shaders/nodes/shader/functions/depthbuffer.h"
+import "shaders/nodes/shader/functions/depth buffer to world space.h"
+import "shaders/MRender/MR_ViewConstants.h"
+import "shaders/modules/graphics/environment.h"
+import "shaders/nodes/shader/functions/onward/planet/ow_waterconstants.h"
+import "shaders/nodes/shader/functions/onward/ow_getterrainlowresradius.h"
+import "shaders/nodes/shader/functions/onward/planet/ow_waterdithering.h"
+pixel
+{
+	MR_Sampler2D Sampler_70 : MR_Texture0 {
+		texture = "onward/baked/textures/water_with_foam_n.dds",
+	};
+	struct CustomData {
+		float3 myColor <config = { type = "ColorBox", }, default = 1 1 1, label = "Color", pinId = 101>;
+		float myFogDepth <default = 2, label = "Fog Depth", pinId = 102>;
+		float myDepthBias <default = 0, label = "DepthBias", pinId = 103>;
+		float2 myTiling <default = 0.045 0.045, label = "Tiling", pinId = 104>;
+		float3 mySpeed <default = 1 1 1, label = "Speed", pinId = 105>;
+	};
+	float FadeToFixZFighting(in float aAlpha)
+	{
+		return saturate(aAlpha - aAlpha * OW_SFT_GetSmoothingFactor());
+	}
+	main(out float4 colorOut : MR_Color0, CustomData customData : Gfx_CustomData0, 
+		float3 Gfx_WorldSpacePos : Gfx_WorldSpacePos0, 
+		float4 MR_FragCoord : MR_FragCoord, 
+		float3 Gfx_ModelSpacePos : Gfx_ModelSpacePos0, 
+		float3 Gfx_ModelSpaceNormal : Gfx_ModelSpaceNormal0, 
+		float Gfx_AlphaRef : Gfx_AlphaRef0, 
+		float3 Gfx_CameraSpacePos : Gfx_CameraSpacePos0)
+	{
+		float GetDepthbuffer_27 = GetDepthbuffer(MR_FragCoord);
+		float3 DepthToWorldSpace_66 = DepthToWorldSpace(GetDepthbuffer_27, float2(0, 0), MR_FragCoord);
+		float3 sub_67 = Gfx_WorldSpacePos - DepthToWorldSpace_66;
+		float length_88 = length(sub_67);
+		float3 sub_80 = MR_ViewConstants.LODCameraPosition - DepthToWorldSpace_66;
+		float length_93 = length(sub_80);
+		float smoothStep_94 = smoothstep(float(0), float(500), length_93);
+		float lerp_95 = lerp(length_88, float(3), smoothStep_94);
+		float smoothStep_115 = smoothstep(float(0), customData.myFogDepth, lerp_95);
+		float2 combine_98 = float2(Gfx_ModelSpacePos.z, Gfx_ModelSpacePos.y);
+		float2 mul_119 = combine_98 * customData.myTiling;
+		float mul_91 = Gfx_Environment.time * float(0.002);
+		float3 smear_102 = float3(mul_91, mul_91, mul_91);
+		float3 mul_121 = customData.mySpeed * smear_102;
+		float2 combine_124 = float2(mul_121.x, float(0));
+		float2 add_125 = mul_119 + combine_124;
+		float4 sample_128 = MR_Sample(Sampler_70, add_125);
+		float3 abs_69 = abs(Gfx_ModelSpaceNormal);
+		float3 combine_89 = float3(float(23.4554), float(23.4554), float(23.4554));
+		float3 pow_90 = pow(abs(abs_69), combine_89);
+		float3 normalize_101 = normalize(pow_90);
+		float add_104 = normalize_101.x + normalize_101.y;
+		float add_105 = add_104 + normalize_101.z;
+		float3 combine_106 = float3(add_105, add_105, add_105);
+		float3 div_107 = normalize_101 / combine_106;
+		float4 combine_109 = float4(div_107.x, div_107.x, div_107.x, div_107.x);
+		float4 mul_131 = sample_128 * combine_109;
+		float2 combine_96 = float2(Gfx_ModelSpacePos.x, Gfx_ModelSpacePos.z);
+		float2 mul_117 = combine_96 * customData.myTiling;
+		float2 add_126 = mul_117 + combine_124;
+		float4 sample_129 = MR_Sample(Sampler_70, add_126);
+		float4 combine_110 = float4(div_107.y, div_107.y, div_107.y, div_107.y);
+		float4 mul_132 = sample_129 * combine_110;
+		float4 add_134 = mul_131 + mul_132;
+		float2 combine_97 = float2(Gfx_ModelSpacePos.x, Gfx_ModelSpacePos.y);
+		float2 mul_118 = combine_97 * customData.myTiling;
+		float2 add_127 = mul_118 + combine_124;
+		float4 sample_130 = MR_Sample(Sampler_70, add_127);
+		float4 combine_111 = float4(div_107.z, div_107.z, div_107.z, div_107.z);
+		float4 mul_133 = sample_130 * combine_111;
+		float4 add_135 = add_134 + mul_133;
+		float smoothStep_137 = smoothstep(float(-0.1), float(0.7), add_135.z);
+		float aRadius_25;
+		OW_GetWaterConstants(aRadius_25);
+		float add_113 = customData.myDepthBias + aRadius_25;
+		float3 normalize_64 = normalize(Gfx_ModelSpacePos);
+		float OW_GetTerrainLowResRadius_87 = OW_GetTerrainLowResRadius(normalize_64);
+		float add_99 = OW_GetTerrainLowResRadius_87 + float(0.5);
+		float lerp_100 = lerp(OW_GetTerrainLowResRadius_87, add_99, smoothStep_94);
+		float sub_120 = add_113 - lerp_100;
+		float min_122 = min(sub_120, lerp_95);
+		float mul_138 = smoothStep_137 * min_122;
+		float smoothStep_139 = smoothstep(float(0), customData.myFogDepth, mul_138);
+		float mul_140 = smoothStep_115 * smoothStep_139;
+		float OW_WaterDithering_141 = OW_WaterDithering(mul_140, Gfx_WorldSpacePos, MR_FragCoord);
+		float FadeToFixZFighting_142 = FadeToFixZFighting(OW_WaterDithering_141);
+		if (FadeToFixZFighting_142 < Gfx_AlphaRef) discard;
+		float4 depthResult = float4(Gfx_CameraSpacePos.z, 0, 0, FadeToFixZFighting_142);
+		colorOut = depthResult;
+	}
+}

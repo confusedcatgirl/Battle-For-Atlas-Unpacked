@@ -1,0 +1,29 @@
+<emission = true, shaderType = "Object", keywords = { "LIGHT_FROM_GROUND", "IS_MAIN_PLANET", }, >
+import "shaders/nodes/shader/functions/ow emissive intensity multiplier.h"
+import "shaders/nodes/shader/functions/onward/lighting/ow_groundfog.h"
+pixel
+{
+	MR_Sampler2D BaseColor : MR_Texture0 {
+		texture = "onward/baked/textures/default_b.dds",
+	} <label = "Base Color", pinId = 102>;
+	struct CustomData {
+		float myEmissionIntensity <default = 0, label = "Emission Intensity", pinId = 106>;
+	};
+	main(out float4 colorOut : MR_Color0, CustomData customData : Gfx_CustomData0, 
+		float2 Gfx_UV : Gfx_UV0, float3 Gfx_WorldSpacePos : Gfx_WorldSpacePos0, 
+		float4 MR_FragCoord : MR_FragCoord, float Gfx_AlphaRef : Gfx_AlphaRef0)
+	{
+		float3 combine_59 = float3(customData.myEmissionIntensity, customData.myEmissionIntensity, customData.myEmissionIntensity);
+		float4 sample_60 = MR_Sample(BaseColor, Gfx_UV);
+		float3 truncate_61 = float3(sample_60.xyz);
+		float3 mul_63 = combine_59 * truncate_61;
+		float4 truncate_64 = float4(mul_63.xyz, 1);
+		float4 OWEmissiveIntensityMultiplier_66 = OWEmissiveIntensityMultiplier(truncate_64);
+		float3 truncate_68 = float3(OWEmissiveIntensityMultiplier_66.xyz);
+		float3 aColor_72 = truncate_68;
+		OW_GroundFog(aColor_72, Gfx_WorldSpacePos, MR_FragCoord);
+		if (sample_60.w < Gfx_AlphaRef) discard;
+		float4 result_74 = float4(aColor_72, sample_60.w);
+		colorOut = result_74;
+	}
+}

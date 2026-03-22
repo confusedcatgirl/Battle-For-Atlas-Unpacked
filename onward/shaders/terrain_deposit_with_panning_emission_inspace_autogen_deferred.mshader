@@ -1,0 +1,230 @@
+<keywords = { "GFX_DEFERRED_SHADER", }, >
+import "shaders/modules/graphics/deferred_data.h"
+import "shaders/modules/graphics/normal_encode.h"
+import "shaders/modules/graphics/environment.h"
+import "shaders/nodes/shader/functions/ow emissive intensity multiplier.h"
+import "shaders/nodes/shader/functions/unpack normal.h"
+import "shaders/MRender/MR_ViewConstants.h"
+pixel
+{
+	MR_Sampler2D BaseColor : MR_Texture0 {
+		texture = "onward/baked/textures/default_b.dds",
+	} <label = "Base Color", pinId = 102>;
+	MR_Sampler2D BaseNormal : MR_Texture1 {
+		texture = "onward/baked/textures/default_n.dds",
+	} <label = "Base Normal", pinId = 103>;
+	MR_Sampler2D BaseMaterial : MR_Texture2 {
+		texture = "onward/baked/textures/default_m.dds",
+	} <label = "Base Material", pinId = 104>;
+	MR_Sampler2D DepositColor : MR_Texture3 {
+		texture = "onward/baked/textures/default_b.dds",
+	} <label = "Deposit Color", pinId = 111>;
+	MR_Sampler2D Detail : MR_Texture4 {
+		texture = "onward/baked/textures/rock_detail_m.dds",
+	} <pinId = 127>;
+	MR_Sampler2D PulseTexture : MR_Texture5 <label = "Pulse Texture", pinId = 139>;
+	struct CustomData {
+		float4 myDepositCreviceAlbedo <config = { type = "ColorBox", }, default = 1 1 1 0, label = "Deposit Crevice Albedo", pinId = 110>;
+		float myDepositRoughness <default = 0, label = "Deposit Roughness", pinId = 123>;
+		float myDepositCreviceRoughness <default = 0, label = "Deposit Crevice Roughness", pinId = 124>;
+		float myDepositTilingU <default = 1, label = "Deposit Tiling U", pinId = 118>;
+		float myDepositTilingV <default = 1, label = "Deposit Tiling V", pinId = 119>;
+		float myBlendOpacity <config = { max = 1, min = 0, type = "Slider", }, default = 0, label = "Blend Opacity", pinId = 108>;
+		float myBlendconstrast <config = { max = 20, min = 1, type = "Slider", }, default = 4.3, label = "Blend constrast", pinId = 109>;
+		float myBlendcoverage <config = { max = 1, min = 0, type = "Slider", }, default = 0.3, label = "Blend coverage", pinId = 116>;
+		float myTerrainLipHeight <config = { max = 200, min = 0, }, default = 1, label = "Terrain Lip Height", pinId = 126>;
+		float2 myDetailScale <default = 30 30, label = "Detail Scale", pinId = 128>;
+		float mystrength <default = 1, label = "strength", pinId = 129>;
+		float myadjustDistance <default = 1, label = "adjustDistance", pinId = 130>;
+		float myfalloffCurve <default = 2, label = "falloffCurve", pinId = 131>;
+		float3 myPulseDirection <default = -1 -1 1, label = "Pulse Direction", pinId = 132>;
+		float myEmissionIntensity <default = 500, label = "Emission Intensity", pinId = 133>;
+		float myPulseTiling <default = 1, label = "Pulse Tiling", pinId = 134>;
+		float myPulseSpeed <default = 1, label = "Pulse Speed", pinId = 135>;
+		float myFaceNormal <config = { max = 1, min = 0, }, default = 0, label = "Face Normal", pinId = 136>;
+		float myPulseWidth <config = { max = 1, min = 0, type = "Slider", }, default = 0.571831, label = "Pulse Width", pinId = 137>;
+		float mySmooth <config = { max = 1, min = 0, }, default = 0, label = "Smooth", pinId = 138>;
+	};
+	float3 TriangleWave(float3 x)
+	{
+		return  abs(0.5 - (frac( x )));
+	}
+	float3 GetBump(float height, float adjustDistance, float falloffCurve, float strength, 
+		float2 cameraPos)
+	{
+		float2 cameraDD = float2(ddx_fine(cameraPos.x), ddy_fine(cameraPos.y));
+		 float distanceDD = length(cameraDD);
+		 
+		 float adjustStrength = adjustDistance/distanceDD;
+
+		 adjustStrength = pow(abs(adjustStrength),  falloffCurve);
+
+		 float3 result = float3(-ddx_fine(height), ddy_fine(height), 0) * adjustStrength * 0.001f * strength;
+		 result.z = 1.0f;
+		 return  normalize(result);
+	}
+	main(bool MR_IsFrontFace : MR_IsFrontFace, 
+		out Gfx_DeferredData deferredOut : Gfx_Deferred <emission = true,>, 
+		float2 Gfx_UV : Gfx_UV0, 
+		float3 Gfx_UnflattenedWorldPos : Gfx_UnflattenedWorldPos0, 
+		CustomData customData : Gfx_CustomData0, 
+		float3 Gfx_WorldSpaceNormal : Gfx_WorldSpaceNormal0, 
+		float3 Gfx_ModelSpacePos : Gfx_ModelSpacePos0, 
+		float Gfx_AlphaRef : Gfx_AlphaRef0, 
+		float3x3 Gfx_TangentToWorld : Gfx_TangentToWorld0, 
+		float4 Gfx_Color : Gfx_Color0, float3 Gfx_CameraSpacePos : Gfx_CameraSpacePos0)
+	{
+		float4 sample_231 = MR_Sample(BaseColor, Gfx_UV);
+		float3 truncate_241 = float3(sample_231.xyz);
+		float2 combine_188 = float2(Gfx_UnflattenedWorldPos.z, Gfx_UnflattenedWorldPos.y);
+		float2 combine_222 = float2(customData.myDepositTilingU, customData.myDepositTilingV);
+		float2 mul_251 = combine_188 * combine_222;
+		float4 sample_260 = MR_Sample(DepositColor, mul_251);
+		float3 abs_153 = abs(Gfx_WorldSpaceNormal);
+		float3 combine_192 = float3(float(16.1875), float(16.1875), float(16.1875));
+		float3 pow_193 = pow(abs(abs_153), combine_192);
+		float3 normalize_199 = normalize(pow_193);
+		float add_205 = normalize_199.x + normalize_199.y;
+		float add_206 = add_205 + normalize_199.z;
+		float3 combine_207 = float3(add_206, add_206, add_206);
+		float3 div_208 = normalize_199 / combine_207;
+		float mul_307 = sample_260.z * div_208.x;
+		float2 combine_186 = float2(Gfx_UnflattenedWorldPos.x, Gfx_UnflattenedWorldPos.z);
+		float2 mul_249 = combine_186 * combine_222;
+		float4 sample_258 = MR_Sample(DepositColor, mul_249);
+		float mul_308 = sample_258.z * div_208.y;
+		float add_321 = mul_307 + mul_308;
+		float2 combine_187 = float2(Gfx_UnflattenedWorldPos.x, Gfx_UnflattenedWorldPos.y);
+		float2 mul_250 = combine_187 * combine_222;
+		float4 sample_259 = MR_Sample(DepositColor, mul_250);
+		float mul_309 = sample_259.z * div_208.z;
+		float add_322 = add_321 + mul_309;
+		float3 smear_330 = float3(add_322, add_322, add_322);
+		float3 truncate_220 = float3(customData.myDepositCreviceAlbedo.xyz);
+		float3 mul_342 = smear_330 * truncate_220;
+		float dot_194 = dot(float3(0, 1, 0), Gfx_WorldSpaceNormal);
+		float saturate_200 = saturate(dot_194);
+		float add_261 = customData.myBlendcoverage + saturate_200;
+		float pow_270 = pow(abs(add_261), customData.myBlendconstrast);
+		float saturate_279 = saturate(pow_270);
+		float mul_288 = customData.myBlendOpacity * saturate_279;
+		float saturate_297 = saturate(mul_288);
+		float3 smear_310 = float3(saturate_297, saturate_297, saturate_297);
+		float3 lerp_353 = lerp(truncate_241, mul_342, smear_310);
+		float4 truncate_360 = float4(lerp_353.xyz, 1);
+		float3 combine_374 = float3(truncate_360.x, truncate_360.y, truncate_360.z);
+		deferredOut.color = combine_374;
+		float3 combine_225 = float3(customData.myEmissionIntensity, customData.myEmissionIntensity, customData.myEmissionIntensity);
+		float3 normalize_224 = normalize(customData.myPulseDirection);
+		float3 combine_228 = float3(customData.myFaceNormal, customData.myFaceNormal, customData.myFaceNormal);
+		float3 lerp_239 = lerp(float3(0, 0, 1), round(Gfx_WorldSpaceNormal), combine_228);
+		float3 cross_247 = cross(normalize_224, lerp_239);
+		float dot_255 = dot(cross_247, Gfx_ModelSpacePos);
+		float mul_265 = customData.myPulseTiling * dot_255;
+		float mul_274 = mul_265 * float(0.1);
+		float dot_234 = dot(Gfx_ModelSpacePos, normalize_224);
+		float mul_243 = customData.myPulseTiling * dot_234;
+		float mul_244 = mul_243 * float(0.1);
+		float2 combine_283 = float2(mul_274, mul_244);
+		float mul_226 = customData.myPulseSpeed * Gfx_Environment.time;
+		float2 combine_238 = float2(float(0), mul_226);
+		float2 add_292 = combine_283 + combine_238;
+		float4 sample_302 = MR_Sample(PulseTexture, add_292);
+		float add_252 = mul_244 + mul_226;
+		float3 smear_263 = float3(add_252, add_252, add_252);
+		float3 TriangleWave_272 = TriangleWave(smear_263);
+		float3 combine_229 = float3(customData.myPulseWidth, customData.myPulseWidth, customData.myPulseWidth);
+		float3 clamp_281 = clamp(TriangleWave_272, float3(0, 0, 0), combine_229);
+		float truncate_240 = float(combine_229.x);
+		float3 remap_290 = float(1) + saturate((clamp_281 - float(0)) / (truncate_240 - float(0))) * (float(0) - float(1));
+		float3 combine_230 = float3(customData.mySmooth, customData.mySmooth, customData.mySmooth);
+		float3 lerp_300 = lerp(round(remap_290), remap_290, combine_230);
+		float4 truncate_314 = float4(lerp_300.xyz, 1);
+		float4 mul_316 = sample_302 * truncate_314;
+		float3 truncate_326 = float3(mul_316.xyz);
+		float3 mul_338 = combine_225 * truncate_326;
+		float4 combine_358 = float4(mul_338.x, mul_338.y, mul_338.z, float(0));
+		float4 sample_232 = MR_Sample(BaseMaterial, Gfx_UV);
+		float4 smear_311 = float4(saturate_297, saturate_297, saturate_297, saturate_297);
+		float4 lerp_323 = lerp(sample_232, float4(0, 0.7, 0, 0), smear_311);
+		float4 combine_345 = float4(lerp_323.z, lerp_323.z, lerp_323.z, lerp_323.z);
+		float4 mul_367 = truncate_360 * combine_345;
+		float4 mul_373 = combine_358 * mul_367;
+		float3 combine_380 = float3(mul_373.x, mul_373.y, mul_373.z);
+		float4 truncate_382 = float4(combine_380.xyz, 1);
+		float4 OWEmissiveIntensityMultiplier_384 = OWEmissiveIntensityMultiplier(truncate_382);
+		float4 max_386 = max(OWEmissiveIntensityMultiplier_384, float4(0, 0, 0, 0));
+		float3 truncate_388 = float3(max_386.xyz);
+		deferredOut.emission = truncate_388;
+		deferredOut.roughness = lerp_323.y;
+		deferredOut.metalness = lerp_323.x;
+		float4 sample_233 = MR_Sample(BaseNormal, Gfx_UV);
+		float3 normal_242;
+		float ambientOcclusion_242;
+		UnpackNormalAndAO(sample_233, normal_242, ambientOcclusion_242);
+		float4 combine_147 = float4(Gfx_WorldSpaceNormal, float(0));
+		float4x4 matrix_189 = MR_ColumnMatrix(float4(0, 0, 1, 0), float4(0, -1, 0, 0), combine_147, float4(0, 0, 0, 0));
+		float4 combine_278 = float4(float(0), sample_260.y, sample_260.w, sample_260.x);
+		float3 normal_287;
+		float ambientOcclusion_287;
+		UnpackNormalAndAO(combine_278, normal_287, ambientOcclusion_287);
+		float4 transform_296 = MR_Transform(matrix_189, normal_287);
+		float4 normalize_306 = normalize(transform_296);
+		float4 combine_329 = float4(normalize_306.x, normalize_306.y, normalize_306.z, ambientOcclusion_287);
+		float4 combine_211 = float4(div_208.x, div_208.x, div_208.x, div_208.x);
+		float4 mul_341 = combine_329 * combine_211;
+		float4x4 matrix_190 = MR_ColumnMatrix(float4(1, 0, 0, 0), float4(0, 0, -1, 0), combine_147, float4(0, 0, 0, 0));
+		float4 combine_276 = float4(float(0), sample_258.y, sample_258.w, sample_258.x);
+		float3 normal_285;
+		float ambientOcclusion_285;
+		UnpackNormalAndAO(combine_276, normal_285, ambientOcclusion_285);
+		float4 transform_294 = MR_Transform(matrix_190, normal_285);
+		float4 normalize_304 = normalize(transform_294);
+		float4 combine_327 = float4(normalize_304.x, normalize_304.y, normalize_304.z, ambientOcclusion_285);
+		float4 combine_212 = float4(div_208.y, div_208.y, div_208.y, div_208.y);
+		float4 mul_339 = combine_327 * combine_212;
+		float4 add_351 = mul_341 + mul_339;
+		float4x4 matrix_191 = MR_ColumnMatrix(float4(1, 0, 0, 0), float4(0, -1, 0, 0), combine_147, float4(0, 0, 0, 0));
+		float4 combine_277 = float4(float(0), sample_259.y, sample_259.w, sample_259.x);
+		float3 normal_286;
+		float ambientOcclusion_286;
+		UnpackNormalAndAO(combine_277, normal_286, ambientOcclusion_286);
+		float4 transform_295 = MR_Transform(matrix_191, normal_286);
+		float4 normalize_305 = normalize(transform_295);
+		float4 combine_328 = float4(normalize_305.x, normalize_305.y, normalize_305.z, ambientOcclusion_286);
+		float4 combine_213 = float4(div_208.z, div_208.z, div_208.z, div_208.z);
+		float4 mul_340 = combine_328 * combine_213;
+		float4 add_352 = add_351 + mul_340;
+		float lerp_366 = lerp(ambientOcclusion_242, add_352.w, saturate_297);
+		deferredOut.ao = lerp_366;
+		if (truncate_360.w < Gfx_AlphaRef) discard;
+		float3 transform_248 = MR_Transform(Gfx_TangentToWorld, normal_242);
+		float4 combine_266 = float4(transform_248.x, transform_248.y, transform_248.z, float(0));
+		float4 transform_275 = MR_Transform(MR_ViewConstants.worldToCamera, combine_266);
+		float dot_284 = dot(transform_275, float4(0, 0, 1, 0));
+		float saturate_303 = saturate(-dot_284);
+		float3 smear_317 = float3(saturate_303, saturate_303, saturate_303);
+		float2 mul_223 = customData.myDetailScale * Gfx_UV;
+		float4 sample_235 = MR_Sample(Detail, mul_223);
+		float4 mul_245 = Gfx_Color * sample_235;
+		float add_264 = mul_245.z + mul_245.w;
+		float add_273 = mul_245.y + add_264;
+		float add_282 = mul_245.x + add_273;
+		float2 truncate_165 = float2(Gfx_CameraSpacePos.xy);
+		float3 GetBump_291 = GetBump(add_282, customData.myadjustDistance, customData.myfalloffCurve, customData.mystrength, truncate_165);
+		float4 combine_315 = float4(GetBump_291.x, GetBump_291.y, float(0.01), float(0));
+		float4 transform_325 = MR_Transform(MR_ViewConstants.cameraToWorld, combine_315);
+		float3 combine_348 = float3(transform_325.x, transform_325.y, transform_325.z);
+		float3 mul_356 = smear_317 * combine_348;
+		float3 add_363 = transform_248 + mul_356;
+		float3 normalize_371 = normalize(add_363);
+		float3 combine_364 = float3(add_352.x, add_352.y, add_352.z);
+		float3 normalize_372 = normalize(combine_364);
+		float3 smear_312 = float3(saturate_297, saturate_297, saturate_297);
+		float3 lerp_377 = lerp(normalize_371, normalize_372, smear_312);
+		float3 flippedNormal = lerp_377;
+		if (!MR_IsFrontFace)
+		    flippedNormal = -flippedNormal;
+		deferredOut.worldNormal = flippedNormal;
+	}
+}

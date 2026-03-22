@@ -1,0 +1,62 @@
+<emission = true, shaderType = "Object", keywords = { "LIGHT_FROM_SPACE", "ISNT_MAIN_PLANET", "GFX_FORWARD_SHADER", }, >
+import "shaders/nodes/shader/functions/unpack normal.h"
+import "shaders/nodes/shader/functions/onward/lighting/ow_fullspacebaselighting.h"
+import "shaders/nodes/shader/functions/ow emissive intensity multiplier.h"
+import "shaders/nodes/shader/functions/onward/lighting/ow_spacefog.h"
+pixel
+{
+	MR_Sampler2D BaseColor : MR_Texture0 {
+		texture = "onward/baked/textures/default_b.dds",
+	} <label = "Base Color", pinId = 102>;
+	MR_Sampler2D Normal : MR_Texture1 {
+		texture = "onward/baked/textures/default_n.dds",
+	} <pinId = 103>;
+	MR_Sampler2D Material : MR_Texture2 {
+		texture = "onward/baked/textures/default_m.dds",
+	} <pinId = 104>;
+	struct CustomData {
+		float myEmissionIntensity <default = 0, label = "Emission Intensity", pinId = 106>;
+		float4 myEmissionColor <default = 0 0 0 0, label = "Emission Color", pinId = 107>;
+	};
+	float3 SelectColor(in float3 aColorA, in float3 aColorB, in bool aCond)
+	{
+		return aCond ? aColorA : aColorB;
+	}
+	main(out float4 colorOut : MR_Color0, float2 Gfx_UV : Gfx_UV0, 
+		float3x3 Gfx_TangentToWorld : Gfx_TangentToWorld0, 
+		Gfx_LightingDataStruct Gfx_LightingData : Gfx_LightingData0, 
+		CustomData customData : Gfx_CustomData0, 
+		float3 Gfx_WorldSpacePos : Gfx_WorldSpacePos0, 
+		float4 MR_FragCoord : MR_FragCoord, float Gfx_AlphaRef : Gfx_AlphaRef0)
+	{
+		float4 sample_76 = MR_Sample(BaseColor, Gfx_UV);
+		float3 combine_86 = float3(sample_76.x, sample_76.y, sample_76.z);
+		float4 sample_78 = MR_Sample(Normal, Gfx_UV);
+		float3 normal_84;
+		float ambientOcclusion_84;
+		UnpackNormalAndAO(sample_78, normal_84, ambientOcclusion_84);
+		float3 transform_88 = MR_Transform(Gfx_TangentToWorld, normal_84);
+		float4 sample_77 = MR_Sample(Material, Gfx_UV);
+		float3 aLightOut_90;
+		OW_FullBaseSpaceLighting(aLightOut_90, combine_86, transform_88, float(1), sample_77.y, sample_77.x, ambientOcclusion_84, Gfx_LightingData);
+		float3 combine_74 = float3(customData.myEmissionIntensity, customData.myEmissionIntensity, customData.myEmissionIntensity);
+		float4 combine_85 = float4(combine_74.x, combine_74.y, combine_74.z, float(0));
+		float4 combine_87 = float4(sample_77.z, sample_77.z, sample_77.z, sample_77.z);
+		float4 mul_91 = sample_76 * combine_87;
+		float4 mul_92 = combine_85 * mul_91;
+		float3 combine_94 = float3(mul_92.x, mul_92.y, mul_92.z);
+		float3 mul_79 = combine_74 * customData.myEmissionColor.xyz;
+		float3 smear_81 = float3(customData.myEmissionColor.w, customData.myEmissionColor.w, customData.myEmissionColor.w);
+		float3 lerp_95 = lerp(combine_94, mul_79, smear_81);
+		float4 truncate_97 = float4(lerp_95.xyz, 1);
+		float4 OWEmissiveIntensityMultiplier_99 = OWEmissiveIntensityMultiplier(truncate_97);
+		float3 truncate_101 = float3(OWEmissiveIntensityMultiplier_99.xyz);
+		float3 SelectColor_103 = SelectColor(truncate_101, lerp_95, true);
+		float3 add_105 = aLightOut_90 + SelectColor_103;
+		float3 aColor_107 = add_105;
+		OW_SpaceFog(aColor_107, Gfx_WorldSpacePos, MR_FragCoord);
+		if (sample_76.w < Gfx_AlphaRef) discard;
+		float4 result_109 = float4(aColor_107, sample_76.w);
+		colorOut = result_109;
+	}
+}

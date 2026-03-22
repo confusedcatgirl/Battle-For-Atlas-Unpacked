@@ -1,0 +1,39 @@
+<shaderType = "UI", >
+import "shaders/modules/graphics/drawer/drawer.h"
+import "shaders/MRender/MR_ViewConstants.h"
+blend {
+	writeMask = rgba,
+	src = 1,
+	src.a = 0,
+}
+pixel
+{
+	MR_Sampler2D Texture : MR_Texture0 <pinId = 101>;
+	struct CustomData {
+		float4 myColor <config = { type = "ColorBox", }, default = 1 1 1 1, label = "Color", pinId = 102>;
+		float myShowU <default = 0, label = "Show U", pinId = 103>;
+		float3 myPlanetPosition <default = 0 0 0, label = "Planet Position", pinId = 107>;
+	};
+	main(out float4 colorOut : MR_Color0, int UI_RenderType : UI_RenderType1, 
+		float2 Gfx_UV : Gfx_UV0, CustomData customData : Gfx_CustomData0, 
+		float3 Gfx_WorldSpacePos : Gfx_WorldSpacePos0)
+	{
+		float4 sample_29 = GetColorInfo(Texture, Gfx_UV, In.UI_RenderType);
+		float4 mul_32 = sample_29 * customData.myColor;
+		float4 combine_24 = float4(Gfx_UV.x, float(0.5), float(0.5), float(1));
+		float4 mul_34 = mul_32 * combine_24;
+		float3 combine_27 = float3(customData.myShowU, customData.myShowU, customData.myShowU);
+		float4 truncate_30 = float4(combine_27.xyz, 1);
+		float4 lerp_36 = lerp(mul_32, mul_34, truncate_30);
+		float4 transform_28 = MR_Transform(MR_ViewConstants.worldToCamera, customData.myPlanetPosition);
+		float4 transform_22 = MR_Transform(MR_ViewConstants.worldToCamera, Gfx_WorldSpacePos);
+		float4 sub_31 = transform_28 - transform_22;
+		float dot_33 = dot(sub_31, float4(0, 0, 1, 1));
+		float saturate_35 = saturate(dot_33);
+		float4 smear_37 = float4(saturate_35, saturate_35, saturate_35, saturate_35);
+		float4 mul_38 = lerp_36 * smear_37;
+		float4 finalColor = vec4(0);
+		finalColor = BlendColor(mul_38, float(0));
+		colorOut = finalColor;
+	}
+}

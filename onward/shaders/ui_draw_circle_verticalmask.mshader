@@ -1,0 +1,159 @@
+<shaderType = "UI", >
+import "shaders/modules/graphics/drawer/drawer.h"
+blend {
+	writeMask = rgba,
+	src = 1,
+	src.a = 0,
+}
+pixel
+{
+	struct CustomData {
+		float3 myColor <default = 0 0 0, label = "Color", pinId = 105>;
+		float myOpacity <default = 1, label = "Opacity", pinId = 106>;
+		float myOuterRadius <default = 0.5, label = "Outer Radius", pinId = 103>;
+		float myInnerRadius <default = 0.4, label = "Inner Radius", pinId = 104>;
+		float myEdgeSoftness <default = 0.1, label = "Edge Softness", pinId = 102>;
+		float myAspectRatio <default = 1, label = "Aspect Ratio", pinId = 110>;
+		float myStartingAngle <default = 0, label = "Starting Angle", pinId = 107>;
+		float myEndingAngle <default = 0, label = "Ending Angle", pinId = 108>;
+		float mySegments <default = 1, label = "Segments", pinId = 111>;
+		float myGapSize <default = 0, label = "Gap Size", pinId = 112>;
+		float myGapRotation <default = 0, label = "Gap Rotation", pinId = 114>;
+		float myVerticalMask <default = 0, label = "Vertical Mask", pinId = 115>;
+	};
+	float2 GetRadialUV4(float2 aInstanceUV, float v)
+	{
+		float d = sqrt(pow(aInstanceUV.x - .5, 2.) + pow(aInstanceUV.y - .5, 2.));
+		 return float2(d, v);
+	}
+	float2 GetAtan2(float2 aInstanceUV)
+	{
+		float2 polGradient = atan2(aInstanceUV.y, aInstanceUV.x);
+		 polGradient = polGradient/6.2831853 + 0.5;
+		 return float2(polGradient.x, polGradient.y);
+	}
+	float2 endcap(float2 aInstanceUV, float center)
+	{
+		float d = distance(aInstanceUV, float2 (center, .5));
+
+		 return d;
+	}
+	main(out float4 colorOut : MR_Color0, CustomData customData : Gfx_CustomData0, 
+		float2 Gfx_UV2 : Gfx_UV2)
+	{
+		float add_105 = Gfx_UV2.y + float(-0.5);
+		float clamp_106 = clamp(add_105, float(0), float(0.5));
+		float3 smear_109 = float3(clamp_106, clamp_106, clamp_106);
+		float3 add_161 = customData.myColor + smear_109;
+		float2 mul_107 = Gfx_UV2 * float2(2, 2);
+		float2 add_108 = mul_107 + float2(0, -0.5);
+		float2 sub_110 = add_108 - float2(0.5, 0.5);
+		float sinAngle_111 = sin(float(3.141));
+		float cosAngle_111 = cos(float(3.141));
+		float2x2 rotMat_111 = { cosAngle_111, -sinAngle_111, sinAngle_111, cosAngle_111 };
+		float2 rot2d_111 = MR_Transform(rotMat_111, sub_110);
+		float2 add_112 = rot2d_111 + float2(0.5, 0.5);
+		float mul_135 = customData.myVerticalMask * float(1);
+		float step_177 = step(add_112.y, mul_135);
+		float mul_122 = customData.myOuterRadius * float(0.5);
+		float2 combine_140 = float2(mul_122, mul_122);
+		float mul_118 = customData.myEdgeSoftness * float(0.1);
+		float sub_136 = mul_122 - mul_118;
+		float2 combine_150 = float2(sub_136, sub_136);
+		float2 GetRadialUV4_54 = GetRadialUV4(Gfx_UV2, float(0));
+		float2 smoothStep_155 = smoothstep(combine_140, combine_150, GetRadialUV4_54);
+		float mul_123 = customData.myInnerRadius * float(0.5);
+		float2 combine_141 = float2(mul_123, mul_123);
+		float mul_119 = customData.myEdgeSoftness * float(0.1);
+		float sub_137 = mul_123 - mul_119;
+		float2 combine_151 = float2(sub_137, sub_137);
+		float2 GetRadialUV4_57 = GetRadialUV4(Gfx_UV2, float(0));
+		float2 smoothStep_156 = smoothstep(combine_141, combine_151, GetRadialUV4_57);
+		float2 sub_165 = smoothStep_155 - smoothStep_156;
+		float2 saturate_170 = saturate(sub_165);
+		float add_121 = customData.myEndingAngle + float(1);
+		float div_139 = add_121 / float(360);
+		float2 smear_154 = float2(div_139, div_139);
+		float add_153 = div_139 + float(-0.0002);
+		float2 smear_163 = float2(add_153, add_153);
+		float2 sub_99 = Gfx_UV2 - float2(0.5, 0.5);
+		float sinAngle_100 = sin(float(-3.14));
+		float cosAngle_100 = cos(float(-3.14));
+		float2x2 rotMat_100 = { cosAngle_100, -sinAngle_100, sinAngle_100, cosAngle_100 };
+		float2 rot2d_100 = MR_Transform(rotMat_100, sub_99);
+		float div_120 = customData.myStartingAngle / float(360);
+		float sinAngle_138 = sin(div_120);
+		float cosAngle_138 = cos(div_120);
+		float2x2 rotMat_138 = { cosAngle_138, -sinAngle_138, sinAngle_138, cosAngle_138 };
+		float2 rot2d_138 = MR_Transform(rotMat_138, rot2d_100);
+		float2 mul_152 = rot2d_138 * float2(1, 1);
+		float2 GetAtan2_162 = GetAtan2(mul_152);
+		float2 smoothStep_164 = smoothstep(smear_154, smear_163, GetAtan2_162);
+		float2 mul_174 = saturate_170 * smoothStep_164;
+		float truncate_178 = float(mul_174.x);
+		float sub_125 = customData.myGapSize - float(0.5);
+		float add_143 = sub_125 + float(0.01);
+		float2 sub_101 = Gfx_UV2 - float2(0.5, 0.5);
+		float sinAngle_102 = sin(float(-3.14));
+		float cosAngle_102 = cos(float(-3.14));
+		float2x2 rotMat_102 = { cosAngle_102, -sinAngle_102, sinAngle_102, cosAngle_102 };
+		float2 rot2d_102 = MR_Transform(rotMat_102, sub_101);
+		float div_124 = customData.myStartingAngle / float(360);
+		float sinAngle_142 = sin(div_124);
+		float cosAngle_142 = cos(div_124);
+		float2x2 rotMat_142 = { cosAngle_142, -sinAngle_142, sinAngle_142, cosAngle_142 };
+		float2 rot2d_142 = MR_Transform(rotMat_142, rot2d_102);
+		float div_126 = customData.myGapRotation / float(360);
+		float sinAngle_144 = sin(div_126);
+		float cosAngle_144 = cos(div_126);
+		float2x2 rotMat_144 = { cosAngle_144, -sinAngle_144, sinAngle_144, cosAngle_144 };
+		float2 rot2d_144 = MR_Transform(rotMat_144, rot2d_142);
+		float2 GetAtan2_157 = GetAtan2(rot2d_144);
+		float2 saturate_166 = saturate(GetAtan2_157);
+		float mul_116 = customData.mySegments * customData.mySegments;
+		float mul_175 = saturate_166.x * mul_116;
+		float mod_179 = fmod(mul_175, customData.mySegments);
+		float smoothStep_181 = smoothstep(sub_125, add_143, mod_179);
+		float saturate_183 = saturate(smoothStep_181);
+		float mul_184 = truncate_178 * saturate_183;
+		float sub_115 = customData.myOuterRadius - customData.myInnerRadius;
+		float abs_117 = abs(sub_115);
+		float mul_127 = abs_117 * float(0.5);
+		float add_129 = mul_127 + float(-0.5);
+		float2 smear_147 = float2(add_129, add_129);
+		float add_146 = add_129 + float(0.008);
+		float2 smear_158 = float2(add_146, add_146);
+		float2 sub_103 = Gfx_UV2 - float2(0.5, 0.5);
+		float div_130 = customData.myEndingAngle / float(360);
+		float mul_131 = div_130 * float(-6.28);
+		float sinAngle_148 = sin(mul_131);
+		float cosAngle_148 = cos(mul_131);
+		float2x2 rotMat_148 = { cosAngle_148, -sinAngle_148, sinAngle_148, cosAngle_148 };
+		float2 rot2d_148 = MR_Transform(rotMat_148, sub_103);
+		float2 add_159 = rot2d_148 + float2(0.5, 0.5);
+		float mul_128 = customData.myInnerRadius * float(1);
+		float add_145 = mul_128 + mul_127;
+		float2 endcap_167 = endcap(add_159, add_145);
+		float2 smoothStep_172 = smoothstep(smear_147, smear_158, endcap_167);
+		float2 sub_176 = float2(1, 1) - smoothStep_172;
+		float2 sub_104 = Gfx_UV2 - float2(0.5, 0.5);
+		float div_132 = customData.myEndingAngle / float(360);
+		float mul_133 = div_132 * float(-6.28);
+		float add_134 = mul_133 + float(3.14);
+		float sinAngle_149 = sin(add_134);
+		float cosAngle_149 = cos(add_134);
+		float2x2 rotMat_149 = { cosAngle_149, -sinAngle_149, sinAngle_149, cosAngle_149 };
+		float2 rot2d_149 = MR_Transform(rotMat_149, sub_104);
+		float2 add_160 = rot2d_149 + float2(0.5, 0.5);
+		float step_173 = step(add_160.y, float(0.5));
+		float mul_182 = sub_176.x * step_173;
+		float add_185 = mul_184 + mul_182;
+		float saturate_186 = saturate(add_185);
+		float mul_187 = saturate_186 * customData.myOpacity;
+		float mul_188 = step_177 * mul_187;
+		float4 combine_189 = float4(add_161.x, add_161.y, add_161.z, mul_188);
+		float4 finalColor = vec4(0);
+		finalColor = BlendColor(combine_189, float(0));
+		colorOut = finalColor;
+	}
+}

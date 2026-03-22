@@ -1,0 +1,48 @@
+<shaderType = "UI", >
+import "shaders/modules/graphics/drawer/drawer.h"
+import "shaders/nodes/shader/functions/framebuffer color.h"
+import "shaders/nodes/shader/ui/ui blit effect.h"
+blend {
+	writeMask = rgba,
+	src = 1,
+	src.a = 0,
+}
+pixel
+{
+	MR_Sampler2D Texture : MR_Texture0 <pinId = 108>;
+	struct CustomData {
+		float myScreenStrength <default = 1, label = "ScreenStrength", pinId = 111>;
+	};
+	main(out float4 colorOut : MR_Color0, float2 Gfx_UV : Gfx_UV0, 
+		float4 MR_FragCoord : MR_FragCoord, CustomData customData : Gfx_CustomData0)
+	{
+		float4 sample_39 = MR_Sample(Texture, Gfx_UV);
+		float3 GetFramebufferColor_11 = GetFramebufferColor(MR_FragCoord);
+		float gradientVariable22;
+		gradientVariable22 = 0.000000;
+		gradientVariable22 = lerp(gradientVariable22, 0.115018, saturate((GetFramebufferColor_11.x - 0.000000) / 0.286524));
+		gradientVariable22 = lerp(gradientVariable22, 0.870723, saturate((GetFramebufferColor_11.x - 0.286524) / 0.476070));
+		gradientVariable22 = lerp(gradientVariable22, 1.000000, saturate((GetFramebufferColor_11.x - 0.762594) / 0.237406));
+		float gradientVariable23;
+		gradientVariable23 = 0.000000;
+		gradientVariable23 = lerp(gradientVariable23, 0.166350, saturate((GetFramebufferColor_11.y - 0.000000) / 0.243073));
+		gradientVariable23 = lerp(gradientVariable23, 0.904943, saturate((GetFramebufferColor_11.y - 0.243073) / 0.506927));
+		gradientVariable23 = lerp(gradientVariable23, 1.000000, saturate((GetFramebufferColor_11.y - 0.750000) / 0.250000));
+		float gradientVariable24;
+		gradientVariable24 = 0.100000;
+		gradientVariable24 = lerp(gradientVariable24, 0.900000, saturate((GetFramebufferColor_11.z - 0.000000) / 1.000000));
+		float3 combine_30 = float3(gradientVariable22, gradientVariable23, gradientVariable24);
+		float3 sub_31 = float3(1, 1, 1) - combine_30;
+		float3 truncate_32 = float3(float4(1, 0.426329, 0.000302341, 1).xyz);
+		float3 sub_33 = float3(1, 1, 1) - truncate_32;
+		float3 mul_34 = sub_31 * sub_33;
+		float3 sub_35 = float3(1, 1, 1) - mul_34;
+		float3 smear_38 = float3(customData.myScreenStrength, customData.myScreenStrength, customData.myScreenStrength);
+		float3 lerp_40 = lerp(combine_30, sub_35, smear_38);
+		float4 combine_41 = float4(lerp_40, float(1));
+		float4 GetBlitEffectColor_42 = GetBlitEffectColor(sample_39, combine_41);
+		float4 finalColor = vec4(0);
+		finalColor = BlendColor(GetBlitEffectColor_42, float(0));
+		colorOut = finalColor;
+	}
+}

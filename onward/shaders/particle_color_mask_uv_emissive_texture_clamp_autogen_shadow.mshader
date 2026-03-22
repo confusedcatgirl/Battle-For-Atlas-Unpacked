@@ -1,0 +1,24 @@
+<keywords = { "GFX_SHADOW_SHADER", }, >
+pixel
+{
+	MR_Sampler2D Mask : MR_Texture0 {
+		texture = "onward/baked/textures/default_b.dds",
+		wrap = clamp,
+	} <pinId = 102>;
+	struct CustomData {
+		float myEmissiveMultiplier <default = 1, label = "Emissive Multiplier", pinId = 108>;
+		float3 myColor <config = { type = "ColorBox", }, default = 0 0 0, label = "Color", pinId = 109>;
+		float2 myUV <default = 1 1, label = "UV ", pinId = 111>;
+	};
+	main(out float4 colorOut : MR_Color0, float2 Gfx_UV : Gfx_UV0, 
+		CustomData customData : Gfx_CustomData0, float Gfx_AlphaRef : Gfx_AlphaRef0)
+	{
+		float add_42 = Gfx_UV.x + customData.myUV.x;
+		float add_43 = Gfx_UV.y + customData.myUV.y;
+		float2 combine_44 = float2(add_42, add_43);
+		float4 sample_45 = MR_Sample(Mask, combine_44);
+		if (sample_45.x < Gfx_AlphaRef) discard;
+		float4 shadowResult = float4(0.0, 0.0, 0.0, sample_45.x);
+		colorOut = shadowResult;
+	}
+}

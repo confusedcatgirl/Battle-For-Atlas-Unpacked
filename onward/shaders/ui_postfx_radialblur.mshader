@@ -1,0 +1,53 @@
+<shaderType = "UI", >
+import "shaders/modules/graphics/drawer/drawer.h"
+import "shaders/nodes/shader/ui/ui blit effect fullscreen uv.h"
+import "shaders/modules/graphics/ssr_common.h"
+import "shaders/nodes/shader/functions/depthbuffer.h"
+import "shaders/nodes/shader/ui/ui blit effect.h"
+blend {
+	writeMask = rgba,
+	src = 1,
+	src.a = 0,
+}
+pixel
+{
+	MR_Sampler2D Texture : MR_Texture0 <pinId = 108>;
+	struct CustomData {
+		float mywidth <default = 0, label = "width", pinId = 106>;
+		float mystart <default = 0, label = "start", pinId = 107>;
+		float2 myCenter <default = 0.5 0.5, label = "Center", pinId = 110>;
+	};
+	float4 MyFunc(float2 uv, float centerDist, float width, float start, MR_Sampler2D UITexture, 
+		float depth, float2 blitUV)
+	{
+		int NUMSAMPLES = 32;
+		float4 result = 0.f;
+			for(int i = 0; i<NUMSAMPLES; i++)
+			{
+			    float scale = start + width*(i/(float)(NUMSAMPLES-1.f));
+			    result += MR_Sample(UITexture, uv + (float2(0.5f, 0.5f) - blitUV) * scale * centerDist);
+			}
+			result *= 1.0f / NUMSAMPLES;
+			result.w = 1.0f;
+		result.xyz = result.xyz;
+		return result;
+	}
+	main(out float4 colorOut : MR_Color0, float2 Gfx_UV : Gfx_UV0, 
+		CustomData customData : Gfx_CustomData0, 
+		float4 Gfx_ClipPosition : Gfx_ClipPosition0, float4 MR_FragCoord : MR_FragCoord)
+	{
+		float4 sample_19 = MR_Sample(Texture, Gfx_UV);
+		float2 UIGetBlitEffectFullscreenUV_12 = UIGetBlitEffectFullscreenUV(Gfx_ClipPosition);
+		float2 sub_18 = customData.myCenter - UIGetBlitEffectFullscreenUV_12;
+		float length_20 = length(sub_18);
+		float gradientVariable21;
+		gradientVariable21 = 0.000000;
+		gradientVariable21 = lerp(gradientVariable21, 1.000000, saturate((length_20 - 0.100000) / 0.900000));
+		float GetDepthbuffer_11 = GetDepthbuffer(MR_FragCoord);
+		float4 MyFunc_22 = MyFunc(Gfx_UV, gradientVariable21, customData.mywidth, customData.mystart, SSR_FramebufferOpaque, GetDepthbuffer_11, UIGetBlitEffectFullscreenUV_12);
+		float4 GetBlitEffectColor_23 = GetBlitEffectColor(sample_19, MyFunc_22);
+		float4 finalColor = vec4(0);
+		finalColor = BlendColor(GetBlitEffectColor_23, float(0));
+		colorOut = finalColor;
+	}
+}

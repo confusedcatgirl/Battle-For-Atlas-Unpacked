@@ -1,0 +1,14 @@
+<shaderType = "Object", >
+pixel
+{
+	MR_Sampler2D Color : MR_Texture0 <pinId = 101>;
+	struct CustomData {
+		float myRoughness <default = 0, label = "Roughness", pinId = 104>;
+		float myMetalness <default = 0, label = "Metalness", pinId = 105>;
+	};
+	main(CustomData customData : Gfx_CustomData, out float4 colorOut : MR_Color0)
+	{
+		float4 result_30 = float4(float3(0, 0, 0), 1);
+		colorOut = result_30;
+	}
+}

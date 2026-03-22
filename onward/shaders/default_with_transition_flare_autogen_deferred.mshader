@@ -1,0 +1,106 @@
+<keywords = { "LIGHT_FROM_GROUND", "IS_MAIN_PLANET", "GFX_DEFERRED_SHADER", }, >
+import "shaders/modules/graphics/deferred_data.h"
+import "shaders/modules/graphics/normal_encode.h"
+import "shaders/modules/graphics/environment.h"
+import "shaders/nodes/shader/functions/ow emissive intensity multiplier.h"
+import "shaders/nodes/shader/functions/unpack normal.h"
+pixel
+{
+	MR_Sampler2D BaseColor : MR_Texture0 {
+		texture = "onward/baked/textures/default_b.dds",
+	} <label = "Base Color", pinId = 102>;
+	MR_Sampler2D Normal : MR_Texture1 {
+		texture = "onward/baked/textures/default_n.dds",
+	} <pinId = 103>;
+	MR_Sampler2D Noisetexture : MR_Texture2 {
+		texture = "onward/baked/textures/flownoise_b.dds",
+	} <label = "Noise texture", pinId = 129>;
+	struct CustomData {
+		float myNoisetiling <default = 0.2, label = "Noise tiling", pinId = 121>;
+		float myspeed <default = 0.5, label = "speed", pinId = 155>;
+		float mysinmultiply <default = 0, label = "sinmultiply", pinId = 164>;
+		float3 myColor <config = { type = "ColorBox", }, default = 0 0 0, label = "Color", pinId = 167>;
+		float myEmissionIntensity <default = 5000, label = "Emission Intensity ", pinId = 168>;
+		float myTimeoffset <default = 0, label = "Time offset ", pinId = 171>;
+		float mysmooth <config = { max = 1, min = 0, type = "Slider", }, default = 1, label = "smooth", pinId = 172>;
+		float myAlphaChannel <config = { max = 3, min = 0, type = "Slider", }, default = 1.99504, label = "Alpha Channel", pinId = 173>;
+		float myAlphaTiling <default = 1, label = "Alpha Tiling", pinId = 175>;
+		float myAngle <default = 0, label = "Angle", pinId = 182>;
+		float myInMin <default = 0, label = "In Min", pinId = 183>;
+		float myInMax <default = 1, label = "In Max", pinId = 184>;
+	};
+	float3 SelectColor(in float3 aColorA, in float3 aColorB, in bool aCond)
+	{
+		return aCond ? aColorA : aColorB;
+	}
+	main(bool MR_IsFrontFace : MR_IsFrontFace, 
+		out Gfx_DeferredData deferredOut : Gfx_Deferred <emission = true,>, 
+		CustomData customData : Gfx_CustomData0, float2 Gfx_UV : Gfx_UV0, 
+		float3 Gfx_ModelSpacePos : Gfx_ModelSpacePos0, 
+		float Gfx_AlphaRef : Gfx_AlphaRef0, 
+		float3x3 Gfx_TangentToWorld : Gfx_TangentToWorld0)
+	{
+		float sinAngle_120 = sin(customData.myAngle);
+		float cosAngle_120 = cos(customData.myAngle);
+		float2x2 rotMat_120 = { cosAngle_120, -sinAngle_120, sinAngle_120, cosAngle_120 };
+		float2 rot2d_120 = MR_Transform(rotMat_120, Gfx_UV);
+		float length_108 = length(Gfx_ModelSpacePos);
+		float mul_116 = customData.myspeed * Gfx_Environment.time;
+		float add_117 = mul_116 + customData.myTimeoffset;
+		float sin_123 = sin(add_117);
+		float mul_133 = length_108 * sin_123;
+		float mul_137 = mul_133 * customData.mysinmultiply;
+		float add_138 = rot2d_120.x + mul_137;
+		float mul_124 = float(1) * add_117;
+		float add_134 = mul_124 + float(0);
+		float add_135 = rot2d_120.y + add_134;
+		float2 combine_139 = float2(add_138, add_135);
+		float2 add_141 = Gfx_UV + combine_139;
+		float4 sample_143 = MR_Sample(Noisetexture, add_141);
+		float lerp_147 = lerp(sample_143.x, sample_143.z, customData.mysmooth);
+		float remap_154 = float(0.001) + saturate((lerp_147 - customData.myInMin) / (customData.myInMax - customData.myInMin)) * (float(1) - float(0.001));
+		float mul_157 = customData.myEmissionIntensity * remap_154;
+		float3 combine_160 = float3(mul_157, mul_157, mul_157);
+		float3 mul_161 = combine_160 * customData.myColor;
+		deferredOut.color = mul_161;
+		float4 truncate_164 = float4(mul_161.xyz, 1);
+		float4 OWEmissiveIntensityMultiplier_166 = OWEmissiveIntensityMultiplier(truncate_164);
+		float3 truncate_168 = float3(OWEmissiveIntensityMultiplier_166.xyz);
+		float3 SelectColor_170 = SelectColor(truncate_168, mul_161, true);
+		deferredOut.emission = SelectColor_170;
+		deferredOut.roughness = float(1);
+		deferredOut.metalness = float(0);
+		deferredOut.ao = float(1);
+		float4 sample_121 = MR_Sample(BaseColor, Gfx_UV);
+		float mul_130 = sample_121.x * float(2);
+		float add_148 = sample_143.x + sample_143.y;
+		float mul_131 = sin_123 * float(0.2);
+		float lerp_149 = lerp(sample_143.y, add_148, mul_131);
+		float add_150 = sample_143.z + sample_143.w;
+		float lerp_151 = lerp(add_150, sample_143.w, mul_131);
+		float lerp_155 = lerp(lerp_149, lerp_151, customData.mysmooth);
+		float clamp_158 = clamp(lerp_155, float(0), float(1));
+		float2 combine_115 = float2(customData.myNoisetiling, customData.myNoisetiling);
+		float2 mul_140 = combine_139 * combine_115;
+		float2 combine_119 = float2(customData.myAlphaTiling, customData.myAlphaTiling);
+		float2 mul_142 = mul_140 * combine_119;
+		float4 sample_144 = MR_Sample(Noisetexture, mul_142);
+		float lerp_152 = lerp(sample_144.x, sample_144.y, round(customData.myAlphaChannel));
+		float sub_126 = round(customData.myAlphaChannel) - float(2);
+		float lerp_153 = lerp(sample_144.z, sample_144.w, sub_126);
+		float clamp_125 = clamp(round(customData.myAlphaChannel), float(1), float(2));
+		float sub_132 = clamp_125 - float(1);
+		float lerp_156 = lerp(lerp_152, lerp_153, sub_132);
+		float remap_159 = float(0) + saturate((mul_130 - float(0)) / (clamp_158 - float(0))) * (lerp_156 - float(0));
+		if (remap_159 < Gfx_AlphaRef) discard;
+		float4 sample_122 = MR_Sample(Normal, Gfx_UV);
+		float3 normal_129;
+		float ambientOcclusion_129;
+		UnpackNormalAndAO(sample_122, normal_129, ambientOcclusion_129);
+		float3 transform_136 = MR_Transform(Gfx_TangentToWorld, normal_129);
+		float3 flippedNormal = transform_136;
+		if (!MR_IsFrontFace)
+		    flippedNormal = -flippedNormal;
+		deferredOut.worldNormal = flippedNormal;
+	}
+}

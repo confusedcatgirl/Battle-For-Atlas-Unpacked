@@ -1,0 +1,18 @@
+<keywords = { "GFX_SHADOW_SHADER", }, >
+pixel
+{
+	MR_Sampler2D Alpha : MR_Texture0 <pinId = 106>;
+	struct CustomData {
+		float myEmissive <default = 1, label = "Emissive", pinId = 104>;
+		float3 myColor <default = 1 1 1, label = "Color", pinId = 105>;
+		float myOffset <default = 0, label = "Offset", pinId = 107>;
+	};
+	main(CustomData customData : Gfx_CustomData, out float4 colorOut : MR_Color0, 
+		float2 Gfx_UV : Gfx_UV0, float Gfx_AlphaRef : Gfx_AlphaRef0)
+	{
+		float4 sample_38 = MR_Sample(Alpha, Gfx_UV);
+		if (sample_38.w < Gfx_AlphaRef) discard;
+		float4 shadowResult = float4(0.0, 0.0, 0.0, sample_38.w);
+		colorOut = shadowResult;
+	}
+}
