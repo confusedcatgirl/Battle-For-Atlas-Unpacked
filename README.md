@@ -2,7 +2,9 @@
 
 ## IMPORTANT!
 
-Sadly, I am very busy, so I cannot focus on the project. If you want to know how you can help out this project, look at SUPPORT.md
+Sadly, I am very busy, so I cannot focus on the project. If you want to know how you can help out this project, look at SUPPORT.md!
+
+Tools are located at: https://github.com/confusedcatgirl/Starlink-BfA-Tools
 
 ## General Info
 
